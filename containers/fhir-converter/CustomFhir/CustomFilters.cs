@@ -168,20 +168,20 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       }
       return CleanStringFromTabs(stringBuilder.ToString().Trim());
     }
-    // private static string ConditionCodeFromGrouping(string oid){
-    //   if(grouping.TryGetValue(oid, out Dictionary<string, string>? groupElement))
-    //   {
-    //     return groupElement.GetValueOrDefault("Condition Code", "");
-    //   }
-    //   return "";
-    // }
-    // public static string GetConditionCodeFromRCTC(string code){
-    //   if (expansion.TryGetValue(code, out Dictionary<string, object>? expansionElement) && expansionElement.TryGetValue("Member OID", out object? memberOId))
-    //   {
-    //     return ConditionCodeFromGrouping(memberOId.ToString());
-    //   }
-    //   return ConditionCodeFromGrouping(code);
-    // }
+    private static string ConditionCodeFromGrouping(string oid){
+      if(grouping.TryGetValue(oid, out Dictionary<string, string>? groupElement))
+      {
+        return groupElement.GetValueOrDefault("Condition Code", "");
+      }
+      return "";
+    }
+    public static string GetConditionCodeFromRCTC(string code){
+      if (expansion.TryGetValue(code, out Dictionary<string, object>? expansionElement) && expansionElement.TryGetValue("Member OID", out object? memberOId))
+      {
+        return ConditionCodeFromGrouping(memberOId.ToString());
+      }
+      return ConditionCodeFromGrouping(code);
+    }
     public static class JsonFileReader
     {
         public static T Read<T>(string filePath)
