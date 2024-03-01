@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "local-dev": "docker compose up db seed-db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && next dev",
+    "local-dev": "docker compose up db seed-db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -13,11 +13,14 @@
     "test:unit": "TZ=America/New_York jest",
     "test:unit:watch": "jest --watch",
     "test:integration": "mocha --timeout 600000 tests/integration/test_ecr-viewer.js",
-    "convert-seed-data": "sh ./seed-scripts/convert.sh"
+    "convert-seed-data": "sh ./seed-scripts/convert.sh",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.515.0",
     "@trussworks/react-uswds": "^6.1.0",
+    "@types/sinonjs__fake-timers": "^8.1.1",
     "@uswds/uswds": "3.7.0",
     "axios": "^1.6.0",
     "classnames": "^2.5.1",
@@ -27,7 +30,8 @@
     "next": "14.0.3",
     "pg-promise": "^11.5.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "jose": "5.2.2"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",
@@ -46,6 +50,7 @@
     "autoprefixer": "^10.0.1",
     "aws-sdk-client-mock": "^3.0.1",
     "chai": "^4.3.10",
+    "cypress": "^13.6.6",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.0.3",
     "eslint-config-prettier": "^9.1.0",

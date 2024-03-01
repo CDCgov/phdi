@@ -1,36 +1,11 @@
 {
-  "configurations": {
-    "validation": {
-      "include_error_types": "error",
-      "url": "${VALIDATION_URL}"
-    },
-    "convert_to_fhir": {
-      "root_template": "EICR",
-      "url": "${FHIR_CONVERTER_URL}"
-    },
-    "ingestion": {
-      "url": "${INGESTION_URL}",
-      "standardization_and_geocoding": {
-        "geocode_method": "smarty",
-        "overwrite": "true",
-        "dob_format": ""
-      }
-    },
-    "message_parser": {
-      "message_format": "fhir",
-      "parsing_schema": "",
-      "parsing_schema_name": "ecr.json",
-      "credential_manager": "azure",
-      "url": "${MESSAGE_PARSER_URL}"
-    },
-    "save_to_db": {
-      "url": "${DATABASE_URL}"
-    }
-  },
-  "steps": [
+  "workflow": [
     {
       "service": "validation",
-      "endpoint": "/validate"
+      "endpoint": "/validate",
+      "params": {
+        "include_error_types": "error"
+      }
     },
     {
       "service": "fhir_converter",
@@ -42,15 +17,23 @@
     },
     {
       "service": "ingestion",
-      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
+      "endpoint": "/fhir/harmonization/standardization/standardize_dob",
+      "params": {
+        "dob_format": ""
+      }
     },
     {
       "service": "ingestion",
-      "endpoint": "/fhir/harmonization/standardization/standardize_dob"
+      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     },
     {
       "service": "message_parser",
-      "endpoint": "/parse_message"
+      "endpoint": "/parse_message",
+      "params": {
+        "message_format": "fhir",
+        "parsing_schema_name": "ecr.json",
+        "credential_manager": "azure"
+      }
     },
     {
       "service": "save_to_db",

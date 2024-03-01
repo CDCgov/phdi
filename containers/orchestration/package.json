@@ -1,0 +1,8 @@
+{
+  "name": "orchestration",
+  "scripts": {
+    "dev": "python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload --env-file local-dev.env",
+    "local-dev": "npm run support-services && export DATABASE_URL=postgresql://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
+    "support-services": "docker compose up db seed-db validation-service fhir-converter-service ingestion-service  message-parser-service -d && docker-compose logs"
+  }
+}

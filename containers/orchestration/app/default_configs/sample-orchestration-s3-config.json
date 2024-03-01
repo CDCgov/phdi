@@ -42,8 +42,8 @@
       }
     },
     {
-      "service": "save_to_db",
-      "url": "${DATABASE_URL}",
+      "service": "save_to_s3",
+      "url": "${ECR_BUCKET_NAME}",
       "endpoint": ""
     }
   ]

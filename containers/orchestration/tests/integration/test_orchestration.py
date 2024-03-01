@@ -62,8 +62,7 @@ def test_process_message_endpoint(setup):
     request = {
         "message_type": "ecr",
         "data_type": "ecr",
-        "config_file_name": "sample-orchestration-config-new.json",
-        "include_error_types": "errors",
+        "config_file_name": "sample-orchestration-config.json",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
@@ -87,8 +86,7 @@ def test_process_endpoint_with_zip(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config-new.json",
-            "include_error_types": "errors",
+            "config_file_name": "sample-orchestration-config.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
@@ -114,8 +112,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config-new.json",
-            "include_error_types": "errors",
+            "config_file_name": "sample-orchestration-config.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
@@ -123,13 +120,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
-        # Save to DB is currently malfunctioning and not saving/processing
-        # correctly, so this assertion is breaking when it shouldn't (i.e.
-        # it's not giving us any value to check)
-        # assert (
-        #     orchestration_response.json()["processed_values"]["parsed_values"]["rr_id"]
-        #     is not None
-        # )
+        assert orchestration_response.json()["processed_values"]["entry"][0] is not None
 
 
 @pytest.mark.integration
@@ -140,16 +131,13 @@ def test_process_message_fhir(setup):
     """
     message = json.load(
         open(
-            Path(__file__).parent.parent.parent
-            / "assets"
-            / "demo_phdc_conversion_bundle.json"
+            Path(__file__).parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
         )
     )
     request = {
         "message_type": "fhir",
         "data_type": "fhir",
-        "config_file_name": "sample-fhir-test-config-new.json",
-        "include_error_types": "errors",
+        "config_file_name": "sample-fhir-test-config.json",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
@@ -175,7 +163,6 @@ def test_process_message_fhir_phdc(setup):
         "message_type": "fhir",
         "data_type": "fhir",
         "config_file_name": "sample-fhir-test-config-xml.json",
-        "include_error_types": "errors",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
@@ -205,8 +192,7 @@ def test_process_message_hl7(setup):
     request = {
         "message_type": "elr",
         "data_type": "hl7",
-        "config_file_name": "sample-hl7-test-config-new.json",
-        "include_error_types": "errors",
+        "config_file_name": "sample-hl7-test-config.json",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)

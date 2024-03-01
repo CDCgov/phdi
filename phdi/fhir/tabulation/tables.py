@@ -541,7 +541,7 @@ def _generate_search_urls(schema: dict) -> dict:
                 )
         search_string = resource_type
         if query_params is not None and len(query_params) > 0:
-            search_string += f"?{urlencode(query_params,True)}"
+            search_string += f"?{urlencode(query_params, True)}"
 
         count = table.get("results_per_page", count_top)
         since = table.get("earliest_update_datetime", since_top)
