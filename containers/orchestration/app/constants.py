@@ -1,5 +1,3 @@
-from typing import Literal
-
 from app.utils import read_json_from_assets
 
 
@@ -15,10 +13,6 @@ process_message_response_examples = {200: raw_process_message_response_examples}
 # /configs endpoint #
 raw_list_configs_response = read_json_from_assets("sample_list_configs_response.json")
 sample_list_configs_response = {200: raw_list_configs_response}
-
-PROCESSING_CONFIG_DATA_TYPES = Literal[
-    "string", "integer", "float", "boolean", "date", "timestamp"
-]
 
 upload_config_request_examples = read_json_from_assets(
     "sample_upload_config_requests.json"
