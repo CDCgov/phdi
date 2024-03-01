@@ -142,10 +142,6 @@ def test_build_coded_element(element_name, kwargs, expected_xml):
                 + 'codeSystem="0" displayName="Code"/><value xsi:type="ST" code="2" '
                 + 'codeSystem="1" displayName="V"><translation xsi:type="T" code="0" '
                 + 'codeSystem="L" displayName="T"/></value></observation>'
-                '<observation classCode="OBS" moodCode="EVN"><code code="1" '
-                + 'codeSystem="0" displayName="Code"/><value xsi:type="ST" code="2" '
-                + 'codeSystem="1" displayName="V"><translation xsi:type="T" code="0" '
-                + 'codeSystem="L" displayName="T"/></value></observation>'
             ),
         )
     ],
