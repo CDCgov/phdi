@@ -19,6 +19,7 @@ from lxml import etree as ET
 from xmldiff import formatting
 from xmldiff import main as xmldiff
 
+
 def read_file_from_test_assets(filename: str) -> str:
     """
     Reads a file from the test assets directory.
