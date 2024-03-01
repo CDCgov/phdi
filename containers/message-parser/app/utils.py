@@ -20,7 +20,6 @@ from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from fastapi import status
 from frozendict import frozendict
-from lxml import etree as ET
 
 from phdi.cloud.azure import AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
@@ -335,18 +334,6 @@ def read_json_from_assets(filename: str) -> dict:
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
 
 
-def read_json_from_test_assets(filename: str) -> dict:
-    """
-    Reads a JSON file from the assets directory.
-
-    :param filename: The name of the file to read.
-    :return: A dictionary containing the contents of the file.
-    """
-    return json.load(
-        open((pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename))
-    )
-
-
 def read_file_from_assets(filename: str) -> str:
     """
     Reads a file from the assets directory.
@@ -358,38 +345,6 @@ def read_file_from_assets(filename: str) -> str:
         (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
     ) as file:
         return file.read()
-
-
-def read_file_from_test_assets(filename: str) -> str:
-    """
-    Reads a file from the assets directory.
-
-    :param filename: The name of the file to read.
-    :return: A string containing the contents of the file.
-    """
-    with open(
-        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
-    ) as file:
-        return file.read()
-
-
-def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
-    """
-    Parses a file from the assets directory into an ElementTree.
-
-    :param filename: The name of the file to read.
-    :return: An ElementTree containing the contents of the file.
-    """
-    with open(
-        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename),
-        "r",
-    ) as file:
-        parser = ET.XMLParser(remove_blank_text=True)
-        tree = ET.parse(
-            file,
-            parser,
-        )
-        return tree
 
 
 def get_datetime_now() -> datetime.datetime:
@@ -620,46 +575,3 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
             case _:
                 pass
     return input_data
-
-
-def get_phdc_section(
-    section_title: Literal[
-        "SOCIAL HISTORY INFORMATION", "Clinical Information", "REPEATING QUESTIONS"
-    ],
-    filename: str,
-) -> ET.Element:
-    """
-    Returns the specified section of a PHDC from a file.
-
-    :param section_title: The section of the PHDC
-    :param filename: The name of the file to read.
-    :return: A section Element containing the contents of the file per the
-    section_title.
-    """
-    tree = parse_file_from_test_assets(filename)
-    root = tree.getroot()
-    for component in root:
-        if component.tag == "{urn:hl7-org:v3}component":
-            for c in component:
-                if c.tag == "{urn:hl7-org:v3}structuredBody":
-                    for sb in c:
-                        for section in sb:
-                            for title in section:
-                                if title.text == section_title:
-                                    return section
-
-
-def get_phdc_header(filename: str) -> ET.Element:
-    """
-    Returns the header section of the PHDC file as an ElementTree.
-
-    :param filename: The name of the file to read.
-    :return: An ElementTree for the header section of the PHDC file.
-    """
-    tree = parse_file_from_test_assets(filename)
-    root = tree.getroot()
-
-    for component in root:
-        if component.tag == "{urn:hl7-org:v3}component":
-            root.remove(component)
-    return root
