@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Microsoft.Health.Fhir.Liquid.Converter
 {
@@ -21,6 +21,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         {"list", "ul"},
         {"item", "li"}
     };
+    private static Dictionary<string, Dictionary<string, string>> grouping = JsonFileReader.Read<Dictionary<string, Dictionary<string, string>>>("SampleData/Hl7v2/rctc_grouping.json");
+    private static Dictionary<string, Dictionary<string, object>> expansion = JsonFileReader.Read<Dictionary<string, Dictionary<string, object>>>("SampleData/Hl7v2/rctc_expansion.json");
 
     // Items from the filter could be arrays or objects, process them to be the same
     private static List<Dictionary<string, object>> ProcessItem(object item)
@@ -165,6 +167,28 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         }
       }
       return CleanStringFromTabs(stringBuilder.ToString().Trim());
+    }
+    // private static string ConditionCodeFromGrouping(string oid){
+    //   if(grouping.TryGetValue(oid, out Dictionary<string, string>? groupElement))
+    //   {
+    //     return groupElement.GetValueOrDefault("Condition Code", "");
+    //   }
+    //   return "";
+    // }
+    // public static string GetConditionCodeFromRCTC(string code){
+    //   if (expansion.TryGetValue(code, out Dictionary<string, object>? expansionElement) && expansionElement.TryGetValue("Member OID", out object? memberOId))
+    //   {
+    //     return ConditionCodeFromGrouping(memberOId.ToString());
+    //   }
+    //   return ConditionCodeFromGrouping(code);
+    // }
+    public static class JsonFileReader
+    {
+        public static T Read<T>(string filePath)
+        {
+            string text = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<T>(text);
+        }
     }
   }
 }

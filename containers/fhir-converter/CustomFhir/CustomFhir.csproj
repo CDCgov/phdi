@@ -22,4 +22,9 @@
     </PackageReference>
   </ItemGroup>
 
+    <ItemGroup>
+    <None Include="SampleData\Hl7v2\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

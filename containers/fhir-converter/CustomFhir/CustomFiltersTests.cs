@@ -168,4 +168,22 @@ public class CustomFilterTests
         var actual = Filters.ToHtmlString(complete);
         Assert.Equal("two words", actual);
     }
+
+    [Fact]
+    public void ConditionCodeFromExpansion_ReturnsCode(){
+        var actual = Filters.GetConditionCodeFromRCTC("1003337005");
+        Assert.Equal("67341007", actual);
+    }
+
+    [Fact]
+    public void ConditionCodeFromExpansion_NotFoundValue_ReturnsEmptyStringReturnsCode(){
+        var actual = Filters.GetConditionCodeFromRCTC("abcd12345");
+        Assert.Equal("", actual);
+    }
+
+    [Fact]
+    public void ConditionCodeFromExpansion_GroupingValue_ReturnsEmptyStringReturnsCode(){
+        var actual = Filters.GetConditionCodeFromRCTC("2.16.840.1.113762.1.4.1146.2147");
+        Assert.Equal("67341007", actual);
+    }
 }
