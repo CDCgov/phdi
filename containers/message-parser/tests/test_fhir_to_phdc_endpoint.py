@@ -32,7 +32,7 @@ test_schema_path = (
 with open(test_schema_path, "r") as file:
     test_schema = json.load(file)
 
-expected_successful_response = utils.read_file_from_test_assets("demo_phdc.xml")
+expected_successful_response = utils.read_file_from_assets("demo_phdc.xml")
 
 
 @patch.object(uuid, "uuid4", lambda: "495669c7-96bf-4573-9dd8-59e745e05576")
