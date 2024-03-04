@@ -704,12 +704,6 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
                                     display_name="No",
                                     code_system="2.16.840.1.113883.12.136",
                                 ),
-                                translation=CodedElement(
-                                    code="N",
-                                    code_system="2.16.840.1.113883.12.136",
-                                    code_system_name="2.16.840.1.113883.12.136",
-                                    display_name="No",
-                                ),
                             )
                         ],
                         [
