@@ -63,7 +63,6 @@ def test_process_message_endpoint(setup):
         "message_type": "ecr",
         "data_type": "ecr",
         "config_file_name": "sample-orchestration-config.json",
-        "include_error_types": "errors",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
@@ -88,7 +87,6 @@ def test_process_endpoint_with_zip(setup):
         form_data = {
             "message_type": "ecr",
             "config_file_name": "sample-orchestration-config.json",
-            "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
@@ -115,7 +113,6 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
         form_data = {
             "message_type": "ecr",
             "config_file_name": "sample-orchestration-config.json",
-            "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
@@ -134,16 +131,13 @@ def test_process_message_fhir(setup):
     """
     message = json.load(
         open(
-            Path(__file__).parent.parent.parent
-            / "assets"
-            / "demo_phdc_conversion_bundle.json"
+            Path(__file__).parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
         )
     )
     request = {
         "message_type": "fhir",
         "data_type": "fhir",
         "config_file_name": "sample-fhir-test-config.json",
-        "include_error_types": "errors",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
@@ -169,7 +163,6 @@ def test_process_message_fhir_phdc(setup):
         "message_type": "fhir",
         "data_type": "fhir",
         "config_file_name": "sample-fhir-test-config-xml.json",
-        "include_error_types": "errors",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
@@ -200,7 +193,6 @@ def test_process_message_hl7(setup):
         "message_type": "elr",
         "data_type": "hl7",
         "config_file_name": "sample-hl7-test-config.json",
-        "include_error_types": "errors",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)

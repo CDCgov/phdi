@@ -312,8 +312,8 @@ async def get_config(
         processing_config = load_processing_config(processing_config_name)
     except FileNotFoundError as error:
         response.status_code = status.HTTP_400_BAD_REQUEST
-        return {"message": error.__str__(), "processing_config": {}}
-    return {"message": "Config found!", "processing_config": processing_config}
+        return {"message": error.__str__(), "workflow": {}}
+    return {"message": "Config found!", "workflow": processing_config}
 
 
 @app.put(
@@ -347,11 +347,11 @@ async def upload_config(
         }
 
     # Convert Pydantic models to dicts so they can be serialized to JSON.
-    for field in input.processing_config:
-        input.processing_config[field] = input.processing_config[field].dict()
+    for i in range(len(input.workflow["workflow"])):
+        input.workflow["workflow"][i] = input.workflow["workflow"][i].dict()
 
     with open(file_path, "w") as file:
-        json.dump(input.processing_config, file, indent=4)
+        json.dump(input.workflow, file, indent=4)
 
     if config_exists:
         return {"message": "Config updated successfully!"}

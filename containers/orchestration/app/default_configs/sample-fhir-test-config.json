@@ -2,12 +2,10 @@
   "workflow": [
     {
       "service": "ingestion",
-      "url": "${INGESTION_URL}",
       "endpoint": "/fhir/harmonization/standardization/standardize_names"
     },
     {
       "service": "ingestion",
-      "url": "${INGESTION_URL}",
       "endpoint": "/fhir/harmonization/standardization/standardize_dob",
       "params": {
         "dob_format": ""
@@ -15,12 +13,10 @@
     },
     {
       "service": "ingestion",
-      "url": "${INGESTION_URL}",
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     },
     {
       "service": "message_parser",
-      "url": "${MESSAGE_PARSER_URL}",
       "endpoint": "/parse_message",
       "params": {
         "message_format": "fhir",
