@@ -562,13 +562,13 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                     if obs["obs_type"] in observation_groups:
                         observation_type = obs["obs_type"]
 
-                    observation_groups[observation_type].append(Observation(**obs))
+                    observation_groups[observation_type].append([Observation(**obs)])
 
                     if "components" in obs and obs["components"] is not None:
+                        components = []
                         for component in obs["components"]:
-                            observation_groups[observation_type].append(
-                                Observation(**component)
-                            )
+                            components.append(Observation(**component))
+                        observation_groups[observation_type].append(components)
 
             case "custodian_represented_custodian_organization":
                 organizations = []

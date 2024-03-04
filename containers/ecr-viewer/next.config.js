@@ -8,6 +8,15 @@ const nextConfig = {
     ],
   },
   transpilePackages: ["yaml"],
+  async redirects() {
+    return [
+      {
+        source: "/ecr-viewer/:slug*",
+        destination: "/:slug*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

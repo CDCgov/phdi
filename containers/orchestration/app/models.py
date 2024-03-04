@@ -1,10 +1,8 @@
-from typing import Dict
 from typing import List
 from typing import Literal
 from typing import Optional
 from typing import Union
 
-from app.constants import PROCESSING_CONFIG_DATA_TYPES
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import root_validator
@@ -33,19 +31,6 @@ class OrchestrationRequest(BaseModel):
             " passed data."
         )
     )
-    # TODO: Once we land the new orchestrataion overhaul, we cab delete this
-    # parameter. It's used only for the validation service's input, so other
-    # services don't need to know about it, and we will have pushed its
-    # inclusion into our new workflow configs so the orchestrator can just
-    # retrieve it from there.
-    include_error_types: str = Field(
-        description=(
-            "A comma separated list of the types of errors that should be"
-            + " included in the return response."
-            + " Valid types are fatal, errors, warnings, information"
-        )
-    )
-
     message: Union[dict, str] = Field(description="The message to be validated.")
     rr_data: Optional[str] = Field(
         description="If an eICR message, the accompanying Reportability Response data.",
@@ -53,7 +38,7 @@ class OrchestrationRequest(BaseModel):
     )
 
     @root_validator()
-    def validate_rr_with_ecr(cls, values: Dict[str, str]) -> Dict[str, str]:
+    def validate_rr_with_ecr(cls, values: dict[str, str]) -> dict[str, str]:
         """
         Validates that RR data is supplied if and only if the uploaded data
         is an eCR (or a zip file of an eICR).
@@ -72,7 +57,7 @@ class OrchestrationRequest(BaseModel):
         return values
 
     @root_validator()
-    def validate_types_agree(cls, values: Dict[str, str]) -> Dict[str, str]:
+    def validate_types_agree(cls, values: dict[str, str]) -> dict[str, str]:
         """
         Validates that the stream type of a message matches the encoded data
         type of that message. This ensures that data from an eCR stream is
@@ -93,7 +78,7 @@ class OrchestrationRequest(BaseModel):
         return values
 
     @root_validator()
-    def validate_fhir_message_is_dict(cls, values: Dict[str, str]) -> Dict[str, str]:
+    def validate_fhir_message_is_dict(cls, values: dict[str, str]) -> dict[str, str]:
         """
         Validates that requests specifying a FHIR data type are formatted as
         proper JSON dictionaries for accessing later.
@@ -113,13 +98,13 @@ class OrchestrationResponse(BaseModel):
     The config for responses from the /extract endpoint.
     """
 
-    message: str = Field(
+    message: Optional[str] = Field(
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processed_values: Dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
+    processed_values: Union[dict, str] = Field(
+        description="A set of key:value pairs or XML-formatted string containing the "
+        "values extracted from the message."
     )
 
 
@@ -137,22 +122,17 @@ class ListConfigsResponse(BaseModel):
     )
 
 
-class ProcessingConfigSecondaryFieldModel(BaseModel):
-    fhir_path: str
-    data_type: PROCESSING_CONFIG_DATA_TYPES
-    nullable: bool
-
-
-class ProcessingConfigFieldModel(BaseModel):
-    fhir_path: str
-    data_type: PROCESSING_CONFIG_DATA_TYPES
-    nullable: bool
-    secondary_config: Dict[str, ProcessingConfigSecondaryFieldModel]
+class WorkflowServiceStepModel(BaseModel):
+    service: str
+    endpoint: str
+    params: Optional[dict]
 
 
 class ProcessingConfigModel(BaseModel):
-    processing_config: Dict[str, ProcessingConfigFieldModel] = Field(
-        description="A JSON formatted processing config to upload."
+    workflow: dict[str, List[WorkflowServiceStepModel]] = Field(
+        description="A JSON-formatted config dict containing a single key `workflow` "
+        "that maps to a list of `WorkflowServiceStep` objects, each defining one step "
+        "in the orchestration configuration to upload."
     )
     overwrite: Optional[bool] = Field(
         description="When `true` if a config already exists for the provided name it "
@@ -184,6 +164,4 @@ class GetConfigResponse(BaseModel):
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processing_config: dict = Field(
-        description="A configuration for the orchestration app"
-    )
+    workflow: dict = Field(description="A configuration for the orchestration app")

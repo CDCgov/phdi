@@ -125,6 +125,7 @@ class Observation:
     class_code: Optional[str] = None
     code_display: Optional[str] = None
     code_system: Optional[str] = None
+    code_system_name: Optional[str] = None
     quantitative_value: Optional[float] = None
     quantitative_system: Optional[str] = None
     quantitative_code: Optional[str] = None
@@ -134,12 +135,15 @@ class Observation:
     mood_code: Optional[str] = None
     code_code: Optional[str] = None
     code_code_system: Optional[str] = None
+    code_code_system_name: Optional[str] = None
     code_code_display: Optional[str] = None
     value_quantitative_code: Optional[str] = None
-    value_quantitative_code_system: Optional[str] = None
+    value_quant_code_system: Optional[str] = None
+    value_quant_code_system_name: Optional[str] = None
     value_quantitative_value: Optional[float] = None
     value_qualitative_code: Optional[str] = None
     value_qualitative_code_system: Optional[str] = None
+    value_qualitative_code_system_name: Optional[str] = None
     value_qualitative_value: Optional[str] = None
     components: Optional[list] = None
     code: Optional[CodedElement] = None
@@ -155,11 +159,11 @@ class PHDCInputData:
     PHDCBuilder.
     """
 
-    type: Literal[
-        "case_report", "contact_record", "lab_report", "morbidity_report"
-    ] = "case_report"
+    type: Literal["case_report", "contact_record", "lab_report", "morbidity_report"] = (
+        "case_report"
+    )
     patient: Patient = None
     organization: List[Organization] = None
-    clinical_info: List[Observation] = field(default_factory=list)
-    social_history_info: List[Observation] = field(default_factory=list)
-    repeating_questions: List[Observation] = field(default_factory=list)
+    clinical_info: List[List[Observation]] = field(default_factory=list)
+    social_history_info: List[List[Observation]] = field(default_factory=list)
+    repeating_questions: List[List[Observation]] = field(default_factory=list)

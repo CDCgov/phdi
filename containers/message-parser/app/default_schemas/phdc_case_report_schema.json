@@ -293,7 +293,7 @@
         "data_type": "float",
         "nullable": true
       },
-      "value_quantitative_code_system": {
+      "value_quant_code_system": {
         "fhir_path": "Observation.valueQuantity.system",
         "data_type": "string",
         "nullable": true
@@ -315,6 +315,11 @@
       },
       "value_qualitative_code": {
         "fhir_path": "Observation.valueCodeableConcept.coding[0].code",
+        "data_type": "string",
+        "nullable": true
+      },
+      "text": {
+        "fhir_path": "valueCodeableConcept.text",
         "data_type": "string",
         "nullable": true
       },
@@ -343,7 +348,7 @@
             "data_type": "float",
             "nullable": true
           },
-          "value_quantitative_code_system": {
+          "value_quant_code_system": {
             "fhir_path": "valueQuantity.system",
             "data_type": "string",
             "nullable": true

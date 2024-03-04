@@ -33,7 +33,6 @@ def test_build_fhir_converter_request():
         "message_type": "elr",
         "data_type": "hl7",
         "config_file_name": "sample-hl7-test-config.json",
-        "include_error_types": "error",
         "message": message,
     }
     result = build_fhir_converter_request(message, orchestration_request)
@@ -54,7 +53,6 @@ def test_build_fhir_converter_request():
         "message_type": "ecr",
         "data_type": "ecr",
         "config_file_name": "sample-orchestration-config.json",
-        "include_error_types": "error",
         "message": message,
     }
     result = build_fhir_converter_request(message, orchestration_request)
@@ -78,7 +76,6 @@ def test_build_validation_request():
         "message_type": "ecr",
         "data_type": "ecr",
         "config_file_name": "sample-orchestration-config.json",
-        "include_error_types": "error",
         "message": message,
     }
     result = build_validation_request(message, orchestration_request, workflow_params)

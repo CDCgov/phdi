@@ -15,7 +15,6 @@ from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
 
-
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -49,6 +48,16 @@ class PHDC:
             xml_declaration=True,
             encoding="utf-8",
         ).decode()
+
+    def to_element_tree(self) -> ET.ElementTree:
+        """
+        Return the PHDC XML document as an ElementTree.
+
+        :return: The PHDC XML document as an ElementTree.
+        """
+        if self.data is None:
+            raise ValueError("The PHDC object must be initialized.")
+        return self.data
 
 
 class PHDCBuilder:
@@ -270,6 +279,27 @@ class PHDCBuilder:
 
         self.phdc.getroot().append(body)
 
+    def _add_observations_to_section(
+        self,
+        section: ET.Element,
+        data: ET.Element,
+    ) -> ET.Element:
+        """
+        Adds Clinical Observation and Social History Information observations to the
+        appropriate section.
+
+        :param section: Section XML element.
+        :data: The Observations that will be added to the Section element.
+        :return: Section XML element with added observations.
+        """
+        for observation in data:
+            for c in observation:
+                entry = ET.Element("entry", {"typeCode": "COMP"})
+                observation_element = self._build_observation(c)
+                entry.append(observation_element)
+                section.append(entry)
+        return section
+
     def _build_clinical_info(self) -> ET.Element:
         """
         Builds the `ClinicalInformation` XML element, including all hardcoded aspects
@@ -298,9 +328,9 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        for observation in self.input_data.clinical_info:
-            observation_element = self._build_observation(observation)
-            section.append(observation_element)
+        section = self._add_observations_to_section(
+            section, data=self.input_data.clinical_info
+        )
 
         component.append(section)
         return component
@@ -335,9 +365,9 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        for observation in self.input_data.social_history_info:
-            observation_element = self._build_observation(observation)
-            section.append(observation_element)
+        section = self._add_observations_to_section(
+            section, data=self.input_data.social_history_info
+        )
 
         component.append(section)
         return component
@@ -364,12 +394,39 @@ class PHDCBuilder:
         section.append(code)
         section.append(title)
 
-        # add observation data to section
-        for observation in self.input_data.repeating_questions:
-            observation_element = self._build_observation(observation)
-            section.append(observation_element)
+        # Add organizer header
+        for element in self.input_data.repeating_questions:
+            # Create the `organizer` element and its subelements
+            entry = ET.Element("entry", {"typeCode": "COMP"})
+            organizer = ET.Element(
+                "organizer",
+                {"classCode": "CLUSTER", "moodCode": "EVN"},
+            )
 
+            code_element = ET.Element(
+                "code",
+                {
+                    "code": "1",
+                    "displayName": "Exposure Information",
+                    "codeSystemName": "LocalSystem",
+                },
+            )
+
+            organizer.append(code_element)
+            status_code_element = ET.Element("statusCode", {"code": "completed"})
+            organizer.append(status_code_element)
+            entry.append(organizer)
+            comp = ET.SubElement(organizer, "component")
+
+            # add observation data to section
+            for c in element:
+                observation_element = self._build_observation(c)
+                comp.append(observation_element)
+            organizer.append(comp)
+            entry.append(organizer)
+            section.append(entry)
         component.append(section)
+
         return component
 
     def _build_telecom(self, telecom: Telecom) -> ET.Element:
@@ -422,50 +479,17 @@ class PHDCBuilder:
         Entry object.
         :return entry_data: XML element of Entry data
         """
+        # Translate FHIR code systems to PHDC code systems
+        observation = self._translate_code_system(observation)
 
         # Sort the observation into code and value sections
         observation = self._sort_observation(observation)
 
-        # Create the 'entry' element
-        entry_data = ET.Element("entry", {"typeCode": "COMP"})
-
-        # Set up for Repeating Questions
-        if observation.obs_type == "EXPOS":
-            # Creater the `organizer` element and its subelements
-            organizer = ET.SubElement(
-                entry_data,
-                "organizer",
-                {"classCode": "CLUSTER", "moodCode": "EVN"},
-            )
-
-            code_element = ET.Element(
-                "code",
-                {
-                    "code": "1",
-                    "displayName": "Exposure Information",
-                    "codeSystemName": "LocalSystem",
-                },
-            )
-
-            organizer.append(code_element)
-            status_code_element = ET.Element("statusCode", {"code": "completed"})
-            organizer.append(status_code_element)
-            component = ET.SubElement(organizer, "component")
-
-            # Create the 'observation' element and append it to 'component'
-            observation_data = ET.SubElement(
-                component,
-                "observation",
-                {"classCode": "OBS", "moodCode": "EVN"},
-            )
-        # Set up for all other observation types
-        else:
-            # Create the 'observation' element and append it to 'entry'
-            observation_data = ET.SubElement(
-                entry_data,
-                "observation",
-                {"classCode": "OBS", "moodCode": "EVN"},
-            )
+        # Create the 'observation' element and append it to 'entry'
+        observation_data = ET.Element(
+            "observation",
+            {"classCode": "OBS", "moodCode": "EVN"},
+        )
 
         if observation.code:
             code_element_xml = self._build_coded_element(
@@ -487,7 +511,7 @@ class PHDCBuilder:
             )
             value_element_xml.append(translation_element_xml)
 
-        return entry_data
+        return observation_data
 
     def _sort_observation(self, observation: Observation) -> Observation:
         """
@@ -504,24 +528,102 @@ class PHDCBuilder:
             observation.code = CodedElement(
                 code=observation.code_code,
                 code_system=observation.code_code_system,
+                code_system_name=observation.code_code_system_name,
                 display_name=observation.code_code_display,
             )
 
-        # Quantitative values
+        # Values
         if not observation.value:
             if observation.value_quantitative_value is not None:
                 observation.value = CodedElement(
                     code=observation.value_quantitative_code,
-                    code_system=observation.value_quantitative_code_system,
+                    code_system=observation.value_quant_code_system,
+                    code_system_name=observation.value_quant_code_system_name,
                     value=observation.value_quantitative_value,
                 )
             else:
                 observation.value = CodedElement(
                     code=observation.value_qualitative_code,
                     code_system=observation.value_qualitative_code_system,
+                    code_system_name=observation.value_qualitative_code_system_name,
                     value=observation.value_qualitative_value,
                 )
         # TODO: translation section
+
+        return observation
+
+    def _translate_code_system(self, observation: Observation) -> Observation:
+        """
+        Translates FHIR-specific codeSystem(s) within an Observation to PHDC-compliant
+        codeSystem(s) and codeSystemName(s).
+
+        :param observation: The data for building the observation element as an
+            Entry object.
+        :return: The data for building the observation element as an
+            Entry object with update codeSystemName(s).
+        """
+
+        # TODO: move code_system_translations to assets file for easier config?
+        code_system_translations = {
+            "http://loinc.org": {"codeSystemName": "LOINC", "codeSystem": "number"},
+            "http://snomed.info/sct": {
+                "codeSystemName": "SNOMED-CT",
+                "codeSystem": "2.16.840.1.113883.6.96",
+            },
+            "http://acme-rehab.org": {
+                "codeSystemName": "Acme Rehab",
+                "codeSystem": "Acme Rehab",
+            },
+            "2.16.840.1.114222.4.5.232": {
+                "codeSystemName": "PHIN Questions",
+                "codeSystem": "2.16.840.1.114222.4.5.232",
+            },
+            "2.16.840.1.114222.4.5.277": {
+                "codeSystemName": "Notifiable Event Code List",
+                "codeSystem": "2.16.840.1.114222.4.5.277",
+            },
+            "2.16.840.1.114222.4.5.1": {
+                "codeSystemName": "NEDSS Base System",
+                "codeSystem": "2.16.840.1.114222.4.5.1",
+            },
+        }
+
+        for cs in [
+            "code_system",
+            "code_code_system",
+            "value_qualitative_code_system",
+            "value_quant_code_system",
+        ]:
+            cs_value = getattr(observation, cs)
+            if cs_value in code_system_translations:
+                if cs == "code_system":
+                    observation.code_system = code_system_translations[cs_value][
+                        "codeSystem"
+                    ]
+                    observation.code_system_name = code_system_translations[cs_value][
+                        "codeSystemName"
+                    ]
+                elif cs == "code_code_system":
+                    observation.code_code_system = code_system_translations[cs_value][
+                        "codeSystem"
+                    ]
+                    observation.code_code_system_name = code_system_translations[
+                        cs_value
+                    ]["codeSystemName"]
+                elif cs == "value_qualitative_code_system":
+                    observation.value_qualitative_code_system = (
+                        code_system_translations[cs_value]["codeSystem"]
+                    )
+                    observation.value_qualitative_code_system_name = (
+                        code_system_translations[cs_value]["codeSystemName"]
+                    )
+                elif cs == "value_quant_code_system":
+                    observation.value_quant_code_system = code_system_translations[
+                        cs_value
+                    ]["codeSystem"]
+                    observation.value_quant_code_system_name = code_system_translations[
+                        cs_value
+                    ]["codeSystemName"]
 
         return observation
 
