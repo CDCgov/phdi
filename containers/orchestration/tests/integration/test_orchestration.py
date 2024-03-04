@@ -153,7 +153,7 @@ def test_process_message_fhir_phdc(setup):
     """
     message = json.load(
         open(
-            Path(__file__).parent.parent
+            Path(__file__).parent
             / "message-parser"
             / "assets"
             / "demo_phdc_conversion_bundle.json"
