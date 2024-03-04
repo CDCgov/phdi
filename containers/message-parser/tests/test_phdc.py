@@ -1087,23 +1087,17 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                                 class_code="OBS",
                                 mood_code="EVN",
                                 code=CodedElement(
-                                    code="DEM127",
-                                    code_system="2.16.840.1.114222.4.5.232",
-                                    code_system_name="PHIN Questions",
-                                    display_name="Is this person deceased?",
+                                    code="INV502",
+                                    code_system="2.16.840.1.113883.6.1",
+                                    code_system_name="LOINC",
+                                    display_name="Country of Exposure",
                                 ),
                                 value=CodedElement(
                                     xsi_type="CE",
-                                    code="N",
-                                    code_system_name="Yes/No Indicator (HL7)",
-                                    display_name="No",
-                                    code_system="2.16.840.1.113883.12.136",
-                                ),
-                                translation=CodedElement(
-                                    code="N",
-                                    code_system="2.16.840.1.113883.12.136",
-                                    code_system_name="2.16.840.1.113883.12.136",
-                                    display_name="No",
+                                    code="ATA",
+                                    code_system_name="Country (ISO 3166-1)",
+                                    display_name="ANTARCTICA",
+                                    code_system="1.0.3166.1",
                                 ),
                             )
                         ],
@@ -1114,14 +1108,13 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                                 class_code="OBS",
                                 mood_code="EVN",
                                 code=CodedElement(
-                                    code="NBS104",
-                                    code_system="2.16.840.1.114222.4.5.1",
-                                    code_system_name="NEDSS Base System",
-                                    display_name="Information As of Date",
+                                    code="INV504",
+                                    code_system="2.16.840.1.113883.6.1",
+                                    code_system_name="LOINC",
+                                    display_name="City of Exposure",
                                 ),
                                 value=CodedElement(
-                                    xsi_type="TS",
-                                    value="20240124",
+                                    text="Esperanze",
                                 ),
                             )
                         ],
@@ -1166,23 +1159,27 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                 )
             ),
             # Expected XML output as a string
-            read_file_from_test_assets("sample_phdc_repeating_questions.xml"),
+            parse_file_from_test_assets("sample_phdc.xml"),
         ),
     ],
 )
 def test_build_repeating_questions(build_repeating_questions_data, expected_result):
     builder = PHDCBuilder()
     builder.set_input_data(build_repeating_questions_data)
-    repeating_questions = builder._build_repeating_questions()
-    assert (
-        ET.tostring(
-            repeating_questions,
-            pretty_print=True,
-            xml_declaration=True,
-            encoding="utf-8",
-        ).decode("utf-8")
-        == expected_result
+    actual_result = builder._build_repeating_questions()
+    actual_result = (
+        ET.tostring(actual_result, pretty_print=True)
+        .decode()
+        .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
     )
+
+    expected_result = utils.get_phdc_section("REPEATING QUESTIONS", expected_result)
+    expected_result = (
+        ET.tostring(expected_result, pretty_print=True)
+        .decode()
+        .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
+    )
+    assert actual_result == expected_result
 
 
 def test_translate_code_system():

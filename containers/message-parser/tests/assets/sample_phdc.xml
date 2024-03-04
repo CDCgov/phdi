@@ -150,12 +150,12 @@
               <statusCode code="completed"/>
               <component>
                 <observation classCode="OBS" moodCode="EVN">
-                  <code code="INV502" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Country of Exposure"/>
-                  <value xsi:type="CE" code="ATA" codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)" displayName="ANTARCTICA"/>
+                  <code code="DEM127" codeSystem="List Item 1" codeSystemName="PHIN Questions" displayName="Is this person deceased?"/>
+                  <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CE" code="N" codeSystem="2.16.840.1.113883.12.136" codeSystemName="List Item 1" displayName="List Item 1"/>
                 </observation>
                 <observation classCode="OBS" moodCode="EVN">
-                  <code code="INV504" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="City of Exposure"/>
-                  <value>Esperanze</value>
+                  <code code="NBS104" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="List Item 2"/>
+                  <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TS" value="List Item 2"/>
                 </observation>
               </component>
             </organizer>
