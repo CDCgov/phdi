@@ -821,13 +821,6 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                                 code_system="1.2.3.5",
                                 display_name="Chlamydia trachomatis infection",
                             ),
-                            translation=CodedElement(
-                                xsi_type="CE",
-                                code="350",
-                                code_system="L",
-                                code_system_name="STD*MIS",
-                                display_name="Local Label",
-                            ),
                         )
                     ],
                     [
@@ -845,13 +838,6 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                                 code="F",
                                 code_system="1.2.3.5",
                                 display_name="False",
-                            ),
-                            translation=CodedElement(
-                                xsi_type="CE",
-                                code="T",
-                                code_system="L",
-                                code_system_name="STD*MIS",
-                                display_name="Local Label",
                             ),
                         )
                     ],
@@ -874,12 +860,6 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                                 code_system_name="Yes/No Indicator (HL7)",
                                 display_name="No",
                                 code_system="2.16.840.1.113883.12.136",
-                            ),
-                            translation=CodedElement(
-                                code="N",
-                                code_system="2.16.840.1.113883.12.136",
-                                code_system_name="2.16.840.1.113883.12.136",
-                                display_name="No",
                             ),
                         )
                     ],
@@ -947,17 +927,17 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             class_code="OBS",
                             mood_code="EVN",
                             code=CodedElement(
-                                code="INV502",
-                                code_system="2.16.840.1.113883.6.1",
-                                code_system_name="LOINC",
-                                display_name="Country of Exposure",
+                                code="DEM127",
+                                code_system="List Item 1",
+                                code_system_name="PHIN Questions",
+                                display_name="Is this person deceased?",
                             ),
                             value=CodedElement(
                                 xsi_type="CE",
-                                code="ATA",
-                                code_system_name="Country (ISO 3166-1)",
-                                display_name="ANTARCTICA",
-                                code_system="1.0.3166.1",
+                                code="N",
+                                code_system_name="List Item 1",
+                                display_name="List Item 1",
+                                code_system="2.16.840.1.113883.12.136",
                             ),
                         ),
                         Observation(
@@ -966,13 +946,14 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             class_code="OBS",
                             mood_code="EVN",
                             code=CodedElement(
-                                code="INV504",
-                                code_system="2.16.840.1.113883.6.1",
-                                code_system_name="LOINC",
-                                display_name="City of Exposure",
+                                code="NBS104",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                code_system_name="NEDSS Base System",
+                                display_name="List Item 2",
                             ),
                             value=CodedElement(
-                                text="Esperanze",
+                                xsi_type="TS",
+                                value="List Item 2",
                             ),
                         ),
                     ],
