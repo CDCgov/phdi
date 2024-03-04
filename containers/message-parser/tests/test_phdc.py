@@ -133,19 +133,11 @@ def test_build_coded_element(element_name, kwargs, expected_xml):
                 value=CodedElement(
                     xsi_type="ST", code="2", code_system="1", display_name="V"
                 ),
-                translation=CodedElement(
-                    xsi_type="T", code="0", code_system="L", display_name="T"
-                ),
             ),
             (
                 '<observation classCode="OBS" moodCode="EVN"><code code="1" '
                 + 'codeSystem="0" displayName="Code"/><value xsi:type="ST" code="2" '
-                + 'codeSystem="1" displayName="V"><translation xsi:type="T" code="0" '
-                + 'codeSystem="L" displayName="T"/></value></observation>'
-                '<observation classCode="OBS" moodCode="EVN"><code code="1" '
-                + 'codeSystem="0" displayName="Code"/><value xsi:type="ST" code="2" '
-                + 'codeSystem="1" displayName="V"><translation xsi:type="T" code="0" '
-                + 'codeSystem="L" displayName="T"/></value></observation>'
+                + 'codeSystem="1" displayName="V"/></observation>'
             ),
         )
     ],
