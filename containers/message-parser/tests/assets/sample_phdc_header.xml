@@ -61,6 +61,17 @@
     <assignedCustodian>
       <representedCustodianOrganization>
         <id extension="112233"/>
+        <name>Happy Labs</name>
+        <telecom value="8888675309"/>
+        <addr>
+          <streetAddressLine>23 main st</streetAddressLine>
+          <streetAddressLine>apt 12</streetAddressLine>
+          <city>Fort Worth</city>
+          <state>Texas</state>
+          <postalCode>76006</postalCode>
+          <county>Tarrant</county>
+          <country>USA</country>
+        </addr>
       </representedCustodianOrganization>
     </assignedCustodian>
   </custodian>

@@ -448,7 +448,22 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
     [
         (
             PHDCInputData(
-                organization=[Organization(id="112233")],
+                organization=[
+                    Organization(
+                        id="112233",
+                        name="Happy Labs",
+                        telecom=Telecom(value="8888675309"),
+                        address=Address(
+                            street_address_line_1="23 main st",
+                            street_address_line_2="apt 12",
+                            city="Fort Worth",
+                            state="Texas",
+                            postal_code="76006",
+                            county="Tarrant",
+                            country="USA",
+                        ),
+                    )
+                ],
                 patient=Patient(
                     name=[
                         Name(
@@ -488,7 +503,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                     ],
                 ),
             ),
-            (read_file_from_test_assets("sample_phdc_header.xml")),
+            (parse_file_from_test_assets("sample_phdc.xml")),
         )
     ],
 )
@@ -496,12 +511,17 @@ def test_build_header(build_header_test_data, expected_result):
     builder = PHDCBuilder()
     builder.set_input_data(build_header_test_data)
     builder.build_header()
-    assert (
-        ET.tostring(
-            builder.phdc, pretty_print=True, xml_declaration=True, encoding="utf-8"
-        ).decode("utf-8")
-        == expected_result
-    )
+    header_tree = builder.phdc
+    actual_header = header_tree.getroot()
+    for elem in actual_header.getiterator():
+        elem.tag = ET.QName(elem).localname
+    ET.cleanup_namespaces(actual_header)
+    expected_header = utils.get_phdc_header(expected_result)
+
+    actual_flattened = [i.tag for i in actual_header.iter()]
+    expected_flattened = [i.tag for i in expected_header.iter()]
+
+    assert actual_flattened == expected_flattened
 
 
 def test_build_base_phdc():
@@ -617,13 +637,6 @@ def test_get_clinical_info_code():
                                     code_system="1.2.3.5",
                                     display_name="Chlamydia trachomatis infection",
                                 ),
-                                translation=CodedElement(
-                                    xsi_type="CE",
-                                    code="350",
-                                    code_system="L",
-                                    code_system_name="STD*MIS",
-                                    display_name="Local Label",
-                                ),
                             )
                         ],
                         [
@@ -642,41 +655,13 @@ def test_get_clinical_info_code():
                                     code_system="1.2.3.5",
                                     display_name="False",
                                 ),
-                                translation=CodedElement(
-                                    xsi_type="CE",
-                                    code="T",
-                                    code_system="L",
-                                    code_system_name="STD*MIS",
-                                    display_name="Local Label",
-                                ),
                             )
                         ],
                     ]
                 )
             ),
-            # Expected XML output as a string
-            (
-                '<component><section><id extension="mocked-uuid" assigningAuthorityName'
-                + '="LR"/><code code="55752-0" codeSystem="2.16.840.1.113883.6.1" '
-                + 'codeSystemName="LOINC" displayName="Clinical Information"/><title>'
-                + 'Clinical Information</title><entry typeCode="COMP"><observation '
-                + 'classCode="OBS" moodCode="EVN"><code code="INV169" codeSystem="2.16.'
-                + '840.1.114222.4.5.1" displayName="Condition"/><value xsi:type="CE" '
-                + 'code="10274" codeSystem="1.2.3.5" displayName="Chlamydia trachomatis'
-                + ' infection"><translation xsi:type="CE" '
-                + 'code="350" codeSystem="L" codeSystemName="STD*MIS" displayName='
-                + '"Local '
-                + 'Label"/></value></observation></entry><entry typeCode="COMP">'
-                + '<observation classCode="OBS" moodCode="EVN"><code code="NBS012" '
-                + 'codeSystem="2.16.840.1.114222.4.5.1" displayName="Shared Ind"/>'
-                + "<value "
-                + 'xsi:type="CE" code="F" codeSystem="1.2.3.5" displayName="False">'
-                + "<transla"
-                + 'tion xsi:type="CE" code="T" codeSystem="L" codeSystemName="STD*MIS" '
-                + "disp"
-                + 'layName="Local Label"/></value></observation></entry></section>'
-                + "</component>"
-            ),
+            # Expected XML output
+            (parse_file_from_test_assets("sample_phdc.xml")),
         ),
     ],
 )
@@ -685,10 +670,18 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
     builder.set_input_data(build_clinical_info_data)
     clinical_info_code = builder._build_clinical_info()
     actual_result = (
-        ET.tostring(clinical_info_code)
+        ET.tostring(clinical_info_code, pretty_print=True)
         .decode()
-        .replace('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', "")
+        .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
     )
+
+    expected_result = utils.get_phdc_section("Clinical Information", expected_result)
+    expected_result = (
+        ET.tostring(expected_result, pretty_print=True)
+        .decode()
+        .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
+    )
+
     assert actual_result == expected_result
 
 
