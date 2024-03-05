@@ -55,7 +55,29 @@
             { {% include 'DataType/ContactPoint' ContactPoint: telecom -%} },
             {% endfor -%}
         ],
-        "contact": {{ contact | to_json_string }},
+        "contact": [
+            {
+                "relationship": {{ contact.code.originalText._ | to_json_string | downcase }},
+                "name":[
+                    {% assign names = contact.associatedPerson.name | to_array -%}
+                    {% for name in names -%}
+                    { {% include 'DataType/HumanName' HumanName: name -%} },
+                    {% endfor -%}
+                ],
+                "telecom": [
+                    {% assign telecoms = contact.telecom | to_array -%}
+                    {% for telecom in telecoms -%}
+                    { {% include 'DataType/ContactPoint' ContactPoint: telecom -%} },
+                    {% endfor -%}
+                ],
+                "address":[
+                    {% assign addrs = contact.addr | to_array -%}
+                    {% for addr in addrs -%}
+                    { {% include 'DataType/Address' Address: addr -%} },
+                    {% endfor -%}
+                ],
+            }
+        ],
         "communication":
         [
             {% assign languageCommunications = patientRole.patient.languageCommunication | to_array -%}
