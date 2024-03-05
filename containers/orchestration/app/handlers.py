@@ -1,11 +1,7 @@
 import os
 
 from app.models import OrchestrationRequest
-from dotenv import load_dotenv
 from requests import Response
-
-path = os.path.dirname(os.path.abspath(__file__))
-load_dotenv(dotenv_path=os.path.join(path, ".env"))
 
 
 MESSAGE_TO_TEMPLATE_MAP = {

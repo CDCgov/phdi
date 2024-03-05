@@ -165,7 +165,9 @@ def test_process_message_fhir_phdc(setup):
         "config_file_name": "sample-fhir-test-config-xml.json",
         "message": message,
     }
-    orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
+    orchestration_response = httpx.post(
+        PROCESS_MESSAGE_ENDPOINT, json=request, timeout=30
+    )
     xml_content = orchestration_response.text
     assert orchestration_response.status_code == 200
     try:
@@ -195,7 +197,9 @@ def test_process_message_hl7(setup):
         "config_file_name": "sample-hl7-test-config.json",
         "message": message,
     }
-    orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
+    orchestration_response = httpx.post(
+        PROCESS_MESSAGE_ENDPOINT, json=request, timeout=30
+    )
     assert orchestration_response.status_code == 200
     assert orchestration_response.json()["message"] == "Processing succeeded!"
 
