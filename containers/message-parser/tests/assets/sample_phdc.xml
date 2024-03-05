@@ -28,22 +28,22 @@
       <telecom value="+1-800-555-1234"/>
       <telecom use="WP" value="tel:+1-800-555-1234"/>
       <patient>
-        <name use="L">
-          <prefix>Mr.</prefix>
-          <given>John</given>
-          <given>Jacob</given>
-          <family>Schmidt</family>
-        </name>
-        <name use="P">
-          <prefix>Mr.</prefix>
-          <given>JJ</given>
-          <family>Schmidt</family>
-        </name>
-        <administrativeGenderCode displayName="Male"/>
-        <birthTime value="01012000"/>
-        <sdt:raceCode code="2106-3" codeSystem="2.16.840.1.113883.6.238" displayName="White" codeSystemName="Race &amp; Ethnicity"/>
-        <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
-      </patient>
+  <name use="L">
+    <prefix>Mr.</prefix>
+    <given>John</given>
+    <given>Jacob</given>
+    <family>Schmidt</family>
+  </name>
+  <name use="P">
+    <prefix>Mr.</prefix>
+    <given>JJ</given>
+    <family>Schmidt</family>
+  </name>
+  <administrativeGenderCode displayName="Male"/>
+  <birthTime value="01012000"/>
+  <sdt:raceCode xmlns:sdt="urn:hl7-org:sdtc" code="2106-3" codeSystem="2.16.840.1.113883.6.238" displayName="White" codeSystemName="Race &amp; Ethnicity"/>
+  <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
+</patient>
     </patientRole>
   </recordTarget>
   <author>

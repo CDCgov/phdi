@@ -16,8 +16,6 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
-from xmldiff import formatting
-from xmldiff import main as xmldiff
 
 
 def read_json_from_test_assets(filename: str) -> dict:
@@ -375,26 +373,64 @@ def test_build_author(family_name, expected_oid, expected_date, expected_author)
         (
             Patient(
                 name=[
-                    Name(prefix="Mr.", first="John", middle="Jacob", family="Schmidt")
+                    Name(
+                        prefix="Mr.",
+                        first="John",
+                        middle="Jacob",
+                        family="Schmidt",
+                        type="official",
+                    ),
+                    Name(
+                        prefix="Mr.",
+                        first="JJ",
+                        family="Schmidt",
+                        type="nickname",
+                    ),
                 ],
                 race_code="2106-3",
                 ethnic_group_code="2186-5",
                 administrative_gender_code="Male",
                 birth_time="01-01-2000",
             ),
-            (parse_file_from_test_assets("sample_phdc_patient_element.xml")),
+            (parse_file_from_test_assets("sample_phdc.xml")),
         )
     ],
 )
 def test_build_patient(build_patient_test_data, expected_result):
     builder = PHDCBuilder()
-    xml_patient_data = builder._build_patient(build_patient_test_data)
-    formatter = formatting.DiffFormatter(
-        normalize=formatting.WS_BOTH, pretty_print=True
+    actual_result = builder._build_patient(build_patient_test_data)
+    actual_result = (
+        ET.tostring(actual_result, pretty_print=True)
+        .decode()
+        .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
     )
-    diff = xmldiff.diff_trees(xml_patient_data, expected_result, formatter=formatter)
 
-    assert diff == ""
+    header = expected_result.getroot()
+    for elem in header.getiterator():
+        if "race" in elem.tag:
+            continue
+        elem.tag = ET.QName(elem).localname
+    ET.cleanup_namespaces(header)
+
+    # Remove components
+    for component in header.findall("component"):
+        header.remove(component)
+
+    for c in header:
+        if c.tag == "recordTarget":
+            for elem in c:
+                if elem.tag == "patientRole":
+                    for item in elem:
+                        if item.tag == "patient":
+                            expected_result = item
+
+    expected_result = (
+        ET.tostring(expected_result, pretty_print=True)
+        .decode()
+        .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
+    )
+
+    assert actual_result == expected_result
 
 
 @pytest.mark.parametrize(
