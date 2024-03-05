@@ -340,8 +340,8 @@ def build_geocoding_request(
     # Default parameter values
     default_params = {
         "geocode_method": "smarty",
-        "smarty_auth_id": os.getenv("SMARTY_AUTH_ID"),
-        "smarty_auth_token": os.getenv("SMARTY_AUTH_TOKEN"),
+        "smarty_auth_id": os.environ.get("SMARTY_AUTH_ID"),
+        "smarty_auth_token": os.environ.get("SMARTY_AUTH_TOKEN"),
         "license_type": "us-rooftop-geocoding-enterprise-cloud",
         "overwrite": "true",
     }

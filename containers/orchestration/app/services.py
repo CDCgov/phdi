@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 from json.decoder import JSONDecodeError
 
@@ -269,6 +270,7 @@ async def call_apis(
                 )
 
             if service_response.status_code != 200:
+                logging.info(service_request)
                 raise HTTPException(
                     status_code=service_response.status_code,
                     detail=f"Service {service} failed with error {service_response.msg_content}",  # noqa

@@ -6,14 +6,12 @@ import httpx
 import pytest
 from app.config import get_settings
 from app.main import app
-from dotenv import load_dotenv
 from lxml import etree
 from starlette.testclient import TestClient
 
 get_settings()
 
 dotenv_path = Path(__file__).resolve().parent.parent.parent / ".env"
-load_dotenv(dotenv_path=dotenv_path)
 
 ORCHESTRATION_URL = "http://localhost:8080"
 PROCESS_ENDPOINT = ORCHESTRATION_URL + "/process"
