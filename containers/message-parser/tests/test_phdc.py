@@ -403,6 +403,7 @@ def test_build_patient(build_patient_test_data, expected_result):
         ET.tostring(actual_result, pretty_print=True)
         .decode()
         .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
+        .replace(' xmlns:sdt="urn:hl7-org:sdtc"', "")
     )
 
     header = expected_result.getroot()
@@ -428,8 +429,8 @@ def test_build_patient(build_patient_test_data, expected_result):
         ET.tostring(expected_result, pretty_print=True)
         .decode()
         .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
+        .replace(' xmlns:sdt="urn:hl7-org:sdtc"', "")
     )
-
     assert actual_result == expected_result
 
 
@@ -1005,7 +1006,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                     )
                 ],
             ),
-            read_file_from_test_assets("sample_phdc.xml"),
+            parse_file_from_test_assets("sample_phdc.xml"),
         )
     ],
 )
@@ -1013,7 +1014,22 @@ def test_build(build_header_test_data, expected_result):
     builder = PHDCBuilder()
     builder.set_input_data(build_header_test_data)
     phdc = builder.build()
-    actual_result = phdc.to_xml_string()
+    actual_result = (
+        ET.tostring(
+            phdc.data, pretty_print=True, xml_declaration=True, encoding="utf-8"
+        )
+        .decode()
+        .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
+    )
+
+    expected_result = (
+        ET.tostring(
+            expected_result, pretty_print=True, xml_declaration=True, encoding="utf-8"
+        )
+        .decode()
+        .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
+    )
+
     assert actual_result == expected_result
 
 

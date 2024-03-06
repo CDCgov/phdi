@@ -41,7 +41,7 @@
         </name>
         <administrativeGenderCode displayName="Male"/>
         <birthTime value="01012000"/>
-        <sdt:raceCode xmlns:sdt="urn:hl7-org:sdtc" code="2106-3" codeSystem="2.16.840.1.113883.6.238" displayName="White" codeSystemName="Race &amp; Ethnicity"/>
+        <sdt:raceCode code="2106-3" codeSystem="2.16.840.1.113883.6.238" displayName="White" codeSystemName="Race &amp; Ethnicity"/>
         <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
       </patient>
     </patientRole>
@@ -149,7 +149,7 @@
               <statusCode code="completed"/>
               <component>
                 <observation classCode="OBS" moodCode="EVN">
-                  <code code="DEM127" codeSystem="List Item 1" codeSystemName="PHIN Questions" displayName="Is this person deceased?"/>
+                <code code="DEM127" codeSystem="List Item 1" codeSystemName="PHIN Questions" displayName="Is this person deceased?"/>
                   <value xsi:type="CE" code="N" codeSystem="2.16.840.1.113883.12.136" codeSystemName="List Item 1" displayName="List Item 1"/>
                 </observation>
                 <observation classCode="OBS" moodCode="EVN">
