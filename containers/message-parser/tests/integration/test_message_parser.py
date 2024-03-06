@@ -3,10 +3,67 @@ from pathlib import Path
 
 import httpx
 import pytest
+from lxml import etree as ET
+from rich.console import Console
+from rich.table import Table
 
 PARSER_URL = "http://0.0.0.0:8080"
 PARSE_MESSAGE = PARSER_URL + "/parse_message"
 FHIR_TO_PHDC = PARSER_URL + "/fhir_to_phdc"
+
+
+def validate_xml(xml_input: ET.ElementTree) -> bool:
+    """
+    Validate the XML Element Tree against the XSD schema.
+
+    :return: True if the XML is valid, False otherwise
+    """
+    console = Console()
+
+    xsd_path = (
+        Path(__file__).parent.parent.parent
+        / "schema"
+        / "extensions"
+        / "SDTC"
+        / "infrastructure"
+        / "cda"
+        / "CDA_SDTC.xsd"
+    )
+
+    with open(xsd_path, "rb") as xsd_file:
+        xsd_tree = ET.XMLSchema(ET.parse(xsd_file))
+        # print a confirmation message that the schema is loaded
+        console.print("XSD schema loaded successfully", style="bold green")
+
+    # validate the XML against the XSD
+    is_valid = xsd_tree.validate(xml_input)
+
+    # handling the results
+    if is_valid:
+        console.print(
+            "the XML file is valid according to the XSD schema",
+            style="bold green",
+        )
+        return True
+
+    console.print("the XML file is not valid", style="bold red")
+    # create the table for the error log
+    table = Table(
+        title="PHDC Validation", show_header=True, header_style="bold magenta"
+    )
+
+    # create the table columns to display the errors
+    table.add_column("Line", style="dim", width=6, justify="right")
+    table.add_column("Column", style="dim", width=6, justify="right")
+    table.add_column("Message", overflow="fold")
+    for error in xsd_tree.error_log:
+        table.add_row(
+            str(error.line),
+            str(error.column),
+            error.message,
+        )
+    console.print(table)
+    return False
 
 
 @pytest.mark.integration
@@ -15,12 +72,21 @@ def test_health_check(setup):
     assert health_check_response.status_code == 200
 
 
-fhir_bundle_path = (
+fhir_bundle_parse_message_path = (
     Path(__file__).parent.parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
 )
 
-with open(fhir_bundle_path, "r") as file:
-    test_bundle = json.load(file)
+fhir_bundle_fhir_to_phdc_path = (
+    Path(__file__).parent.parent.parent
+    / "assets"
+    / "sample_fhir_bundle_for_phdc_conversion.json"
+)
+
+with open(fhir_bundle_parse_message_path, "r") as file:
+    fhir_bundle_parse_message = json.load(file)
+
+with open(fhir_bundle_fhir_to_phdc_path, "r") as file:
+    fhir_bundle_fhir_to_phdc = json.load(file)
 
 test_schema_path = (
     Path(__file__).parent.parent.parent
@@ -245,7 +311,7 @@ def test_parse_message(setup):
     request = {
         "message_format": "fhir",
         "parsing_schema": test_schema,
-        "message": test_bundle,
+        "message": fhir_bundle_parse_message,
     }
     parsing_response = httpx.post(PARSE_MESSAGE, json=request)
 
@@ -255,14 +321,11 @@ def test_parse_message(setup):
 
 @pytest.mark.integration
 def test_fhir_to_phdc(setup):
-    request = {
-        "phdc_report_type": "case_report",
-        "message": test_bundle,
-    }
+    request = {"phdc_report_type": "case_report", "message": fhir_bundle_fhir_to_phdc}
 
     parsing_response = httpx.post(FHIR_TO_PHDC, json=request)
 
-    # TODO: Once the PHDC builder work is completed, this test can be
-    # developed further to check the structure and content of the
-    # generated PHDC message.
     assert parsing_response.status_code == 200
+
+    parsed_output = ET.fromstring(parsing_response.text.encode())
+    assert validate_xml(parsed_output)
