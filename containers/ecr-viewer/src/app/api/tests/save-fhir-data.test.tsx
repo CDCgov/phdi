@@ -1,4 +1,3 @@
-import { createRequest } from "node-mocks-http";
 import { POST } from "../save-fhir-data/route.ts";
 
 const httpMocks = require("node-mocks-http");
@@ -18,23 +17,6 @@ function createMockRequest(body) {
   return req;
 }
 
-jest.mock("pg-promise", () => {
-  console.log("hitting this");
-  const oneMock = jest.fn();
-  const dbMock = jest.fn((db_url) => {
-    console.log("db_url:", db_url);
-    return {
-      one: oneMock,
-    };
-  });
-  console.log("DBMOCK", dbMock);
-
-  const pgPromiseMock = jest.fn(() => dbMock);
-  pgPromiseMock.db = dbMock;
-  console.log("PGPROMISEMOCK", pgPromiseMock);
-  return pgPromiseMock;
-});
-
 describe("/api/save-fhir-data", () => {
   beforeEach(() => {
     jest.resetModules();
@@ -42,6 +24,27 @@ describe("/api/save-fhir-data", () => {
   });
 
   test("save FHIR to database", async () => {
+    jest.mock("pg-promise", () => {
+      const oneMock = jest.fn(() => {
+        return {
+          ecr_id: "12345test",
+        };
+      });
+
+      const dbMock = jest.fn((db_url) => {
+        console.log("db_url:", db_url);
+        return {
+          one: oneMock,
+        };
+      });
+
+      // const oneMockResult = {result: "success"};
+      // dbMock.one.mockResolvedValue(oneMockResult);
+
+      const pgPromiseMock = jest.fn(() => dbMock);
+      return pgPromiseMock;
+    });
+
     const body = {
       fhirBundle: fhirBundle,
     };
@@ -50,53 +53,8 @@ describe("/api/save-fhir-data", () => {
     const response = await POST(req);
 
     expect(response.status).toBe(200);
-    // expect(res.json()).toEqual({
-    //   message: "Success. Saved FHIR Bundle to database: 1dd10047-2207-4eac-a993-0f706c88be5d"
-    // });
+    expect(res.json()).toEqual({
+      message: "Success. Saved FHIR Bundle to database: 12345test",
+    });
   });
 });
-
-// import { POST } from "../save-fhir-data/route.ts";
-// import pgPromise from "pg-promise";
-// import { NextRequest, NextResponse } from "next/server";
-
-// const pgPromiseMock = jest.mock("pg-promise");
-// // pgPromiseMock.one.mockReturnValue = NextResponse.json(
-// //   { message: "Success. Saved FHIR Bundle to database" },
-// //   { status: 200 },
-// // );
-
-// const fhirBundle = require("./assets/testBundle.json");
-// const request: NextRequest = {
-//   fhirBundle: fhirBundle,
-// };
-
-// describe("Test saving FHIR bundle to database", () => {
-//   beforeEach(() => {
-//     jest.resetModules();
-//     jest.resetAllMocks();
-//   });
-
-//   it("should call pg-promise with an ecr ID and a FHIR bundle when endpoint is hit", () => {
-//     const result = POST(request);
-
-//     console.log(pgPromiseMock);
-//     // expect(pgPromiseMock).toHaveBeenCalledWith(1, 2);
-//   });
-// });
-
-// import * as app from "./app";
-// import * as math from "./math";
-
-// // Set all module functions to jest.fn
-// jest.mock("./math.js");
-
-// test("calls math.add", () => {
-//   app.doAdd(1, 2);
-//   expect(math.add).toHaveBeenCalledWith(1, 2);
-// });
-
-// test("calls math.subtract", () => {
-//   app.doSubtract(1, 2);
-//   expect(math.subtract).toHaveBeenCalledWith(1, 2);
-// });

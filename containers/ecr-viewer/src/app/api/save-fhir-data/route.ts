@@ -4,7 +4,6 @@ import pgPromise from "pg-promise";
 export async function POST(request: NextRequest) {
   const db_url = process.env.DATABASE_URL || "";
   const db = pgPromise();
-  console.log("DB", db);
   const database = db(db_url);
 
   try {
