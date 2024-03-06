@@ -546,7 +546,7 @@ def test_build_header(build_header_test_data, expected_result):
     for elem in actual_header.getiterator():
         elem.tag = ET.QName(elem).localname
     ET.cleanup_namespaces(actual_header)
-    expected_header = utils.get_phdc_header(expected_result)
+    expected_header = utils.get_phdc_section("header", expected_result)
 
     actual_flattened = [i.tag for i in actual_header.iter()]
     expected_flattened = [i.tag for i in expected_header.iter()]
