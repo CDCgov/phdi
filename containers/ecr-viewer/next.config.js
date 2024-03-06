@@ -8,12 +8,11 @@ const nextConfig = {
     ],
   },
   transpilePackages: ["yaml"],
-  async redirects() {
+  async rewrites() {
     return [
       {
         source: "/ecr-viewer/:slug*",
         destination: "/:slug*",
-        permanent: true,
       },
     ];
   },

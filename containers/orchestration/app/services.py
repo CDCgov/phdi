@@ -1,6 +1,7 @@
 import json
 import os
 from json.decoder import JSONDecodeError
+from typing import Union
 
 import boto3
 import requests
@@ -117,7 +118,15 @@ def save_to_db_payload(**kwargs) -> dict:
     return {"ecr_id": ecr_id, "data": b["bundle"]}
 
 
-def extract_ecrid_from_bundle(bundle):
+def extract_ecrid_from_bundle(bundle: dict) -> Union[str, None]:
+    """
+    Helper method for extracting the eCR case ID from a supplied FHIR
+    bundle. If the supplied bundle (or bundle-containing dict) does
+    not contain an eCR ID, `None` is returned instead.
+
+    :param bundle: The dict to pull the eCR ID from.
+    :return: The ID as a string, or `None` if no ID is present.
+    """
     bundle = bundle.get("bundle") if bundle.get("bundle") else bundle
     entry = (
         bundle.get("entry")
@@ -133,11 +142,25 @@ def extract_ecrid_from_bundle(bundle):
     return ecr_id
 
 
-def post_request(url, payload):
+def post_request(url: str, payload: dict) -> Response:
+    """
+    Helper function to post an API request to a particular endpoint using
+    the `requests` module.
+
+    :param url: The full URL of the endpoint to-hit.
+    :param payload: The body of the Request object, as a dictionary.
+    :return: A Response object from the posted endpoint.
+    """
     return requests.post(url, json=payload)
 
 
-def save_bundle(response, bundle):
+def save_bundle(response: Response, bundle: dict) -> Union[Response, dict]:
+    """
+    Helper function to perform a contextual save on a supplied FHIR bundle.
+    If the response contains a `bundle` key, the value at that key is
+    extracted and saved; if the response does not contain a `bundle`,
+    the caller's passed `bundle` is returned instead.
+    """
     try:
         r = response.json()
         if "bundle" in r:
@@ -159,6 +182,7 @@ async def _send_websocket_dump(
     """
     Helper method that sends service response information from a DIBBs
     API call to a particular web socket.
+
     :param endpoint_name: Name of the endpoint to inform the websocket of.
     :param base_response: The unaltered response the service sent back.
     :param service_response: The unpacked handler response with logic
@@ -185,10 +209,14 @@ async def _send_websocket_dump(
     return progress_dict
 
 
-def save_to_s3(bundle) -> dict:
+def save_to_s3(bundle: dict) -> dict:
     """
-    Given a dictionary and an ecr_id, create a file and
-    upload it to the S3 endpoint as specified in the .env
+    Given a dictionary and an ecr_id, create a file and upload it to
+    the S3 endpoint as specified in the .env
+
+    :param bundle: The FHIR dictionary to save.
+    :return: A dictionary containing information about the status of
+      the save operation.
     """
 
     bucket_name = os.getenv("ECR_BUCKET_NAME")
@@ -226,6 +254,7 @@ async def call_apis(
     service response. If the response is valid and has data, it is passed
     to the next service as input. If the response was unsuccessful, the
     function communicates errors to the caller.
+
     :param config: The config-driven workflow extracted from a JSON file.
     :param input: The original request to the orchestration service.
     :param websocket: Optionally, a socket to which to stream input
