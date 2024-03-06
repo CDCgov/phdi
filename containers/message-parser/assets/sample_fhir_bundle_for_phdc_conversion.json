@@ -184,32 +184,24 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "22322-2",
-              "display": "Hepatitis A virus IgM antibody [Presence] in Serum by Immunoassay"
+              "system": "2.16.840.1.114222.4.5.232",
+              "code": "INV163",
+              "display": "Case Status"
             }
           ]
         },
         "subject": {
           "reference": "urn:uuid:1"
         },
-        "valueQuantity": {
-          "value": 10.0,
-          "unit": "IU/mL",
-          "system": "http://unitsofmeasure.org",
-          "code": "IU/mL"
-        },
-        "interpretation": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-                "code": "POS",
-                "display": "Positive"
-              }
-            ]
-          }
-        ]
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "2.16.840.1.113883.6.96",
+              "code": "410605003",
+              "display": "Confirmed"
+            }
+          ]
+        }
       },
       "request": {
         "method": "POST",
@@ -225,32 +217,24 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "22320-6",
-              "display": "Hepatitis A virus IgG Ab [Presence] in Serum by Immunoassay"
+              "system": "2.16.840.1.114222.4.5.232",
+              "code": "INV169",
+              "display": "Condition"
             }
           ]
         },
         "subject": {
           "reference": "urn:uuid:1"
         },
-        "valueQuantity": {
-          "value": 2.5,
-          "unit": "IU/mL",
-          "system": "http://unitsofmeasure.org",
-          "code": "IU/mL"
-        },
-        "interpretation": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-                "code": "POS",
-                "display": "Positive"
-              }
-            ]
-          }
-        ]
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "2.16.840.1.114222.4.5.277",
+              "code": "10110",
+              "display": "Hepatitis A, acute"
+            }
+          ]
+        }
       },
       "request": {
         "method": "POST",
