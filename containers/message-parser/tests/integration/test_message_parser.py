@@ -66,27 +66,19 @@ def validate_xml(xml_input: ET.ElementTree) -> bool:
     return False
 
 
-@pytest.mark.integration
-def test_health_check(setup):
-    health_check_response = httpx.get(PARSER_URL)
-    assert health_check_response.status_code == 200
-
-
 fhir_bundle_parse_message_path = (
-    Path(__file__).parent.parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
+    Path(__file__).parent.parent.parent
+    / "tests"
+    / "assets"
+    / "demo_phdc_conversion_bundle.json"
 )
 
 fhir_bundle_fhir_to_phdc_path = (
     Path(__file__).parent.parent.parent
+    / "tests"
     / "assets"
     / "sample_fhir_bundle_for_phdc_conversion.json"
 )
-
-with open(fhir_bundle_parse_message_path, "r") as file:
-    fhir_bundle_parse_message = json.load(file)
-
-with open(fhir_bundle_fhir_to_phdc_path, "r") as file:
-    fhir_bundle_fhir_to_phdc = json.load(file)
 
 test_schema_path = (
     Path(__file__).parent.parent.parent
@@ -95,8 +87,20 @@ test_schema_path = (
     / "phdc_case_report_schema.json"
 )
 
+with open(fhir_bundle_parse_message_path, "r") as file:
+    fhir_bundle_parse_message = json.load(file)
+
+with open(fhir_bundle_fhir_to_phdc_path, "r") as file:
+    fhir_bundle_fhir_to_phdc = json.load(file)
+
 with open(test_schema_path, "r") as file:
     test_schema = json.load(file)
+
+
+@pytest.mark.integration
+def test_health_check(setup):
+    health_check_response = httpx.get(PARSER_URL)
+    assert health_check_response.status_code == 200
 
 
 @pytest.mark.integration
