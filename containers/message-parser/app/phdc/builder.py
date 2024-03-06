@@ -565,29 +565,32 @@ class PHDCBuilder:
         :return: observation data with correct namespace as Observation object
             for use in _build_observation
         """
+        date_formats = ["%Y-%m-%d", "%Y%m%d"]
         # for code; xsi:type should always be 'None'
-        if observation.code:
-            if observation.code.xsi_type is not None:
-                observation.code.xsi_type = None
+        if observation.code and observation.code.xsi_type is not None:
+            observation.code.xsi_type = None
         # for value; we'll need to check some related attributes to make sure
         # we're handling this correctly
-        if observation.value:
-            if observation.value.value is not None:
+        if observation.value and observation.value.value is not None:
+            date_parsed = False
+            for date_format in date_formats:
                 try:
-                    datetime.strptime(observation.value.value, "%Y-%m-%d")
+                    datetime.strptime(observation.value.value, date_format)
                     observation.value.xsi_type = "TS"
                     observation.value.value = observation.value.value.replace("-", "")
+                    date_parsed = True
+                    break
                 except ValueError:
-                    if (
-                        not observation.value.code
-                        and not observation.value.code_system
-                        and isinstance(observation.value.value, str)
-                    ):
-                        observation.value.xsi_type = "ST"
-                    elif observation.value.code and observation.value.code_system:
-                        observation.value.xsi_type = "CE"
-                        observation.value.displayName = observation.value.value
-                        observation.value.value = None
+                    continue
+            if not date_parsed:
+                if observation.value.code and observation.value.code_system:
+                    observation.value.xsi_type = "CE"
+                    observation.value.display_name = observation.value.value
+                    observation.value.value = None
+                else:
+                    observation.value.xsi_type = "ST"
+                    observation.value.text = observation.value.value
+                    observation.value.value = None
 
         return observation
 
@@ -818,12 +821,12 @@ class PHDCBuilder:
         """
         element = ET.Element(element_name)
 
-        for e, v in kwargs.items():
-            if e != "element_name" and v is not None:
-                if e == "text":
-                    element.text = v
+        for attribute_name, attribute_value in kwargs.items():
+            if attribute_name != "element_name" and attribute_value is not None:
+                if attribute_name == "text":
+                    element.text = attribute_value
                     continue
-                element.set(e, v)
+                element.set(attribute_name, attribute_value)
         return element
 
     def _build_patient(self, patient: Patient) -> ET.Element:
