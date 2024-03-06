@@ -1,3 +1,4 @@
+import pathlib
 import uuid
 from datetime import date
 from unittest.mock import patch
@@ -16,6 +17,37 @@ from app.phdc.models import Telecom
 from lxml import etree as ET
 from xmldiff import formatting
 from xmldiff import main as xmldiff
+
+
+def read_file_from_test_assets(filename: str) -> str:
+    """
+    Reads a file from the test assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A string containing the contents of the file.
+    """
+    with open(
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
+    ) as file:
+        return file.read()
+
+
+def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
+    """
+    Parses a file from the assets directory into an ElementTree.
+
+    :param filename: The name of the file to read.
+    :return: An ElementTree containing the contents of the file.
+    """
+    with open(
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
+    ) as file:
+        parser = ET.XMLParser(remove_blank_text=True)
+        tree = ET.parse(
+            file,
+            parser,
+        )
+        return tree
 
 
 @pytest.mark.parametrize(
@@ -343,7 +375,7 @@ def test_build_author(family_name, expected_oid, expected_date, expected_author)
                 administrative_gender_code="Male",
                 birth_time="01-01-2000",
             ),
-            (utils.parse_file_from_assets("sample_phdc_patient_element.xml")),
+            (parse_file_from_test_assets("sample_phdc_patient_element.xml")),
         )
     ],
 )
@@ -441,7 +473,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                     ],
                 ),
             ),
-            (utils.read_file_from_assets("sample_phdc_header.xml")),
+            (read_file_from_test_assets("sample_phdc_header.xml")),
         )
     ],
 )
@@ -701,7 +733,7 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
                 )
             ),
             # Expected XML output as a string
-            utils.read_file_from_assets("sample_phdc_social_history_info.xml"),
+            read_file_from_test_assets("sample_phdc_social_history_info.xml"),
         ),
     ],
 )
@@ -956,7 +988,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                     )
                 ],
             ),
-            utils.read_file_from_assets("sample_phdc.xml"),
+            read_file_from_test_assets("sample_phdc.xml"),
         )
     ],
 )
@@ -1120,7 +1152,7 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                 )
             ),
             # Expected XML output as a string
-            utils.read_file_from_assets("sample_phdc_repeating_questions.xml"),
+            read_file_from_test_assets("sample_phdc_repeating_questions.xml"),
         ),
     ],
 )
