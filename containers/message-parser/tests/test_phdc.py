@@ -1,3 +1,4 @@
+import pathlib
 import uuid
 from datetime import date
 from unittest.mock import patch
@@ -16,6 +17,37 @@ from app.phdc.models import Telecom
 from lxml import etree as ET
 from xmldiff import formatting
 from xmldiff import main as xmldiff
+
+
+def read_file_from_test_assets(filename: str) -> str:
+    """
+    Reads a file from the test assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A string containing the contents of the file.
+    """
+    with open(
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
+    ) as file:
+        return file.read()
+
+
+def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
+    """
+    Parses a file from the assets directory into an ElementTree.
+
+    :param filename: The name of the file to read.
+    :return: An ElementTree containing the contents of the file.
+    """
+    with open(
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
+    ) as file:
+        parser = ET.XMLParser(remove_blank_text=True)
+        tree = ET.parse(
+            file,
+            parser,
+        )
+        return tree
 
 
 @pytest.mark.parametrize(
@@ -95,11 +127,10 @@ def test_build_coded_element(element_name, kwargs, expected_xml):
                 ),
             ),
             (
-                '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
-                '<code code="1" codeSystem="0" displayName="Code"/><value xsi:type="ST"'
-                ' code="2" codeSystem="1" displayName="V"><translation xsi:type="T" '
-                'code="0" codeSystem="L" displayName="T"/></value></observation>'
-                "</entry>"
+                '<observation classCode="OBS" moodCode="EVN"><code code="1" '
+                + 'codeSystem="0" displayName="Code"/><value xsi:type="ST" code="2" '
+                + 'codeSystem="1" displayName="V"><translation xsi:type="T" code="0" '
+                + 'codeSystem="L" displayName="T"/></value></observation>'
             ),
         )
     ],
@@ -344,7 +375,7 @@ def test_build_author(family_name, expected_oid, expected_date, expected_author)
                 administrative_gender_code="Male",
                 birth_time="01-01-2000",
             ),
-            (utils.parse_file_from_assets("sample_phdc_patient_element.xml")),
+            (parse_file_from_test_assets("sample_phdc_patient_element.xml")),
         )
     ],
 )
@@ -442,7 +473,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                     ],
                 ),
             ),
-            (utils.read_file_from_assets("sample_phdc_header.xml")),
+            (read_file_from_test_assets("sample_phdc_header.xml")),
         )
     ],
 )
@@ -555,52 +586,56 @@ def test_get_clinical_info_code():
             (
                 PHDCInputData(
                     clinical_info=[
-                        Observation(
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="INV169",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                display_name="Condition",
-                            ),
-                            value=CodedElement(
-                                xsi_type="CE",
-                                code="10274",
-                                code_system="1.2.3.5",
-                                display_name="Chlamydia trachomatis infection",
-                            ),
-                            translation=CodedElement(
-                                xsi_type="CE",
-                                code="350",
-                                code_system="L",
-                                code_system_name="STD*MIS",
-                                display_name="Local Label",
-                            ),
-                        ),
-                        Observation(
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="NBS012",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                display_name="Shared Ind",
-                            ),
-                            value=CodedElement(
-                                xsi_type="CE",
-                                code="F",
-                                code_system="1.2.3.5",
-                                display_name="False",
-                            ),
-                            translation=CodedElement(
-                                xsi_type="CE",
-                                code="T",
-                                code_system="L",
-                                code_system_name="STD*MIS",
-                                display_name="Local Label",
-                            ),
-                        ),
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="INV169",
+                                    code_system="2.16.840.1.114222.4.5.1",
+                                    display_name="Condition",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="10274",
+                                    code_system="1.2.3.5",
+                                    display_name="Chlamydia trachomatis infection",
+                                ),
+                                translation=CodedElement(
+                                    xsi_type="CE",
+                                    code="350",
+                                    code_system="L",
+                                    code_system_name="STD*MIS",
+                                    display_name="Local Label",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="NBS012",
+                                    code_system="2.16.840.1.114222.4.5.1",
+                                    display_name="Shared Ind",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="F",
+                                    code_system="1.2.3.5",
+                                    display_name="False",
+                                ),
+                                translation=CodedElement(
+                                    xsi_type="CE",
+                                    code="T",
+                                    code_system="L",
+                                    code_system_name="STD*MIS",
+                                    display_name="Local Label",
+                                ),
+                            )
+                        ],
                     ]
                 )
             ),
@@ -651,50 +686,54 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
             (
                 PHDCInputData(
                     social_history_info=[
-                        Observation(
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="DEM127",
-                                code_system="2.16.840.1.114222.4.5.232",
-                                code_system_name="PHIN Questions",
-                                display_name="Is this person deceased?",
-                            ),
-                            value=CodedElement(
-                                xsi_type="CE",
-                                code="N",
-                                code_system_name="Yes/No Indicator (HL7)",
-                                display_name="No",
-                                code_system="2.16.840.1.113883.12.136",
-                            ),
-                            translation=CodedElement(
-                                code="N",
-                                code_system="2.16.840.1.113883.12.136",
-                                code_system_name="2.16.840.1.113883.12.136",
-                                display_name="No",
-                            ),
-                        ),
-                        Observation(
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="NBS104",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                code_system_name="NEDSS Base System",
-                                display_name="Information As of Date",
-                            ),
-                            value=CodedElement(
-                                xsi_type="TS",
-                                value="20240124",
-                            ),
-                        ),
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="DEM127",
+                                    code_system="2.16.840.1.114222.4.5.232",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Is this person deceased?",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="N",
+                                    code_system_name="Yes/No Indicator (HL7)",
+                                    display_name="No",
+                                    code_system="2.16.840.1.113883.12.136",
+                                ),
+                                translation=CodedElement(
+                                    code="N",
+                                    code_system="2.16.840.1.113883.12.136",
+                                    code_system_name="2.16.840.1.113883.12.136",
+                                    display_name="No",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="NBS104",
+                                    code_system="2.16.840.1.114222.4.5.1",
+                                    code_system_name="NEDSS Base System",
+                                    display_name="Information As of Date",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="TS",
+                                    value="20240124",
+                                ),
+                            )
+                        ],
                     ]
                 )
             ),
             # Expected XML output as a string
-            utils.read_file_from_assets("sample_phdc_social_history_info.xml"),
+            read_file_from_test_assets("sample_phdc_social_history_info.xml"),
         ),
     ],
 )
@@ -760,129 +799,177 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                     ],
                 ),
                 clinical_info=[
-                    Observation(
-                        type_code="COMP",
-                        class_code="OBS",
-                        mood_code="EVN",
-                        code=CodedElement(
-                            code="INV169",
-                            code_system="2.16.840.1.114222.4.5.1",
-                            display_name="Condition",
-                        ),
-                        value=CodedElement(
-                            xsi_type="CE",
-                            code="10274",
-                            code_system="1.2.3.5",
-                            display_name="Chlamydia trachomatis infection",
-                        ),
-                        translation=CodedElement(
-                            xsi_type="CE",
-                            code="350",
-                            code_system="L",
-                            code_system_name="STD*MIS",
-                            display_name="Local Label",
-                        ),
-                    ),
-                    Observation(
-                        type_code="COMP",
-                        class_code="OBS",
-                        mood_code="EVN",
-                        code=CodedElement(
-                            code="NBS012",
-                            code_system="2.16.840.1.114222.4.5.1",
-                            display_name="Shared Ind",
-                        ),
-                        value=CodedElement(
-                            xsi_type="CE",
-                            code="F",
-                            code_system="1.2.3.5",
-                            display_name="False",
-                        ),
-                        translation=CodedElement(
-                            xsi_type="CE",
-                            code="T",
-                            code_system="L",
-                            code_system_name="STD*MIS",
-                            display_name="Local Label",
-                        ),
-                    ),
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV169",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                display_name="Condition",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="10274",
+                                code_system="1.2.3.5",
+                                display_name="Chlamydia trachomatis infection",
+                            ),
+                            translation=CodedElement(
+                                xsi_type="CE",
+                                code="350",
+                                code_system="L",
+                                code_system_name="STD*MIS",
+                                display_name="Local Label",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="NBS012",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                display_name="Shared Ind",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="F",
+                                code_system="1.2.3.5",
+                                display_name="False",
+                            ),
+                            translation=CodedElement(
+                                xsi_type="CE",
+                                code="T",
+                                code_system="L",
+                                code_system_name="STD*MIS",
+                                display_name="Local Label",
+                            ),
+                        )
+                    ],
                 ],
                 social_history_info=[
-                    Observation(
-                        type_code="COMP",
-                        class_code="OBS",
-                        mood_code="EVN",
-                        code=CodedElement(
-                            code="DEM127",
-                            code_system="2.16.840.1.114222.4.5.232",
-                            code_system_name="PHIN Questions",
-                            display_name="Is this person deceased?",
-                        ),
-                        value=CodedElement(
-                            xsi_type="CE",
-                            code="N",
-                            code_system_name="Yes/No Indicator (HL7)",
-                            display_name="No",
-                            code_system="2.16.840.1.113883.12.136",
-                        ),
-                        translation=CodedElement(
-                            code="N",
-                            code_system="2.16.840.1.113883.12.136",
-                            code_system_name="2.16.840.1.113883.12.136",
-                            display_name="No",
-                        ),
-                    ),
-                    Observation(
-                        type_code="COMP",
-                        class_code="OBS",
-                        mood_code="EVN",
-                        code=CodedElement(
-                            code="NBS104",
-                            code_system="2.16.840.1.114222.4.5.1",
-                            code_system_name="NEDSS Base System",
-                            display_name="Information As of Date",
-                        ),
-                        value=CodedElement(
-                            xsi_type="TS",
-                            value="20240124",
-                        ),
-                    ),
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="DEM127",
+                                code_system="2.16.840.1.114222.4.5.232",
+                                code_system_name="PHIN Questions",
+                                display_name="Is this person deceased?",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="N",
+                                code_system_name="Yes/No Indicator (HL7)",
+                                display_name="No",
+                                code_system="2.16.840.1.113883.12.136",
+                            ),
+                            translation=CodedElement(
+                                code="N",
+                                code_system="2.16.840.1.113883.12.136",
+                                code_system_name="2.16.840.1.113883.12.136",
+                                display_name="No",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="NBS104",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                code_system_name="NEDSS Base System",
+                                display_name="Information As of Date",
+                            ),
+                            value=CodedElement(
+                                xsi_type="TS",
+                                value="20240124",
+                            ),
+                        )
+                    ],
                 ],
                 repeating_questions=[
-                    Observation(
-                        obs_type="EXPOS",
-                        type_code="COMP",
-                        class_code="OBS",
-                        mood_code="EVN",
-                        code=CodedElement(
-                            code="INV502",
-                            code_system="2.16.840.1.113883.6.1",
-                            code_system_name="LOINC",
-                            display_name="Country of Exposure",
+                    [
+                        Observation(
+                            obs_type="EXPOS",
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV502",
+                                code_system="2.16.840.1.113883.6.1",
+                                code_system_name="LOINC",
+                                display_name="Country of Exposure",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="ATA",
+                                code_system_name="Country (ISO 3166-1)",
+                                display_name="ANTARCTICA",
+                                code_system="1.0.3166.1",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            obs_type="EXPOS",
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV504",
+                                code_system="2.16.840.1.113883.6.1",
+                                code_system_name="LOINC",
+                                display_name="City of Exposure",
+                            ),
+                            value=CodedElement(
+                                text="Esperanze",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            obs_type="EXPOS",
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV502",
+                                code_system="2.16.840.1.113883.6.1",
+                                code_system_name="LOINC",
+                                display_name="Country of Exposure",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="ATA",
+                                code_system_name="Country (ISO 3166-1)",
+                                display_name="ANTARCTICA",
+                                code_system="1.0.3166.1",
+                            ),
                         ),
-                        value=CodedElement(
-                            xsi_type="CE",
-                            code="ATA",
-                            code_system_name="Country (ISO 3166-1)",
-                            display_name="ANTARCTICA",
-                            code_system="1.0.3166.1",
+                        Observation(
+                            obs_type="EXPOS",
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV504",
+                                code_system="2.16.840.1.113883.6.1",
+                                code_system_name="LOINC",
+                                display_name="City of Exposure",
+                            ),
+                            value=CodedElement(
+                                text="Esperanze",
+                            ),
                         ),
-                    ),
-                    Observation(
-                        obs_type="EXPOS",
-                        type_code="COMP",
-                        class_code="OBS",
-                        mood_code="EVN",
-                        code=CodedElement(
-                            code="INV504",
-                            code_system="2.16.840.1.113883.6.1",
-                            code_system_name="LOINC",
-                            display_name="City of Exposure",
-                        ),
-                        value=CodedElement(
-                            text="Esperanze",
-                        ),
-                    ),
+                    ],
                 ],
                 organization=[
                     Organization(
@@ -901,7 +988,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                     )
                 ],
             ),
-            utils.read_file_from_assets("sample_phdc.xml"),
+            read_file_from_test_assets("sample_phdc.xml"),
         )
     ],
 )
@@ -979,52 +1066,93 @@ def test_sort_observation(sort_observation_test_data, expected_result):
             (
                 PHDCInputData(
                     repeating_questions=[
-                        Observation(
-                            obs_type="EXPOS",
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="DEM127",
-                                code_system="2.16.840.1.114222.4.5.232",
-                                code_system_name="PHIN Questions",
-                                display_name="Is this person deceased?",
+                        [
+                            Observation(
+                                obs_type="EXPOS",
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="DEM127",
+                                    code_system="2.16.840.1.114222.4.5.232",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Is this person deceased?",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="N",
+                                    code_system_name="Yes/No Indicator (HL7)",
+                                    display_name="No",
+                                    code_system="2.16.840.1.113883.12.136",
+                                ),
+                                translation=CodedElement(
+                                    code="N",
+                                    code_system="2.16.840.1.113883.12.136",
+                                    code_system_name="2.16.840.1.113883.12.136",
+                                    display_name="No",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                obs_type="EXPOS",
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="NBS104",
+                                    code_system="2.16.840.1.114222.4.5.1",
+                                    code_system_name="NEDSS Base System",
+                                    display_name="Information As of Date",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="TS",
+                                    value="20240124",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                obs_type="EXPOS",
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="DEM127",
+                                    code_system="List Item 1",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Is this person deceased?",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="N",
+                                    code_system_name="List Item 1",
+                                    display_name="List Item 1",
+                                    code_system="2.16.840.1.113883.12.136",
+                                ),
                             ),
-                            value=CodedElement(
-                                xsi_type="CE",
-                                code="N",
-                                code_system_name="Yes/No Indicator (HL7)",
-                                display_name="No",
-                                code_system="2.16.840.1.113883.12.136",
+                            Observation(
+                                obs_type="EXPOS",
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="NBS104",
+                                    code_system="2.16.840.1.114222.4.5.1",
+                                    code_system_name="NEDSS Base System",
+                                    display_name="List Item 2",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="TS",
+                                    value="List Item 2",
+                                ),
                             ),
-                            translation=CodedElement(
-                                code="N",
-                                code_system="2.16.840.1.113883.12.136",
-                                code_system_name="2.16.840.1.113883.12.136",
-                                display_name="No",
-                            ),
-                        ),
-                        Observation(
-                            obs_type="EXPOS",
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="NBS104",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                code_system_name="NEDSS Base System",
-                                display_name="Information As of Date",
-                            ),
-                            value=CodedElement(
-                                xsi_type="TS",
-                                value="20240124",
-                            ),
-                        ),
+                        ],
                     ]
                 )
             ),
             # Expected XML output as a string
-            utils.read_file_from_assets("sample_phdc_repeating_questions.xml"),
+            read_file_from_test_assets("sample_phdc_repeating_questions.xml"),
         ),
     ],
 )

@@ -60,8 +60,8 @@ def replace_env_var_placeholders(config: dict) -> None:
       and replace them if found.
     :param config: Loaded config json file that needs to be checked for replace vars.
     """
-    # TODO: Currently, we are only replacing URLs, but may need to be
-    # more generalizable in the future
+    # TODO: We might be able to delete this function since we store URLs
+    # in actual env variables now, not in configs anymore
     for settings in config.get("configurations", {}).values():
         if "url" in settings:
             settings["url"] = os.path.expandvars(settings["url"])
