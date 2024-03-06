@@ -11,8 +11,6 @@ from starlette.testclient import TestClient
 
 get_settings()
 
-dotenv_path = Path(__file__).resolve().parent.parent.parent / ".env"
-
 ORCHESTRATION_URL = "http://localhost:8080"
 PROCESS_ENDPOINT = ORCHESTRATION_URL + "/process"
 PROCESS_MESSAGE_ENDPOINT = ORCHESTRATION_URL + "/process-message"
