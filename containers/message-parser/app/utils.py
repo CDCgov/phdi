@@ -7,6 +7,7 @@ import uuid
 from functools import cache
 from pathlib import Path
 from typing import Literal
+from typing import Union
 
 import fhirpathpy
 import requests
@@ -20,6 +21,7 @@ from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from fastapi import status
 from frozendict import frozendict
+from lxml import etree as ET
 
 from phdi.cloud.azure import AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
@@ -575,3 +577,44 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
             case _:
                 pass
     return input_data
+
+
+def get_phdc_section(
+    section_title: Literal[
+        "SOCIAL HISTORY INFORMATION",
+        "Clinical Information",
+        "REPEATING QUESTIONS",
+        "header",
+    ],
+    tree: ET.ElementTree,
+) -> Union[ET.Element, ET.ElementTree]:
+    """
+    Returns the specified section of a PHDC from a file.
+
+    :param section_title: The section of the PHDC
+    :param tree: The ElementTree fromwhich to parse the section.
+    :return: A section Element containing the contents of the file per the
+    section_title.
+    """
+    # Remove the namespaces
+    root = tree.getroot()
+    for elem in root.getiterator():
+        elem.tag = ET.QName(elem).localname
+    ET.cleanup_namespaces(root)
+
+    if section_title == "header":
+        # Remove components
+        for component in root.findall("component"):
+            root.remove(component)
+
+        return root
+    else:
+        for component in root:
+            if component.tag == "component":
+                for c in component:
+                    if c.tag == "structuredBody":
+                        for sb in c:
+                            for section in sb:
+                                for title in section:
+                                    if title.text == section_title:
+                                        return sb
