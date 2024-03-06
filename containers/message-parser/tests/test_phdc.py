@@ -129,12 +129,12 @@ def test_build_coded_element(element_name, kwargs, expected_xml):
                 mood_code="EVN",
                 code=CodedElement(code="1", code_system="0", display_name="Code"),
                 value=CodedElement(
-                    xsi_type="ST", code="2", code_system="1", display_name="V"
+                    xsi_type="CE", code="2", code_system="1", display_name="V"
                 ),
             ),
             (
                 '<observation classCode="OBS" moodCode="EVN"><code code="1" '
-                + 'codeSystem="0" displayName="Code"/><value xsi:type="ST" code="2" '
+                + 'codeSystem="0" displayName="Code"/><value xsi:type="CE" code="2" '
                 + 'codeSystem="1" displayName="V"/></observation>'
             ),
         )
@@ -985,7 +985,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             ),
                             value=CodedElement(
                                 xsi_type="TS",
-                                value="List Item 2",
+                                value="20240101",
                             ),
                         ),
                     ],
@@ -1171,7 +1171,7 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                                 ),
                                 value=CodedElement(
                                     xsi_type="TS",
-                                    value="List Item 2",
+                                    value="20240101",
                                 ),
                             ),
                         ],

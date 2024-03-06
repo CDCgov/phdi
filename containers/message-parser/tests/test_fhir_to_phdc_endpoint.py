@@ -43,5 +43,6 @@ def test_endpoint():
         "message": fhir_bundle,
     }
     actual_response = client.post("/fhir_to_phdc", json=test_request)
+    print(actual_response.text)
     assert actual_response.status_code == 200
     assert actual_response.text == expected_successful_response
