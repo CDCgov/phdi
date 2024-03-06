@@ -399,8 +399,9 @@ def test_build_author(family_name, expected_oid, expected_date, expected_author)
 def test_build_patient(build_patient_test_data, expected_result):
     builder = PHDCBuilder()
     actual_result = builder._build_patient(build_patient_test_data)
+
     actual_result = (
-        ET.tostring(actual_result, pretty_print=True)
+        ET.tostring(actual_result, xml_declaration=True, pretty_print=True)
         .decode()
         .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
         .replace(' xmlns:sdt="urn:hl7-org:sdtc"', "")
@@ -426,7 +427,7 @@ def test_build_patient(build_patient_test_data, expected_result):
                             expected_result = item
 
     expected_result = (
-        ET.tostring(expected_result, pretty_print=True)
+        ET.tostring(expected_result, xml_declaration=True, pretty_print=True)
         .decode()
         .replace(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "")
         .replace(' xmlns:sdt="urn:hl7-org:sdtc"', "")
