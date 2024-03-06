@@ -1,5 +1,6 @@
 import logging
 import uuid
+from datetime import datetime
 from typing import List
 from typing import Literal
 from typing import Optional
@@ -14,6 +15,7 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
+
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -485,6 +487,9 @@ class PHDCBuilder:
         # Sort the observation into code and value sections
         observation = self._sort_observation(observation)
 
+        # check that observation.value.xsi_type is correct
+        observation = self._set_value_xsi_type(observation)
+
         # Create the 'observation' element and append it to 'entry'
         observation_data = ET.Element(
             "observation",
@@ -549,6 +554,40 @@ class PHDCBuilder:
                     value=observation.value_qualitative_value,
                 )
         # TODO: translation section
+        return observation
+
+    def _set_value_xsi_type(self, observation: Observation) -> Observation:
+        """
+        Ensure that observation elements with a value child element use
+        the correct namespace based on the data.
+
+        :param observation: The observation data being used in _build_observation
+        :return: observation data with correct namespace as Observation object
+            for use in _build_observation
+        """
+        # for code; xsi:type should always be 'None'
+        if observation.code:
+            if observation.code.xsi_type is not None:
+                observation.code.xsi_type = None
+        # for value; we'll need to check some related attributes to make sure
+        # we're handling this correctly
+        if observation.value:
+            if observation.value.value is not None:
+                try:
+                    datetime.strptime(observation.value.value, "%Y-%m-%d")
+                    observation.value.xsi_type = "TS"
+                    observation.value.value = observation.value.value.replace("-", "")
+                except ValueError:
+                    if (
+                        not observation.value.code
+                        and not observation.value.code_system
+                        and isinstance(observation.value.value, str)
+                    ):
+                        observation.value.xsi_type = "ST"
+                    elif observation.value.code and observation.value.code_system:
+                        observation.value.xsi_type = "CE"
+                        observation.value.displayName = observation.value.value
+                        observation.value.value = None
 
         return observation
 
