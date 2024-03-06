@@ -37,7 +37,9 @@ services:
     # Next.js app
   nextjs-app:
     # container_name: ecr-viewer
-    build: ../../
+    build:
+      context: ../../
+      dockerfile: ../../Dockerfile.dev
     ports:
       - "3000:3000"
     volumes:
