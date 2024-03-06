@@ -36,7 +36,7 @@ services:
 
   # Next.js app
   nextjs-app:
-    build: .
+    build: ./Dockerfile.dev
     ports:
       - "3000:3000"
     volumes:
