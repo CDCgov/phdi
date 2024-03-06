@@ -11,12 +11,16 @@ from fastapi.testclient import TestClient
 client = TestClient(app)
 
 fhir_bundle_path = (
-    Path(__file__).parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
+    Path(__file__).parent.parent
+    / "tests"
+    / "assets"
+    / "demo_phdc_conversion_bundle.json"
 )
 
 
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
+
 
 test_schema_path = (
     Path(__file__).parent.parent
