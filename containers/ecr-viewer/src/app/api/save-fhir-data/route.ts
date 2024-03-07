@@ -1,6 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import pgPromise from "pg-promise";
 
+/**
+ * Handles POST requests and saves the FHIR Bundle to the database.
+ *
+ * @param request - The incoming request object. Expected to have a JSON body in the format `{"fhirBundle":{}}`.
+ * @returns A `NextResponse` object with a JSON payload indicating the success message and the status code set to 200. The response content type is set to `application/json`.
+ *
+ * @example
+ * ```typescript
+ * const body = {
+    "fhirBundle": {
+        "resourceType": "Bundle",
+        "type": "batch",
+        "entry": [
+        {
+            "fullUrl": "urn:uuid:12345",
+            "resource": {
+                "resourceType": "Composition",
+                "id": "12345"
+            }
+        }
+        ]
+    }
+ * const request = new NextRequest({ body: JSON.stringify(body) });
+ * const response = await POST(request);
+ * console.log(response);
+ * ```
+ */
+
 export async function POST(request: NextRequest) {
   const db_url = process.env.DATABASE_URL || "";
   const db = pgPromise();
@@ -30,7 +58,7 @@ export async function POST(request: NextRequest) {
           }),
           { status: 200, headers: { "content-type": "application/json" } },
         );
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error inserting data to database:", error);
         return new NextResponse(
           JSON.stringify({
@@ -48,7 +76,7 @@ export async function POST(request: NextRequest) {
         { status: 400, headers: { "content-type": "application/json" } },
       );
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error reading request body:", error);
     return new NextResponse(
       JSON.stringify({ error: "Error reading request body. " + error.message }),
