@@ -583,13 +583,16 @@ class PHDCBuilder:
                 except ValueError:
                     continue
             if not date_parsed:
-                if observation.value.code and observation.value.code_system:
+                if observation.value.code:
                     observation.value.xsi_type = "CE"
                     observation.value.display_name = observation.value.value
                     observation.value.value = None
                 else:
                     observation.value.xsi_type = "ST"
                     observation.value.text = observation.value.value
+                    observation.value.code_system = None
+                    observation.value.code_system_name = None
+                    observation.value.display_name = None
                     observation.value.value = None
 
         return observation
