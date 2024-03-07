@@ -1,4 +1,3 @@
-import json
 import pathlib
 import uuid
 from datetime import date
@@ -16,29 +15,6 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
-
-
-def read_json_from_test_assets(filename: str) -> dict:
-    """
-    Reads a JSON file from the test assets directory.
-
-    :param filename: The name of the file to read.
-    :return: A dictionary containing the contents of the file.
-    """
-    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
-
-
-def read_file_from_test_assets(filename: str) -> str:
-    """
-    Reads a file from the test assets directory.
-
-    :param filename: The name of the file to read.
-    :return: A string containing the contents of the file.
-    """
-    with open(
-        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
-    ) as file:
-        return file.read()
 
 
 def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
