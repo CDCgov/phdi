@@ -25,8 +25,8 @@ machine-readable JSON files. See the Description markdown for more details.
 wb = openpyxl.load_workbook(sys.argv[1])
 jsonData_grouping = {}
 jsonData_expansion = {}
-top_rows_buffer = 17
-tables_buffer = 7
+top_rows_buffer = 17  # number of rows before the Grouping data table begins
+tables_buffer = 7  # number of rows between Grouping & Expansion data table
 
 for sheet in wb.worksheets[2:]:
     ws = wb[sheet.title]
