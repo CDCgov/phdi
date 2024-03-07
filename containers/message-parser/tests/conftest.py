@@ -4,6 +4,30 @@ import lxml.etree as ET
 import pytest
 from rich.console import Console
 from rich.table import Table
+from testcontainers.compose import DockerCompose
+
+
+@pytest.fixture(scope="session")
+def setup(request):
+    print("Setting up tests...")
+    compose_path = Path(__file__).resolve().parent / "integration"
+    compose_file_name = "docker-compose.yaml"
+    message_parser = DockerCompose(
+        str(compose_path), compose_file_name=compose_file_name, build=True
+    )
+    parser_url = "http://0.0.0.0:8080"
+
+    message_parser.start()
+    message_parser.wait_for(parser_url)
+    print("Message Parser ready to test!")
+
+    def teardown():
+        print("Service logs...\n")
+        print(message_parser.get_logs())
+        print("Tests finished! Tearing down.")
+        message_parser.stop()
+
+    request.addfinalizer(teardown)
 
 
 @pytest.fixture
