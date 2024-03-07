@@ -4,7 +4,24 @@ import sys
 
 import openpyxl
 
-# arg list: 1) input file location/name 2) output file location/name
+"""
+rctc-to-json.py
+
+Example command:
+python3 rctc-to-json.py spreadsheet_input_loc json_output_loc json_output_loc2
+
+Arg list:
+  1) input file location/name
+  2) output file location/name (Grouping List)
+  3) output file location/name (Expansion List)
+
+The RCTC (Reportable Condition Trigger Codes) spreadsheet can be found
+on the eRDS Aims Platform, and gets updated approximately every 6 months.
+
+This Python script will read the RCTC spreadsheet and convert them to
+machine-readable JSON files. See the Description markdown for more details.
+"""
+
 wb = openpyxl.load_workbook(sys.argv[1])
 jsonData_grouping = {}
 jsonData_expansion = {}
