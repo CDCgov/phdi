@@ -445,7 +445,7 @@ export const evaluateDemographicsData = (
     { title: "Contact", value: formatPatientContactInfo(fhirBundle, mappings) },
     {
       title: "Emergency Contact",
-      value: evaluate(fhirBundle, mappings.patientEmergencyContact)[0],
+      value: evaluateEmergencyContact(fhirBundle, mappings),
     },
     {
       title: "Patient IDs",
@@ -808,4 +808,48 @@ export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
       <div className={"section__line_gray"} />
     </div>
   );
+};
+
+export const evaluateEmergencyContact = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+) => {
+  const contact = evaluate(fhirBundle, mappings.patientEmergencyContact)[0];
+
+  let formattedContact;
+
+  if (contact) {
+    if (contact.relationship) {
+      const relationship = contact.relationship;
+      formattedContact = `${relationship}`;
+    }
+
+    if (contact.address) {
+      const address = formatAddress(
+        contact.address[0].line,
+        contact.address[0].city,
+        contact.address[0].state,
+        contact.address[0].postalCode,
+        contact.address[0].country,
+      );
+
+      formattedContact = `${formattedContact}\n${address}`;
+    }
+
+    if (contact.telecom) {
+      const phoneNumbers = evaluate(fhirBundle, mappings.patientPhoneNumbers)
+        .map(
+          (phoneNumber) =>
+            `${
+              phoneNumber?.use?.charAt(0).toUpperCase() +
+              phoneNumber?.use?.substring(1)
+            } ${phoneNumber.value}`,
+        )
+        .join("\n");
+
+      formattedContact = `${formattedContact}\n${phoneNumbers}`;
+    }
+
+    return formattedContact;
+  }
 };
