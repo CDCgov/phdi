@@ -155,6 +155,7 @@ def test_process_message_fhir_phdc(setup):
         open(
             Path(__file__).parent.parent.parent.parent
             / "message-parser"
+            / "tests"
             / "assets"
             / "demo_phdc_conversion_bundle.json"
         )
