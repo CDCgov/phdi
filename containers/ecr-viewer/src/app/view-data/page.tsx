@@ -9,6 +9,7 @@ import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
 
 // string constants to match with possible .env values
+const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 
@@ -36,9 +37,10 @@ const ECRViewerPage = () => {
 
   useEffect(() => {
     // Fetch the appropriate bundle from Postgres database
+
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/${apiPath}?id=${fhirId}`);
+        const response = await fetch(`${basePath}/api/${apiPath}?id=${fhirId}`);
         if (!response.ok) {
           const errorData = response.statusText;
           throw new Error(errorData || "Internal Server Error");
