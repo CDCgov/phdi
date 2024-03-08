@@ -49,7 +49,6 @@ export async function POST(request: NextRequest) {
 
       try {
         const saveECR = await database.one(addFhir);
-        console.log("Created Resource with: ", saveECR);
 
         return new NextResponse(
           JSON.stringify({
