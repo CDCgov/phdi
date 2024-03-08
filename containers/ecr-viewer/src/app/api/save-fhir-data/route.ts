@@ -124,13 +124,14 @@ const saveToPostgres = async (fhirBundle, ecrId) => {
 const saveToS3 = async (fhirBundle, ecrId) => {
   const bucketName = process.env.ECR_BUCKET_NAME;
   const objectKey = `${ecrId}.json`;
+  const body = JSON.stringify({ fhirBundle: fhirBundle });
 
-  // TODO: Add input body: fhirBundle as json
   try {
     const input = {
-      Body: "filetoupload",
+      Body: body,
       Bucket: bucketName,
       Key: objectKey,
+      ContentType: "application/json",
     };
 
     const command = new PutObjectCommand(input);
@@ -139,7 +140,7 @@ const saveToS3 = async (fhirBundle, ecrId) => {
 
     return new NextResponse(
       JSON.stringify({
-        message: "Success. Saved FHIR Bundle to S3: " + saveECR.ecr_id,
+        message: "Success. Saved FHIR Bundle to S3: " + ecrId,
       }),
       { status: 200, headers: { "content-type": "application/json" } },
     );
@@ -147,7 +148,7 @@ const saveToS3 = async (fhirBundle, ecrId) => {
     console.error("Error inserting to S3:", error);
     return new NextResponse(
       JSON.stringify({
-        message: "Failed to insert data to S3." + error.message,
+        message: "Failed to insert data to S3. " + error.message,
       }),
       { status: 400, headers: { "content-type": "application/json" } },
     );
