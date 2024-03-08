@@ -1,4 +1,3 @@
-import json
 import pathlib
 import uuid
 from datetime import date
@@ -16,29 +15,6 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
-
-
-def read_json_from_test_assets(filename: str) -> dict:
-    """
-    Reads a JSON file from the test assets directory.
-
-    :param filename: The name of the file to read.
-    :return: A dictionary containing the contents of the file.
-    """
-    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
-
-
-def read_file_from_test_assets(filename: str) -> str:
-    """
-    Reads a file from the test assets directory.
-
-    :param filename: The name of the file to read.
-    :return: A string containing the contents of the file.
-    """
-    with open(
-        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
-    ) as file:
-        return file.read()
 
 
 def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
@@ -129,12 +105,12 @@ def test_build_coded_element(element_name, kwargs, expected_xml):
                 mood_code="EVN",
                 code=CodedElement(code="1", code_system="0", display_name="Code"),
                 value=CodedElement(
-                    xsi_type="ST", code="2", code_system="1", display_name="V"
+                    xsi_type="CE", code="2", code_system="1", display_name="V"
                 ),
             ),
             (
                 '<observation classCode="OBS" moodCode="EVN"><code code="1" '
-                + 'codeSystem="0" displayName="Code"/><value xsi:type="ST" code="2" '
+                + 'codeSystem="0" displayName="Code"/><value xsi:type="CE" code="2" '
                 + 'codeSystem="1" displayName="V"/></observation>'
             ),
         )
@@ -985,7 +961,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             ),
                             value=CodedElement(
                                 xsi_type="TS",
-                                value="List Item 2",
+                                value="20240101",
                             ),
                         ),
                     ],
@@ -1093,6 +1069,161 @@ def test_sort_observation(sort_observation_test_data, expected_result):
 
 
 @pytest.mark.parametrize(
+    "set_xsi_test_data, expected_result",
+    [
+        # test that CE works as expected and that the
+        # code.xsi_type will get set to None
+        (
+            Observation(
+                type_code="COMP",
+                class_code="OBS",
+                mood_code="EVN",
+                code=CodedElement(
+                    xsi_type="CE",
+                    code="NBS012",
+                    code_system="2.16.840.1.114222.4.5.1",
+                    code_system_name=None,
+                    display_name="Shared Ind",
+                    value=None,
+                ),
+                value=CodedElement(
+                    xsi_type=None,
+                    code="F",
+                    code_system="1.2.3.5",
+                    code_system_name=None,
+                    display_name=None,
+                    value="False",
+                ),
+            ),
+            Observation(
+                type_code="COMP",
+                class_code="OBS",
+                mood_code="EVN",
+                code=CodedElement(
+                    xsi_type=None,
+                    code="NBS012",
+                    code_system="2.16.840.1.114222.4.5.1",
+                    code_system_name=None,
+                    display_name="Shared Ind",
+                    value=None,
+                ),
+                value=CodedElement(
+                    xsi_type="CE",
+                    code="F",
+                    code_system="1.2.3.5",
+                    code_system_name=None,
+                    display_name=None,
+                    value="False",
+                ),
+            ),
+        ),
+        # test that ST works as expected
+        (
+            Observation(
+                type_code="COMP",
+                class_code="OBS",
+                mood_code="EVN",
+                code=CodedElement(
+                    xsi_type=None,
+                    code="INV504",
+                    code_system=None,
+                    code_system_name="LocalSystem",
+                    display_name="City of Exposure",
+                    value=None,
+                ),
+                value=CodedElement(
+                    xsi_type=None,
+                    code=None,
+                    code_system=None,
+                    code_system_name=None,
+                    display_name="State",
+                    value="Atlanta",
+                ),
+            ),
+            Observation(
+                type_code="COMP",
+                class_code="OBS",
+                mood_code="EVN",
+                code=CodedElement(
+                    xsi_type=None,
+                    code="INV504",
+                    code_system=None,
+                    code_system_name="LocalSystem",
+                    display_name="City of Exposure",
+                    value=None,
+                ),
+                value=CodedElement(
+                    xsi_type="ST",
+                    code=None,
+                    code_system=None,
+                    code_system_name=None,
+                    display_name=None,
+                    value=None,
+                    text="Atlanta",
+                ),
+            ),
+        ),
+        # test that TS works as expected
+        (
+            Observation(
+                type_code="COMP",
+                class_code="OBS",
+                mood_code="EVN",
+                code=CodedElement(
+                    xsi_type=None,
+                    code="NBS104",
+                    code_system="2.16.840.1.114222.4.5.1",
+                    code_system_name="NEDSS Base System",
+                    display_name="Information As of Date",
+                    value=None,
+                ),
+                value=CodedElement(
+                    xsi_type=None,
+                    code=None,
+                    code_system=None,
+                    code_system_name=None,
+                    display_name=None,
+                    value="2024-01-24",
+                ),
+            ),
+            Observation(
+                type_code="COMP",
+                class_code="OBS",
+                mood_code="EVN",
+                code=CodedElement(
+                    xsi_type=None,
+                    code="NBS104",
+                    code_system="2.16.840.1.114222.4.5.1",
+                    code_system_name="NEDSS Base System",
+                    display_name="Information As of Date",
+                    value=None,
+                ),
+                value=CodedElement(
+                    xsi_type="TS",
+                    code=None,
+                    code_system=None,
+                    code_system_name=None,
+                    display_name=None,
+                    value="20240124",
+                ),
+            ),
+        ),
+    ],
+)
+def test_set_value_xsi_type(set_xsi_test_data, expected_result):
+    builder = PHDCBuilder()
+    builder.set_input_data(set_xsi_test_data)
+    actual_result = builder._set_value_xsi_type(set_xsi_test_data)
+
+    assert actual_result.code.xsi_type == expected_result.code.xsi_type
+    assert actual_result.value.xsi_type == expected_result.value.xsi_type
+    if actual_result.value.xsi_type == "ST":
+        assert actual_result.value.text == expected_result.value.text
+    if actual_result.value.xsi_type == "TS":
+        assert actual_result.value.value == expected_result.value.value
+
+
+@pytest.mark.parametrize(
     "build_repeating_questions_data, expected_result",
     [
         # Example test case
@@ -1171,7 +1302,7 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                                 ),
                                 value=CodedElement(
                                     xsi_type="TS",
-                                    value="List Item 2",
+                                    value="20240101",
                                 ),
                             ),
                         ],

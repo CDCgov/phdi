@@ -1,6 +1,5 @@
 import uuid
 from datetime import date
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -15,62 +14,6 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
-from rich.console import Console
-from rich.table import Table
-
-
-def validate_xml(xml_input: ET.ElementTree) -> bool:
-    """
-    Validate the XML Element Tree against the XSD schema.
-
-    :return: True if the XML is valid, False otherwise
-    """
-    console = Console()
-
-    xsd_path = (
-        Path(__file__).parent.parent
-        / "schema"
-        / "extensions"
-        / "SDTC"
-        / "infrastructure"
-        / "cda"
-        / "CDA_SDTC.xsd"
-    )
-
-    with open(xsd_path, "rb") as xsd_file:
-        xsd_tree = ET.XMLSchema(ET.parse(xsd_file))
-        # print a confirmation message that the schema is loaded
-        console.print("XSD schema loaded successfully", style="bold green")
-
-    # validate the XML against the XSD
-    is_valid = xsd_tree.validate(xml_input)
-
-    # handling the results
-    if is_valid:
-        console.print(
-            "the XML file is valid according to the XSD schema",
-            style="bold green",
-        )
-        return True
-
-    console.print("the XML file is not valid", style="bold red")
-    # create the table for the error log
-    table = Table(
-        title="PHDC Validation", show_header=True, header_style="bold magenta"
-    )
-
-    # create the table columns to display the errors
-    table.add_column("Line", style="dim", width=6, justify="right")
-    table.add_column("Column", style="dim", width=6, justify="right")
-    table.add_column("Message", overflow="fold")
-    for error in xsd_tree.error_log:
-        table.add_row(
-            str(error.line),
-            str(error.column),
-            error.message,
-        )
-    console.print(table)
-    return False
 
 
 @pytest.fixture
@@ -277,7 +220,7 @@ def phdc_input_data():
 
 @patch.object(uuid, "uuid4", lambda: "mocked-uuid")
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
-def test_validate_phdc(phdc_input_data):
+def test_validate_phdc(phdc_input_data, validate_xml):
     builder = PHDCBuilder()
     builder.set_input_data(phdc_input_data)
     phdc = builder.build()
