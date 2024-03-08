@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import pgPromise from "pg-promise";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
+const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
 /**
  * Handles POST requests and saves the FHIR Bundle to the database.
@@ -113,6 +115,39 @@ const saveToPostgres = async (fhirBundle, ecrId) => {
     return new NextResponse(
       JSON.stringify({
         message: "Failed to insert data to database." + error.message,
+      }),
+      { status: 400, headers: { "content-type": "application/json" } },
+    );
+  }
+};
+
+const saveToS3 = async (fhirBundle, ecrId) => {
+  const bucketName = process.env.ECR_BUCKET_NAME;
+  const objectKey = `${ecrId}.json`;
+
+  // TODO: Add input body: fhirBundle as json
+  try {
+    const input = {
+      Body: "filetoupload",
+      Bucket: bucketName,
+      Key: objectKey,
+    };
+
+    const command = new PutObjectCommand(input);
+    const response = await s3Client.send(command);
+    console.log("S3 response: ", response); // TODO: Delete
+
+    return new NextResponse(
+      JSON.stringify({
+        message: "Success. Saved FHIR Bundle to S3: " + saveECR.ecr_id,
+      }),
+      { status: 200, headers: { "content-type": "application/json" } },
+    );
+  } catch (error: any) {
+    console.error("Error inserting to S3:", error);
+    return new NextResponse(
+      JSON.stringify({
+        message: "Failed to insert data to S3." + error.message,
       }),
       { status: 400, headers: { "content-type": "application/json" } },
     );
