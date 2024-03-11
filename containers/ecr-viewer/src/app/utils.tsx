@@ -270,7 +270,7 @@ const formatVitals = (
 const formatTable = (
   resources: React.JSX.Element[],
   mappings: PathMappings,
-  columns: ColumnInfoInput[], // Order of columns in array = order of apearance
+  columns: ColumnInfoInput[], // Order of columns in array = order of appearance
   caption: string,
 ) => {
   let headers: React.JSX.Element[] = [];
