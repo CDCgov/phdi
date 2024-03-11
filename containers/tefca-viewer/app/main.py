@@ -42,7 +42,7 @@ FHIR_SERVERS = {
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="TEFCA Viewer",
-    service_path="/patient-search",
+    # service_path="/patient-search",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
 ).start()
@@ -215,17 +215,19 @@ def concatenate_queries(queries, session):
 
 # Serve Static Files
 app.mount(
-    "/patient-search", StaticFiles(directory="./app/front-end"), name="patient-search"
+    "/patient-search",
+    StaticFiles(directory="./app/patient-search"),
+    name="patient-search",
 )
 
 
 # Root endpoint to serve the HTML page
 @app.get("/patient-search")
 async def root():
-    return FileResponse("./app/front-end/index.html")
+    return FileResponse("./app/patient-search/index.html")
 
 
-@app.get("/")
+@app.get("/health-check")
 async def health_check():
     """
     Check service status. If an HTTP 200 status code is returned along with

@@ -21,7 +21,9 @@ function jsonToHtml(json, indent = 0) {
       formattedValue = jsonToHtml(value, indent + 1);
     }
 
-    html += `${childIndentStr}${formattedKey}${formattedValue}${isArray ? "," : ""}<br>`;
+    html += `${childIndentStr}${formattedKey}${formattedValue}${
+      isArray ? "," : ""
+    }<br>`;
   }
 
   html = html.replace(/,<br>$/, "<br>"); // Remove the last comma for arrays
