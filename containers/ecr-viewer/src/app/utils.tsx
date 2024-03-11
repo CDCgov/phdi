@@ -267,15 +267,23 @@ const formatVitals = (
   return combinedString.trim();
 };
 
+/**
+ * Formats a table based on the provided resources, mappings, columns, and caption.
+ * @param {React.JSX.Element[]} resources - An array of React elements representing the data entries.
+ * @param {PathMappings} mappings - An object containing mappings for column information paths.
+ * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
+ *                                      The order of columns in the array determines the order of appearance.
+ * @param {string} caption - The caption for the table.
+ * @returns {React.JSX.Element} - A formatted table React element.
+ */
 const formatTable = (
   resources: React.JSX.Element[],
   mappings: PathMappings,
-  columns: ColumnInfoInput[], // Order of columns in array = order of appearance
+  columns: ColumnInfoInput[],
   caption: string,
-) => {
-  let headers: React.JSX.Element[] = [];
-  columns.forEach((column, index) => {
-    const header = (
+): React.JSX.Element => {
+  let headers = columns.map((column, index) => {
+    return (
       <th
         key={`${column.columnName}${index}`}
         scope="col"
@@ -284,20 +292,17 @@ const formatTable = (
         {column.columnName}
       </th>
     );
-    headers.push(header);
   });
 
-  let tableRows: React.JSX.Element[] = [];
-  resources.forEach((entry, index) => {
-    let rowCells: React.JSX.Element[] = [];
-    columns.forEach(function (column, index) {
+  let tableRows = resources.map((entry, index) => {
+    let rowCells = columns.map((column, index) => {
       let isFirstCell = index === 0;
 
       let rowCellData = evaluate(entry, mappings[column.infoPath])[0] ?? (
         <span className={"text-italic text-base"}>No data</span>
       );
 
-      let rowCell = isFirstCell ? (
+      return isFirstCell ? (
         <th key={`row-header-${index}`} scope="row" className="text-top">
           {rowCellData}
         </th>
@@ -306,20 +311,10 @@ const formatTable = (
           {rowCellData}
         </td>
       );
-      rowCells.push(rowCell);
     });
-    const tableRow = <tr key={`table-row-${index}`}>{rowCells}</tr>;
-    tableRows.push(tableRow);
+    return <tr key={`table-row-${index}`}>{rowCells}</tr>;
   });
 
-  const tableContent = (
-    <>
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{tableRows}</tbody>
-    </>
-  );
   return (
     <Table
       bordered={false}
@@ -328,7 +323,10 @@ const formatTable = (
       className="border-top border-left border-right table-caption-margin margin-y-0"
       data-testid="table"
     >
-      {tableContent}
+      <thead>
+        <tr>{headers}</tr>
+      </thead>
+      <tbody>{tableRows}</tbody>
     </Table>
   );
 };
