@@ -2,7 +2,6 @@ from phdi.containers.base_service import BaseService
 from pathlib import Path
 import requests
 import uuid
-import json
 from pydantic import BaseModel
 from typing import Optional, Literal
 from fastapi.staticfiles import StaticFiles
@@ -25,7 +24,13 @@ FHIR_SERVERS = {
             "X-Request-Id": str(uuid.uuid4()),
             "prefer": "return=representation",
             "Cache-Control": "no-cache",
-            "OAUTHSCOPES": "system/Condition.read system/Encounter.read system/Immunization.read system/MedicationRequest.read system/Observation.read system/Patient.read system/Procedure.read system/MedicationAdministration.read system/DiagnosticReport.read system/RelatedPerson.read",
+            "OAUTHSCOPES": (
+                "system/Condition.read system/Encounter.read system/"
+                + "Immunization.read system/MedicationRequest.read system/"
+                + "Observation.read system/Patient.read system/Procedure"
+                + ".read system/MedicationAdministration.read system/"
+                + "DiagnosticReport.read system/RelatedPerson.read"
+            ),
         },
     },
 }
@@ -68,7 +73,10 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
 
     # Find Patient
 
-    patient_query = f"{fhir_host}/Patient?given={input.first_name}&family={input.last_name}&birthdate={input.dob}"
+    patient_query = (
+        f"{fhir_host}/Patient?given={input.first_name}"
+        + f"&family={input.last_name}&birthdate={input.dob}"
+    )
     response = session.get(patient_query)
 
     if response.status_code != 200:
@@ -125,7 +133,10 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
         diagnositic_report_query = (
             f"{fhir_host}/DiagnosticReport?subject={patient_id}&code={syphilis_loincs}"
         )
-        encounter_query = f"{fhir_host}/Encounter?subject={patient_id}&reason-reference=Condition/105H"
+        encounter_query = (
+            f"{fhir_host}/Encounter?subject={patient_id}"
+            + "&reason-reference=Condition/105H"
+        )
 
         queries = [
             conditon_query,
@@ -149,7 +160,10 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
         encounter_query = (
             f"{fhir_host}/Encounter?subject={patient_id}&type={cancer_encounter_codes}"
         )
-        medication_request_query = f"{fhir_host}/MedicationRequest?subject={patient_id}&code={cancer_medications}"
+        medication_request_query = (
+            f"{fhir_host}/MedicationRequest"
+            + f"?subject={patient_id}&code={cancer_medications}"
+        )
         medication_query = f"{fhir_host}/Medication?code={cancer_medications}"
 
         medications = session.get(medication_request_query).json()
@@ -158,7 +172,10 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
             medication["resource"]["id"] for medication in medications["entry"]
         ]
         medication_administrations = ",".join(medication_administrations)
-        medication_administration_query = f"{fhir_host}/MedicationAdministration?subject={patient_id}&request={medication_administrations}"
+        medication_administration_query = (
+            f"{fhir_host}/MedicationAdministration?"
+            + f"subject={patient_id}&request={medication_administrations}"
+        )
         medication_administration_response = session.get(
             medication_administration_query
         )
@@ -192,10 +209,12 @@ def concatenate_queries(queries, session):
 
 
 # Serve Static Files
-app.mount("/front-end", StaticFiles(directory="./app/front-end"), name="front-end")
+app.mount(
+    "/patient-search", StaticFiles(directory="./app/front-end"), name="patient-search"
+)
 
 
 # Root endpoint to serve the HTML page
-@app.get("/front-end")
+@app.get("/patient-search")
 async def root():
     return FileResponse("./app/front-end/index.html")
