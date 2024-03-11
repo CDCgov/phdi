@@ -1,11 +1,14 @@
-from phdi.containers.base_service import BaseService
-from pathlib import Path
-import requests
 import uuid
-from pydantic import BaseModel
-from typing import Optional, Literal
-from fastapi.staticfiles import StaticFiles
+from pathlib import Path
+from typing import Literal
+from typing import Optional
+
+import requests
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+
+from phdi.containers.base_service import BaseService
 
 USE_CASES = Literal["social-determinants", "newborn-screening", "syphilis", "cancer"]
 
