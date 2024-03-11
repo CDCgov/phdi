@@ -1,42 +1,37 @@
-import json
 from copy import deepcopy
-from pathlib import Path
 from unittest import mock
 
+import pytest
 from app.main import app
 from fastapi.testclient import TestClient
 
-
 client = TestClient(app)
 
-fhir_bundle_path = (
-    Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "general"
-    / "patient_bundle.json"
-)
 
-fhir_bundle_path_w_float = (
-    Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "general"
-    / "patient_bundle_w_floats.json"
-)
+@pytest.fixture
+def fhir_bundle(read_json_from_phdi_test_assets):
+    return read_json_from_phdi_test_assets("patient_bundle.json")
 
-with open(fhir_bundle_path, "r") as file:
-    fhir_bundle = json.load(file)
 
-with open(fhir_bundle_path_w_float, "r") as file:
-    fhir_bundle_w_float = json.load(file)
+@pytest.fixture
+def fhir_bundle_w_float(read_json_from_phdi_test_assets):
+    return read_json_from_phdi_test_assets("patient_bundle_w_floats.json")
 
-test_schema_path = (
-    Path(__file__).parent.parent / "app" / "default_schemas" / "test_schema.json"
-)
 
-with open(test_schema_path, "r") as file:
-    test_schema = json.load(file)
+@pytest.fixture
+def test_schema(read_schema_from_default_schemas):
+    return read_schema_from_default_schemas("test_schema.json")
+
+
+@pytest.fixture
+def reference_bundle(read_json_from_phdi_test_assets):
+    return read_json_from_phdi_test_assets("patient_bundle_w_labs.json")
+
+
+@pytest.fixture
+def test_reference_schema(read_schema_from_default_schemas):
+    return read_schema_from_default_schemas("test_reference_schema.json")
+
 
 expected_successful_response = {
     "message": "Parsing succeeded!",
@@ -152,26 +147,6 @@ expected_successful_response_floats_with_meta_data = {
     },
 }
 
-reference_bundle_path = (
-    Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "general"
-    / "patient_bundle_w_labs.json"
-)
-
-with open(reference_bundle_path, "r") as file:
-    reference_bundle = json.load(file)
-
-test_reference_schema_path = (
-    Path(__file__).parent.parent
-    / "app"
-    / "default_schemas"
-    / "test_reference_schema.json"
-)
-
-with open(test_reference_schema_path, "r") as file:
-    test_reference_schema = json.load(file)
 
 expected_reference_response = {
     "message": "Parsing succeeded!",
@@ -190,7 +165,7 @@ expected_reference_response = {
 }
 
 
-def test_parse_message_success_internal_schema():
+def test_parse_message_success_internal_schema(fhir_bundle, fhir_bundle_w_float):
     test_request = {
         "message_format": "fhir",
         "parsing_schema_name": "test_schema.json",
@@ -212,7 +187,10 @@ def test_parse_message_success_internal_schema():
     assert actual_response2.json() == expected_successful_response_floats
 
 
-def test_parse_message_success_internal_schema_with_metadata():
+def test_parse_message_success_internal_schema_with_metadata(
+    fhir_bundle,
+    fhir_bundle_w_float,
+):
     test_request = {
         "message_format": "fhir",
         "parsing_schema_name": "test_schema.json",
@@ -236,7 +214,7 @@ def test_parse_message_success_internal_schema_with_metadata():
     assert actual_response2.json() == expected_successful_response_floats_with_meta_data
 
 
-def test_parse_message_success_external_schema():
+def test_parse_message_success_external_schema(test_schema, fhir_bundle):
     request = {
         "message_format": "fhir",
         "parsing_schema": test_schema,
@@ -248,7 +226,9 @@ def test_parse_message_success_external_schema():
     assert actual_response.json() == expected_successful_response
 
 
-def test_parse_message_success_referenced_resources():
+def test_parse_message_success_referenced_resources(
+    test_reference_schema, reference_bundle
+):
     request = {
         "message_format": "fhir",
         "parsing_schema": test_reference_schema,
@@ -262,7 +242,7 @@ def test_parse_message_success_referenced_resources():
 @mock.patch("app.main.convert_to_fhir")
 @mock.patch("app.main.get_credential_manager")
 def test_parse_message_success_non_fhir(
-    patched_get_credential_manager, patched_convert_to_fhir
+    patched_get_credential_manager, patched_convert_to_fhir, fhir_bundle
 ):
     request = {
         "message_format": "hl7v2",
@@ -358,7 +338,7 @@ def test_parse_message_non_fhir_missing_message_type():
     )
 
 
-def test_parse_message_internal_and_external_schema():
+def test_parse_message_internal_and_external_schema(test_reference_schema):
     request = {
         "message_format": "fhir",
         "parsing_schema": test_reference_schema,
@@ -390,7 +370,7 @@ def test_parse_message_neither_internal_nor_external_schema():
     )
 
 
-def test_schema_without_reference_lookup():
+def test_schema_without_reference_lookup(test_reference_schema):
     no_lookup_schema = deepcopy(test_reference_schema)
     del no_lookup_schema["labs"]["secondary_schema"]["ordering_provider"][
         "reference_lookup"
@@ -411,7 +391,7 @@ def test_schema_without_reference_lookup():
     )
 
 
-def test_schema_without_identifier_path():
+def test_schema_without_identifier_path(test_reference_schema):
     no_bundle_schema = deepcopy(test_reference_schema)
     no_bundle_schema["labs"]["secondary_schema"]["ordering_provider"][
         "fhir_path"
