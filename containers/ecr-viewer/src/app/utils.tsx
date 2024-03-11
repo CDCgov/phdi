@@ -174,21 +174,20 @@ const formatDateTime = (dateTime: string) => {
     .replace(",", "");
 };
 
-export const formatDate = (date: string) => {
-  if (!date) {
-    return undefined;
+/**
+ * Formats the provided date string into a formatted date string with year, month, and day.
+ * @param {string} date - The date string to be formatted.
+ * @returns {string | undefined} - The formatted date string or undefined if the input date is falsy.
+ */
+export const formatDate = (date: string): string | undefined => {
+  if (date) {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "UTC",
+    }); // UTC, otherwise will have timezone issues
   }
-
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  };
-
-  return new Date(date).toLocaleDateString("en-US", {
-    ...options,
-    timeZone: "UTC",
-  }); // UTC, otherwise will have timezone issues
 };
 
 const formatPhoneNumber = (phoneNumber: string) => {
