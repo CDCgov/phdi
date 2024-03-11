@@ -1,11 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import pgPromise from "pg-promise";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import {
+  S3Client,
+  PutObjectCommand,
+  PutObjectCommandOutput,
+} from "@aws-sdk/client-s3";
+import { Bundle } from "fhir/r4";
 
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
-
+type PostRequestObject = {
+  fhirBundle: Bundle;
+  saveSource: "s3" | "postgres";
+};
 /**
  * Handles POST requests and saves the FHIR Bundle to the database.
  *
@@ -90,7 +98,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-const saveToPostgres = async (fhirBundle, ecrId) => {
+const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
   const db_url = process.env.DATABASE_URL || "";
   const db = pgPromise();
   const database = db(db_url);
@@ -121,7 +129,7 @@ const saveToPostgres = async (fhirBundle, ecrId) => {
   }
 };
 
-const saveToS3 = async (fhirBundle, ecrId) => {
+const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
   const bucketName = process.env.ECR_BUCKET_NAME;
   const objectKey = `${ecrId}.json`;
   const body = JSON.stringify({ fhirBundle: fhirBundle });
@@ -135,9 +143,12 @@ const saveToS3 = async (fhirBundle, ecrId) => {
     };
 
     const command = new PutObjectCommand(input);
-    const response = await s3Client.send(command);
+    const response: PutObjectCommandOutput = await s3Client.send(command);
     console.log("S3 response: ", response); // TODO: Delete
-
+    const httpStatusCode = response.$metadata.httpStatusCode;
+    if (httpStatusCode !== 200) {
+      throw new Error(`HTTP Status Code: ${httpStatusCode}`);
+    }
     return new NextResponse(
       JSON.stringify({
         message: "Success. Saved FHIR Bundle to S3: " + ecrId,

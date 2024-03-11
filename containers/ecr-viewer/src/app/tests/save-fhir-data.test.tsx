@@ -39,7 +39,7 @@ describe("POST Save FHIR Data API Route", () => {
         body: JSON.stringify(fakeData),
       },
     );
-
+    console.log("*****", process.env.ECR_BUCKET_NAME);
     s3Mock
       .on(PutObjectCommand, {
         Bucket: process.env.ECR_BUCKET_NAME,
