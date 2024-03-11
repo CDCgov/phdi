@@ -42,7 +42,7 @@ FHIR_SERVERS = {
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="TEFCA Viewer",
-    # service_path="/patient-search",
+    service_path="/tefca-viewer",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
 ).start()
