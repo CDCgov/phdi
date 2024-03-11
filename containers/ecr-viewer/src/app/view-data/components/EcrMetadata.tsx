@@ -7,6 +7,7 @@ import {
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
+import { Table } from "@trussworks/react-uswds";
 
 interface EcrMetadataProps {
   rrDetails: DisplayData[];
@@ -32,17 +33,22 @@ const EcrMetadata = ({
         </span>
       </AccordianH4>
       <AccordianDiv>
-        {rrDetails.map(({ title, value }) => {
-          return (
-            <Fragment key={title}>
-              <div className="grid-row">
-                <div className="data-title">{title}</div>
-                <div className="grid-col-fill text-pre-line">{value}</div>
-              </div>
-              <div className={"section__line_gray"} />
-            </Fragment>
-          );
-        })}
+        <Table bordered caption="Reportibility Summary">
+          <thead>
+            <tr>
+              {rrDetails.map(({ title }) => {
+                return <th>{title}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {rrDetails.map(({ value }) => {
+                return <td>{value}</td>;
+              })}
+            </tr>
+          </tbody>
+        </Table>
         <div className={"padding-bottom-1"} />
         <AccordianH4>
           <span id={ecrMetadataConfig.subNavItems?.[1].id}>
