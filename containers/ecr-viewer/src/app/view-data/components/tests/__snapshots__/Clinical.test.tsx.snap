@@ -189,12 +189,11 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
                   </thead>
                   <tbody>
                     <tr>
-                      <th
+                      <td
                         class="text-top"
-                        scope="row"
                       >
                         HC INFECTIOUS DISEASE PATHOGEN SPECIFIC RNA SARS-COV-2/INF A&B/RSV UPPER RESP SPEC DETECTED OR NOT
-                      </th>
+                      </td>
                       <td
                         class="text-top"
                       >
@@ -207,12 +206,11 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
                       </td>
                     </tr>
                     <tr>
-                      <th
+                      <td
                         class="text-top"
-                        scope="row"
                       >
                         HC HETEROPHILE ANTIBODIES SCREENING
-                      </th>
+                      </td>
                       <td
                         class="text-top"
                       >
