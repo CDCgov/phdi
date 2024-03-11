@@ -1,0 +1,8 @@
+{
+  "name": "fhir-converter",
+  "scripts": {
+    "dev": "docker run --rm -it -p 8080:8080 $(docker build -q .)",
+    "build-loud": "DOCKER_BUILDKIT=0 docker build . --no-cache",
+    "test:dotnet": "dotnet test"
+  }
+}

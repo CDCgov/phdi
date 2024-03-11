@@ -1,16 +1,13 @@
+import copy
 import json
 import pathlib
-import copy
 
+from phdi.fhir.harmonization import double_metaphone_bundle
+from phdi.fhir.harmonization import double_metaphone_patient
+from phdi.fhir.harmonization import standardize_dob
+from phdi.fhir.harmonization import standardize_names
+from phdi.fhir.harmonization import standardize_phones
 from phdi.harmonization import DoubleMetaphone
-
-from phdi.fhir.harmonization import (
-    double_metaphone_bundle,
-    double_metaphone_patient,
-    standardize_names,
-    standardize_phones,
-    standardize_dob,
-)
 
 
 def test_double_metaphone_bundle():

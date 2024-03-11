@@ -71,7 +71,9 @@
                     "text":
                     {
                         "status":"generated",
-                        {% if component.section.title._ -%}
+                        {% if component.section.text -%}
+                            "div": "{{ component.section.text | to_html_string }}",
+                        {% elsif component.section.title._ -%}
                             "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.title._ | escape }}</div>",
                         {% else -%}
                             "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.code.displayName | escape }}</div>",
@@ -83,6 +85,7 @@
                     },
                     "mode":"snapshot",
                     {% if component.section.templateId.root and component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.12" -%}
+                        {%  assign tds = component.section | concatenate_tds -%}
                         {% if component.section.text and component.section.text.content and component.section.text.content._ -%}
                             "extension":
                             [
@@ -99,14 +102,14 @@
                                     "valueString" : "{{ component.section.text.content._ }}"
                                 },
                             ],
-                        {% elsif component.section.text and component.section.text.table.tbody.tr.td._ -%}
+                        {% elsif tds and tds != '' -%}
                             "extension":
                             [
                                 {
                                     "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
-                                    "valueString" : "{{ component.section.text.table.tbody.tr.td._ }}"
+                                    "valueString" : "{{ tds }}"
                                 },
-                            ],
+                            ], 
                         {% endif -%}
                     {% endif -%}
                     "entry": 
@@ -151,6 +154,18 @@
                                         {% endif -%}
                                     {% endif -%}
                                 {% endfor -%}
+                            {% elsif sectionEntry.act.templateId.root and sectionEntry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.1" %}
+                                {% assign observationId = sectionEntry.act | to_json_string | generate_uuid -%}
+                                {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
+                                {
+                                    "reference": "{{ fullObservationId }}",
+                                },
+                            {% elsif sectionEntry.observation.templateId and sectionEntry.observation.templateId[0] and sectionEntry.observation.templateId[0].root and sectionEntry.observation.templateId[0].root == '2.16.840.1.113883.10.20.22.4.38' and sectionEntry.observation.code and sectionEntry.observation.code.code == '76690-7' -%}
+                                {% assign observationId = sectionEntry.observation | to_json_string | generate_uuid -%}
+                                {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
+                                {
+                                    "reference": "{{ fullObservationId }}",
+                                },
                             {% endif -%}
                         {% endfor -%}
                     ],

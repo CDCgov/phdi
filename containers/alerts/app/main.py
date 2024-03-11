@@ -1,27 +1,31 @@
-from azure.communication.identity import CommunicationIdentityClient
-from azure.communication.phonenumbers import (
-    PhoneNumbersClient,
-    PhoneNumberCapabilityType,
-    PhoneNumberAssignmentType,
-    PhoneNumberType,
-    PhoneNumberCapabilities,
-)
-from azure.communication.sms import SmsClient
-from azure.identity import DefaultAzureCredential
-from fastapi import Response, status
-from pydantic import BaseModel, BaseSettings, Field
-import pymsteams
 from functools import lru_cache
 from pathlib import Path
+from typing import Optional
+
+import pymsteams
+from azure.communication.identity import CommunicationIdentityClient
+from azure.communication.phonenumbers import PhoneNumberAssignmentType
+from azure.communication.phonenumbers import PhoneNumberCapabilities
+from azure.communication.phonenumbers import PhoneNumberCapabilityType
+from azure.communication.phonenumbers import PhoneNumbersClient
+from azure.communication.phonenumbers import PhoneNumberType
+from azure.communication.sms import SmsClient
+from azure.identity import DefaultAzureCredential
+from fastapi import Response
+from fastapi import status
+from pydantic import BaseModel
+from pydantic import BaseSettings
+from pydantic import Field
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-from typing import Optional
+
 from phdi.containers.base_service import BaseService
 
 
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="PHDI Alerts Service",
+    service_path="/alerts",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 

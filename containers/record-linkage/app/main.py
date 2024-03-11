@@ -1,86 +1,41 @@
-from app.config import get_settings
-from typing import Annotated
-from fastapi import Response, status, Body
+import copy
 from pathlib import Path
-from phdi.containers.base_service import BaseService
-from phdi.linkage import (
-    add_person_resource,
-    link_record_against_mpi,
-    DIBBS_BASIC,
-    DIBBS_ENHANCED,
-)
-from pydantic import BaseModel, Field
-from psycopg2 import OperationalError, errors
+from typing import Annotated
 from typing import Optional
-from app.utils import (
-    connect_to_mpi_with_env_vars,
-    load_mpi_env_vars_os,
-    read_json_from_assets,
-)
-import psycopg2
-import sys
 
+from app.utils import get_settings
+from app.utils import read_json_from_assets
+from app.utils import run_migrations
+from fastapi import Body
+from fastapi import Response
+from fastapi import status
+from pydantic import BaseModel
+from pydantic import Field
 
-# https://kb.objectrocket.com/postgresql/python-error-handling-with-the-psycopg2-postgresql-adapter-645
-def print_psycopg2_exception(err):
-    # get details about the exception
-    err_type, _, traceback = sys.exc_info()
+from phdi.containers.base_service import BaseService
+from phdi.linkage import add_person_resource
+from phdi.linkage import DIBBS_BASIC
+from phdi.linkage import DIBBS_ENHANCED
+from phdi.linkage import link_record_against_mpi
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
-    # get the line number when exception occured
-    line_num = traceback.tb_lineno
-
-    # print the connect() error
-    print("\npsycopg2 ERROR:", err, "on line number:", line_num)
-    print("psycopg2 traceback:", traceback, "-- type:", err_type)
-
-    # psycopg2 extensions.Diagnostics object attribute
-    print("\nextensions.Diagnostics:", err.diag)
-
-    # print the pgcode and pgerror exceptions
-    print("pgerror:", err.pgerror)
-    print("pgcode:", err.pgcode, "\n")
-
-
-def run_migrations():
-    dbname, user, password, host = load_mpi_env_vars_os()
-    try:
-        connection = psycopg2.connect(
-            dbname=dbname,
-            user=user,
-            password=password,
-            host=host,
-        )
-    except OperationalError as err:
-        # pass exception to function
-        print_psycopg2_exception(err)
-
-        # set the connection to 'None' in case of error
-        connection = None
-    if connection is not None:
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    open(
-                        Path(__file__).parent.parent / "migrations" / "tables.ddl", "r"
-                    ).read()
-                )
-        except errors.InFailedSqlTransaction as err:
-            # pass exception to function
-            print_psycopg2_exception(err)
-
-
-# Run MPI migrations on spin up
+# Ensure MPI is configured as expected.
 run_migrations()
-
+settings = get_settings()
+MPI_CLIENT = DIBBsMPIConnectorClient(
+    pool_size=settings["connection_pool_size"],
+    max_overflow=settings["connection_pool_max_overflow"],
+)
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="DIBBs Record Linkage Service",
+    service_path="/record-linkage",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
 ).start()
 
 
-# Request and and response models
+# Request and response models
 class LinkRecordInput(BaseModel):
     """
     Schema for requests to the /link-record endpoint.
@@ -157,7 +112,7 @@ async def health_check() -> HealthCheckResponse:
     """
 
     try:
-        connect_to_mpi_with_env_vars()
+        mpi_client = DIBBsMPIConnectorClient()  # noqa: F841
     except Exception as err:
         return {"status": "OK", "mpi_connection_status": str(err)}
     return {"status": "OK", "mpi_connection_status": "OK"}
@@ -225,12 +180,15 @@ async def link_record(
             "message": "Supplied bundle contains no Patient resource to link on.",
         }
 
-    # Initialize a DB connection for use with the MPI
-    # Then, link away
+    # Now link the record
     try:
-        db_client = connect_to_mpi_with_env_vars()
+        # Make a copy of record_to_link so we don't modify the original
+        record = copy.deepcopy(record_to_link)
         (found_match, new_person_id) = link_record_against_mpi(
-            record_to_link, algo_config, db_client, external_id
+            record=record,
+            algo_config=algo_config,
+            external_person_id=external_id,
+            mpi_client=MPI_CLIENT,
         )
         updated_bundle = add_person_resource(
             new_person_id, record_to_link.get("id", ""), input_bundle

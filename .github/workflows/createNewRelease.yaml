@@ -12,17 +12,17 @@ jobs:
     outputs:
       contains_release: ${{ steps.commit_check.outputs.contains_release }}
     steps:
-    - name: Check out code
-      uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
 
-    - name: Check commit message for [RELEASE]
-      id: commit_check
-      run: |
-        if [[ "${{ github.event.head_commit.message }}" == *"[RELEASE]"* ]]; then
-          echo "contains_release=true" >> $GITHUB_OUTPUT
-        else
-          echo "contains_release=false" >> $GITHUB_OUTPUT
-        fi
+      - name: Check commit message for [RELEASE]
+        id: commit_check
+        run: |
+          if [[ "${{ github.event.head_commit.message }}" == *"[RELEASE]"* ]]; then
+            echo "contains_release=true" >> $GITHUB_OUTPUT
+          else
+            echo "contains_release=false" >> $GITHUB_OUTPUT
+          fi
   test-for-release:
     needs: check-commit-message
     if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
@@ -38,8 +38,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: '0'
-          ref: 'main'
+          fetch-depth: "0"
+          ref: "main"
       - name: Install poetry and dependencies
         run: |
           pip install poetry
@@ -83,13 +83,13 @@ jobs:
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.1.4
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: ${{ steps.get_version.outputs.version }} 
+          release_name: ${{ steps.get_version.outputs.version }}
           body_path: release-notes.md
-          
+
   release-to-pypi:
     name: Build and publish PHDI to PyPI
     needs: tag-release
@@ -99,7 +99,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: '0'
+          fetch-depth: "0"
           ref: ${{ needs.tag-release.outputs.version }}
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -124,9 +124,9 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
 
-# Rebuild all containers for the new release
+  # Rebuild all containers for the new release
   build-containers-for-release:
-    needs: 
+    needs:
       - tag-release
       - release-to-pypi
     permissions:
@@ -137,9 +137,9 @@ jobs:
     with:
       container-tag: ${{ needs.tag-release.outputs.version }}
 
-# Create updated PHDI docs for the latest release
+  # Create updated PHDI docs for the latest release
   generate-and-update-phdi-docs:
-    needs: 
+    needs:
       - tag-release
       - build-containers-for-release
     permissions:
@@ -148,7 +148,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: '0'
+          fetch-depth: "0"
           ref: ${{ needs.tag-release.outputs.version }}
 
       - name: Install poetry and dependencies
@@ -178,13 +178,29 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    services:
+      test-db:
+        image: postgres:13-alpine3.16
+        env:
+          POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name testdb
+        ports:
+          - 5432:5432
     strategy:
       matrix:
-        container: ${{fromJson(needs.list-containers.outputs.containers)}}
+        container: ${{fromJson(needs.list-containers.outputs.python-containers)}}
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: '0'
+          fetch-depth: "0"
           ref: ${{ needs.tag-release.outputs.version }}
 
       - name: Update Container Documenation

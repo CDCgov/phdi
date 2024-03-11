@@ -1,10 +1,14 @@
+import datetime
 import pathlib
+from typing import List
+from typing import Literal
+from typing import Union
+
 import phonenumbers
 import pycountry
-import datetime
 from detect_delimiter import detect
+
 from phdi.harmonization.double_metaphone import DoubleMetaphone
-from typing import Literal, List, Union
 
 
 FHIR_DATE_FORMAT = "%Y-%m-%d"

@@ -1,12 +1,11 @@
 from lxml import etree
-from .xml_utils import (
-    get_ecr_message_ids,
-    validate_xml_elements,
-    validate_xml_attributes,
-    validate_xml_value,
-    get_xml_element_details,
-    ECR_NAMESPACES,
-)
+
+from .xml_utils import ECR_NAMESPACES
+from .xml_utils import get_ecr_message_ids
+from .xml_utils import get_xml_element_details
+from .xml_utils import validate_xml_attributes
+from .xml_utils import validate_xml_elements
+from .xml_utils import validate_xml_value
 
 
 ERROR_MESSAGES = {

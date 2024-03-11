@@ -1,25 +1,27 @@
-from fastapi import Response, status
-from pydantic import BaseModel, Field, validator
-from typing import Optional, Literal
-import urllib.parse
 import datetime
-import jsonschema
+import urllib.parse
 from pathlib import Path
-from phdi.containers.base_service import BaseService
+from typing import Literal
+from typing import Optional
+
+import jsonschema
+from app.config import get_settings
+from app.utils import check_schema_validity
+from app.utils import get_cred_manager
+from app.utils import search_for_required_values
+from fastapi import Response
+from fastapi import status
+from pydantic import BaseModel
+from pydantic import Field
+from pydantic import validator
+
 from phdi.cloud.core import BaseCredentialManager
+from phdi.containers.base_service import BaseService
+from phdi.fhir.tabulation.tables import _generate_search_urls
+from phdi.fhir.tabulation.tables import extract_data_from_fhir_search_incremental
+from phdi.fhir.tabulation.tables import tabulate_data
 from phdi.tabulation import validate_schema
 from phdi.tabulation.tables import write_data
-from phdi.fhir.tabulation.tables import (
-    _generate_search_urls,
-    extract_data_from_fhir_search_incremental,
-    tabulate_data,
-)
-from app.config import get_settings
-from app.utils import (
-    get_cred_manager,
-    search_for_required_values,
-    check_schema_validity,
-)
 
 # Read settings from environmnent.
 get_settings()
@@ -28,6 +30,7 @@ get_settings()
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="PHDI Tabulation Service",
+    service_path="/tabulation",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 

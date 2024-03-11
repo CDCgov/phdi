@@ -1,20 +1,19 @@
 import json
 import pathlib
-import polling
-import pytest
 import re
-import requests
-
-from phdi.fhir.transport import http_request_with_reauth, export_from_fhir_server
-from phdi.fhir.transport.export import _compose_export_url
 from unittest import mock
 
-from phdi.fhir.transport.http import (
-    fhir_server_get,
-    upload_bundle_to_fhir_server,
-    _log_fhir_server_error,
-    _split_bundle_resources,
-)
+import polling
+import pytest
+import requests
+
+from phdi.fhir.transport import export_from_fhir_server
+from phdi.fhir.transport import http_request_with_reauth
+from phdi.fhir.transport.export import _compose_export_url
+from phdi.fhir.transport.http import _log_fhir_server_error
+from phdi.fhir.transport.http import _split_bundle_resources
+from phdi.fhir.transport.http import fhir_server_get
+from phdi.fhir.transport.http import upload_bundle_to_fhir_server
 
 
 @mock.patch("requests.Session")
@@ -509,7 +508,7 @@ def test_split_bundle_resources():
     )
 
     my_count = len(_split_bundle_resources(bundle=bundle)[0].get("entry"))
-    assert my_count == 52
+    assert my_count == 53
 
     single_resource = bundle.get("entry")[0]
     # add 500 resources to bundle and then pass to function
@@ -517,27 +516,27 @@ def test_split_bundle_resources():
         bundle["entry"].append(single_resource)
 
     my_count = len(bundle.get("entry"))
-    assert my_count == 552
+    assert my_count == 553
 
     split_bundles = _split_bundle_resources(bundle=bundle)
     assert len(split_bundles) == 2
 
     assert len(split_bundles[0].get("entry")) == 500
-    assert len(split_bundles[1].get("entry")) == 52
+    assert len(split_bundles[1].get("entry")) == 53
 
     # add an additional 500 resources to bundle and then pass to function
     for x in range(500):
         bundle["entry"].append(single_resource)
 
     my_count = len(bundle.get("entry"))
-    assert my_count == 1052
+    assert my_count == 1053
 
     split_bundles = _split_bundle_resources(bundle=bundle)
     assert len(split_bundles) == 3
 
     assert len(split_bundles[0].get("entry")) == 500
     assert len(split_bundles[1].get("entry")) == 500
-    assert len(split_bundles[2].get("entry")) == 52
+    assert len(split_bundles[2].get("entry")) == 53
 
     bundle["entry"] = []
     split_bundles = _split_bundle_resources(bundle=bundle)

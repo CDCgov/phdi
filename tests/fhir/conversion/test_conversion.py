@@ -1,15 +1,14 @@
 import pathlib
+from unittest import mock
+
 import pytest
+from lxml import etree
 
 from phdi.fhir.conversion import convert_to_fhir
-from phdi.fhir.conversion.convert import (
-    ConversionError,
-    _get_fhir_conversion_settings,
-    add_rr_data_to_eicr,
-)
+from phdi.fhir.conversion.convert import _get_fhir_conversion_settings
+from phdi.fhir.conversion.convert import add_rr_data_to_eicr
+from phdi.fhir.conversion.convert import ConversionError
 from phdi.harmonization import standardize_hl7_datetimes
-from unittest import mock
-from lxml import etree
 
 
 def test_get_fhir_conversion_settings():
@@ -335,3 +334,30 @@ def test_add_rr_to_ecr():
             assert temps is not None
             assert temps.attrib["root"] == "2.16.840.1.113883.10.20.15.2.3.29"
             assert "RRVS19" in status_code.attrib["code"]
+
+
+def test_add_rr_to_ecr_rr_already_present(capfd):
+    with open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "fhir-converter"
+        / "rr_extraction"
+        / "CDA_RR.xml"
+    ) as fp:
+        rr = fp.read()
+
+    # This eICR has already been merged with an RR
+    with open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "fhir-converter"
+        / "rr_extraction"
+        / "merged_eICR.xml"
+    ) as fp:
+        ecr = fp.read()
+
+    merged_ecr = add_rr_data_to_eicr(rr, ecr)
+    assert merged_ecr == ecr
+
+    out, err = capfd.readouterr()
+    assert "This eCR has already been merged with RR data." in out

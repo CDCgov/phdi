@@ -2,7 +2,7 @@
 name: SeCRET User Story
 about: Create a new user story for the SeCRET team
 title: ''
-labels: SeCRET
+labels: 'Streamline eCR'
 assignees: ''
 
 ---
@@ -16,6 +16,12 @@ AS a $USER, I want... SO THAT...
 When can we call this done?
 
 GIVEN...WHEN...THEN
+
+## Testing
+Does this ticket have unusual testing requirements, or new tests that will need to be created?
+
+## Designs
+Are there designs to reference for this ticket?
 
 ## Background & Context
 So what? Why is this functionality important to the user?

@@ -1,7 +1,11 @@
-from pathlib import Path
-import subprocess
 import json
+import subprocess
 import uuid
+from pathlib import Path
+
+from lxml import etree
+
+from phdi.harmonization import standardize_hl7_datetimes
 
 
 def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
@@ -36,6 +40,22 @@ def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
     return bundle
 
 
+def resolve_references(input_data: str):
+    try:
+        ecr = etree.fromstring(input_data.encode())
+    except etree.XMLSyntaxError:
+        return input_data
+
+    ns = {"hl7": "urn:hl7-org:v3"}
+    refs = ecr.xpath("//hl7:reference", namespaces=ns)
+    for ref in refs:
+        ref_id = ref.attrib["value"][1:]
+        value = " ".join(ecr.xpath("//*[@ID='" + ref_id + "']/text()"))
+        ref.text = value
+
+    return etree.tostring(ecr).decode()
+
+
 def convert_to_fhir(
     input_data: str,
     input_type: str,
@@ -64,8 +84,9 @@ def convert_to_fhir(
     converter_project_path = (
         "/build/FHIR-Converter/output/Microsoft.Health.Fhir.Liquid.Converter.Tool.dll"
     )
-    if input_type == "elr" or input_type == "vxu":
+    if input_type == "vxu" or input_type == "elr":
         template_directory_path = "/build/FHIR-Converter/data/Templates/Hl7v2"
+        input_data = standardize_hl7_datetimes(input_data)
     elif input_type == "ecr":
         template_directory_path = "/build/FHIR-Converter/data/Templates/eCR"
     else:
@@ -94,10 +115,10 @@ def convert_to_fhir(
     converter_response = subprocess.run(
         fhir_conversion_command, shell=True, capture_output=True
     )
-
     # Process the response from FHIR Converter.
     if converter_response.returncode == 0:
         result = json.load(open(output_data_file_path))
+        old_id = None
         # Generate a new UUID for the patient resource.
         for entry in result["FhirResource"]["entry"]:
             if entry["resource"]["resourceType"] == "Patient":
@@ -105,7 +126,8 @@ def convert_to_fhir(
                 break
         new_id = str(uuid.uuid4())
         result = json.dumps(result)
-        result = result.replace(old_id, new_id)
+        if old_id is not None:
+            result = result.replace(old_id, new_id)
         result = json.loads(result)
         add_data_source_to_bundle(result["FhirResource"], input_type)
 

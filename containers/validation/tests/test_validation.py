@@ -1,26 +1,15 @@
 import pathlib
+
+from app.main import app
+from app.main import validate_ecr_msg
+from app.main import validate_elr_msg
+from app.main import validate_fhir_bundle
+from app.main import validate_vxu_msg
 from fastapi.testclient import TestClient
-from unittest import mock
-from app.main import (
-    app,
-    message_validators,
-    validate_ecr_msg,
-    validate_elr_msg,
-    validate_vxu_msg,
-    validate_fhir_bundle,
-)
 
 client = TestClient(app)
 test_error_types = ["errors", "warnings", "information"]
 
-# Test good file
-sample_file_good = open(
-    pathlib.Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "validation"
-    / "ecr_sample_input_good.xml"
-).read()
 
 # Test bad file
 sample_file_bad = open(
@@ -89,32 +78,25 @@ def test_validate_ecr_invalid():
         "message_valid": False,
         "validation_results": {
             "fatal": [
-                "Could not find field. Field name: 'Status' "
-                + "Attributes: attribute #1: 'code' with the "
-                + "required value pattern: 'RRVS19|RRVS20|RRVS21|"
-                + "RRVS22', attribute #2: 'codeSystem', attribute #3: "
-                + "'displayName'",
                 "Could not find field. Field name: "
-                + "'Conditions' Attributes: attribute #1: 'code' "
-                + "with the required value pattern: '[0-9]+',"
-                + " attribute #2: 'codeSystem'",
-                "The field value does not exist or doesn't match "
-                + "the following pattern: "
-                + "'[0-9]{5}(?:-[0-9]{4})?'. For the Field name: 'Zip' value: '9999'",
+                "'eICR Version Number' "
+                "Attributes: attribute #1: 'value'",
+                "Could not find field. Field name: "
+                "'City' Related elements: Field name:"
+                " 'addr' Attributes: attribute #1: 'use'"
+                " with the required value pattern: 'H'",
+                "The field value does not exist or doesn't"
+                " match the following pattern: "
+                "'[0-9]{5}(?:-[0-9]{4})?'. "
+                "For the Field name: 'Zip' value: '9999'",
             ],
-            "errors": [
-                "Could not find field. Field name: 'First Name' Related elements: "
-                + "Field name: 'name' Attributes: attribute #1: 'use' with the "
-                + "required value pattern: 'L'"
-            ],
+            "errors": ["Could not find field. Field name: 'First Name'"],
             "warnings": [
-                "Could not find field. Field name: 'eICR Version Number' "
-                + "Attributes: attribute #1: 'value'",
-                "Attribute: 'code' "
-                + "not in expected format. Field name: 'Sex' Attributes: "
-                + "attribute #1: 'code' with the required value pattern: "
-                + "'F|M|O|U' actual value: 't', attribute #2: 'codeSystem'"
-                + " actual value: '2.16.840.1.113883.5.1'",
+                "Attribute: 'code' not in expected format."
+                " Field name: 'Sex' Attributes: "
+                "attribute #1: 'code' with the required value "
+                "pattern: 'F|M|O|U' actual value: 't', "
+                "attribute #2: 'codeSystem' actual value: '2.16.840.1.113883.5.1'"
             ],
             "information": [],
             "message_ids": {
@@ -163,30 +145,3 @@ def test_validate_fhir_bundle():
             "only stubbed currently."
         },
     }
-
-
-@mock.patch("app.main.message_validators")
-def test_validate_endpoint_valid_vxu(patched_message_validators):
-    for message_type in message_validators:
-        # Prepare mocked validator function
-        validation_response = {"message_valid": True, "validation_results": {}}
-        mocked_validator = mock.Mock()
-        mocked_validator.return_value = validation_response
-        message_validators_dict = {message_type: mocked_validator}
-        patched_message_validators.__getitem__.side_effect = (
-            message_validators_dict.__getitem__
-        )
-
-        # Send request to test client
-        request_body = {
-            "message_type": message_type,
-            "include_error_types": "",
-            "message": "message contents",
-        }
-        actual_response = client.post("/validate", json=request_body)
-
-        # Check that the correct validator was selected and used properly.
-        assert actual_response.status_code == 200
-        message_validators_dict[message_type].assert_called_with(
-            message=request_body["message"], include_error_types=[]
-        )

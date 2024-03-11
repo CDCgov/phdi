@@ -1,10 +1,19 @@
 from functools import lru_cache
+
 from pydantic import BaseSettings
-from typing import Optional
 
 
 class Settings(BaseSettings):
-    fhir_converter_url: Optional[str]
+    """
+    Settings confirms the URLs for each of the services being called;
+      These urls need to live in a .env file at the root (orchestration) level
+      and should be set
+    """
+
+    fhir_converter_url: str
+    validation_url: str
+    message_parser_url: str
+    ingestion_url: str
 
 
 @lru_cache()

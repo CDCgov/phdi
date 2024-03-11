@@ -1,9 +1,9 @@
 # flake8: noqa
-from unittest import mock
-from fastapi.testclient import TestClient
 from types import SimpleNamespace
+from unittest import mock
 
 from app.main import app
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 

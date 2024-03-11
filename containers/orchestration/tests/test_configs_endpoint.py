@@ -1,8 +1,9 @@
-from pathlib import Path
 import json
-from fastapi.testclient import TestClient
-from app.main import app
 import os
+from pathlib import Path
+
+from app.main import app
+from fastapi.testclient import TestClient
 
 
 client = TestClient(app)
@@ -31,7 +32,7 @@ def test_get_specific_config():
     assert response.status_code == 200
     assert response.json() == {
         "message": "Config found!",
-        "processing_config": test_config,
+        "workflow": test_config,
     }
 
 
@@ -40,26 +41,21 @@ def test_config_not_found():
     assert response.status_code == 400
     assert response.json() == {
         "message": "A config with the name 'some-config-that-does-not-exist.json' "
-        "could not be found.",
-        "processing_config": {},
+        + "could not be found.",
+        "workflow": {},
     }
 
 
 def test_upload_config():
     request_body = {
-        "processing_config": {
-            "my_field": {
-                "fhir_path": "some-path",
-                "data_type": "string",
-                "nullable": True,
-                "secondary_config": {
-                    "my_sub_field": {
-                        "fhir_path": "some-path",
-                        "data_type": "string",
-                        "nullable": True,
-                    }
-                },
-            }
+        "workflow": {
+            "workflow": [
+                {
+                    "service": "ingestion",
+                    "url": "some-url-for-an-ingestion-service",
+                    "endpoint": "/fhir/harmonization/standardization/standardize_names",
+                }
+            ]
         }
     }
     test_config_name = "test_config1.json"
@@ -72,36 +68,24 @@ def test_upload_config():
     assert response.status_code == 201
     assert response.json() == {"message": "Config uploaded successfully!"}
 
+    # Attempt to upload a config with name that already exists.
     response = client.put(
         "/configs/test_config1.json",
         json=request_body,
     )
-
-    # Attempt to upload a config with name that already exists.
     assert response.status_code == 400
-    print("*******")
-    print(str(response.json()))
-    print(
-        str(
-            {
-                "message": f"A config for the name '{test_config_name}' already exists."
-                " To proceed submit a new request with a different config name or set "
-                "the 'overwrite' field to 'true'."
-            }
-        )
-    )
     assert response.json() == {
         "message": f"A config for the name '{test_config_name}' already exists. "
         "To proceed submit a new request with a different config name or set the "
         "'overwrite' field to 'true'."
     }
+
+    # Upload a config with name that already exists and overwrite it.
     request_body["overwrite"] = True
     response = client.put(
         "/configs/test_config1.json",
         json=request_body,
     )
-
-    # Upload a config with name that already exists and overwrite it.
     assert response.status_code == 200
     assert response.json() == {"message": "Config updated successfully!"}
 

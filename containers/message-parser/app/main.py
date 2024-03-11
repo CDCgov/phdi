@@ -1,20 +1,32 @@
-from phdi.containers.base_service import BaseService
-from fastapi import Response, status, Body
-from pydantic import BaseModel, Field, root_validator
-from typing import Literal, Optional, Union, Annotated, Dict
-from pathlib import Path
-import os
-from app.utils import (
-    load_parsing_schema,
-    get_parsers,
-    convert_to_fhir,
-    get_credential_manager,
-    search_for_required_values,
-    read_json_from_assets,
-    freeze_parsing_schema,
-)
-from app.config import get_settings
 import json
+import os
+from pathlib import Path
+from typing import Annotated
+
+from app.config import get_settings
+from app.models import FhirToPhdcInput
+from app.models import GetSchemaResponse
+from app.models import ListSchemasResponse
+from app.models import ParseMessageInput
+from app.models import ParseMessageResponse
+from app.models import ParsingSchemaModel
+from app.models import PutSchemaResponse
+from app.phdc.builder import PHDCBuilder
+from app.utils import convert_to_fhir
+from app.utils import extract_and_apply_parsers
+from app.utils import freeze_parsing_schema
+from app.utils import get_credential_manager
+from app.utils import get_metadata
+from app.utils import load_parsing_schema
+from app.utils import read_json_from_assets
+from app.utils import search_for_required_values
+from app.utils import transform_to_phdc_input_data
+from fastapi import Body
+from fastapi import Response
+from fastapi import status
+
+from phdi.containers.base_service import BaseService
+
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -22,6 +34,7 @@ get_settings()
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="PHDI Message Parser",
+    service_path="/message-parser",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
@@ -35,92 +48,14 @@ raw_parse_message_response_examples = read_json_from_assets(
 parse_message_response_examples = {200: raw_parse_message_response_examples}
 
 
-# Request and response models
-class ParseMessageInput(BaseModel):
+@app.get("/")
+async def health_check():
     """
-    The schema for requests to the /extract endpoint.
+    Check service status. If an HTTP 200 status code is returned along with
+    '{"status": "OK"}' then the FHIR conversion service is available and running
+    properly.
     """
-
-    message_format: Literal["fhir", "hl7v2", "ecr"] = Field(
-        description="The format of the message."
-    )
-    message_type: Optional[Literal["ecr", "elr", "vxu"]] = Field(
-        description="The type of message that values will be extracted from. Required "
-        "when 'message_format is not FHIR."
-    )
-    parsing_schema: Optional[dict] = Field(
-        description="A schema describing which fields to extract from the message. This"
-        " must be a JSON object with key:value pairs of the form "
-        "<my-field>:<FHIR-to-my-field>.",
-        default={},
-    )
-    parsing_schema_name: Optional[str] = Field(
-        description="The name of a schema that was previously"
-        " loaded in the service to use to extract fields from the message.",
-        default="",
-    )
-    fhir_converter_url: Optional[str] = Field(
-        description="The URL of an instance of the PHDI FHIR converter. Required when "
-        "the message is not already in FHIR format.",
-        default="",
-    )
-    credential_manager: Optional[Literal["azure", "gcp"]] = Field(
-        description="The type of credential manager to use for authentication with a "
-        "FHIR converter when conversion to FHIR is required.",
-        default=None,
-    )
-    message: Union[str, dict] = Field(description="The message to be parsed.")
-
-    @root_validator
-    def require_message_type_when_not_fhir(cls, values):
-        if (
-            values.get("message_format") != "fhir"
-            and values.get("message_type") is None
-        ):
-            raise ValueError(
-                "When the message format is not FHIR then the message type must be "
-                "included."
-            )
-        return values
-
-    @root_validator
-    def prohibit_schema_and_schema_name(cls, values):
-        if (
-            values.get("parsing_schema") != {}
-            and values.get("parsing_schema_name") != ""
-        ):
-            raise ValueError(
-                "Values for both 'parsing_schema' and 'parsing_schema_name' have been "
-                "provided. Only one of these values is permited."
-            )
-        return values
-
-    @root_validator
-    def require_schema_or_schema_name(cls, values):
-        if (
-            values.get("parsing_schema") == {}
-            and values.get("parsing_schema_name") == ""
-        ):
-            raise ValueError(
-                "Values for 'parsing_schema' and 'parsing_schema_name' have not been "
-                "provided. One, but not both, of these values is required."
-            )
-        return values
-
-
-class ParseMessageResponse(BaseModel):
-    """
-    The schema for responses from the /extract endpoint.
-    """
-
-    message: str = Field(
-        description="A message describing the result of a request to "
-        "the /parse_message endpoint."
-    )
-    parsed_values: dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
-    )
+    return {"status": "OK"}
 
 
 @app.post("/parse_message", status_code=200, responses=parse_message_response_examples)
@@ -171,48 +106,60 @@ async def parse_message_endpoint(
                 "parsed_values": {},
             }
 
-    # 3. Generate parsers for FHIRpaths specified in schema.
-    parsers = get_parsers(parsing_schema)
-
-    # 4. Extract desired fields from message by applying each parser.
-    parsed_values = {}
-    for field, parser in parsers.items():
-        if "secondary_parsers" not in parser:
-            value = parser["primary_parser"](input.message)
-            value = ",".join(value)
-            parsed_values[field] = value
-        else:
-            inital_values = parser["primary_parser"](input.message)
-            values = []
-            for initial_value in inital_values:
-                value = {}
-                for secondary_field, secondary_parser in parser[
-                    "secondary_parsers"
-                ].items():
-                    value[secondary_field] = ",".join(secondary_parser(initial_value))
-                values.append(value)
-            parsed_values[field] = values
-
+    # 3. Parse the desired values and find metadata, if needed
+    parsed_values = extract_and_apply_parsers(parsing_schema, input.message, response)
+    if input.include_metadata == "true":
+        parsed_values = get_metadata(parsed_values, parsing_schema)
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
+
+
+# /fhir_to_phdc endpoint #
+fhir_to_phdc_request_examples = read_json_from_assets(
+    "sample_fhir_to_phdc_requests.json"
+)
+raw_fhir_to_phdc_response_examples = read_json_from_assets(
+    "sample_fhir_to_phdc_response.json"
+)
+fhir_to_phdc_response_examples = {200: raw_fhir_to_phdc_response_examples}
+
+
+@app.post("/fhir_to_phdc", status_code=200, responses=fhir_to_phdc_response_examples)
+async def fhir_to_phdc_endpoint(
+    input: Annotated[FhirToPhdcInput, Body(examples=fhir_to_phdc_request_examples)],
+    response: Response,
+):
+    """
+    Convert a FHIR bundle to a Public Health Document Container (PHDC).
+    """
+
+    # 1. Identify the parsing schema based on the supplied phdc type
+    match input.phdc_report_type:
+        case "case_report":
+            parsing_schema = load_parsing_schema("phdc_case_report_schema.json")
+        case "contact_record":
+            pass
+        case "lab_report":
+            pass
+        case "morbidity_report":
+            pass
+
+    # 2. Extract data from FHIR
+    parsed_values = extract_and_apply_parsers(parsing_schema, input.message, response)
+
+    # 3. Transform to PHDCbuilder data classes
+    input_data = transform_to_phdc_input_data(parsed_values)
+
+    # 4. Build PHDC
+    builder = PHDCBuilder()
+    builder.set_input_data(input_data)
+    phdc = builder.build()
+
+    return Response(content=phdc.to_xml_string(), media_type="application/xml")
 
 
 # /schemas endpoint #
 raw_list_schemas_response = read_json_from_assets("sample_list_schemas_response.json")
 sample_list_schemas_response = {200: raw_list_schemas_response}
-
-
-class ListSchemasResponse(BaseModel):
-    """
-    The schema for responses from the /schemas endpoint.
-    """
-
-    default_schemas: list = Field(
-        description="The schemas that ship with with this service by default."
-    )
-    custom_schemas: list = Field(
-        description="Additional schemas that users have uploaded to this service beyond"
-        " the ones come by default."
-    )
 
 
 @app.get("/schemas", responses=sample_list_schemas_response)
@@ -228,22 +175,6 @@ async def list_schemas() -> ListSchemasResponse:
     custom_schemas = [schema for schema in custom_schemas if schema != ".keep"]
     schemas = {"default_schemas": default_schemas, "custom_schemas": custom_schemas}
     return schemas
-
-
-class GetSchemaResponse(BaseModel):
-    """
-    The schema for responses from the /schemas endpoint when a specific schema is
-    queried.
-    """
-
-    message: str = Field(
-        description="A message describing the result of a request to "
-        "the /parse_message endpoint."
-    )
-    parsing_schema: dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
-    )
 
 
 # /schemas/{parsing_schema_name} endpoint #
@@ -266,47 +197,6 @@ async def get_schema(parsing_schema_name: str, response: Response) -> GetSchemaR
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"message": error.__str__(), "parsing_schema": {}}
     return {"message": "Schema found!", "parsing_schema": parsing_schema}
-
-
-PARSING_SCHEMA_DATA_TYPES = Literal[
-    "string", "integer", "float", "boolean", "date", "timestamp"
-]
-
-
-class ParsingSchemaSecondaryFieldModel(BaseModel):
-    fhir_path: str
-    data_type: PARSING_SCHEMA_DATA_TYPES
-    nullable: bool
-
-
-class ParsingSchemaFieldModel(BaseModel):
-    fhir_path: str
-    data_type: PARSING_SCHEMA_DATA_TYPES
-    nullable: bool
-    secondary_schema: Dict[str, ParsingSchemaSecondaryFieldModel]
-
-
-class ParsingSchemaModel(BaseModel):
-    parsing_schema: Dict[str, ParsingSchemaFieldModel] = Field(
-        description="A JSON formatted parsing schema to upload."
-    )
-    overwrite: Optional[bool] = Field(
-        description="When `true` if a schema already exists for the provided name it "
-        "will be replaced. When `false` no action will be taken and the response will "
-        "indicate that a schema for the given name already exists. To proceed submit a "
-        "new request with a different schema name or set this field to `true`.",
-        default=False,
-    )
-
-
-class PutSchemaResponse(BaseModel):
-    """
-    The schema for responses from the /schemas endpoint when a schema is uploaded.
-    """
-
-    message: str = Field(
-        "A message describing the result of a request to " "upload a parsing schema."
-    )
 
 
 upload_schema_request_examples = read_json_from_assets(
@@ -350,7 +240,10 @@ async def upload_schema(
 
     # Convert Pydantic models to dicts so they can be serialized to JSON.
     for field in input.parsing_schema:
-        input.parsing_schema[field] = input.parsing_schema[field].dict()
+        field_dict = input.parsing_schema[field].dict()
+        if "secondary_schema" in field_dict and field_dict["secondary_schema"] is None:
+            del field_dict["secondary_schema"]
+        input.parsing_schema[field] = field_dict
 
     with open(file_path, "w") as file:
         json.dump(input.parsing_schema, file, indent=4)

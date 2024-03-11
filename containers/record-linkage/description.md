@@ -43,7 +43,7 @@ We recommend running the record linkage service from a container, but if that is
 4. Make a fresh virtual environment with `python -m venv .venv`.
 5. Activate the virtual environment with `source .venv/bin/activate` (MacOS and Linux), `venv\Scripts\activate` (Windows Command Prompt), or `.venv\Scripts\Activate.ps1` (Windows PowerShell).
 5. Install all Python dependencies for the record linkage service with `pip install -r requirements.txt` into your virtual environment.
-6. Run the FHIR Converter on `localhost:8080` with `python -m uvicorn app.main:app --host 0.0.0.0 --port 8080`. 
+6. Run the record linkage service on `localhost:8080` with `python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --log-config app/log_config.yml`. 
 
 ### Building the Docker Image
 

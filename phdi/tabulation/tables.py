@@ -1,14 +1,17 @@
 import csv
+import importlib.resources
+import json
 import os
 import pathlib
-import json
+import sqlite3 as sql
+from typing import List
+from typing import Literal
+from typing import Union
+
 import pyarrow as pa
 import pyarrow.parquet as pq
-import sqlite3 as sql
 import yaml
-from typing import Literal, List, Union
 from jsonschema import validate
-import importlib.resources
 
 
 def load_schema(path: pathlib.Path) -> dict:

@@ -1,10 +1,10 @@
-from phdi.linkage.seed import (
-    convert_to_patient_fhir_resources,
-    adjust_birthdate,
-    extract_given_name,
-)
 import pathlib
+
 import pyarrow.parquet as pq
+
+from phdi.linkage.seed import adjust_birthdate
+from phdi.linkage.seed import convert_to_patient_fhir_resources
+from phdi.linkage.seed import extract_given_name
 
 mpi_test_file_path = (
     pathlib.Path(__file__).parent.parent.parent
@@ -56,12 +56,12 @@ def test_extract_given_name():
     # test all non-null values are included
     data = {"first_name": "John", "middle_name": "Jacob Jingleheimer"}
     given_name = extract_given_name(data)
-    assert given_name == "John Jacob Jingleheimer"
+    assert given_name == ["John", "Jacob", "Jingleheimer"]
 
     # test null values are excluded
     data = {"first_name": "John", "middle_name": None}
     given_name = extract_given_name(data)
-    assert given_name == "John"
+    assert given_name == ["John"]
 
     # test full null values return null
     data = {"first_name": None, "middle_name": None}

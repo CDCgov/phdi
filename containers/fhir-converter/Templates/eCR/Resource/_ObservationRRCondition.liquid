@@ -7,7 +7,7 @@
         {
             "profile":
             [
-                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults",
+                "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation",
             ],
         },
         "identifier":
@@ -106,6 +106,26 @@
         "interpretation":
         [
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
+        ],
+        "extension": [
+        {% assign components = observationEntry.entryRelationship.organizer.component |  to_array %}
+        {% for component in components %}
+            {% assign entryRelationships = component.observation.entryRelationship | to_array %}
+            {% for entry in entryRelationships %}
+                {% if entry.observation.code.code == "RR3" and entry.observation.value %}
+                    {
+                        "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+                        "valueString": "{{ entry.observation.value._ }}",
+                    },
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        ],
+        "performer" : [
+            {
+                "reference" : "Organization/{{ RoutingEntityId }}",
+                "display" : "{{  RoutingEntityName }}",
+            },
         ],
     },
     "request":{

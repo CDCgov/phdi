@@ -7,6 +7,10 @@ on:
     paths:
       - "containers/**"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   list-containers:
     uses: ./.github/workflows/listContainers.yaml
@@ -16,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container-to-build: ${{fromJson(needs.list-containers.outputs.containers)}}
+        container-to-build: ${{fromJson(needs.list-containers.outputs.all-containers)}}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
@@ -27,7 +31,9 @@ jobs:
       - name: Target branch in requirements.txt
         working-directory: ./containers/${{matrix.container-to-build}}
         run: |
-          sed 's/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@main/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@${{ github.sha }}/g' requirements.txt > requirements_new.txt && mv requirements_new.txt requirements.txt
+          if [ -f "requirements.txt" ]; then
+            sed 's/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@main/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@${{ github.sha }}/g' requirements.txt > requirements_new.txt && mv requirements_new.txt requirements.txt
+          fi
 
       - name: Build
         uses: docker/build-push-action@v3
@@ -36,3 +42,8 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            "ALERTS_URL=${{secrets.ALERTS_URL}}"
+            "FHIR_CONNECTOR_URL=${{secrets.FHIRC_CONNECTOR_URL}}"
+            "INGESTION_URL=${{secrets.INGESTION_URL}}"
+            "MESSAGE_PARSER_URL=${{secrets.MESSAGE_PARSER_URL}}"

@@ -1,0 +1,399 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnavailableInfo should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Demographics
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Tribal Affiliation
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Preffered Language
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Social History
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Travel History
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Pregnancy Status
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Alcohol Use
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Sexual Orientation
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Gender Identity
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Encounter Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Facility Address
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Clinical Notes
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Miscellaneous Notes
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Provider Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Provider Name
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Symptoms and Problems
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Problems List
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Diagnostics and Vital Signs
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Vitals
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Immunizations
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Immunization History
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Treatment Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Procedures
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

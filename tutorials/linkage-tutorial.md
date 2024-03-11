@@ -39,8 +39,8 @@ Suppose you had a FHIR bundle that had the following data:
                         "line": [
                             "1234 Silversun Strip"
                         ],
-                        "city": "Zakera Ward",
-                        "state": "Citadel",
+                        "city": "Boston",
+                        "state": "Massachusetts",
                         "postalCode": "99999"
                     }
                 ]
@@ -109,8 +109,8 @@ The bundle print will look like this:
                         "line": [
                             "1234 Silversun Strip"
                         ],
-                        "city": "Zakera Ward",
-                        "state": "Citadel",
+                        "city": "Boston",
+                        "state": "Massachusetts",
                         "postalCode": "99999"
                     }
                 ]

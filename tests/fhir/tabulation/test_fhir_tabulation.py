@@ -1,29 +1,26 @@
-import json
-import pathlib
-import os
-import os.path
-import pytest
-import urllib.parse
-import yaml
 import csv
-
+import json
+import os.path
+import pathlib
+import urllib.parse
 from unittest import mock
+
+import pytest
+import yaml
 from requests.models import Response
 
-from phdi.fhir.tabulation.tables import (
-    drop_invalid,
-    tabulate_data,
-    generate_tables,
-    _get_reference_directions,
-    _build_reference_dicts,
-    _generate_search_url,
-    _generate_search_urls,
-    _dereference_included_resource,
-    extract_data_from_fhir_search_incremental,
-    extract_data_from_fhir_search,
-    extract_data_from_schema,
-    _merge_include_query_params_for_location,
-)
+from phdi.fhir.tabulation.tables import _build_reference_dicts
+from phdi.fhir.tabulation.tables import _dereference_included_resource
+from phdi.fhir.tabulation.tables import _generate_search_url
+from phdi.fhir.tabulation.tables import _generate_search_urls
+from phdi.fhir.tabulation.tables import _get_reference_directions
+from phdi.fhir.tabulation.tables import _merge_include_query_params_for_location
+from phdi.fhir.tabulation.tables import drop_invalid
+from phdi.fhir.tabulation.tables import extract_data_from_fhir_search
+from phdi.fhir.tabulation.tables import extract_data_from_fhir_search_incremental
+from phdi.fhir.tabulation.tables import extract_data_from_schema
+from phdi.fhir.tabulation.tables import generate_tables
+from phdi.fhir.tabulation.tables import tabulate_data
 
 
 def test_tabulate_data_invalid_table_name():
@@ -120,7 +117,7 @@ def test_tabulate_data():
             "i-am-not-a-robot",
             ["obs1"],
         ],
-        ["no-srsly-i-am-hoomun", "Zakera Ward", "Shepard", None],
+        ["no-srsly-i-am-hoomun", "Boston", "Shepard", None],
         ["Faketon", None, None, ["obs2", "obs3"]],
     ]
     assert len(tabulated_exam_data[1:]) == 3

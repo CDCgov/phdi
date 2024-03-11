@@ -1,0 +1,30 @@
+{
+  "workflow": [
+    {
+      "service": "validation",
+      "endpoint": "/validate",
+      "params": {
+        "include_error_types": "error"
+      }
+    },
+    {
+      "service": "fhir_converter",
+      "endpoint": "/convert-to-fhir"
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/harmonization/standardization/standardize_names"
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/harmonization/standardization/standardize_dob",
+      "params": {
+        "dob_format": ""
+      }
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
+    }
+  ]
+}

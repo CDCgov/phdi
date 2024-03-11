@@ -10,4 +10,3 @@ tables:
         include_unknowns: false
         selection_criteria: first
         new_name: patient_id
-

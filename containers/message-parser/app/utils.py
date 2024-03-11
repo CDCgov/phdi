@@ -1,17 +1,35 @@
+import dataclasses
+import datetime
 import json
 import pathlib
-import fhirpathpy
+import re
+import uuid
 from functools import cache
 from pathlib import Path
-from frozendict import frozendict
-from app.config import get_settings
 from typing import Literal
+from typing import Union
+
+import fhirpathpy
 import requests
-from phdi.fhir.transport import http_request_with_reauth
-from phdi.transport.http import http_request_with_retry
+from app.config import get_settings
+from app.phdc.models import Address
+from app.phdc.models import Name
+from app.phdc.models import Observation
+from app.phdc.models import Organization
+from app.phdc.models import Patient
+from app.phdc.models import PHDCInputData
+from app.phdc.models import Telecom
+from fastapi import status
+from frozendict import frozendict
+from lxml import etree as ET
+
 from phdi.cloud.azure import AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
 from phdi.cloud.gcp import GcpCredentialManager
+from phdi.fhir.transport import http_request_with_reauth
+from phdi.transport.http import http_request_with_retry
+
+DIBBS_REFERENCE_SIGNIFIER = "#REF#"
 
 
 @cache
@@ -51,19 +69,21 @@ def freeze_parsing_schema(parsing_schema: dict) -> frozendict:
     :param parsing_schema: A dictionary containing a parsing schema.
     :return: A frozen dictionary containing the parsing schema.
     """
-    for field, field_definition in parsing_schema.items():
-        if "secondary_schema" in field_definition:
-            for secondary_field, secondary_field_definition in field_definition[
-                "secondary_schema"
-            ].items():
-                field_definition["secondary_schema"][secondary_field] = frozendict(
-                    secondary_field_definition
-                )
-            field_definition["secondary_schema"] = frozendict(
-                field_definition["secondary_schema"]
-            )
-        parsing_schema[field] = frozendict(field_definition)
-    return frozendict(parsing_schema)
+    return freeze_parsing_schema_helper(parsing_schema)
+
+
+def freeze_parsing_schema_helper(schema: dict) -> frozendict:
+    """
+    Given a parsing schema dictionary, freeze it and all of its nested dictionaries.
+
+    :param schema: A dictionary containing a parsing schema.
+    :return: A frozen dictionary containing the parsing schema.
+    """
+    if type(schema) is dict:
+        for key, value in schema.items():
+            if type(value) is dict:
+                schema[key] = freeze_parsing_schema_helper(value)
+        return frozendict(schema)
 
 
 # Using frozendict here to have an immutable that can be hashed for caching purposes.
@@ -80,23 +100,114 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
     :return: A dictionary containing a FHIRpath parsers for each field in the provided
     schema.
     """
-
     parsers = {}
 
-    for field, field_definiton in extraction_schema.items():
+    for field, field_definition in extraction_schema.items():
         parser = {}
-        parser["primary_parser"] = fhirpathpy.compile(field_definiton["fhir_path"])
-        if "secondary_schema" in field_definiton:
+        parser["primary_parser"] = fhirpathpy.compile(field_definition["fhir_path"])
+        if "secondary_schema" in field_definition:
             secondary_parsers = {}
-            for secondary_field, secondary_field_definition in field_definiton[
+            for secondary_field, secondary_field_definition in field_definition[
                 "secondary_schema"
             ].items():
-                secondary_parsers[secondary_field] = fhirpathpy.compile(
-                    secondary_field_definition["fhir_path"]
-                )
+                # Base case: secondary field is located on this resource
+                if not secondary_field_definition["fhir_path"].startswith("Bundle"):
+                    if "secondary_schema" in secondary_field_definition:
+                        tertiary_parser = {}
+                        tertiary_parsers = {}
+                        tertiary_parser["primary_parser"] = fhirpathpy.compile(
+                            secondary_field_definition["fhir_path"]
+                        )
+                        for (
+                            tertiary_field,
+                            tertiary_field_definition,
+                        ) in secondary_field_definition["secondary_schema"].items():
+                            tertiary_parsers[tertiary_field] = {
+                                "secondary_fhir_path": fhirpathpy.compile(
+                                    tertiary_field_definition["fhir_path"]
+                                )
+                            }
+                        secondary_parsers[secondary_field] = {
+                            "primary_parser": tertiary_parser["primary_parser"],
+                            "secondary_parsers": tertiary_parsers,
+                        }
+
+                    else:
+                        secondary_parsers[secondary_field] = {
+                            "secondary_fhir_path": fhirpathpy.compile(
+                                secondary_field_definition["fhir_path"]
+                            )
+                        }
+                # Reference case: secondary field is located on a different resource,
+                # so we can't compile the fhir_path proper; instead, compile the
+                # reference for quick access later
+                else:
+                    secondary_parsers[secondary_field] = {
+                        "secondary_fhir_path": secondary_field_definition["fhir_path"],
+                        "reference_path": fhirpathpy.compile(
+                            secondary_field_definition["reference_lookup"]
+                        ),
+                    }
             parser["secondary_parsers"] = secondary_parsers
         parsers[field] = parser
     return frozendict(parsers)
+
+
+def get_metadata(parsed_values: dict, schema) -> dict:
+    """
+    Given a dictionary of parsed values and a schema, creates a dictionary containing
+    metadata for each field in the parsed values dictionary.
+
+    :param parsed_values: A dictionary containing parsed values.
+    :param schema: A dictionary containing a schema.
+    :return: A dictionary containing metadata for each field in the parsed values
+    """
+    data = {}
+    for key, value in parsed_values.items():
+        if key not in schema:
+            data[key] = field_metadata(value=value)
+        else:
+            fhir_path = schema[key]["fhir_path"] if "fhir_path" in schema[key] else ""
+            match = re.search(r"resourceType\s*=\s*'([^']+)'", fhir_path)
+            resource_type = match.group(1) if match and match.group(1) else ""
+            data_type = schema[key]["data_type"] if "data_type" in schema[key] else ""
+            metadata = schema[key]["metadata"] if "metadata" in schema[key] else {}
+            data[key] = field_metadata(
+                value=value,
+                fhir_path=fhir_path,
+                data_type=data_type,
+                resource_type=resource_type,
+                metadata=metadata,
+            )
+    return data
+
+
+def field_metadata(
+    value: str = "",
+    fhir_path: str = "",
+    data_type: str = "",
+    resource_type: str = "",
+    metadata: dict = {},
+) -> dict:
+    """
+    Given metadata for a field, creates a dictionary containing that metadata.
+
+    :param value: The value of the field.
+    :param fhir_path: The FHIR path of the field.
+    :param data_type: The data type of the field.
+    :param resource_type: The resource type of the field.
+    :param metadata: Additional metadata for the field.
+    :return: A dictionary containing the metadata for the field.
+    """
+    data = {
+        "value": value,
+        "fhir_path": fhir_path,
+        "data_type": data_type,
+        "resource_type": resource_type,
+    }
+    for key, key_value in metadata.items():
+        data[key] = key_value
+    return data
 
 
 def search_for_required_values(input: dict, required_values: list) -> str:
@@ -215,5 +326,295 @@ def get_credential_manager(
     return result
 
 
-def read_json_from_assets(filename: str):
+def read_json_from_assets(filename: str) -> dict:
+    """
+    Reads a JSON file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A dictionary containing the contents of the file.
+    """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+
+
+def read_file_from_assets(filename: str) -> str:
+    """
+    Reads a file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A string containing the contents of the file.
+    """
+    with open(
+        (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
+    ) as file:
+        return file.read()
+
+
+def get_datetime_now() -> datetime.datetime:
+    """
+    Gets the current date and time.
+
+    :return: A datetime object representing the current date and time.
+    """
+    return datetime.datetime.now()
+
+
+def extract_and_apply_parsers(parsing_schema, message, response):
+    """
+    Helper function used to pull parsing methods for each field out of the
+    passed-in schema, resolve any reference dependencies, and apply the
+    result to the input FHIR bundle. If reference dependencies are present
+    (e.g. an Observation resource that references an ordering provider
+    Organization), this function will raise an error if those references
+    cannot be resolved (if the ID of the referenced object can't be found,
+    for example).
+
+    :param parsing_schema: A dictionary holding the parsing schema send
+      to the endpoint.
+    :param message: The FHIR bundle to extract values from.
+    :param response: The Response object the endpoint will send back, in
+      case we need to apply error status codes.
+    :return: A dictionary mapping schema keys to parsed values.
+    """
+    parsers = get_parsers(parsing_schema)
+    parsed_values = {}
+
+    # Iterate over each parser and make the appropriate path call
+    for field, parser in parsers.items():
+        if "secondary_parsers" not in parser:
+            value = parser["primary_parser"](message)
+            if len(value) == 0:
+                value = None
+            else:
+                value = ",".join(map(str, value))
+            parsed_values[field] = value
+
+        # Use the secondary field data structure, remembering that some
+        # fhir paths might not be compiled yet
+        else:
+            initial_values = parser["primary_parser"](message)
+            values = []
+
+            # This check allows us to use secondary schemas on fields that
+            # are just datatype structs, rather than full arrays. This is
+            # useful when we want multiple fields of information from a
+            # referenced resource, but there's only one instance of the
+            # resource type referencing another resource in the bundle
+            # (e.g. we want multiple values about the Bundle's Custodian:
+            # bundle.custodian is a dict with a reference, so we only need
+            # to find that reference once)
+            if type(initial_values) is not list:
+                initial_values = [initial_values]
+
+            for initial_value in initial_values:
+                value = {}
+                for secondary_field, secondary_path_struct in parser[
+                    "secondary_parsers"
+                ].items():
+                    if "reference_path" not in secondary_path_struct:
+                        # Check for tertiary values
+                        if "secondary_parsers" in secondary_path_struct:
+                            tertiary_parser = secondary_path_struct["primary_parser"]
+                            tertiary_values = []
+                            for v in tertiary_parser(initial_value):
+                                tv = {}
+                                for (
+                                    tertiary_field,
+                                    tertiary_path_struct,
+                                ) in secondary_path_struct["secondary_parsers"].items():
+                                    tv_parser = tertiary_path_struct[
+                                        "secondary_fhir_path"
+                                    ]
+                                    if len(tv_parser(v)) == 0:
+                                        tv[tertiary_field] = None
+                                    else:
+                                        tv[tertiary_field] = ",".join(
+                                            map(str, tv_parser(v))
+                                        )
+                                tertiary_values.append(tv)
+                            value[secondary_field] = tertiary_values
+                        else:
+                            try:
+                                secondary_parser = secondary_path_struct[
+                                    "secondary_fhir_path"
+                                ]
+                                if len(secondary_parser(initial_value)) == 0:
+                                    value[secondary_field] = None
+                                else:
+                                    value[secondary_field] = ",".join(
+                                        map(str, secondary_parser(initial_value))
+                                    )
+                            # By default, fhirpathpy will compile such that *only*
+                            # actual resources can be accessed, rather than data types.
+                            # This is fine for most cases, but sometimes the actual data
+                            # we want is in a list of structs rather than a list of
+                            # resources, such as a list of patient addresses. This
+                            # exception catches that and allows an ordinary property
+                            # search.
+                            except KeyError:
+                                try:
+                                    accessors = (
+                                        secondary_parser.parsedPath.get("children")[0]
+                                        .get("text")
+                                        .split(".")[1:]
+                                    )
+                                    val = initial_value
+                                    for acc in accessors:
+                                        if "[" not in acc:
+                                            val = val[acc]
+                                        else:
+                                            sub_acc = acc.split("[")[1].split("]")[0]
+                                            val = val[acc.split("[")[0].strip()][
+                                                int(sub_acc)
+                                            ]
+                                    value[secondary_field] = str(val)
+                                except:  # noqa
+                                    value[secondary_field] = None
+
+                    # Reference case: information is contained on another
+                    # resource that we have to look up
+                    else:
+                        reference_parser = secondary_path_struct["reference_path"]
+                        if len(reference_parser(initial_value)) == 0:
+                            response.status_code = status.HTTP_400_BAD_REQUEST
+                            return {
+                                "message": "Provided `reference_lookup` location does "
+                                "not point to a referencing identifier",
+                                "parsed_values": {},
+                            }
+                        else:
+                            reference_to_find = ",".join(
+                                map(str, reference_parser(initial_value))
+                            )
+
+                            # FHIR references are prefixed with resource type
+                            reference_to_find = reference_to_find.split("/")[-1]
+
+                            # Build the resultant concatenated reference path
+                            reference_path = secondary_path_struct[
+                                "secondary_fhir_path"
+                            ].replace(DIBBS_REFERENCE_SIGNIFIER, reference_to_find)
+                            reference_path = fhirpathpy.compile(reference_path)
+                            referenced_value = reference_path(message)
+                            if len(referenced_value) == 0:
+                                value[secondary_field] = None
+                            else:
+                                value[secondary_field] = ",".join(
+                                    map(str, referenced_value)
+                                )
+
+                values.append(value)
+            parsed_values[field] = values
+    return parsed_values
+
+
+def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
+    """
+    Transform the parsed values into a PHDCInputData object.
+
+    :param parsed_values: A dictionary containing the values parsed out of a FHIR
+        bundle.
+    :return: A PHDCInputData object.
+    """
+    # Translate to internal data classes
+    input_data = PHDCInputData()
+    input_data.patient = Patient()
+    input_data.organization = Organization()
+    for key, value in parsed_values.items():
+        match key:
+            case "patient_address":
+                input_data.patient.address = [Address(**address) for address in value]
+            case "patient_name":
+                input_data.patient.name = [Name(**name) for name in value]
+            case "patient_administrative_gender_code":
+                input_data.patient.administrative_gender_code = value
+            case "patient_birth_time":
+                input_data.patient.birth_time = value
+            case "patient_race_code":
+                input_data.patient.race_code = value
+            case "patient_ethnic_group_code":
+                input_data.patient.ethnic_group_code = value
+            case "observations":
+                observation_groups = {
+                    "social-history": input_data.social_history_info,
+                    "EXPOS": input_data.repeating_questions,
+                    "clinical_info": input_data.clinical_info,
+                    "vital-signs": input_data.clinical_info,
+                }
+                for obs in value:
+                    observation_type = "clinical_info"
+                    if obs["obs_type"] in observation_groups:
+                        observation_type = obs["obs_type"]
+
+                    observation_groups[observation_type].append([Observation(**obs)])
+
+                    if "components" in obs and obs["components"] is not None:
+                        components = []
+                        for component in obs["components"]:
+                            components.append(Observation(**component))
+                        observation_groups[observation_type].append(components)
+
+            case "custodian_represented_custodian_organization":
+                organizations = []
+                address_fields = set([f.name for f in dataclasses.fields(Address)])
+
+                for entry in value:
+                    organizations.append(
+                        Organization(
+                            name=entry["name"],
+                            id=str(uuid.uuid4()),
+                            address=Address(
+                                **dict(
+                                    filter(
+                                        lambda e: e[0] in address_fields, entry.items()
+                                    )
+                                )
+                            ),
+                            telecom=Telecom(value=entry["phone"]),
+                        )
+                    )
+
+                input_data.organization = organizations
+            case _:
+                pass
+    return input_data
+
+
+def get_phdc_section(
+    section_title: Literal[
+        "SOCIAL HISTORY INFORMATION",
+        "Clinical Information",
+        "REPEATING QUESTIONS",
+        "header",
+    ],
+    tree: ET.ElementTree,
+) -> Union[ET.Element, ET.ElementTree]:
+    """
+    Returns the specified section of a PHDC from a file.
+
+    :param section_title: The section of the PHDC
+    :param tree: The ElementTree fromwhich to parse the section.
+    :return: A section Element containing the contents of the file per the
+    section_title.
+    """
+    # Remove the namespaces
+    root = tree.getroot()
+    for elem in root.getiterator():
+        elem.tag = ET.QName(elem).localname
+    ET.cleanup_namespaces(root)
+
+    if section_title == "header":
+        # Remove components
+        for component in root.findall("component"):
+            root.remove(component)
+
+        return root
+    else:
+        for component in root:
+            if component.tag == "component":
+                for c in component:
+                    if c.tag == "structuredBody":
+                        for sb in c:
+                            for section in sb:
+                                for title in section:
+                                    if title.text == section_title:
+                                        return sb

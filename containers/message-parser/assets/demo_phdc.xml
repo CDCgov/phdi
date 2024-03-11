@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='utf-8'?>
+<?xml-stylesheet type="text/xsl" href="PHDC.xsl"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdt="urn:hl7-org:sdtc" xmlns:sdtcxmlnamespaceholder="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 CDA_SDTC.xsd">
+  <realmCode code="US"/>
+  <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000020"/>
+  <id root="2.16.840.1.113883.19" extension="495669c7-96bf-4573-9dd8-59e745e05576"/>
+  <code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Public Health Case Report - PHRI"/>
+  <title>Public Health Case Report - Data from the DIBBs FHIR to PHDC Converter</title>
+  <effectiveTime value="20101215000000"/>
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+  <setId extension="CLOSED_CASE" displayable="true"/>
+  <versionNumber value="1"/>
+  <recordTarget>
+    <patientRole>
+      <id extension="495669c7-96bf-4573-9dd8-59e745e05576" root="2.16.840.1.113883.4.1" assigningAuthorityName="LR"/>
+      <addr use="WP">
+        <streetAddressLine>165 Eichmann Crossing</streetAddressLine>
+        <streetAddressLine>Suite 25</streetAddressLine>
+        <city>Waltham</city>
+        <state>Massachusetts</state>
+        <postalCode>46239</postalCode>
+        <county>Franklin</county>
+        <country>US</country>
+      </addr>
+      <patient>
+        <name use="L">
+          <prefix>Mrs.</prefix>
+          <given>Kimberley</given>
+          <given>Annette</given>
+          <family>Price</family>
+        </name>
+        <name use="P">
+          <prefix>Ms.</prefix>
+          <given>Kim</given>
+          <family>Levinson</family>
+        </name>
+        <administrativeGenderCode displayName="female"/>
+        <birthTime value="19960417"/>
+        <sdt:raceCode code="2028-9" codeSystem="2.16.840.1.113883.6.238" displayName="Asian" codeSystemName="Race &amp; Ethnicity"/>
+        <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
+      </patient>
+    </patientRole>
+  </recordTarget>
+  <author>
+    <time value="20101215000000"/>
+    <assignedAuthor>
+      <id root="2.16.840.1.113883.19.5"/>
+      <assignedPerson>
+        <name>
+          <family>CDC PRIME DIBBs</family>
+        </name>
+      </assignedPerson>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id extension="495669c7-96bf-4573-9dd8-59e745e05576"/>
+        <name>Sunny Vale</name>
+        <telecom value="999-999-9999"/>
+        <addr>
+          <streetAddressLine>999 North Ridge Road</streetAddressLine>
+          <streetAddressLine>Building 3</streetAddressLine>
+          <city>Amherst</city>
+          <state>Massachusetts</state>
+          <postalCode>33721</postalCode>
+          <county>Duvall</county>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <component>
+    <structuredBody>
+      <component>
+        <section>
+          <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
+          <code code="29762-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Social history"/>
+          <title>SOCIAL HISTORY INFORMATION</title>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="alcohol-type" codeSystem="Acme Rehab" codeSystemName="Acme Rehab" displayName="Type of alcohol consumed"/>
+              <value/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="alcohol-type" codeSystem="Acme Rehab" codeSystemName="Acme Rehab"/>
+              <value xsi:type="CE" code="35748005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Wine (substance)"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="alcohol-type" codeSystem="Acme Rehab" codeSystemName="Acme Rehab"/>
+              <value xsi:type="CE" code="53410008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Beer (substance)"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="alcohol-type" codeSystem="Acme Rehab" codeSystemName="Acme Rehab"/>
+              <value xsi:type="CE" code="6524003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Distilled spirits (substance)"/>
+            </observation>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
+          <code code="55752-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Clinical Information"/>
+          <title>Clinical Information</title>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="15074-8" codeSystem="number" codeSystemName="LOINC" displayName="Glucose [Moles/volume] in Blood"/>
+              <value xsi:type="CE" code="mmol/L" codeSystem="http://unitsofmeasure.org" displayName="6.3"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="104177,600-7" codeSystem="http://acmelabs.org,http://loinc.org" displayName="Blood culture,Bacteria identified in Blood by Culture"/>
+              <value xsi:type="CE" code="3092008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Staphylococcus aureus"/>
+            </observation>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="1234567-RPT" codeSystem="Local-codesystem-oid" codeSystemName="LocalSystem" displayName="Generic Repeating Questions Section"/>
+          <title>REPEATING QUESTIONS</title>
+          <entry typeCode="COMP">
+            <organizer classCode="CLUSTER" moodCode="EVN">
+              <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
+              <statusCode code="completed"/>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="C3841750" codeSystem="http://terminology.hl7.org/CodeSystem/umls" displayName="Mass gathering"/>
+                  <value xsi:type="CE" code="264379009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Sports stadium (environment)"/>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
+          <entry typeCode="COMP">
+            <organizer classCode="CLUSTER" moodCode="EVN">
+              <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
+              <statusCode code="completed"/>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="EXPAGNT" codeSystem="http://terminology.hl7.org/CodeSystem/v3-ParticipationType" displayName="ExposureAgent"/>
+                  <value xsi:type="CE" code="840533007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Severe acute respiratory syndrome coronavirus 2 (organism)"/>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>

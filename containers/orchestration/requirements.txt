@@ -1,8 +1,18 @@
-typing_extensions==4.5.0
+typing_extensions>=4.8.0
 pydantic==1.10.9
-fastapi==0.96.0
+fastapi>=0.109.1
 phdi @ git+https://github.com/CDCgov/phdi@main
 uvicorn
 httpx
 pytest
 frozendict
+requests
+python-dotenv
+python-multipart
+pytest-env
+pytest-asyncio
+testcontainers[compose]
+websockets
+asyncio
+sqlalchemy
+boto3

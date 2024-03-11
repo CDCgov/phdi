@@ -1,8 +1,13 @@
 import json
 import pathlib
-import yaml
 import re
 
+import yaml
+from fastapi import HTTPException
+from fastapi import status
+from lxml.etree import XMLSyntaxError
+
+from phdi.fhir.conversion import add_rr_data_to_eicr
 
 VALID_ERROR_TYPES = ["fatal", "errors", "warnings", "information"]
 # TODO: remove the hard coding of the location of the config file
@@ -35,7 +40,7 @@ def load_ecr_config(file_path: pathlib.Path = None) -> dict:
     # if not, then just use the default sample_ecr_config.yaml
     for file in pathlib.Path(DEFAULT_CONFIG_PATH).glob("*.yaml"):
         file_name = pathlib.Path(file).stem
-        if file_path is None and re.search("ecr_config_[a-z]+", file_name.lower()):
+        if file_path is None and re.search("^ecr_config_[a-z]+", file_name.lower()):
             path = DEFAULT_CONFIG_PATH / file
             exit
         elif file_path is not None:
@@ -99,6 +104,29 @@ def validate_config(config: dict):
         if "attributes" not in field and "textRequired" not in field:
             return False
     return True
+
+
+def check_for_and_extract_rr_data(input: dict):
+    # eCR is the only message type that should have accompanying RR
+    if input["rr_data"] is not None:
+        if input["message_type"] != "ecr":
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Reportability Response (RR) data is only "
+                "accepted for eCR validation requests.",
+            )
+
+        try:
+            merged_ecr = add_rr_data_to_eicr(input["rr_data"], input["message"])
+            input["message"] = merged_ecr
+        except XMLSyntaxError:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Reportability Response and eICR message both "
+                "must be valid XML messages.",
+            )
+
+    return input
 
 
 def read_json_from_assets(filename: str):

@@ -1,37 +1,171 @@
-from fastapi.testclient import TestClient
-import json
-from pathlib import Path
+from copy import deepcopy
 from unittest import mock
-from app.main import app
 
+import pytest
+from app.main import app
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 
-fhir_bundle_path = (
-    Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "general"
-    / "patient_bundle.json"
-)
 
-with open(fhir_bundle_path, "r") as file:
-    fhir_bundle = json.load(file)
+@pytest.fixture
+def fhir_bundle(read_json_from_phdi_test_assets):
+    return read_json_from_phdi_test_assets("patient_bundle.json")
 
-test_schema_path = (
-    Path(__file__).parent.parent / "app" / "default_schemas" / "test_schema.json"
-)
 
-with open(test_schema_path, "r") as file:
-    test_schema = json.load(file)
+@pytest.fixture
+def fhir_bundle_w_float(read_json_from_phdi_test_assets):
+    return read_json_from_phdi_test_assets("patient_bundle_w_floats.json")
+
+
+@pytest.fixture
+def test_schema(read_schema_from_default_schemas):
+    return read_schema_from_default_schemas("test_schema.json")
+
+
+@pytest.fixture
+def reference_bundle(read_json_from_phdi_test_assets):
+    return read_json_from_phdi_test_assets("patient_bundle_w_labs.json")
+
+
+@pytest.fixture
+def test_reference_schema(read_schema_from_default_schemas):
+    return read_schema_from_default_schemas("test_reference_schema.json")
+
 
 expected_successful_response = {
     "message": "Parsing succeeded!",
-    "parsed_values": {"first_name": "John ", "last_name": "doe", "active_problems": []},
+    "parsed_values": {
+        "first_name": "John ",
+        "last_name": "doe",
+        "latitude": None,
+        "longitude": None,
+        "active_problems": [],
+    },
+}
+
+expected_successful_response_with_meta_data = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "first_name": {
+            "value": "John ",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name"
+            + ".first().given.first()",
+            "data_type": "string",
+            "resource_type": "Patient",
+            "category": "name",
+        },
+        "last_name": {
+            "value": "doe",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name"
+            + ".first().family",
+            "data_type": "string",
+            "resource_type": "Patient",
+        },
+        "latitude": {
+            "value": None,
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient')"
+            + ".address.extension.where"
+            + "(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension."
+            + "where(url='latitude').valueDecimal",
+            "data_type": "float",
+            "resource_type": "Patient",
+        },
+        "longitude": {
+            "value": None,
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address"
+            + ".extension.where"
+            + "(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension"
+            + ".where(url='longitude').valueDecimal",
+            "data_type": "float",
+            "resource_type": "Patient",
+        },
+        "active_problems": {
+            "value": [],
+            "fhir_path": "Bundle.entry.resource.where(resourceType='Condition')"
+            + ".where(category.coding.code='problem-item-list')",
+            "data_type": "array",
+            "resource_type": "Condition",
+        },
+    },
+}
+
+expected_successful_response_floats = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "first_name": "John ",
+        "last_name": "doe",
+        "latitude": "34.58002",
+        "longitude": "-118.08925",
+        "active_problems": [],
+    },
+}
+
+expected_successful_response_floats_with_meta_data = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "first_name": {
+            "value": "John ",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name"
+            + ".first().given.first()",
+            "data_type": "string",
+            "resource_type": "Patient",
+            "category": "name",
+        },
+        "last_name": {
+            "value": "doe",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name"
+            + ".first().family",
+            "data_type": "string",
+            "resource_type": "Patient",
+        },
+        "latitude": {
+            "value": "34.58002",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address"
+            + ".extension"
+            + ".where(url='http://hl7.org/fhir/StructureDefinition/geolocation')"
+            + ".extension.where(url='latitude').valueDecimal",
+            "data_type": "float",
+            "resource_type": "Patient",
+        },
+        "longitude": {
+            "value": "-118.08925",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address"
+            + ".extension"
+            + ".where(url='http://hl7.org/fhir/StructureDefinition/geolocation')"
+            + ".extension.where(url='longitude').valueDecimal",
+            "data_type": "float",
+            "resource_type": "Patient",
+        },
+        "active_problems": {
+            "value": [],
+            "fhir_path": "Bundle.entry.resource.where(resourceType='Condition')"
+            + ".where(category.coding.code='problem-item-list')",
+            "data_type": "array",
+            "resource_type": "Condition",
+        },
+    },
 }
 
 
-def test_parse_message_success_internal_schema():
+expected_reference_response = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "first_name": "John ",
+        "last_name": "doe",
+        "labs": [
+            {
+                "test_type": "Blood culture",
+                "test_result_code_display": "Staphylococcus aureus",
+                "ordering_provider": "Western Pennsylvania Medical General",
+                "requesting_organization_contact_person": "Dr. Totally Real Doctor, M.D.",  # noqa
+            }
+        ],
+    },
+}
+
+
+def test_parse_message_success_internal_schema(fhir_bundle, fhir_bundle_w_float):
     test_request = {
         "message_format": "fhir",
         "parsing_schema_name": "test_schema.json",
@@ -42,8 +176,45 @@ def test_parse_message_success_internal_schema():
     assert actual_response.status_code == 200
     assert actual_response.json() == expected_successful_response
 
+    test_request2 = {
+        "message_format": "fhir",
+        "parsing_schema_name": "test_schema.json",
+        "message": fhir_bundle_w_float,
+    }
 
-def test_parse_message_success_external_schema():
+    actual_response2 = client.post("/parse_message", json=test_request2)
+    assert actual_response2.status_code == 200
+    assert actual_response2.json() == expected_successful_response_floats
+
+
+def test_parse_message_success_internal_schema_with_metadata(
+    fhir_bundle,
+    fhir_bundle_w_float,
+):
+    test_request = {
+        "message_format": "fhir",
+        "parsing_schema_name": "test_schema.json",
+        "include_metadata": "true",
+        "message": fhir_bundle,
+    }
+
+    actual_response = client.post("/parse_message", json=test_request)
+    assert actual_response.status_code == 200
+    assert actual_response.json() == expected_successful_response_with_meta_data
+
+    test_request2 = {
+        "message_format": "fhir",
+        "include_metadata": "true",
+        "parsing_schema_name": "test_schema.json",
+        "message": fhir_bundle_w_float,
+    }
+
+    actual_response2 = client.post("/parse_message", json=test_request2)
+    assert actual_response2.status_code == 200
+    assert actual_response2.json() == expected_successful_response_floats_with_meta_data
+
+
+def test_parse_message_success_external_schema(test_schema, fhir_bundle):
     request = {
         "message_format": "fhir",
         "parsing_schema": test_schema,
@@ -55,10 +226,23 @@ def test_parse_message_success_external_schema():
     assert actual_response.json() == expected_successful_response
 
 
+def test_parse_message_success_referenced_resources(
+    test_reference_schema, reference_bundle
+):
+    request = {
+        "message_format": "fhir",
+        "parsing_schema": test_reference_schema,
+        "message": reference_bundle,
+    }
+    actual_response = client.post("/parse_message", json=request)
+    assert actual_response.status_code == 200
+    assert actual_response.json() == expected_reference_response
+
+
 @mock.patch("app.main.convert_to_fhir")
 @mock.patch("app.main.get_credential_manager")
 def test_parse_message_success_non_fhir(
-    patched_get_credential_manager, patched_convert_to_fhir
+    patched_get_credential_manager, patched_convert_to_fhir, fhir_bundle
 ):
     request = {
         "message_format": "hl7v2",
@@ -154,10 +338,10 @@ def test_parse_message_non_fhir_missing_message_type():
     )
 
 
-def test_parse_message_internal_and_external_schema():
+def test_parse_message_internal_and_external_schema(test_reference_schema):
     request = {
         "message_format": "fhir",
-        "parsing_schema": {"my-field": "FHIR.to.my.field"},
+        "parsing_schema": test_reference_schema,
         "parsing_schema_name": "test_schema.json",
         "message": "some-hl7v2-elr-message",
     }
@@ -183,4 +367,46 @@ def test_parse_message_neither_internal_nor_external_schema():
         actual_response.json()["detail"][0]["msg"]
         == "Values for 'parsing_schema' and 'parsing_schema_name' have not been "
         "provided. One, but not both, of these values is required."
+    )
+
+
+def test_schema_without_reference_lookup(test_reference_schema):
+    no_lookup_schema = deepcopy(test_reference_schema)
+    del no_lookup_schema["labs"]["secondary_schema"]["ordering_provider"][
+        "reference_lookup"
+    ]
+    request = {
+        "message_format": "fhir",
+        "message": {},
+        "parsing_schema": no_lookup_schema,
+    }
+
+    actual_response = client.post("/parse_message", json=request)
+    assert actual_response.status_code == 422
+    assert (
+        actual_response.json()["detail"][0]["msg"]
+        == "Secondary fields in the parsing schema that reference other "
+        "resources must include a `reference_lookup` field that identifies "
+        "where the reference ID can be found."
+    )
+
+
+def test_schema_without_identifier_path(test_reference_schema):
+    no_bundle_schema = deepcopy(test_reference_schema)
+    no_bundle_schema["labs"]["secondary_schema"]["ordering_provider"][
+        "fhir_path"
+    ] = "Observation.provider"
+    request = {
+        "message_format": "fhir",
+        "message": {},
+        "parsing_schema": no_bundle_schema,
+    }
+
+    actual_response = client.post("/parse_message", json=request)
+    assert actual_response.status_code == 422
+    assert (
+        actual_response.json()["detail"][0]["msg"]
+        == "Secondary fields in the parsing schema that provide `reference_lookup` "
+        "locations must have a `fhir_path` that begins with `Bundle` and identifies "
+        "the type of resource being referenced."
     )

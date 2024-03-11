@@ -5,13 +5,18 @@ on:
   pull_request:
     branches:
       - "**"
+  merge_group:
+    types:
+      - checks_requested
   push:
     branches:
       - main
-    paths-ignore: 
+    paths-ignore:
       - pyproject.toml
 
-
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
@@ -50,7 +55,7 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: test_postgres_connection
-        run: poetry run pytest tests/linkage/test_postgres_mpi_connector.py
+        run: poetry run pytest tests/linkage/test_mpi.py
   unit-test-phdi-building-blocks-lib:
     runs-on: ubuntu-latest
     services:
@@ -90,27 +95,6 @@ jobs:
         with:
           flags: unit-tests
 
-  code-check-python:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install dependencies
-        run: |
-          pip install -U pip
-          pip install black flake8
-      - name: Check format (black)
-        run: |
-          black --check --verbose .
-      - name: Check style (flake8)
-        run: |
-          flake8
-
   ensure-clean-notebooks:
     runs-on: ubuntu-latest
     steps:
@@ -144,7 +128,7 @@ jobs:
           - 5432:5432
     strategy:
       matrix:
-        container-to-test: ${{fromJson(needs.list-containers.outputs.containers)}}
+        container-to-test: ${{fromJson(needs.list-containers.outputs.python-containers)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -158,7 +142,14 @@ jobs:
       - name: Install dependencies
         working-directory: ./containers/${{matrix.container-to-test}}
         run: |
+          if [[ $GITHUB_REF != "refs/heads/main" ]]; then
+               commit_hash=$(git rev-parse HEAD)
+               find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
+          fi
           pip install -r requirements.txt
+          if [ -f dev-requirements.txt ]; then
+            pip install -r dev-requirements.txt
+          fi
       - name: Run unit tests for containers
         env:
           MPI_DBNAME: testdb
@@ -171,4 +162,87 @@ jobs:
           MPI_PERSON_TABLE: person
         working-directory: ./containers/${{matrix.container-to-test}}/tests
         run: |
-          python -m pytest
+          python -m pytest -m "not integration"
+  integration-test-python-containers:
+    needs: list-containers
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install Pytest
+        run: pip install pytest
+      - name: Install dependencies
+        working-directory: ./containers/${{matrix.directories-to-test}}
+        # When running as a PR check, instead of importing the SDK from @main,
+        # import it from the current commit. (Need to do this for all containers)
+        run: |
+          if [[ $GITHUB_REF != "refs/heads/main" ]]; then
+            commit_hash=$(git rev-parse HEAD)
+            cd ..
+            find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
+            cd ${{matrix.directories-to-test}}
+          fi
+          pip install -r requirements.txt
+          if [ -f dev-requirements.txt ]; then
+            pip install -r dev-requirements.txt
+          fi
+      - name: Run integration tests for containers
+        working-directory: ./containers/${{matrix.directories-to-test}}/tests/integration
+        run: |
+          python -m pytest -m "integration"
+
+  test-node-containers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18 # Adjust the Node.js version as needed
+      - name: Install dependencies
+        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+        run: npm install
+      - name: Run tests
+        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+        run: npm test
+
+  unit-test-dotnet-fhir-converter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+      - name: Run tests
+        working-directory: ./containers/fhir-converter # Navigate to your Node.js app directory
+        run: dotnet test
+
+  cypress-e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18 # Adjust the Node.js version as needed
+      - name: Install dependencies
+        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+        run: npm install
+      - name: Build
+        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+        run: npm run build
+      - name: Spin up app and test
+        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+        run: npm run start & npm run cypress:run

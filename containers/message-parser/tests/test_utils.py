@@ -1,18 +1,20 @@
 import json
-from pathlib import Path
-import pytest
-from frozendict import frozendict
-from unittest import mock
 import os
-from app.utils import (
-    load_parsing_schema,
-    get_parsers,
-    get_credential_manager,
-    search_for_required_values,
-    convert_to_fhir,
-    freeze_parsing_schema,
-)
+from pathlib import Path
+from unittest import mock
+
+import pytest
 from app.config import get_settings
+from app.utils import convert_to_fhir
+from app.utils import field_metadata
+from app.utils import freeze_parsing_schema
+from app.utils import freeze_parsing_schema_helper
+from app.utils import get_credential_manager
+from app.utils import get_metadata
+from app.utils import get_parsers
+from app.utils import load_parsing_schema
+from app.utils import search_for_required_values
+from frozendict import frozendict
 
 
 def test_load_parsing_schema_success():
@@ -37,7 +39,7 @@ def test_load_parsing_schema_fail():
 
 @mock.patch("app.utils.fhirpathpy")
 def test_get_parsers(patched_fhirpathpy):
-    parsing_schema = load_parsing_schema("test_schema.json")
+    parsing_schema = load_parsing_schema("test_reference_schema.json")
     get_parsers.cache_clear()
     get_parsers(frozendict(parsing_schema))
 
@@ -170,3 +172,61 @@ def test_freeze_parsing_schema():
     for key in test_schema:
         for subkey in test_schema[key]:
             assert test_schema[key][subkey] == frozen_schema[key][subkey]
+
+
+def test_field_metadata():
+    expected_result = {
+        "value": "foo",
+        "fhir_path": "bar",
+        "data_type": "biz",
+        "resource_type": "baz",
+    }
+    assert (
+        field_metadata(
+            value="foo", fhir_path="bar", data_type="biz", resource_type="baz"
+        )
+        == expected_result
+    )
+    expected_result2 = {
+        "value": "",
+        "fhir_path": "",
+        "data_type": "",
+        "resource_type": "",
+    }
+    assert field_metadata() == expected_result2
+
+
+def test_get_metadata():
+    example_parsed_values = {"foo": "bar", "fiz": "biz", "baz": "Null"}
+    example_schema = {
+        "foo": {
+            "fhir_path": "Bundle.entry.resource.where(resourceType='Foo').biz",
+            "data_type": "string",
+            "nullable": False,
+            "metadata": {"metaFoo": "metaFooData", "metaFiz": "metaFizData"},
+        },
+        "baz": {},
+    }
+    expected_result = {
+        "foo": {
+            "value": "bar",
+            "fhir_path": "Bundle.entry.resource.where(resourceType='Foo').biz",
+            "data_type": "string",
+            "resource_type": "Foo",
+            "metaFoo": "metaFooData",
+            "metaFiz": "metaFizData",
+        },
+        "fiz": {"value": "biz", "fhir_path": "", "data_type": "", "resource_type": ""},
+        "baz": {"value": "Null", "fhir_path": "", "data_type": "", "resource_type": ""},
+    }
+    result = get_metadata(parsed_values=example_parsed_values, schema=example_schema)
+    assert result == expected_result
+
+
+def test_freeze_parsing_schema_helper():
+    input = {"foo": "bar", "fiz": {"foo": "bar", "fiz": {"foo": "bar"}}}
+    output = freeze_parsing_schema_helper(input)
+    assert isinstance(output, frozendict)
+    assert isinstance(output["fiz"], frozendict)
+    assert isinstance(output["fiz"]["fiz"], frozendict)
+    assert isinstance(output["foo"], str)

@@ -1,13 +1,13 @@
-import hl7
-import requests
-
 import xml.etree.ElementTree as et
 
-from phdi.harmonization import standardize_hl7_datetimes
+import hl7
+import requests
+from lxml import etree
+
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
+from phdi.harmonization import standardize_hl7_datetimes
 from phdi.transport.http import http_request_with_retry
-from lxml import etree
 
 
 CCDA_CODES_TO_CONVERSION_RESOURCE = {
@@ -47,6 +47,10 @@ def add_rr_data_to_eicr(rr, ecr):
 
     rr = etree.fromstring(rr)
     ecr = etree.fromstring(ecr)
+
+    if ecr.xpath('//*[@code="88085-6"]'):
+        print("This eCR has already been merged with RR data.")
+        return etree.tostring(ecr, encoding="unicode", method="xml")
 
     # Create the tags for elements we'll be looking for
     rr_tags = [

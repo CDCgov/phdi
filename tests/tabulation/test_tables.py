@@ -1,28 +1,25 @@
+import copy
 import csv
-import os
-import jsonschema
-import yaml
 import json
+import os
 import pathlib
 import sqlite3 as sql
 from unittest import mock
-import pytest
-import copy
 
-from phdi.tabulation import (
-    load_schema,
-    validate_schema,
-    write_data,
-)
-from phdi.fhir.tabulation import tabulate_data
-from phdi.tabulation.tables import (
-    _convert_list_to_string,
-    _create_pa_schema_from_table_schema,
-    _create_from_arrays_data,
-    _create_parquet_data,
-)
+import jsonschema
 import pyarrow as pa
 import pyarrow.parquet as pq
+import pytest
+import yaml
+
+from phdi.fhir.tabulation import tabulate_data
+from phdi.tabulation import load_schema
+from phdi.tabulation import validate_schema
+from phdi.tabulation import write_data
+from phdi.tabulation.tables import _convert_list_to_string
+from phdi.tabulation.tables import _create_from_arrays_data
+from phdi.tabulation.tables import _create_pa_schema_from_table_schema
+from phdi.tabulation.tables import _create_parquet_data
 
 
 def test_load_schema():
@@ -524,7 +521,7 @@ def test_write_data_sql():
             "obs1",
             "i-am-not-a-robot",
         ),
-        ("Shepard", "Zakera Ward", "None", "no-srsly-i-am-hoomun"),
+        ("Shepard", "Boston", "None", "no-srsly-i-am-hoomun"),
         ("None", "Faketon", "obs2,obs3", "None"),
     ]
     conn.close()

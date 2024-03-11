@@ -1,0 +1,296 @@
+{
+  "result": {
+    "input": {
+      "address": {
+        "address": "1428 Post Aly Seattle, WA, 98101"
+      },
+      "vintage": {
+        "isDefault": true,
+        "id": "2020",
+        "vintageName": "Census2020_Census2020",
+        "vintageDescription": "Census 2020 Vintage - Census 2020 Benchmark"
+      },
+      "benchmark": {
+        "isDefault": false,
+        "benchmarkDescription": "Public Address Ranges - Census 2020 Benchmark",
+        "id": "2020",
+        "benchmarkName": "Public_AR_Census2020"
+      }
+    },
+    "addressMatches": [
+      {
+        "tigerLine": {
+          "side": "R",
+          "tigerLineId": "636482255"
+        },
+        "geographies": {
+          "State Legislative Districts - Upper": [
+            {
+              "POP100": 180014,
+              "GEOID": "53043",
+              "CENTLAT": "+47.6459233",
+              "AREAWATER": 7773977,
+              "STATE": "53",
+              "BASENAME": "43",
+              "OID": "212904690194655",
+              "LSADC": "LU",
+              "SLDU": "043",
+              "FUNCSTAT": "N",
+              "INTPTLAT": "+47.6462630",
+              "NAME": "State Senate District 43",
+              "OBJECTID": 843,
+              "CENTLON": "-122.3180108",
+              "LSY": "2018",
+              "HU100": 101411,
+              "AREALAND": 30180546,
+              "INTPTLON": "-122.3176810",
+              "MTFCC": "G5210",
+              "LDTYP": "O"
+            }
+          ],
+          "States": [
+            {
+              "STATENS": "01779804",
+              "POP100": 7705281,
+              "GEOID": "53",
+              "CENTLAT": "+47.4148772",
+              "AREAWATER": 12549742084,
+              "STATE": "53",
+              "BASENAME": "Washington",
+              "STUSAB": "WA",
+              "OID": "27490225755057",
+              "LSADC": "00",
+              "FUNCSTAT": "A",
+              "INTPTLAT": "+47.4073238",
+              "DIVISION": "9",
+              "NAME": "Washington",
+              "REGION": "4",
+              "OBJECTID": 35,
+              "CENTLON": "-120.5954943",
+              "AREALAND": 172117960159,
+              "INTPTLON": "-120.5757999",
+              "HU100": 3202241,
+              "MTFCC": "G4000",
+              "UR": "M"
+            }
+          ],
+          "Combined Statistical Areas": [
+            {
+              "POP100": 4953421,
+              "GEOID": "500",
+              "CENTLAT": "+47.4867133",
+              "AREAWATER": 3320288796,
+              "BASENAME": "Seattle-Tacoma, WA",
+              "OID": "2619013782255231",
+              "LSADC": "M0",
+              "FUNCSTAT": "S",
+              "INTPTLAT": "+47.4819860",
+              "NAME": "Seattle-Tacoma, WA CSA",
+              "CSA": "500",
+              "OBJECTID": 87,
+              "CENTLON": "-122.1786225",
+              "HU100": 2051279,
+              "AREALAND": 31826717238,
+              "INTPTLON": "-122.1755863",
+              "MTFCC": "G3100"
+            }
+          ],
+          "County Subdivisions": [
+            {
+              "COUSUB": "92928",
+              "POP100": 1139259,
+              "GEOID": "5303392928",
+              "CENTLAT": "+47.5581488",
+              "AREAWATER": 210406009,
+              "STATE": "53",
+              "BASENAME": "Seattle",
+              "OID": "27690836057514",
+              "LSADC": "22",
+              "FUNCSTAT": "S",
+              "INTPTLAT": "+47.5644713",
+              "NAME": "Seattle CCD",
+              "OBJECTID": 13089,
+              "CENTLON": "-122.3237245",
+              "COUSUBCC": "Z5",
+              "HU100": 522218,
+              "AREALAND": 482892116,
+              "INTPTLON": "-122.3269383",
+              "MTFCC": "G4040",
+              "COUSUBNS": "01939621",
+              "UR": "M",
+              "COUNTY": "033"
+            }
+          ],
+          "State Legislative Districts - Lower": [
+            {
+              "POP100": 180014,
+              "GEOID": "53043",
+              "CENTLAT": "+47.6459233",
+              "SLDL": "043",
+              "AREAWATER": 7773977,
+              "STATE": "53",
+              "BASENAME": "43",
+              "OID": "213904690194776",
+              "LSADC": "LL",
+              "FUNCSTAT": "N",
+              "INTPTLAT": "+47.6462630",
+              "NAME": "State House District 43",
+              "OBJECTID": 1101,
+              "CENTLON": "-122.3180108",
+              "LSY": "2018",
+              "HU100": 101411,
+              "AREALAND": 30180546,
+              "INTPTLON": "-122.3176810",
+              "MTFCC": "G5220",
+              "LDTYP": "O"
+            }
+          ],
+          "Urban Areas": [
+            {
+              "GEOID": "80389",
+              "CENTLAT": "+47.4619968",
+              "OID_1": "",
+              "AREAWATER": 150559818,
+              "BASENAME": "Seattle--Tacoma, WA",
+              "LSADC": "67",
+              "UA": "80389",
+              "FUNCSTAT": "S",
+              "INTPTLAT": "+47.4626540",
+              "NAME": "Seattle--Tacoma, WA Urban Area",
+              "OBJECTID": 466,
+              "CENTLON": "-122.2804480",
+              "AREA": 5893830852.58956,
+              "LEN": 1492947.37091193,
+              "AREALAND": 2544707994,
+              "INTPTLON": "-122.2745170",
+              "MTFCC": "G3500"
+            }
+          ],
+          "Incorporated Places": [
+            {
+              "NECTAPCI": "N",
+              "POP100": 737015,
+              "GEOID": "5363000",
+              "CENTLAT": "+47.6199354",
+              "AREAWATER": 150846139,
+              "STATE": "53",
+              "BASENAME": "Seattle",
+              "OID": "27890836057945",
+              "LSADC": "25",
+              "PLACE": "63000",
+              "FUNCSTAT": "A",
+              "INTPTLAT": "+47.6193387",
+              "NAME": "Seattle city",
+              "OBJECTID": 13507,
+              "PLACECC": "C1",
+              "CENTLON": "-122.3512303",
+              "CBSAPCI": "Y",
+              "HU100": 368308,
+              "AREALAND": 217119656,
+              "INTPTLON": "-122.3515649",
+              "PLACENS": "02411856",
+              "MTFCC": "G4110",
+              "UR": "M"
+            }
+          ],
+          "Counties": [
+            {
+              "POP100": 2269675,
+              "GEOID": "53033",
+              "CENTLAT": "+47.4908724",
+              "AREAWATER": 497859101,
+              "STATE": "53",
+              "BASENAME": "King",
+              "OID": "27590836057068",
+              "LSADC": "06",
+              "FUNCSTAT": "A",
+              "INTPTLAT": "+47.4905518",
+              "NAME": "King County",
+              "OBJECTID": 2379,
+              "CENTLON": "-121.8360347",
+              "COUNTYCC": "H1",
+              "COUNTYNS": "01531933",
+              "AREALAND": 5478417256,
+              "INTPTLON": "-121.8339765",
+              "HU100": 969234,
+              "MTFCC": "G4020",
+              "UR": "M",
+              "COUNTY": "033"
+            }
+          ],
+          "Census Tracts": [
+            {
+              "POP100": 2808,
+              "GEOID": "53033008101",
+              "CENTLAT": "+47.6071597",
+              "AREAWATER": 277671,
+              "STATE": "53",
+              "BASENAME": "81.01",
+              "OID": "2079019663642781",
+              "LSADC": "CT",
+              "FUNCSTAT": "S",
+              "INTPTLAT": "+47.6074716",
+              "NAME": "Census Tract 81.01",
+              "OBJECTID": 85518,
+              "TRACT": "008101",
+              "CENTLON": "-122.3432136",
+              "HU100": 2427,
+              "AREALAND": 270324,
+              "INTPTLON": "-122.3427956",
+              "MTFCC": "G5020",
+              "UR": "U",
+              "COUNTY": "033"
+            }
+          ],
+          "Census Blocks": [
+            {
+              "SUFFIX": "",
+              "POP100": 163,
+              "GEOID": "530330081012004",
+              "CENTLAT": "+47.6082431",
+              "BLOCK": "2004",
+              "AREAWATER": 0,
+              "STATE": "53",
+              "BASENAME": "2004",
+              "OID": "210701008287238",
+              "LSADC": "BK",
+              "INTPTLAT": "+47.6082431",
+              "FUNCSTAT": "S",
+              "NAME": "Block 2004",
+              "OBJECTID": 3542240,
+              "TRACT": "008101",
+              "CENTLON": "-122.3398706",
+              "BLKGRP": "2",
+              "AREALAND": 6816,
+              "HU100": 136,
+              "INTPTLON": "-122.3398706",
+              "MTFCC": "G5040",
+              "LWBLKTYP": "L",
+              "UR": "U",
+              "COUNTY": "033"
+            }
+          ]
+        },
+        "coordinates": {
+          "x": -122.33986641487036,
+          "y": 47.60793195443486
+        },
+        "addressComponents": {
+          "zip": "98101",
+          "streetName": "POST",
+          "preType": "",
+          "city": "SEATTLE",
+          "preDirection": "",
+          "suffixDirection": "",
+          "fromAddress": "1400",
+          "state": "WA",
+          "suffixType": "ALY",
+          "toAddress": "1498",
+          "suffixQualifier": "",
+          "preQualifier": ""
+        },
+        "matchedAddress": "1428 POST ALY, SEATTLE, WA, 98101"
+      }
+    ]
+  }
+}

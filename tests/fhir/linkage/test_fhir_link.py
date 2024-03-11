@@ -1,10 +1,9 @@
 import json
 import pathlib
+
+from phdi.fhir.linkage.link import add_patient_identifier
+from phdi.fhir.linkage.link import add_patient_identifier_in_bundle
 from phdi.linkage.link import generate_hash_str
-from phdi.fhir.linkage.link import (
-    add_patient_identifier,
-    add_patient_identifier_in_bundle,
-)
 
 
 def test_missing_address():
@@ -40,7 +39,7 @@ def test_add_patient_identifier_by_bundle_overwrite():
 
     plaintext = (
         "John-Tiberius-Shepard-2053-11-07-"
-        + "1234 Silversun Strip Zakera Ward, Citadel 99999"
+        + "1234 Silversun Strip Boston, Massachusetts 99999"
     )
 
     expected_new_identifier = {
@@ -71,7 +70,7 @@ def test_patient_identifier_overwrite():
 
     plaintext = (
         "John-Tiberius-Shepard-2053-11-07-"
-        + "1234 Silversun Strip Zakera Ward, Citadel 99999"
+        + "1234 Silversun Strip Boston, Massachusetts 99999"
     )
 
     expected_new_identifier = {
@@ -103,7 +102,7 @@ def test_add_patient_identifier_by_bundle():
 
     plaintext = (
         "John-Tiberius-Shepard-2053-11-07-"
-        + "1234 Silversun Strip Zakera Ward, Citadel 99999"
+        + "1234 Silversun Strip Boston, Massachusetts 99999"
     )
 
     expected_new_identifier = {
@@ -136,7 +135,7 @@ def test_add_patient_identifier():
 
     plaintext = (
         "John-Tiberius-Shepard-2053-11-07-"
-        + "1234 Silversun Strip Zakera Ward, Citadel 99999"
+        + "1234 Silversun Strip Boston, Massachusetts 99999"
     )
 
     expected_new_identifier = {

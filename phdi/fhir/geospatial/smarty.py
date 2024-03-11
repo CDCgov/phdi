@@ -1,9 +1,10 @@
 import copy
+
 from smartystreets_python_sdk import us_street
 
-from phdi.geospatial.smarty import SmartyGeocodeClient
 from phdi.fhir.geospatial.core import BaseFhirGeocodeClient
 from phdi.fhir.utils import get_one_line_address
+from phdi.geospatial.smarty import SmartyGeocodeClient
 
 
 class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
@@ -70,6 +71,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
                 address["line"] = standardized_address.line
                 address["city"] = standardized_address.city
                 address["state"] = standardized_address.state
+                address["county"] = standardized_address.county_name
                 address["postalCode"] = standardized_address.postal_code
                 self._store_lat_long_extension(
                     address, standardized_address.lat, standardized_address.lng

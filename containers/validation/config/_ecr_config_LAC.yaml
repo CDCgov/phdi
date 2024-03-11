@@ -1,0 +1,112 @@
+---
+fields:
+  - fieldName: Status
+    cdaPath: "//hl7:ClinicalDocument/hl7:section/hl7:entry/hl7:act/hl7:code"
+    errorType: "fatal"
+    attributes:
+      - attributeName: code
+        regEx: "RRVS19|RRVS20|RRVS21|RRVS22"
+      - attributeName: codeSystem
+      - attributeName: displayName
+  - fieldName: Conditions
+    cdaPath: "//hl7:ClinicalDocument/hl7:section/hl7:entry/hl7:organizer/hl7:component/hl7:observation/hl7:value"
+    errorType: "fatal"
+    validateOne: True
+    attributes:
+      - attributeName: code
+        regEx: "[0-9]+"
+      - attributeName: codeSystem
+  - fieldName: eICR
+    cdaPath: "//hl7:ClinicalDocument/hl7:id"
+    errorType: "fatal"
+    attributes:
+      - attributeName: root
+  - fieldName: eICR Version Number
+    cdaPath: "//hl7:ClinicalDocument/hl7:versionNumber"
+    errorType: "warnings"
+    attributes:
+      - attributeName: value
+  - fieldName: First Name
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
+    errorType: "errors"
+    textRequired: "True"
+    relatives:
+      - name: name
+        cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name"
+        attributes:
+          - attributeName: use
+            regEx: "L"
+  - fieldName: Middle Name
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
+    errorType: "errors"
+    textRequired: "True"
+    attributes:
+      - attributeName: qualifier
+        regEx: "IN"
+    relatives:
+      - name: name
+        cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name"
+        attributes:
+          - attributeName: use
+            regEx: "L"
+  - fieldName: Last Name
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:family"
+    errorType: "errors"
+    relatives:
+      - name: name
+        cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name"
+        attributes:
+          - attributeName: use
+            regEx: "L"
+    textRequired: "True"
+  - fieldName: DOB
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:birthTime"
+    errorType: "fatal"
+    attributes:
+      - attributeName: value
+  - fieldName: MRN
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:id"
+    errorType: "errors"
+    attributes:
+      - attributeName: extension
+      - attributeName: root
+  - fieldName: Sex
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:administrativeGenderCode"
+    errorType: "warnings"
+    attributes:
+      - attributeName: code
+        regEx: "F|M|O|U"
+      - attributeName: codeSystem
+  - fieldName: Street Address
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:streetAddressLine"
+    errorType: "errors"
+    textRequired: "True"
+  - fieldName: City
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:city"
+    errorType: "errors"
+    textRequired: "True"
+    # relatives:
+    #   - name: addr
+    #     cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr"
+    #     attributes:
+    #     - attributeName: use
+    #       regEx: "H"
+  - fieldName: State
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:state"
+    errorType: "errors"
+    textRequired: "True"
+  - fieldName: Country
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:country"
+    errorType: "errors"
+    textRequired: "True"
+  - fieldName: Zip
+    cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:postalCode"
+    errorType: "fatal"
+    textRequired: "True"
+    regEx: "[0-9]{5}(?:-[0-9]{4})?"
+  - fieldName: Provider ID
+    cdaPath: "//hl7:ClinicalDocument/hl7:componentOf/hl7:encompassingEncounter/hl7:responsibleParty/hl7:assignedEntity/hl7:id"
+    errorType: "errors"
+    attributes:
+      - attributeName: extension
+      - attributeName: root
