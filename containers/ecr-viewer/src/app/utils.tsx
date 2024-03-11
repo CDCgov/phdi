@@ -7,7 +7,7 @@ import classNames from "classnames";
 
 export interface DisplayData {
   title: string;
-  value: string | React.JSX.Element | undefined;
+  value?: string | React.JSX.Element;
 }
 
 export interface PathMappings {
