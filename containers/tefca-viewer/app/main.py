@@ -41,8 +41,10 @@ FHIR_SERVERS = {
 
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
-    service_name="DIBBS FHIR Connector",
+    service_name="TEFCA Viewer",
+    service_path="/patient-search",
     description_path=Path(__file__).parent.parent / "description.md",
+    include_health_check_endpoint=False,
 ).start()
 
 
@@ -221,3 +223,13 @@ app.mount(
 @app.get("/patient-search")
 async def root():
     return FileResponse("./app/front-end/index.html")
+
+
+@app.get("/")
+async def health_check():
+    """
+    Check service status. If an HTTP 200 status code is returned along with
+    '{"status": "OK"}' then the FHIR conversion service is available and running
+    properly.
+    """
+    return {"status": "OK"}
