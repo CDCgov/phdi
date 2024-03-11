@@ -1,4 +1,4 @@
-import { Bundle, Organization } from "fhir/r4";
+import { Bundle, FhirResource, Organization } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import React from "react";
@@ -268,7 +268,7 @@ const formatVitals = (
 
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
- * @param {React.JSX.Element[]} resources - An array of FHIR data representing the data entries.
+ * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
  * @param {PathMappings} mappings - An object containing the fhir path mappings.
  * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
  *                                      The order of columns in the array determines the order of appearance.
@@ -276,7 +276,7 @@ const formatVitals = (
  * @returns {React.JSX.Element} - A formatted table React element.
  */
 const formatTable = (
-  resources: any[],
+  resources: FhirResource[],
   mappings: PathMappings,
   columns: ColumnInfoInput[],
   caption: string,
