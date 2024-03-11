@@ -224,7 +224,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="grid-col-auto maxw7 text-pre-line"
               >
-                No data
+                N/A
               </div>
             </div>
             <div

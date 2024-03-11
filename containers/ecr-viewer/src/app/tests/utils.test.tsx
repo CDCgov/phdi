@@ -78,7 +78,7 @@ describe("Utils", () => {
         { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
       ]);
       expect(actual.ecrSenderDetails.unavailableData).toEqual([
-        { title: "Sender Software", value: "N/A" },
+        { title: "Sender Software" },
       ]);
     });
     it("should have eicrDetails", () => {
@@ -170,26 +170,23 @@ describe("Utils", () => {
 
     it("should return N/A if provided date is an empty string", () => {
       const inputDate = "";
-      const expectedDate = "N/A";
 
       const result = formatDate(inputDate);
-      expect(result).toEqual(expectedDate);
+      expect(result).toBeUndefined();
     });
 
     it("should return N/A if provided date is undefined", () => {
       const inputDate = undefined;
-      const expectedDate = "N/A";
 
       const result = formatDate(inputDate as any);
-      expect(result).toEqual(expectedDate);
+      expect(result).toBeUndefined();
     });
 
     it("should return N/A if provided date is null", () => {
       const inputDate = null;
-      const expectedDate = "N/A";
 
       const result = formatDate(inputDate as any);
-      expect(result).toEqual(expectedDate);
+      expect(result).toBeUndefined();
     });
   });
 });

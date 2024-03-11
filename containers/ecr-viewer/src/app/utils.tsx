@@ -175,8 +175,8 @@ const formatDateTime = (dateTime: string) => {
 };
 
 export const formatDate = (date: string) => {
-  if (!date || date === null) {
-    return "N/A";
+  if (!date) {
+    return undefined;
   }
 
   const options: Intl.DateTimeFormatOptions = {
@@ -293,10 +293,9 @@ const formatTable = (
     columns.forEach(function (column, index) {
       let isFirstCell = index === 0;
 
-      let rowCellData;
-      evaluate(entry, mappings[column.infoPath])[0]
-        ? (rowCellData = evaluate(entry, mappings[column.infoPath])[0])
-        : (rowCellData = "N/A");
+      let rowCellData = evaluate(entry, mappings[column.infoPath])[0] ?? (
+        <span className={"text-italic text-base"}>No data</span>
+      );
 
       let rowCell = isFirstCell ? (
         <th key={`row-header-${index}`} scope="row" className="text-top">
@@ -321,7 +320,7 @@ const formatTable = (
       <tbody>{tableRows}</tbody>
     </>
   );
-  const table = (
+  return (
     <Table
       bordered={false}
       fullWidth={true}
@@ -332,8 +331,6 @@ const formatTable = (
       {tableContent}
     </Table>
   );
-
-  return table;
 };
 
 const extractTravelHistory = (
@@ -358,8 +355,8 @@ const extractTravelHistory = (
   )[0];
   if (startDate || endDate || location || purposeOfTravel) {
     return `Dates: ${startDate} - ${endDate}
-       Location(s): ${location ?? "N/A"}
-       Purpose of Travel: ${purposeOfTravel ?? "N/A"}
+       Location(s): ${location ?? "No data"}
+       Purpose of Travel: ${purposeOfTravel ?? "No data"}
        `;
   }
   return undefined;
@@ -606,9 +603,7 @@ export const returnProblemsTable = (
   ];
 
   problemsArray.forEach((entry) => {
-    entry.onsetDateTime
-      ? (entry.onsetDateTime = formatDate(entry.onsetDateTime))
-      : (entry.onsetDateTime = "N/A");
+    entry.onsetDateTime = formatDate(entry.onsetDateTime);
   });
 
   problemsArray.sort(function (a, b) {
@@ -635,9 +630,7 @@ export const returnImmunizations = (
   ];
 
   immunizationsArray.forEach((entry) => {
-    entry.occurrenceDateTime
-      ? (entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime))
-      : (entry.occurrenceDateTime = "N/A");
+    entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime);
   });
 
   immunizationsArray.sort(function (a, b) {
@@ -667,9 +660,7 @@ export const returnProceduresTable = (
   ];
 
   proceduresArray.forEach((entry) => {
-    entry.performedDateTime
-      ? (entry.performedDateTime = formatDate(entry.performedDateTime))
-      : (entry.performedDateTime = "N/A");
+    entry.performedDateTime = formatDate(entry.performedDateTime);
   });
 
   proceduresArray.sort((a, b) => {
@@ -759,7 +750,6 @@ const evaluateData = (data: DisplayData[]) => {
   data.forEach((item) => {
     if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
       unavailableData.push(item);
-      item.value = "N/A";
     } else {
       availableData.push(item);
     }
