@@ -10,10 +10,6 @@ import { Bundle } from "fhir/r4";
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
-type PostRequestObject = {
-  fhirBundle: Bundle;
-  saveSource: "s3" | "postgres";
-};
 /**
  * Handles POST requests and saves the FHIR Bundle to the database.
  *
@@ -144,8 +140,7 @@ const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
 
     const command = new PutObjectCommand(input);
     const response: PutObjectCommandOutput = await s3Client.send(command);
-    console.log("S3 response: ", response); // TODO: Delete
-    const httpStatusCode = response.$metadata.httpStatusCode;
+    const httpStatusCode = response?.$metadata?.httpStatusCode;
     if (httpStatusCode !== 200) {
       throw new Error(`HTTP Status Code: ${httpStatusCode}`);
     }
@@ -156,7 +151,6 @@ const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
       { status: 200, headers: { "content-type": "application/json" } },
     );
   } catch (error: any) {
-    console.error("Error inserting to S3:", error);
     return new NextResponse(
       JSON.stringify({
         message: "Failed to insert data to S3. " + error.message,
