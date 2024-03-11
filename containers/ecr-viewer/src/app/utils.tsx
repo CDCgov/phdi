@@ -269,15 +269,15 @@ const formatVitals = (
 
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
- * @param {React.JSX.Element[]} resources - An array of React elements representing the data entries.
- * @param {PathMappings} mappings - An object containing mappings for column information paths.
+ * @param {React.JSX.Element[]} resources - An array of FHIR data representing the data entries.
+ * @param {PathMappings} mappings - An object containing the fhir path mappings.
  * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
  *                                      The order of columns in the array determines the order of appearance.
  * @param {string} caption - The caption for the table.
  * @returns {React.JSX.Element} - A formatted table React element.
  */
 const formatTable = (
-  resources: React.JSX.Element[],
+  resources: any[],
   mappings: PathMappings,
   columns: ColumnInfoInput[],
   caption: string,
