@@ -227,7 +227,7 @@ async def root():
     return FileResponse("./app/patient-search/index.html")
 
 
-@app.get("/health-check")
+@app.get("/")
 async def health_check():
     """
     Check service status. If an HTTP 200 status code is returned along with
