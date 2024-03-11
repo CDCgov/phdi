@@ -231,7 +231,7 @@ def save_to_s3(bundle: dict) -> dict:
 
     filename = f"{ecr_id}.json"
     s3 = boto3.client("s3")
-    json_data = json.dumps(b)
+    json_data = json.dumps(b["bundle"])
 
     try:
         # Save the JSON data to S3

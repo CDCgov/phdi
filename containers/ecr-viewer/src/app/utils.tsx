@@ -689,7 +689,7 @@ export const evaluateClinicalData = (
     {
       title: "Miscellaneous Notes",
       value: parse(
-        evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0].div,
+        evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0]?.div || "",
       ),
     },
   ];
