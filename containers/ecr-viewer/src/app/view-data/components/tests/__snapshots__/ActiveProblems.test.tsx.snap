@@ -33,12 +33,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
     </thead>
     <tbody>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -55,12 +54,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           Headache
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -77,12 +75,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           Backache
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -99,12 +96,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           Malignant neoplasm of urinary bladder neck
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -121,12 +117,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           Malignant neoplasm of overlapping sites of pancreas
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -143,12 +138,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           Bilateral malignant neoplasm of lower outer quadrant of breast in female
-        </th>
+        </td>
         <td
           class="text-top"
         >

@@ -33,12 +33,11 @@ exports[`Immunizations Table should match snapshot 1`] = `
     </thead>
     <tbody>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           MENINGOCOCCAL CONJUGATE,MENACTRA                                        (PED/ADOL/ADULT)
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -55,12 +54,11 @@ exports[`Immunizations Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           TDAP, (ADOL/ADULT)
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -77,12 +75,11 @@ exports[`Immunizations Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           HEP A (ADULT) 2 DOSE
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -99,12 +96,11 @@ exports[`Immunizations Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           DTAP-HIB-IPV (PENTACEL)
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -121,12 +117,11 @@ exports[`Immunizations Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           HEP B (PED,ADOLESCENT) 3 DOSE
-        </th>
+        </td>
         <td
           class="text-top"
         >

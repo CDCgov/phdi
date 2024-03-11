@@ -296,22 +296,16 @@ const formatTable = (
 
   let tableRows = resources.map((entry, index) => {
     let rowCells = columns.map((column, index) => {
-      let isFirstCell = index === 0;
-
       let rowCellData = evaluate(entry, mappings[column.infoPath])[0] ?? (
         <span className={"text-italic text-base"}>No data</span>
       );
-
-      return isFirstCell ? (
-        <th key={`row-header-${index}`} scope="row" className="text-top">
-          {rowCellData}
-        </th>
-      ) : (
+      return (
         <td key={`row-data-${index}`} className="text-top">
           {rowCellData}
         </td>
       );
     });
+
     return <tr key={`table-row-${index}`}>{rowCells}</tr>;
   });
 
