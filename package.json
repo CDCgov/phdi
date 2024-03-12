@@ -1,6 +1,0 @@
-{
-  "name": "phdi",
-  "scripts": {
-    "zip-search": "python ./utils/zip-search/zip-search-gui.py"
-  }
-}

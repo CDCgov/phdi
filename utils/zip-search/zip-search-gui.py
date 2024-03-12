@@ -5,8 +5,6 @@ import tkinter as tk
 import zipfile
 from tkinter import filedialog
 
-# from pathlib import Path
-
 
 class ZipSearcher(tk.Tk):
     def __init__(self):
