@@ -231,17 +231,18 @@ def save_to_s3(bundle: dict) -> dict:
 
     filename = f"{ecr_id}.json"
     s3 = boto3.client("s3")
-    json_data = json.dumps(b)
+    json_data = json.dumps(b["bundle"])
 
     try:
         # Save the JSON data to S3
         s3.put_object(Bucket=bucket_name, Key=filename, Body=json_data)
-        return {
+        msg = {
             "status": "success",
             "message": f"File {filename} saved to bucket {bucket_name}.",
         }
+        return CustomJSONResponse(content=jsonable_encoder(msg))
     except Exception as e:
-        return {"status": "error", "message": str(e)}
+        return CustomJSONResponse(content=jsonable_encoder(e), status_code=500)
 
 
 async def call_apis(
@@ -317,7 +318,8 @@ async def call_apis(
                 current_message = service_response.msg_content
             responses[service] = response
         elif service == "save_to_s3":
-            save_to_s3(bundle=bundle)
+            response = save_to_s3(bundle=bundle)
+            responses[service] = response
         else:
             db_request = save_to_db_payload(response=response, bundle=bundle)
             response = save_to_db(url=service_url, payload=db_request)
@@ -331,5 +333,4 @@ async def call_apis(
                 )
 
             responses[service] = response
-
     return (response, responses)
