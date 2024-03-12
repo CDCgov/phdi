@@ -49,8 +49,3 @@ jobs:
             "MESSAGE_PARSER_URL=${{secrets.MESSAGE_PARSER_URL}}"
             "SMARTY_AUTH_ID=${{secrets.SMARTY_AUTH_ID}}"
             "SMARTY_AUTH_TOKEN=${{secrets.SMARTY_AUTH_TOKEN}}"
-
-      # New step for testing the dummy secret
-      - name: Test Dummy Secret
-        run: |
-          echo "Dummy Secret: ${{ secrets.TEST_SECRET }}"
