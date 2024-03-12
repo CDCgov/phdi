@@ -18,25 +18,6 @@ const s3Client = new S3Client({ region: process.env.AWS_REGION });
  * @param {string} ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns {Promise<void>} A promise that resolves when the FHIR bundle is successfully saved to postgres.
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to postgress.
- * @example
- * ```typescript
- * const fhirBundle = {
-        "resourceType": "Bundle",
-        "type": "batch",
-        "entry": [
-        {
-            "fullUrl": "urn:uuid:12345",
-            "resource": {
-                "resourceType": "Composition",
-                "id": "12345"
-            }
-        }
-        ]
-    }
- * const ecrId = 'some-unique-ecr-id';
- *
- * await saveToS3(fhirBundle, ecrId);
- * ```
  */
 
 export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
@@ -75,25 +56,6 @@ export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
  * @param {string} ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns {Promise<void>} A promise that resolves when the FHIR bundle is successfully saved to the S3 bucket.
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to the S3 bucket.
- * @example
- * ```typescript
- * const fhirBundle = {
-        "resourceType": "Bundle",
-        "type": "batch",
-        "entry": [
-        {
-            "fullUrl": "urn:uuid:12345",
-            "resource": {
-                "resourceType": "Composition",
-                "id": "12345"
-            }
-        }
-        ]
-    }
- * const ecrId = 'some-unique-ecr-id';
- *
- * await saveToS3(fhirBundle, ecrId);
- * ```
  */
 
 export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
