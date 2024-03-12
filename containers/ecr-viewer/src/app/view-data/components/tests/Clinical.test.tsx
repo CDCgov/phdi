@@ -4,6 +4,7 @@ import { axe } from "jest-axe";
 import ClinicalInfo from "../ClinicalInfo";
 import { loadYamlConfig } from "@/app/api/utils";
 import { returnProceduresTable, evaluateClinicalData } from "@/app/utils";
+import { Procedure } from "fhir/r4";
 
 describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () => {
   let container: HTMLElement;
@@ -84,7 +85,7 @@ describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () =
         resourceType: "Procedure",
         performedDateTime: "06/16/2022",
       },
-    ];
+    ] as unknown as Procedure[];
     const mappings = {
       procedures: "Bundle.entry.resource.where(resourceType='Procedure')",
       procedureName: "Procedure.code.coding.first().display",
