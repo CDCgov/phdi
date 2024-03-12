@@ -662,10 +662,16 @@ export const returnImmunizations = (
   );
 };
 
+/**
+ * Generates a formatted table representing the list of procedures based on the provided array of procedures and mappings.
+ * @param {Procedure[]} proceduresArray - An array containing the list of procedures.
+ * @param {PathMappings} mappings - An object containing FHIR path mappings for procedure attributes.
+ * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of procedures, or undefined if the procedures array is empty.
+ */
 export const returnProceduresTable = (
   proceduresArray: Procedure[],
   mappings: PathMappings,
-) => {
+): React.JSX.Element | undefined => {
   if (proceduresArray.length === 0) {
     return undefined;
   }
@@ -680,11 +686,11 @@ export const returnProceduresTable = (
     entry.performedDateTime = formatDate(entry.performedDateTime);
   });
 
-  proceduresArray.sort((a, b) => {
-    const dateA = new Date(a.performedDateTime).getTime();
-    const dateB = new Date(b.performedDateTime).getTime();
-    return dateB - dateA;
-  });
+  proceduresArray.sort(
+    (a, b) =>
+      new Date(b.performedDateTime ?? "").getTime() -
+      new Date(a.performedDateTime ?? "").getTime(),
+  );
 
   return formatTable(proceduresArray, mappings, columnInfo, "Procedures");
 };
