@@ -216,7 +216,7 @@ def concatenate_queries(queries, session):
 # Serve Static Files
 app.mount(
     "/patient-search",
-    StaticFiles(directory="./app/patient-search"),
+    StaticFiles(directory="/code/app/patient-search"),
     name="patient-search",
 )
 
@@ -224,7 +224,7 @@ app.mount(
 # Root endpoint to serve the HTML page
 @app.get("/patient-search")
 async def root():
-    return FileResponse("./app/patient-search/index.html")
+    return FileResponse("/code/app/patient-search/index.html")
 
 
 @app.get("/")
