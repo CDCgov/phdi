@@ -4,7 +4,7 @@
 import fs from "fs";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { mockClient } from "aws-sdk-client-mock";
-import { GET } from "../api/s3/route"; // Adjust the import path to your actual file path
+import { GET } from "../api/fhir-data/route"; // Adjust the import path to your actual file path
 import { sdkStreamMixin } from "@smithy/util-stream";
 import { NextRequest } from "next/server";
 
@@ -38,6 +38,7 @@ jest.mock("../utils", () => ({
 describe("GET API Route", () => {
   it("fetches data from S3 and returns a JSON response", async () => {
     const fakeId = "test-id";
+    process.env.SOURCE = "s3";
     const request = new NextRequest(`http://localhost?id=${fakeId}`);
 
     s3Mock
