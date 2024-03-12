@@ -1,4 +1,11 @@
-import { Bundle, Organization } from "fhir/r4";
+import {
+  Bundle,
+  Condition,
+  FhirResource,
+  Immunization,
+  Organization,
+  Procedure,
+} from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import React from "react";
@@ -7,7 +14,7 @@ import classNames from "classnames";
 
 export interface DisplayData {
   title: string;
-  value: string | React.JSX.Element | undefined;
+  value?: string | React.JSX.Element;
 }
 
 export interface PathMappings {
@@ -20,7 +27,7 @@ export interface ColumnInfoInput {
 }
 
 export const formatPatientName = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const givenNames = evaluate(
@@ -41,7 +48,7 @@ const formatName = (firstName: string, lastName: string) => {
 };
 
 export const extractPatientAddress = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const streetAddresses = evaluate(
@@ -56,7 +63,7 @@ export const extractPatientAddress = (
 };
 
 function extractLocationResource(
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) {
   const locationReference = evaluate(
@@ -69,7 +76,7 @@ function extractLocationResource(
 }
 
 export const extractFacilityAddress = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const locationResource = extractLocationResource(
@@ -109,7 +116,7 @@ const formatAddress = (
 };
 
 export const extractFacilityContactInfo = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const locationResource = extractLocationResource(
@@ -123,7 +130,7 @@ export const extractFacilityContactInfo = (
 };
 
 export const formatPatientContactInfo = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const phoneNumbers = evaluate(
@@ -146,7 +153,7 @@ export const formatPatientContactInfo = (
 };
 
 export const formatEncounterDate = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const startDate = formatDateTime(
@@ -174,21 +181,20 @@ const formatDateTime = (dateTime: string) => {
     .replace(",", "");
 };
 
-export const formatDate = (date: string) => {
-  if (!date || date === null) {
-    return "N/A";
+/**
+ * Formats the provided date string into a formatted date string with year, month, and day.
+ * @param {string} date - The date string to be formatted.
+ * @returns {string | undefined} - The formatted date string or undefined if the input date is falsy.
+ */
+export const formatDate = (date?: string): string | undefined => {
+  if (date) {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "UTC",
+    }); // UTC, otherwise will have timezone issues
   }
-
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  };
-
-  return new Date(date).toLocaleDateString("en-US", {
-    ...options,
-    timeZone: "UTC",
-  }); // UTC, otherwise will have timezone issues
 };
 
 const formatPhoneNumber = (phoneNumber: string) => {
@@ -267,61 +273,47 @@ const formatVitals = (
   return combinedString.trim();
 };
 
+/**
+ * Formats a table based on the provided resources, mappings, columns, and caption.
+ * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
+ *                                      The order of columns in the array determines the order of appearance.
+ * @param {string} caption - The caption for the table.
+ * @returns {React.JSX.Element} - A formatted table React element.
+ */
 const formatTable = (
-  resources: React.JSX.Element[],
+  resources: FhirResource[],
   mappings: PathMappings,
-  columns: ColumnInfoInput[], // Order of columns in array = order of apearance
+  columns: ColumnInfoInput[],
   caption: string,
-) => {
-  let headers: React.JSX.Element[] = [];
-  columns.forEach((column, index) => {
-    const header = (
-      <th
-        key={`${column.columnName}${index}`}
-        scope="col"
-        className="bg-gray-5 minw-15"
-      >
-        {column.columnName}
-      </th>
-    );
-    headers.push(header);
-  });
+): React.JSX.Element => {
+  let headers = columns.map((column, index) => (
+    <th
+      key={`${column.columnName}${index}`}
+      scope="col"
+      className="bg-gray-5 minw-15"
+    >
+      {column.columnName}
+    </th>
+  ));
 
-  let tableRows: React.JSX.Element[] = [];
-  resources.forEach((entry, index) => {
-    let rowCells: React.JSX.Element[] = [];
-    columns.forEach(function (column, index) {
-      let isFirstCell = index === 0;
-
-      let rowCellData;
-      evaluate(entry, mappings[column.infoPath])[0]
-        ? (rowCellData = evaluate(entry, mappings[column.infoPath])[0])
-        : (rowCellData = "N/A");
-
-      let rowCell = isFirstCell ? (
-        <th key={`row-header-${index}`} scope="row" className="text-top">
-          {rowCellData}
-        </th>
-      ) : (
+  let tableRows = resources.map((entry, index) => {
+    let rowCells = columns.map((column, index) => {
+      let rowCellData = evaluate(entry, mappings[column.infoPath])[0] ?? (
+        <span className={"text-italic text-base"}>No data</span>
+      );
+      return (
         <td key={`row-data-${index}`} className="text-top">
           {rowCellData}
         </td>
       );
-      rowCells.push(rowCell);
     });
-    const tableRow = <tr key={`table-row-${index}`}>{rowCells}</tr>;
-    tableRows.push(tableRow);
+
+    return <tr key={`table-row-${index}`}>{rowCells}</tr>;
   });
 
-  const tableContent = (
-    <>
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{tableRows}</tbody>
-    </>
-  );
-  const table = (
+  return (
     <Table
       bordered={false}
       fullWidth={true}
@@ -329,15 +321,22 @@ const formatTable = (
       className="border-top border-left border-right table-caption-margin margin-y-0"
       data-testid="table"
     >
-      {tableContent}
+      <thead>
+        <tr>{headers}</tr>
+      </thead>
+      <tbody>{tableRows}</tbody>
     </Table>
   );
-
-  return table;
 };
 
+/**
+ * Extracts travel history information from the provided FHIR bundle based on the FHIR path mappings.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing patient travel history data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {string | undefined} - A formatted string representing the patient's travel history, or undefined if no relevant data is found.
+ */
 const extractTravelHistory = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ): string | undefined => {
   const startDate = evaluate(
@@ -358,15 +357,14 @@ const extractTravelHistory = (
   )[0];
   if (startDate || endDate || location || purposeOfTravel) {
     return `Dates: ${startDate} - ${endDate}
-       Location(s): ${location ?? "N/A"}
-       Purpose of Travel: ${purposeOfTravel ?? "N/A"}
+       Location(s): ${location ?? "No data"}
+       Purpose of Travel: ${purposeOfTravel ?? "No data"}
        `;
   }
-  return undefined;
 };
 
 export const evaluateSocialData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const socialData = [
@@ -411,7 +409,7 @@ export const evaluateSocialData = (
 };
 
 export const evaluateDemographicsData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const demographicsData = [
@@ -456,7 +454,7 @@ export const evaluateDemographicsData = (
 };
 
 export const evaluateEncounterData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const encounterData = [
@@ -504,7 +502,7 @@ export const evaluateEncounterData = (
 };
 
 export const evaluateProviderData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const providerData = [
@@ -526,7 +524,7 @@ export const evaluateProviderData = (
 };
 
 export const evaluateEcrMetadata = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
@@ -591,10 +589,16 @@ export const evaluateEcrMetadata = (
   };
 };
 
+/**
+ * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
+ * @param {Condition[]} problemsArray - An array containing the list of problems.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
+ */
 export const returnProblemsTable = (
-  problemsArray: any[],
+  problemsArray: Condition[],
   mappings: PathMappings,
-) => {
+): React.JSX.Element | undefined => {
   if (problemsArray.length === 0) {
     return undefined;
   }
@@ -606,24 +610,28 @@ export const returnProblemsTable = (
   ];
 
   problemsArray.forEach((entry) => {
-    entry.onsetDateTime
-      ? (entry.onsetDateTime = formatDate(entry.onsetDateTime))
-      : (entry.onsetDateTime = "N/A");
+    entry.onsetDateTime = formatDate(entry.onsetDateTime);
   });
 
-  problemsArray.sort(function (a, b) {
-    return (
-      new Date(b.onsetDateTime).getTime() - new Date(a.onsetDateTime).getTime()
-    );
-  });
+  problemsArray.sort(
+    (a, b) =>
+      new Date(b.onsetDateTime ?? "").getTime() -
+      new Date(a.onsetDateTime ?? "").getTime(),
+  );
 
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
+/**
+ * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
+ * @param {Immunization[]} immunizationsArray - An array containing the list of immunizations.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
+ */
 export const returnImmunizations = (
-  immunizationsArray: any[],
+  immunizationsArray: Immunization[],
   mappings: PathMappings,
-) => {
+): React.JSX.Element | undefined => {
   if (immunizationsArray.length === 0) {
     return undefined;
   }
@@ -635,14 +643,14 @@ export const returnImmunizations = (
   ];
 
   immunizationsArray.forEach((entry) => {
-    entry.occurrenceDateTime
-      ? (entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime))
-      : (entry.occurrenceDateTime = "N/A");
+    entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime);
   });
 
-  immunizationsArray.sort(function (a, b) {
-    return +new Date(b.occurrenceDateTime) - +new Date(a.occurrenceDateTime);
-  });
+  immunizationsArray.sort(
+    (a, b) =>
+      new Date(b.occurrenceDateTime ?? "").getTime() -
+      new Date(a.occurrenceDateTime ?? "").getTime(),
+  );
 
   return formatTable(
     immunizationsArray,
@@ -652,10 +660,16 @@ export const returnImmunizations = (
   );
 };
 
+/**
+ * Generates a formatted table representing the list of procedures based on the provided array of procedures and mappings.
+ * @param {Procedure[]} proceduresArray - An array containing the list of procedures.
+ * @param {PathMappings} mappings - An object containing FHIR path mappings for procedure attributes.
+ * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of procedures, or undefined if the procedures array is empty.
+ */
 export const returnProceduresTable = (
-  proceduresArray: any[],
+  proceduresArray: Procedure[],
   mappings: PathMappings,
-) => {
+): React.JSX.Element | undefined => {
   if (proceduresArray.length === 0) {
     return undefined;
   }
@@ -667,22 +681,20 @@ export const returnProceduresTable = (
   ];
 
   proceduresArray.forEach((entry) => {
-    entry.performedDateTime
-      ? (entry.performedDateTime = formatDate(entry.performedDateTime))
-      : (entry.performedDateTime = "N/A");
+    entry.performedDateTime = formatDate(entry.performedDateTime);
   });
 
-  proceduresArray.sort((a, b) => {
-    const dateA = new Date(a.performedDateTime).getTime();
-    const dateB = new Date(b.performedDateTime).getTime();
-    return dateB - dateA;
-  });
+  proceduresArray.sort(
+    (a, b) =>
+      new Date(b.performedDateTime ?? "").getTime() -
+      new Date(a.performedDateTime ?? "").getTime(),
+  );
 
   return formatTable(proceduresArray, mappings, columnInfo, "Procedures");
 };
 
 export const evaluateClinicalData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const clinicalNotes: DisplayData[] = [
@@ -753,13 +765,19 @@ export const evaluateClinicalData = (
   };
 };
 
-const evaluateData = (data: DisplayData[]) => {
+/**
+ * Evaluates the provided display data to determine availability.
+ * @param {DisplayData[]} data - An array of display data items to be evaluated.
+ * @returns {{ availableData: DisplayData[], unavailableData: DisplayData[] }} - An object containing arrays of available and unavailable display data items.
+ */
+const evaluateData = (
+  data: DisplayData[],
+): { availableData: DisplayData[]; unavailableData: DisplayData[] } => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
     if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
       unavailableData.push(item);
-      item.value = "N/A";
     } else {
       availableData.push(item);
     }
@@ -780,10 +798,23 @@ export const formatString = (input: string): string => {
   return result;
 };
 
+/**
+ * Functional component for displaying data.
+ * @param {object} props - Props for the component.
+ * @param {DisplayData} props.item - The display data item to be rendered.
+ * @param {string} [props.className] - Additional class name for styling purposes.
+ * @returns {React.JSX.Element} - A React element representing the display of data.
+ */
 export const DataDisplay: React.FC<{
   item: DisplayData;
   className?: string;
-}> = ({ item, className }): React.JSX.Element => {
+}> = ({
+  item,
+  className,
+}: {
+  item: DisplayData;
+  className?: string;
+}): React.JSX.Element => {
   return (
     <div>
       <div className="grid-row">
@@ -811,7 +842,7 @@ export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
 };
 
 export const evaluateEmergencyContact = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const contact = evaluate(fhirBundle, mappings.patientEmergencyContact)[0];
