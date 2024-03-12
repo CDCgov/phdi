@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message:
-          "Invalid request body. Body must include a FHIR bundle with an ID.",
+          "Error reading request body. Body must include a FHIR bundle with an ID.",
       },
       { status: 400 },
     );
