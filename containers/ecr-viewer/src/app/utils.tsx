@@ -767,7 +767,14 @@ export const evaluateClinicalData = (
   };
 };
 
-const evaluateData = (data: DisplayData[]) => {
+/**
+ * Evaluates the provided display data to determine availability.
+ * @param {DisplayData[]} data - An array of display data items to be evaluated.
+ * @returns {{ availableData: DisplayData[], unavailableData: DisplayData[] }} - An object containing arrays of available and unavailable display data items.
+ */
+const evaluateData = (
+  data: DisplayData[],
+): { availableData: DisplayData[]; unavailableData: DisplayData[] } => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
@@ -793,10 +800,23 @@ export const formatString = (input: string): string => {
   return result;
 };
 
+/**
+ * Functional component for displaying data.
+ * @param {object} props - Props for the component.
+ * @param {DisplayData} props.item - The display data item to be rendered.
+ * @param {string} [props.className] - Additional class name for styling purposes.
+ * @returns {React.JSX.Element} - A React element representing the display of data.
+ */
 export const DataDisplay: React.FC<{
   item: DisplayData;
   className?: string;
-}> = ({ item, className }): React.JSX.Element => {
+}> = ({
+  item,
+  className,
+}: {
+  item: DisplayData;
+  className?: string;
+}): React.JSX.Element => {
   return (
     <div>
       <div className="grid-row">
