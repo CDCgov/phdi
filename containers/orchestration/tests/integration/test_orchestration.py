@@ -124,7 +124,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
 
 
 @pytest.mark.integration
-def test_failed_save_to_s3(setup):
+def test_failed_save_to_ecr_viewer(setup):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
