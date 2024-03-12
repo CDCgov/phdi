@@ -121,6 +121,31 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
 
 
 @pytest.mark.integration
+def test_failed_save_to_s3(setup):
+    """
+    Full orchestration test of a zip file containing both an eICR and the
+    associated RR data.
+    """
+    with open(
+        Path(__file__).parent.parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "orchestration"
+        / "eICR_RR_combo.zip",
+        "rb",
+    ) as file:
+        form_data = {
+            "message_type": "ecr",
+            "config_file_name": "sample-orchestration-s3-config.json",
+        }
+        files = {"upload_file": ("file.zip", file)}
+        orchestration_response = httpx.post(
+            PROCESS_ENDPOINT, data=form_data, files=files
+        )
+        assert orchestration_response.status_code == 500
+
+
+@pytest.mark.integration
 def test_process_message_fhir(setup):
     """
     Integration test of a different workflow and data type, a FHIR bundle
