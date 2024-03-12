@@ -20,7 +20,7 @@ describe("Utils", () => {
   const mappings = loadYamlConfig();
   describe("Evaluate Social Data", () => {
     it("should have no available data when there is no data", () => {
-      const actual = evaluateSocialData(undefined, mappings);
+      const actual = evaluateSocialData(undefined as any, mappings);
 
       expect(actual.availableData).toBeEmpty();
       expect(actual.unavailableData).not.toBeEmpty();
@@ -47,7 +47,7 @@ describe("Utils", () => {
   });
   describe("Evaluate Ecr Metadata", () => {
     it("should have no available data where there is no data", () => {
-      const actual = evaluateEcrMetadata(undefined, mappings);
+      const actual = evaluateEcrMetadata(undefined as any, mappings);
 
       expect(actual.ecrSenderDetails.availableData).toBeEmpty();
       expect(actual.ecrSenderDetails.unavailableData).not.toBeEmpty();
@@ -78,7 +78,7 @@ describe("Utils", () => {
         { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
       ]);
       expect(actual.ecrSenderDetails.unavailableData).toEqual([
-        { title: "Sender Software", value: "N/A" },
+        { title: "Sender Software" },
       ]);
     });
     it("should have eicrDetails", () => {
@@ -146,7 +146,7 @@ describe("Utils", () => {
   });
   describe("Extract Patient Address", () => {
     it("should return empty string if no address is available", () => {
-      const actual = extractPatientAddress(undefined, mappings);
+      const actual = extractPatientAddress(undefined as any, mappings);
 
       expect(actual).toBeEmpty();
     });
@@ -170,26 +170,23 @@ describe("Utils", () => {
 
     it("should return N/A if provided date is an empty string", () => {
       const inputDate = "";
-      const expectedDate = "N/A";
 
       const result = formatDate(inputDate);
-      expect(result).toEqual(expectedDate);
+      expect(result).toBeUndefined();
     });
 
     it("should return N/A if provided date is undefined", () => {
       const inputDate = undefined;
-      const expectedDate = "N/A";
 
       const result = formatDate(inputDate as any);
-      expect(result).toEqual(expectedDate);
+      expect(result).toBeUndefined();
     });
 
     it("should return N/A if provided date is null", () => {
       const inputDate = null;
-      const expectedDate = "N/A";
 
       const result = formatDate(inputDate as any);
-      expect(result).toEqual(expectedDate);
+      expect(result).toBeUndefined();
     });
   });
 });

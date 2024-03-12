@@ -2,7 +2,8 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import fs from "fs";
 import YAML from "yaml";
-import { returnProblemsTable } from "../../../utils";
+import { returnProblemsTable } from "@/app/utils";
+import { Condition } from "fhir/r4";
 
 describe("Active Problems Table", () => {
   let container: HTMLElement;
@@ -12,7 +13,7 @@ describe("Active Problems Table", () => {
       .toString();
     const fhirPathMappings = YAML.parse(fhirPathFile);
 
-    const activeProblemsData = [
+    const activeProblemsData: Condition[] = [
       {
         id: "80db768f-19ea-f1d0-f9e5-22d854d7acc5",
         code: {
@@ -281,7 +282,7 @@ describe("Active Problems Table", () => {
       },
     ];
     container = render(
-      returnProblemsTable(activeProblemsData, fhirPathMappings),
+      returnProblemsTable(activeProblemsData, fhirPathMappings)!,
     ).container;
   });
   it("should match snapshot", () => {

@@ -8,15 +8,16 @@ const nextConfig = {
     ],
   },
   transpilePackages: ["yaml"],
-  async redirects() {
+  async rewrites() {
     return [
       {
         source: "/ecr-viewer/:slug*",
         destination: "/:slug*",
-        permanent: true,
       },
     ];
   },
+  output: "standalone",
+  basePath: process.env.NODE_ENV === "production" ? "/ecr-viewer" : "",
 };
 
 module.exports = nextConfig;

@@ -1,12 +1,25 @@
-import json
-from pathlib import Path
-
 import httpx
 import pytest
+from lxml import etree as ET
 
 PARSER_URL = "http://0.0.0.0:8080"
 PARSE_MESSAGE = PARSER_URL + "/parse_message"
 FHIR_TO_PHDC = PARSER_URL + "/fhir_to_phdc"
+
+
+@pytest.fixture
+def fhir_bundle_parse_message(read_json_from_test_assets):
+    return read_json_from_test_assets("demo_phdc_conversion_bundle.json")
+
+
+@pytest.fixture
+def fhir_bundle_fhir_to_phdc(read_json_from_test_assets):
+    return read_json_from_test_assets("sample_fhir_bundle_for_phdc_conversion.json")
+
+
+@pytest.fixture
+def test_schema(read_schema_from_default_schemas):
+    return read_schema_from_default_schemas("phdc_case_report_schema.json")
 
 
 @pytest.mark.integration
@@ -15,26 +28,8 @@ def test_health_check(setup):
     assert health_check_response.status_code == 200
 
 
-fhir_bundle_path = (
-    Path(__file__).parent.parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
-)
-
-with open(fhir_bundle_path, "r") as file:
-    test_bundle = json.load(file)
-
-test_schema_path = (
-    Path(__file__).parent.parent.parent
-    / "app"
-    / "default_schemas"
-    / "phdc_case_report_schema.json"
-)
-
-with open(test_schema_path, "r") as file:
-    test_schema = json.load(file)
-
-
 @pytest.mark.integration
-def test_parse_message(setup):
+def test_parse_message(setup, test_schema, fhir_bundle_parse_message):
     expected_reference_response = {
         "message": "Parsing succeeded!",
         "parsed_values": {
@@ -245,7 +240,7 @@ def test_parse_message(setup):
     request = {
         "message_format": "fhir",
         "parsing_schema": test_schema,
-        "message": test_bundle,
+        "message": fhir_bundle_parse_message,
     }
     parsing_response = httpx.post(PARSE_MESSAGE, json=request)
 
@@ -254,15 +249,12 @@ def test_parse_message(setup):
 
 
 @pytest.mark.integration
-def test_fhir_to_phdc(setup):
-    request = {
-        "phdc_report_type": "case_report",
-        "message": test_bundle,
-    }
+def test_fhir_to_phdc(setup, fhir_bundle_fhir_to_phdc, validate_xml):
+    request = {"phdc_report_type": "case_report", "message": fhir_bundle_fhir_to_phdc}
 
     parsing_response = httpx.post(FHIR_TO_PHDC, json=request)
 
-    # TODO: Once the PHDC builder work is completed, this test can be
-    # developed further to check the structure and content of the
-    # generated PHDC message.
     assert parsing_response.status_code == 200
+
+    parsed_output = ET.fromstring(parsing_response.text.encode())
+    assert validate_xml(parsed_output)
