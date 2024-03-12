@@ -8,7 +8,6 @@ import {
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
-// import { differenceInYears } from "date-fns";
 import * as dateFns from "date-fns";
 import React from "react";
 import parse from "html-react-parser";
