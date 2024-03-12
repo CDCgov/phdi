@@ -152,8 +152,8 @@ To build the Docker image for the FHIR conversion service from source code inste
 
 ### Updating RCTC document
 
-RCTC spreadsheet  gets updated approximately every 6 months. The latest RCTC spreadsheet can be found on the [eRDS Aims Platform](https://ersd.aimsplatform.org/#/home), an account is required to download. 
-The script can be run by using the following command `python3 rctc-to-json.py spreadsheet_input_loc json_output_loc`  
+RCTC spreadsheet gets updated approximately every 6 months. The latest RCTC spreadsheet can be found on the [eRDS Aims Platform](https://ersd.aimsplatform.org/#/home), an account is required to download. Two output files are created, in which `json_output_loc` holds the Grouping List, and `json_output_loc2` holds the Expansion List.
+The script can be run by using the following command `python3 rctc-to-json.py spreadsheet_input_loc json_output_loc json_output_loc2`  
 
 # License (for Microsoft FHIR Converter)
 
