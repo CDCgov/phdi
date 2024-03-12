@@ -57,10 +57,13 @@ h4 {
   font-weight: bold;
 }
 
-.usa-accordion__button {
+.info-container > .usa-accordion__heading > .usa-accordion__button {
   font-size: 32px;
   color: white !important;
   background-color: #2E6276;
+  &:hover {
+    background-color: #224856;
+  }
 }
 
 .usa-accordion__button:hover {
