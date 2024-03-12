@@ -33,16 +33,19 @@ exports[`Active Problems Table should match snapshot 1`] = `
     </thead>
     <tbody>
       <tr>
-        <th
-          class="text-top"
-          scope="row"
-        >
-          Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive
-        </th>
         <td
           class="text-top"
         >
-          N/A
+          Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
         <td
           class="text-top"
@@ -51,16 +54,19 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           Headache
-        </th>
+        </td>
         <td
           class="text-top"
         >
-          N/A
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
         <td
           class="text-top"
@@ -69,16 +75,19 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           Backache
-        </th>
+        </td>
         <td
           class="text-top"
         >
-          N/A
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
         <td
           class="text-top"
@@ -87,16 +96,19 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
-          class="text-top"
-          scope="row"
-        >
-          Malignant neoplasm of urinary bladder neck
-        </th>
         <td
           class="text-top"
         >
-          N/A
+          Malignant neoplasm of urinary bladder neck
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
         <td
           class="text-top"
@@ -105,16 +117,19 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
-          class="text-top"
-          scope="row"
-        >
-          Malignant neoplasm of overlapping sites of pancreas
-        </th>
         <td
           class="text-top"
         >
-          N/A
+          Malignant neoplasm of overlapping sites of pancreas
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
         <td
           class="text-top"
@@ -123,16 +138,19 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
       </tr>
       <tr>
-        <th
-          class="text-top"
-          scope="row"
-        >
-          Bilateral malignant neoplasm of lower outer quadrant of breast in female
-        </th>
         <td
           class="text-top"
         >
-          N/A
+          Bilateral malignant neoplasm of lower outer quadrant of breast in female
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
         <td
           class="text-top"
