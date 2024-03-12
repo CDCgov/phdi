@@ -269,7 +269,7 @@ const formatVitals = (
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
  * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
- * @param {PathMappings} mappings - An object containing the fhir path mappings.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
  *                                      The order of columns in the array determines the order of appearance.
  * @param {string} caption - The caption for the table.
@@ -324,6 +324,12 @@ const formatTable = (
   );
 };
 
+/**
+ * Extracts travel history information from the provided FHIR bundle based on the FHIR path mappings.
+ * @param {Bundle | undefined} fhirBundle - The FHIR bundle containing patient travel history data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {string | undefined} - A formatted string representing the patient's travel history, or undefined if no relevant data is found.
+ */
 const extractTravelHistory = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
