@@ -1,4 +1,10 @@
-import { Bundle, Condition, FhirResource, Organization } from "fhir/r4";
+import {
+  Bundle,
+  Condition,
+  FhirResource,
+  Immunization,
+  Organization,
+} from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import React from "react";
@@ -617,10 +623,16 @@ export const returnProblemsTable = (
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
+/**
+ * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
+ * @param {Immunization[]} immunizationsArray - An array containing the list of immunizations.
+ * @param {PathMappings} mappings - An object containing mappings for immunization attributes.
+ * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
+ */
 export const returnImmunizations = (
-  immunizationsArray: any[],
+  immunizationsArray: Immunization[],
   mappings: PathMappings,
-) => {
+): React.JSX.Element | undefined => {
   if (immunizationsArray.length === 0) {
     return undefined;
   }
@@ -635,9 +647,11 @@ export const returnImmunizations = (
     entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime);
   });
 
-  immunizationsArray.sort(function (a, b) {
-    return +new Date(b.occurrenceDateTime) - +new Date(a.occurrenceDateTime);
-  });
+  immunizationsArray.sort(
+    (a, b) =>
+      new Date(b.occurrenceDateTime ?? "").getTime() -
+      new Date(a.occurrenceDateTime ?? "").getTime(),
+  );
 
   return formatTable(
     immunizationsArray,
