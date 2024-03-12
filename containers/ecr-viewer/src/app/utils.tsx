@@ -20,7 +20,7 @@ export interface ColumnInfoInput {
 }
 
 export const formatPatientName = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const givenNames = evaluate(
@@ -41,7 +41,7 @@ const formatName = (firstName: string, lastName: string) => {
 };
 
 export const extractPatientAddress = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const streetAddresses = evaluate(
@@ -56,7 +56,7 @@ export const extractPatientAddress = (
 };
 
 function extractLocationResource(
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) {
   const locationReference = evaluate(
@@ -69,7 +69,7 @@ function extractLocationResource(
 }
 
 export const extractFacilityAddress = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const locationResource = extractLocationResource(
@@ -109,7 +109,7 @@ const formatAddress = (
 };
 
 export const extractFacilityContactInfo = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const locationResource = extractLocationResource(
@@ -123,7 +123,7 @@ export const extractFacilityContactInfo = (
 };
 
 export const formatPatientContactInfo = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const phoneNumbers = evaluate(
@@ -146,7 +146,7 @@ export const formatPatientContactInfo = (
 };
 
 export const formatEncounterDate = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const startDate = formatDateTime(
@@ -326,12 +326,12 @@ const formatTable = (
 
 /**
  * Extracts travel history information from the provided FHIR bundle based on the FHIR path mappings.
- * @param {Bundle | undefined} fhirBundle - The FHIR bundle containing patient travel history data.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing patient travel history data.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @returns {string | undefined} - A formatted string representing the patient's travel history, or undefined if no relevant data is found.
  */
 const extractTravelHistory = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ): string | undefined => {
   const startDate = evaluate(
@@ -356,11 +356,10 @@ const extractTravelHistory = (
        Purpose of Travel: ${purposeOfTravel ?? "No data"}
        `;
   }
-  return undefined;
 };
 
 export const evaluateSocialData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const socialData = [
@@ -405,7 +404,7 @@ export const evaluateSocialData = (
 };
 
 export const evaluateDemographicsData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const demographicsData = [
@@ -450,7 +449,7 @@ export const evaluateDemographicsData = (
 };
 
 export const evaluateEncounterData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const encounterData = [
@@ -498,7 +497,7 @@ export const evaluateEncounterData = (
 };
 
 export const evaluateProviderData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const providerData = [
@@ -520,7 +519,7 @@ export const evaluateProviderData = (
 };
 
 export const evaluateEcrMetadata = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
@@ -670,7 +669,7 @@ export const returnProceduresTable = (
 };
 
 export const evaluateClinicalData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const clinicalNotes: DisplayData[] = [
@@ -798,7 +797,7 @@ export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
 };
 
 export const evaluateEmergencyContact = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const contact = evaluate(fhirBundle, mappings.patientEmergencyContact)[0];
