@@ -288,17 +288,15 @@ const formatTable = (
   columns: ColumnInfoInput[],
   caption: string,
 ): React.JSX.Element => {
-  let headers = columns.map((column, index) => {
-    return (
-      <th
-        key={`${column.columnName}${index}`}
-        scope="col"
-        className="bg-gray-5 minw-15"
-      >
-        {column.columnName}
-      </th>
-    );
-  });
+  let headers = columns.map((column, index) => (
+    <th
+      key={`${column.columnName}${index}`}
+      scope="col"
+      className="bg-gray-5 minw-15"
+    >
+      {column.columnName}
+    </th>
+  ));
 
   let tableRows = resources.map((entry, index) => {
     let rowCells = columns.map((column, index) => {
