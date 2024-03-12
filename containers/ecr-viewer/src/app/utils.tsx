@@ -4,6 +4,7 @@ import {
   FhirResource,
   Immunization,
   Organization,
+  Procedure,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
@@ -593,7 +594,7 @@ export const evaluateEcrMetadata = (
 /**
  * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
  * @param {Condition[]} problemsArray - An array containing the list of problems.
- * @param {PathMappings} mappings - An object containing mappings for problem attributes.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
  */
 export const returnProblemsTable = (
@@ -626,7 +627,7 @@ export const returnProblemsTable = (
 /**
  * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
  * @param {Immunization[]} immunizationsArray - An array containing the list of immunizations.
- * @param {PathMappings} mappings - An object containing mappings for immunization attributes.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
  */
 export const returnImmunizations = (
@@ -662,7 +663,7 @@ export const returnImmunizations = (
 };
 
 export const returnProceduresTable = (
-  proceduresArray: any[],
+  proceduresArray: Procedure[],
   mappings: PathMappings,
 ) => {
   if (proceduresArray.length === 0) {
