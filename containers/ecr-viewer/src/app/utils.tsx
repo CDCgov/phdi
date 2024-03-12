@@ -8,6 +8,8 @@ import {
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
+// import { differenceInYears } from "date-fns";
+import * as dateFns from "date-fns";
 import React from "react";
 import parse from "html-react-parser";
 import classNames from "classnames";
@@ -363,6 +365,18 @@ const extractTravelHistory = (
   }
 };
 
+export const calculatePatientAge = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+) => {
+  const patientDOBString = evaluate(fhirBundle, fhirPathMappings.patientDOB)[0];
+  if (patientDOBString) {
+    const patientDOB = new Date(patientDOBString);
+    const today = new Date();
+    return dateFns.differenceInYears(today, patientDOB);
+  }
+};
+
 export const evaluateSocialData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -418,6 +432,7 @@ export const evaluateDemographicsData = (
       value: formatPatientName(fhirBundle, mappings),
     },
     { title: "DOB", value: evaluate(fhirBundle, mappings.patientDOB)[0] },
+    { title: "Current Age", value: calculatePatientAge(fhirBundle, mappings) },
     { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
     { title: "Race", value: evaluate(fhirBundle, mappings.patientRace)[0] },
     {

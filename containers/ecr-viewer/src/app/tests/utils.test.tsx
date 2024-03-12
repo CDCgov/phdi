@@ -5,6 +5,7 @@ import {
   formatPatientName,
   formatDate,
   evaluateClinicalData,
+  calculatePatientAge,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
@@ -134,31 +135,57 @@ describe("Utils", () => {
       expect(actual.clinicalNotes.unavailableData).toBeEmpty();
     });
   });
-  describe("Format Patient Name", () => {
-    it("should return name", () => {
-      const actual = formatPatientName(
-        BundleWithPatient as unknown as Bundle,
-        mappings,
-      );
+  describe("Demographic Data", () => {
+    describe("Format Patient Name", () => {
+      it("should return name", () => {
+        const actual = formatPatientName(
+          BundleWithPatient as unknown as Bundle,
+          mappings,
+        );
 
-      expect(actual).toEqual("ABEL CASTILLO");
+        expect(actual).toEqual("ABEL CASTILLO");
+      });
+    });
+    describe("Extract Patient Address", () => {
+      it("should return empty string if no address is available", () => {
+        const actual = extractPatientAddress(undefined as any, mappings);
+
+        expect(actual).toBeEmpty();
+      });
+      it("should get patient address", () => {
+        const actual = extractPatientAddress(
+          BundleWithPatient as unknown as Bundle,
+          mappings,
+        );
+
+        expect(actual).toEqual(
+          "1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US",
+        );
+      });
+    });
+    describe("Calculate Patient Age", () => {
+      it("should return patient age when DOB is available", () => {
+        // Fixed "today" for testing purposes
+        jest.useFakeTimers().setSystemTime(new Date("2024-03-12"));
+
+        const patientAge = calculatePatientAge(
+          BundleWithPatient as unknown as Bundle,
+          mappings,
+        );
+
+        expect(patientAge).toEqual(8);
+
+        // Return to real time
+        jest.useRealTimers();
+      });
+      it("should return nothing when DOB is unavailable", () => {
+        const patientAge = calculatePatientAge(undefined as any, mappings);
+
+        expect(patientAge).toEqual(undefined);
+      });
     });
   });
-  describe("Extract Patient Address", () => {
-    it("should return empty string if no address is available", () => {
-      const actual = extractPatientAddress(undefined as any, mappings);
 
-      expect(actual).toBeEmpty();
-    });
-    it("should get patient address", () => {
-      const actual = extractPatientAddress(
-        BundleWithPatient as unknown as Bundle,
-        mappings,
-      );
-
-      expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");
-    });
-  });
   describe("Format Date", () => {
     it("should return the correct formatted date", () => {
       const inputDate = "2023-01-15";
