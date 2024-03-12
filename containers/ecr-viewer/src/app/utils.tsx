@@ -1,4 +1,4 @@
-import { Bundle, FhirResource, Organization } from "fhir/r4";
+import { Bundle, Condition, FhirResource, Organization } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import React from "react";
@@ -179,7 +179,7 @@ const formatDateTime = (dateTime: string) => {
  * @param {string} date - The date string to be formatted.
  * @returns {string | undefined} - The formatted date string or undefined if the input date is falsy.
  */
-export const formatDate = (date: string): string | undefined => {
+export const formatDate = (date?: string): string | undefined => {
   if (date) {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
@@ -584,10 +584,16 @@ export const evaluateEcrMetadata = (
   };
 };
 
+/**
+ * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
+ * @param {Condition[]} problemsArray - An array containing the list of problems.
+ * @param {PathMappings} mappings - An object containing mappings for problem attributes.
+ * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
+ */
 export const returnProblemsTable = (
-  problemsArray: any[],
+  problemsArray: Condition[],
   mappings: PathMappings,
-) => {
+): React.JSX.Element | undefined => {
   if (problemsArray.length === 0) {
     return undefined;
   }
@@ -602,11 +608,11 @@ export const returnProblemsTable = (
     entry.onsetDateTime = formatDate(entry.onsetDateTime);
   });
 
-  problemsArray.sort(function (a, b) {
-    return (
-      new Date(b.onsetDateTime).getTime() - new Date(a.onsetDateTime).getTime()
-    );
-  });
+  problemsArray.sort(
+    (a, b) =>
+      new Date(b.onsetDateTime ?? "").getTime() -
+      new Date(a.onsetDateTime ?? "").getTime(),
+  );
 
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
