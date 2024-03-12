@@ -1,0 +1,117 @@
+/* Targeting WebKit browsers for autofilled inputs */
+input[type="text"]:-webkit-autofill,
+input[type="email"]:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #3c3c3c inset; /* Match your background color */
+  -webkit-text-fill-color: #ffffff; /* Match your text color */
+  border-radius: 4px; /* Match your border radius */
+  border: 1px solid #707070; /* Match your border style */
+}
+
+input[type="text"],
+input[type="email"],
+select {
+  background-color: #3c3c3c; /* Dark background matching the dropdowns */
+  color: #ffffff; /* Light text */
+  padding: 8px;
+  border: 1px solid #707070; /* Optional: adds a border to make fields more visible */
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Style for when the inputs are focused */
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus {
+  background-color: #3c3c3c; /* Maintain the same background color */
+  color: #ffffff; /* Maintain the same text color */
+  border: 1px solid #909090; /* Optional: change border color on focus */
+  outline: none; /* Optional: removes the default focus outline */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1e1e1e; /* Dark background */
+  color: #ffffff; /* Light text */
+  margin: 20px;
+}
+
+form {
+  background-color: #2d2d2d; /* Slightly lighter form background */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+label {
+  margin-right: 10px;
+}
+
+input,
+select {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: #3c3c3c; /* Dark input background */
+  color: #ffffff; /* Light text */
+}
+
+button {
+  background-color: #0078d7; /* Blue button background */
+  color: #ffffff; /* White button text */
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #005a9e; /* Darker blue on hover */
+}
+
+#apiResponse {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #3c3c3c;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Existing styles for .key, .value, and .resourceType-value */
+.key {
+  color: #9cdcfe;
+  font-weight: bold;
+}
+
+.value {
+  color: #ce9178;
+}
+
+.resourceType-value {
+  color: #d7ba7d;
+  font-weight: bold;
+}
+
+#loader {
+  /* Example loader styling; adjust as needed */
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  margin: auto;
+  display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,7 +1,9 @@
 import json
 import os
 from json.decoder import JSONDecodeError
+from typing import Union
 
+import boto3
 import requests
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
 from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
@@ -38,6 +40,7 @@ SERVICE_URLS = {
     "fhir_converter": os.environ.get("FHIR_CONVERTER_URL"),
     "message_parser": os.environ.get("MESSAGE_PARSER_URL"),
     "save_to_db": os.environ.get("DATABASE_URL"),
+    "save_to_s3": os.environ.get("ECR_BUCKET_NAME"),
 }
 
 # Mappings of endpoint names to the service input and output building
@@ -102,15 +105,9 @@ def save_to_db_payload(**kwargs) -> dict:
         )
     bundle = kwargs["bundle"]
     b = bundle.json()
-    if "bundle" in b:
-        b = b["bundle"]
-    entry = b.get("entry") if isinstance(b, dict) and b.get("entry") else False
-    first_entry = entry[0] if entry else False
-    resource = first_entry.get("resource") if first_entry else False
+    ecr_id = extract_ecrid_from_bundle(b)
 
-    if entry and first_entry and resource:
-        ecr_id = resource.get("id")
-    else:
+    if not ecr_id:
         raise HTTPException(
             status_code=422,
             detail={
@@ -118,14 +115,52 @@ def save_to_db_payload(**kwargs) -> dict:
                 "details": "eICR ID not found, cannot save to database.",
             },
         )
-    return {"ecr_id": ecr_id, "data": b}
+    return {"ecr_id": ecr_id, "data": b["bundle"]}
 
 
-def post_request(url, payload):
+def extract_ecrid_from_bundle(bundle: dict) -> Union[str, None]:
+    """
+    Helper method for extracting the eCR case ID from a supplied FHIR
+    bundle. If the supplied bundle (or bundle-containing dict) does
+    not contain an eCR ID, `None` is returned instead.
+
+    :param bundle: The dict to pull the eCR ID from.
+    :return: The ID as a string, or `None` if no ID is present.
+    """
+    bundle = bundle.get("bundle") if bundle.get("bundle") else bundle
+    entry = (
+        bundle.get("entry")
+        if isinstance(bundle, dict) and bundle.get("entry")
+        else False
+    )
+    first_entry = entry[0] if entry else False
+    resource = first_entry.get("resource") if first_entry else False
+
+    ecr_id = None
+    if entry and first_entry and resource:
+        ecr_id = resource.get("id")
+    return ecr_id
+
+
+def post_request(url: str, payload: dict) -> Response:
+    """
+    Helper function to post an API request to a particular endpoint using
+    the `requests` module.
+
+    :param url: The full URL of the endpoint to-hit.
+    :param payload: The body of the Request object, as a dictionary.
+    :return: A Response object from the posted endpoint.
+    """
     return requests.post(url, json=payload)
 
 
-def save_bundle(response, bundle):
+def save_bundle(response: Response, bundle: dict) -> Union[Response, dict]:
+    """
+    Helper function to perform a contextual save on a supplied FHIR bundle.
+    If the response contains a `bundle` key, the value at that key is
+    extracted and saved; if the response does not contain a `bundle`,
+    the caller's passed `bundle` is returned instead.
+    """
     try:
         r = response.json()
         if "bundle" in r:
@@ -147,6 +182,7 @@ async def _send_websocket_dump(
     """
     Helper method that sends service response information from a DIBBs
     API call to a particular web socket.
+
     :param endpoint_name: Name of the endpoint to inform the websocket of.
     :param base_response: The unaltered response the service sent back.
     :param service_response: The unpacked handler response with logic
@@ -173,6 +209,42 @@ async def _send_websocket_dump(
     return progress_dict
 
 
+def save_to_s3(bundle: dict) -> dict:
+    """
+    Given a dictionary and an ecr_id, create a file and upload it to
+    the S3 endpoint as specified in the .env
+
+    :param bundle: The FHIR dictionary to save.
+    :return: A dictionary containing information about the status of
+      the save operation.
+    """
+
+    bucket_name = os.getenv("ECR_BUCKET_NAME")
+    if not bucket_name:
+        return {
+            "status": "error",
+            "message": "S3 bucket name not found in environment variables.",
+        }
+
+    b = bundle.json()
+    ecr_id = extract_ecrid_from_bundle(b)
+
+    filename = f"{ecr_id}.json"
+    s3 = boto3.client("s3")
+    json_data = json.dumps(b["bundle"])
+
+    try:
+        # Save the JSON data to S3
+        s3.put_object(Bucket=bucket_name, Key=filename, Body=json_data)
+        msg = {
+            "status": "success",
+            "message": f"File {filename} saved to bucket {bucket_name}.",
+        }
+        return CustomJSONResponse(content=jsonable_encoder(msg))
+    except Exception as e:
+        return CustomJSONResponse(content=jsonable_encoder(e), status_code=500)
+
+
 async def call_apis(
     config: dict, input: OrchestrationRequest, websocket: WebSocket = None
 ) -> tuple:
@@ -183,6 +255,7 @@ async def call_apis(
     service response. If the response is valid and has data, it is passed
     to the next service as input. If the response was unsuccessful, the
     function communicates errors to the caller.
+
     :param config: The config-driven workflow extracted from a JSON file.
     :param input: The original request to the orchestration service.
     :param websocket: Optionally, a socket to which to stream input
@@ -208,13 +281,12 @@ async def call_apis(
         # TODO: Once the save to DB functionality is registered as an actual
         # service endpoint on the eCR viewer side, we can write real handlers
         # for it and take out the if/else logic
-        if service != "save_to_db":
+        if service not in ["save_to_s3", "save_to_db"]:
             request_func = ENDPOINT_TO_REQUEST[endpoint_name]
             response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
             service_request = request_func(current_message, input, params)
             response = post_request(service_url, service_request)
             bundle = save_bundle(response=response, bundle=bundle)
-
             service_response = response_func(response)
 
             if websocket:
@@ -245,6 +317,9 @@ async def call_apis(
             if service != "validation":
                 current_message = service_response.msg_content
             responses[service] = response
+        elif service == "save_to_s3":
+            response = save_to_s3(bundle=bundle)
+            responses[service] = response
         else:
             db_request = save_to_db_payload(response=response, bundle=bundle)
             response = save_to_db(url=service_url, payload=db_request)
@@ -258,5 +333,4 @@ async def call_apis(
                 )
 
             responses[service] = response
-
     return (response, responses)

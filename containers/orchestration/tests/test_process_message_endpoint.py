@@ -40,6 +40,18 @@ def mock_headers_get(key, default=None):
     return headers.get(key, default)
 
 
+"""
+Note: The tests in this file all begin with realistic data inputs,
+but do not compute intermediary updates to that data in the mock
+steps for each service. E.g. an actual HL7 message may be provided
+as one test's initial input, but the convert-to-fhir mock doesn't
+contain the actual FHIR converted bundle, the ingestion mock doesn't
+contain the standardized FHIR bundle, etc. These tests verify
+expected data flow, and the integration tests verify how that flow
+manifests on real data in each step.
+"""
+
+
 # /process-message tests
 @mock.patch("app.services.post_request")
 @mock.patch("app.services.save_to_db")
@@ -56,7 +68,6 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
         "message_type": "elr",
         "data_type": "hl7",
         "config_file_name": "sample-orchestration-config.json",
-        "include_error_types": "errors",
         "message": message,
     }
     # Need a mocked return value for each of the called services,
@@ -136,7 +147,6 @@ def test_process_message_fhir_data(patched_post_request):
         "message_type": "fhir",
         "data_type": "fhir",
         "config_file_name": "sample-fhir-test-config.json",
-        "include_error_types": "errors",
         "message": {"foo": "bar"},
     }
     ingestion_post_request = mock.Mock()
@@ -176,7 +186,6 @@ def test_process_message_invalid_config():
         "data_type": "ecr",
         "message": "foo",
         "config_file_name": "non_existent_schema.json",
-        "include_error_types": "errors",
     }
 
     actual_response = client.post("/process-message", json=request)
@@ -193,7 +202,6 @@ def test_process_message_mismatched_data_types():
         "data_type": "fhir",
         "message": "foo",
         "config_file_name": "sample-orchestration-config.json",
-        "include_error_types": "errors",
     }
     actual_response = client.post("/process-message", json=request)
     assert actual_response.status_code == 422
@@ -219,7 +227,6 @@ def test_process_message_invalid_fhir():
         "data_type": "fhir",
         "message": json.dumps("foo"),
         "config_file_name": "sample-orchestration-config.json",
-        "include_error_types": "errors",
     }
     actual_response = client.post("/process-message", json=request)
     assert actual_response.status_code == 422
@@ -236,7 +243,6 @@ def test_process_message_input_validation_with_rr_data():
         "data_type": "elr",
         "config_file_name": "sample-orchestration-config.json",
         "message_type": "elr",
-        "include_error_types": "errors",
         "rr_data": "bar",
     }
 
@@ -260,7 +266,6 @@ def test_process_success(patched_save_to_db, patched_post_request):
             "message_type": "ecr",
             "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
-            "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", f)}
 
@@ -346,7 +351,6 @@ def test_process_with_empty_zip():
             "message_type": "ecr",
             "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
-            "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", f)}
 
@@ -369,7 +373,6 @@ def test_process_invalid_config():
             "message_type": "ecr",
             "data_type": "zip",
             "config_file_name": "non_existent_schema.json",
-            "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", f)}
 
