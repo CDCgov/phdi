@@ -20,7 +20,7 @@ describe("Utils", () => {
   const mappings = loadYamlConfig();
   describe("Evaluate Social Data", () => {
     it("should have no available data when there is no data", () => {
-      const actual = evaluateSocialData(undefined, mappings);
+      const actual = evaluateSocialData(undefined as any, mappings);
 
       expect(actual.availableData).toBeEmpty();
       expect(actual.unavailableData).not.toBeEmpty();
@@ -47,7 +47,7 @@ describe("Utils", () => {
   });
   describe("Evaluate Ecr Metadata", () => {
     it("should have no available data where there is no data", () => {
-      const actual = evaluateEcrMetadata(undefined, mappings);
+      const actual = evaluateEcrMetadata(undefined as any, mappings);
 
       expect(actual.ecrSenderDetails.availableData).toBeEmpty();
       expect(actual.ecrSenderDetails.unavailableData).not.toBeEmpty();
@@ -146,7 +146,7 @@ describe("Utils", () => {
   });
   describe("Extract Patient Address", () => {
     it("should return empty string if no address is available", () => {
-      const actual = extractPatientAddress(undefined, mappings);
+      const actual = extractPatientAddress(undefined as any, mappings);
 
       expect(actual).toBeEmpty();
     });
