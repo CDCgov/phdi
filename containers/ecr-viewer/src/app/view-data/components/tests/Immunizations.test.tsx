@@ -2,7 +2,8 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import fs from "fs";
 import YAML from "yaml";
-import { returnImmunizations } from "../../../utils";
+import { returnImmunizations } from "@/app/utils";
+import { Immunization } from "fhir/r4";
 
 describe("Immunizations Table", () => {
   let container: HTMLElement;
@@ -130,10 +131,10 @@ describe("Immunizations Table", () => {
         primarySource: true,
         occurrenceDateTime: "03/21/1974",
       },
-    ];
+    ] as unknown as Immunization[];
 
     container = render(
-      returnImmunizations(immunizationsData, fhirPathMappings),
+      returnImmunizations(immunizationsData, fhirPathMappings)!,
     ).container;
   });
   it("should match snapshot", () => {
