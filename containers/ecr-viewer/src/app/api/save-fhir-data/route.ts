@@ -53,29 +53,29 @@ export async function POST(request: NextRequest) {
     ecrId = requestBody.fhirBundle.entry[0].resource.id;
   } catch (error: any) {
     console.error("Error reading request body:", error);
-    return new NextResponse(
-      JSON.stringify({ error: "Error reading request body. " + error.message }),
-      { status: 400, headers: { "content-type": "application/json" } },
+    return NextResponse.json(
+      { message: "Error reading request body. " + error.message },
+      { status: 400 },
     );
   }
 
   if (!fhirBundle || !ecrId) {
-    return new NextResponse(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         message:
           "Invalid request body. Body must include a FHIR bundle with an ID.",
-      }),
-      { status: 400, headers: { "content-type": "application/json" } },
+      },
+      { status: 400 },
     );
   }
 
   if (!saveSource) {
-    return new NextResponse(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         message:
           "Save location is undefined. Please provide a valid value for 'saveSource' (postgres or s3).",
-      }),
-      { status: 400, headers: { "content-type": "application/json" } },
+      },
+      { status: 400 },
     );
   }
 
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message:
-          "Invalid source. Please provide a valid source (postgres or s3)",
+          "Invalid save source. Please provide a valid source (postgres or s3)",
       },
       { status: 400 },
     );
@@ -137,19 +137,15 @@ const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
   try {
     const saveECR = await database.one(addFhir);
 
-    return new NextResponse(
-      JSON.stringify({
-        message: "Success. Saved FHIR Bundle to database: " + saveECR.ecr_id,
-      }),
-      { status: 200, headers: { "content-type": "application/json" } },
+    return NextResponse.json(
+      { message: "Success. Saved FHIR Bundle to database: " + saveECR.ecr_id },
+      { status: 200 },
     );
   } catch (error: any) {
     console.error("Error inserting data to database:", error);
-    return new NextResponse(
-      JSON.stringify({
-        message: "Failed to insert data to database." + error.message,
-      }),
-      { status: 400, headers: { "content-type": "application/json" } },
+    return NextResponse.json(
+      { message: "Failed to insert data to database. " + error.message },
+      { status: 400 },
     );
   }
 };
@@ -199,21 +195,18 @@ const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
     const command = new PutObjectCommand(input);
     const response: PutObjectCommandOutput = await s3Client.send(command);
     const httpStatusCode = response?.$metadata?.httpStatusCode;
+
     if (httpStatusCode !== 200) {
       throw new Error(`HTTP Status Code: ${httpStatusCode}`);
     }
-    return new NextResponse(
-      JSON.stringify({
-        message: "Success. Saved FHIR Bundle to S3: " + ecrId,
-      }),
-      { status: 200, headers: { "content-type": "application/json" } },
+    return NextResponse.json(
+      { message: "Success. Saved FHIR Bundle to S3: " + ecrId },
+      { status: 200 },
     );
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        message: "Failed to insert data to S3. " + error.message,
-      }),
-      { status: 400, headers: { "content-type": "application/json" } },
+    return NextResponse.json(
+      { message: "Failed to insert data to S3. " + error.message },
+      { status: 400 },
     );
   }
 };
