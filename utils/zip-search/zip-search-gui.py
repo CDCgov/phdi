@@ -138,7 +138,6 @@ class ZipSearcher(tk.Tk):
                         if self.search_term in doc_data:
                             id_num = os.path.basename(filename)
                             shutil.copy(filename, os.path.join(self.output_dir, id_num))
-                            # print(filename + " was copied to new directory")
                             results_count += 1
                 except KeyError:
                     print("No eICR/RR here")
