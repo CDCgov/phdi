@@ -75,6 +75,7 @@ h4 {
     &:hover {
       background-color: #F0F0F0;
     }
+    position: relative;
     background: white;
     padding: 12px;
     font-weight: normal;
@@ -82,6 +83,11 @@ h4 {
       border-bottom: #111111 1px solid;
     }
   }
+}
+
+.minimize-container {
+  position: absolute;
+  right: 12px;
 }
 
 .list-style-none {
