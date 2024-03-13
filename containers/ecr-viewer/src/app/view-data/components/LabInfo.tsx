@@ -8,10 +8,20 @@ import React from "react";
 
 interface LabInfoProps {
   labInfo: DisplayData[];
-  rrInfo: React.JSX.Element[];
+  labResults: React.JSX.Element[];
 }
 
-export const LabInfo = ({ labInfo, rrInfo }: LabInfoProps) => {
+/**
+ * Renders lab information and RR info in an accordion section.
+ * @param {Object} props - The props object.
+ * @param {DisplayData[]} props.labInfo - Array of lab information items.
+ * @param {React.JSX.Element[]} props.labResults - Array of Lab result items.
+ * @returns {React.JSX.Element} React element representing the LabInfo component.
+ */
+export const LabInfo = ({
+  labInfo,
+  labResults,
+}: LabInfoProps): React.JSX.Element => {
   const renderLabInfo = () => {
     return (
       <>
@@ -20,7 +30,7 @@ export const LabInfo = ({ labInfo, rrInfo }: LabInfoProps) => {
           {labInfo.map((item, index) => {
             return <DataDisplay item={item} key={index} />;
           })}
-          {rrInfo}
+          {labResults}
         </AccordianDiv>
       </>
     );
@@ -28,7 +38,7 @@ export const LabInfo = ({ labInfo, rrInfo }: LabInfoProps) => {
 
   return (
     <AccordianSection>
-      {(labInfo.length > 0 || rrInfo.length > 0) && renderLabInfo()}
+      {(labInfo.length > 0 || labResults.length > 0) && renderLabInfo()}
     </AccordianSection>
   );
 };

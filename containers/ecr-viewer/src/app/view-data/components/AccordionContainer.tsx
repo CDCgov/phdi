@@ -95,7 +95,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       content: (
         <LabInfo
           labInfo={labInfoData.labInfo.availableData}
-          rrInfo={labInfoData.rr}
+          labResults={labInfoData.rr}
         />
       ),
       expanded: true,
