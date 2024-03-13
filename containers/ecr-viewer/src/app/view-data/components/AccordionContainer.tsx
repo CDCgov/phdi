@@ -6,6 +6,7 @@ import {
   evaluateDemographicsData,
   evaluateEcrMetadata,
   PathMappings,
+  evaluateLabInfoData,
 } from "../../utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
@@ -16,6 +17,7 @@ import ClinicalInfo from "./ClinicalInfo";
 import { Bundle, FhirResource } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
+import LabInfo from "@/app/view-data/components/LabInfo";
 import { formatString } from "@/app/format-service";
 
 type AccordionContainerProps = {
@@ -37,6 +39,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const providerData = evaluateProviderData(fhirBundle, fhirPathMappings);
   const clinicalData = evaluateClinicalData(fhirBundle, fhirPathMappings);
   const ecrMetadata = evaluateEcrMetadata(fhirBundle, fhirPathMappings);
+  const labInfoData = evaluateLabInfoData(fhirBundle, fhirPathMappings);
   const accordionItems: any[] = [
     {
       title: "Patient Info",
@@ -83,6 +86,17 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             treatmentData={clinicalData.treatmentData.availableData}
           />
         </>
+      ),
+      expanded: true,
+      headingLevel: "h3",
+    },
+    {
+      title: "Lab Info",
+      content: (
+        <LabInfo
+          labInfo={labInfoData.labInfo.availableData}
+          labResults={labInfoData.labResults}
+        />
       ),
       expanded: true,
       headingLevel: "h3",
