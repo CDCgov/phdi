@@ -1,33 +1,19 @@
-import pytest
-from app.services import save_to_db_payload
-from fastapi import HTTPException
-from requests.models import Response
+from app.services import send_to_ecr_viewer
 
 
-# TODO: Update this test once save_to_db is created as an actual
-# endpoint, but for now, don't mess with the structure as this is
-# needed for compatibility with the demo UI.
-def test_save_to_db_payload():
-    response = Response()
-    response.status_code = 200
-    response._content = b'{"bundle": {"entry": [{"resource": {"id": "foo"}}]}}'
-    result = save_to_db_payload(bundle=response)
-    expected_result = {
-        "ecr_id": "foo",
-        "data": {"entry": [{"resource": {"id": "foo"}}]},
-    }
-    assert result == expected_result
+def test_send_to_ecr_viewer_success(mocker, requests_mock):
+    mock_env = "http://example.com"
+    mocker.patch("os.getenv", return_value=mock_env)
+    bundle_mock = mocker.MagicMock()
+    bundle_mock.json.return_value = {"bundle": "fhir_data"}
 
+    expected_url = f"{mock_env}/api/save-fhir-data"
+    expected_payload = {"fhirBundle": "fhir_data", "saveSource": "s3"}
 
-# TODO: Update this test once save_to_db is created as an actual
-# endpoint, but for now, don't mess with the structure as this is
-# needed for compatibility with the demo UI.
-def test_save_to_db_failure_missing_eicr_id():
-    response = Response()
-    response.status_code = 200
-    response._content = b'{"bundle": "bar", "parsed_values":{}}'
+    requests_mock.post(expected_url, json={"message": "success"}, status_code=200)
 
-    with pytest.raises(HTTPException) as exc_info:
-        save_to_db_payload(bundle=response)
+    response = send_to_ecr_viewer(bundle_mock, "s3")
 
-    assert exc_info.value.status_code == 422
+    assert requests_mock.called_once
+    assert requests_mock.request_history[0].json() == expected_payload
+    assert response.status_code == 200

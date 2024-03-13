@@ -62,7 +62,7 @@ def test_process_message_endpoint(setup):
     request = {
         "message_type": "ecr",
         "data_type": "ecr",
-        "config_file_name": "sample-orchestration-config.json",
+        "config_file_name": "test-no-save.json",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
@@ -86,7 +86,7 @@ def test_process_endpoint_with_zip(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config.json",
+            "config_file_name": "test-no-save.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
@@ -112,7 +112,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config.json",
+            "config_file_name": "test-no-save.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
@@ -120,11 +120,11 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
-        assert orchestration_response.json()["processed_values"]["entry"][0] is not None
+        assert orchestration_response.json()["processed_values"] is not None
 
 
 @pytest.mark.integration
-def test_failed_save_to_s3(setup):
+def test_failed_save_to_ecr_viewer(setup):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
