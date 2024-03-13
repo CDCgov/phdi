@@ -61,7 +61,7 @@ export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
 export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
   const bucketName = process.env.ECR_BUCKET_NAME;
   const objectKey = `${ecrId}.json`;
-  const body = JSON.stringify({ fhirBundle: fhirBundle });
+  const body = JSON.stringify(fhirBundle);
 
   try {
     const input = {
