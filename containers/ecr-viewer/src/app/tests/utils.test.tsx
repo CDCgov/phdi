@@ -2,7 +2,6 @@ import {
   evaluateEcrMetadata,
   evaluateSocialData,
   extractPatientAddress,
-  evaluateClinicalData,
   calculatePatientAge,
   evaluateClinicalData,
   evaluatePatientName,

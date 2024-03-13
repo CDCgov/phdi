@@ -9,7 +9,6 @@ import {
   Procedure,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
-import React from "react";
 import parse from "html-react-parser";
 import classNames from "classnames";
 import { Table } from "@trussworks/react-uswds";
