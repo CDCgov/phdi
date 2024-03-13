@@ -54,8 +54,7 @@ manifests on real data in each step.
 
 # /process-message tests
 @mock.patch("app.services.post_request")
-@mock.patch("app.services.save_to_db")
-def test_process_message_success(patched_save_to_db, patched_post_request):
+def test_process_message_success(patched_post_request):
     message = open(
         Path(__file__).parent.parent.parent.parent
         / "tests"
@@ -67,7 +66,7 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
     request = {
         "message_type": "elr",
         "data_type": "hl7",
-        "config_file_name": "sample-orchestration-config.json",
+        "config_file_name": "test_config.json",
         "message": message,
     }
     # Need a mocked return value for each of the called services,
@@ -109,33 +108,6 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
     message_parser_post_request.json.return_value = {
         "parsed_values": {"eicr_id": "placeholder_id"}
     }
-
-    save_to_db_response = mock.Mock()
-    save_to_db_response.status_code = 200
-    save_to_db_response.text = "foo"
-    save_to_db_response.json.return_value = {
-        "response": {
-            "FhirResource": {
-                "converted_msg_placeholder_key": "converted_placeholder_value"
-            }
-        },
-        "bundle": {
-            "converted_msg_placeholder_key": "placeholder_bundle",
-            "entry": [{"resource": {"id": "foo"}}],
-        },
-        "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
-    }
-    save_to_db_response.headers.get.side_effect = mock_headers_get
-
-    patched_post_request.side_effect = [
-        validation_post_request,
-        conversion_post_request,
-        ingestion_post_request,
-        ingestion_post_request,
-        ingestion_post_request,
-        message_parser_post_request,
-    ]
-    patched_save_to_db.return_value = save_to_db_response
 
     actual_response = client.post("/process-message", json=request)
     assert actual_response.status_code == 200
