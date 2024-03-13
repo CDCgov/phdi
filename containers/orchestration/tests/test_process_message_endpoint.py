@@ -65,7 +65,7 @@ def test_process_message_success(patched_send_to_ecr_viewer, patched_post_reques
     request = {
         "message_type": "elr",
         "data_type": "hl7",
-        "config_file_name": "test_config.json",
+        "config_file_name": "sample-orchestration-config.json",
         "message": message,
     }
     # Need a mocked return value for each of the called services,
@@ -253,7 +253,7 @@ def test_process_success(patched_send_to_ecr_viewer, patched_post_request):
         form_data = {
             "message_type": "ecr",
             "data_type": "zip",
-            "config_file_name": "test_config.json",
+            "config_file_name": "sample-orchestration-config.json",
         }
         files = {"upload_file": ("file.zip", f)}
 
