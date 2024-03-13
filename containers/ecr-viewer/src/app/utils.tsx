@@ -312,7 +312,9 @@ export const evaluateDemographicsData = (
     { title: "DOB", value: evaluate(fhirBundle, mappings.patientDOB)[0] },
     {
       title: "Current Age",
-      value: calculatePatientAge(fhirBundle, mappings).toString(),
+      value: calculatePatientAge(fhirBundle, mappings).toString()
+        ? calculatePatientAge(fhirBundle, mappings).toString()
+        : "",
     },
     { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
     { title: "Race", value: evaluate(fhirBundle, mappings.patientRace)[0] },
