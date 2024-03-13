@@ -11,6 +11,7 @@ import { Table } from "@trussworks/react-uswds";
 import React from "react";
 import parse from "html-react-parser";
 import classNames from "classnames";
+import { AccordionRR } from "@/app/view-data/components/AccordionRR";
 
 export interface DisplayData {
   title: string;
@@ -883,4 +884,41 @@ export const evaluateEmergencyContact = (
 
     return formattedContact;
   }
+};
+
+export const evaluateLabInfoData = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const labInfo: DisplayData[] = [
+    {
+      title: "Lab Performing Name",
+      value: "",
+    },
+    {
+      title: "Lab Address",
+      value: "",
+    },
+    {
+      title: "Lab Contact",
+      value: "",
+    },
+  ];
+
+  const rrData = evaluate(fhirBundle, mappings["diagnosticReports"]).map(
+    (report) => {
+      return (
+        <AccordionRR
+          title={report.code.coding[0].display}
+          abnormalTag={false}
+          content={<>hi</>}
+        />
+      );
+    },
+  );
+
+  return {
+    labInfo: evaluateData(labInfo),
+    rr: rrData,
+  };
 };
