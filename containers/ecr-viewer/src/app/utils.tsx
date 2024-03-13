@@ -911,7 +911,7 @@ export const evaluateLabInfoData = (
         <AccordionRR
           title={report.code.coding[0].display}
           abnormalTag={false}
-          content={<>hi</>}
+          content={<></>}
         />
       );
     },
