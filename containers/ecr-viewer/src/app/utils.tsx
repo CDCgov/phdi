@@ -5,6 +5,8 @@ import {
   Immunization,
   Organization,
   Procedure,
+  Observation,
+  Reference,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
@@ -903,6 +905,44 @@ export const evaluateEmergencyContact = (
   }
 };
 
+export interface LabReport {
+  result: Array<Reference>;
+}
+
+const getObservations = (
+  observationIds: Array<Reference>,
+  fhirBundle: Bundle,
+): Array<Observation> => {
+  const ids: Array<string> = observationIds
+    .map((id) => {
+      return id.reference?.replace("Observation/", "");
+    })
+    .filter((i): i is string => i !== undefined);
+
+  if (ids.length === 0) return [];
+
+  return ids.map((id) => {
+    return evaluate(fhirBundle, `Bundle.entry.resource.where(id = '${id}')`)[0];
+  });
+};
+
+const returnSpecimenSource = (
+  report: LabReport,
+  fhirBundle: Bundle,
+): React.JSX.Element => {
+  const observations = getObservations(report.result, fhirBundle);
+  console.log("observations", observations);
+  const status = observations.map((observation) => {
+    return observation.status;
+  });
+  return (
+    <>
+      {[...new Set(status)].join(", ")}
+      <br />
+    </>
+  );
+};
+
 /**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
  * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
@@ -919,6 +959,7 @@ export const evaluateLabInfoData = (
   labInfo: CompleteData;
   labResults: React.JSX.Element[];
 } => {
+  const labReports = evaluate(fhirBundle, mappings["diagnosticReports"]);
   const labInfo: DisplayData[] = [
     {
       title: "Lab Performing Name",
@@ -934,17 +975,18 @@ export const evaluateLabInfoData = (
     },
   ];
 
-  const rrData = evaluate(fhirBundle, mappings["diagnosticReports"]).map(
-    (report) => {
-      return (
-        <AccordionLabResults
-          title={report.code.coding[0].display}
-          abnormalTag={false}
-          content={<></>}
-        />
-      );
-    },
-  );
+  const rrData = labReports.map((report) => {
+    const content: array<React.JSX.Element> = [
+      returnSpecimenSource(report, fhirBundle),
+    ];
+    return (
+      <AccordionLabResults
+        title={report.code.coding[0].display}
+        abnormalTag={false}
+        content={content}
+      />
+    );
+  });
 
   return {
     labInfo: evaluateData(labInfo),
