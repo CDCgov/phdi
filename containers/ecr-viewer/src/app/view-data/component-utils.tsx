@@ -22,11 +22,19 @@ export const AccordianSection: React.FC<AccordianSectionProps> = ({
   );
 };
 
+/**
+ * Accordion heading component for level 4 headings.
+ * @param {Object} props - The props object.
+ * @param {React.ReactNode} props.children - The children elements.
+ * @param {string} [props.className] - Additional CSS classes for customization.
+ * @param {string} [props.id] - The ID attribute of the heading.
+ * @returns {React.JSX.Element} React element representing the AccordionH4 component.
+ */
 export const AccordianH4: React.FC<AccordianSectionProps> = ({
   children,
   className,
   id,
-}) => {
+}: AccordianSectionProps): React.JSX.Element => {
   return (
     <h4
       className={classNames(
