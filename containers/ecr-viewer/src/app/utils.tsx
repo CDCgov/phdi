@@ -665,11 +665,9 @@ export const evaluateClinicalData = (
 /**
  * Evaluates the provided display data to determine availability.
  * @param {DisplayData[]} data - An array of display data items to be evaluated.
- * @returns {{ availableData: DisplayData[], unavailableData: DisplayData[] }} - An object containing arrays of available and unavailable display data items.
+ * @returns {CompleteData} - An object containing arrays of available and unavailable display data items.
  */
-const evaluateData = (
-  data: DisplayData[],
-): { availableData: DisplayData[]; unavailableData: DisplayData[] } => {
+const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
