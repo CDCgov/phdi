@@ -3,10 +3,10 @@ import { Bundle } from "fhir/r4";
 import {
   extractFacilityAddress,
   extractPatientAddress,
-  formatEncounterDate,
-  formatPatientContactInfo,
-  formatPatientName,
+  evaluatePatientName,
   PathMappings,
+  evaluateEncounterDate,
+  evaluatePatientContactInfo,
 } from "../../utils";
 import { SectionConfig } from "./SideNav";
 
@@ -39,7 +39,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             <div className="grid-row">
               <div className="data-title">Patient Name</div>
               <div className="grid-col-auto">
-                {formatPatientName(fhirBundle, fhirPathMappings)}
+                {evaluatePatientName(fhirBundle, fhirPathMappings)}
               </div>
             </div>
             <div className={"section__line"} />
@@ -60,7 +60,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             <div className="grid-row">
               <div className="data-title">Patient Contact</div>
               <div className="grid-col-auto text-pre-line">
-                {formatPatientContactInfo(fhirBundle, fhirPathMappings)}
+                {evaluatePatientContactInfo(fhirBundle, fhirPathMappings)}
               </div>
             </div>
             <div className={"section__line"} />
@@ -98,7 +98,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             <div className="grid-row">
               <div className="data-title">Encounter Date/Time</div>
               <div className="grid-col-auto text-pre-line">
-                {formatEncounterDate(fhirBundle, fhirPathMappings)}
+                {evaluateEncounterDate(fhirBundle, fhirPathMappings)}
               </div>
             </div>
             <div className={"section__line"} />
