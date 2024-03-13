@@ -47,3 +47,5 @@ jobs:
             "FHIR_CONNECTOR_URL=${{secrets.FHIRC_CONNECTOR_URL}}"
             "INGESTION_URL=${{secrets.INGESTION_URL}}"
             "MESSAGE_PARSER_URL=${{secrets.MESSAGE_PARSER_URL}}"
+            "SMARTY_AUTH_ID=${{secrets.SMARTY_AUTH_ID}}"
+            "SMARTY_AUTH_TOKEN=${{secrets.SMARTY_AUTH_TOKEN}}"

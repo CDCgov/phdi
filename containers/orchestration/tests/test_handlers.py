@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 from unittest.mock import MagicMock
 from unittest.mock import Mock
@@ -416,8 +417,8 @@ def test_build_geocoding_request():
     assert result == {
         "bundle": input_msg,
         "geocode_method": "smarty",
-        "smarty_auth_id": "placeholder",
-        "smarty_auth_token": "placeholder",
+        "smarty_auth_id": os.environ.get("SMARTY_AUTH_ID"),
+        "smarty_auth_token": os.environ.get("SMARTY_AUTH_TOKEN"),
         "license_type": "us-rooftop-geocoding-enterprise-cloud",
         "overwrite": "true",
     }
