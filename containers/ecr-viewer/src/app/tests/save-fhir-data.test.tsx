@@ -61,7 +61,7 @@ describe("POST Save FHIR Data API Route", () => {
       .on(PutObjectCommand, {
         Bucket: process.env.ECR_BUCKET_NAME,
         Key: "12345.json",
-        Body: JSON.stringify({ fhirBundle: fakeData.fhirBundle }),
+        Body: JSON.stringify(fakeData.fhirBundle),
         ContentType: "application/json",
       })
       .resolves(output);
@@ -103,7 +103,7 @@ describe("POST Save FHIR Data API Route", () => {
       .on(PutObjectCommand, {
         Bucket: process.env.ECR_BUCKET_NAME,
         Key: "12345.json",
-        Body: JSON.stringify({ fhirBundle: fakeData.fhirBundle }),
+        Body: JSON.stringify(fakeData.fhirBundle),
         ContentType: "application/json",
       })
       .resolves(output);
