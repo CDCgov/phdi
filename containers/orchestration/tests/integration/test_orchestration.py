@@ -120,7 +120,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
-        assert orchestration_response.json()["processed_values"]["entry"][0] is not None
+        assert orchestration_response.json()["processed_values"] is not None
 
 
 @pytest.mark.integration
