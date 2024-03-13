@@ -15,7 +15,7 @@ export const LabInfo = ({ labInfo, rrInfo }: LabInfoProps) => {
   const renderLabInfo = () => {
     return (
       <>
-        <AccordianH4 id={"lab-results-from"}>Lab results from</AccordianH4>
+        <AccordianH4 id={"lab-results-from"}>Lab Results from</AccordianH4>
         <AccordianDiv>
           {labInfo.map((item, index) => {
             return <DataDisplay item={item} key={index} />;
