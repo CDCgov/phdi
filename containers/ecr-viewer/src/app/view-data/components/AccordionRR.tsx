@@ -23,16 +23,20 @@ export const AccordionRR: React.FC<AccordionRRProps> = ({
                   Abnormal
                 </Tag>
               )}
-              <Icon.Remove className={"minimize-container"} size={3} />
+              <Icon.Remove
+                className={"minimize-container"}
+                size={3}
+                aria-label={`minimize ${title} section`}
+              />
             </>
           ),
           content: content,
           expanded: true,
           id: "123",
-          headingLevel: "h4",
+          headingLevel: "h5",
         },
       ]}
-      className={"accordion-rr"}
+      className={"accordion-rr margin-bottom-3"}
     />
   );
 };
