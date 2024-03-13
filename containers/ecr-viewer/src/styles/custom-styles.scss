@@ -66,9 +66,24 @@ h4 {
   }
 }
 
-.usa-accordion__button:hover {
-  background-color: #2E6276;
+.accordion-rr {
+  border: #111111 1px solid;
+  border-radius: .25rem;
+  overflow: hidden;
+  margin-top: 1rem;
+  .usa-accordion__button{
+    &:hover {
+      background-color: #F0F0F0;
+    }
+    background: white;
+    padding: 12px;
+    font-weight: normal;
+    &[aria-expanded="true"] {
+      border-bottom: #111111 1px solid;
+    }
+  }
 }
+
 .list-style-none {
   list-style: none;
 }
