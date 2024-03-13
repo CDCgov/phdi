@@ -4,8 +4,6 @@ from unittest import mock
 
 import pytest
 from app.main import app
-from app.utils import CustomJSONResponse
-from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 
 
@@ -224,8 +222,7 @@ def test_process_message_input_validation_with_rr_data():
 
 # # /process tests
 @mock.patch("app.services.post_request")
-@mock.patch("app.services.save_to_db")
-def test_process_success(patched_save_to_db, patched_post_request):
+def test_process_success(patched_post_request):
     with open(
         Path(__file__).parent.parent.parent.parent
         / "tests"
@@ -237,7 +234,7 @@ def test_process_success(patched_save_to_db, patched_post_request):
         form_data = {
             "message_type": "ecr",
             "data_type": "zip",
-            "config_file_name": "sample-orchestration-config.json",
+            "config_file_name": "test_config.json",
         }
         files = {"upload_file": ("file.zip", f)}
 
@@ -282,19 +279,6 @@ def test_process_success(patched_save_to_db, patched_post_request):
         message_parser_post_request.json.return_value = {
             "parsed_values": {"eicr_id": "placeholder_id"}
         }
-        save_to_db_response = CustomJSONResponse(
-            content=jsonable_encoder(
-                {
-                    "response": {
-                        "FhirResource": {
-                            "converted_msg_placeholder_key": "converted_placeholder_value"  # noqa
-                        }
-                    },
-                    "bundle": {"entry": [{"resource": {"id": "foo"}}]},
-                    "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
-                }
-            )
-        )
 
         patched_post_request.side_effect = [
             validation_post_request,
@@ -304,7 +288,6 @@ def test_process_success(patched_save_to_db, patched_post_request):
             ingestion_post_request,
             message_parser_post_request,
         ]
-        patched_save_to_db.return_value = save_to_db_response
 
         actual_response = client.post("/process", data=form_data, files=files)
         assert actual_response.status_code == 200
