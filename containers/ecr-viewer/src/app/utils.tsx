@@ -9,6 +9,8 @@ import {
   Procedure,
   Observation,
   Reference,
+  Observation,
+  Reference,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
