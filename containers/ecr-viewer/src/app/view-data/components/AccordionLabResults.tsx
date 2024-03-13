@@ -6,7 +6,7 @@ interface AccordionRRProps {
   abnormalTag: boolean;
   content: React.JSX.Element;
 }
-export const AccordionRR: React.FC<AccordionRRProps> = ({
+export const AccordionLabResults: React.FC<AccordionRRProps> = ({
   title,
   abnormalTag,
   content,

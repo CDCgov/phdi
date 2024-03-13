@@ -11,7 +11,7 @@ import { Table } from "@trussworks/react-uswds";
 import React from "react";
 import parse from "html-react-parser";
 import classNames from "classnames";
-import { AccordionRR } from "@/app/view-data/components/AccordionRR";
+import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 
 export interface DisplayData {
   title: string;
@@ -923,7 +923,7 @@ export const evaluateLabInfoData = (
   const rrData = evaluate(fhirBundle, mappings["diagnosticReports"]).map(
     (report) => {
       return (
-        <AccordionRR
+        <AccordionLabResults
           title={report.code.coding[0].display}
           abnormalTag={false}
           content={<></>}
