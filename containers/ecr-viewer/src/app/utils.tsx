@@ -43,6 +43,19 @@ export interface CompleteData {
   unavailableData: DisplayData[];
 }
 
+export const evaluatePatientName = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+) => {
+  const givenNames = evaluate(
+    fhirBundle,
+    fhirPathMappings.patientGivenName,
+  ).join(" ");
+  const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
+
+  return `${givenNames} ${familyName}`;
+};
+
 export const extractPatientAddress = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
@@ -101,6 +114,100 @@ export const extractFacilityContactInfo = (
     (contact: any) => contact.system === "phone",
   );
   return phoneNumbers?.[0].value;
+};
+
+export const evaluatePatientContactInfo = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+) => {
+  const phoneNumbers = evaluate(
+    fhirBundle,
+    fhirPathMappings.patientPhoneNumbers,
+  )
+    .map(
+      (phoneNumber) =>
+        `${
+          phoneNumber?.use?.charAt(0).toUpperCase() +
+          phoneNumber?.use?.substring(1)
+        } ${phoneNumber.value}`,
+    )
+    .join("\n");
+  const emails = evaluate(fhirBundle, fhirPathMappings.patientEmails)
+    .map((email) => `${email.value}`)
+    .join("\n");
+
+  return `${phoneNumbers}\n${emails}`;
+};
+
+export const evaluateEncounterDate = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+) => {
+  const startDate = formatDateTime(
+    evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
+  );
+  const endDate = formatDateTime(
+    evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
+  );
+
+  return `Start: ${startDate}
+    End: ${endDate}`;
+};
+
+/**
+ * Formats a table based on the provided resources, mappings, columns, and caption.
+ * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
+ *                                      The order of columns in the array determines the order of appearance.
+ * @param {string} caption - The caption for the table.
+ * @returns {React.JSX.Element} - A formatted table React element.
+ */
+export const evaluateTable = (
+  resources: FhirResource[],
+  mappings: PathMappings,
+  columns: ColumnInfoInput[],
+  caption: string,
+): React.JSX.Element => {
+  let headers = columns.map((column, index) => (
+    <th
+      key={`${column.columnName}${index}`}
+      scope="col"
+      className="bg-gray-5 minw-15"
+    >
+      {column.columnName}
+    </th>
+  ));
+
+  let tableRows = resources.map((entry, index) => {
+    let rowCells = columns.map((column, index) => {
+      let rowCellData = evaluate(entry, mappings[column.infoPath])[0] ?? (
+        <span className={"text-italic text-base"}>No data</span>
+      );
+      return (
+        <td key={`row-data-${index}`} className="text-top">
+          {rowCellData}
+        </td>
+      );
+    });
+
+    return <tr key={`table-row-${index}`}>{rowCells}</tr>;
+  });
+
+  return (
+    <Table
+      bordered={false}
+      fullWidth={true}
+      caption={caption}
+      className="border-top border-left border-right table-caption-margin margin-y-0"
+      data-testid="table"
+    >
+      <thead>
+        <tr>{headers}</tr>
+      </thead>
+      <tbody>{tableRows}</tbody>
+    </Table>
+  );
 };
 
 /**
@@ -194,110 +301,6 @@ export const evaluateSocialData = (
   return evaluateData(socialData);
 };
 
-export const evaluatePatientName = (
-  fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
-) => {
-  const givenNames = evaluate(
-    fhirBundle,
-    fhirPathMappings.patientGivenName,
-  ).join(" ");
-  const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
-
-  return `${givenNames} ${familyName}`;
-};
-
-export const evaluatePatientContactInfo = (
-  fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
-) => {
-  const phoneNumbers = evaluate(
-    fhirBundle,
-    fhirPathMappings.patientPhoneNumbers,
-  )
-    .map(
-      (phoneNumber) =>
-        `${
-          phoneNumber?.use?.charAt(0).toUpperCase() +
-          phoneNumber?.use?.substring(1)
-        } ${phoneNumber.value}`,
-    )
-    .join("\n");
-  const emails = evaluate(fhirBundle, fhirPathMappings.patientEmails)
-    .map((email) => `${email.value}`)
-    .join("\n");
-
-  return `${phoneNumbers}\n${emails}`;
-};
-export const evaluateEncounterDate = (
-  fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
-) => {
-  const startDate = formatDateTime(
-    evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
-  );
-  const endDate = formatDateTime(
-    evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
-  );
-
-  return `Start: ${startDate}
-    End: ${endDate}`;
-};
-/**
- * Formats a table based on the provided resources, mappings, columns, and caption.
- * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
- *                                      The order of columns in the array determines the order of appearance.
- * @param {string} caption - The caption for the table.
- * @returns {React.JSX.Element} - A formatted table React element.
- */
-export const evaluateTable = (
-  resources: FhirResource[],
-  mappings: PathMappings,
-  columns: ColumnInfoInput[],
-  caption: string,
-): React.JSX.Element => {
-  let headers = columns.map((column, index) => (
-    <th
-      key={`${column.columnName}${index}`}
-      scope="col"
-      className="bg-gray-5 minw-15"
-    >
-      {column.columnName}
-    </th>
-  ));
-
-  let tableRows = resources.map((entry, index) => {
-    let rowCells = columns.map((column, index) => {
-      let rowCellData = evaluate(entry, mappings[column.infoPath])[0] ?? (
-        <span className={"text-italic text-base"}>No data</span>
-      );
-      return (
-        <td key={`row-data-${index}`} className="text-top">
-          {rowCellData}
-        </td>
-      );
-    });
-
-    return <tr key={`table-row-${index}`}>{rowCells}</tr>;
-  });
-
-  return (
-    <Table
-      bordered={false}
-      fullWidth={true}
-      caption={caption}
-      className="border-top border-left border-right table-caption-margin margin-y-0"
-      data-testid="table"
-    >
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{tableRows}</tbody>
-    </Table>
-  );
-};
 export const evaluateDemographicsData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
