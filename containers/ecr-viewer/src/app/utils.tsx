@@ -12,6 +12,7 @@ import * as dateFns from "date-fns";
 import React from "react";
 import parse from "html-react-parser";
 import classNames from "classnames";
+import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 
 export interface DisplayData {
   title: string;
@@ -25,6 +26,11 @@ export interface PathMappings {
 export interface ColumnInfoInput {
   columnName: string;
   infoPath: string;
+}
+
+export interface CompleteData {
+  availableData: DisplayData[];
+  unavailableData: DisplayData[];
 }
 
 export const formatPatientName = (
@@ -782,11 +788,9 @@ export const evaluateClinicalData = (
 /**
  * Evaluates the provided display data to determine availability.
  * @param {DisplayData[]} data - An array of display data items to be evaluated.
- * @returns {{ availableData: DisplayData[], unavailableData: DisplayData[] }} - An object containing arrays of available and unavailable display data items.
+ * @returns {CompleteData} - An object containing arrays of available and unavailable display data items.
  */
-const evaluateData = (
-  data: DisplayData[],
-): { availableData: DisplayData[]; unavailableData: DisplayData[] } => {
+const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
@@ -897,4 +901,53 @@ export const evaluateEmergencyContact = (
 
     return formattedContact;
   }
+};
+
+/**
+ * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {{
+ *   labInfo: CompleteData,
+ *   labResults: React.JSX.Element[]
+ * }} An object containing evaluated lab information and lab results.
+ */
+export const evaluateLabInfoData = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): {
+  labInfo: CompleteData;
+  labResults: React.JSX.Element[];
+} => {
+  const labInfo: DisplayData[] = [
+    {
+      title: "Lab Performing Name",
+      value: "",
+    },
+    {
+      title: "Lab Address",
+      value: "",
+    },
+    {
+      title: "Lab Contact",
+      value: "",
+    },
+  ];
+
+  const rrData = evaluate(fhirBundle, mappings["diagnosticReports"]).map(
+    (report) => {
+      return (
+        <AccordionLabResults
+          title={report.code.coding[0].display}
+          abnormalTag={false}
+          content={<></>}
+        />
+      );
+    },
+  );
+
+  return {
+    labInfo: evaluateData(labInfo),
+    labResults: rrData,
+  };
 };
