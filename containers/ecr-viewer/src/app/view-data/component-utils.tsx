@@ -4,6 +4,7 @@ import classNames from "classnames";
 type AccordianSectionProps = {
   children: ReactNode;
   className?: string;
+  id?: string;
 };
 
 export const AccordianSection: React.FC<AccordianSectionProps> = ({
@@ -24,6 +25,7 @@ export const AccordianSection: React.FC<AccordianSectionProps> = ({
 export const AccordianH4: React.FC<AccordianSectionProps> = ({
   children,
   className,
+  id,
 }) => {
   return (
     <h4
@@ -31,7 +33,7 @@ export const AccordianH4: React.FC<AccordianSectionProps> = ({
         "usa-summary-box__heading padding-y-105",
         className,
       )}
-      id="summary-box-key-information"
+      id={id ?? "summary-box-key-information"}
     >
       {children}
     </h4>
