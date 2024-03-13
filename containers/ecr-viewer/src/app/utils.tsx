@@ -27,6 +27,11 @@ export interface ColumnInfoInput {
   infoPath: string;
 }
 
+export interface CompleteData {
+  availableData: DisplayData[];
+  unavailableData: DisplayData[];
+}
+
 export const formatPatientName = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
@@ -769,11 +774,9 @@ export const evaluateClinicalData = (
 /**
  * Evaluates the provided display data to determine availability.
  * @param {DisplayData[]} data - An array of display data items to be evaluated.
- * @returns {{ availableData: DisplayData[], unavailableData: DisplayData[] }} - An object containing arrays of available and unavailable display data items.
+ * @returns {CompleteData} - An object containing arrays of available and unavailable display data items.
  */
-const evaluateData = (
-  data: DisplayData[],
-): { availableData: DisplayData[]; unavailableData: DisplayData[] } => {
+const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
@@ -886,10 +889,22 @@ export const evaluateEmergencyContact = (
   }
 };
 
+/**
+ * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {{
+ *   labInfo: CompleteData,
+ *   labResults: React.JSX.Element[]
+ * }} An object containing evaluated lab information and lab results.
+ */
 export const evaluateLabInfoData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
-) => {
+): {
+  labInfo: CompleteData;
+  labResults: React.JSX.Element[];
+} => {
   const labInfo: DisplayData[] = [
     {
       title: "Lab Performing Name",
@@ -919,6 +934,6 @@ export const evaluateLabInfoData = (
 
   return {
     labInfo: evaluateData(labInfo),
-    rr: rrData,
+    labResults: rrData,
   };
 };
