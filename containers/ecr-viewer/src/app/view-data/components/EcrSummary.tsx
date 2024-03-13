@@ -139,7 +139,9 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              Lab results relevant to reportable condition
+              <div className={"text-bold"}>
+                Lab results relevant to reportable condition
+              </div>
               <div className="usa-card__container margin-left-0 margin-right-0 margin-top-1">
                 <div className="usa-card__header padding-top-2 padding-bottom-2 padding-left-3">
                   <p>
