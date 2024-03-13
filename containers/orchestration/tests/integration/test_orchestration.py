@@ -62,7 +62,7 @@ def test_process_message_endpoint(setup):
     request = {
         "message_type": "ecr",
         "data_type": "ecr",
-        "config_file_name": "sample-orchestration-config.json",
+        "config_file_name": "test-no-save.json",
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
@@ -86,7 +86,7 @@ def test_process_endpoint_with_zip(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config.json",
+            "config_file_name": "test-no-save.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
@@ -112,7 +112,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config.json",
+            "config_file_name": "test-no-save.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
