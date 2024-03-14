@@ -943,6 +943,24 @@ const returnSpecimenSource = (
   );
 };
 
+const returnCollectionTime = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): React.JSX.Element => {
+  const observations = getObservations(report.result, fhirBundle);
+  const collectionTime = observations.flatMap((observation) => {
+    const rawTime = evaluate(observation, mappings["specimenCollectionTime"]);
+    return rawTime.map((dateTimeString) => formatDateTime(dateTimeString));
+  });
+  return (
+    <>
+      {[...new Set(collectionTime)].join(", ")}
+      <br />
+    </>
+  );
+};
+
 /**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
  * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
@@ -978,6 +996,7 @@ export const evaluateLabInfoData = (
   const rrData = labReports.map((report) => {
     const content: array<React.JSX.Element> = [
       returnSpecimenSource(report, fhirBundle, mappings),
+      returnCollectionTime(report, fhirBundle, mappings),
     ];
     return (
       <AccordionLabResults
