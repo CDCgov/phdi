@@ -1,6 +1,6 @@
 import { evaluate } from "fhirpath";
-import { Bundle, FhirResource } from "fhir/r4";
-import { PathMappings } from "@/app/utils";
+import { Bundle, FhirResource, Observation } from "fhir/r4";
+import { ColumnInfoInput, PathMappings, evaluateTable } from "@/app/utils";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import React from "react";
 
@@ -24,16 +24,29 @@ export const evaluateReference = (
   })[0];
 };
 
+// Component, Value, Ref Range, Test Method
+
 export const evaluateDiagnosticReportData = (
   fhirBundle: Bundle<FhirResource>,
   mappings: PathMappings,
 ) => {
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Component", infoPath: "observationComponent" },
+    { columnName: "Value", infoPath: "observationValue" },
+    { columnName: "Ref Range", infoPath: "observationReferenceRange" },
+    { columnName: "Test Method", infoPath: "observationMethod" },
+  ];
+
   return evaluate(fhirBundle, mappings["diagnosticReports"]).map((report) => {
+    const observations: Observation[] = report.result.map((obsRef) =>
+      evaluateReference(fhirBundle, mappings, obsRef.reference),
+    );
+    const obsTable = evaluateTable(observations, mappings, columnInfo, "");
     return (
       <AccordionLabResults
         title={report.code.coding[0].display}
         abnormalTag={false}
-        content={<></>}
+        content={<>{obsTable}</>}
       />
     );
   });

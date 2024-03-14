@@ -7,6 +7,7 @@ import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
 import { loadYamlConfig } from "@/app/api/utils";
+import { render, screen } from "@testing-library/react";
 
 const mappings = loadYamlConfig();
 
@@ -39,6 +40,19 @@ describe("Evaluate Diagnostic Report", () => {
       mappings,
     );
 
-    expect(actual[0].props.title).toContain("CBC");
+    expect(actual[0].props.title).toContain(
+      "Drugs Of Abuse Comprehensive Screen, Ur",
+    );
+  });
+  it("should evaluate diagnostic report results", () => {
+    const actual = evaluateDiagnosticReportData(
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+
+    render(actual[0].props.content);
+
+    expect(screen.getByText("Phencyclidine Screen, Urine")).toBeInTheDocument();
+    expect(screen.getByText("Negative")).toBeInTheDocument();
   });
 });
