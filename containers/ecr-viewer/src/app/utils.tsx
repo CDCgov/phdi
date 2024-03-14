@@ -1,3 +1,5 @@
+import React from "react";
+import * as dateFns from "date-fns";
 import {
   Bundle,
   Condition,
@@ -9,16 +11,23 @@ import {
   Reference,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
-import { Table } from "@trussworks/react-uswds";
-import * as dateFns from "date-fns";
-import React from "react";
 import parse from "html-react-parser";
 import classNames from "classnames";
+import { Table } from "@trussworks/react-uswds";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
+import {
+  formatAddress,
+  formatDate,
+  formatName,
+  formatPhoneNumber,
+  formatStartEndDateTime,
+  formatVitals,
+  formatDateTime,
+} from "@/app/format-service";
 
 export interface DisplayData {
   title: string;
-  value?: string | React.JSX.Element;
+  value?: string | React.JSX.Element | React.JSX.Element[];
 }
 
 export interface PathMappings {
@@ -35,7 +44,7 @@ export interface CompleteData {
   unavailableData: DisplayData[];
 }
 
-export const formatPatientName = (
+export const evaluatePatientName = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
@@ -46,14 +55,6 @@ export const formatPatientName = (
   const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
 
   return `${givenNames} ${familyName}`;
-};
-
-const formatName = (firstName: string, lastName: string) => {
-  if (firstName != undefined) {
-    return `${firstName} ${lastName}`;
-  } else {
-    return undefined;
-  }
 };
 
 export const extractPatientAddress = (
@@ -102,28 +103,6 @@ export const extractFacilityAddress = (
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
-const formatAddress = (
-  streetAddress: string[],
-  city: string,
-  state: string,
-  zipCode: string,
-  country: string,
-) => {
-  let address = {
-    streetAddress: streetAddress || [],
-    cityState: [city, state],
-    zipCodeCountry: [zipCode, country],
-  };
-
-  return [
-    address.streetAddress.join("\n"),
-    address.cityState.filter(Boolean).join(", "),
-    address.zipCodeCountry.filter(Boolean).join(", "),
-  ]
-    .filter(Boolean)
-    .join("\n");
-};
-
 export const extractFacilityContactInfo = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
@@ -138,7 +117,7 @@ export const extractFacilityContactInfo = (
   return phoneNumbers?.[0].value;
 };
 
-export const formatPatientContactInfo = (
+export const evaluatePatientContactInfo = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
@@ -161,7 +140,7 @@ export const formatPatientContactInfo = (
   return `${phoneNumbers}\n${emails}`;
 };
 
-export const formatEncounterDate = (
+export const evaluateEncounterDate = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
@@ -176,112 +155,6 @@ export const formatEncounterDate = (
     End: ${endDate}`;
 };
 
-const formatDateTime = (dateTime: string) => {
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "numeric",
-    minute: "2-digit",
-  };
-
-  return new Date(dateTime)
-    .toLocaleDateString("en-Us", options)
-    .replace(",", "");
-};
-
-/**
- * Formats the provided date string into a formatted date string with year, month, and day.
- * @param {string} date - The date string to be formatted.
- * @returns {string | undefined} - The formatted date string or undefined if the input date is falsy.
- */
-export const formatDate = (date?: string): string | undefined => {
-  if (date) {
-    return new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC",
-    }); // UTC, otherwise will have timezone issues
-  }
-};
-
-const formatPhoneNumber = (phoneNumber: string) => {
-  try {
-    return phoneNumber
-      .replace(/\D/g, "")
-      .replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-  } catch {
-    return undefined;
-  }
-};
-
-const formatStartEndDateTime = (
-  startDateTime: "string",
-  endDateTime: "string",
-) => {
-  const startDateObject = new Date(startDateTime);
-  const endDateObject = new Date(endDateTime);
-
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-
-  const startFormattedDate = startDateObject
-    .toLocaleString("en-US", options)
-    .replace(",", "");
-  const endFormattedDate = endDateObject
-    .toLocaleString("en-us", options)
-    .replace(",", "");
-
-  return `Start: ${startFormattedDate}
-        End: ${endFormattedDate}`;
-};
-
-const formatVitals = (
-  heightAmount: string,
-  heightMeasurementType: string,
-  weightAmount: string,
-  weightMeasurementType: string,
-  bmi: string,
-) => {
-  let heightString = "";
-  let weightString = "";
-  let bmiString = "";
-
-  let heightType = "";
-  let weightType = "";
-  if (heightAmount && heightMeasurementType) {
-    if (heightMeasurementType === "[in_i]") {
-      heightType = "inches";
-    } else if (heightMeasurementType === "cm") {
-      heightType = "cm";
-    }
-    heightString = `Height: ${heightAmount} ${heightType}\n\n`;
-  }
-
-  if (weightAmount && weightMeasurementType) {
-    if (weightMeasurementType === "[lb_av]") {
-      weightType = "Lbs";
-    } else if (weightMeasurementType === "kg") {
-      weightType = "kg";
-    }
-    weightString = `Weight: ${weightAmount} ${weightType}\n\n`;
-  }
-
-  if (bmi) {
-    bmiString = `Body Mass Index (BMI): ${bmi}`;
-  }
-
-  const combinedString = `${heightString} ${weightString} ${bmiString}`;
-  return combinedString.trim();
-};
-
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
  * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
@@ -291,7 +164,7 @@ const formatVitals = (
  * @param {string} caption - The caption for the table.
  * @returns {React.JSX.Element} - A formatted table React element.
  */
-const formatTable = (
+export const evaluateTable = (
   resources: FhirResource[],
   mappings: PathMappings,
   columns: ColumnInfoInput[],
@@ -388,7 +261,7 @@ export const evaluateSocialData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const socialData = [
+  const socialData: DisplayData[] = [
     {
       title: "Occupation",
       value: evaluate(fhirBundle, mappings["patientCurrentJobTitle"])[0],
@@ -433,13 +306,16 @@ export const evaluateDemographicsData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const demographicsData = [
+  const demographicsData: DisplayData[] = [
     {
       title: "Patient Name",
-      value: formatPatientName(fhirBundle, mappings),
+      value: evaluatePatientName(fhirBundle, mappings),
     },
     { title: "DOB", value: evaluate(fhirBundle, mappings.patientDOB)[0] },
-    { title: "Current Age", value: calculatePatientAge(fhirBundle, mappings) },
+    {
+      title: "Current Age",
+      value: calculatePatientAge(fhirBundle, mappings)?.toString(),
+    },
     { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
     { title: "Race", value: evaluate(fhirBundle, mappings.patientRace)[0] },
     {
@@ -462,7 +338,10 @@ export const evaluateDemographicsData = (
       title: "County",
       value: evaluate(fhirBundle, mappings.patientCounty)[0],
     },
-    { title: "Contact", value: formatPatientContactInfo(fhirBundle, mappings) },
+    {
+      title: "Contact",
+      value: evaluatePatientContactInfo(fhirBundle, mappings),
+    },
     {
       title: "Emergency Contact",
       value: evaluateEmergencyContact(fhirBundle, mappings),
@@ -589,7 +468,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Sender Facility Name",
-      value: evaluate(fhirBundle, mappings.senderFacilityName),
+      value: evaluate(fhirBundle, mappings.senderFacilityName)[0],
     },
     {
       title: "Facility Address",
@@ -641,7 +520,7 @@ export const returnProblemsTable = (
       new Date(a.onsetDateTime ?? "").getTime(),
   );
 
-  return formatTable(problemsArray, mappings, columnInfo, "Problems List");
+  return evaluateTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
 /**
@@ -674,7 +553,7 @@ export const returnImmunizations = (
       new Date(a.occurrenceDateTime ?? "").getTime(),
   );
 
-  return formatTable(
+  return evaluateTable(
     immunizationsArray,
     mappings,
     columnInfo,
@@ -712,7 +591,7 @@ export const returnProceduresTable = (
       new Date(a.performedDateTime ?? "").getTime(),
   );
 
-  return formatTable(proceduresArray, mappings, columnInfo, "Procedures");
+  return evaluateTable(proceduresArray, mappings, columnInfo, "Procedures");
 };
 
 export const evaluateClinicalData = (
@@ -803,19 +682,6 @@ const evaluateData = (data: DisplayData[]): CompleteData => {
     }
   });
   return { availableData: availableData, unavailableData: unavailableData };
-};
-
-export const formatString = (input: string): string => {
-  // Convert to lowercase
-  let result = input.toLowerCase();
-
-  // Replace spaces with underscores
-  result = result.replace(/\s+/g, "-");
-
-  // Remove all special characters except underscores
-  result = result.replace(/[^a-z0-9\-]/g, "");
-
-  return result;
 };
 
 /**
