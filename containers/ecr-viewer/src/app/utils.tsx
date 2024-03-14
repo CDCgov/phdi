@@ -163,6 +163,7 @@ export const evaluateEncounterDate = (
  * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
  *                                      The order of columns in the array determines the order of appearance.
  * @param {string} caption - The caption for the table.
+ * @param {boolean} [outerBorder=true] - Optional. Determines whether to include an outer border for the table. Default is true.
  * @returns {React.JSX.Element} - A formatted table React element.
  */
 export const evaluateTable = (
@@ -170,6 +171,7 @@ export const evaluateTable = (
   mappings: PathMappings,
   columns: ColumnInfoInput[],
   caption: string,
+  outerBorder: boolean = true,
 ): React.JSX.Element => {
   let headers = columns.map((column, index) => (
     <th
@@ -198,10 +200,13 @@ export const evaluateTable = (
 
   return (
     <Table
+      fixed={true}
       bordered={false}
       fullWidth={true}
       caption={caption}
-      className="border-top border-left border-right table-caption-margin margin-y-0"
+      className={classNames("table-caption-margin margin-y-0", {
+        "border-top border-left border-right": outerBorder,
+      })}
       data-testid="table"
     >
       <thead>

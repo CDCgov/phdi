@@ -24,8 +24,6 @@ export const evaluateReference = (
   })[0];
 };
 
-// Component, Value, Ref Range, Test Method
-
 export const evaluateDiagnosticReportData = (
   fhirBundle: Bundle<FhirResource>,
   mappings: PathMappings,
@@ -41,7 +39,13 @@ export const evaluateDiagnosticReportData = (
     const observations: Observation[] = report.result.map((obsRef) =>
       evaluateReference(fhirBundle, mappings, obsRef.reference),
     );
-    const obsTable = evaluateTable(observations, mappings, columnInfo, "");
+    const obsTable = evaluateTable(
+      observations,
+      mappings,
+      columnInfo,
+      "",
+      false,
+    );
     return (
       <AccordionLabResults
         title={report.code.coding[0].display}
