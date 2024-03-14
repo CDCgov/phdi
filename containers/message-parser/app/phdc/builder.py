@@ -400,6 +400,12 @@ class PHDCBuilder:
         section.append(title)
 
         for list_of_observations in self.input_data.repeating_questions:
+            filtered_observations = [
+                obs for obs in list_of_observations if obs.obs_type == "EXPOS"
+            ]
+            if not filtered_observations:
+                continue
+
             entry = ET.Element("entry", {"typeCode": "COMP"})
             organizer = ET.Element(
                 "organizer", {"classCode": "CLUSTER", "moodCode": "EVN"}
@@ -419,9 +425,6 @@ class PHDCBuilder:
             status_code = ET.Element("statusCode", {"code": "completed"})
             organizer.append(status_code)
 
-            filtered_observations = [
-                obs for obs in list_of_observations if obs.obs_type == "EXPOS"
-            ]
             for observation in filtered_observations:
                 if observation.components:
                     for component in observation.components:
@@ -430,9 +433,10 @@ class PHDCBuilder:
                             component_observation
                         )
 
-                        component_for_observation = ET.Element("component")
-                        component_for_observation.append(observation_element)
-                        organizer.append(component_for_observation)
+                        if observation_element is not None:
+                            component_for_observation = ET.Element("component")
+                            component_for_observation.append(observation_element)
+                            organizer.append(component_for_observation)
 
             section.append(entry)
 
