@@ -16,6 +16,7 @@
             {% for id in ids -%}
             { {% include 'DataType/Identifier' Identifier: id -%} },
             {% endfor -%}
+            { "foo": "{{ observationEntry | json }}" },
         ],
         "category":
         [

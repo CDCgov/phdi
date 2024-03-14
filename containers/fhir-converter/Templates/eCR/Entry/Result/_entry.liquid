@@ -25,6 +25,7 @@
     {% else -%}
         {% assign collectTime = "None" -%}
     {% endif -%}
+    
     {% assign comps = entry.organizer.component | to_array -%}
     {% for comp in comps -%}
         {% if comp.procedure  -%}

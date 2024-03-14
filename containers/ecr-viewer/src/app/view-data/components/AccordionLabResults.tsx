@@ -4,7 +4,7 @@ import React from "react";
 interface AccordionLabResultsProps {
   title: string;
   abnormalTag: boolean;
-  content: React.JSX.Element;
+  content: React.JSX.Element[];
 }
 
 /**

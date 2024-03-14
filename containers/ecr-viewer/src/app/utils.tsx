@@ -29,7 +29,7 @@ import {
 
 export interface DisplayData {
   title: string;
-  value?: string | React.JSX.Element | React.JSX.Element[];
+  value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
 }
 
 export interface PathMappings {
@@ -794,39 +794,55 @@ const getObservations = (
   });
 };
 
+const noData = <span className="no-data">No data</span>;
+
+/**
+ * Extracts and consolidates the specimen source descriptions from observations within a lab report.
+ *
+ * @param {LabReport} report - The lab report containing the results to be processed.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ */
 const returnSpecimenSource = (
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
-): React.JSX.Element => {
+): React.ReactNode => {
   const observations = getObservations(report.result, fhirBundle);
   const specimenSource = observations.flatMap((observation) => {
     return evaluate(observation, mappings["specimenSource"]);
   });
-  return (
-    <>
-      {[...new Set(specimenSource)].join(", ")}
-      <br />
-    </>
-  );
+  if (!specimenSource || specimenSource.length === 0) {
+    return noData;
+  }
+  return [...new Set(specimenSource)].join(", ");
 };
 
+/**
+ * Extracts and formats the specimen collection times from observations within a lab report.
+ *
+ * @param {LabReport} report - The lab report containing the results to be processed.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ */
 const returnCollectionTime = (
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
-): React.JSX.Element => {
+): React.ReactNode => {
   const observations = getObservations(report.result, fhirBundle);
   const collectionTime = observations.flatMap((observation) => {
     const rawTime = evaluate(observation, mappings["specimenCollectionTime"]);
     return rawTime.map((dateTimeString) => formatDateTime(dateTimeString));
   });
-  return (
-    <>
-      {[...new Set(collectionTime)].join(", ")}
-      <br />
-    </>
-  );
+
+  if (!collectionTime || collectionTime.length === 0) {
+    return noData;
+  }
+
+  return [...new Set(collectionTime)].join(", ");
 };
 
 /**
@@ -862,10 +878,19 @@ export const evaluateLabInfoData = (
   ];
 
   const rrData = labReports.map((report) => {
-    const content: array<React.JSX.Element> = [
-      returnSpecimenSource(report, fhirBundle, mappings),
-      returnCollectionTime(report, fhirBundle, mappings),
+    const rrInfo: DisplayData[] = [
+      {
+        title: "Specimen (Source)",
+        value: returnSpecimenSource(report, fhirBundle, mappings),
+      },
+      {
+        title: "Collection Time",
+        value: returnCollectionTime(report, fhirBundle, mappings),
+      },
     ];
+    const content: Array<React.JSX.Element> = rrInfo.map((item) => {
+      return <DataDisplay item={item} />;
+    });
     return (
       <AccordionLabResults
         title={report.code.coding[0].display}
