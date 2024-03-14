@@ -380,8 +380,10 @@ class PHDCBuilder:
         aspects required to initialize the section.
         :return: XML element of Repeating Questions data.
         """
-        component = ET.Element("component")
+        component_section = ET.Element("component")
         section = ET.Element("section")
+        component_section.append(section)
+
         code = ET.Element(
             "code",
             {
@@ -391,21 +393,20 @@ class PHDCBuilder:
                 "displayName": "Generic Repeating Questions Section",
             },
         )
+        section.append(code)
+
         title = ET.Element("title")
         title.text = "REPEATING QUESTIONS"
-        section.append(code)
         section.append(title)
 
-        # Add organizer header
-        for element in self.input_data.repeating_questions:
-            # Create the `organizer` element and its subelements
+        for list_of_observations in self.input_data.repeating_questions:
             entry = ET.Element("entry", {"typeCode": "COMP"})
             organizer = ET.Element(
-                "organizer",
-                {"classCode": "CLUSTER", "moodCode": "EVN"},
+                "organizer", {"classCode": "CLUSTER", "moodCode": "EVN"}
             )
+            entry.append(organizer)
 
-            code_element = ET.Element(
+            code_organizer = ET.Element(
                 "code",
                 {
                     "code": "1",
@@ -413,23 +414,29 @@ class PHDCBuilder:
                     "codeSystemName": "LocalSystem",
                 },
             )
+            organizer.append(code_organizer)
 
-            organizer.append(code_element)
-            status_code_element = ET.Element("statusCode", {"code": "completed"})
-            organizer.append(status_code_element)
-            entry.append(organizer)
-            comp = ET.SubElement(organizer, "component")
+            status_code = ET.Element("statusCode", {"code": "completed"})
+            organizer.append(status_code)
 
-            # add observation data to section
-            for c in element:
-                observation_element = self._build_observation(c)
-                comp.append(observation_element)
-            organizer.append(comp)
-            entry.append(organizer)
+            filtered_observations = [
+                obs for obs in list_of_observations if obs.obs_type == "EXPOS"
+            ]
+            for observation in filtered_observations:
+                if observation.components:
+                    for component in observation.components:
+                        component_observation = Observation(**component)
+                        observation_element = self._build_observation(
+                            component_observation
+                        )
+
+                        component_for_observation = ET.Element("component")
+                        component_for_observation.append(observation_element)
+                        organizer.append(component_for_observation)
+
             section.append(entry)
-        component.append(section)
 
-        return component
+        return component_section
 
     def _build_telecom(self, telecom: Telecom) -> ET.Element:
         """
