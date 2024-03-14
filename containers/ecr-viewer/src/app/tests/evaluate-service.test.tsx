@@ -1,7 +1,11 @@
-import { evaluateReference } from "@/app/evaluate-service";
+import {
+  evaluateReference,
+  evaluateDiagnosticReportData,
+} from "@/app/evaluate-service";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
+import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
 import { loadYamlConfig } from "@/app/api/utils";
 
 const mappings = loadYamlConfig();
@@ -25,5 +29,16 @@ describe("Evaluate Reference", () => {
 
     expect(actual.id).toEqual("6b6b3c4c-4884-4a96-b6ab-c46406839cea");
     expect(actual.resourceType).toEqual("Patient");
+  });
+});
+
+describe("Evaluate Diagnostic Report", () => {
+  it("should evaluate diagnostic report title", () => {
+    const actual = evaluateDiagnosticReportData(
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+
+    expect(actual[0].props.title).toContain("CBC");
   });
 });

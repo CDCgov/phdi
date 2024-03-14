@@ -1,6 +1,8 @@
 import { evaluate } from "fhirpath";
-import { Bundle } from "fhir/r4";
+import { Bundle, FhirResource } from "fhir/r4";
 import { PathMappings } from "@/app/utils";
+import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
+import React from "react";
 
 /**
  * Evaluates a reference in a FHIR bundle.
@@ -20,4 +22,19 @@ export const evaluateReference = (
     resourceType,
     id,
   })[0];
+};
+
+export const evaluateDiagnosticReportData = (
+  fhirBundle: Bundle<FhirResource>,
+  mappings: PathMappings,
+) => {
+  return evaluate(fhirBundle, mappings["diagnosticReports"]).map((report) => {
+    return (
+      <AccordionLabResults
+        title={report.code.coding[0].display}
+        abnormalTag={false}
+        content={<></>}
+      />
+    );
+  });
 };

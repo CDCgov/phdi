@@ -12,16 +12,18 @@ import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
 import { Table } from "@trussworks/react-uswds";
-import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
-import { evaluateReference } from "@/app/evaluate-service";
+import {
+  evaluateReference,
+  evaluateDiagnosticReportData,
+} from "@/app/evaluate-service";
 import {
   formatAddress,
   formatDate,
+  formatDateTime,
   formatName,
   formatPhoneNumber,
   formatStartEndDateTime,
   formatVitals,
-  formatDateTime,
 } from "@/app/format-service";
 
 export interface DisplayData {
@@ -798,17 +800,7 @@ export const evaluateLabInfoData = (
     },
   ];
 
-  const rrData = evaluate(fhirBundle, mappings["diagnosticReports"]).map(
-    (report) => {
-      return (
-        <AccordionLabResults
-          title={report.code.coding[0].display}
-          abnormalTag={false}
-          content={<></>}
-        />
-      );
-    },
-  );
+  const rrData = evaluateDiagnosticReportData(fhirBundle, mappings);
 
   return {
     labInfo: evaluateData(labInfo),
