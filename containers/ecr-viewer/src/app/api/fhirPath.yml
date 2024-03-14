@@ -93,3 +93,4 @@ procedureReason: "Procedure.reason.display"
 
 # Lab Info
 diagnosticReports: "Bundle.entry.resource.where(resourceType = 'DiagnosticReport')"
+specimenSource: "Observation.extension[0].extension.where(url = 'specimen source').valueString"

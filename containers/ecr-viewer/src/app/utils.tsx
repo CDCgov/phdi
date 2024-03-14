@@ -929,15 +929,15 @@ const getObservations = (
 const returnSpecimenSource = (
   report: LabReport,
   fhirBundle: Bundle,
+  mappings: PathMappings,
 ): React.JSX.Element => {
   const observations = getObservations(report.result, fhirBundle);
-  console.log("observations", observations);
-  const status = observations.map((observation) => {
-    return observation.status;
+  const specimenSource = observations.flatMap((observation) => {
+    return evaluate(observation, mappings["specimenSource"]);
   });
   return (
     <>
-      {[...new Set(status)].join(", ")}
+      {[...new Set(specimenSource)].join(", ")}
       <br />
     </>
   );
@@ -977,7 +977,7 @@ export const evaluateLabInfoData = (
 
   const rrData = labReports.map((report) => {
     const content: array<React.JSX.Element> = [
-      returnSpecimenSource(report, fhirBundle),
+      returnSpecimenSource(report, fhirBundle, mappings),
     ];
     return (
       <AccordionLabResults
