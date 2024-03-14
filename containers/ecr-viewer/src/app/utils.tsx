@@ -19,11 +19,11 @@ import {
 import {
   formatAddress,
   formatDate,
-  formatDateTime,
   formatName,
   formatPhoneNumber,
   formatStartEndDateTime,
   formatVitals,
+  formatDateTime,
 } from "@/app/format-service";
 
 export interface DisplayData {
