@@ -13,6 +13,7 @@ import React from "react";
 import parse from "html-react-parser";
 import classNames from "classnames";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
+import { evaluateReference } from "@/app/evaluate-service";
 
 export interface DisplayData {
   title: string;
@@ -549,13 +550,10 @@ export const evaluateEcrMetadata = (
 ) => {
   const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
 
-  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) => {
-    ref = ref.split("/");
-    return evaluate(fhirBundle, mappings.resolve, {
-      resourceType: ref[0],
-      id: ref[1],
-    })[0];
-  });
+  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) =>
+    evaluateReference(fhirBundle, mappings, ref),
+  );
+
   const rrDetails: DisplayData[] = [
     {
       title: "Reportable Condition(s)",
