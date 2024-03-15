@@ -1,5 +1,12 @@
 import { evaluate } from "fhirpath";
-import { Bundle, FhirResource, Observation, Reference } from "fhir/r4";
+import {
+  Bundle,
+  CodeableConcept,
+  FhirResource,
+  Observation,
+  Quantity,
+  Reference,
+} from "fhir/r4";
 import { ColumnInfoInput, PathMappings, evaluateTable } from "@/app/utils";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import React from "react";
@@ -64,21 +71,23 @@ export const evaluateDiagnosticReportData = (
 };
 
 export const evaluateValue = (entry: FhirResource, path: string): string => {
-  let data = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
+  let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
   let value = "";
-  if (typeof data === "string") {
-    value = data;
-  } else if (data?.__path__ === "Quantity") {
+  if (typeof originalValue === "string") {
+    value = originalValue;
+  } else if (originalValue?.__path__ === "Quantity") {
+    const data = originalValue as Quantity;
     let unit = data.unit;
     const firstLetterRegex = /^[a-z]/i;
     if (unit?.match(firstLetterRegex)) {
       unit = " " + unit;
     }
     value = `${data.value ?? ""}${unit ?? ""}`;
-  } else if (data?.__path__ === "CodeableConcept") {
-    value = data.coding[0].display;
-  } else if (typeof data === "object") {
-    console.log(`Not implemented for ${data.__path__}`);
+  } else if (originalValue?.__path__ === "CodeableConcept") {
+    const data = originalValue as CodeableConcept;
+    value = data.coding?.[0].display || data.text || "";
+  } else if (typeof originalValue === "object") {
+    console.log(`Not implemented for ${originalValue.__path__}`);
   }
   return value.trim();
 };
