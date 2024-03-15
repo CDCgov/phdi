@@ -146,3 +146,32 @@ export const formatString = (input: string): string => {
 
   return result;
 };
+
+export function formatTableToJSON(htmlString: string): any[] {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, "text/html");
+  const table = doc.querySelector("table");
+  const jsonArray: any[] = [];
+
+  if (table) {
+    const rows = table.querySelectorAll("tr");
+    const keys: string[] = [];
+    rows[0].querySelectorAll("th").forEach((header) => {
+      keys.push(header.textContent?.trim() || "");
+    });
+
+    rows.forEach((row, rowIndex) => {
+      // Skip the first row as it contains headers
+      if (rowIndex === 0) return;
+
+      const obj: { [key: string]: string } = {};
+      row.querySelectorAll("td").forEach((cell, cellIndex) => {
+        const key = keys[cellIndex];
+        obj[key] = cell.textContent?.trim() || "";
+      });
+      jsonArray.push(obj);
+    });
+  }
+
+  return jsonArray;
+}
