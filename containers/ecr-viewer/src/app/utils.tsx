@@ -15,6 +15,7 @@ import { Table } from "@trussworks/react-uswds";
 import {
   evaluateReference,
   evaluateDiagnosticReportData,
+  evaluateValue,
 } from "@/app/evaluate-service";
 import {
   formatAddress,
@@ -185,7 +186,7 @@ export const evaluateTable = (
 
   let tableRows = resources.map((entry, index) => {
     let rowCells = columns.map((column, index) => {
-      let rowCellData = evaluate(entry, mappings[column.infoPath])[0] ?? (
+      let rowCellData = evaluateValue(entry, mappings[column.infoPath]) ?? (
         <span className={"text-italic text-base"}>No data</span>
       );
       return (

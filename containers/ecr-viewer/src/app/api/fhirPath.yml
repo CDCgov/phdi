@@ -94,6 +94,6 @@ procedureReason: "Procedure.reason.display"
 # Lab Info
 diagnosticReports: "Bundle.entry.resource.where(resourceType = 'DiagnosticReport')"
 observationComponent: "code.coding.display"
-observationValue: "valueString"
+observationValue: "value"
 observationReferenceRange: "referenceRange.text"
 observationMethod: "method"

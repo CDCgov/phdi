@@ -1,6 +1,7 @@
 import {
   evaluateReference,
   evaluateDiagnosticReportData,
+  evaluateValue,
 } from "@/app/evaluate-service";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
@@ -54,5 +55,40 @@ describe("Evaluate Diagnostic Report", () => {
 
     expect(screen.getByText("Phencyclidine Screen, Urine")).toBeInTheDocument();
     expect(screen.getByText("Negative")).toBeInTheDocument();
+  });
+});
+
+describe("evaluate value", () => {
+  it("should provide the string in the case of ValueString", () => {
+    const actual = evaluateValue(
+      { resourceType: "Observation", valueString: "abc" } as any,
+      "value",
+    );
+
+    expect(actual).toEqual("abc");
+  });
+  describe("Quantity", () => {
+    it("should provide the string with a space between value and string unit", () => {
+      const actual = evaluateValue(
+        {
+          resourceType: "Observation",
+          valueQuantity: { value: 1, unit: "ft" },
+        } as any,
+        "value",
+      );
+
+      expect(actual).toEqual("1 ft");
+    });
+    it("should provide the string with a space between value and symbol unit", () => {
+      const actual = evaluateValue(
+        {
+          resourceType: "Observation",
+          valueQuantity: { value: 1, unit: "%" },
+        } as any,
+        "value",
+      );
+
+      expect(actual).toEqual("1%");
+    });
   });
 });

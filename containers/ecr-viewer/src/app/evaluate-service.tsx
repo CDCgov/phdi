@@ -1,8 +1,9 @@
 import { evaluate } from "fhirpath";
-import { Bundle, Observation, Reference } from "fhir/r4";
+import { Bundle, FhirResource, Observation, Reference } from "fhir/r4";
 import { ColumnInfoInput, PathMappings, evaluateTable } from "@/app/utils";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import React from "react";
+import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 
 /**
  * Evaluates a reference in a FHIR bundle.
@@ -60,4 +61,17 @@ export const evaluateDiagnosticReportData = (
       />
     );
   });
+};
+
+export const evaluateValue = (entry: FhirResource, path: string): string => {
+  let data = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
+  if (data?.__path__ === "Quantity") {
+    let unit = data.unit;
+    const firstLetterRegex = /^[a-z]/i;
+    if (unit.match(firstLetterRegex)) {
+      unit = " " + unit;
+    }
+    data = `${data.value ?? ""}${unit ?? ""}`;
+  }
+  return data;
 };
