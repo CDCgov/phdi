@@ -1,6 +1,6 @@
 ---
-name: SeCRET Tech Debt
-about: Describe technical debt work for the SeCRET team to pick up
+name: Streamline eCR Tech Debt
+about: Describe technical debt work for the Streamline eCR team to pick up
 title: ''
 labels: "Streamline eCR"
 assignees: ''
