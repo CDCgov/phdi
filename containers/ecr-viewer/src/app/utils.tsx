@@ -7,16 +7,11 @@ import {
   Immunization,
   Organization,
   Procedure,
-  Observation,
-  Reference,
-  Observation,
-  Reference,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
 import { Table } from "@trussworks/react-uswds";
-import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
   formatAddress,
   formatDate,
@@ -673,7 +668,7 @@ export const evaluateClinicalData = (
  * @param {DisplayData[]} data - An array of display data items to be evaluated.
  * @returns {CompleteData} - An object containing arrays of available and unavailable display data items.
  */
-const evaluateData = (data: DisplayData[]): CompleteData => {
+export const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
@@ -771,167 +766,4 @@ export const evaluateEmergencyContact = (
 
     return formattedContact;
   }
-};
-
-export interface LabReport {
-  result: Array<Reference>;
-}
-
-const getObservations = (
-  observationIds: Array<Reference>,
-  fhirBundle: Bundle,
-): Array<Observation> => {
-  const ids: Array<string> = observationIds
-    .map((id) => {
-      return id.reference?.replace("Observation/", "");
-    })
-    .filter((i): i is string => i !== undefined);
-
-  if (ids.length === 0) return [];
-
-  return ids.map((id) => {
-    return evaluate(fhirBundle, `Bundle.entry.resource.where(id = '${id}')`)[0];
-  });
-};
-
-const noData = <span className="no-data">No data</span>;
-
-/**
- * Extracts and consolidates the specimen source descriptions from observations within a lab report.
- *
- * @param {LabReport} report - The lab report containing the results to be processed.
- * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
- */
-const returnSpecimenSource = (
-  report: LabReport,
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-): React.ReactNode => {
-  const observations = getObservations(report.result, fhirBundle);
-  const specimenSource = observations.flatMap((observation) => {
-    return evaluate(observation, mappings["specimenSource"]);
-  });
-  if (!specimenSource || specimenSource.length === 0) {
-    return noData;
-  }
-  return [...new Set(specimenSource)].join(", ");
-};
-
-/**
- * Extracts and formats the specimen collection time(s) from observations within a lab report.
- *
- * @param {LabReport} report - The lab report containing the results to be processed.
- * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
- */
-const returnCollectionTime = (
-  report: LabReport,
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-): React.ReactNode => {
-  const observations = getObservations(report.result, fhirBundle);
-  const collectionTime = observations.flatMap((observation) => {
-    const rawTime = evaluate(observation, mappings["specimenCollectionTime"]);
-    return rawTime.map((dateTimeString) => formatDateTime(dateTimeString));
-  });
-
-  if (!collectionTime || collectionTime.length === 0) {
-    return noData;
-  }
-
-  return [...new Set(collectionTime)].join(", ");
-};
-
-/**
- * Extracts and formats the specimen received time(s) from observations within a lab report.
- *
- * @param {LabReport} report - The lab report containing the results to be processed.
- * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
- */
-const returnReceivedTime = (
-  report: LabReport,
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-): React.ReactNode => {
-  const observations = getObservations(report.result, fhirBundle);
-  const receivedTime = observations.flatMap((observation) => {
-    const rawTime = evaluate(observation, mappings["specimenReceivedTime"]);
-    return rawTime.map((dateTimeString) => formatDateTime(dateTimeString));
-  });
-
-  if (!receivedTime || receivedTime.length === 0) {
-    return noData;
-  }
-
-  return [...new Set(receivedTime)].join(", ");
-};
-
-/**
- * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
- * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {{
- *   labInfo: CompleteData,
- *   labResults: React.JSX.Element[]
- * }} An object containing evaluated lab information and lab results.
- */
-export const evaluateLabInfoData = (
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-): {
-  labInfo: CompleteData;
-  labResults: React.JSX.Element[];
-} => {
-  const labReports = evaluate(fhirBundle, mappings["diagnosticReports"]);
-  const labInfo: DisplayData[] = [
-    {
-      title: "Lab Performing Name",
-      value: "",
-    },
-    {
-      title: "Lab Address",
-      value: "",
-    },
-    {
-      title: "Lab Contact",
-      value: "",
-    },
-  ];
-
-  const rrData = labReports.map((report) => {
-    const rrInfo: DisplayData[] = [
-      {
-        title: "Specimen (Source)",
-        value: returnSpecimenSource(report, fhirBundle, mappings),
-      },
-      {
-        title: "Collection Time",
-        value: returnCollectionTime(report, fhirBundle, mappings),
-      },
-      {
-        title: "Received Time",
-        value: returnReceivedTime(report, fhirBundle, mappings),
-      },
-    ];
-    const content: Array<React.JSX.Element> = rrInfo.map((item) => {
-      return <DataDisplay item={item} />;
-    });
-    return (
-      <AccordionLabResults
-        title={report.code.coding[0].display}
-        abnormalTag={false}
-        content={content}
-      />
-    );
-  });
-
-  return {
-    labInfo: evaluateData(labInfo),
-    labResults: rrData,
-  };
 };
