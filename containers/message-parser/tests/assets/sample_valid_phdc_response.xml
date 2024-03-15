@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='utf-8'?>
+<?xml-stylesheet type="text/xsl" href="PHDC.xsl"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdt="urn:hl7-org:sdtc" xmlns:sdtcxmlnamespaceholder="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 CDA_SDTC.xsd">
+  <realmCode code="US"/>
+  <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000020"/>
+  <id root="2.16.840.1.113883.19" extension="495669c7-96bf-4573-9dd8-59e745e05576"/>
+  <code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Public Health Case Report - PHRI"/>
+  <title>Public Health Case Report - Data from the DIBBs FHIR to PHDC Converter</title>
+  <effectiveTime value="20101215000000"/>
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+  <setId extension="CLOSED_CASE" displayable="true"/>
+  <versionNumber value="1"/>
+  <recordTarget>
+    <patientRole>
+      <id extension="495669c7-96bf-4573-9dd8-59e745e05576" root="2.16.840.1.113883.4.1" assigningAuthorityName="LR"/>
+      <addr use="H">
+        <streetAddressLine>6 Watery Lighthouse Trailer Park Way</streetAddressLine>
+        <streetAddressLine>Unit #2</streetAddressLine>
+        <city>Watery</city>
+        <state>WA</state>
+        <postalCode>98440</postalCode>
+        <country>United States</country>
+      </addr>
+      <patient>
+        <name use="L">
+          <prefix>Ms.</prefix>
+          <given>Saga</given>
+          <family>Anderson</family>
+        </name>
+        <administrativeGenderCode displayName="female"/>
+        <birthTime value="19871111"/>
+        <sdt:raceCode code="2054-5" codeSystem="2.16.840.1.113883.6.238" displayName="Black or African American" codeSystemName="Race &amp; Ethnicity"/>
+        <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
+      </patient>
+    </patientRole>
+  </recordTarget>
+  <author>
+    <time value="20101215000000"/>
+    <assignedAuthor>
+      <id root="2.16.840.1.113883.19.5"/>
+      <assignedPerson>
+        <name>
+          <family>CDC PRIME DIBBs</family>
+        </name>
+      </assignedPerson>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id extension="495669c7-96bf-4573-9dd8-59e745e05576"/>
+        <name>Nelson Family Practice</name>
+        <telecom value="206-555-0199"/>
+        <addr>
+          <streetAddressLine>123 Harbor St</streetAddressLine>
+          <city>Bright Falls</city>
+          <state>WA</state>
+          <postalCode>98440</postalCode>
+          <country>United States</country>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <component>
+    <structuredBody>
+      <component>
+        <section>
+          <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
+          <code code="29762-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Social history"/>
+          <title>SOCIAL HISTORY INFORMATION</title>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="DEM127" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Is this person deceased?"/>
+              <value xsi:type="CE" code="N" codeSystem="2.16.840.1.113883.12.136" displayName="No"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="NBS104" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="Information As of Date"/>
+              <value xsi:type="TS" value="20240124"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV2001" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Reported Age"/>
+              <value xsi:type="ST">36</value>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV2002" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Reported Age Units"/>
+              <value xsi:type="CE" code="a" codeSystem="2.16.840.1.113883.6.8" displayName="year [time]"/>
+            </observation>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
+          <code code="55752-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Clinical Information"/>
+          <title>Clinical Information</title>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV163" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Case Status"/>
+              <value xsi:type="CE" code="410605003" codeSystem="2.16.840.1.113883.6.96" displayName="Confirmed"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV169" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Condition"/>
+              <value xsi:type="CE" code="10110" codeSystem="2.16.840.1.114222.4.5.277" codeSystemName="Notifiable Event Code List" displayName="Hepatitis A, acute"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV163" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Case Status"/>
+              <value xsi:type="CE" code="410605003" codeSystem="2.16.840.1.113883.6.96" displayName="Confirmed"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV169" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Condition"/>
+              <value xsi:type="CE" code="10110" codeSystem="2.16.840.1.114222.4.5.277" codeSystemName="Notifiable Event Code List" displayName="Hepatitis A, acute"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="NBS055" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="Contact Investigation Priority"/>
+              <value xsi:type="CE" code="LOW" codeSystem="L" displayName="Low"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="NBS058" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="Contact Investigation Status"/>
+              <value xsi:type="CE" code="385651009" codeSystem="2.16.840.1.113883.6.96" displayName="In progress"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV148" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Is this person associated with a day care facility?"/>
+              <value xsi:type="CE" code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"/>
+            </observation>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="1234567-RPT" codeSystem="Local-codesystem-oid" codeSystemName="LocalSystem" displayName="Generic Repeating Questions Section"/>
+          <title>REPEATING QUESTIONS</title>
+          <entry typeCode="COMP">
+            <organizer classCode="CLUSTER" moodCode="EVN">
+              <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
+              <statusCode code="completed"/>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="INV502" codeSystem="2.16.840.1.113883.6.1" displayName="Country of Exposure"/>
+                  <value xsi:type="CE" code="USA" codeSystem="1.0.3166.1" displayName="UNITED STATES"/>
+                </observation>
+              </component>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="INV503" codeSystem="2.16.840.1.113883.6.1" displayName="State or Province of Exposure"/>
+                  <value xsi:type="CE" code="53" codeSystem="2.16.840.1.113883.6.92" displayName="Washington"/>
+                </observation>
+              </component>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="INV504" codeSystem="2.16.840.1.113883.6.1" displayName="City of Exposure"/>
+                  <value xsi:type="ST">Bright Falls</value>
+                </observation>
+              </component>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="INV505" codeSystem="2.16.840.1.113883.6.1" displayName="County of Exposure"/>
+                  <value xsi:type="CE" code="053" codeSystem="2.16.840.1.113883.6.93" displayName="Pierce County"/>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>
