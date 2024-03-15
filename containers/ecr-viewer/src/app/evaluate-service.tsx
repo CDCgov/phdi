@@ -65,13 +65,20 @@ export const evaluateDiagnosticReportData = (
 
 export const evaluateValue = (entry: FhirResource, path: string): string => {
   let data = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
-  if (data?.__path__ === "Quantity") {
+  let value = "";
+  if (typeof data === "string") {
+    value = data;
+  } else if (data?.__path__ === "Quantity") {
     let unit = data.unit;
     const firstLetterRegex = /^[a-z]/i;
-    if (unit.match(firstLetterRegex)) {
+    if (unit?.match(firstLetterRegex)) {
       unit = " " + unit;
     }
-    data = `${data.value ?? ""}${unit ?? ""}`;
+    value = `${data.value ?? ""}${unit ?? ""}`;
+  } else if (data?.__path__ === "CodeableConcept") {
+    value = data.coding[0].display;
+  } else if (typeof data === "object") {
+    console.log(`Not implemented for ${data.__path__}`);
   }
-  return data;
+  return value.trim();
 };

@@ -59,7 +59,7 @@ describe("Evaluate Diagnostic Report", () => {
 });
 
 describe("evaluate value", () => {
-  it("should provide the string in the case of ValueString", () => {
+  it("should provide the string in the case of valueString", () => {
     const actual = evaluateValue(
       { resourceType: "Observation", valueString: "abc" } as any,
       "value",
@@ -67,8 +67,25 @@ describe("evaluate value", () => {
 
     expect(actual).toEqual("abc");
   });
+  it("should provide the string in the case of valueCodeableConcept", () => {
+    const actual = evaluateValue(
+      {
+        resourceType: "Observation",
+        valueCodeableConcept: {
+          coding: [
+            {
+              display: "Negative",
+            },
+          ],
+        },
+      } as any,
+      "value",
+    );
+
+    expect(actual).toEqual("Negative");
+  });
   describe("Quantity", () => {
-    it("should provide the string with a space between value and string unit", () => {
+    it("should provide the value and string unit with a space inbetween", () => {
       const actual = evaluateValue(
         {
           resourceType: "Observation",
@@ -79,7 +96,7 @@ describe("evaluate value", () => {
 
       expect(actual).toEqual("1 ft");
     });
-    it("should provide the string with a space between value and symbol unit", () => {
+    it("should provide the value and symbol unit", () => {
       const actual = evaluateValue(
         {
           resourceType: "Observation",
