@@ -1,0 +1,1605 @@
+<?xml version="1.0"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdt="urn:hl7-org:sdtc"
+    xmlns:sdtcxmlnamespaceholder="urn:hl7-org:v3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:hl7-org:v3 CDA_SDTC.xsd">
+<realmCode code="US"></realmCode>
+<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"></typeId>
+<id root="2.16.840.1.113883.19" extension="CAS10124000GA01" assigningAuthorityName="LR"></id>
+<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+    displayName="Public Health Case Report - PHRI"></code>
+<title>Public Health Case Report - Data from Legacy System to CDA</title>
+<effectiveTime value="20240124151751"></effectiveTime>
+<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"></confidentialityCode>
+<setId extension="ONGOING_CASE" displayable="true"></setId>
+<versionNumber value="1"></versionNumber>
+<recordTarget>
+    <patientRole>
+        <id extension="PSN10150001GA01" root="2.16.840.1.113883.4.1" assigningAuthorityName="LR"></id>
+        <addr use="H">
+            <city><![CDATA[Hardhome]]></city>
+            <county>13121^Fulton County^FIPS 6-4 (County)</county>
+            <country>USA^UNITED STATES^Country (ISO 3166-1)</country>
+            <state>13^Georgia^FIPS 5-2(State)</state>
+            <postalCode>30109</postalCode>
+            <streetAddressLine><![CDATA[North of the Wall]]></streetAddressLine>
+        </addr>
+        <patient>
+            <name use="L">
+                <given><![CDATA[Jon]]></given>
+                <family><![CDATA[Snow]]></family>
+                <validTime>
+                    <low value="20240124"></low>
+                </validTime>
+            </name>
+            <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.12.1"
+                codeSystemName="Administrative sex (HL7)" displayName="Male">
+                <translation code="M" codeSystem="2.16.840.1.113883.12.1"
+                    codeSystemName="2.16.840.1.113883.12.1" displayName="Male"></translation>
+            </administrativeGenderCode>
+            <birthTime value="19500101"></birthTime>
+            <maritalStatusCode code="S" codeSystem="2.16.840.1.113883.5.2"
+                codeSystemName="MaritalStatus" displayName="Never Married">
+                <translation code="S" codeSystem="2.16.840.1.113883.5.2"
+                    codeSystemName="2.16.840.1.113883.5.2" displayName="Single, never married"></translation>
+            </maritalStatusCode>
+            <sdt:raceCode code="2106-3" codeSystem="2.16.840.1.113883.6.238"
+                codeSystemName="Race &amp; Ethnicity - CDC" displayName="White">
+                <translation code="2106-3" codeSystem="2.16.840.1.113883.6.238"
+                    codeSystemName="2.16.840.1.113883.6.238" displayName="White"></translation>
+            </sdt:raceCode>
+            <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238"
+                codeSystemName="Race &amp; Ethnicity - CDC" displayName="Not Hispanic or Latino">
+                <translation code="2186-5" codeSystem="2.16.840.1.113883.6.238"
+                    codeSystemName="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino"></translation>
+            </ethnicGroupCode>
+        </patient>
+    </patientRole>
+</recordTarget>
+<author>
+    <time value="20240124154600"></time>
+    <assignedAuthor>
+        <id root="2.16.840.1.113883.19.5"></id>
+        <assignedPerson>
+            <name>
+                <family>Jones</family>
+                <given>Indiana</given>
+            </name>
+        </assignedPerson>
+    </assignedAuthor>
+</author>
+<custodian>
+    <assignedCustodian>
+        <representedCustodianOrganization>
+            <id extension="2.16.840.1.113883.19.5"></id>
+            <name><![CDATA[CHOA - Scottish Rite]]></name>
+            <telecom value="404-785-5252"></telecom>
+            <addr>
+                <streetAddressLine>1001 Johnson Ferry Rd NE</streetAddressLine>
+                <streetAddressLine></streetAddressLine>
+                <city>Atlanta</city>
+                <state>13</state>
+                <postalCode>30034</postalCode>
+                <country>13089</country>
+            </addr>
+        </representedCustodianOrganization>
+    </assignedCustodian>
+</custodian>
+<component>
+    <structuredBody>
+        <component>
+            <section>
+                <id root="2.16.840.1.113883.19" extension="CAS10124000GA01" assigningAuthorityName="LR"></id>
+                <code code="29762-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                    displayName="Social history"></code>
+                <title>SOCIAL HISTORY INFORMATION</title>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="DEM127" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Is this person deceased?"></code>
+                        <value code="N" codeSystem="2.16.840.1.113883.12.136"
+                            codeSystemName="Yes/No Indicator (HL7)" displayName="No" xsi:type="CE">
+                            <translation code="N" codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="2.16.840.1.113883.12.136" displayName="No"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="NBS104" codeSystem="2.16.840.1.114222.4.5.1"
+                            codeSystemName="NEDSS Base System" displayName="Information As of Date"></code>
+                        <value xsi:type="TS" value="20240124"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV2001" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Reported Age"></code>
+                        <value xsi:type="ST"><![CDATA[74]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV2002" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Reported Age Units"></code>
+                        <value code="a" codeSystem="2.16.840.1.113883.6.8"
+                            codeSystemName="UCUM - Unified Code for Units of Measure"
+                            displayName="year [time]" xsi:type="CE">
+                            <translation code="Y" codeSystem="2.16.840.1.113883.6.8"
+                                codeSystemName="2.16.840.1.113883.6.8" displayName="Years"></translation>
+                        </value>
+                    </observation>
+                </entry>
+            </section>
+        </component>
+        <component>
+            <section>
+                <id root="2.16.840.1.113883.19" extension="CAS10124000GA01" assigningAuthorityName="LR"></id>
+                <code code="55752-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                    displayName="Clinical Information"></code>
+                <title>CLINICAL INFORMATION</title>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV168" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Investigation ID"></code>
+                        <value xsi:type="ST"><![CDATA[CAS10124000GA01]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV163" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Case Status"></code>
+                        <value code="410605003" codeSystem="2.16.840.1.113883.6.96"
+                            codeSystemName="SNOMED-CT" displayName="Confirmed" xsi:type="CE">
+                            <translation code="C" codeSystem="2.16.840.1.113883.6.96"
+                                codeSystemName="2.16.840.1.113883.6.96" displayName="Confirmed"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV169" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Condition"></code>
+                        <value code="10110" codeSystem="2.16.840.1.114222.4.5.277"
+                            codeSystemName="Notifiable Event Code List" displayName="Hepatitis A, acute"
+                            xsi:type="CE">
+                            <translation code="10110" codeSystem="2.16.840.1.114222.4.5.277"
+                                codeSystemName="2.16.840.1.114222.4.5.277" displayName="Hepatitis A, acute"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="NBS055" codeSystem="2.16.840.1.114222.4.5.1"
+                            codeSystemName="NEDSS Base System" displayName="Contact Investigation Priority"></code>
+                        <value code="LOW" codeSystem="L" codeSystemName="Local" displayName="Low"
+                            xsi:type="CE">
+                            <translation code="LOW" codeSystem="L" codeSystemName="L" displayName="Low"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="NBS058" codeSystem="2.16.840.1.114222.4.5.1"
+                            codeSystemName="NEDSS Base System" displayName="Contact Investigation Status"></code>
+                        <value code="385651009" codeSystem="2.16.840.1.113883.6.96"
+                            codeSystemName="SNOMED-CT" displayName="In progress" xsi:type="CE">
+                            <translation code="O" codeSystem="2.16.840.1.113883.6.96"
+                                codeSystemName="2.16.840.1.113883.6.96" displayName="Open"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV148" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Is this person associated with a day care facility?"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136"
+                            codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" xsi:type="CE">
+                            <translation code="Y" codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="2.16.840.1.113883.12.136" displayName="Yes"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV159" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Detection Method"></code>
+                        <value code="PHC241" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Provider reported" xsi:type="CE">
+                            <translation code="PR" codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="2.16.840.1.114222.4.5.274" displayName="Provider reported"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV136" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Diagnosis Date"></code>
+                        <value xsi:type="TS" value="20240122"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV152" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Where was the disease acquired?"></code>
+                        <value code="PHC246" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)" displayName="Out of State"
+                            xsi:type="CE">
+                            <translation code="OOS" codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="2.16.840.1.114222.4.5.274" displayName="Out of State"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV149" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Is this person a food handler?"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136"
+                            codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" xsi:type="CE">
+                            <translation code="Y" codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="2.16.840.1.113883.12.136" displayName="Yes"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV132" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Admission Date"></code>
+                        <value xsi:type="TS" value="20240103"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV133" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Discharge Date"></code>
+                        <value xsi:type="TS" value="20240107"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV128" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Was the patient hospitalized?"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136"
+                            codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" xsi:type="CE">
+                            <translation code="Y" codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="2.16.840.1.113883.12.136" displayName="Yes"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV134" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Duration of Stay"></code>
+                        <value xsi:type="ST"><![CDATA[4]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV137" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Illness Onset Date"></code>
+                        <value xsi:type="TS" value="20240102"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV138" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Illness End Date"></code>
+                        <value xsi:type="TS" value="20240108"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV139" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Illness Duration"></code>
+                        <value xsi:type="ST"><![CDATA[6]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV140" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Illness Duration Units"></code>
+                        <value code="d" codeSystem="2.16.840.1.113883.6.8"
+                            codeSystemName="UCUM - Unified Code for Units of Measure" displayName="Day"
+                            xsi:type="CE">
+                            <translation code="D" codeSystem="2.16.840.1.113883.6.8"
+                                codeSystemName="2.16.840.1.113883.6.8" displayName="Day"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV143" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Age at Onset"></code>
+                        <value xsi:type="ST"><![CDATA[74]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV144" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Age at Onset Units"></code>
+                        <value code="a" codeSystem="2.16.840.1.113883.6.8"
+                            codeSystemName="UCUM - Unified Code for Units of Measure"
+                            displayName="year [time]" xsi:type="CE">
+                            <translation code="Y" codeSystem="2.16.840.1.113883.6.8"
+                                codeSystemName="2.16.840.1.113883.6.8" displayName="Years"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV110" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Date Assigned to Investigation"></code>
+                        <value xsi:type="TS" value="20240124"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV155" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Imported City"></code>
+                        <value xsi:type="ST"><![CDATA[New Orleans]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV156" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Imported County"></code>
+                        <value code="22039" codeSystem="2.16.840.1.113883.6.93"
+                            codeSystemName="FIPS 6-4 (County)" displayName="Evangeline County" xsi:type="CE">
+                            <translation code="22039" codeSystem="2.16.840.1.113883.6.93"
+                                codeSystemName="2.16.840.1.113883.6.93" displayName="Evangeline County"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV153" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Imported Country"></code>
+                        <value code="USA" codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                            displayName="UNITED STATES" xsi:type="CE">
+                            <translation code="840" codeSystem="1.0.3166.1" codeSystemName="1.0.3166.1"
+                                displayName="United States"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV154" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Imported State"></code>
+                        <value code="22" codeSystem="2.16.840.1.113883.6.92"
+                            codeSystemName="FIPS 5-2(State)" displayName="Louisiana" xsi:type="CE">
+                            <translation code="22" codeSystem="2.16.840.1.113883.6.92"
+                                codeSystemName="2.16.840.1.113883.6.92" displayName="Louisiana"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="NBS056" codeSystem="2.16.840.1.114222.4.5.1"
+                            codeSystemName="NEDSS Base System" displayName="Infectious Period From"></code>
+                        <value xsi:type="TS" value="20231226"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="NBS057" codeSystem="2.16.840.1.114222.4.5.1"
+                            codeSystemName="NEDSS Base System" displayName="Infectious Period To"></code>
+                        <value xsi:type="TS" value="20240105"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV200" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Legacy Case ID"></code>
+                        <value xsi:type="ST"><![CDATA[89412319841]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV165" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="MMWR Week"></code>
+                        <value xsi:type="ST"><![CDATA[04]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV166" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="MMWR Year"></code>
+                        <value xsi:type="ST"><![CDATA[2024]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV150" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Is this case part of an outbreak?"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136"
+                            codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" xsi:type="CE">
+                            <translation code="Y" codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="2.16.840.1.113883.12.136" displayName="Yes"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV151" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Outbreak Name"></code>
+                        <value code="SALSA2010" codeSystem="L" codeSystemName="Local"
+                            displayName="2010: Taco Bell Salsa Outbreak" xsi:type="CE">
+                            <translation code="SALSA2010" codeSystem="L" codeSystemName="L"
+                                displayName="2010: Taco Bell Salsa Outbreak"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV146" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Date of Death"></code>
+                        <value xsi:type="TS" value="20240123"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV145" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Did the patient die from this illness?"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136"
+                            codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" xsi:type="CE">
+                            <translation code="Y" codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="2.16.840.1.113883.12.136" displayName="Yes"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV111" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Date of Report"></code>
+                        <value xsi:type="TS" value="20240123"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV120" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="County"></code>
+                        <value xsi:type="TS" value="20240123"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV121" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="State"></code>
+                        <value xsi:type="TS" value="20240123"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="NBS012" codeSystem="2.16.840.1.114222.4.5.1"
+                            codeSystemName="NEDSS Base System" displayName="Shared Indicator"></code>
+                        <value code="T" codeSystem="L" codeSystemName="Local" displayName="TRUE"
+                            xsi:type="CE">
+                            <translation code="T" codeSystem="L" codeSystemName="L" displayName="TRUE"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV112" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Reporting Source Type"></code>
+                        <value code="PHC1222" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="HIV Care Facility" xsi:type="CE">
+                            <translation code="HF" codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="2.16.840.1.114222.4.5.274" displayName="HIV Care Facility"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV147" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Investigation Start Date"></code>
+                        <value xsi:type="TS" value="20240124"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV173" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="State Case ID"></code>
+                        <value xsi:type="ST"><![CDATA[8941564874]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV109" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Investigation Status"></code>
+                        <value code="385651009" codeSystem="2.16.840.1.113883.6.96"
+                            codeSystemName="SNOMED-CT" displayName="In progress" xsi:type="CE">
+                            <translation code="O" codeSystem="2.16.840.1.113883.6.96"
+                                codeSystemName="2.16.840.1.113883.6.96" displayName="Open"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV157" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Transmission Mode"></code>
+                        <value code="416086007" codeSystem="2.16.840.1.113883.6.96"
+                            codeSystemName="SNOMED-CT" displayName="Food-borne transmission" xsi:type="CE">
+                            <translation code="F" codeSystem="2.16.840.1.113883.6.96"
+                                codeSystemName="2.16.840.1.113883.6.96" displayName="Foodborne"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV184" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Hospital"></code>
+                        <value xsi:type="II" root="2.16.840.1.114222.4.5.232" extension="ORG10000000GA01"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV183" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Reporting Organization"></code>
+                        <value xsi:type="II" root="2.16.840.1.114222.4.5.232" extension="ORG10000001GA01"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV180" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Investigator"></code>
+                        <value xsi:type="II" root="2.16.840.1.114222.4.5.232" extension="PSN10064000GA01"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV182" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Physician"></code>
+                        <value xsi:type="II" root="2.16.840.1.114222.4.5.232" extension="PSN10064001GA01"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV181" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Reporting Provider"></code>
+                        <value xsi:type="II" root="2.16.840.1.114222.4.5.232" extension="PSN10064002GA01"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="11920_8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Liver Enzyme Test AST_SGOT"></code>
+                        <value xsi:type="ST"><![CDATA[1111]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="1742_6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Liver Enzyme Test ALT_SGPT"></code>
+                        <value xsi:type="ST"><![CDATA[111]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="5199_5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Supplemental anti-HCV assay"></code>
+                        <value code="10828004" codeSystem="2.16.840.1.113883.6.96" displayName="Positive"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Positive" code="P"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="5199_5_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Supplemental anti-HCV assay Test Date"></code>
+                        <value xsi:type="TS" value="20240123"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV161" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Investigation Confirmation Method"></code>
+                        <value code="PHC238" codeSystem="2.16.840.1.114222.4.5.274"
+                            displayName="Epidemiologically linked"
+                            codeSystemName="PHIN VS (CDC Local Coding System)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="PHIN VS (CDC Local Coding System)"
+                                displayName="Epidemiologically linked" code="E"></translation>
+                        </value>
+                        <value code="16488004" codeSystem="2.16.840.1.113883.6.96"
+                            displayName="Laboratory reporting" codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Laboratory report" code="LR"></translation>
+                        </value>
+                        <value code="312853008" codeSystem="2.16.840.1.113883.6.96"
+                            displayName="Medical records review" codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Medical record review" code="MR"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV162" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Investigation Confirmation Date"></code>
+                        <value xsi:type="TS" value="20240124"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV217" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Epi-Linked to Case"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV501" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Country of Usual Residence"></code>
+                        <value code="USA" codeSystem="1.0.3166.1" displayName="UNITED STATES"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="UNITED STATES" code="840"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV515" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Binational Reporting Criteria"></code>
+                        <value code="PHC1215" codeSystem="2.16.840.1.114222.4.5.274"
+                            displayName="Potentially exposed by a resident of Mexico or Canada"
+                            codeSystemName="PHIN VS (CDC Local Coding System)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="PHIN VS (CDC Local Coding System)"
+                                displayName="Potentially exposed by a resident of Mexico or Canada"
+                                code="PHC1215"></translation>
+                        </value>
+                        <value code="PHC1137" codeSystem="2.16.840.1.114222.4.5.274"
+                            displayName="Potentially exposed while in Mexico or Canada"
+                            codeSystemName="PHIN VS (CDC Local Coding System)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="PHIN VS (CDC Local Coding System)"
+                                displayName="Potentially exposed while in Mexico or Canada" code="PHC1137"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV575" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Reason for Testing"></code>
+                        <value code="PHC308" codeSystem="2.16.840.1.114222.4.5.274"
+                            displayName="Blood / Organ donor screening"
+                            codeSystemName="PHIN VS (CDC Local Coding System)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="PHIN VS (CDC Local Coding System)"
+                                displayName="Blood / Organ donor screening" code="PHC308"></translation>
+                        </value>
+                        <value code="PHC309" codeSystem="2.16.840.1.114222.4.5.274"
+                            displayName="Evaluation of elevated liver enzymes"
+                            codeSystemName="PHIN VS (CDC Local Coding System)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="PHIN VS (CDC Local Coding System)"
+                                displayName="Evaluation of elevated liver enzymes" code="PHC309"></translation>
+                        </value>
+                        <value code="OTH" codeSystem="2.16.840.1.113883.5.1008"
+                            displayName="Other (specify)" codeSystemName="NullFlavor" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.5.1008" codeSystemName="NullFlavor"
+                                displayName="Other (specify)" code="OTH"></translation>
+                        </value>
+                        <value code="OTH" codeSystem="2.16.840.1.113883.5.1008"
+                            displayName="Other reason for testing  (specify)" codeSystemName="NullFlavor"
+                            xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.5.1008" codeSystemName="NullFlavor"
+                                displayName="Other (specify)" code="OTH"></translation>
+                        </value>
+                        <value code="OTH" codeSystem="2.16.840.1.113883.5.1008"
+                            displayName="Other Reason for Testing (Specify)" codeSystemName="NullFlavor"
+                            xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.5.1008" codeSystemName="NullFlavor"
+                                displayName="Other (specify)" code="OTH"></translation>
+                        </value>
+                        <value code="PHC313" codeSystem="2.16.840.1.114222.4.5.274"
+                            displayName="Screening of asymptomatic patient w/ risk factors"
+                            codeSystemName="PHIN VS (CDC Local Coding System)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="PHIN VS (CDC Local Coding System)"
+                                displayName="Screening of asymptomatic patient w/ risk factors"
+                                code="PHC313"></translation>
+                        </value>
+                        <value code="PHC307" codeSystem="2.16.840.1.114222.4.5.274"
+                            displayName="Symptoms of acute hepatitis"
+                            codeSystemName="PHIN VS (CDC Local Coding System)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="PHIN VS (CDC Local Coding System)"
+                                displayName="Symptoms of acute hepatitis" code="PHC307"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV576" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Symptomatic"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV578" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Jaundiced (Symptom)"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV592" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Sexual Preference"></code>
+                        <value code="42035005" codeSystem="2.16.840.1.113883.6.96" displayName="Bisexual"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Bisexual" code="1"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV602" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Contact With Confirmed or Suspected Case"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV603_1" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT"
+                            displayName="Babysitter"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV603_2" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Child cared for by this patient"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV603_3" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Household member (non-sexual)"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV603_4" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Playmate"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV603_5" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT"
+                            displayName="Sexual Partners"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV603_6" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Other Contact Type"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV605" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Number of Male Sexual Partners"></code>
+                        <value xsi:type="ST"><![CDATA[4]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV606" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Number of Female Sexual Partners"></code>
+                        <value xsi:type="ST"><![CDATA[8]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV607" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="IV Drug Use"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV608" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Recreational Drug Use"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV609" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Foodborne Outbreak Infected Food Handler"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV610" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Foodborne Outbreak Not Infected Food Handler"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV611" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Food Item of Associated Outbreak"></code>
+                        <value xsi:type="ST"><![CDATA[Blueberries]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV612" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Waterborne Outbreak"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV613" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Unidentified Source Outbreak"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV615" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="In Day Care"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV616" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Day Care Contact"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV618" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Common Source Outbreak"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV621" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Food Handler"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV650" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Previously Aware of Condition"></code>
+                        <value code="N" codeSystem="2.16.840.1.113883.12.136" displayName="No"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="No" code="N"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV651" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Provider of Care for Condition"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV826" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Liver Enzyme Test Result Date"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV826b" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Liver Enzyme Test Result Date 2"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV827" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Liver Enzyme Upper Limit Normal"></code>
+                        <value xsi:type="ST"><![CDATA[56]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV827b" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Liver Enzyme Upper Limit Normal 2"></code>
+                        <value xsi:type="ST"><![CDATA[33]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV841" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Anti-HCV signal to cut-off ratio"></code>
+                        <value xsi:type="ST"><![CDATA[4.1]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV842" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Diabetes Diagnosis Date"></code>
+                        <value xsi:type="TS" value="20231120"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV887" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Diabetes"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV896" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Identified Case in Child Care Facility"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV897" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Other Contact Type with Confirmed or Suspect Case"></code>
+                        <value xsi:type="ST"><![CDATA[Co-worker]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="INV901" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Other Reason for Testing"></code>
+                        <value xsi:type="ST"><![CDATA[Provider referral]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38316_3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Total anti-HAV"></code>
+                        <value code="10828004" codeSystem="2.16.840.1.113883.6.96" displayName="Positive"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Positive" code="P"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38316_3_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Total anti-HAV Test Date"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38318_9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="IgM anti-HAV"></code>
+                        <value code="10828004" codeSystem="2.16.840.1.113883.6.96" displayName="Positive"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Positive" code="P"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38318_9_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="IgM anti-HAV Test Date"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38320_5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Hepatitis B virus DNA (NAT)"></code>
+                        <value code="10828004" codeSystem="2.16.840.1.113883.6.96" displayName="Positive"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Positive" code="P"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38320_5_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Hepatitis B Virus DNA Test Date"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38323_9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Total anti-HBc"></code>
+                        <value code="260385009" codeSystem="2.16.840.1.113883.6.96" displayName="Negative"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Negative" code="N"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38323_9_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="total anti-HBc Test Date"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38325_4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="IgM anti-HBc"></code>
+                        <value code="260385009" codeSystem="2.16.840.1.113883.6.96" displayName="Negative"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Negative" code="N"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38325_4_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="IgM anti-HBc Test Date"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38329_6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="HBeAg"></code>
+                        <value code="10828004" codeSystem="2.16.840.1.113883.6.96" displayName="Positive"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Positive" code="P"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38329_6_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="HBeAg Test Date"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38331_2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="HBsAg"></code>
+                        <value code="10828004" codeSystem="2.16.840.1.113883.6.96" displayName="Positive"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Positive" code="P"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38331_2_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Hepatitis B Virus Surface Antigen Test Date"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38332_0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Total anti-HCV"></code>
+                        <value code="10828004" codeSystem="2.16.840.1.113883.6.96" displayName="Positive"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Positive" code="P"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38332_0_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Total anti-HCV Test Date"></code>
+                        <value xsi:type="TS" value="20240122"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38335_3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="HCV RNA"></code>
+                        <value code="260385009" codeSystem="2.16.840.1.113883.6.96" displayName="Negative"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Negative" code="N"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38335_3_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="HCV RNA Test Date"></code>
+                        <value xsi:type="TS" value="20240120"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38345_2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Total anti-HDV"></code>
+                        <value code="260385009" codeSystem="2.16.840.1.113883.6.96" displayName="Negative"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Negative" code="N"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38345_2_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Total anti-HDV Test Date"></code>
+                        <value xsi:type="TS" value="20240122"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38350_2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Total anti-HEV"></code>
+                        <value code="10828004" codeSystem="2.16.840.1.113883.6.96" displayName="Positive"
+                            codeSystemName="SNOMED-CT" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                                displayName="Positive" code="P"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="LP38350_2_DT" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Total anti-HEV Test Date"></code>
+                        <value xsi:type="TS" value="20240121"></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="NOT113" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Reporting County"></code>
+                        <value code="13043" codeSystem="2.16.840.1.113883.6.93" displayName="Candler County"
+                            codeSystemName="FIPS 6-4 (County)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.93"
+                                codeSystemName="FIPS 6-4 (County)" displayName="Candler County" code="13043"></translation>
+                        </value>
+                        <value code="13043" codeSystem="2.16.840.1.113883.6.93" displayName="Candler County"
+                            codeSystemName="FIPS 6-4 (County)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.6.93"
+                                codeSystemName="FIPS 6-4 (County)" displayName="Candler County" code="13043"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="NOT120" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                            displayName="Immediate National Notifiable Condition"></code>
+                        <value code="N" codeSystem="2.16.840.1.113883.12.136" displayName="No"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="No" code="N"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="TRAVEL16" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Principal Reason for Travel"></code>
+                        <value code="PHC386" codeSystem="2.16.840.1.114222.4.5.274" displayName="Business"
+                            codeSystemName="PHIN VS (CDC Local Coding System)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.114222.4.5.274"
+                                codeSystemName="PHIN VS (CDC Local Coding System)" displayName="Business"
+                                code="2"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="TRAVEL30" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Travel or Live Outside US or Canada"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="TRAVEL31" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Countries Traveled or Lived Outside U.S. or Canada"></code>
+                        <value code="BMU" codeSystem="1.0.3166.1" displayName="BERMUDA"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="BERMUDA" code="60"></translation>
+                        </value>
+                        <value code="CPV" codeSystem="1.0.3166.1" displayName="CAPE VERDE"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="CAPE VERDE" code="132"></translation>
+                        </value>
+                        <value code="CSHH" codeSystem="1.0.3166.3" displayName="CZECHOSLOVAKIA"
+                            codeSystemName="Obsolete Country Codes (ISO 3166-3)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.3"
+                                codeSystemName="Obsolete Country Codes (ISO 3166-3)"
+                                displayName="CZECHOSLOVAKIA" code="CSHH"></translation>
+                        </value>
+                        <value code="GUF" codeSystem="1.0.3166.1" displayName="FRENCH GUIANA"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="FRENCH GUIANA" code="254"></translation>
+                        </value>
+                        <value code="IRN" codeSystem="1.0.3166.1" displayName="IRAN"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="IRAN" code="IRN"></translation>
+                        </value>
+                        <value code="KEN" codeSystem="1.0.3166.1" displayName="KENYA"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="KENYA" code="404"></translation>
+                        </value>
+                        <value code="ROU" codeSystem="1.0.3166.1" displayName="ROMANIA"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="ROMANIA" code="642"></translation>
+                        </value>
+                        <value code="RWA" codeSystem="1.0.3166.1" displayName="RWANDA"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="RWANDA" code="646"></translation>
+                        </value>
+                        <value code="SGP" codeSystem="1.0.3166.1" displayName="SINGAPORE"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="SINGAPORE" code="702"></translation>
+                        </value>
+                        <value code="ZRCD" codeSystem="1.0.3166.3" displayName="ZAIRE"
+                            codeSystemName="Obsolete Country Codes (ISO 3166-3)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.3"
+                                codeSystemName="Obsolete Country Codes (ISO 3166-3)" displayName="ZAIRE"
+                                code="ZRCD"></translation>
+                        </value>
+                        <value code="ZMB" codeSystem="1.0.3166.1" displayName="ZAMBIA"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="ZAMBIA" code="894"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="TRAVEL32" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Household Travel Outside U.S. or Canada"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="TRAVEL33" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Household Countries Traveled Outside U.S/Canada"></code>
+                        <value code="CXR" codeSystem="1.0.3166.1" displayName="CHRISTMAS ISLAND"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="CHRISTMAS ISLAND" code="CXR"></translation>
+                        </value>
+                        <value code="DEU" codeSystem="1.0.3166.1" displayName="GERMANY"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="GERMANY" code="276"></translation>
+                        </value>
+                        <value code="GHA" codeSystem="1.0.3166.1" displayName="GHANA"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="GHANA" code="288"></translation>
+                        </value>
+                        <value code="KEN" codeSystem="1.0.3166.1" displayName="KENYA"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="KENYA" code="404"></translation>
+                        </value>
+                        <value code="KIR" codeSystem="1.0.3166.1" displayName="KIRIBATI"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="KIRIBATI" code="296"></translation>
+                        </value>
+                        <value code="POL" codeSystem="1.0.3166.1" displayName="POLAND"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="POLAND" code="616"></translation>
+                        </value>
+                        <value code="PRT" codeSystem="1.0.3166.1" displayName="PORTUGAL"
+                            codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                            <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                displayName="PORTUGAL" code="620"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="VAC126" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Did subject receive disease-containing vaccine"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="VAC132" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Total Doses of Vaccine"></code>
+                        <value xsi:type="ST"><![CDATA[2]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="VAC142b" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Date of Last Dose Year"></code>
+                        <value xsi:type="ST"><![CDATA[2022]]></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="VAC143" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Ever Receive Immune Globulin"></code>
+                        <value code="Y" codeSystem="2.16.840.1.113883.12.136" displayName="Yes"
+                            codeSystemName="Yes/No Indicator (HL7)" xsi:type="CE">
+                            <translation codeSystem="2.16.840.1.113883.12.136"
+                                codeSystemName="Yes/No Indicator (HL7)" displayName="Yes" code="Y"></translation>
+                        </value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="VAC144" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Date of Last Immune Globulin Dose"></code>
+                        <value xsi:type="TS" value="20220412"></value>
+                    </observation>
+                </entry>
+            </section>
+        </component>
+        <component>
+            <section>
+                <code code="1234567-RPT" codeSystem="Local-codesystem-oid" codeSystemName="LocalSystem"
+                    displayName="Generic Repeating Questions Section"></code>
+                <title>REPEATING QUESTIONS</title>
+                <entry typeCode="COMP">
+                    <organizer classCode="CLUSTER" moodCode="EVN">
+                        <code code="1"></code>
+                        <statusCode code="completed"></statusCode>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="INV502" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                    displayName="Country of Exposure"></code>
+                                <value code="ATA" codeSystem="1.0.3166.1" displayName="ANTARCTICA"
+                                    codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                                    <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                        displayName="ANTARCTICA" code="ATA"></translation>
+                                </value>
+                            </observation>
+                        </component>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="INV504" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                    displayName="City of Exposure"></code>
+                                <value xsi:type="ST"><![CDATA[Esperanza]]></value>
+                            </observation>
+                        </component>
+                    </organizer>
+                </entry>
+                <entry typeCode="COMP">
+                    <organizer classCode="CLUSTER" moodCode="EVN">
+                        <code code="1"></code>
+                        <statusCode code="completed"></statusCode>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="INV502" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                    displayName="Country of Exposure"></code>
+                                <value code="USA" codeSystem="1.0.3166.1" displayName="UNITED STATES"
+                                    codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                                    <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                        displayName="UNITED STATES" code="840"></translation>
+                                </value>
+                            </observation>
+                        </component>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="INV503" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                    displayName="State or Province of Exposure"></code>
+                                <value code="54" codeSystem="2.16.840.1.113883.6.92" displayName="West Virginia"
+                                    codeSystemName="FIPS 5-2 (State)" xsi:type="CE">
+                                    <translation codeSystem="2.16.840.1.113883.6.92"
+                                        codeSystemName="FIPS 5-2 (State)" displayName="West Virginia" code="54"></translation>
+                                </value>
+                            </observation>
+                        </component>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="INV504" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                    displayName="City of Exposure"></code>
+                                <value xsi:type="ST"><![CDATA[Charleston]]></value>
+                            </observation>
+                        </component>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="INV505" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                    displayName="County of Exposure"></code>
+                                <value code="54073" codeSystem="2.16.840.1.113883.6.93"
+                                    displayName="Pleasants County" codeSystemName="FIPS 6-4 (County)" xsi:type="CE">
+                                    <translation codeSystem="2.16.840.1.113883.6.93"
+                                        codeSystemName="FIPS 6-4 (County)" displayName="Pleasants County"
+                                        code="54073"></translation>
+                                </value>
+                            </observation>
+                        </component>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="INV505" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                    displayName="County of Exposure"></code>
+                                <value code="54073" codeSystem="2.16.840.1.113883.6.93" displayName="Pleasants, WV"
+                                    codeSystemName="FIPS 6-4 (County)" xsi:type="CE">
+                                    <translation codeSystem="2.16.840.1.113883.6.93"
+                                        codeSystemName="FIPS 6-4 (County)" displayName="Pleasants County"
+                                        code="54073"></translation>
+                                </value>
+                            </observation>
+                        </component>
+                    </organizer>
+                </entry>
+                <entry typeCode="COMP">
+                    <organizer classCode="CLUSTER" moodCode="EVN">
+                        <code code="1"></code>
+                        <statusCode code="completed"></statusCode>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="INV502" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                    displayName="Country of Exposure"></code>
+                                <value code="CAN" codeSystem="1.0.3166.1" displayName="CANADA"
+                                    codeSystemName="Country (ISO 3166-1)" xsi:type="CE">
+                                    <translation codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)"
+                                        displayName="CANADA" code="124"></translation>
+                                </value>
+                            </observation>
+                        </component>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="INV503" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                    displayName="State or Province of Exposure"></code>
+                                <value code="CA-QC" codeSystem="1.0.3166.2" displayName="Quebec, CA"
+                                    codeSystemName="ISO 3166-2 Country Subdivision" xsi:type="CE">
+                                    <translation codeSystem="1.0.3166.2" codeSystemName="ISO 3166-2 Country Subdivision"
+                                        displayName="Quebec, CA" code="CA-QC"></translation>
+                                </value>
+                            </observation>
+                        </component>
+                    </organizer>
+                </entry>
+            </section>
+        </component>
+    </structuredBody>
+</component>
+</ClinicalDocument>
