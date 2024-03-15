@@ -820,7 +820,7 @@ const returnSpecimenSource = (
 };
 
 /**
- * Extracts and formats the specimen collection times from observations within a lab report.
+ * Extracts and formats the specimen collection time(s) from observations within a lab report.
  *
  * @param {LabReport} report - The lab report containing the results to be processed.
  * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
@@ -845,6 +845,14 @@ const returnCollectionTime = (
   return [...new Set(collectionTime)].join(", ");
 };
 
+/**
+ * Extracts and formats the specimen received time(s) from observations within a lab report.
+ *
+ * @param {LabReport} report - The lab report containing the results to be processed.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ */
 const returnReceivedTime = (
   report: LabReport,
   fhirBundle: Bundle,
