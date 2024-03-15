@@ -40,8 +40,6 @@ jobs:
         with:
           context: ./containers/${{matrix.container-to-build}}
           push: false
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
           build-args: |
             "ALERTS_URL=${{secrets.ALERTS_URL}}"
             "FHIR_CONNECTOR_URL=${{secrets.FHIRC_CONNECTOR_URL}}"
