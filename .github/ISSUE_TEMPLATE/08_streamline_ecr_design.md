@@ -1,6 +1,6 @@
 ---
-name: Streamline eCR RDC
-about: A research, design, or content task for the Streamline eCR team
+name: SeCRET RDC
+about: A research, design, or content task for the SeCRET team
 title: ''
 labels: "Streamline eCR"
 assignees: ''
