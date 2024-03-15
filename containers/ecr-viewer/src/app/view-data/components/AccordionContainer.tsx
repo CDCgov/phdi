@@ -6,7 +6,6 @@ import {
   evaluateDemographicsData,
   evaluateEcrMetadata,
   PathMappings,
-  formatString,
   evaluateLabInfoData,
 } from "../../utils";
 import Demographics from "./Demographics";
@@ -19,6 +18,7 @@ import { Bundle, FhirResource } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import LabInfo from "@/app/view-data/components/LabInfo";
+import { formatString } from "@/app/format-service";
 
 type AccordionContainerProps = {
   children?: ReactNode;
