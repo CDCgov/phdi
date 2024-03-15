@@ -70,6 +70,13 @@ export const evaluateDiagnosticReportData = (
   });
 };
 
+/**
+ * Evaluates the FHIR path and returns the appropriate string value. Supports choice elements
+ *
+ * @param {FhirResource} entry - The FHIR resource to evaluate.
+ * @param {string} path - The path within the resource to extract the value from.
+ * @returns {string} - The evaluated value as a string.
+ */
 export const evaluateValue = (entry: FhirResource, path: string): string => {
   let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
   let value = "";
