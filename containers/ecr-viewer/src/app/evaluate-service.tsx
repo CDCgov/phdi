@@ -1,5 +1,5 @@
 import { evaluate } from "fhirpath";
-import { Bundle, FhirResource, Observation } from "fhir/r4";
+import { Bundle, Observation, Reference } from "fhir/r4";
 import { ColumnInfoInput, PathMappings, evaluateTable } from "@/app/utils";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import React from "react";
@@ -24,10 +24,16 @@ export const evaluateReference = (
   })[0];
 };
 
+/**
+ * Evaluates diagnostic report data and generates formatted lab result accordions for each report.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing diagnostic report data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {React.JSX.Element[]} - An array of React elements representing lab result accordions.
+ */
 export const evaluateDiagnosticReportData = (
-  fhirBundle: Bundle<FhirResource>,
+  fhirBundle: Bundle,
   mappings: PathMappings,
-) => {
+): React.JSX.Element[] => {
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Component", infoPath: "observationComponent" },
     { columnName: "Value", infoPath: "observationValue" },
@@ -36,8 +42,8 @@ export const evaluateDiagnosticReportData = (
   ];
 
   return evaluate(fhirBundle, mappings["diagnosticReports"]).map((report) => {
-    const observations: Observation[] = report.result.map((obsRef) =>
-      evaluateReference(fhirBundle, mappings, obsRef.reference),
+    const observations: Observation[] = report.result.map((obsRef: Reference) =>
+      evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
     );
     const obsTable = evaluateTable(
       observations,
