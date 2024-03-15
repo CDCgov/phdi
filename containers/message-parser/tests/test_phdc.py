@@ -350,25 +350,19 @@ def test_build_author(family_name, expected_oid, expected_date, expected_author)
             Patient(
                 name=[
                     Name(
-                        prefix="Mr.",
-                        first="John",
-                        middle="Jacob",
-                        family="Schmidt",
+                        prefix="Ms.",
+                        first="Saga",
+                        middle=None,
+                        family="Anderson",
                         type="official",
                     ),
-                    Name(
-                        prefix="Mr.",
-                        first="JJ",
-                        family="Schmidt",
-                        type="nickname",
-                    ),
                 ],
-                race_code="2106-3",
+                race_code="2054-5",
                 ethnic_group_code="2186-5",
-                administrative_gender_code="Male",
-                birth_time="01-01-2000",
+                administrative_gender_code="female",
+                birth_time="1987-11-11",
             ),
-            (parse_file_from_test_assets("sample_phdc.xml")),
+            (parse_file_from_test_assets("sample_valid_phdc_response.xml")),
         )
     ],
 )
@@ -447,7 +441,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
         assert ET.tostring(xml_recordtarget_data).decode() == expected_result
 
 
-@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@patch.object(uuid, "uuid4", lambda: "495669c7-96bf-4573-9dd8-59e745e05576")
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 @pytest.mark.parametrize(
     "build_header_test_data, expected_result",
@@ -456,60 +450,50 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
             PHDCInputData(
                 organization=[
                     Organization(
-                        id="112233",
-                        name="Happy Labs",
-                        telecom=Telecom(value="8888675309"),
+                        id="495669c7-96bf-4573-9dd8-59e745e05576",
+                        name="Nelson Family Practice",
+                        telecom=Telecom(value="206-555-0199"),
                         address=Address(
-                            street_address_line_1="23 main st",
-                            street_address_line_2="apt 12",
-                            city="Fort Worth",
-                            state="Texas",
-                            postal_code="76006",
-                            county="Tarrant",
-                            country="USA",
+                            street_address_line_1="123 Harbor St",
+                            street_address_line_2=None,
+                            city="Bright Falls",
+                            state="WA",
+                            postal_code="98440",
+                            county=None,
+                            country="United States",
                         ),
                     )
                 ],
                 patient=Patient(
                     name=[
                         Name(
-                            prefix="Mr.",
-                            first="John",
-                            middle="Jacob",
-                            family="Schmidt",
+                            prefix="Ms.",
+                            first="Saga",
+                            middle=None,
+                            family="Anderson",
                             type="official",
                         ),
-                        Name(
-                            prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
-                        ),
                     ],
-                    race_code="2106-3",
+                    race_code="2054-5",
                     ethnic_group_code="2186-5",
-                    administrative_gender_code="Male",
-                    birth_time="01-01-2000",
-                    telecom=[
-                        Telecom(value="+1-800-555-1234"),
-                        Telecom(value="+1-800-555-1234", type="work"),
-                    ],
+                    administrative_gender_code="female",
+                    birth_time="1987-11-11",
+                    telecom=None,
                     address=[
                         Address(
                             type="Home",
-                            street_address_line_1="123 Main Street",
-                            city="Brooklyn",
-                            postal_code="11201",
-                            state="New York",
-                        ),
-                        Address(
-                            type="workplace",
-                            street_address_line_1="123 Main Street",
-                            postal_code="55866",
-                            city="Brooklyn",
-                            state="New York",
-                        ),
+                            street_address_line_1="6 Watery Lighthouse"
+                            + " Trailer Park Way",
+                            street_address_line_2="Unit #2",
+                            city="Watery",
+                            state="WA",
+                            postal_code="98440",
+                            country="United States",
+                        )
                     ],
                 ),
             ),
-            (parse_file_from_test_assets("sample_phdc.xml")),
+            (parse_file_from_test_assets("sample_valid_phdc_response.xml")),
         )
     ],
 )
@@ -618,7 +602,7 @@ def test_get_clinical_info_code():
     )
 
 
-@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@patch.object(uuid, "uuid4", lambda: "495669c7-96bf-4573-9dd8-59e745e05576")
 @pytest.mark.parametrize(
     "build_clinical_info_data, expected_result",
     [
@@ -633,15 +617,16 @@ def test_get_clinical_info_code():
                                 class_code="OBS",
                                 mood_code="EVN",
                                 code=CodedElement(
-                                    code="INV169",
-                                    code_system="2.16.840.1.114222.4.5.1",
-                                    display_name="Condition",
+                                    code="INV163",
+                                    code_system="2.16.840.1.114222.4.5.232",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Case Status",
                                 ),
                                 value=CodedElement(
                                     xsi_type="CE",
-                                    code="10274",
-                                    code_system="1.2.3.5",
-                                    display_name="Chlamydia trachomatis infection",
+                                    code="410605003",
+                                    code_system="2.16.840.1.113883.6.96",
+                                    display_name="Confirmed",
                                 ),
                             )
                         ],
@@ -651,15 +636,114 @@ def test_get_clinical_info_code():
                                 class_code="OBS",
                                 mood_code="EVN",
                                 code=CodedElement(
-                                    code="NBS012",
-                                    code_system="2.16.840.1.114222.4.5.1",
-                                    display_name="Shared Ind",
+                                    code="INV169",
+                                    code_system="2.16.840.1.114222.4.5.232",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Condition",
                                 ),
                                 value=CodedElement(
                                     xsi_type="CE",
-                                    code="F",
-                                    code_system="1.2.3.5",
-                                    display_name="False",
+                                    code="10110",
+                                    code_system="2.16.840.1.114222.4.5.277",
+                                    code_system_name="Notifiable Event Code List",
+                                    display_name="Hepatitis A, acute",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="INV163",
+                                    code_system="2.16.840.1.114222.4.5.232",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Case Status",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="410605003",
+                                    code_system="2.16.840.1.113883.6.96",
+                                    display_name="Confirmed",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="INV169",
+                                    code_system="2.16.840.1.114222.4.5.232",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Condition",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="10110",
+                                    code_system="2.16.840.1.114222.4.5.277",
+                                    code_system_name="Notifiable Event Code List",
+                                    display_name="Hepatitis A, acute",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="NBS055",
+                                    code_system="2.16.840.1.114222.4.5.1",
+                                    code_system_name="NEDSS Base System",
+                                    display_name="Contact Investigation Priority",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="LOW",
+                                    code_system="L",
+                                    display_name="Low",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="NBS058",
+                                    code_system="2.16.840.1.114222.4.5.1",
+                                    code_system_name="NEDSS Base System",
+                                    display_name="Contact Investigation Status",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="385651009",
+                                    code_system="2.16.840.1.113883.6.96",
+                                    display_name="In progress",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="INV148",
+                                    code_system="2.16.840.1.114222.4.5.232",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Is this person associated with a day"
+                                    + " care facility?",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="Y",
+                                    code_system="2.16.840.1.113883.12.136",
+                                    display_name="Yes",
                                 ),
                             )
                         ],
@@ -667,7 +751,7 @@ def test_get_clinical_info_code():
                 )
             ),
             # Expected XML output
-            (parse_file_from_test_assets("sample_phdc.xml")),
+            (parse_file_from_test_assets("sample_valid_phdc_response.xml")),
         ),
     ],
 )
@@ -691,7 +775,7 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
     assert actual_result == expected_result
 
 
-@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@patch.object(uuid, "uuid4", lambda: "495669c7-96bf-4573-9dd8-59e745e05576")
 @pytest.mark.parametrize(
     "build_social_history_info_data, expected_result",
     [
@@ -714,7 +798,7 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
                                 value=CodedElement(
                                     xsi_type="CE",
                                     code="N",
-                                    code_system_name="Yes/No Indicator (HL7)",
+                                    # code_system_name="Yes/No Indicator (HL7)",
                                     display_name="No",
                                     code_system="2.16.840.1.113883.12.136",
                                 ),
@@ -737,11 +821,47 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
                                 ),
                             )
                         ],
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="INV2001",
+                                    code_system="2.16.840.1.114222.4.5.232",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Reported Age",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="ST",
+                                    text="36",
+                                ),
+                            )
+                        ],
+                        [
+                            Observation(
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="INV2002",
+                                    code_system="2.16.840.1.114222.4.5.232",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Reported Age Units",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="a",
+                                    code_system="2.16.840.1.113883.6.8",
+                                    display_name="year [time]",
+                                ),
+                            )
+                        ],
                     ]
                 )
             ),
             # Expected XML output as a string
-            parse_file_from_test_assets("sample_phdc.xml"),
+            parse_file_from_test_assets("sample_valid_phdc_response.xml"),
         ),
     ],
 )
@@ -766,10 +886,10 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
     assert actual_result == expected_result
 
 
-@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@patch.object(uuid, "uuid4", lambda: "495669c7-96bf-4573-9dd8-59e745e05576")
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 @pytest.mark.parametrize(
-    "build_header_test_data, expected_result",
+    "build_test_data, expected_result",
     [
         (
             PHDCInputData(
@@ -777,39 +897,29 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                 patient=Patient(
                     name=[
                         Name(
-                            prefix="Mr.",
-                            first="John",
-                            middle="Jacob",
-                            family="Schmidt",
+                            prefix="Ms.",
+                            first="Saga",
+                            middle=None,
+                            family="Anderson",
                             type="official",
                         ),
-                        Name(
-                            prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
-                        ),
                     ],
-                    race_code="2106-3",
+                    race_code="2054-5",
                     ethnic_group_code="2186-5",
-                    administrative_gender_code="Male",
-                    birth_time="01-01-2000",
-                    telecom=[
-                        Telecom(value="+1-800-555-1234"),
-                        Telecom(value="+1-800-555-1234", type="work"),
-                    ],
+                    administrative_gender_code="female",
+                    birth_time="1987-11-11",
+                    telecom=None,
                     address=[
                         Address(
                             type="Home",
-                            street_address_line_1="123 Main Street",
-                            city="Brooklyn",
-                            postal_code="11201",
-                            state="New York",
-                        ),
-                        Address(
-                            type="workplace",
-                            street_address_line_1="123 Main Street",
-                            postal_code="55866",
-                            city="Brooklyn",
-                            state="New York",
-                        ),
+                            street_address_line_1="6 Watery Lighthouse Trailer"
+                            + " Park Way",
+                            street_address_line_2="Unit #2",
+                            city="Watery",
+                            state="WA",
+                            postal_code="98440",
+                            country="United States",
+                        )
                     ],
                 ),
                 clinical_info=[
@@ -819,15 +929,16 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             class_code="OBS",
                             mood_code="EVN",
                             code=CodedElement(
-                                code="INV169",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                display_name="Condition",
+                                code="INV163",
+                                code_system="2.16.840.1.114222.4.5.232",
+                                code_system_name="PHIN Questions",
+                                display_name="Case Status",
                             ),
                             value=CodedElement(
                                 xsi_type="CE",
-                                code="10274",
-                                code_system="1.2.3.5",
-                                display_name="Chlamydia trachomatis infection",
+                                code="410605003",
+                                code_system="2.16.840.1.113883.6.96",
+                                display_name="Confirmed",
                             ),
                         )
                     ],
@@ -837,15 +948,114 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             class_code="OBS",
                             mood_code="EVN",
                             code=CodedElement(
-                                code="NBS012",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                display_name="Shared Ind",
+                                code="INV169",
+                                code_system="2.16.840.1.114222.4.5.232",
+                                code_system_name="PHIN Questions",
+                                display_name="Condition",
                             ),
                             value=CodedElement(
                                 xsi_type="CE",
-                                code="F",
-                                code_system="1.2.3.5",
-                                display_name="False",
+                                code="10110",
+                                code_system="2.16.840.1.114222.4.5.277",
+                                code_system_name="Notifiable Event Code List",
+                                display_name="Hepatitis A, acute",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV163",
+                                code_system="2.16.840.1.114222.4.5.232",
+                                code_system_name="PHIN Questions",
+                                display_name="Case Status",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="410605003",
+                                code_system="2.16.840.1.113883.6.96",
+                                display_name="Confirmed",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV169",
+                                code_system="2.16.840.1.114222.4.5.232",
+                                code_system_name="PHIN Questions",
+                                display_name="Condition",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="10110",
+                                code_system="2.16.840.1.114222.4.5.277",
+                                code_system_name="Notifiable Event Code List",
+                                display_name="Hepatitis A, acute",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="NBS055",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                code_system_name="NEDSS Base System",
+                                display_name="Contact Investigation Priority",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="LOW",
+                                code_system="L",
+                                display_name="Low",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="NBS058",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                code_system_name="NEDSS Base System",
+                                display_name="Contact Investigation Status",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="385651009",
+                                code_system="2.16.840.1.113883.6.96",
+                                display_name="In progress",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV148",
+                                code_system="2.16.840.1.114222.4.5.232",
+                                code_system_name="PHIN Questions",
+                                display_name="Is this person associated with a"
+                                + " day care facility?",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="Y",
+                                code_system="2.16.840.1.113883.12.136",
+                                display_name="Yes",
                             ),
                         )
                     ],
@@ -865,7 +1075,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             value=CodedElement(
                                 xsi_type="CE",
                                 code="N",
-                                code_system_name="Yes/No Indicator (HL7)",
+                                # code_system_name="Yes/No Indicator (HL7)",
                                 display_name="No",
                                 code_system="2.16.840.1.113883.12.136",
                             ),
@@ -888,108 +1098,155 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             ),
                         )
                     ],
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV2001",
+                                code_system="2.16.840.1.114222.4.5.232",
+                                code_system_name="PHIN Questions",
+                                display_name="Reported Age",
+                            ),
+                            value=CodedElement(
+                                xsi_type="ST",
+                                text="36",
+                            ),
+                        )
+                    ],
+                    [
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV2002",
+                                code_system="2.16.840.1.114222.4.5.232",
+                                code_system_name="PHIN Questions",
+                                display_name="Reported Age Units",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="a",
+                                code_system="2.16.840.1.113883.6.8",
+                                display_name="year [time]",
+                            ),
+                        )
+                    ],
                 ],
                 repeating_questions=[
                     [
                         Observation(
                             obs_type="EXPOS",
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="INV502",
-                                code_system="2.16.840.1.113883.6.1",
-                                code_system_name="LOINC",
-                                display_name="Country of Exposure",
-                            ),
-                            value=CodedElement(
-                                xsi_type="CE",
-                                code="ATA",
-                                code_system_name="Country (ISO 3166-1)",
-                                display_name="ANTARCTICA",
-                                code_system="1.0.3166.1",
-                            ),
+                            type_code=None,
+                            class_code=None,
+                            code_display=None,
+                            code_system=None,
+                            code_system_name=None,
+                            quantitative_value=None,
+                            quantitative_system=None,
+                            quantitative_code=None,
+                            qualitative_value=None,
+                            qualitative_system=None,
+                            qualitative_code=None,
+                            mood_code=None,
+                            code_code="69730-0",
+                            code_code_system="http://loinc.org",
+                            code_code_system_name=None,
+                            code_code_display="Questionnaire Document",
+                            value_quantitative_code=None,
+                            value_quant_code_system=None,
+                            value_quant_code_system_name=None,
+                            value_quantitative_value=None,
+                            value_qualitative_code=None,
+                            value_qualitative_code_system=None,
+                            value_qualitative_code_system_name=None,
+                            value_qualitative_value=None,
+                            components=[
+                                {
+                                    "code_code": "INV502",
+                                    "code_code_display": "Country of Exposure",
+                                    "code_code_system": "2.16.840.1.113883.6.1",
+                                    "text": None,
+                                    "value_qualitative_code": "USA",
+                                    "value_qualitative_code_system": "1.0.3166.1",
+                                    "value_qualitative_value": "UNITED STATES",
+                                    "value_quant_code_system": None,
+                                    "value_quantitative_code": None,
+                                    "value_quantitative_value": None,
+                                },
+                                {
+                                    "code_code": "INV503",
+                                    "code_code_display": "State or Province"
+                                    + " of Exposure",
+                                    "code_code_system": "2.16.840.1.113883.6.1",
+                                    "text": None,
+                                    "value_qualitative_code": "53",
+                                    "value_qualitative_code_system": "2.16.840.1."
+                                    + "113883.6.92",
+                                    "value_qualitative_value": "Washington",
+                                    "value_quant_code_system": None,
+                                    "value_quantitative_code": None,
+                                    "value_quantitative_value": None,
+                                },
+                                {
+                                    "code_code": "INV504",
+                                    "code_code_display": "City of Exposure",
+                                    "code_code_system": "2.16.840.1.113883.6.1",
+                                    "text": None,
+                                    "value_qualitative_code": None,
+                                    "value_qualitative_code_system": None,
+                                    "value_qualitative_value": "Bright Falls",
+                                    "value_quant_code_system": None,
+                                    "value_quantitative_code": None,
+                                    "value_quantitative_value": None,
+                                },
+                                {
+                                    "code_code": "INV505",
+                                    "code_code_display": "County of Exposure",
+                                    "code_code_system": "2.16.840.1.113883.6.1",
+                                    "text": None,
+                                    "value_qualitative_code": "053",
+                                    "value_qualitative_code_system": "2.16.840.1."
+                                    + "113883.6.93",
+                                    "value_qualitative_value": "Pierce County",
+                                    "value_quant_code_system": None,
+                                    "value_quantitative_code": None,
+                                    "value_quantitative_value": None,
+                                },
+                            ],
+                            code=None,
+                            value=None,
+                            translation=None,
+                            text=None,
                         )
-                    ],
-                    [
-                        Observation(
-                            obs_type="EXPOS",
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="INV504",
-                                code_system="2.16.840.1.113883.6.1",
-                                code_system_name="LOINC",
-                                display_name="City of Exposure",
-                            ),
-                            value=CodedElement(
-                                text="Esperanze",
-                            ),
-                        )
-                    ],
-                    [
-                        Observation(
-                            obs_type="EXPOS",
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="DEM127",
-                                code_system="List Item 1",
-                                code_system_name="PHIN Questions",
-                                display_name="Is this person deceased?",
-                            ),
-                            value=CodedElement(
-                                xsi_type="CE",
-                                code="N",
-                                code_system_name="List Item 1",
-                                display_name="List Item 1",
-                                code_system="2.16.840.1.113883.12.136",
-                            ),
-                        ),
-                        Observation(
-                            obs_type="EXPOS",
-                            type_code="COMP",
-                            class_code="OBS",
-                            mood_code="EVN",
-                            code=CodedElement(
-                                code="NBS104",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                code_system_name="NEDSS Base System",
-                                display_name="List Item 2",
-                            ),
-                            value=CodedElement(
-                                xsi_type="TS",
-                                value="20240101",
-                            ),
-                        ),
-                    ],
+                    ]
                 ],
                 organization=[
                     Organization(
-                        id="112233",
-                        name="Happy Labs",
+                        id="495669c7-96bf-4573-9dd8-59e745e05576",
+                        name="Nelson Family Practice",
+                        telecom=Telecom(value="206-555-0199"),
                         address=Address(
-                            street_address_line_1="23 main st",
-                            street_address_line_2="apt 12",
-                            city="Fort Worth",
-                            state="Texas",
-                            postal_code="76006",
-                            county="Tarrant",
-                            country="USA",
+                            street_address_line_1="123 Harbor St",
+                            street_address_line_2=None,
+                            city="Bright Falls",
+                            state="WA",
+                            postal_code="98440",
+                            county=None,
+                            country="United States",
                         ),
-                        telecom=Telecom(value="8888675309"),
                     )
                 ],
             ),
-            parse_file_from_test_assets("sample_phdc.xml"),
+            parse_file_from_test_assets("sample_valid_phdc_response.xml"),
         )
     ],
 )
-def test_build(build_header_test_data, expected_result):
+def test_build(build_test_data, expected_result):
     builder = PHDCBuilder()
-    builder.set_input_data(build_header_test_data)
+    builder.set_input_data(build_test_data)
     phdc = builder.build()
     actual_result = (
         ET.tostring(
@@ -1234,83 +1491,94 @@ def test_set_value_xsi_type(set_xsi_test_data, expected_result):
                         [
                             Observation(
                                 obs_type="EXPOS",
-                                type_code="COMP",
-                                class_code="OBS",
-                                mood_code="EVN",
-                                code=CodedElement(
-                                    code="INV502",
-                                    code_system="2.16.840.1.113883.6.1",
-                                    code_system_name="LOINC",
-                                    display_name="Country of Exposure",
-                                ),
-                                value=CodedElement(
-                                    xsi_type="CE",
-                                    code="ATA",
-                                    code_system_name="Country (ISO 3166-1)",
-                                    display_name="ANTARCTICA",
-                                    code_system="1.0.3166.1",
-                                ),
+                                type_code=None,
+                                class_code=None,
+                                code_display=None,
+                                code_system=None,
+                                code_system_name=None,
+                                quantitative_value=None,
+                                quantitative_system=None,
+                                quantitative_code=None,
+                                qualitative_value=None,
+                                qualitative_system=None,
+                                qualitative_code=None,
+                                mood_code=None,
+                                code_code="69730-0",
+                                code_code_system="http://loinc.org",
+                                code_code_system_name=None,
+                                code_code_display="Questionnaire Document",
+                                value_quantitative_code=None,
+                                value_quant_code_system=None,
+                                value_quant_code_system_name=None,
+                                value_quantitative_value=None,
+                                value_qualitative_code=None,
+                                value_qualitative_code_system=None,
+                                value_qualitative_code_system_name=None,
+                                value_qualitative_value=None,
+                                components=[
+                                    {
+                                        "code_code": "INV502",
+                                        "code_code_display": "Country of Exposure",
+                                        "code_code_system": "2.16.840.1.113883.6.1",
+                                        "text": None,
+                                        "value_qualitative_code": "USA",
+                                        "value_qualitative_code_system": "1.0.3166.1",
+                                        "value_qualitative_value": "UNITED STATES",
+                                        "value_quant_code_system": None,
+                                        "value_quantitative_code": None,
+                                        "value_quantitative_value": None,
+                                    },
+                                    {
+                                        "code_code": "INV503",
+                                        "code_code_display": "State or Province"
+                                        + " of Exposure",
+                                        "code_code_system": "2.16.840.1.113883.6.1",
+                                        "text": None,
+                                        "value_qualitative_code": "53",
+                                        "value_qualitative_code_system": "2.16.840.1."
+                                        + "113883.6.92",
+                                        "value_qualitative_value": "Washington",
+                                        "value_quant_code_system": None,
+                                        "value_quantitative_code": None,
+                                        "value_quantitative_value": None,
+                                    },
+                                    {
+                                        "code_code": "INV504",
+                                        "code_code_display": "City of Exposure",
+                                        "code_code_system": "2.16.840.1.113883.6.1",
+                                        "text": None,
+                                        "value_qualitative_code": None,
+                                        "value_qualitative_code_system": None,
+                                        "value_qualitative_value": "Bright Falls",
+                                        "value_quant_code_system": None,
+                                        "value_quantitative_code": None,
+                                        "value_quantitative_value": None,
+                                    },
+                                    {
+                                        "code_code": "INV505",
+                                        "code_code_display": "County of Exposure",
+                                        "code_code_system": "2.16.840.1.113883.6.1",
+                                        "text": None,
+                                        "value_qualitative_code": "053",
+                                        "value_qualitative_code_system": "2.16.840.1."
+                                        + "113883.6.93",
+                                        "value_qualitative_value": "Pierce County",
+                                        "value_quant_code_system": None,
+                                        "value_quantitative_code": None,
+                                        "value_quantitative_value": None,
+                                    },
+                                ],
+                                code=None,
+                                value=None,
+                                translation=None,
+                                text=None,
                             )
-                        ],
-                        [
-                            Observation(
-                                obs_type="EXPOS",
-                                type_code="COMP",
-                                class_code="OBS",
-                                mood_code="EVN",
-                                code=CodedElement(
-                                    code="INV504",
-                                    code_system="2.16.840.1.113883.6.1",
-                                    code_system_name="LOINC",
-                                    display_name="City of Exposure",
-                                ),
-                                value=CodedElement(
-                                    text="Esperanze",
-                                ),
-                            )
-                        ],
-                        [
-                            Observation(
-                                obs_type="EXPOS",
-                                type_code="COMP",
-                                class_code="OBS",
-                                mood_code="EVN",
-                                code=CodedElement(
-                                    code="DEM127",
-                                    code_system="List Item 1",
-                                    code_system_name="PHIN Questions",
-                                    display_name="Is this person deceased?",
-                                ),
-                                value=CodedElement(
-                                    xsi_type="CE",
-                                    code="N",
-                                    code_system_name="List Item 1",
-                                    display_name="List Item 1",
-                                    code_system="2.16.840.1.113883.12.136",
-                                ),
-                            ),
-                            Observation(
-                                obs_type="EXPOS",
-                                type_code="COMP",
-                                class_code="OBS",
-                                mood_code="EVN",
-                                code=CodedElement(
-                                    code="NBS104",
-                                    code_system="2.16.840.1.114222.4.5.1",
-                                    code_system_name="NEDSS Base System",
-                                    display_name="List Item 2",
-                                ),
-                                value=CodedElement(
-                                    xsi_type="TS",
-                                    value="20240101",
-                                ),
-                            ),
-                        ],
+                        ]
                     ]
                 )
             ),
             # Expected XML output as a string
-            parse_file_from_test_assets("sample_phdc.xml"),
+            parse_file_from_test_assets("sample_valid_phdc_response.xml"),
         ),
     ],
 )

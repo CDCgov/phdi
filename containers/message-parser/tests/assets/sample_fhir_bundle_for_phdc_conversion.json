@@ -83,6 +83,34 @@
             }
           ]
         },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "2054-5",
+                  "display": "Black or African American"
+                }
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "2186-5",
+                  "display": "Not Hispanic or Latino"
+                }
+              }
+            ]
+          }
+        ],
         "contact": [
           {
             "relationship": [
@@ -167,7 +195,7 @@
           }
         ],
         "subject": {
-          "reference": "urn:uuid:1"
+          "reference": "Patient/1"
         }
       },
       "request": {
@@ -191,7 +219,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:1"
+          "reference": "Patient/1"
         },
         "valueCodeableConcept": {
           "coding": [
@@ -224,7 +252,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:1"
+          "reference": "Patient/1"
         },
         "valueCodeableConcept": {
           "coding": [
@@ -244,8 +272,454 @@
     {
       "fullUrl": "urn:uuid:5",
       "resource": {
-        "resourceType": "Organization",
+        "resourceType": "Observation",
         "id": "5",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ],
+            "text": "Social History"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "2.16.840.1.114222.4.5.232",
+              "code": "DEM127",
+              "display": "Is this person deceased?"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "2.16.840.1.113883.12.136",
+              "code": "N",
+              "display": "No"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ],
+            "text": "Social History"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "2.16.840.1.114222.4.5.1",
+              "code": "NBS104",
+              "display": "Information As of Date"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "display": "2024-01-24"
+            }
+          ]
+        },
+        "valueDateTime": "2024-01-24"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ],
+            "text": "Social History"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "INV2001",
+              "system": "2.16.840.1.114222.4.5.232",
+              "display": "Reported Age"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "display": "36"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ],
+            "text": "Social History"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "2.16.840.1.114222.4.5.232",
+              "code": "INV2002",
+              "display": "Reported Age Units"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "2.16.840.1.113883.6.8",
+              "code": "a",
+              "display": "year [time]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9",
+      "resource": {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "9",
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "INV168",
+                "system": "2.16.840.1.114222.4.5.232",
+                "display": "Investigation ID"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/1"
+          },
+          "valueCodeableConcept": [
+            {
+              "display": "CAS1012400GA01"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:10",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "10",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "INV163",
+              "system": "2.16.840.1.114222.4.5.232",
+              "display": "Case Status"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "410605003",
+              "system": "2.16.840.1.113883.6.96",
+              "display": "Confirmed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:11",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "11",
+        "status": "preliminary",
+        "code": {
+          "coding": [
+            {
+              "system": "2.16.840.1.114222.4.5.232",
+              "code": "INV169",
+              "display": "Condition"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "2.16.840.1.114222.4.5.277",
+              "code": "10110",
+              "display": "Hepatitis A, acute"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-10-10"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:12",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "12",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "2.16.840.1.114222.4.5.1",
+              "code": "NBS055",
+              "display": "Contact Investigation Priority"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "L",
+              "code": "LOW",
+              "display": "Low"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:13",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "13",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "2.16.840.1.114222.4.5.1",
+              "code": "NBS058",
+              "display": "Contact Investigation Status"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "2.16.840.1.113883.6.96",
+              "code": "385651009",
+              "display": "In progress"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:14",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "14",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "INV148",
+              "system": "2.16.840.1.114222.4.5.232",
+              "display": "Is this person associated with a day care facility?"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Y",
+              "system": "2.16.840.1.113883.12.136",
+              "display": "Yes"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:20",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "20",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "EXPOS",
+                "display": "Exposure"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69730-0",
+              "display": "Questionnaire Document"
+            }
+          ],
+          "text": "Exposure Related Questions"
+        },
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "2.16.840.1.113883.6.1",
+                  "code": "INV502",
+                  "display": "Country of Exposure"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "1.0.3166.1",
+                  "code": "USA",
+                  "display": "UNITED STATES"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "2.16.840.1.113883.6.1",
+                  "code": "INV503",
+                  "display": "State or Province of Exposure"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "2.16.840.1.113883.6.92",
+                  "code": "53",
+                  "display": "Washington"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "2.16.840.1.113883.6.1",
+                  "code": "INV504",
+                  "display": "City of Exposure"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "display": "Bright Falls"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "2.16.840.1.113883.6.1",
+                  "code": "INV505",
+                  "display": "County of Exposure"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "2.16.840.1.113883.6.93",
+                  "code": "053",
+                  "display": "Pierce County"
+                }
+              ]
+            }
+          }
+        ],
+        "subject": {
+          "reference": "Patient/1"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:15",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "15",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/Organization"
@@ -277,10 +751,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6",
+      "fullUrl": "urn:uuid:16",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "6",
+        "id": "16",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/Practitioner"
@@ -304,10 +778,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:7",
+      "fullUrl": "urn:uuid:17",
       "resource": {
         "resourceType": "Composition",
-        "id": "7",
+        "id": "17",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/Composition"
@@ -329,12 +803,12 @@
         "date": "2024-02-07",
         "author": [
           {
-            "reference": "Practitioner/6"
+            "reference": "Practitioner/16"
           }
         ],
         "title": "Hepatitis A Testing and Consultation",
         "custodian": {
-          "reference": "Organization/5"
+          "reference": "Organization/15"
         },
         "section": [
           {
@@ -353,14 +827,47 @@
               },
               {
                 "reference": "urn:uuid:4"
+              },
+              {
+                "reference": "urn:uuid:5"
+              },
+              {
+                "reference": "urn:uuid:6"
+              },
+              {
+                "reference": "urn:uuid:7"
+              },
+              {
+                "reference": "urn:uuid:8"
+              },
+              {
+                "reference": "urn:uuid:9"
+              },
+              {
+                "reference": "urn:uuid:10"
+              },
+              {
+                "reference": "urn:uuid:11"
+              },
+              {
+                "reference": "urn:uuid:12"
+              },
+              {
+                "reference": "urn:uuid:13"
+              },
+              {
+                "reference": "urn:uuid:14"
+              },
+              {
+                "reference": "urn:uuid:20"
               }
             ]
           }
-        ]
-      },
-      "request": {
-        "method": "POST",
-        "url": "Composition"
+        ],
+        "request": {
+          "method": "POST",
+          "url": "Composition"
+        }
       }
     }
   ]
