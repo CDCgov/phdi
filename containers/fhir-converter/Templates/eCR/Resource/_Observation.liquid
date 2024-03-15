@@ -16,7 +16,6 @@
             {% for id in ids -%}
             { {% include 'DataType/Identifier' Identifier: id -%} },
             {% endfor -%}
-            { "foo": "{{ observationEntry | json }}" },
         ],
         "category":
         [
@@ -111,6 +110,12 @@
                         {
                             "url" : "specimen collection time",
                             "valueDateTime" : "{{ collectTime | format_as_date_time }}",
+                        },
+                    {% endif -%}
+                    {% if receiveTime and receiveTime != None -%}
+                        {
+                            "url" : "specimen recieve time",
+                            "valueDateTime" : "{{ receiveTime | format_as_date_time }}",
                         },
                     {% endif -%}
                     ],
