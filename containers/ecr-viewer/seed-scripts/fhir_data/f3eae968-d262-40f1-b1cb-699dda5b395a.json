@@ -496,7 +496,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "relatesTo": [
           {
@@ -554,7 +554,7 @@
           "end": "2022-09-28"
         },
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "location": [
           {
@@ -1166,10 +1166,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a63b7e2d-123c-40d3-a1d2-c1d7e046aaad",
+      "fullUrl": "urn:uuid:4969ba9d-5651-4226-b87b-2014d8fea14f",
       "resource": {
         "resourceType": "Patient",
-        "id": "a63b7e2d-123c-40d3-a1d2-c1d7e046aaad",
+        "id": "4969ba9d-5651-4226-b87b-2014d8fea14f",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1267,6 +1267,18 @@
             "value": "mary.gibbs@Providence.org"
           }
         ],
+        "contact": [
+          {
+            "relationship": "father",
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "+1-777-666-5656",
+                "use": "home"
+              }
+            ]
+          }
+        ],
         "communication": [
           {
             "language": {
@@ -1281,7 +1293,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+        "url": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
       }
     },
     {
@@ -1326,7 +1338,7 @@
         },
         "onsetDateTime": "2019-04-16",
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [
@@ -1381,7 +1393,7 @@
         },
         "onsetDateTime": "2019-04-29",
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [
@@ -1436,7 +1448,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [
@@ -1491,7 +1503,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [
@@ -1546,7 +1558,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [
@@ -1601,7 +1613,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [
@@ -1656,7 +1668,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [
@@ -1711,7 +1723,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [
@@ -1750,7 +1762,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -1916,12 +1928,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2020,12 +2036,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2110,12 +2130,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2181,12 +2205,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2252,12 +2280,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2323,12 +2355,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2394,12 +2430,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2465,12 +2505,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2536,12 +2580,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2607,12 +2655,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2678,12 +2730,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2768,12 +2824,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2839,12 +2899,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2910,12 +2974,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -2981,12 +3049,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3052,12 +3124,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3123,12 +3199,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3194,12 +3274,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3265,12 +3349,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3336,12 +3424,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3407,12 +3499,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3478,12 +3574,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         }
       },
       "request": {
@@ -3517,7 +3617,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3652,12 +3752,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3723,12 +3827,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3794,12 +3902,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3865,12 +3977,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -3936,12 +4052,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4007,12 +4127,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4078,12 +4202,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4149,12 +4277,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4220,12 +4352,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4291,12 +4427,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4362,12 +4502,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4433,12 +4577,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4504,12 +4652,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4575,12 +4727,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4646,12 +4802,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4717,12 +4877,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4788,12 +4952,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4859,12 +5027,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -4930,12 +5102,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -5001,12 +5177,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "performer": [
           {
@@ -5072,12 +5252,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-09-28T20:51:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-28T20:51:36Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         }
       },
       "request": {
@@ -5135,7 +5319,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         }
       },
       "request": {
@@ -5193,7 +5377,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         }
       },
       "request": {
@@ -5251,7 +5435,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         }
       },
       "request": {
@@ -5331,7 +5515,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [
@@ -5398,7 +5582,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/a63b7e2d-123c-40d3-a1d2-c1d7e046aaad"
+          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
         },
         "meta": {
           "source": [

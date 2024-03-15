@@ -304,7 +304,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         },
         "relatesTo": [
           {
@@ -362,7 +362,7 @@
           "end": "2022-09-28T12:30:00-07:00"
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         },
         "location": [
           {
@@ -853,10 +853,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:418cd41d-2b69-4c7a-9f84-e528c6f97549",
+      "fullUrl": "urn:uuid:feab3674-b88f-4621-8f88-bab96ab8c7f8",
       "resource": {
         "resourceType": "Patient",
-        "id": "418cd41d-2b69-4c7a-9f84-e528c6f97549",
+        "id": "feab3674-b88f-4621-8f88-bab96ab8c7f8",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -990,7 +990,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+        "url": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
       }
     },
     {
@@ -1035,7 +1035,7 @@
         },
         "onsetDateTime": "2022-09-24",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         },
         "meta": {
           "source": [
@@ -1090,7 +1090,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         },
         "meta": {
           "source": [
@@ -1145,7 +1145,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         },
         "meta": {
           "source": [
@@ -1184,7 +1184,7 @@
           "end": "2002-09-29T15:01:00Z"
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         },
         "performer": [
           {
@@ -1297,12 +1297,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2002-09-29T15:01:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-29T07:00:00Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         },
         "performer": [
           {
@@ -1397,12 +1401,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2002-09-29T15:01:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-29T07:00:00Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         }
       },
       "request": {
@@ -1460,7 +1468,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         }
       },
       "request": {
@@ -1518,7 +1526,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         }
       },
       "request": {
@@ -1576,7 +1584,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         }
       },
       "request": {
@@ -1625,7 +1633,7 @@
         "effectiveDateTime": "2022-09-24",
         "valueString": "17",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/feab3674-b88f-4621-8f88-bab96ab8c7f8"
         }
       },
       "request": {

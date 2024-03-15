@@ -845,6 +845,24 @@ const returnCollectionTime = (
   return [...new Set(collectionTime)].join(", ");
 };
 
+const returnReceivedTime = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): React.ReactNode => {
+  const observations = getObservations(report.result, fhirBundle);
+  const receivedTime = observations.flatMap((observation) => {
+    const rawTime = evaluate(observation, mappings["specimenReceivedTime"]);
+    return rawTime.map((dateTimeString) => formatDateTime(dateTimeString));
+  });
+
+  if (!receivedTime || receivedTime.length === 0) {
+    return noData;
+  }
+
+  return [...new Set(receivedTime)].join(", ");
+};
+
 /**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
  * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
@@ -886,6 +904,10 @@ export const evaluateLabInfoData = (
       {
         title: "Collection Time",
         value: returnCollectionTime(report, fhirBundle, mappings),
+      },
+      {
+        title: "Received Time",
+        value: returnReceivedTime(report, fhirBundle, mappings),
       },
     ];
     const content: Array<React.JSX.Element> = rrInfo.map((item) => {
