@@ -1,0 +1,55 @@
+
+@import "node_modules/uswds/dist/scss/packages/_required";
+@import "node_modules/uswds/dist/scss/uswds";
+
+$font-path: "/node_modules/uswds/dist/font";
+$theme-font-path: "node_modules/uswds/dist/fonts";
+$theme-color-primary: color('blue-60');
+$theme-color-secondary: #205493;
+$theme-color-base: #162E51;
+
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url("under-construction.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; /* Or 'contain' based on your preference */
+  }
+  
+  main {
+    display: grid;
+    grid-template-columns: 1fr; // Defines a single column
+    justify-content: center; // Centers the column in the container
+    margin: 0 auto; // Centers the container itself if needed
+    row-gap: 0.1em; // Adjusts the gap between rows/items
+    max-width: 45%;
+  }
+
+footer {
+    margin-top: auto; // Pushes the footer to the bottom of the page
+  }
+
+.usa-header.usa-header--basic{
+    background-color: $theme-color-base; // Example: Navy blue
+    color: white; // Example: White
+    max-height: 90px;
+    min-height: 90px;
+  }
+  
+.usa-process-list {
+    // Your styles for the process list if needed
+    width: 100%; // Match width to headings if necessary
+    // Ensure any specific margin or padding that affects alignment is accounted for
+}
+
+.usa-button {
+    width: 22%
+}
+
