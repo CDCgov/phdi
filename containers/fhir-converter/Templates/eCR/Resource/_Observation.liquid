@@ -94,6 +94,12 @@
         [
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
+        {% if observationEntry.referenceRange and observationEntry.referenceRange != null  -%}
+            "referenceRange": {
+                    "text": "{{  observationEntry.referenceRange.observationRange.text._ }}",
+            },
+            "lina": {{ observationEntry.referenceRange | to_json_string }},
+        {%  endif -%}
         "extension":
             [ {
                 {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None"  -%}
