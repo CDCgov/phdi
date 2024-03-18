@@ -143,6 +143,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       {
         foreach (var kvp in dict)
         {
+          Console.WriteLine("KVP: ", kvp.ID)
           if (kvp.Key == "_")
           {
             stringBuilder.Append(ToHtmlString(kvp.Value));

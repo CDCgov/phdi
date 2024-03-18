@@ -147,31 +147,78 @@ export const formatString = (input: string): string => {
   return result;
 };
 
-export function formatTableToJSON(htmlString: string): any[] {
+// export function formatTableToJSON(htmlString: string): any[] {
+//   const parser = new DOMParser();
+//   const doc = parser.parseFromString(htmlString, "text/html");
+//   const table = doc.querySelector("table");
+//   const jsonArray: any[] = [];
+
+//   if (table) {
+//     const rows = table.querySelectorAll("tr");
+//     const keys: string[] = [];
+//     rows[0].querySelectorAll("th").forEach((header) => {
+//       keys.push(header.textContent?.trim() || "");
+//     });
+
+//     rows.forEach((row, rowIndex) => {
+//       // Skip the first row as it contains headers
+//       if (rowIndex === 0) return;
+
+//       const obj: { [key: string]: string } = {};
+//       row.querySelectorAll("td").forEach((cell, cellIndex) => {
+//         const key = keys[cellIndex];
+//         obj[key] = cell.textContent?.trim() || "";
+//       });
+//       jsonArray.push(obj);
+//     });
+//   }
+
+//   return jsonArray;
+// }
+
+export function formatTablesToJSON(htmlString: string): any[] {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
-  const table = doc.querySelector("table");
+  const items = doc.querySelectorAll("li");
   const jsonArray: any[] = [];
 
-  if (table) {
-    const rows = table.querySelectorAll("tr");
-    const keys: string[] = [];
-    rows[0].querySelectorAll("th").forEach((header) => {
-      keys.push(header.textContent?.trim() || "");
+  items.forEach((listItem) => {
+    const itemKey = listItem.textContent?.trim() || "";
+    const itemObject = { [itemKey]: [] };
+
+    listItem.querySelectorAll("table").forEach((table) => {
+      const liTable = processTable(table);
+      itemObject[itemKey].push(liTable);
     });
 
-    rows.forEach((row, rowIndex) => {
-      // Skip the first row as it contains headers
-      if (rowIndex === 0) return;
+    jsonArray.push(itemObject);
+  });
 
-      const obj: { [key: string]: string } = {};
-      row.querySelectorAll("td").forEach((cell, cellIndex) => {
-        const key = keys[cellIndex];
-        obj[key] = cell.textContent?.trim() || "";
-      });
-      jsonArray.push(obj);
+  console.log("JSON ARRAY", jsonArray);
+
+  return jsonArray;
+}
+
+function processTable(table: Element): any[] {
+  const jsonArray: any[] = [];
+  const rows = table.querySelectorAll("tr");
+  const keys: string[] = [];
+
+  rows[0].querySelectorAll("th").forEach((header) => {
+    keys.push(header.textContent?.trim() || "");
+  });
+
+  rows.forEach((row, rowIndex) => {
+    // Skip the first row as it contains headers
+    if (rowIndex === 0) return;
+
+    const obj: { [key: string]: string } = {};
+    row.querySelectorAll("td").forEach((cell, cellIndex) => {
+      const key = keys[cellIndex];
+      obj[key] = cell.textContent?.trim() || "";
     });
-  }
+    jsonArray.push(obj);
+  });
 
   return jsonArray;
 }

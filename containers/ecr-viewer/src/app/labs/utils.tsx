@@ -15,7 +15,7 @@ import {
 } from "@/app/utils";
 import { evaluate } from "fhirpath";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
-import { formatDateTime, formatTableToJSON } from "@/app/format-service";
+import { formatDateTime, formatTablesToJSON } from "@/app/format-service";
 
 export interface LabReport {
   result: Array<Reference>;
@@ -136,7 +136,7 @@ const returnAnalysisTime = (
   mappings: PathMappings,
 ): React.ReactNode => {
   const labResultString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
-  const labResultJson = formatTableToJSON(labResultString);
+  const labResultJson = formatTablesToJSON(labResultString);
 
   const analysisTime = labResultJson.map((result) => {
     return result["Analysis Time"];
@@ -148,6 +148,25 @@ const returnAnalysisTime = (
 
   return [...new Set(analysisTime)].join(", ");
 };
+
+// const returnAnatomicalLocation = (
+//   fhirBundle: Bundle,
+//   mappings: PathMappings,
+// ): React.ReactNode => {
+//   const labResultString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
+//   const labResultJson = formatTablesToJSON(labResultString);
+//   console.log("labResultJson: ", labResultJson);
+
+//   const analysisTime = labResultJson.map((result) => {
+//     return result["Analysis Time"];
+//   });
+
+//   if (!analysisTime || analysisTime.length === 0) {
+//     return noData;
+//   }
+
+//   return [...new Set(analysisTime)].join(", ");
+// };
 
 /**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
