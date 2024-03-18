@@ -51,10 +51,9 @@ The endpoint will be a POST call to the `/process` endpoint with the following p
 
 - `message_type`: The type of stream of the uploaded file's underlying data (e.g. ecr, elr, etc.). If the data is in FHIR format, set to FHIR.
 - `include_error_types`: The type of errors to return (e.g. warnings, errors, fatal).
-- `data_type`: The type of data held in the uploaded file. Eligible values include `ecr`, `zip`, `fhir`, and `hl7`.
+- `data_type`: The type of data held in the uploaded file. Eligible values include `ecr`, `zip`, `fhir`, and `hl7`. In most cases it will be zip
 - `config_file_name`: The name of the configuration file to load on the service's back-end, specifying the workflow to apply. These are uploaded by the organization hosting the application. There are samples of these files in the /assets folder of this application
 - `upload_file`: A file containing clinical health care information. 
-- `data_type` : The type of data that is passed in (.zip in this case)
 
 An an example of calling this endpoint would look like this 
 
