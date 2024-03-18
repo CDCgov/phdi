@@ -97,8 +97,9 @@
         {% if observationEntry.referenceRange and observationEntry.referenceRange != null  -%}
             "referenceRange": {
                     "text": "{{  observationEntry.referenceRange.observationRange.text._ }}",
+                    "high": "{{ observationEntry.referenceRange.observationRange.value.high.translation.value }}",
+                    "low": "{{ observationEntry.referenceRange.observationRange.value.low.translation.value }}",
             },
-            "lina": {{ observationEntry.referenceRange | to_json_string }},
         {%  endif -%}
         "extension":
             [ {
