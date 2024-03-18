@@ -102,8 +102,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       var stringBuilder = new StringBuilder();
       var tag = key;
       var addTag = supportedTags.Contains(key) || replaceTags.TryGetValue(key, out tag);
-      string tagId = null;
-      IDictionary<string, object> valueDict = value as IDictionary<string, object>;
+      string? tagId = null;
+      IDictionary<string, object>? valueDict = value as IDictionary<string, object>;
       if (valueDict != null && valueDict.ContainsKey("ID"))
       {
         tagId = valueDict["ID"] as string;
@@ -133,7 +133,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return Regex.Replace(value.Replace("\t", " "), reduceMultiSpace, " ");
     }
 
-    static void PrintObject(object obj, int level)
+    private static void PrintObject(object obj, int level)
     {
       string indent = new string(' ', level * 4);
 
