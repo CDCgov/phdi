@@ -1,6 +1,6 @@
 import uuid
 from pathlib import Path
-from typing import Literal
+from typing import Literal, Annotated
 from typing import Optional
 
 import requests
@@ -8,10 +8,10 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
-from fastapi import Request
+from fastapi import Request, Form
 from phdi.containers.base_service import BaseService
 
-USE_CASES = Literal["social-determinants", "newborn-screening", "syphilis", "cancer"]
+USE_CASES = ("social-determinants", "newborn-screening", "syphilis", "cancer")
 
 FHIR_SERVERS = {
     "meld": {"hostname": "https://gw.interop.community/HeliosConnectathonSa/open"},
@@ -51,19 +51,20 @@ app = BaseService(
 
 class UseCaseQueryRequest(BaseModel):
     fhir_server: Literal["meld", "ehealthexchange"]
-    first_name: str
-    last_name: str
-    dob: str
+    first_name: Optional[str]
+    last_name: Optional[str]
+    dob: Optional[str]
     mrn: Optional[str]
     phone: Optional[str]
-    street: Optional[str]
+    street_address_1: Optional[str]
+    street_address_2: Optional[str]
     city: Optional[str]
     state: Optional[str]
     zip: Optional[str]
 
 
-@app.post("/use-case-query/{use_case}")
-async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
+@app.post("/use-case-query")
+async def use_case_query(input):
     # Connect to FHIR Server
     fhir_host = FHIR_SERVERS[input.fhir_server]["hostname"]
     session = requests.Session()
@@ -241,7 +242,7 @@ async def get_landing_page(request: Request):
 templates = Jinja2Templates(directory="./app/front-end/templates")
 @app.get("/portal/patient-search-form", response_class=HTMLResponse)
 async def get_patient_search_form(request: Request):
-    return templates.TemplateResponse("patient-search-form.html", {"request": request})
+    return templates.TemplateResponse("patient-search-form.html", {"request": request, "use_cases": USE_CASES, "fhir_servers": FHIR_SERVERS.keys()})
 
 @app.get("/")
 async def health_check():

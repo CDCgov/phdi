@@ -73135,6 +73135,7 @@ main {
 
 footer {
   margin-top: auto;
+  min-height: 3rem;
 }
 
 .usa-header.usa-header--basic {
