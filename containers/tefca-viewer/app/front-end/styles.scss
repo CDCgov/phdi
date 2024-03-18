@@ -29,7 +29,7 @@ body {
     justify-content: center; // Centers the column in the container
     margin: 0 auto; // Centers the container itself if needed
     row-gap: 0.1em; // Adjusts the gap between rows/items
-    max-width: 45%;
+    max-width: 480px;
   }
 
 footer {
@@ -53,3 +53,10 @@ footer {
     width: 22%
 }
 
+.full-width {
+    width: 100% !important;
+  }
+
+  .usa-form .usa-input.full-width {
+    width: 100% !important;
+  }

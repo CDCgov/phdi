@@ -4,8 +4,9 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>My USWDS Site</title>
-      <link rel="stylesheet" href="node_modules/uswds/dist/css/uswds.min.css">
-      <link rel="stylesheet" href="styles.css">
+      <link rel="stylesheet" href="front-end/node_modules/uswds/dist/css/uswds.min.css">
+      <link rel="stylesheet" href="front-end/styles.css">
+      <script src="https://unpkg.com/htmx.org"></script>
    </head>
    <body>
         <header class="usa-header usa-header--basic">
@@ -36,7 +37,7 @@
                 </p>
                 </li>
             </ol>
-            <button class="usa-button" type="button">Get started</button>
+            <button class="usa-button" type="button" hx-get="/portal/patient-search-form" hx-target="main" hx-swap="innerHTML">Get started</button>
         </main>
         <footer class="usa-footer  text-white p-4">
             <div class="usa-footer__secondary-section bg-primary-darker" >

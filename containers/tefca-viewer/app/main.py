@@ -4,10 +4,11 @@ from typing import Literal
 from typing import Optional
 
 import requests
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
-
+from fastapi import Request
 from phdi.containers.base_service import BaseService
 
 USE_CASES = Literal["social-determinants", "newborn-screening", "syphilis", "cancer"]
@@ -226,6 +227,21 @@ app.mount(
 async def root():
     return FileResponse("./app/patient-search/index.html")
 
+
+# Serve Static Files
+app.mount(
+    "/front-end",
+    StaticFiles(directory="./app/front-end"),
+    name="front-end",
+)
+@app.get("/portal", response_class=FileResponse)
+async def get_landing_page(request: Request):
+    return FileResponse("./app/front-end/landing-page.html")
+
+templates = Jinja2Templates(directory="./app/front-end/templates")
+@app.get("/portal/patient-search-form", response_class=HTMLResponse)
+async def get_patient_search_form(request: Request):
+    return templates.TemplateResponse("patient-search-form.html", {"request": request})
 
 @app.get("/")
 async def health_check():

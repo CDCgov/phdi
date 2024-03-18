@@ -73130,7 +73130,7 @@ main {
   justify-content: center;
   margin: 0 auto;
   row-gap: 0.1em;
-  max-width: 45%;
+  max-width: 480px;
 }
 
 footer {
@@ -73150,6 +73150,14 @@ footer {
 
 .usa-button {
   width: 22%;
+}
+
+.full-width {
+  width: 100% !important;
+}
+
+.usa-form .usa-input.full-width {
+  width: 100% !important;
 }
 
 /*# sourceMappingURL=styles.css.map */
