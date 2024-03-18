@@ -12,7 +12,11 @@ import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
 import { Table } from "@trussworks/react-uswds";
-import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
+import {
+  evaluateReference,
+  evaluateDiagnosticReportData,
+  evaluateValue,
+} from "@/app/evaluate-service";
 import {
   formatAddress,
   formatDate,
@@ -160,6 +164,7 @@ export const evaluateEncounterDate = (
  * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
  *                                      The order of columns in the array determines the order of appearance.
  * @param {string} caption - The caption for the table.
+ * @param {boolean} [outerBorder=true] - Optional. Determines whether to include an outer border for the table. Default is true.
  * @returns {React.JSX.Element} - A formatted table React element.
  */
 export const evaluateTable = (
@@ -167,6 +172,7 @@ export const evaluateTable = (
   mappings: PathMappings,
   columns: ColumnInfoInput[],
   caption: string,
+  outerBorder: boolean = true,
 ): React.JSX.Element => {
   let headers = columns.map((column, index) => (
     <th
@@ -180,7 +186,7 @@ export const evaluateTable = (
 
   let tableRows = resources.map((entry, index) => {
     let rowCells = columns.map((column, index) => {
-      let rowCellData = evaluate(entry, mappings[column.infoPath])[0] ?? (
+      let rowCellData = evaluateValue(entry, mappings[column.infoPath]) || (
         <span className={"text-italic text-base"}>No data</span>
       );
       return (
@@ -195,10 +201,13 @@ export const evaluateTable = (
 
   return (
     <Table
+      fixed={true}
       bordered={false}
       fullWidth={true}
       caption={caption}
-      className="border-top border-left border-right table-caption-margin margin-y-0"
+      className={classNames("table-caption-margin margin-y-0", {
+        "border-top border-left border-right": outerBorder,
+      })}
       data-testid="table"
     >
       <thead>
@@ -428,13 +437,10 @@ export const evaluateEcrMetadata = (
 ) => {
   const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
 
-  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) => {
-    ref = ref.split("/");
-    return evaluate(fhirBundle, mappings.resolve, {
-      resourceType: ref[0],
-      id: ref[1],
-    })[0];
-  });
+  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) =>
+    evaluateReference(fhirBundle, mappings, ref),
+  );
+
   const rrDetails: DisplayData[] = [
     {
       title: "Reportable Condition(s)",
@@ -800,17 +806,7 @@ export const evaluateLabInfoData = (
     },
   ];
 
-  const rrData = evaluate(fhirBundle, mappings["diagnosticReports"]).map(
-    (report) => {
-      return (
-        <AccordionLabResults
-          title={report.code.coding[0].display}
-          abnormalTag={false}
-          content={<></>}
-        />
-      );
-    },
-  );
+  const rrData = evaluateDiagnosticReportData(fhirBundle, mappings);
 
   return {
     labInfo: evaluateData(labInfo),
