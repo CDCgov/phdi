@@ -1,7 +1,7 @@
 
 <h1 class="font-sans-2xl text-bold">Search for a Patient</h1>
 <h2 class="font-sans-lg text-light">Please enter <strong>3 out of 5 of the following sections</strong> for a given patient, in addition to a use case.</h2>
-<form hx-post="/use-case-query" hx-target="main" hx-swap="innerHTML">
+<form hx-post="/use-case-query" hx-target="main" hx-swap="innerHTML" hx-ext="json-enc">
     <fieldset class="usa-fieldset">
         <h2 class="font-sans-lg"><strong>Name</strong></h2>
         <div class="grid-row grid-gap">
