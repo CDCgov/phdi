@@ -15,4 +15,6 @@ testcontainers[compose]
 websockets
 asyncio
 sqlalchemy
-boto3
+requests-mock 
+pytest-mock
+opentelemetry-distro

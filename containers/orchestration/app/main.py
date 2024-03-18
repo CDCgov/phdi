@@ -251,9 +251,9 @@ async def apply_workflow_to_message(
         return Response(
             content=json.dumps(
                 {
-                    "message": "Request failed with status code"
+                    "message": "Request failed with status code "
                     + f"{response.status_code}",
-                    "responses": responses,
+                    "responses": _filter_failed_responses(responses),
                     "processed_values": "",
                 }
             ),
@@ -277,6 +277,15 @@ async def apply_workflow_to_message(
             workflow_content = response.text
 
     return Response(content=workflow_content, media_type=content_type)
+
+
+def _filter_failed_responses(responses):
+    failed_responses = {}
+    for key, item in responses.items():
+        if item.status_code != 200:
+            failed_responses[key] = item.json()
+
+    return failed_responses
 
 
 @app.get("/configs", responses=sample_list_configs_response)

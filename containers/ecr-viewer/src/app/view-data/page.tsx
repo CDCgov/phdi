@@ -9,16 +9,7 @@ import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
 
 // string constants to match with possible .env values
-const S3_SOURCE = "s3";
-const POSTGRES_SOURCE = "postgres";
-
-const assignApiPath = () => {
-  if (process.env.NEXT_PUBLIC_SOURCE === S3_SOURCE) {
-    return "s3";
-  } else if (process.env.NEXT_PUBLIC_SOURCE === POSTGRES_SOURCE) {
-    return "fhir-data";
-  }
-};
+const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -26,7 +17,6 @@ const ECRViewerPage = () => {
   const [errors, setErrors] = useState<Error | unknown>(null);
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
-  const apiPath = assignApiPath();
   const snomedCode = searchParams.get("snomed-code") ?? "";
 
   type ApiResponse = {
@@ -36,9 +26,10 @@ const ECRViewerPage = () => {
 
   useEffect(() => {
     // Fetch the appropriate bundle from Postgres database
+
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/${apiPath}?id=${fhirId}`);
+        const response = await fetch(`${basePath}/api/fhir-data?id=${fhirId}`);
         if (!response.ok) {
           const errorData = response.statusText;
           throw new Error(errorData || "Internal Server Error");

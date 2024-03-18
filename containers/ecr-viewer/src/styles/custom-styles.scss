@@ -57,15 +57,43 @@ h4 {
   font-weight: bold;
 }
 
-.usa-accordion__button {
+.info-container > .usa-accordion__heading > .usa-accordion__button {
   font-size: 32px;
   color: white !important;
   background-color: #2E6276;
+  &:hover {
+    background-color: #224856;
+  }
 }
 
-.usa-accordion__button:hover {
-  background-color: #2E6276;
+.accordion-rr {
+  border: #111111 1px solid;
+  border-radius: .25rem;
+  overflow: hidden;
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+  .usa-accordion__button{
+    &:hover {
+      background-color: #F0F0F0;
+    }
+    position: relative;
+    background: white;
+    padding: 12px;
+    font-weight: normal;
+    &[aria-expanded="true"] {
+      border-bottom: #111111 1px solid;
+    }
+  }
+  .usa-accordion__content{
+    padding: 0
+  }
 }
+
+.minimize-container {
+  position: absolute;
+  right: 12px;
+}
+
 .list-style-none {
   list-style: none;
 }

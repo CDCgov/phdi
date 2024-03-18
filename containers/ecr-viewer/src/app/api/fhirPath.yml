@@ -16,7 +16,7 @@ patientRace: "Bundle.entry.resource.where(resourceType = 'Patient').extension.wh
 patientEthnicity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.first().valueCoding.display"
 patientLanguage: "Bundle.entry.resource.where(resourceType = 'Patient').communication.first().language.coding.first().display"
 patientTribalAffiliation: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension').extension.where(url='TribeName').value.display"
-patientEmergencyContact: "idk"
+patientEmergencyContact: "Bundle.entry.resource.where(resourceType = 'Patient').contact.first()"
 
 patientCurrentJobTitle: "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http://hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob').where(effectivePeriod.end.exists().not()).valueCodeableConcept.coding.display"
 patientTobaccoUse: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='72166-2').where(category.coding.code='social-history').valueCodeableConcept.coding.display"
@@ -90,3 +90,10 @@ procedures: "Bundle.entry.resource.where(resourceType='Procedure')"
 procedureName: "Procedure.code.coding.first().display"
 procedureDate: "Procedure.performedDateTime"
 procedureReason: "Procedure.reason.display"
+
+# Lab Info
+diagnosticReports: "Bundle.entry.resource.where(resourceType = 'DiagnosticReport')"
+observationComponent: "code.coding.display"
+observationValue: "value"
+observationReferenceRange: "referenceRange.text"
+observationMethod: "method"

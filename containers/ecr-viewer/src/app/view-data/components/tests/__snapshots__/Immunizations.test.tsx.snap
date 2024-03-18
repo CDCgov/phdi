@@ -3,7 +3,7 @@
 exports[`Immunizations Table should match snapshot 1`] = `
 <div>
   <table
-    class="usa-table usa-table--borderless width-full border-top border-left border-right table-caption-margin margin-y-0"
+    class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W table-caption-margin margin-y-0 border-top border-left border-right"
     data-testid="table"
   >
     <caption>
@@ -33,12 +33,11 @@ exports[`Immunizations Table should match snapshot 1`] = `
     </thead>
     <tbody>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           MENINGOCOCCAL CONJUGATE,MENACTRA                                        (PED/ADOL/ADULT)
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -47,16 +46,19 @@ exports[`Immunizations Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
-          N/A
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           TDAP, (ADOL/ADULT)
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -65,16 +67,19 @@ exports[`Immunizations Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
-          N/A
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           HEP A (ADULT) 2 DOSE
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -83,16 +88,19 @@ exports[`Immunizations Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
-          N/A
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           DTAP-HIB-IPV (PENTACEL)
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -101,16 +109,19 @@ exports[`Immunizations Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
-          N/A
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
       </tr>
       <tr>
-        <th
+        <td
           class="text-top"
-          scope="row"
         >
           HEP B (PED,ADOLESCENT) 3 DOSE
-        </th>
+        </td>
         <td
           class="text-top"
         >
@@ -119,7 +130,11 @@ exports[`Immunizations Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
-          N/A
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
         </td>
       </tr>
     </tbody>

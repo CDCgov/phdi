@@ -1,5 +1,6 @@
 import logging
 import uuid
+from datetime import datetime
 from typing import List
 from typing import Literal
 from typing import Optional
@@ -14,6 +15,7 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
+
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -378,8 +380,10 @@ class PHDCBuilder:
         aspects required to initialize the section.
         :return: XML element of Repeating Questions data.
         """
-        component = ET.Element("component")
+        component_section = ET.Element("component")
         section = ET.Element("section")
+        component_section.append(section)
+
         code = ET.Element(
             "code",
             {
@@ -389,21 +393,26 @@ class PHDCBuilder:
                 "displayName": "Generic Repeating Questions Section",
             },
         )
+        section.append(code)
+
         title = ET.Element("title")
         title.text = "REPEATING QUESTIONS"
-        section.append(code)
         section.append(title)
 
-        # Add organizer header
-        for element in self.input_data.repeating_questions:
-            # Create the `organizer` element and its subelements
+        for list_of_observations in self.input_data.repeating_questions:
+            filtered_observations = [
+                obs for obs in list_of_observations if obs.obs_type == "EXPOS"
+            ]
+            if not filtered_observations:
+                continue
+
             entry = ET.Element("entry", {"typeCode": "COMP"})
             organizer = ET.Element(
-                "organizer",
-                {"classCode": "CLUSTER", "moodCode": "EVN"},
+                "organizer", {"classCode": "CLUSTER", "moodCode": "EVN"}
             )
+            entry.append(organizer)
 
-            code_element = ET.Element(
+            code_organizer = ET.Element(
                 "code",
                 {
                     "code": "1",
@@ -411,23 +420,27 @@ class PHDCBuilder:
                     "codeSystemName": "LocalSystem",
                 },
             )
+            organizer.append(code_organizer)
 
-            organizer.append(code_element)
-            status_code_element = ET.Element("statusCode", {"code": "completed"})
-            organizer.append(status_code_element)
-            entry.append(organizer)
-            comp = ET.SubElement(organizer, "component")
+            status_code = ET.Element("statusCode", {"code": "completed"})
+            organizer.append(status_code)
 
-            # add observation data to section
-            for c in element:
-                observation_element = self._build_observation(c)
-                comp.append(observation_element)
-            organizer.append(comp)
-            entry.append(organizer)
+            for observation in filtered_observations:
+                if observation.components:
+                    for component in observation.components:
+                        component_observation = Observation(**component)
+                        observation_element = self._build_observation(
+                            component_observation
+                        )
+
+                        if observation_element is not None:
+                            component_for_observation = ET.Element("component")
+                            component_for_observation.append(observation_element)
+                            organizer.append(component_for_observation)
+
             section.append(entry)
-        component.append(section)
 
-        return component
+        return component_section
 
     def _build_telecom(self, telecom: Telecom) -> ET.Element:
         """
@@ -484,6 +497,9 @@ class PHDCBuilder:
 
         # Sort the observation into code and value sections
         observation = self._sort_observation(observation)
+
+        # check that observation.value.xsi_type is correct
+        observation = self._set_value_xsi_type(observation)
 
         # Create the 'observation' element and append it to 'entry'
         observation_data = ET.Element(
@@ -549,6 +565,46 @@ class PHDCBuilder:
                     value=observation.value_qualitative_value,
                 )
         # TODO: translation section
+        return observation
+
+    def _set_value_xsi_type(self, observation: Observation) -> Observation:
+        """
+        Ensure that observation elements with a value child element use
+        the correct namespace based on the data.
+
+        :param observation: The observation data being used in _build_observation
+        :return: observation data with correct namespace as Observation object
+            for use in _build_observation
+        """
+        date_formats = ["%Y-%m-%d", "%Y%m%d"]
+        # for code; xsi:type should always be 'None'
+        if observation.code and observation.code.xsi_type is not None:
+            observation.code.xsi_type = None
+        # for value; we'll need to check some related attributes to make sure
+        # we're handling this correctly
+        if observation.value and observation.value.value is not None:
+            date_parsed = False
+            for date_format in date_formats:
+                try:
+                    datetime.strptime(observation.value.value, date_format)
+                    observation.value.xsi_type = "TS"
+                    observation.value.value = observation.value.value.replace("-", "")
+                    date_parsed = True
+                    break
+                except ValueError:
+                    continue
+            if not date_parsed:
+                if observation.value.code:
+                    observation.value.xsi_type = "CE"
+                    observation.value.display_name = observation.value.value
+                    observation.value.value = None
+                else:
+                    observation.value.xsi_type = "ST"
+                    observation.value.text = observation.value.value
+                    observation.value.code_system = None
+                    observation.value.code_system_name = None
+                    observation.value.display_name = None
+                    observation.value.value = None
 
         return observation
 
@@ -779,12 +835,12 @@ class PHDCBuilder:
         """
         element = ET.Element(element_name)
 
-        for e, v in kwargs.items():
-            if e != "element_name" and v is not None:
-                if e == "text":
-                    element.text = v
+        for attribute_name, attribute_value in kwargs.items():
+            if attribute_name != "element_name" and attribute_value is not None:
+                if attribute_name == "text":
+                    element.text = attribute_value
                     continue
-                element.set(e, v)
+                element.set(attribute_name, attribute_value)
         return element
 
     def _build_patient(self, patient: Patient) -> ET.Element:
