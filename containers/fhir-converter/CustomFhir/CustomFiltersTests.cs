@@ -154,7 +154,7 @@ public class CustomFilterTests
         PrintObject(table, 0);
 
         var actual = Filters.ToHtmlString(completeDict);
-        Assert.Equal("<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr><td>Parkinson's syndrome</td><td>7/25/22</td></tr><tr><td>Essential hypertension</td><td>7/21/22</td></tr></tbody></table>documented as of this encounter (statuses as of 07/25/2022)", actual);
+        Assert.Equal("<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr data-id='problem13'><td data-id='problem13name'>Parkinson's syndrome</td><td>7/25/22</td></tr><tr data-id='problem12'><td data-id='problem12name'>Essential hypertension</td><td>7/21/22</td></tr></tbody></table>documented as of this encounter (statuses as of 07/25/2022)", actual);
     }
 
     [Fact]
