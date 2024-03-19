@@ -33,9 +33,18 @@ export const evaluateReference = (
   })[0];
 };
 
+/**
+ * Evaluates and generates a table of observations based on the provided DiagnosticReport,
+ * FHIR bundle, mappings, and column information.
+ * @param {DiagnosticReport} report - The DiagnosticReport containing observations to be evaluated.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing observation data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @param {ColumnInfoInput[]} columnInfo - An array of column information objects specifying column names and information paths.
+ * @returns {React.JSX.Element | undefined} The JSX representation of the evaluated observation table, or undefined if there are no observations.
+ */
 export function evaluateObservationTable(
   report: DiagnosticReport,
-  fhirBundle: Bundle<FhirResource>,
+  fhirBundle: Bundle,
   mappings: PathMappings,
   columnInfo: ColumnInfoInput[],
 ) {
