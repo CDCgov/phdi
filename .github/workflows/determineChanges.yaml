@@ -13,6 +13,8 @@ jobs:
       changed-files-data: ${{ steps.set-output.outputs.changed-files-data }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - id: set-output
         run: |
           # get the list of changed files
