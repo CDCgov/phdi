@@ -10,7 +10,7 @@ jobs:
   determine-changes:
     runs-on: ubuntu-latest
     outputs:
-      changed-data: ${{ steps.set-output.outputs.changed-data }}
+      changed-files-data: ${{ steps.set-output.outputs.changed-files-data }}
     steps:
       - uses: actions/checkout@v3
       - id: set-output
@@ -18,10 +18,10 @@ jobs:
           # get the list of changed files
           CHANGED_FILES=$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
 
-          # Initialize an associative array for file categorization
+          # initialize an array in bash
           declare -A fileCategorization
 
-          # Process files and populate associative array with category and tag
+          # for loop to add a category and a tag to each changed file
           for FILE in $CHANGED_FILES; do
               if [[ "$FILE" == containers/* ]]; then
                   CATEGORY=$(echo "$FILE" | cut -d'/' -f2)
@@ -36,13 +36,16 @@ jobs:
                   CATEGORY="other-changes"
                   TAG="other"
               fi
+              # append the results of the loop to the initialized array
               fileCategorization["$FILE"]="$CATEGORY|$TAG"
           done
 
-          # Construct a JSON array from the fileCategorization array
+          # use jq to create json from the fileCategorization array
           jsonOutput="["
           first=1
           for FILE in "${!fileCategorization[@]}"; do
+              # temporarily set IFS (internal field separator) to '|'
+              # to split the string into an array based on the '|' delimiter
               IFS='|' read -r -a CATEGORY_TAG <<< "${fileCategorization["$FILE"]}"
               CATEGORY=${CATEGORY_TAG[0]}
               TAG=${CATEGORY_TAG[1]}
@@ -62,4 +65,4 @@ jobs:
           jsonOutput+="]"
 
           # Set the output
-          echo "::set-output name=changed-data::$jsonOutput"
+          echo "::set-output name=changed-files-data::$jsonOutput"
