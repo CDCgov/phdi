@@ -1,19 +1,24 @@
+import logging
 import uuid
 from pathlib import Path
-from typing import Literal, Annotated
+from typing import Literal
 from typing import Optional
 
 import requests
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi import Request
+from fastapi.responses import FileResponse
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
-from fastapi import Request, Response, Form
+
 from phdi.containers.base_service import BaseService
 
-import logging
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.datastructures import MutableHeaders
+# from typing import Annotated
+# from fastapi import Form
+# from fastapi import Response
+# from starlette.datastructures import MutableHeaders
+# from starlette.middleware.base import BaseHTTPMiddleware
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -33,12 +38,12 @@ logger = logging.getLogger(__name__)
 #         # Log Response Details
 #         logger.info(f"Response status: {response.status_code}")
 
-        # # Log 422 response body
-        # if response.status_code == 422:
-        #     body = b''
-        #     async for chunk in response.body_iterator:
-        #         body += chunk
-        #     logger.info(f"422 Response body: {body.decode()}")
+# # Log 422 response body
+# if response.status_code == 422:
+#     body = b''
+#     async for chunk in response.body_iterator:
+#         body += chunk
+#     logger.info(f"422 Response body: {body.decode()}")
 
 
 USE_CASES = ("social-determinants", "newborn-screening", "syphilis", "cancer")
@@ -79,6 +84,7 @@ app = BaseService(
 ).start()
 
 # app.add_middleware(RequestLoggingMiddleware)
+
 
 class UseCaseQueryRequest(BaseModel):
     fhir_server: Optional[Literal["meld", "ehealthexchange"]]
@@ -232,7 +238,11 @@ async def use_case_query(input: UseCaseQueryRequest):
             use_case_response["entry"].extend(response["entry"])
             use_case_response["total"] = len(use_case_response["entry"])
     logger.info(f"Use case response: {use_case_response}")
-    return use_case_response
+    # return use_case_response
+    return templates.TemplateResponse(
+        "patient-info.html",
+        {"request": use_case_response},
+    )
 
 
 def concatenate_queries(queries, session):
@@ -268,14 +278,35 @@ app.mount(
     StaticFiles(directory="./app/front-end"),
     name="front-end",
 )
+
+
 @app.get("/portal", response_class=FileResponse)
 async def get_landing_page(request: Request):
     return FileResponse("./app/front-end/landing-page.html")
 
+
 templates = Jinja2Templates(directory="./app/front-end/templates")
+
+
 @app.get("/portal/patient-search-form", response_class=HTMLResponse)
 async def get_patient_search_form(request: Request):
-    return templates.TemplateResponse("patient-search-form.html", {"request": request, "use_cases": USE_CASES, "fhir_servers": FHIR_SERVERS.keys()})
+    return templates.TemplateResponse(
+        "patient-search-form.html",
+        {
+            "request": request,
+            "use_cases": USE_CASES,
+            "fhir_servers": FHIR_SERVERS.keys(),
+        },
+    )
+
+
+# @app.post("/portal/patient-info", response_class=HTMLResponse)
+# async def get_patient_info(request: Request):
+#     return templates.TemplateResponse(
+#         "patient-info.html",
+#         {"request": request},
+#     )
+
 
 @app.get("/")
 async def health_check():
