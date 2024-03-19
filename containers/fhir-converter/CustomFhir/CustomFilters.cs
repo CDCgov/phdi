@@ -168,31 +168,31 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return CleanStringFromTabs(stringBuilder.ToString().Trim());
     }
 
-   public static string GetLoincName(string code)
-  {
+    public static string GetLoincName(string code)
+    {
       string apiUrl = $"https://clinicaltables.nlm.nih.gov/loinc_form_definitions?loinc_num={code}";
       using (HttpClient client = new HttpClient())
       {
-          try
+        try
+        {
+          HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+          if (response.IsSuccessStatusCode)
           {
-              HttpResponseMessage response = client.GetAsync(apiUrl).Result;
-              if (response.IsSuccessStatusCode)
-              {
-                    string responseBody = response.Content.ReadAsStringAsync().Result;
-                    dynamic jsonResponse = JsonConvert.DeserializeObject(responseBody);
-                    return jsonResponse.name;
-             }
-              else
-              {
-                  Console.WriteLine($"Failed to fetch data. Status code: {response.StatusCode}");
-                  return null;
-              }
+            string responseBody = response.Content.ReadAsStringAsync().Result;
+            dynamic jsonResponse = JsonConvert.DeserializeObject(responseBody);
+            return jsonResponse.name;
           }
-          catch (Exception ex)
+          else
           {
-              Console.WriteLine($"An error occurred: {ex.Message}");
-              return null;
+            Console.WriteLine($"Failed to fetch data. Status code: {response.StatusCode}");
+            return null;
           }
+        }
+        catch (Exception ex)
+        {
+          Console.WriteLine($"An error occurred: {ex.Message}");
+          return null;
+        }
       }
     }
   }
