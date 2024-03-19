@@ -2,9 +2,10 @@ import {
   evaluateReference,
   evaluateDiagnosticReportData,
   evaluateValue,
+  evaluateObservationTable,
 } from "@/app/evaluate-service";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
-import { Bundle } from "fhir/r4";
+import { Bundle, DiagnosticReport } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
 import { loadYamlConfig } from "@/app/api/utils";
@@ -55,6 +56,27 @@ describe("Evaluate Diagnostic Report", () => {
 
     expect(screen.getByText("Phencyclidine Screen, Urine")).toBeInTheDocument();
     expect(screen.getByText("Negative")).toBeInTheDocument();
+  });
+  it("the table should not appear when there are no results", () => {
+    const diagnosticReport = {
+      resource: {
+        resourceType: "DiagnosticReport",
+        code: {
+          coding: [
+            {
+              display: "Drugs Of Abuse Comprehensive Screen, Ur",
+            },
+          ],
+        },
+      },
+    };
+    const actual = evaluateObservationTable(
+      diagnosticReport as DiagnosticReport,
+      null as Bundle,
+      mappings,
+      [],
+    );
+    expect(actual).toBeUndefined();
   });
 });
 
