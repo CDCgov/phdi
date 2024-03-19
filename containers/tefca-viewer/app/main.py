@@ -239,9 +239,24 @@ async def use_case_query(input: UseCaseQueryRequest):
             use_case_response["total"] = len(use_case_response["entry"])
     logger.info(f"Use case response: {use_case_response}")
     # return use_case_response
+
+    # TODO: Replace everything after "request" with TEFCA message parser output
     return templates.TemplateResponse(
         "patient-info.html",
-        {"request": use_case_response},
+        {
+            "request": use_case_response,
+            "parsed_values": {
+                "first_name": use_case_response["entry"][0]["resource"]["subject"][
+                    "display"
+                ].split(" ")[0],
+                "last_name": use_case_response["entry"][0]["resource"]["subject"][
+                    "display"
+                ].split(" ")[1],
+                "housing_status": use_case_response["entry"][0]["resource"][
+                    "valueCodeableConcept"
+                ]["coding"][0]["display"],
+            },
+        },
     )
 
 

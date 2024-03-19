@@ -2,6 +2,12 @@
 <pre> test test test</pre>
 <form hx-post="/use-case-query" hx-target="main" hx-swap="innerHTML" hx-ext="json-enc">
     <fieldset class="usa-header">
-        <h2 class="font-sans-lg"><strong>Name: {{ response }}</strong></h2>
+        <h2 class="font-sans-lg"><strong>Patient Info</strong></h2>
+        <p><strong>First Name:</strong> {{ parsed_values.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ parsed_values.last_name }}</p>
+        <p><strong>Phone Number:</strong> 555-555-5555</p>
+        <p><strong>Gender:</strong> female</p>
+        <p><strong>Birth Date:</strong> 06/18/1998</p>
+        <p><strong>Housing Status:</strong> {{ parsed_values.housing_status }}</p>
     </fieldset>
 </form>
