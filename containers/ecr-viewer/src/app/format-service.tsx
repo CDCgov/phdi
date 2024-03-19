@@ -151,6 +151,7 @@ export const formatString = (input: string): string => {
   return result;
 };
 
+// TODO#: Add JSDoc
 export function formatTablesToJSON(htmlString: string): any[] {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
@@ -162,6 +163,7 @@ export function formatTablesToJSON(htmlString: string): any[] {
   return jsonArray;
 }
 
+// TODO#: Add JSDoc
 function processTable(table: Element): any[] {
   const jsonArray: any[] = [];
   const rows = table.querySelectorAll("tr");
@@ -197,6 +199,7 @@ function processTable(table: Element): any[] {
   return jsonArray;
 }
 
+// TODO#: Add example in docstring
 /**
  * Extracts and concatenates all sequences of numbers and periods from each string in the input array,
  * excluding any leading period in the first matched sequence of each string.
