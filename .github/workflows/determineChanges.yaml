@@ -1,0 +1,65 @@
+name: Determine Changes
+
+on:
+  push:
+    branches: [main, feature/*]
+  pull_request:
+    branches: [main]
+
+jobs:
+  determine-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed-data: ${{ steps.set-output.outputs.changed-data }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: set-output
+        run: |
+          # get the list of changed files
+          CHANGED_FILES=$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
+
+          # Initialize an associative array for file categorization
+          declare -A fileCategorization
+
+          # Process files and populate associative array with category and tag
+          for FILE in $CHANGED_FILES; do
+              if [[ "$FILE" == containers/* ]]; then
+                  CATEGORY=$(echo "$FILE" | cut -d'/' -f2)
+                  TAG="container"
+              elif [[ "$FILE" == ".pre-commit-config.yaml" || "$FILE" == .github/workflows/* ]]; then
+                  CATEGORY="ci-cd"
+                  TAG="ci-cd"
+              elif [[ "$FILE" == phdi/* || "$FILE" == tests/* ]]; then
+                  CATEGORY="sdk"
+                  TAG="sdk"
+              else
+                  CATEGORY="other-changes"
+                  TAG="other"
+              fi
+              fileCategorization["$FILE"]="$CATEGORY|$TAG"
+          done
+
+          # Construct a JSON array from the fileCategorization array
+          jsonOutput="["
+          first=1
+          for FILE in "${!fileCategorization[@]}"; do
+              IFS='|' read -r -a CATEGORY_TAG <<< "${fileCategorization["$FILE"]}"
+              CATEGORY=${CATEGORY_TAG[0]}
+              TAG=${CATEGORY_TAG[1]}
+
+              if (( first )); then
+                  first=0
+              else
+                  jsonOutput+=","
+              fi
+
+              jsonOutput+=$(jq -n \
+                  --arg file "$FILE" \
+                  --arg category "$CATEGORY" \
+                  --arg tag "$TAG" \
+                  '{file: $file, category: $category, tag: $tag}')
+          done
+          jsonOutput+="]"
+
+          # Set the output
+          echo "::set-output name=changed-data::$jsonOutput"
