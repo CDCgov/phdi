@@ -3,7 +3,6 @@
   "scripts": {
     "dev": "docker run --rm -it -p 8080:8080 -e DEV_MODE=true $(docker build -q .)",
     "build-loud": "DOCKER_BUILDKIT=0 docker build . --no-cache",
-    "test:dotnet": "dotnet test",
-    "dev-loud": "docker run --rm -it -p 8080:8080 -e DEV_MODE=true $(docker build -q .)"
+    "test:dotnet": "dotnet test"
   }
 }

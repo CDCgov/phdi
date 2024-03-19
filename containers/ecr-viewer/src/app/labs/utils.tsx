@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Bundle,
-  Observation,
-  Reference,
-  Observation,
-  Reference,
-} from "fhir/r4";
+import { Bundle, Observation, Reference } from "fhir/r4";
 import {
   PathMappings,
   CompleteData,
@@ -137,6 +131,7 @@ const returnAnalysisTime = (
 ): React.ReactNode => {
   const labResultString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
   const labResultJson = formatTablesToJSON(labResultString);
+  console.log("LAB RESULT JSON: ", labResultJson);
 
   const analysisTime = labResultJson.map((result) => {
     return result["Analysis Time"];

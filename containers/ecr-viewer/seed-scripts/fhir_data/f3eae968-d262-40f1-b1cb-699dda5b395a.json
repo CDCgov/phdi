@@ -76,7 +76,7 @@
             "title": "Immunizations",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Name</th><th>Administration Dates</th><th>Next Due</th></tr></thead><tbody><tr><td>DTAP-HIB-IPV (PENTACEL)</td><td>04/16/2010</td><td></td></tr><tr><td>HEP A (ADULT) 2 DOSE</td><td>11/11/2011</td><td></td></tr><tr><td>HEP B (PED,ADOLESCENT) 3 DOSE</td><td>03/21/1974</td><td></td></tr><tr><td>MENINGOCOCCAL CONJUGATE,MENACTRA (PED/ADOL/ADULT)</td><td>11/16/2020</td><td></td></tr><tr><td>TDAP, (ADOL/ADULT)</td><td>11/10/2020</td><td></td></tr></tbody></table>documented as of this encounter"
+              "div": "<table><thead><tr><th>Name</th><th>Administration Dates</th><th>Next Due</th></tr></thead><tbody><tr data-id='immunization4'><td data-id='immunization4Name'>DTAP-HIB-IPV (PENTACEL)</td><td>04/16/2010</td><td></td></tr><tr data-id='immunization6'><td data-id='immunization6Name'>HEP A (ADULT) 2 DOSE</td><td>11/11/2011</td><td></td></tr><tr data-id='immunization8'><td data-id='immunization8Name'>HEP B (PED,ADOLESCENT) 3 DOSE</td><td>03/21/1974</td><td></td></tr><tr data-id='immunization7'><td data-id='immunization7Name'>MENINGOCOCCAL CONJUGATE,MENACTRA (PED/ADOL/ADULT)</td><td>11/16/2020</td><td></td></tr><tr data-id='immunization5'><td data-id='immunization5Name'>TDAP, (ADOL/ADULT)</td><td>11/10/2020</td><td></td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -130,7 +130,7 @@
             "title": "Problems",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr><td>Bipolar I disorder</td><td>11/19/20</td></tr><tr><td>Reactive depression</td><td>11/19/20</td></tr><tr><td>Rheumatoid arthritis with negative rheumatoid factor</td><td>11/16/20</td></tr><tr><td>Arthralgia of both ankles</td><td>11/16/20</td></tr><tr><td>Anxiety</td><td>11/10/20</td></tr><tr><td>Asthma</td><td>11/10/20</td></tr><tr><td>Knee pain</td><td>4/29/19</td></tr><tr><td>Sprain of calcaneofibular ligament of right ankle</td><td>4/16/19</td></tr><tr><td>Last Assessment & Plan: Formatting of this note might be different from the original. <br>This is my note about this problem. <br></td></tr></tbody></table>documented as of this encounter (statuses as of 09/28/2022)"
+              "div": "<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr data-id='problem20'><td data-id='problem20name'>Bipolar I disorder</td><td>11/19/20</td></tr><tr data-id='problem21'><td data-id='problem21name'>Reactive depression</td><td>11/19/20</td></tr><tr data-id='problem18'><td data-id='problem18name'>Rheumatoid arthritis with negative rheumatoid factor</td><td>11/16/20</td></tr><tr data-id='problem19'><td data-id='problem19name'>Arthralgia of both ankles</td><td>11/16/20</td></tr><tr data-id='problem16'><td data-id='problem16name'>Anxiety</td><td>11/10/20</td></tr><tr data-id='problem17'><td data-id='problem17name'>Asthma</td><td>11/10/20</td></tr><tr data-id='problem15'><td data-id='problem15name'>Knee pain</td><td>4/29/19</td></tr><tr data-id='problem14'><td data-id='problem14name'>Sprain of calcaneofibular ligament of right ankle</td><td>4/16/19</td></tr><tr><td data-id='problem14comment'>Last Assessment & Plan: Formatting of this note might be different from the original. <br>This is my note about this problem. <br></td></tr></tbody></table>documented as of this encounter (statuses as of 09/28/2022)"
             },
             "code": {
               "coding": [
@@ -206,7 +206,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul><li>Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td>501 S. Buena Vista Street</td><td>Burbank, CA 91505</td><td>818-847-6000</td></tr></tbody></table></li><li>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Salmonella, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Shigella/EIEC, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>GI Pathogens Panel</td><td>Acceptable</td><td></td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td>501 S. Buena Vista Street</td><td>Burbank, CA 91505</td><td>818-847-6000</td></tr></tbody></table></li></ul>documented in this encounter"
+              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845'>Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Name'>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Name'>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3Name'>Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4Name'>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5Name'>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6Name'>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7Name'>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8Name'>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9Name'>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10Name'>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11Name'>Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12Name'>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13Name'>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14Name'>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15Name'>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16Name'>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17Name'>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18Name'>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19Name'>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20Name'>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Specimen'>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.PerformingLab'>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td>501 S. Buena Vista Street</td><td>Burbank, CA 91505</td><td>818-847-6000</td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844'>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Name'>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Name'>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3Name'>Salmonella, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4Name'>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5Name'>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6Name'>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7Name'>E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8Name'>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9Name'>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10Name'>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11Name'>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12Name'>Shigella/EIEC, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13Name'>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14Name'>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15Name'>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16Name'>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17Name'>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18Name'>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19Name'>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20Name'>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21Name'>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22Name'>GI Pathogens Panel</td><td>Acceptable</td><td></td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Specimen'>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.PerformingLab'>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td>501 S. Buena Vista Street</td><td>Burbank, CA 91505</td><td>818-847-6000</td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -237,7 +237,7 @@
               },
               {
                 "display": "Vibrio cholerae, NAAT",
-                "reference": "Observation/a5e81e8e-f525-1125-0f2e-d5b62e5cefcf"
+                "reference": "Observation/98dac1ba-04ec-0a35-7406-ead6006b12bb"
               },
               {
                 "display": "Yersinia enterocolitica, NAAT",
@@ -398,7 +398,7 @@
             "title": "Social History",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Smoking Tobacco: Never</td><td></td><td></td><td></td><td></td></tr><tr><td>Smokeless Tobacco: Never</td><td></td><td></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Alcohol Use</th><th>Standard Drinks/Week</th><th>Comments</th></tr></thead><tbody><tr><td>Yes</td><td>0 (1 standard drink = 0.6 oz pure alcohol)</td><td></td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr><td>Not on file</td><td></td></tr></tbody></table>documented as of this encounter"
+              "div": "<table data-id='sochist25'><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Smoking Tobacco: Never</td><td></td><td data-id='sochist25packsperday'></td><td></td><td></td></tr><tr data-id='sochist25smokeless'><td>Smokeless Tobacco: Never</td><td></td><td></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Alcohol Use</th><th>Standard Drinks/Week</th><th>Comments</th></tr></thead><tbody><tr><td data-id='alcoholStatus'>Yes</td><td>0 (1 standard drink = 0.6 oz pure alcohol)</td><td></td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr data-id='BirthSex26'><td data-id='BirthSex26Value'>Not on file</td><td></td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -416,7 +416,7 @@
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr><td>9/28/22</td><td>Lab Requisition</td><td>PROVIDENCE ST JOSEPH MED CTR LABORATORY 501 S Buena Vista St Burbank, CA 91505-4809 818-847-6060</td><td>Test, Ambhp1, MD 2001 LIND AVE RENTON, WA 98059</td><td></td></tr></tbody></table>"
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter27'><td>9/28/22</td><td data-id='encounter27type'>Lab Requisition</td><td>PROVIDENCE ST JOSEPH MED CTR LABORATORY 501 S Buena Vista St Burbank, CA 91505-4809 818-847-6060</td><td>Test, Ambhp1, MD 2001 LIND AVE RENTON, WA 98059</td><td></td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -496,7 +496,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "relatesTo": [
           {
@@ -554,7 +554,7 @@
           "end": "2022-09-28"
         },
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "location": [
           {
@@ -1166,10 +1166,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:4969ba9d-5651-4226-b87b-2014d8fea14f",
+      "fullUrl": "urn:uuid:dd326bfb-05e0-49b3-bb62-f2c0e99af6ba",
       "resource": {
         "resourceType": "Patient",
-        "id": "4969ba9d-5651-4226-b87b-2014d8fea14f",
+        "id": "dd326bfb-05e0-49b3-bb62-f2c0e99af6ba",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1293,7 +1293,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+        "url": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
       }
     },
     {
@@ -1338,7 +1338,7 @@
         },
         "onsetDateTime": "2019-04-16",
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
@@ -1393,7 +1393,7 @@
         },
         "onsetDateTime": "2019-04-29",
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
@@ -1448,7 +1448,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
@@ -1503,7 +1503,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
@@ -1558,7 +1558,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
@@ -1613,7 +1613,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
@@ -1668,7 +1668,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
@@ -1723,7 +1723,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
@@ -1737,10 +1737,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:70b349e9-0797-8ade-fa0d-341be5c5b01d",
+      "fullUrl": "urn:uuid:68477c03-5689-f9e5-c267-a3c7bdff6fe0",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "70b349e9-0797-8ade-fa0d-341be5c5b01d",
+        "id": "68477c03-5689-f9e5-c267-a3c7bdff6fe0",
         "identifier": [
           {
             "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
@@ -1762,7 +1762,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -1783,7 +1783,7 @@
             "reference": "Observation/dbc917e1-8785-9da8-8c53-df9f84e1b654"
           },
           {
-            "reference": "Observation/a5e81e8e-f525-1125-0f2e-d5b62e5cefcf"
+            "reference": "Observation/98dac1ba-04ec-0a35-7406-ead6006b12bb"
           },
           {
             "reference": "Observation/56fcbbc2-ddd7-a128-f275-be0266218c25"
@@ -1845,7 +1845,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/70b349e9-0797-8ade-fa0d-341be5c5b01d"
+        "url": "DiagnosticReport/68477c03-5689-f9e5-c267-a3c7bdff6fe0"
       }
     },
     {
@@ -1932,12 +1932,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2040,12 +2044,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2134,12 +2142,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2209,12 +2221,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2229,10 +2245,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a5e81e8e-f525-1125-0f2e-d5b62e5cefcf",
+      "fullUrl": "urn:uuid:98dac1ba-04ec-0a35-7406-ead6006b12bb",
       "resource": {
         "resourceType": "Observation",
-        "id": "a5e81e8e-f525-1125-0f2e-d5b62e5cefcf",
+        "id": "98dac1ba-04ec-0a35-7406-ead6006b12bb",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2284,12 +2300,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2300,7 +2320,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/a5e81e8e-f525-1125-0f2e-d5b62e5cefcf"
+        "url": "Observation/98dac1ba-04ec-0a35-7406-ead6006b12bb"
       }
     },
     {
@@ -2359,12 +2379,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2434,12 +2458,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2509,12 +2537,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2584,12 +2616,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2659,12 +2695,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2734,12 +2774,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2828,12 +2872,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2903,12 +2951,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -2978,12 +3030,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3053,12 +3109,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3128,12 +3188,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3203,12 +3267,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3278,12 +3346,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3353,12 +3425,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3428,12 +3504,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3503,12 +3583,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3583,7 +3667,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         }
       },
       "request": {
@@ -3617,7 +3701,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3756,12 +3840,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3831,12 +3919,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3906,12 +3998,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -3981,12 +4077,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4056,12 +4156,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4131,12 +4235,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4206,12 +4314,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4281,12 +4393,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4356,12 +4472,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4431,12 +4551,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4506,12 +4630,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4581,12 +4709,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4656,12 +4788,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4731,12 +4867,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4806,12 +4946,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4881,12 +5025,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -4956,12 +5104,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -5031,12 +5183,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -5106,12 +5262,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -5181,12 +5341,16 @@
               {
                 "url": "specimen receive time",
                 "valueDateTime": "2022-09-28T20:51:36Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "performer": [
           {
@@ -5261,7 +5425,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         }
       },
       "request": {
@@ -5319,7 +5483,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         }
       },
       "request": {
@@ -5377,7 +5541,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         }
       },
       "request": {
@@ -5435,7 +5599,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         }
       },
       "request": {
@@ -5515,7 +5679,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
@@ -5582,7 +5746,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/4969ba9d-5651-4226-b87b-2014d8fea14f"
+          "reference": "Patient/dd326bfb-05e0-49b3-bb62-f2c0e99af6ba"
         },
         "meta": {
           "source": [
