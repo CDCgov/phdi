@@ -1,3 +1,7 @@
+interface MetaData {
+  [key: string]: string;
+}
+
 export const formatName = (firstName: string, lastName: string) => {
   if (firstName != undefined) {
     return `${firstName} ${lastName}`.trim();
@@ -147,35 +151,6 @@ export const formatString = (input: string): string => {
   return result;
 };
 
-// export function formatTableToJSON(htmlString: string): any[] {
-//   const parser = new DOMParser();
-//   const doc = parser.parseFromString(htmlString, "text/html");
-//   const table = doc.querySelector("table");
-//   const jsonArray: any[] = [];
-
-//   if (table) {
-//     const rows = table.querySelectorAll("tr");
-//     const keys: string[] = [];
-//     rows[0].querySelectorAll("th").forEach((header) => {
-//       keys.push(header.textContent?.trim() || "");
-//     });
-
-//     rows.forEach((row, rowIndex) => {
-//       // Skip the first row as it contains headers
-//       if (rowIndex === 0) return;
-
-//       const obj: { [key: string]: string } = {};
-//       row.querySelectorAll("td").forEach((cell, cellIndex) => {
-//         const key = keys[cellIndex];
-//         obj[key] = cell.textContent?.trim() || "";
-//       });
-//       jsonArray.push(obj);
-//     });
-//   }
-
-//   return jsonArray;
-// }
-
 export function formatTablesToJSON(
   htmlString: string,
 ): Record<string, any[]>[] {
@@ -196,8 +171,6 @@ export function formatTablesToJSON(
     jsonArray.push(itemObject);
   });
 
-  console.log("JSON ARRAY", jsonArray);
-
   return jsonArray;
 }
 
@@ -217,10 +190,44 @@ function processTable(table: Element): any[] {
     const obj: { [key: string]: string } = {};
     row.querySelectorAll("td").forEach((cell, cellIndex) => {
       const key = keys[cellIndex];
-      obj[key] = cell.textContent?.trim() || "";
+
+      const metaData: MetaData = {};
+      const attributes = cell.attributes || [];
+      for (let i = 0; i < attributes.length; i++) {
+        const attrName = attributes[i].nodeName;
+        const attrValue = attributes[i].nodeValue;
+        metaData[attrName] = attrValue;
+      }
+      obj[key] = {
+        value: cell.textContent?.trim() || "",
+        metadata: metaData,
+      };
     });
     jsonArray.push(obj);
   });
 
   return jsonArray;
+}
+
+/**
+ * Extracts and concatenates all sequences of numbers and periods from each string in the input array,
+ * excluding any leading period in the first matched sequence of each string.
+ *
+ * @param {string[]} inputValues - An array of strings from which numbers and periods will be extracted.
+ * @returns {string[]} An array of strings, each corresponding to an input string with all found sequences
+ * of numbers and periods concatenated together, with any leading period in the first sequence removed.
+ */
+export function extractNumbersAndPeriods(inputValues: string[]): string[] {
+  return inputValues.map((value) => {
+    // Find all sequences of numbers and periods up to the first occurrence of a letter
+    const pattern: RegExp = /[0-9.]+(?=[a-zA-Z])/;
+    const match: RegExpMatchArray | null = value.match(pattern);
+
+    if (match && match[0]) {
+      // Remove leading and trailing periods from the match
+      const cleanedMatch = match[0].replace(/^\./, "").replace(/\.$/, "");
+      return cleanedMatch;
+    }
+    return "";
+  });
 }

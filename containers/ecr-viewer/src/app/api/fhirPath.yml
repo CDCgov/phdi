@@ -97,4 +97,4 @@ labResultDiv: "Bundle.entry.resource.section.where(code.coding[0].code = '30954-
 specimenCollectionTime: "Observation.extension[0].extension.where(url = 'specimen collection time').valueDateTime"
 specimenReceivedTime: "Observation.extension[0].extension.where(url = 'specimen receive time').valueDateTime"
 specimenSource: "Observation.extension[0].extension.where(url = 'specimen source').valueString"
-anatomicalLocation: "idk"
+observationReferenceValue: "Observation.extension[0].extension.where(url = 'observation entry reference value').valueString"

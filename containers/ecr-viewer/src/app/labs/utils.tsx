@@ -9,7 +9,11 @@ import {
 } from "@/app/utils";
 import { evaluate } from "fhirpath";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
-import { formatDateTime, formatTablesToJSON } from "@/app/format-service";
+import {
+  formatDateTime,
+  formatTablesToJSON,
+  extractNumbersAndPeriods,
+} from "@/app/format-service";
 
 export interface LabReport {
   result: Array<Reference>;
@@ -126,16 +130,38 @@ const returnReceivedTime = (
  * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 const returnAnalysisTime = (
+  report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
 ): React.ReactNode => {
-  const labResultString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
-  const labResultJson = formatTablesToJSON(labResultString);
-  console.log("LAB RESULT JSON: ", labResultJson);
-
-  const analysisTime = labResultJson.map((result) => {
-    return result["Analysis Time"];
+  // Getting observation reference value
+  const observations = getObservations(report.result, fhirBundle);
+  let observationRefVals = observations.flatMap((observation) => {
+    const refVal = evaluate(observation, mappings["observationReferenceValue"]);
+    return extractNumbersAndPeriods(refVal);
   });
+  observationRefVals = [...new Set(observationRefVals)].join(", ");
+  // console.log("OBSERVATIONS: ", observationRefVals);
+
+  // Get lab(s) report html string
+  const labResultString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div; // HAS BOTH LAB REPORT HTML STRING TABLES
+
+  // Convert to JSON
+  const labResultJson = formatTablesToJSON(labResultString);
+  // console.log("LAB RESULT JSON: ", labResultJson);
+
+  // Grab ONLY tables for THIS lab report
+  // console.log("LAB REPORT: ", report);
+  const analysisTime = searchResultRecord(
+    labResultJson,
+    observationRefVals,
+    "Analysis Time",
+  );
+  console.log("ANALYSIS TIME", analysisTime);
+
+  // const analysisTime = labResultJson.map((result) => {
+  //   return result["Analysis Time"];
+  // });
 
   if (!analysisTime || analysisTime.length === 0) {
     return noData;
@@ -143,6 +169,62 @@ const returnAnalysisTime = (
 
   return [...new Set(analysisTime)].join(", ");
 };
+
+function searchResultRecord(
+  labResultJson: Record<string, any[]>[],
+  ref: string,
+  searchKey: string,
+) {
+  // Find the tables for the correct lab report
+  const allSearchValues = [];
+
+  labResultJson.forEach((report) => {
+    let searchValues = [];
+    console.log("REPORT", report);
+
+    // get metadata & clean
+    // const metaDataId = searchMetadataIds(report);
+
+    // Check if ref value matches metadata ID (not the correct lab report)
+    // if (metaDataId != ref) {
+    //   continue
+    // }
+
+    // look for table with search key
+    // report.forEach((table) => {
+    //   table.forEach((tableRow) => {
+    //     if (table[searchKey]) {
+    //       return table[searchKey]
+    //     }
+    //   })
+    // })
+
+    // console.log("KEYS: ", report.keys);
+    // const key = report.keys[0];
+    // const tablesArray = report[key];
+    report.forEach((table) => {
+      // loop through the report value = array [{table}, {}]
+      table.forEach((tableRow) => {
+        searchValues = tableRow.flatMap((row) => {
+          if (row[searchKey]) {
+            return table[searchKey];
+          }
+        });
+      });
+    });
+
+    allSearchValues.push(searchValues);
+  });
+
+  // Return
+  return [...new Set(searchValues)].join(", ");
+}
+
+function searchMetadataIds(report: Record<string, any[]>[]) {
+  // Recursively search through lab report json for metadata IDs
+
+  return [...new Set()].join(", ");
+}
 
 // const returnAnatomicalLocation = (
 //   fhirBundle: Bundle,
@@ -199,7 +281,7 @@ export const evaluateLabInfoData = (
     const rrInfo: DisplayData[] = [
       {
         title: "Analysis Time",
-        value: returnAnalysisTime(fhirBundle, mappings),
+        value: returnAnalysisTime(report, fhirBundle, mappings),
       },
       {
         title: "Collection Time",
