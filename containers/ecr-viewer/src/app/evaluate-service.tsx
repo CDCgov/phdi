@@ -48,9 +48,10 @@ export function evaluateObservationTable(
   mappings: PathMappings,
   columnInfo: ColumnInfoInput[],
 ) {
-  const observations: Observation[] = report.result?.map((obsRef: Reference) =>
-    evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
-  );
+  const observations: Observation[] =
+    report.result?.map((obsRef: Reference) =>
+      evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
+    ) ?? [];
   let obsTable;
   if (observations?.length > 0) {
     obsTable = evaluateTable(observations, mappings, columnInfo, "", false);
