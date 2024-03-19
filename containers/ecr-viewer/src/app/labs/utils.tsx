@@ -47,6 +47,45 @@ const getObservations = (
   });
 };
 
+// TODO: Add JSDoc here
+function searchResultRecord(result: any[], ref: string, searchKey: string) {
+  for (const item of result) {
+    if (Array.isArray(item)) {
+      const nestedResult: any = searchResultRecord(item, ref, searchKey);
+      if (nestedResult) {
+        return nestedResult;
+      }
+    } else {
+      const keys = Object.keys(item);
+      const refNumbers: any[] = [];
+      let searchKeyValue: string = "";
+      keys.forEach((key) => {
+        if (key === searchKey && item[key].hasOwnProperty("value")) {
+          searchKeyValue = item[key]["value"];
+        }
+        if (
+          item[key].hasOwnProperty("metadata") &&
+          item[key]["metadata"].hasOwnProperty("data-id")
+        ) {
+          if (item[key]["metadata"] !== "") {
+            refNumbers.push(
+              ...extractNumbersAndPeriods([item[key]["metadata"]["data-id"]]),
+            );
+          }
+        }
+      });
+      const resultRef = [...new Set(refNumbers)].join(",");
+      if (resultRef !== ref) {
+        continue;
+      }
+      if (searchKeyValue !== "") {
+        console.log("searchKeyValue", searchKeyValue);
+        return searchKeyValue;
+      }
+    }
+  }
+}
+
 /**
  * Extracts and consolidates the specimen source descriptions from observations within a lab report.
  *
@@ -125,6 +164,7 @@ const returnReceivedTime = (
 /**
  * Extracts and formats the analysis time(s) from components within a lab report.
  *
+ * @param {LabReport} report - The lab report containing the results to be processed.
  * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
  * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
  * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
@@ -160,73 +200,55 @@ const returnAnalysisTime = (
   );
   console.log("ANALYSIS TIME", analysisTime);
 
-  // const analysisTime = labResultJson.map((result) => {
-  //   return result["Analysis Time"];
-  // });
-
   if (!analysisTime || analysisTime.length === 0) {
     return noData;
   }
 
-  return [...new Set(analysisTime)].join(", ");
+  return analysisTime;
 };
 
-function searchResultRecord(result: any[], ref: string, searchKey: string) {
-  for (const item of result) {
-    if (Array.isArray(item)) {
-      const nestedResult: any = searchResultRecord(item, ref, searchKey);
-      if (nestedResult) {
-        return nestedResult;
-      }
-    } else {
-      const keys = Object.keys(item);
-      const refNumbers: any[] = [];
-      let searchKeyValue: string = "";
-      keys.forEach((key) => {
-        if (key === searchKey && item[key].hasOwnProperty("value")) {
-          searchKeyValue = item[key]["value"];
-        }
-        if (
-          item[key].hasOwnProperty("metadata") &&
-          item[key]["metadata"].hasOwnProperty("data-id")
-        ) {
-          if (item[key]["metadata"] !== "") {
-            refNumbers.push(
-              ...extractNumbersAndPeriods([item[key]["metadata"]["data-id"]]),
-            );
-          }
-        }
-      });
-      const resultRef = [...new Set(refNumbers)].join(",");
-      if (resultRef !== ref) {
-        continue;
-      }
-      if (searchKeyValue !== "") {
-        console.log("searchKeyValue", searchKeyValue);
-        return searchKeyValue;
-      }
-    }
+/**
+ * Extracts and formats the anatomical location of specimen source within a lab report.
+ *
+ * @param {LabReport} report - The lab report containing the results to be processed.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ */
+const returnAnatomicalLocation = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): React.ReactNode => {
+  // Getting observation reference value
+  const observations = getObservations(report.result, fhirBundle);
+  const observationRefValsArray = observations.flatMap((observation) => {
+    const refVal = evaluate(observation, mappings["observationReferenceValue"]);
+    return extractNumbersAndPeriods(refVal);
+  });
+  const observationRefVals = [...new Set(observationRefValsArray)].join(", ");
+  // console.log("OBSERVATIONS: ", observationRefVals);
+
+  // Get lab(s) report html string
+  const labResultString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div; // HAS BOTH LAB REPORT HTML STRING TABLES
+
+  // Convert to JSON
+  const labResultJson = formatTablesToJSON(labResultString);
+
+  // Grab ONLY tables for THIS lab report
+  const anatomicalLocation = searchResultRecord(
+    labResultJson,
+    observationRefVals,
+    "Anatomical Location / Laterality",
+  );
+  console.log("ANATOMICAL LOCATION", anatomicalLocation);
+
+  if (!anatomicalLocation || anatomicalLocation.length === 0) {
+    return noData;
   }
-}
 
-// const returnAnatomicalLocation = (
-//   fhirBundle: Bundle,
-//   mappings: PathMappings,
-// ): React.ReactNode => {
-//   const labResultString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
-//   const labResultJson = formatTablesToJSON(labResultString);
-//   console.log("labResultJson: ", labResultJson);
-
-//   const analysisTime = labResultJson.map((result) => {
-//     return result["Analysis Time"];
-//   });
-
-//   if (!analysisTime || analysisTime.length === 0) {
-//     return noData;
-//   }
-
-//   return [...new Set(analysisTime)].join(", ");
-// };
+  return anatomicalLocation;
+};
 
 /**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
@@ -280,7 +302,7 @@ export const evaluateLabInfoData = (
       },
       {
         title: "Anatomical Location/Laterality",
-        value: "TBD",
+        value: returnAnatomicalLocation(report, fhirBundle, mappings),
       },
     ];
     const content: Array<React.JSX.Element> = rrInfo.map((item) => {
