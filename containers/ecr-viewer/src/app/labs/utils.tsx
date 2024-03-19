@@ -136,11 +136,11 @@ const returnAnalysisTime = (
 ): React.ReactNode => {
   // Getting observation reference value
   const observations = getObservations(report.result, fhirBundle);
-  let observationRefVals = observations.flatMap((observation) => {
+  const observationRefValsArray = observations.flatMap((observation) => {
     const refVal = evaluate(observation, mappings["observationReferenceValue"]);
     return extractNumbersAndPeriods(refVal);
   });
-  observationRefVals = [...new Set(observationRefVals)].join(", ");
+  const observationRefVals = [...new Set(observationRefValsArray)].join(", ");
   // console.log("OBSERVATIONS: ", observationRefVals);
 
   // Get lab(s) report html string
@@ -148,6 +148,7 @@ const returnAnalysisTime = (
 
   // Convert to JSON
   const labResultJson = formatTablesToJSON(labResultString);
+  console.log("labResultJson: ", labResultJson);
   // console.log("LAB RESULT JSON: ", labResultJson);
 
   // Grab ONLY tables for THIS lab report
@@ -170,60 +171,42 @@ const returnAnalysisTime = (
   return [...new Set(analysisTime)].join(", ");
 };
 
-function searchResultRecord(
-  labResultJson: Record<string, any[]>[],
-  ref: string,
-  searchKey: string,
-) {
-  // Find the tables for the correct lab report
-  const allSearchValues = [];
-
-  labResultJson.forEach((report) => {
-    let searchValues = [];
-    console.log("REPORT", report);
-
-    // get metadata & clean
-    // const metaDataId = searchMetadataIds(report);
-
-    // Check if ref value matches metadata ID (not the correct lab report)
-    // if (metaDataId != ref) {
-    //   continue
-    // }
-
-    // look for table with search key
-    // report.forEach((table) => {
-    //   table.forEach((tableRow) => {
-    //     if (table[searchKey]) {
-    //       return table[searchKey]
-    //     }
-    //   })
-    // })
-
-    // console.log("KEYS: ", report.keys);
-    // const key = report.keys[0];
-    // const tablesArray = report[key];
-    report.forEach((table) => {
-      // loop through the report value = array [{table}, {}]
-      table.forEach((tableRow) => {
-        searchValues = tableRow.flatMap((row) => {
-          if (row[searchKey]) {
-            return table[searchKey];
+function searchResultRecord(result: any[], ref: string, searchKey: string) {
+  for (const item of result) {
+    if (Array.isArray(item)) {
+      const nestedResult: any = searchResultRecord(item, ref, searchKey);
+      if (nestedResult) {
+        return nestedResult;
+      }
+    } else {
+      const keys = Object.keys(item);
+      const refNumbers: any[] = [];
+      let searchKeyValue: string = "";
+      keys.forEach((key) => {
+        if (key === searchKey && item[key].hasOwnProperty("value")) {
+          searchKeyValue = item[key]["value"];
+        }
+        if (
+          item[key].hasOwnProperty("metadata") &&
+          item[key]["metadata"].hasOwnProperty("data-id")
+        ) {
+          if (item[key]["metadata"] !== "") {
+            refNumbers.push(
+              ...extractNumbersAndPeriods([item[key]["metadata"]["data-id"]]),
+            );
           }
-        });
+        }
       });
-    });
-
-    allSearchValues.push(searchValues);
-  });
-
-  // Return
-  return [...new Set(searchValues)].join(", ");
-}
-
-function searchMetadataIds(report: Record<string, any[]>[]) {
-  // Recursively search through lab report json for metadata IDs
-
-  return [...new Set()].join(", ");
+      const resultRef = [...new Set(refNumbers)].join(",");
+      if (resultRef !== ref) {
+        continue;
+      }
+      if (searchKeyValue !== "") {
+        console.log("searchKeyValue", searchKeyValue);
+        return searchKeyValue;
+      }
+    }
+  }
 }
 
 // const returnAnatomicalLocation = (

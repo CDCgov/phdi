@@ -151,24 +151,12 @@ export const formatString = (input: string): string => {
   return result;
 };
 
-export function formatTablesToJSON(
-  htmlString: string,
-): Record<string, any[]>[] {
+export function formatTablesToJSON(htmlString: string): any[] {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
-  const items = doc.querySelectorAll("li");
-  const jsonArray: Record<string, any[]>[] = [];
-
-  items.forEach((listItem) => {
-    const itemKey = listItem.textContent?.trim() || "";
-    const itemObject: Record<string, any[]> = { [itemKey]: [] };
-
-    listItem.querySelectorAll("table").forEach((table) => {
-      const liTable = processTable(table);
-      itemObject[itemKey].push(liTable);
-    });
-
-    jsonArray.push(itemObject);
+  const jsonArray: any[] = [];
+  doc.querySelectorAll("table").forEach((table) => {
+    jsonArray.push(processTable(table));
   });
 
   return jsonArray;
