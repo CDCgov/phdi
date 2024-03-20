@@ -9,7 +9,7 @@ services:
         validation-service,
         fhir-converter-service,
         ingestion-service,
-        message-parser-service,
+        message-parser-service
       ]
     ports:
       - "${ORCHESTRATION_PORT_NUMBER}:8080"
@@ -59,3 +59,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "prom_data:/prometheus"
+
+volumes:
+  prom_data:
