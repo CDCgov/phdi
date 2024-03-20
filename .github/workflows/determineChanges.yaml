@@ -84,3 +84,9 @@ jobs:
 
           # set output to environment variable
           echo "changed-files-data=$JSON_ARRAY" >> $GITHUB_OUTPUT
+
+  call-lint-workflow:
+    needs: [determine-changes]
+    uses: CDCgov/phdi/.github/workflows/lint.yaml
+    with:
+      changed-files-data: ${{ needs.determmine-changes.ouputs.changed-files-data }}
