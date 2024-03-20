@@ -12,19 +12,19 @@ on:
 jobs:
   determine-changes:
     runs-on: ubuntu-latest
-    outputs:
-      changed-files-data: ${{ steps.set-output.outputs.changed-files-data }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Fetch base and head branches
+        id: gather-branches
         run: |
           git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
           git fetch origin ${{ github.head_ref }}:${{ github.head_ref }}
 
-      - id: set-output
+      - name: Create changed files data
+        id: create-changed-files-data
         run: |
           # get the list of changed files
           CHANGED_FILES=$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
@@ -57,9 +57,7 @@ jobs:
           for FILE in "${!fileCategorization[@]}"; do
               # temporarily set IFS (internal field separator) to '|'
               # to split the string into an array based on the '|' delimiter
-              IFS='|' read -r -a CATEGORY_TAG <<< "${fileCategorization["$FILE"]}"
-              CATEGORY=${CATEGORY_TAG[0]}
-              TAG=${CATEGORY_TAG[1]}
+              IFS='|' read -r -a CATEGORY TAG <<< "${fileCategorization["$FILE"]}"
 
               if (( first )); then
                   first=0
@@ -67,7 +65,7 @@ jobs:
                   jsonOutput+=","
               fi
 
-              jsonOutput+=$(jq -n \
+              jsonOutput+=$(jq -nc \
                   --arg file "$FILE" \
                   --arg category "$CATEGORY" \
                   --arg tag "$TAG" \
@@ -76,5 +74,4 @@ jobs:
           jsonOutput+="]"
 
           # set output to environment variable
-          jsonOutput=$(jq -nc --argjson files "${fileCategorization[@]}" '$files')
           echo "changed-files-data=$jsonOutput" >> $GITHUB_OUTPUT
