@@ -34,14 +34,16 @@ jobs:
       - name: Filter changed files
         id: filter-files
         run: |
-          CHANGED_FILES="${{ inputs.changed-files-data }}"
-          echo "Changed files data: $CHANGED_FILES"
+          echo "Received changed files data: ${{ inputs.changed-files-data }}"
+          CHANGED_FILES_JSON=$(echo '${{ inputs.changed-files-data }}' | jq '.')
+          echo "Parsed JSON: $CHANGED_FILES_JSON"
 
-          CHANGED_PY_FILES=$(echo "$CHANGED_FILES" | jq -r '.[] | select(.tag == "container" and .file | endswith(".py")) | .file')
-          CHANGED_JS_FILES=$(echo "$CHANGED_FILES" | jq -r '.[] | select(.tag == "container" and (.file | endswith(".js") or .file | endswith(".jsx"))) | .file')
+          CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.tag == "container" and .file | endswith(".py")) | .file')
+          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.tag == "container" and (.file | endswith(".js") or .file | endswith(".jsx"))) | .file')
 
-          echo "changed-python-files=$CHANGED_PY_FILES" >> $GITHUB_OUTPUT
-          echo "changed-js-files=$CHANGED_JS_FILES" >> $GITHUB_OUTPUT
+          # Convert file lists to newline-separated strings for output
+          echo "changed-python-files=$(echo $CHANGED_PY_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
+          echo "changed-js-files=$(echo $CHANGED_JS_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
 
   python-lint:
     needs: setup
