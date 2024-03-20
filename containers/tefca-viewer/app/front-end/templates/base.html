@@ -26,26 +26,7 @@
         </div>
     </header>
     <main>
-        <h1 class="font-sans-2xl text-bold">Case investigation made easier</h1>
-        <h2 class="font-sans-lg text-light">The TryTEFCA Viewer provides a low-effort and zero-cost method for you to
-            see the benefit from joining a TEFCA QHIN. This demo viewer is an easy demonstration of the benefits of
-            TEFCA.</h2>
-        <ol class="usa-process-list">
-            <li class="usa-process-list__item">
-                <h4 class="usa-process-list__heading">Search for a patient</h4>
-                <p class="margin-top-05">
-                    Based on name, date of birth, and other demographic information
-                </p>
-            </li>
-            <li class="usa-process-list__item">
-                <h4 class="usa-process-list__heading">View information tied to your case investigation</h4>
-                <p>
-                    Easily gather additional patient information tied to your specific use case
-                </p>
-            </li>
-        </ol>
-        <button class="usa-button" type="button" hx-get="/portal/patient-search-form" hx-target="main"
-            hx-swap="innerHTML">Get started</button>
+        {% include "landing-page.html" %}
     </main>
     <footer class="usa-footer  text-white p-4">
         <div class="usa-footer__secondary-section bg-primary-darker">
