@@ -225,6 +225,37 @@ const returnFieldValueFromLabHtmlString = (
 };
 
 /**
+ * Extracts and formats the analysis date/time(s) from within a lab report (sourced from HTML string).
+ *
+ * @param {LabReport} report - The lab report containing the analysis times to be processed.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @param {string} fieldName - A string containing the field name for Analysis Time
+ * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ */
+const returnAnalysisTime = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+  fieldName: string,
+): React.ReactNode => {
+  const fieldVals = returnFieldValueFromLabHtmlString(
+    report,
+    fhirBundle,
+    mappings,
+    fieldName,
+  );
+
+  const analysisTimeArray =
+    typeof fieldVals === "string" ? fieldVals.split(", ") : [];
+  const analysisTimeArrayFormatted = analysisTimeArray.map((dateTime) => {
+    return formatDateTime(dateTime);
+  });
+
+  return [...new Set(analysisTimeArrayFormatted)].join(", ");
+};
+
+/**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
  * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
@@ -260,13 +291,11 @@ export const evaluateLabInfoData = (
     const rrInfo: DisplayData[] = [
       {
         title: "Analysis Time",
-        value: formatDateTime(
-          returnFieldValueFromLabHtmlString(
-            report,
-            fhirBundle,
-            mappings,
-            "Analysis Time",
-          ),
+        value: returnAnalysisTime(
+          report,
+          fhirBundle,
+          mappings,
+          "Analysis Time",
         ),
       },
       {
