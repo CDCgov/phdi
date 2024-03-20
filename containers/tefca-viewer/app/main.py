@@ -289,6 +289,7 @@ async def root():
 
 templates = Jinja2Templates(directory="./app/front-end/templates")
 
+
 @app.get("/portal", response_class=FileResponse)
 async def get_landing_page(request: Request):
     return templates.TemplateResponse("base.html", {"request": request})

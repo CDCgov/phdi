@@ -1,0 +1,18 @@
+version: "1.0"
+
+services:
+  tefca-viewer-service:
+    build:
+      context: .
+    depends_on: [message-parser-service]
+    ports:
+      - "${TEFCA_VIEWER_PORT_NUMBER}:8080"
+    logging:
+      driver: "json-file"
+  message-parser-service:
+    build:
+      context: ../message-parser
+    ports:
+      - "${MESSAGE_PARSER_PORT_NUMBER}:8080"
+    logging:
+      driver: "json-file"
