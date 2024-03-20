@@ -75,5 +75,5 @@ jobs:
           done
           jsonOutput+="]"
 
-          # Set the output
-          echo "::set-output name=changed-files-data::$jsonOutput"
+          # set output to environment variable
+          echo "changed-files-data=$jsonOutput" >> $GITHUB_OUTPUT
