@@ -6,6 +6,13 @@ on:
       changed-files-data:
         required: true
         type: string
+  push:
+    branches:
+      - main
+      - feature/**
+  pull_request:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
