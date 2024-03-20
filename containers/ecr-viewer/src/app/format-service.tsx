@@ -221,7 +221,7 @@ function processTable(table: Element): any[] {
 
 /**
  * Extracts and concatenates all sequences of numbers and periods from each string in the input array,
- * excluding any leading period in the first matched sequence of each string.
+ * excluding any leading and trailing periods in the first matched sequence of each string.
  *
  * @param {string[]} inputValues - An array of strings from which numbers and periods will be extracted.
  * @returns {string[]} An array of strings, each corresponding to an input string with all found sequences
