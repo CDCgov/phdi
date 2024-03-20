@@ -73,7 +73,11 @@ export const getObservations = (
  *                for the correct lab report.
  * @example searchKey - Ex. "Analysis Time" or the field that we are searching data for.
  */
-function searchResultRecord(result: any[], ref: string, searchKey: string) {
+export function searchResultRecord(
+  result: any[],
+  ref: string,
+  searchKey: string,
+) {
   let resultsArray: any[] = [];
 
   // Loop through each table

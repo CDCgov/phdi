@@ -1,18 +1,8 @@
-import { getObservations } from "@/app/labs/utils";
+import { getObservations, searchResultRecord } from "@/app/labs/utils";
 import BundleWithLabs from "../../tests/assets/BundleLabs.json";
-import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle, Observation } from "fhir/r4";
-import BundleWithTravelHistory from "../../tests/assets/BundleTravelHistory.json";
-import BundleWithPatient from "../../tests/assets/BundlePatient.json";
-import BundleWithEcrMetadata from "../../tests/assets/BundleEcrMetadata.json";
-import BundleWithSexualOrientation from "../../tests/assets/BundleSexualOrientation.json";
-import BundleWithMiscNotes from "../../tests/assets/BundleMiscNotes.json";
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import exp from "constants";
 
 describe("Labs Utils", () => {
-  const mappings = loadYamlConfig();
   describe("getObservations", () => {
     it("extracts an array of observation resources", () => {
       const result = getObservations(
@@ -115,182 +105,94 @@ describe("Labs Utils", () => {
     });
   });
 
-  // describe("Evaluate Social Data", () => {
-  //   it("should have no available data when there is no data", () => {
-  //     const actual = evaluateSocialData(undefined as any, mappings);
+  describe("searchResultRecord", () => {
+    const labHTLMJson = [
+      [
+        {
+          "Specimen (Source)": {
+            value: "Stool",
+            metadata: {
+              "data-id":
+                "Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Specimen",
+            },
+          },
+          "Collection Time": {
+            value: "09/28/2022 1:51 PM PDT",
+            metadata: {},
+          },
+        },
+        {
+          "Specimen (Source)": {
+            value: "Saliva",
+            metadata: {
+              "data-id":
+                "Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Specimen",
+            },
+          },
+          "Collection Time": {
+            value: "09/28/2022 2:00 PM PDT",
+            metadata: {},
+          },
+        },
+      ],
+      [
+        {
+          "Specimen (Source)": {
+            value: "Stool",
+            metadata: {
+              "data-id":
+                "Result.1.2.840.114350.1.13.297.3.7.2.798268.1670850.Specimen",
+            },
+          },
+          "Collection Time": {
+            value: "09/29/2022 3:00 PM PDT",
+            metadata: {},
+          },
+        },
+        {
+          "Specimen (Source)": {
+            value: "Saliva",
+            metadata: {
+              "data-id":
+                "Result.1.2.840.114350.1.13.297.3.7.2.798268.1670850.Specimen",
+            },
+          },
+          "Collection Time": {
+            value: "09/29/2022 3:05 PM PDT",
+            metadata: {},
+          },
+        },
+      ],
+    ];
 
-  //     expect(actual.availableData).toBeEmpty();
-  //     expect(actual.unavailableData).not.toBeEmpty();
-  //   });
-  //   it("should have travel history when there is a travel history observation present", () => {
-  //     const actual = evaluateSocialData(
-  //       BundleWithTravelHistory as unknown as Bundle,
-  //       mappings,
-  //     );
+    it("extracts string of all results of a search for specified lab report", () => {
+      const searchKey = "Collection Time";
+      const ref = "1.2.840.114350.1.13.297.3.7.2.798268.1670845";
+      const expectedResult = "09/28/2022 1:51 PM PDT, 09/28/2022 2:00 PM PDT";
 
-  //     expect(actual.availableData[0].value)
-  //       .toEqualIgnoringWhitespace(`Dates: 2018-01-18 - 2018-02-18
-  //          Location(s): Traveled to Singapore, Malaysia and Bali with my family.
-  //          Purpose of Travel: Active duty military (occupation)`);
-  //   });
-  //   it("should have patient sexual orientation when available", () => {
-  //     const actual = evaluateSocialData(
-  //       BundleWithSexualOrientation as unknown as Bundle,
-  //       mappings,
-  //     );
+      const result = searchResultRecord(labHTLMJson, ref, searchKey);
 
-  //     expect(actual.availableData[0].value).toEqual("Do not know");
-  //   });
-  // });
-  // describe("Evaluate Ecr Metadata", () => {
-  //   it("should have no available data where there is no data", () => {
-  //     const actual = evaluateEcrMetadata(undefined as any, mappings);
+      expect(result).toBe(expectedResult);
+    });
 
-  //     expect(actual.ecrSenderDetails.availableData).toBeEmpty();
-  //     expect(actual.ecrSenderDetails.unavailableData).not.toBeEmpty();
+    it("returns an empty string of results if none are found for search key", () => {
+      const invalidSearchKey = "foobar";
+      const ref = "1.2.840.114350.1.13.297.3.7.2.798268.1670845";
+      const expectedResult = "";
 
-  //     expect(actual.eicrDetails.availableData).toBeEmpty();
-  //     expect(actual.eicrDetails.unavailableData).not.toBeEmpty();
+      const result = searchResultRecord(labHTLMJson, ref, invalidSearchKey);
 
-  //     expect(actual.rrDetails.availableData).toBeEmpty();
-  //     expect(actual.rrDetails.unavailableData).not.toBeEmpty();
-  //   });
-  //   it("should have ecrSenderDetails", () => {
-  //     const actual = evaluateEcrMetadata(
-  //       BundleWithEcrMetadata as unknown as Bundle,
-  //       mappings,
-  //     );
+      expect(result).toBe(expectedResult);
+    });
 
-  //     expect(actual.ecrSenderDetails.availableData).toEqual([
-  //       { title: "Date/Time eCR Created", value: "07/28/2022 10:01 AM EDT" },
-  //       {
-  //         title: "Sender Facility Name",
-  //         value: "Vanderbilt University Adult Hospital",
-  //       },
-  //       {
-  //         title: "Facility Address",
-  //         value: "1211 Medical Center Dr\nNashville, TN\n37232",
-  //       },
-  //       { title: "Facility Contact", value: "+1-615-322-5000" },
-  //       { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
-  //     ]);
-  //     expect(actual.ecrSenderDetails.unavailableData).toEqual([
-  //       { title: "Sender Software" },
-  //     ]);
-  //   });
-  //   it("should have eicrDetails", () => {
-  //     const actual = evaluateEcrMetadata(
-  //       BundleWithEcrMetadata as unknown as Bundle,
-  //       mappings,
-  //     );
+    it("returns an empty string of results if no lab reports with matching reference ID", () => {
+      const searchKey = "Collection Time";
+      const invalidRef = "12345";
+      const expectedResult = "";
 
-  //     expect(actual.eicrDetails.availableData).toEqual([
-  //       {
-  //         title: "eICR Identifier",
-  //         value: "1.2.840.114350.1.13.478.3.7.8.688883.230886",
-  //       },
-  //     ]);
-  //     expect(actual.eicrDetails.unavailableData).toBeEmpty();
-  //   });
-  //   it("should have rrDetails", () => {
-  //     const actual = evaluateEcrMetadata(
-  //       BundleWithEcrMetadata as unknown as Bundle,
-  //       mappings,
-  //     );
+      const result = searchResultRecord(labHTLMJson, invalidRef, searchKey);
 
-  //     expect(actual.rrDetails.availableData).toEqual([
-  //       {
-  //         title: "Reportable Condition(s)",
-  //         value:
-  //           "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
-  //       },
-  //       {
-  //         title: "RCKMS Trigger Summary",
-  //         value:
-  //           "COVID-19 (as a diagnosis or active problem)\nDetection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method",
-  //       },
-  //       {
-  //         title: "Jurisdiction(s) Sent eCR",
-  //         value: "Tennessee Department of Health",
-  //       },
-  //     ]);
-  //     expect(actual.rrDetails.unavailableData).toBeEmpty();
-  //   });
-  // });
-  // describe("Evaluate Clinical Info", () => {
-  //   it("Should return notes", () => {
-  //     const actual = evaluateClinicalData(
-  //       BundleWithMiscNotes as unknown as Bundle,
-  //       mappings,
-  //     );
-  //     render(actual.clinicalNotes.availableData[0].value as React.JSX.Element);
-  //     expect(actual.clinicalNotes.availableData[0].title).toEqual(
-  //       "Miscellaneous Notes",
-  //     );
-  //     expect(screen.getByText("Active Problems")).toBeInTheDocument();
-  //     expect(actual.clinicalNotes.unavailableData).toBeEmpty();
-  //   });
-  // });
-
-  // describe("Evaluate Patient Name", () => {
-  //   it("should return name", () => {
-  //     const actual = evaluatePatientName(
-  //       BundleWithPatient as unknown as Bundle,
-  //       mappings,
-  //     );
-  //     expect(actual).toEqual("ABEL CASTILLO");
-  //   });
-  // });
-  // describe("Extract Patient Address", () => {
-  //   it("should return empty string if no address is available", () => {
-  //     const actual = extractPatientAddress(undefined as any, mappings);
-
-  //     expect(actual).toBeEmpty();
-  //   });
-  //   it("should get patient address", () => {
-  //     const actual = extractPatientAddress(
-  //       BundleWithPatient as unknown as Bundle,
-  //       mappings,
-  //     );
-
-  //     expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");
-  //   });
-  // });
-  // describe("Calculate Patient Age", () => {
-  //   it("should return patient age when DOB is available", () => {
-  //     // Fixed "today" for testing purposes
-  //     jest.useFakeTimers().setSystemTime(new Date("2024-03-12"));
-
-  //     const patientAge = calculatePatientAge(
-  //       BundleWithPatient as unknown as Bundle,
-  //       mappings,
-  //     );
-
-  //     expect(patientAge).toEqual(8);
-
-  //     // Return to real time
-  //     jest.useRealTimers();
-  //   });
-  //   it("should return nothing when DOB is unavailable", () => {
-  //     const patientAge = calculatePatientAge(undefined as any, mappings);
-
-  //     expect(patientAge).toEqual(undefined);
-  //   });
-  // });
-
-  // describe("Extract Patient Address", () => {
-  //   it("should return empty string if no address is available", () => {
-  //     const actual = extractPatientAddress(undefined as any, mappings);
-
-  //     expect(actual).toBeEmpty();
-  //   });
-  //   it("should get patient address", () => {
-  //     const actual = extractPatientAddress(
-  //       BundleWithPatient as unknown as Bundle,
-  //       mappings,
-  //     );
-
-  //     expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");
-  //   });
-  // });
+      expect(result).toBe(expectedResult);
+    });
+  });
 });
