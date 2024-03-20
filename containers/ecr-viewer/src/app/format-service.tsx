@@ -48,10 +48,10 @@ export const formatDateTime = (dateTime: string) => {
     minute: "2-digit",
     timeZoneName: "short",
   };
-
-  return new Date(dateTime)
+  const date = new Date(dateTime)
     .toLocaleDateString("en-Us", options)
     .replace(",", "");
+  return date !== "Invalid Date" ? date : "";
 };
 
 /**

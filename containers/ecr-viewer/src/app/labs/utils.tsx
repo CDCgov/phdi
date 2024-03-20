@@ -30,7 +30,7 @@ const noData = <span className="no-data">No data</span>;
  * given references. If no matching observations are found or if the input references array is empty, an empty array
  * is returned.
  */
-const getObservations = (
+export const g = (
   observationIds: Array<Reference>,
   fhirBundle: Bundle,
 ): Array<Observation> => {
