@@ -6,16 +6,6 @@ on:
       changed-files-data:
         required: true
         type: string
-  workflow_dispatch:
-  pull_request:
-    branches:
-      - "**"
-  merge_group:
-    types:
-      - checks_requested
-  push:
-    branches:
-      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -41,7 +31,7 @@ jobs:
           CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.tag == "container" and .file | endswith(".py")) | .file')
           CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.tag == "container" and (.file | endswith(".js") or .file | endswith(".jsx"))) | .file')
 
-          # Convert file lists to newline-separated strings for output
+          # convert file lists to newline-separated strings for output
           echo "changed-python-files=$(echo $CHANGED_PY_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
           echo "changed-js-files=$(echo $CHANGED_JS_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
 
