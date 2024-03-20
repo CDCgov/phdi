@@ -47,44 +47,65 @@ const getObservations = (
   });
 };
 
-// TODO#: Add JSDoc here
-// TODO#: Add comments here
-// TODO#: rename vars
+/**
+ * Recursively searches through a nested array of objects to find values associated with a specified search key,
+ * and filters results based on a reference value.
+ * @param {any[]} result - The array of objects to search through.
+ * @param {string} ref - The reference number used to filter results.
+ * @param {string} searchKey - The key to search for within the objects.
+ * @returns {string} - A comma-separated string containing unique search key values that match the reference number.
+ *
+ * @example result - JSON object that contains the tables for all lab reports
+ * @example ref - Ex. "1.2.840.114350.1.13.297.3.7.2.798268.1670845" or another observation entry reference
+ *                value. This value identifies which lab report the Observation is associated with. Function
+ *                compares this value to the metadata ID in the tables to verify that the table is
+ *                for the correct lab report.
+ * @example searchKey - Ex. "Analysis Time" or the field that we are searching data for.
+ */
 function searchResultRecord(result: any[], ref: string, searchKey: string) {
-  for (const item of result) {
-    if (Array.isArray(item)) {
-      const nestedResult: any = searchResultRecord(item, ref, searchKey);
+  let resultsArray: any[] = [];
+
+  // Loop through each table
+  for (const table of result) {
+    // For each table, recursively search through all nodes
+    if (Array.isArray(table)) {
+      const nestedResult: any = searchResultRecord(table, ref, searchKey);
       if (nestedResult) {
         return nestedResult;
       }
     } else {
-      const keys = Object.keys(item);
+      const keys = Object.keys(table);
       const refNumbers: any[] = [];
       let searchKeyValue: string = "";
       keys.forEach((key) => {
-        if (key === searchKey && item[key].hasOwnProperty("value")) {
-          searchKeyValue = item[key]["value"];
+        // Search for search key value
+        if (key === searchKey && table[key].hasOwnProperty("value")) {
+          searchKeyValue = table[key]["value"];
         }
+        // Search for result IDs
         if (
-          item[key].hasOwnProperty("metadata") &&
-          item[key]["metadata"].hasOwnProperty("data-id")
+          table[key].hasOwnProperty("metadata") &&
+          table[key]["metadata"].hasOwnProperty("data-id")
         ) {
-          if (item[key]["metadata"] !== "") {
+          if (table[key]["metadata"] !== "") {
             refNumbers.push(
-              ...extractNumbersAndPeriods([item[key]["metadata"]["data-id"]]),
+              ...extractNumbersAndPeriods([table[key]["metadata"]["data-id"]]),
             );
           }
         }
       });
       const resultRef = [...new Set(refNumbers)].join(",");
+      // Skip if IDs don't match (table is not for correct lab report)
       if (resultRef !== ref) {
         continue;
       }
+      // Add to array of results, and return unique set
       if (searchKeyValue !== "") {
-        return searchKeyValue;
+        resultsArray.push(searchKeyValue);
       }
     }
   }
+  return [...new Set(resultsArray)].join(", ");
 }
 
 /**
@@ -168,6 +189,7 @@ const returnReceivedTime = (
  * @param {LabReport} report - The lab report containing the results to be processed.
  * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
  * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @param {String} fieldName - A string containing the field name for which the value is being searched.
  * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 const returnFieldValueFromLabHtmlString = (
