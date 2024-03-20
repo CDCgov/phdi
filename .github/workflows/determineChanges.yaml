@@ -27,8 +27,8 @@ jobs:
         id: create-changed-files-data
         run: |
           # print assumptions for inspection in actions ui
-          echo "Base reference: $github.base_ref"
-          echo "Head reference: $github.head_ref"
+          echo "Base reference: ${{ github.base_ref }}"
+          echo "Head reference: ${{ github.head_ref }}"
 
           # get the list of changed files
           CHANGED_FILES=$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
