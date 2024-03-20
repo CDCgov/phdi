@@ -2,6 +2,7 @@ import { evaluate } from "fhirpath";
 import {
   Bundle,
   CodeableConcept,
+  DiagnosticReport,
   FhirResource,
   Observation,
   Quantity,
@@ -33,6 +34,32 @@ export const evaluateReference = (
 };
 
 /**
+ * Evaluates and generates a table of observations based on the provided DiagnosticReport,
+ * FHIR bundle, mappings, and column information.
+ * @param {DiagnosticReport} report - The DiagnosticReport containing observations to be evaluated.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing observation data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @param {ColumnInfoInput[]} columnInfo - An array of column information objects specifying column names and information paths.
+ * @returns {React.JSX.Element | undefined} The JSX representation of the evaluated observation table, or undefined if there are no observations.
+ */
+export function evaluateObservationTable(
+  report: DiagnosticReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+  columnInfo: ColumnInfoInput[],
+) {
+  const observations: Observation[] =
+    report.result?.map((obsRef: Reference) =>
+      evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
+    ) ?? [];
+  let obsTable;
+  if (observations?.length > 0) {
+    obsTable = evaluateTable(observations, mappings, columnInfo, "", false);
+  }
+  return obsTable;
+}
+
+/**
  * Evaluates diagnostic report data and generates formatted lab result accordions for each report.
  * @param {Bundle} fhirBundle - The FHIR bundle containing diagnostic report data.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
@@ -49,25 +76,23 @@ export const evaluateDiagnosticReportData = (
     { columnName: "Test Method", infoPath: "observationMethod" },
   ];
 
-  return evaluate(fhirBundle, mappings["diagnosticReports"]).map((report) => {
-    const observations: Observation[] = report.result.map((obsRef: Reference) =>
-      evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
-    );
-    const obsTable = evaluateTable(
-      observations,
-      mappings,
-      columnInfo,
-      "",
-      false,
-    );
-    return (
-      <AccordionLabResults
-        title={report.code.coding[0].display}
-        abnormalTag={false}
-        content={<>{obsTable}</>}
-      />
-    );
-  });
+  return evaluate(fhirBundle, mappings["diagnosticReports"]).map(
+    (report: DiagnosticReport) => {
+      let obsTable = evaluateObservationTable(
+        report,
+        fhirBundle,
+        mappings,
+        columnInfo,
+      );
+      return (
+        <AccordionLabResults
+          title={report.code.coding?.[0].display ?? "\u{200B}"}
+          abnormalTag={false}
+          content={<>{obsTable}</>}
+        />
+      );
+    },
+  );
 };
 
 /**
