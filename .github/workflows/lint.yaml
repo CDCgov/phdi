@@ -1,11 +1,12 @@
-name: Lint Check
+name: Lint Changed Files
 
 on:
-  workflow_call:
-    inputs:
-      changed-files-data:
-        required: true
-        type: string
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,7 +16,11 @@ env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
 
 jobs:
-  setup:
+  determine-changes:
+    uses: CDCgov/phdi/.github/workflows/determineChanges.yaml
+
+  filter-files:
+    needs: determine-changes
     runs-on: ubuntu-latest
     outputs:
       changed-python-files: ${{ steps.filter-files.outputs.changed-python-files }}
@@ -36,7 +41,7 @@ jobs:
           echo "changed-js-files=$(echo $CHANGED_JS_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
 
   python-lint:
-    needs: setup
+    needs: filter-files
     if: ${{ needs.setup.outputs.changed-python-files }}
     runs-on: ubuntu-latest
     steps:
