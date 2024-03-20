@@ -457,7 +457,9 @@ export const evaluateEcrMetadata = (
   const ecrSenderDetails: DisplayData[] = [
     {
       title: "Date/Time eCR Created",
-      value: evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0],
+      value: formatDateTime(
+        evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0],
+      ),
     },
     {
       title: "Sender Software",

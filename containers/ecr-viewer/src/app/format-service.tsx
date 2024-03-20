@@ -46,6 +46,7 @@ export const formatDateTime = (dateTime: string) => {
     day: "2-digit",
     hour: "numeric",
     minute: "2-digit",
+    timeZoneName: "short",
   };
 
   return new Date(dateTime)
