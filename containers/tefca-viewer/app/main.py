@@ -1,4 +1,5 @@
 import logging
+import os
 import uuid
 from pathlib import Path
 from typing import Literal
@@ -14,11 +15,11 @@ from pydantic import BaseModel
 
 from phdi.containers.base_service import BaseService
 
-# from typing import Annotated
-# from fastapi import Form
-# from fastapi import Response
-# from starlette.datastructures import MutableHeaders
-# from starlette.middleware.base import BaseHTTPMiddleware
+
+# Locations of the various services the service will delegate
+SERVICE_URLS = {
+    "message_parser": os.environ.get("MESSAGE_PARSER_URL"),
+}
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -305,14 +306,6 @@ async def get_patient_search_form(request: Request):
             "fhir_servers": FHIR_SERVERS.keys(),
         },
     )
-
-
-# @app.post("/portal/patient-info", response_class=HTMLResponse)
-# async def get_patient_info(request: Request):
-#     return templates.TemplateResponse(
-#         "patient-info.html",
-#         {"request": request},
-#     )
 
 
 @app.get("/")
