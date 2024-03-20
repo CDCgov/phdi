@@ -26,10 +26,13 @@ jobs:
       - name: Create changed files data
         id: create-changed-files-data
         run: |
+          # print assumptions for inspection in actions ui
+          echo "Base reference: $github.base_ref"
+          echo "Head reference: $github.head_ref"
+
           # get the list of changed files
           CHANGED_FILES=$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
-          echo ${{ github.base_ref }}
-          echo ${{ github.head_ref }}
+
           # initialize an array in bash
           declare -A fileCategorization
 
@@ -74,7 +77,7 @@ jobs:
           done
           jsonOutput+="]"
 
-          # show contents of output
+          # show contents of output for actions ui
           echo "Changed files data: $jsonOutput"
 
           # set output to environment variable
