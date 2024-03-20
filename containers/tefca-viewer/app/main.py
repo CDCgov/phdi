@@ -295,6 +295,7 @@ app.mount(
 )
 
 
+
 @app.get("/portal", response_class=FileResponse)
 async def get_landing_page(request: Request):
     return FileResponse("./app/front-end/landing-page.html")
