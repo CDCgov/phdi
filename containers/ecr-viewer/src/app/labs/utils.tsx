@@ -30,7 +30,7 @@ const noData = <span className="no-data">No data</span>;
  * given references. If no matching observations are found or if the input references array is empty, an empty array
  * is returned.
  */
-export const g = (
+export const getObservations = (
   observationIds: Array<Reference>,
   fhirBundle: Bundle,
 ): Array<Observation> => {
@@ -42,9 +42,20 @@ export const g = (
 
   if (ids.length === 0) return [];
 
-  return ids.map((id) => {
-    return evaluate(fhirBundle, `Bundle.entry.resource.where(id = '${id}')`)[0];
-  });
+  return ids
+    .filter((id) => {
+      const e = evaluate(
+        fhirBundle,
+        `Bundle.entry.resource.where(id = '${id}')`,
+      )[0];
+      return e !== undefined && e !== null;
+    })
+    .map((id) => {
+      return evaluate(
+        fhirBundle,
+        `Bundle.entry.resource.where(id = '${id}')`,
+      )[0];
+    });
 };
 
 /**
