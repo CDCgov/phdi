@@ -2,6 +2,13 @@ interface MetaData {
   [key: string]: string;
 }
 
+interface TableRow {
+  [key: string]: {
+    value: {};
+    metadata: MetaData;
+  };
+}
+
 export const formatName = (firstName: string, lastName: string) => {
   if (firstName != undefined) {
     return `${firstName} ${lastName}`.trim();
@@ -187,7 +194,7 @@ function processTable(table: Element): any[] {
     // Skip the first row as it contains headers
     if (rowIndex === 0) return;
 
-    const obj: { [key: string]: string } = {};
+    const obj: TableRow = {};
     row.querySelectorAll("td").forEach((cell, cellIndex) => {
       const key = keys[cellIndex];
 
@@ -196,7 +203,9 @@ function processTable(table: Element): any[] {
       for (let i = 0; i < attributes.length; i++) {
         const attrName = attributes[i].nodeName;
         const attrValue = attributes[i].nodeValue;
-        metaData[attrName] = attrValue;
+        if (attrName && attrValue) {
+          metaData[attrName] = attrValue;
+        }
       }
       obj[key] = {
         value: cell.textContent?.trim() || "",

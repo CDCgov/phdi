@@ -189,14 +189,14 @@ const returnReceivedTime = (
  * @param {LabReport} report - The lab report containing the results to be processed.
  * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
  * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @param {String} fieldName - A string containing the field name for which the value is being searched.
+ * @param {string} fieldName - A string containing the field name for which the value is being searched.
  * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 const returnFieldValueFromLabHtmlString = (
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
-  fieldName: String,
+  fieldName: string,
 ): React.ReactNode => {
   // Get reference value (result ID) from Observations
   const observations = getObservations(report.result, fhirBundle);
@@ -260,11 +260,13 @@ export const evaluateLabInfoData = (
     const rrInfo: DisplayData[] = [
       {
         title: "Analysis Time",
-        value: returnFieldValueFromLabHtmlString(
-          report,
-          fhirBundle,
-          mappings,
-          "Analysis Time",
+        value: formatDateTime(
+          returnFieldValueFromLabHtmlString(
+            report,
+            fhirBundle,
+            mappings,
+            "Analysis Time",
+          ),
         ),
       },
       {
