@@ -1,6 +1,11 @@
 name: Lint Check
+
 on:
   workflow_call:
+    inputs:
+      changed-files-data:
+        required: true
+        type: string
   workflow_dispatch:
   pull_request:
     branches:
@@ -20,32 +25,64 @@ env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
 
 jobs:
-  python:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      changed-python-files: ${{ steps.filter-files.outputs.changed-python-files }}
+      changed-js-files: ${{ steps.filter-files.outputs.changed-js-files }}
+    steps:
+      - name: Filter changed files
+        id: filter-files
+        run: |
+          CHANGED_FILES="${{ inputs.changed-files-data }}"
+          echo "Changed files data: $CHANGED_FILES"
+
+          CHANGED_PY_FILES=$(echo "$CHANGED_FILES" | jq -r '.[] | select(.tag == "container" and .file | endswith(".py")) | .file')
+          CHANGED_JS_FILES=$(echo "$CHANGED_FILES" | jq -r '.[] | select(.tag == "container" and (.file | endswith(".js") or .file | endswith(".jsx"))) | .file')
+
+          echo "changed-python-files=$CHANGED_PY_FILES" >> $GITHUB_OUTPUT
+          echo "changed-js-files=$CHANGED_JS_FILES" >> $GITHUB_OUTPUT
+
+  python-lint:
+    needs: setup
+    if: ${{ needs.setup.outputs.changed-python-files }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+      - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
+          python-version: ${{ env.TEST_RUNNER_PYTHON_VERSION }}
       - name: Install dependencies
         run: |
           pip install -U pip
           pip install black==24.2.0 flake8==7.0.0
-      - name: Check format (black)
+      - name: Lint changed Python files
         run: |
-          black --check --verbose .
-      - name: Check style (flake8)
-        run: |
-          flake8
-  javascript:
+          python_files="${{ needs.setup.outputs.changed-python-files }}"
+          for file in $python_files; do
+            black --check $file
+            flake8 $file
+          done
+
+  javascript-lint:
+    needs: setup
+    if: ${{ needs.setup.outputs.changed-js-files }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Lint eCR Viewer
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+      - name: Install dependencies
+        run: npm ci
         working-directory: ./containers/ecr-viewer
+      - name: Lint changed JavaScript files
         run: |
-          npm ci
-          npm run lint
+          js_files="${{ needs.setup.outputs.changed-js-files }}"
+          for file in $js_files; do
+            npm run lint -- $file
+          done
+        working-directory: ./containers/ecr-viewer
