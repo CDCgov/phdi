@@ -157,7 +157,7 @@ public class CustomFilterTests
         var raceString = new Dictionary<string, object>() {
                 {"_", "two"},
             };
-                    var carString = new Dictionary<string, object>() {
+        var carString = new Dictionary<string, object>() {
                 {"_", "words"},
             };
         var complete = new Dictionary<string, object>() {
@@ -167,5 +167,13 @@ public class CustomFilterTests
             };
         var actual = Filters.ToHtmlString(complete);
         Assert.Equal("two words", actual);
+    }
+
+    [Fact]
+    public void GetLoincName_ValidLOINC_ReturnsName()
+    {
+        var loinc = "34565-2";
+        var actual = Filters.GetLoincName(loinc);
+        Assert.Equal("Vital signs, weight and height panel", actual);
     }
 }

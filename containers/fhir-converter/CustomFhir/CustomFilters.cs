@@ -4,6 +4,7 @@ using System.Collections;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -165,6 +166,41 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         }
       }
       return CleanStringFromTabs(stringBuilder.ToString().Trim());
+    }
+
+    public static string? GetLoincName(string code)
+    {
+      string apiUrl = $"https://clinicaltables.nlm.nih.gov/loinc_form_definitions?loinc_num={code}";
+      using (HttpClient client = new HttpClient())
+      {
+        try
+        {
+          HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+          if (response.IsSuccessStatusCode)
+          {
+            string responseBody = response.Content.ReadAsStringAsync().Result;
+            dynamic? jsonResponse = JsonConvert.DeserializeObject(responseBody);
+            if (jsonResponse != null)
+            {
+              return jsonResponse.name;
+            }
+            else
+            {
+              return null;
+            }
+          }
+          else
+          {
+            Console.WriteLine($"Failed to fetch data. Status code: {response.StatusCode}");
+            return null;
+          }
+        }
+        catch (Exception ex)
+        {
+          Console.WriteLine($"An error occurred: {ex.Message}");
+          return null;
+        }
+      }
     }
   }
 }
