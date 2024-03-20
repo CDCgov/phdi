@@ -59,7 +59,7 @@ FHIR_SERVERS = {
             "Accept-Encoding": "gzip, deflate, br",
             "Content-Type": "application/fhir+json; charset=UTF-8",
             "X-DESTINATION": "CernerHelios",
-            "X-POU": "TREAT",
+            "X-POU": "TREATMENT",
             "X-Request-Id": str(uuid.uuid4()),
             "prefer": "return=representation",
             "Cache-Control": "no-cache",
