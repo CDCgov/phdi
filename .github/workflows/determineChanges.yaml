@@ -31,15 +31,17 @@ jobs:
           echo "Base reference: ${{ github.base_ref }}"
           echo "Head reference: ${{ github.head_ref }}"
 
-          # get the list of changed files
-          CHANGED_FILES=$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
+          # get the list of changed files and convert to array
+          mapfile -t CHANGED_FILES <<< $(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
           echo "Changed files:"
-          echo "$CHANGED_FILES"
+          printf '%s\n' "$CHANGED_FILES[@]"
 
           JSON_ARRAY="["
 
           # for loop to add a category and a tag to each changed file
-          for FILE in $CHANGED_FILES; do
+          CHANGED_FILES_LENGTH=${#CHANGED_FILES[@]}
+          for (( i = 0; i < CHANGED_FILES_LENGTH; i++ )); do
+              FILE=${CHANGED_FILES[i]}
               if [[ "$FILE" == containers/* ]]; then
                   CATEGORY=$(echo "$FILE" | cut -d'/' -f2)
                   TAG="container"
@@ -53,15 +55,15 @@ jobs:
                   CATEGORY="other-changes"
                   TAG="other"
               fi
-              # append the results of the loop to the initialized array
+
               JSON_ENTRY=$(jq -nc \
-                --arg file "$FILE" \
-                --arg category "$CATEGORY" \
-                --arg tag "$TAG" \
-                '{file: $file, category: $category, tag: $tag}')
+                  --arg file "$FILE" \
+                  --arg category "$CATEGORY" \
+                  --arg tag "$TAG" \
+                  '{file: $file, category: $category, tag: $tag}')
 
               JSON_ARRAY+="$JSON_ENTRY"
-              if [[ $FILE != "${CHANGED_FILES[-1]}" ]]; then
+              if (( i < CHANGED_FILES_LENGTH - 1 )); then
                   JSON_ARRAY+=","
               fi
           done
