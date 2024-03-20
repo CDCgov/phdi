@@ -168,7 +168,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return CleanStringFromTabs(stringBuilder.ToString().Trim());
     }
 
-    public static string GetLoincName(string code)
+    public static string? GetLoincName(string code)
     {
       string apiUrl = $"https://clinicaltables.nlm.nih.gov/loinc_form_definitions?loinc_num={code}";
       using (HttpClient client = new HttpClient())
@@ -179,8 +179,15 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
           if (response.IsSuccessStatusCode)
           {
             string responseBody = response.Content.ReadAsStringAsync().Result;
-            dynamic jsonResponse = JsonConvert.DeserializeObject(responseBody);
-            return jsonResponse.name;
+            dynamic? jsonResponse = JsonConvert.DeserializeObject(responseBody);
+            if (jsonResponse != null)
+            {
+              return jsonResponse.name;
+            }
+            else
+            {
+              return null;
+            }
           }
           else
           {
