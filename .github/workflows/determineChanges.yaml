@@ -76,4 +76,5 @@ jobs:
           jsonOutput+="]"
 
           # set output to environment variable
+          jsonOutput=$(jq -nc --argjson files "${fileCategorization[@]}" '$files')
           echo "changed-files-data=$jsonOutput" >> $GITHUB_OUTPUT
