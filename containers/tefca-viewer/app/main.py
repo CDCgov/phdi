@@ -59,7 +59,7 @@ FHIR_SERVERS = {
             "Accept-Encoding": "gzip, deflate, br",
             "Content-Type": "application/fhir+json; charset=UTF-8",
             "X-DESTINATION": "CernerHelios",
-            "X-POU": "TREAT",
+            "X-POU": "TREATMENT",
             "X-Request-Id": str(uuid.uuid4()),
             "prefer": "return=representation",
             "Cache-Control": "no-cache",
@@ -287,21 +287,12 @@ async def root():
     return FileResponse("./app/patient-search/index.html")
 
 
-# Serve Static Files
-app.mount(
-    "/front-end",
-    StaticFiles(directory="./app/front-end"),
-    name="front-end",
-)
-
+templates = Jinja2Templates(directory="./app/front-end/templates")
 
 
 @app.get("/portal", response_class=FileResponse)
 async def get_landing_page(request: Request):
-    return FileResponse("./app/front-end/landing-page.html")
-
-
-templates = Jinja2Templates(directory="./app/front-end/templates")
+    return templates.TemplateResponse("base.html", {"request": request})
 
 
 @app.get("/portal/patient-search-form", response_class=HTMLResponse)
