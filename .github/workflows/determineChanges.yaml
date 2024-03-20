@@ -12,6 +12,8 @@ on:
 jobs:
   determine-changes:
     runs-on: ubuntu-latest
+    outputs:
+      changed-files-data: ${{ steps.create-changed-files-data.outputs.changed-files-data }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -26,15 +28,15 @@ jobs:
       - name: Create changed files data
         id: create-changed-files-data
         run: |
-          # print assumptions for inspection in actions ui
           echo "Base reference: ${{ github.base_ref }}"
           echo "Head reference: ${{ github.head_ref }}"
 
           # get the list of changed files
           CHANGED_FILES=$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
 
-          # initialize an array in bash
-          declare -A fileCategorization
+          JSON_ARRAY="["
 
           # for loop to add a category and a tag to each changed file
           for FILE in $CHANGED_FILES; do
@@ -52,33 +54,22 @@ jobs:
                   TAG="other"
               fi
               # append the results of the loop to the initialized array
-              fileCategorization["$FILE"]="$CATEGORY|$TAG"
-          done
+              JSON_ENTRY=$(jq -nc \
+                --arg file "$FILE" \
+                --arg category "$CATEGORY" \
+                --arg tag "$TAG" \
+                '{file: $file, category: $category, tag: $tag}')
 
-          # use jq to create json from the fileCategorization array
-          jsonOutput="["
-          first=1
-          for FILE in "${!fileCategorization[@]}"; do
-              # temporarily set IFS (internal field separator) to '|'
-              # to split the string into an array based on the '|' delimiter
-              IFS='|' read -r -a CATEGORY TAG <<< "${fileCategorization["$FILE"]}"
-
-              if (( first )); then
-                  first=0
-              else
-                  jsonOutput+=","
+              JSON_ARRAY+="$JSON_ENTRY"
+              if [[ $FILE != "${CHANGED_FILES[-1]}" ]]; then
+                  JSON_ARRAY+=","
               fi
-
-              jsonOutput+=$(jq -nc \
-                  --arg file "$FILE" \
-                  --arg category "$CATEGORY" \
-                  --arg tag "$TAG" \
-                  '{file: $file, category: $category, tag: $tag}')
           done
-          jsonOutput+="]"
+
+          JSON_ARRAY+="]"
 
           # show contents of output for actions ui
-          echo "Changed files data: $jsonOutput"
+          echo "Changed files data: $JSON_ARRAY"
 
           # set output to environment variable
-          echo "changed-files-data=$jsonOutput" >> $GITHUB_OUTPUT
+          echo "changed-files-data=$JSON_ARRAY" >> $GITHUB_OUTPUT
