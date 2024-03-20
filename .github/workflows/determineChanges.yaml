@@ -28,13 +28,17 @@ jobs:
       - name: Create changed files data
         id: create-changed-files-data
         run: |
+          # use git diff --name-only to get a list of changed files
+          # convert to an array; loop over the array to categorize
+          # and tag changed files to be stored as JSON for use by
+          # downstream workflows via workflow_call
           echo "Base reference: ${{ github.base_ref }}"
           echo "Head reference: ${{ github.head_ref }}"
 
           # get the list of changed files and convert to array
           mapfile -t CHANGED_FILES <<< $(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
           echo "Changed files:"
-          printf '%s\n' "$CHANGED_FILES[@]"
+          printf '%s\n' "${CHANGED_FILES[@]}"
 
           JSON_ARRAY="["
 
