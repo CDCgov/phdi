@@ -9,7 +9,7 @@ services:
         validation-service,
         fhir-converter-service,
         ingestion-service,
-        message-parser-service
+        message-parser-service,
       ]
     ports:
       - "${ORCHESTRATION_PORT_NUMBER}:8080"
