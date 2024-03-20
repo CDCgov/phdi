@@ -1,6 +1,11 @@
 name: Determine Changes
 
 on:
+  workflow_call:
+    output:
+      changed-files-data:
+        description: "JSON formatted list of changed files with category and tag metadata."
+        value: ${{ jobs.determine-changes.ouputs.changed-files-data }}
   push:
     branches:
       - main
