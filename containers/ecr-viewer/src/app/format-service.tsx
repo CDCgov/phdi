@@ -151,7 +151,11 @@ export const formatString = (input: string): string => {
   return result;
 };
 
-// TODO#: Add JSDoc
+/**
+ * Parses an HTML string containing tables and converts each table into a JSON array of objects.
+ * @param {string} htmlString - The HTML string containing tables to be parsed.
+ * @returns {any[]} - An array of JSON objects representing the tables from the HTML string.
+ */
 export function formatTablesToJSON(htmlString: string): any[] {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
@@ -163,7 +167,13 @@ export function formatTablesToJSON(htmlString: string): any[] {
   return jsonArray;
 }
 
-// TODO#: Add JSDoc
+/**
+ * Processes a single HTML table element, extracting data from rows and cells, and converts it into a JSON array of objects.
+ * This function extracts data from <tr> and <td> elements within the provided table element.
+ * The content of <th> elements is used as keys in the generated JSON objects.
+ * @param {Element} table - The HTML table element to be processed.
+ * @returns {any[]} - An array of JSON objects representing the rows and cells of the table.
+ */
 function processTable(table: Element): any[] {
   const jsonArray: any[] = [];
   const rows = table.querySelectorAll("tr");
@@ -199,7 +209,6 @@ function processTable(table: Element): any[] {
   return jsonArray;
 }
 
-// TODO#: Add example in docstring
 /**
  * Extracts and concatenates all sequences of numbers and periods from each string in the input array,
  * excluding any leading period in the first matched sequence of each string.
@@ -207,6 +216,9 @@ function processTable(table: Element): any[] {
  * @param {string[]} inputValues - An array of strings from which numbers and periods will be extracted.
  * @returns {string[]} An array of strings, each corresponding to an input string with all found sequences
  * of numbers and periods concatenated together, with any leading period in the first sequence removed.
+ *
+ * @example @param inputValues - ['#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2']
+ * @example @returns - ['1.2.840.114350.1.13.297.3.7.2.798268.1670845']
  */
 export function extractNumbersAndPeriods(inputValues: string[]): string[] {
   return inputValues.map((value) => {
