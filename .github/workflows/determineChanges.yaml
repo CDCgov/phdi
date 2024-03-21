@@ -1,6 +1,16 @@
 name: Determine Changes
 
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      fetch-depth:
+        required: false
+        default: "0"
+        type: string
+    outputs:
+      changed-files-data:
+        description: "JSON formatted list of changed files with metadata"
+        value: ${{ jobs.determine-changes.outputs.changed-files-data }}
 
 jobs:
   determine-changes:
