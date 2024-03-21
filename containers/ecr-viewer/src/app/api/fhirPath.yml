@@ -56,6 +56,7 @@ providerFamilyName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[
 providerGivenName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].given"
 providerName: "idk"
 
+rrDetails: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation')"
 rrDisplayNames: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').valueCodeableConcept.coding.display"
 rckmsTriggerSummaries: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
 rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').performer.reference"

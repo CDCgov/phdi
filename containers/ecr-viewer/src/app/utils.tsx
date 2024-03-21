@@ -1,4 +1,4 @@
-import { Bundle, Organization } from "fhir/r4";
+import { Bundle } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import React from "react";
@@ -529,29 +529,58 @@ export const evaluateEcrMetadata = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
-  const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
+  const rrDetails1 = evaluate(fhirBundle, mappings.rrDetails);
+  console.log("rrDetails1");
+  console.log(rrDetails1);
 
-  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) => {
-    ref = ref.split("/");
-    return evaluate(fhirBundle, mappings.resolve, {
-      resourceType: ref[0],
-      id: ref[1],
-    })[0];
-  });
-  const rrDetails: DisplayData[] = [
-    {
-      title: "Reportable Condition(s)",
-      value: evaluate(fhirBundle, mappings.rrDisplayNames)?.join("\n"),
-    },
-    {
-      title: "RCKMS Trigger Summary",
-      value: evaluate(fhirBundle, mappings.rckmsTriggerSummaries)?.join("\n"),
-    },
-    {
-      title: "Jurisdiction(s) Sent eCR",
-      value: rrPerformers.map((org) => org.name)?.join("\n"),
-    },
-  ];
+  let reportableConditionsList: {
+    [key: string]: {
+      triggers: Set<string>;
+      jurisdiction: Set<string>;
+    };
+  } = {};
+
+  for (const condition of rrDetails1) {
+    console.log("condition");
+    console.log(condition);
+    let name = condition.valueCodeableConcept.coding[0].display;
+    if (!reportableConditionsList[name]) {
+      console.log("new condition");
+      reportableConditionsList[name] = {
+        triggers: new Set(
+          condition.extension
+            .filter(
+              (x: { url: string; valueString: string }) =>
+                (x.url =
+                  "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension"),
+            )
+            .map((x: { url: string; valueString: string }) => x.valueString),
+        ),
+        jurisdiction: new Set(
+          condition.performer.map((x: { display: string }) => x.display),
+        ),
+      };
+    } else {
+      console.log("existing condition");
+      condition.extension
+        .filter(
+          (x: { url: string; valueString: string }) =>
+            (x.url =
+              "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension"),
+        )
+        .map((x: { url: string; valueString: string }) => x.valueString)
+        .forEach((x: string) => reportableConditionsList[name].triggers.add(x));
+      condition.performer
+        .map((x: { display: string }) => x.display)
+        .forEach((x: string) =>
+          reportableConditionsList[name].jurisdiction.add(x),
+        );
+    }
+  }
+
+  console.log("reportableConditionsList");
+  console.log(reportableConditionsList);
+
   const eicrDetails: DisplayData[] = [
     {
       title: "eICR Identifier",
@@ -587,7 +616,7 @@ export const evaluateEcrMetadata = (
   return {
     eicrDetails: evaluateData(eicrDetails),
     ecrSenderDetails: evaluateData(ecrSenderDetails),
-    rrDetails: evaluateData(rrDetails),
+    rrDetails: reportableConditionsList,
   };
 };
 
