@@ -1,15 +1,11 @@
 name: Lint Changed Files
 
 on:
-  pull_request:
-    branches:
-      - "**"
-  merge_group:
-    types:
-      - checks_requested
-  push:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      changed-files-data:
+        required: true
+        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,33 +15,28 @@ env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
 
 jobs:
-  determine-changes:
-    uses: CDCgov/phdi/.github/workflows/determineChanges.yaml
-
   filter-files:
-    needs: determine-changes
     runs-on: ubuntu-latest
     outputs:
       changed-python-files: ${{ steps.filter-files.outputs.changed-python-files }}
       changed-js-files: ${{ steps.filter-files.outputs.changed-js-files }}
+      changed-yaml-files: ${{ steps.filter-files.outputs.changed-yaml-files }}
     steps:
       - name: Filter changed files
         id: filter-files
         run: |
-          echo "Received changed files data: ${{ inputs.changed-files-data }}"
-          CHANGED_FILES_JSON=$(echo '${{ inputs.changed-files-data }}' | jq '.')
-          echo "Parsed JSON: $CHANGED_FILES_JSON"
+          CHANGED_FILES_JSON="${{ github.event.inputs.changed-files-data }}"
+          CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "py") | .file')
+          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file')
+          CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file')
 
-          CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.tag == "container" and .file | endswith(".py")) | .file')
-          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.tag == "container" and (.file | endswith(".js") or .file | endswith(".jsx"))) | .file')
-
-          # convert file lists to newline-separated strings for output
           echo "changed-python-files=$(echo $CHANGED_PY_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
           echo "changed-js-files=$(echo $CHANGED_JS_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
+          echo "changed-yaml-files=$(echo $CHANGED_YAML_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
 
   python-lint:
     needs: filter-files
-    if: ${{ needs.setup.outputs.changed-python-files }}
+    if: ${{ needs.filter-files.outputs.changed-python-files }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -57,32 +48,48 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip
-          pip install black==24.2.0 flake8==7.0.0
+          pip install black flake8
       - name: Lint changed Python files
         run: |
-          python_files="${{ needs.setup.outputs.changed-python-files }}"
+          python_files="${{ needs.filter-files.outputs.changed-python-files }}"
           for file in $python_files; do
             black --check $file
             flake8 $file
           done
 
   javascript-lint:
-    needs: setup
-    if: ${{ needs.setup.outputs.changed-js-files }}
+    needs: filter-files
+    if: ${{ needs.filter-files.outputs.changed-js-files }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "18"
       - name: Install dependencies
-        run: npm ci
-        working-directory: ./containers/ecr-viewer
+        run: |
+          npm ci
       - name: Lint changed JavaScript files
         run: |
-          js_files="${{ needs.setup.outputs.changed-js-files }}"
+          js_files="${{ needs.filter-files.outputs.changed-js-files }}"
           for file in $js_files; do
             npm run lint -- $file
           done
-        working-directory: ./containers/ecr-viewer
+
+  yaml-lint:
+    needs: filter-files
+    if: ${{ needs.filter-files.outputs.changed-yaml-files }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install YAML Linter
+        run: sudo apt-get install yamllint
+      - name: Lint changed YAML files
+        run: |
+          yaml_files="${{ needs.filter-files.outputs.changed-yaml-files }}"
+          for file in $yaml_files; do
+            yamllint $file
+          done

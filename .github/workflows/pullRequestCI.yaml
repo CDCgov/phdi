@@ -1,0 +1,30 @@
+name: Pull Request CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  determine-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed-files-data: ${{ steps.determine-changes.outputs.changed-files-data }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Call Determine Changes Workflow
+        id: determine-changes
+        uses: ./.github/workflows/determineChanges.yaml
+        with:
+          fetch-depth: 0
+
+  lint-changed-files:
+    needs: determine-changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Lint Workflow
+        uses: ./.github/workflows/lint.yaml
+        with:
+          changed-files-data: ${{ needs.determine-changes.outputs.changed-files-data }}
