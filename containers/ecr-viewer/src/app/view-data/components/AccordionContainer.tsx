@@ -37,8 +37,6 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const providerData = evaluateProviderData(fhirBundle, fhirPathMappings);
   const clinicalData = evaluateClinicalData(fhirBundle, fhirPathMappings);
   const ecrMetadata = evaluateEcrMetadata(fhirBundle, fhirPathMappings);
-  console.log("ecrMetadata");
-  console.log(ecrMetadata);
   const accordionItems: any[] = [
     {
       title: "Patient Info",

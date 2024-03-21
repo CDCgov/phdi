@@ -30,11 +30,7 @@ interface TriggerLocationDict {
 const convertDictionaryToRows = (dictionary: TriggerLocationDict) => {
   if (!dictionary) return [];
   const rows: JSX.Element[] = [];
-  console.log("The dic");
-  console.log(dictionary);
   Object.entries(dictionary).forEach(([key, { triggers, jurisdiction }], _) => {
-    console.log("The locations");
-    console.log(jurisdiction);
     const triggersArray = Array.from(triggers);
     const locationsArray = Array.from(jurisdiction);
     const maxRows = Math.max(triggersArray.length, locationsArray.length);
@@ -70,9 +66,9 @@ const EcrMetadata = ({
         <Table bordered caption="Reportibility Summary">
           <thead>
             <tr>
-              <th>Key</th>
-              <th>Triggers</th>
-              <th>Locations</th>
+              <th>Reportable Condition</th>
+              <th>RCKMS Rule Summary</th>
+              <th>Jurisdiction Sent eCR</th>
             </tr>
           </thead>
           <tbody>{convertDictionaryToRows(rrDetails)}</tbody>

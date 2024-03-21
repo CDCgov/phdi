@@ -530,8 +530,6 @@ export const evaluateEcrMetadata = (
   mappings: PathMappings,
 ) => {
   const rrDetails1 = evaluate(fhirBundle, mappings.rrDetails);
-  console.log("rrDetails1");
-  console.log(rrDetails1);
 
   let reportableConditionsList: {
     [key: string]: {
@@ -541,11 +539,8 @@ export const evaluateEcrMetadata = (
   } = {};
 
   for (const condition of rrDetails1) {
-    console.log("condition");
-    console.log(condition);
     let name = condition.valueCodeableConcept.coding[0].display;
     if (!reportableConditionsList[name]) {
-      console.log("new condition");
       reportableConditionsList[name] = {
         triggers: new Set(
           condition.extension
@@ -561,7 +556,6 @@ export const evaluateEcrMetadata = (
         ),
       };
     } else {
-      console.log("existing condition");
       condition.extension
         .filter(
           (x: { url: string; valueString: string }) =>
@@ -577,9 +571,6 @@ export const evaluateEcrMetadata = (
         );
     }
   }
-
-  console.log("reportableConditionsList");
-  console.log(reportableConditionsList);
 
   const eicrDetails: DisplayData[] = [
     {
