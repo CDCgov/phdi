@@ -51,9 +51,10 @@ document
       first_name: firstName,
       last_name: lastName,
       dob: dob,
+      use_case: useCase,
     };
 
-    fetch("use-case-query/" + useCase, {
+    fetch("use-case-query/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

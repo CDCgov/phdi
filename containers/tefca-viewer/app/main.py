@@ -289,6 +289,11 @@ app.mount(
     name="patient-search",
 )
 
+app.mount(
+    "/front-end",
+    StaticFiles(directory="./app/front-end"),
+    name="front-end",
+)
 
 # Root endpoint to serve the HTML page
 @app.get("/patient-search")

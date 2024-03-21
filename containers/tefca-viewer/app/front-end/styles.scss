@@ -6,6 +6,7 @@ $theme-font-path: "node_modules/uswds/dist/fonts";
 $theme-color-primary: color('blue-60');
 $theme-color-secondary: #205493;
 $theme-color-base: #162E51;
+$theme-table-border-color: #DFE1E2;
 
 html,
 body {
@@ -61,4 +62,14 @@ footer {
 
 .usa-form .usa-input.full-width {
   width: 100% !important;
+}
+
+.usa-accordion__heading {
+  background-color: #2E6276 !important;
+  color: white;
+}
+
+.usa-accordion__button {
+  background-color: #2E6276 !important;
+  color: white;
 }

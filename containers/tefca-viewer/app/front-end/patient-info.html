@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TryTEFCA Viewer</title>
+    <link rel="stylesheet" href="node_modules/uswds/dist/css/uswds.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/htmx.org"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/debug.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/json-enc.js"></script>
+
+</head>
+
+<body>
+    <header class="usa-header usa-header--basic">
+        <div class="usa-nav-container max-w-full">
+            <div class="usa-navbar w-full">
+                <div class="usa-logo">
+                    <em class="usa-logo__text">
+                        <a style="color: white;" href="index.html" title="DIBBs Pipeline Demo Site">TryTEFCA Viewer</a>
+                    </em>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <h1 class="font-sans-2xl text-bold">Patient Record</h1>
+            <div class="usa-accordion">
+                <h4 class="usa-accordion__heading">
+                  <button type="button" class="usa-accordion__button" aria-expanded="true" aria-controls="a1">
+                    Patient Info
+                  </button>
+                </h4>
+                <div class="usa-accordion__content">
+                    <table class="usa-table usa-table--borderless">
+                        <p class="text-bold">Demographics</p>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Patient Name</th>
+                            <td>John Does</td>
+                          </tr>
+                            <tr>
+                                <th scope="row">DOB</th>
+                                <td>01/01/1980</td>
+
+                        </tbody>
+                      </table>
+                </div>
+              </div>
+    </main>
+    <footer class="usa-footer  text-white p-4">
+        <div class="usa-footer__secondary-section bg-primary-darker">
+            <div class="grid-container">
+                <div class="usa-footer__logo grid-row grid-gap-2">
+                    <div class="grid-col-auto">
+                        <img class="usa-footer__logo-img " src="front-end/img/cdc-logo.png" alt="CDC Logo">
+                        <div class=" grid-col-auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </footer>
+</body>
+
+</html>
