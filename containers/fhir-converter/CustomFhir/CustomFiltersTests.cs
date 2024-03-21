@@ -168,4 +168,20 @@ public class CustomFilterTests
         var actual = Filters.ToHtmlString(complete);
         Assert.Equal("two words", actual);
     }
+
+    [Fact]
+    public void GetLoincName_ValidLOINC_ReturnsName()
+    {
+        var loinc = "34565-2";
+        var actual = Filters.GetLoincName(loinc);
+        Assert.Equal("Vital signs, weight and height panel", actual);
+    }
+
+    [Fact]
+    public void GetLoincName_InvalidLOINC_ReturnsNull()
+    {
+        var loinc = "ABC";
+        var actual = Filters.GetLoincName(loinc);
+        Assert.Null(actual);
+    }
 }

@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Microsoft.Health.Fhir.Liquid.Converter
 {
@@ -21,6 +23,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         {"list", "ul"},
         {"item", "li"}
     };
+    private static Dictionary<string, string> loincDict;
 
     // Items from the filter could be arrays or objects, process them to be the same
     private static List<Dictionary<string, object>> ProcessItem(object item)
@@ -165,6 +168,35 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         }
       }
       return CleanStringFromTabs(stringBuilder.ToString().Trim());
+    }
+    private static Dictionary<string, string> LoincDictionary()
+    {
+      TextFieldParser parser = new TextFieldParser("Loinc.csv");
+      Dictionary<string, string> csvData = new Dictionary<string, string>();
+
+      parser.HasFieldsEnclosedInQuotes = true;
+      parser.SetDelimiters(",");
+
+      string[] fields;
+
+      while (!parser.EndOfData)
+      {
+        fields = parser.ReadFields();
+        string key = fields[0].Trim();
+        string value = fields[25].Trim();
+        csvData[key] = value;
+      }
+      
+      return csvData;
+    }
+
+    public static string? GetLoincName(string loinc)
+    {
+      if(loincDict == null){
+        loincDict = LoincDictionary();
+      }
+      loincDict.TryGetValue(loinc, out string? element);
+      return element;
     }
   }
 }
