@@ -169,6 +169,11 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       }
       return CleanStringFromTabs(stringBuilder.ToString().Trim());
     }
+
+    /// <summary>
+    /// Parses a CSV file containing LOINC codes and Long Common Names and returns a dictionary where the LOINC codes are keys and the LCN are values.
+    /// </summary>
+    /// <returns>A dictionary where the keys are LOINC codes and the values are descriptions.</returns>
     private static Dictionary<string, string> LoincDictionary()
     {
       TextFieldParser parser = new TextFieldParser("Loinc.csv");
@@ -186,13 +191,19 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         string value = fields[25].Trim();
         csvData[key] = value;
       }
-      
+
       return csvData;
     }
 
+    /// <summary>
+    /// Retrieves the name associated with the specified LOINC code from the LOINC dictionary.
+    /// </summary>
+    /// <param name="loinc">The LOINC code for which to retrieve the name.</param>
+    /// <returns>The name associated with the specified LOINC code, or null if the code is not found in the dictionary.</returns>
     public static string? GetLoincName(string loinc)
     {
-      if(loincDict == null){
+      if (loincDict == null)
+      {
         loincDict = LoincDictionary();
       }
       loincDict.TryGetValue(loinc, out string? element);
