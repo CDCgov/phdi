@@ -207,7 +207,7 @@ const returnReceivedTime = (
  * @param {string} fieldName - A string containing the field name for which the value is being searched.
  * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
-const returnFieldValueFromLabHtmlString = (
+export const returnFieldValueFromLabHtmlString = (
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
