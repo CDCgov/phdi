@@ -29,7 +29,8 @@ import {
 } from "@/app/format-service";
 
 export interface DisplayData {
-  title: string;
+  title?: string;
+  className?: string;
   value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
 }
 
@@ -650,9 +651,13 @@ export const DataDisplay: React.FC<{
   return (
     <div>
       <div className="grid-row">
-        <div className="data-title">{item.title}</div>
+        {item.title ? <div className="data-title">{item.title}</div> : ""}
         <div
-          className={classNames("grid-col-auto maxw7 text-pre-line", className)}
+          className={classNames(
+            "grid-col-auto maxw7 text-pre-line",
+            className,
+            item.className ? item.className : "",
+          )}
         >
           {item.value}
         </div>

@@ -308,7 +308,7 @@ export const evaluateDiagnosticReportData = (
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
-): {} => {
+): React.JSX.Element | undefined => {
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Component", infoPath: "observationComponent" },
     { columnName: "Value", infoPath: "observationValue" },
@@ -353,7 +353,6 @@ export const evaluateLabInfoData = (
   const rrData = labReports.map((report) => {
     const labTable = evaluateDiagnosticReportData(report, fhirBundle, mappings);
     const rrInfo: DisplayData[] = [
-      // { value: labTable },
       {
         title: "Analysis Time",
         value: returnAnalysisTime(
@@ -362,18 +361,22 @@ export const evaluateLabInfoData = (
           mappings,
           "Analysis Time",
         ),
+        className: "lab-text-content",
       },
       {
         title: "Collection Time",
         value: returnCollectionTime(report, fhirBundle, mappings),
+        className: "lab-text-content",
       },
       {
         title: "Received Time",
         value: returnReceivedTime(report, fhirBundle, mappings),
+        className: "lab-text-content",
       },
       {
         title: "Specimen (Source)",
         value: returnSpecimenSource(report, fhirBundle, mappings),
+        className: "lab-text-content",
       },
       {
         title: "Anatomical Location/Laterality",
@@ -383,8 +386,10 @@ export const evaluateLabInfoData = (
           mappings,
           "Anatomical Location / Laterality",
         ),
+        className: "lab-text-content",
       },
     ];
+    if (labTable) rrInfo.unshift({ value: labTable, className: "lab-table" });
     const content: Array<React.JSX.Element> = rrInfo.map((item) => {
       return <DataDisplay item={item} />;
     });
