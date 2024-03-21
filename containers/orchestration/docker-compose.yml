@@ -59,6 +59,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "prom_data:/prometheus"
   grafana:
     image: grafana/grafana-oss
     ports:
@@ -71,4 +78,5 @@ services:
     depends_on:
       - db
 volumes:
+  prom_data:
   grafana_data:
