@@ -1,7 +1,7 @@
 import "../styles/styles.scss";
 export const metadata = {
   title: "DIBBs eCR Viewer",
-  description: "View an eCR the easy way",
+  description: "View your eCR data in an easy-to-understand format.",
 };
 
 export default function RootLayout({
