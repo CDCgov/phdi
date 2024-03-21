@@ -35,7 +35,11 @@ const UnavailableInfo = ({
         </h3>
         <div className="usa-summary-box__text">
           {data.map((item, index) => (
-            <DataDisplay item={{ ...item, value: "N/A" }} key={index} />
+            <DataDisplay
+              item={{ ...item, value: "No data" }}
+              className={"text-italic text-base"}
+              key={index}
+            />
           ))}
         </div>
       </div>

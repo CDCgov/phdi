@@ -17,11 +17,7 @@
     },
     {
       "service": "ingestion",
-      "endpoint": "/fhir/geospatial/geocode/geocode_bundle",
-      "params": {
-        "geocode_method": "census",
-        "overwrite": "true"
-      }
+      "endpoint": "/fhir/geospatial/geocode/geocode_bundle"
     },
     {
       "service": "message_parser",

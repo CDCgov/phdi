@@ -160,7 +160,7 @@ jobs:
           MPI_PORT: 5432
           MPI_PATIENT_TABLE: patient
           MPI_PERSON_TABLE: person
-        working-directory: ./containers/${{matrix.container-to-test}}/tests
+        working-directory: ./containers/${{matrix.container-to-test}}
         run: |
           python -m pytest -m "not integration"
   integration-test-python-containers:

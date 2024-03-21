@@ -91,3 +91,10 @@ procedures: "Bundle.entry.resource.where(resourceType='Procedure')"
 procedureName: "Procedure.code.coding.first().display"
 procedureDate: "Procedure.performedDateTime"
 procedureReason: "Procedure.reason.display"
+
+# Lab Info
+diagnosticReports: "Bundle.entry.resource.where(resourceType = 'DiagnosticReport')"
+observationComponent: "code.coding.display"
+observationValue: "value"
+observationReferenceRange: "referenceRange.text"
+observationMethod: "method"

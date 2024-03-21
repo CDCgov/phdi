@@ -1,13 +1,35 @@
-import { Bundle } from "fhir/r4";
-import { evaluate } from "fhirpath";
-import { Table } from "@trussworks/react-uswds";
 import React from "react";
+import * as dateFns from "date-fns";
+import {
+  Bundle,
+  Condition,
+  FhirResource,
+  Immunization,
+  Organization,
+  Procedure,
+} from "fhir/r4";
+import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
+import { Table } from "@trussworks/react-uswds";
+import {
+  evaluateReference,
+  evaluateDiagnosticReportData,
+  evaluateValue,
+} from "@/app/evaluate-service";
+import {
+  formatAddress,
+  formatDate,
+  formatName,
+  formatPhoneNumber,
+  formatStartEndDateTime,
+  formatVitals,
+  formatDateTime,
+} from "@/app/format-service";
 
 export interface DisplayData {
   title: string;
-  value: string | React.JSX.Element | undefined;
+  value?: string | React.JSX.Element | React.JSX.Element[];
 }
 
 export interface PathMappings {
@@ -19,8 +41,13 @@ export interface ColumnInfoInput {
   infoPath: string;
 }
 
-export const formatPatientName = (
-  fhirBundle: Bundle | undefined,
+export interface CompleteData {
+  availableData: DisplayData[];
+  unavailableData: DisplayData[];
+}
+
+export const evaluatePatientName = (
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const givenNames = evaluate(
@@ -32,16 +59,8 @@ export const formatPatientName = (
   return `${givenNames} ${familyName}`;
 };
 
-const formatName = (firstName: string, lastName: string) => {
-  if (firstName != undefined) {
-    return `${firstName} ${lastName}`;
-  } else {
-    return undefined;
-  }
-};
-
 export const extractPatientAddress = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const streetAddresses = evaluate(
@@ -56,7 +75,7 @@ export const extractPatientAddress = (
 };
 
 function extractLocationResource(
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) {
   const locationReference = evaluate(
@@ -69,7 +88,7 @@ function extractLocationResource(
 }
 
 export const extractFacilityAddress = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const locationResource = extractLocationResource(
@@ -86,30 +105,8 @@ export const extractFacilityAddress = (
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
-const formatAddress = (
-  streetAddress: string[],
-  city: string,
-  state: string,
-  zipCode: string,
-  country: string,
-) => {
-  let address = {
-    streetAddress: streetAddress || [],
-    cityState: [city, state],
-    zipCodeCountry: [zipCode, country],
-  };
-
-  return [
-    address.streetAddress.join("\n"),
-    address.cityState.filter(Boolean).join(", "),
-    address.zipCodeCountry.filter(Boolean).join(", "),
-  ]
-    .filter(Boolean)
-    .join("\n");
-};
-
 export const extractFacilityContactInfo = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const locationResource = extractLocationResource(
@@ -122,8 +119,8 @@ export const extractFacilityContactInfo = (
   return phoneNumbers?.[0].value;
 };
 
-export const formatPatientContactInfo = (
-  fhirBundle: Bundle | undefined,
+export const evaluatePatientContactInfo = (
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const phoneNumbers = evaluate(
@@ -145,8 +142,8 @@ export const formatPatientContactInfo = (
   return `${phoneNumbers}\n${emails}`;
 };
 
-export const formatEncounterDate = (
-  fhirBundle: Bundle | undefined,
+export const evaluateEncounterDate = (
+  fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
   const startDate = formatDateTime(
@@ -160,184 +157,75 @@ export const formatEncounterDate = (
     End: ${endDate}`;
 };
 
-const formatDateTime = (dateTime: string) => {
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "numeric",
-    minute: "2-digit",
-  };
-
-  return new Date(dateTime)
-    .toLocaleDateString("en-Us", options)
-    .replace(",", "");
-};
-
-export const formatDate = (date: string) => {
-  if (!date || date === null) {
-    return "N/A";
-  }
-
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  };
-
-  return new Date(date).toLocaleDateString("en-US", {
-    ...options,
-    timeZone: "UTC",
-  }); // UTC, otherwise will have timezone issues
-};
-
-const formatPhoneNumber = (phoneNumber: string) => {
-  try {
-    return phoneNumber
-      .replace(/\D/g, "")
-      .replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-  } catch {
-    return undefined;
-  }
-};
-
-const formatStartEndDateTime = (
-  startDateTime: "string",
-  endDateTime: "string",
-) => {
-  const startDateObject = new Date(startDateTime);
-  const endDateObject = new Date(endDateTime);
-
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-
-  const startFormattedDate = startDateObject
-    .toLocaleString("en-US", options)
-    .replace(",", "");
-  const endFormattedDate = endDateObject
-    .toLocaleString("en-us", options)
-    .replace(",", "");
-
-  return `Start: ${startFormattedDate}
-        End: ${endFormattedDate}`;
-};
-
-const formatVitals = (
-  heightAmount: string,
-  heightMeasurementType: string,
-  weightAmount: string,
-  weightMeasurementType: string,
-  bmi: string,
-) => {
-  let heightString = "";
-  let weightString = "";
-  let bmiString = "";
-
-  let heightType = "";
-  let weightType = "";
-  if (heightAmount && heightMeasurementType) {
-    if (heightMeasurementType === "[in_i]") {
-      heightType = "inches";
-    } else if (heightMeasurementType === "cm") {
-      heightType = "cm";
-    }
-    heightString = `Height: ${heightAmount} ${heightType}\n\n`;
-  }
-
-  if (weightAmount && weightMeasurementType) {
-    if (weightMeasurementType === "[lb_av]") {
-      weightType = "Lbs";
-    } else if (weightMeasurementType === "kg") {
-      weightType = "kg";
-    }
-    weightString = `Weight: ${weightAmount} ${weightType}\n\n`;
-  }
-
-  if (bmi) {
-    bmiString = `Body Mass Index (BMI): ${bmi}`;
-  }
-
-  const combinedString = `${heightString} ${weightString} ${bmiString}`;
-  return combinedString.trim();
-};
-
-const formatTable = (
-  resources: React.JSX.Element[],
+/**
+ * Formats a table based on the provided resources, mappings, columns, and caption.
+ * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
+ *                                      The order of columns in the array determines the order of appearance.
+ * @param {string} caption - The caption for the table.
+ * @param {boolean} [outerBorder=true] - Optional. Determines whether to include an outer border for the table. Default is true.
+ * @returns {React.JSX.Element} - A formatted table React element.
+ */
+export const evaluateTable = (
+  resources: FhirResource[],
   mappings: PathMappings,
-  columns: ColumnInfoInput[], // Order of columns in array = order of apearance
+  columns: ColumnInfoInput[],
   caption: string,
-) => {
-  let headers: React.JSX.Element[] = [];
-  columns.forEach((column, index) => {
-    const header = (
-      <th
-        key={`${column.columnName}${index}`}
-        scope="col"
-        className="bg-gray-5 minw-15"
-      >
-        {column.columnName}
-      </th>
-    );
-    headers.push(header);
-  });
+  outerBorder: boolean = true,
+): React.JSX.Element => {
+  let headers = columns.map((column, index) => (
+    <th
+      key={`${column.columnName}${index}`}
+      scope="col"
+      className="bg-gray-5 minw-15"
+    >
+      {column.columnName}
+    </th>
+  ));
 
-  let tableRows: React.JSX.Element[] = [];
-  resources.forEach((entry, index) => {
-    let rowCells: React.JSX.Element[] = [];
-    columns.forEach(function (column, index) {
-      let isFirstCell = index === 0;
-
-      let rowCellData;
-      evaluate(entry, mappings[column.infoPath])[0]
-        ? (rowCellData = evaluate(entry, mappings[column.infoPath])[0])
-        : (rowCellData = "N/A");
-
-      let rowCell = isFirstCell ? (
-        <th key={`row-header-${index}`} scope="row" className="text-top">
-          {rowCellData}
-        </th>
-      ) : (
+  let tableRows = resources.map((entry, index) => {
+    let rowCells = columns.map((column, index) => {
+      let rowCellData = evaluateValue(entry, mappings[column.infoPath]) || (
+        <span className={"text-italic text-base"}>No data</span>
+      );
+      return (
         <td key={`row-data-${index}`} className="text-top">
           {rowCellData}
         </td>
       );
-      rowCells.push(rowCell);
     });
-    const tableRow = <tr key={`table-row-${index}`}>{rowCells}</tr>;
-    tableRows.push(tableRow);
+
+    return <tr key={`table-row-${index}`}>{rowCells}</tr>;
   });
 
-  const tableContent = (
-    <>
+  return (
+    <Table
+      fixed={true}
+      bordered={false}
+      fullWidth={true}
+      caption={caption}
+      className={classNames("table-caption-margin margin-y-0", {
+        "border-top border-left border-right": outerBorder,
+      })}
+      data-testid="table"
+    >
       <thead>
         <tr>{headers}</tr>
       </thead>
       <tbody>{tableRows}</tbody>
-    </>
-  );
-  const table = (
-    <Table
-      bordered={false}
-      fullWidth={true}
-      caption={caption}
-      className="border-top border-left border-right table-caption-margin margin-y-0"
-      data-testid="table"
-    >
-      {tableContent}
     </Table>
   );
-
-  return table;
 };
 
+/**
+ * Extracts travel history information from the provided FHIR bundle based on the FHIR path mappings.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing patient travel history data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {string | undefined} - A formatted string representing the patient's travel history, or undefined if no relevant data is found.
+ */
 const extractTravelHistory = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ): string | undefined => {
   const startDate = evaluate(
@@ -358,18 +246,29 @@ const extractTravelHistory = (
   )[0];
   if (startDate || endDate || location || purposeOfTravel) {
     return `Dates: ${startDate} - ${endDate}
-       Location(s): ${location ?? "N/A"}
-       Purpose of Travel: ${purposeOfTravel ?? "N/A"}
+       Location(s): ${location ?? "No data"}
+       Purpose of Travel: ${purposeOfTravel ?? "No data"}
        `;
   }
-  return undefined;
+};
+
+export const calculatePatientAge = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+) => {
+  const patientDOBString = evaluate(fhirBundle, fhirPathMappings.patientDOB)[0];
+  if (patientDOBString) {
+    const patientDOB = new Date(patientDOBString);
+    const today = new Date();
+    return dateFns.differenceInYears(today, patientDOB);
+  }
 };
 
 export const evaluateSocialData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const socialData = [
+  const socialData: DisplayData[] = [
     {
       title: "Occupation",
       value: evaluate(fhirBundle, mappings["patientCurrentJobTitle"])[0],
@@ -411,15 +310,19 @@ export const evaluateSocialData = (
 };
 
 export const evaluateDemographicsData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const demographicsData = [
+  const demographicsData: DisplayData[] = [
     {
       title: "Patient Name",
-      value: formatPatientName(fhirBundle, mappings),
+      value: evaluatePatientName(fhirBundle, mappings),
     },
     { title: "DOB", value: evaluate(fhirBundle, mappings.patientDOB)[0] },
+    {
+      title: "Current Age",
+      value: calculatePatientAge(fhirBundle, mappings)?.toString(),
+    },
     { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
     { title: "Race", value: evaluate(fhirBundle, mappings.patientRace)[0] },
     {
@@ -442,7 +345,10 @@ export const evaluateDemographicsData = (
       title: "County",
       value: evaluate(fhirBundle, mappings.patientCounty)[0],
     },
-    { title: "Contact", value: formatPatientContactInfo(fhirBundle, mappings) },
+    {
+      title: "Contact",
+      value: evaluatePatientContactInfo(fhirBundle, mappings),
+    },
     {
       title: "Emergency Contact",
       value: evaluateEmergencyContact(fhirBundle, mappings),
@@ -456,7 +362,7 @@ export const evaluateDemographicsData = (
 };
 
 export const evaluateEncounterData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const encounterData = [
@@ -504,7 +410,7 @@ export const evaluateEncounterData = (
 };
 
 export const evaluateProviderData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const providerData = [
@@ -526,7 +432,7 @@ export const evaluateProviderData = (
 };
 
 export const evaluateEcrMetadata = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const rrDetails1 = evaluate(fhirBundle, mappings.rrDetails);
@@ -572,6 +478,12 @@ export const evaluateEcrMetadata = (
     }
   }
 
+  const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
+
+  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) =>
+    evaluateReference(fhirBundle, mappings, ref),
+  );
+
   const eicrDetails: DisplayData[] = [
     {
       title: "eICR Identifier",
@@ -589,7 +501,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Sender Facility Name",
-      value: evaluate(fhirBundle, mappings.senderFacilityName),
+      value: evaluate(fhirBundle, mappings.senderFacilityName)[0],
     },
     {
       title: "Facility Address",
@@ -611,10 +523,16 @@ export const evaluateEcrMetadata = (
   };
 };
 
+/**
+ * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
+ * @param {Condition[]} problemsArray - An array containing the list of problems.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
+ */
 export const returnProblemsTable = (
-  problemsArray: any[],
+  problemsArray: Condition[],
   mappings: PathMappings,
-) => {
+): React.JSX.Element | undefined => {
   if (problemsArray.length === 0) {
     return undefined;
   }
@@ -626,24 +544,28 @@ export const returnProblemsTable = (
   ];
 
   problemsArray.forEach((entry) => {
-    entry.onsetDateTime
-      ? (entry.onsetDateTime = formatDate(entry.onsetDateTime))
-      : (entry.onsetDateTime = "N/A");
+    entry.onsetDateTime = formatDate(entry.onsetDateTime);
   });
 
-  problemsArray.sort(function (a, b) {
-    return (
-      new Date(b.onsetDateTime).getTime() - new Date(a.onsetDateTime).getTime()
-    );
-  });
+  problemsArray.sort(
+    (a, b) =>
+      new Date(b.onsetDateTime ?? "").getTime() -
+      new Date(a.onsetDateTime ?? "").getTime(),
+  );
 
-  return formatTable(problemsArray, mappings, columnInfo, "Problems List");
+  return evaluateTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
+/**
+ * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
+ * @param {Immunization[]} immunizationsArray - An array containing the list of immunizations.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
+ */
 export const returnImmunizations = (
-  immunizationsArray: any[],
+  immunizationsArray: Immunization[],
   mappings: PathMappings,
-) => {
+): React.JSX.Element | undefined => {
   if (immunizationsArray.length === 0) {
     return undefined;
   }
@@ -655,16 +577,16 @@ export const returnImmunizations = (
   ];
 
   immunizationsArray.forEach((entry) => {
-    entry.occurrenceDateTime
-      ? (entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime))
-      : (entry.occurrenceDateTime = "N/A");
+    entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime);
   });
 
-  immunizationsArray.sort(function (a, b) {
-    return +new Date(b.occurrenceDateTime) - +new Date(a.occurrenceDateTime);
-  });
+  immunizationsArray.sort(
+    (a, b) =>
+      new Date(b.occurrenceDateTime ?? "").getTime() -
+      new Date(a.occurrenceDateTime ?? "").getTime(),
+  );
 
-  return formatTable(
+  return evaluateTable(
     immunizationsArray,
     mappings,
     columnInfo,
@@ -672,10 +594,16 @@ export const returnImmunizations = (
   );
 };
 
+/**
+ * Generates a formatted table representing the list of procedures based on the provided array of procedures and mappings.
+ * @param {Procedure[]} proceduresArray - An array containing the list of procedures.
+ * @param {PathMappings} mappings - An object containing FHIR path mappings for procedure attributes.
+ * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of procedures, or undefined if the procedures array is empty.
+ */
 export const returnProceduresTable = (
-  proceduresArray: any[],
+  proceduresArray: Procedure[],
   mappings: PathMappings,
-) => {
+): React.JSX.Element | undefined => {
   if (proceduresArray.length === 0) {
     return undefined;
   }
@@ -687,29 +615,27 @@ export const returnProceduresTable = (
   ];
 
   proceduresArray.forEach((entry) => {
-    entry.performedDateTime
-      ? (entry.performedDateTime = formatDate(entry.performedDateTime))
-      : (entry.performedDateTime = "N/A");
+    entry.performedDateTime = formatDate(entry.performedDateTime);
   });
 
-  proceduresArray.sort((a, b) => {
-    const dateA = new Date(a.performedDateTime).getTime();
-    const dateB = new Date(b.performedDateTime).getTime();
-    return dateB - dateA;
-  });
+  proceduresArray.sort(
+    (a, b) =>
+      new Date(b.performedDateTime ?? "").getTime() -
+      new Date(a.performedDateTime ?? "").getTime(),
+  );
 
-  return formatTable(proceduresArray, mappings, columnInfo, "Procedures");
+  return evaluateTable(proceduresArray, mappings, columnInfo, "Procedures");
 };
 
 export const evaluateClinicalData = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const clinicalNotes: DisplayData[] = [
     {
       title: "Miscellaneous Notes",
       value: parse(
-        evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0].div,
+        evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0]?.div || "",
       ),
     },
   ];
@@ -773,13 +699,17 @@ export const evaluateClinicalData = (
   };
 };
 
-const evaluateData = (data: DisplayData[]) => {
+/**
+ * Evaluates the provided display data to determine availability.
+ * @param {DisplayData[]} data - An array of display data items to be evaluated.
+ * @returns {CompleteData} - An object containing arrays of available and unavailable display data items.
+ */
+const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
     if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
       unavailableData.push(item);
-      item.value = "N/A";
     } else {
       availableData.push(item);
     }
@@ -787,23 +717,23 @@ const evaluateData = (data: DisplayData[]) => {
   return { availableData: availableData, unavailableData: unavailableData };
 };
 
-export const formatString = (input: string): string => {
-  // Convert to lowercase
-  let result = input.toLowerCase();
-
-  // Replace spaces with underscores
-  result = result.replace(/\s+/g, "-");
-
-  // Remove all special characters except underscores
-  result = result.replace(/[^a-z0-9\-]/g, "");
-
-  return result;
-};
-
+/**
+ * Functional component for displaying data.
+ * @param {object} props - Props for the component.
+ * @param {DisplayData} props.item - The display data item to be rendered.
+ * @param {string} [props.className] - Additional class name for styling purposes.
+ * @returns {React.JSX.Element} - A React element representing the display of data.
+ */
 export const DataDisplay: React.FC<{
   item: DisplayData;
   className?: string;
-}> = ({ item, className }): React.JSX.Element => {
+}> = ({
+  item,
+  className,
+}: {
+  item: DisplayData;
+  className?: string;
+}): React.JSX.Element => {
   return (
     <div>
       <div className="grid-row">
@@ -831,7 +761,7 @@ export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
 };
 
 export const evaluateEmergencyContact = (
-  fhirBundle: Bundle | undefined,
+  fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
   const contact = evaluate(fhirBundle, mappings.patientEmergencyContact)[0];
@@ -872,4 +802,43 @@ export const evaluateEmergencyContact = (
 
     return formattedContact;
   }
+};
+
+/**
+ * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {{
+ *   labInfo: CompleteData,
+ *   labResults: React.JSX.Element[]
+ * }} An object containing evaluated lab information and lab results.
+ */
+export const evaluateLabInfoData = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): {
+  labInfo: CompleteData;
+  labResults: React.JSX.Element[];
+} => {
+  const labInfo: DisplayData[] = [
+    {
+      title: "Lab Performing Name",
+      value: "",
+    },
+    {
+      title: "Lab Address",
+      value: "",
+    },
+    {
+      title: "Lab Contact",
+      value: "",
+    },
+  ];
+
+  const rrData = evaluateDiagnosticReportData(fhirBundle, mappings);
+
+  return {
+    labInfo: evaluateData(labInfo),
+    labResults: rrData,
+  };
 };

@@ -12,15 +12,17 @@ client = TestClient(app)
 
 @pytest.fixture
 def fhir_bundle(read_json_from_test_assets):
-    return read_json_from_test_assets("demo_phdc_conversion_bundle.json")
+    return read_json_from_test_assets("sample_fhir_bundle_for_phdc_conversion.json")
 
 
-expected_successful_response = utils.read_file_from_assets("demo_phdc.xml")
+@pytest.fixture
+def expected_successful_response(read_file_from_test_assets):
+    return read_file_from_test_assets("sample_valid_phdc_response.xml")
 
 
 @patch.object(uuid, "uuid4", lambda: "495669c7-96bf-4573-9dd8-59e745e05576")
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
-def test_endpoint(fhir_bundle):
+def test_endpoint(fhir_bundle, expected_successful_response):
     test_request = {
         "phdc_report_type": "case_report",
         "message": fhir_bundle,

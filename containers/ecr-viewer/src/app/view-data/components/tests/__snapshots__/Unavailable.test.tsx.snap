@@ -30,9 +30,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Tribal Affiliation
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -49,9 +49,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Preffered Language
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -81,9 +81,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Travel History
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -100,9 +100,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Pregnancy Status
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -119,9 +119,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Alcohol Use
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -138,9 +138,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Sexual Orientation
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -157,9 +157,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Gender Identity
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -189,9 +189,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Facility Address
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -221,9 +221,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Miscellaneous Notes
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -253,9 +253,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Provider Name
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -285,9 +285,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Problems List
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -317,9 +317,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Vitals
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -349,9 +349,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Immunization History
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
@@ -381,9 +381,9 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   Procedures
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
                 >
-                  N/A
+                  No data
                 </div>
               </div>
               <div
