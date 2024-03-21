@@ -304,7 +304,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         },
         "relatesTo": [
           {
@@ -362,7 +362,7 @@
           "end": "2022-09-28T12:30:00-07:00"
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         },
         "location": [
           {
@@ -853,10 +853,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:418cd41d-2b69-4c7a-9f84-e528c6f97549",
+      "fullUrl": "urn:uuid:12c043f2-259b-497a-88f4-b52aa0893e13",
       "resource": {
         "resourceType": "Patient",
-        "id": "418cd41d-2b69-4c7a-9f84-e528c6f97549",
+        "id": "12c043f2-259b-497a-88f4-b52aa0893e13",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -990,7 +990,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+        "url": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
       }
     },
     {
@@ -1035,7 +1035,7 @@
         },
         "onsetDateTime": "2022-09-24",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         },
         "meta": {
           "source": [
@@ -1090,7 +1090,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         },
         "meta": {
           "source": [
@@ -1145,7 +1145,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         },
         "meta": {
           "source": [
@@ -1184,7 +1184,7 @@
           "end": "2002-09-29T15:01:00Z"
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         },
         "performer": [
           {
@@ -1302,7 +1302,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         },
         "performer": [
           {
@@ -1402,7 +1402,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         }
       },
       "request": {
@@ -1460,7 +1460,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         }
       },
       "request": {
@@ -1518,7 +1518,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         }
       },
       "request": {
@@ -1576,7 +1576,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         }
       },
       "request": {
@@ -1618,6 +1618,7 @@
           "coding": [
             {
               "code": "63504-5",
+              "display": "What is the highest grade or level of school you have completed or the highest degree you have received [NHANES]",
               "system": "http://loinc.org"
             }
           ]
@@ -1625,7 +1626,7 @@
         "effectiveDateTime": "2022-09-24",
         "valueString": "17",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/12c043f2-259b-497a-88f4-b52aa0893e13"
         }
       },
       "request": {

@@ -545,7 +545,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "encounter": {
           "reference": "Encounter/bd69e04f-3928-5131-0ec7-3581aece8c37"
@@ -590,7 +590,7 @@
           "end": "2022-04-28T11:21:00Z"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "location": [
           {
@@ -889,10 +889,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a50bf82d-639a-4f41-9ef4-b6f7fe06535e",
+      "fullUrl": "urn:uuid:34c1b0f0-9eed-4d62-a840-640e87f096e3",
       "resource": {
         "resourceType": "Patient",
-        "id": "a50bf82d-639a-4f41-9ef4-b6f7fe06535e",
+        "id": "34c1b0f0-9eed-4d62-a840-640e87f096e3",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1006,7 +1006,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+        "url": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
       }
     },
     {
@@ -1025,12 +1025,13 @@
           "coding": [
             {
               "code": "5803-2",
+              "display": "pH of Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -1082,6 +1083,7 @@
           "coding": [
             {
               "code": "5803-2",
+              "display": "pH of Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -1103,7 +1105,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -1127,12 +1129,13 @@
           "coding": [
             {
               "code": "2965-2",
+              "display": "Specific gravity of Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -1184,6 +1187,7 @@
           "coding": [
             {
               "code": "2965-2",
+              "display": "Specific gravity of Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -1205,7 +1209,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -1229,12 +1233,13 @@
           "coding": [
             {
               "code": "19161-9",
+              "display": "Urobilinogen [Units/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -1286,6 +1291,7 @@
           "coding": [
             {
               "code": "19161-9",
+              "display": "Urobilinogen [Units/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -1303,7 +1309,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -1327,12 +1333,13 @@
           "coding": [
             {
               "code": "725-2",
+              "display": "Hemoglobin [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -1384,6 +1391,7 @@
           "coding": [
             {
               "code": "725-2",
+              "display": "Hemoglobin [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -1410,7 +1418,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -1434,12 +1442,13 @@
           "coding": [
             {
               "code": "1977-8",
+              "display": "Bilirubin.total [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -1491,6 +1500,7 @@
           "coding": [
             {
               "code": "1977-8",
+              "display": "Bilirubin.total [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -1517,7 +1527,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -1541,12 +1551,13 @@
           "coding": [
             {
               "code": "5799-2",
+              "display": "Leukocyte esterase [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -1598,6 +1609,7 @@
           "coding": [
             {
               "code": "5799-2",
+              "display": "Leukocyte esterase [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -1624,7 +1636,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -1648,12 +1660,13 @@
           "coding": [
             {
               "code": "5778-6",
+              "display": "Color of Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -1705,6 +1718,7 @@
           "coding": [
             {
               "code": "5778-6",
+              "display": "Color of Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -1731,7 +1745,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -1755,12 +1769,13 @@
           "coding": [
             {
               "code": "8247-9",
+              "display": "Mucus [Presence] in Urine sediment by Light microscopy",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -1812,6 +1827,7 @@
           "coding": [
             {
               "code": "8247-9",
+              "display": "Mucus [Presence] in Urine sediment by Light microscopy",
               "system": "http://loinc.org"
             }
           ]
@@ -1838,7 +1854,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -1862,12 +1878,13 @@
           "coding": [
             {
               "code": "11277-1",
+              "display": "Epithelial cells.squamous [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -1919,6 +1936,7 @@
           "coding": [
             {
               "code": "11277-1",
+              "display": "Epithelial cells.squamous [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
@@ -1940,7 +1958,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -1964,12 +1982,13 @@
           "coding": [
             {
               "code": "5821-4",
+              "display": "Leukocytes [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2021,6 +2040,7 @@
           "coding": [
             {
               "code": "5821-4",
+              "display": "Leukocytes [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
@@ -2042,7 +2062,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -2066,12 +2086,13 @@
           "coding": [
             {
               "code": "13945-1",
+              "display": "Erythrocytes [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2123,6 +2144,7 @@
           "coding": [
             {
               "code": "13945-1",
+              "display": "Erythrocytes [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
@@ -2144,7 +2166,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -2168,12 +2190,13 @@
           "coding": [
             {
               "code": "5804-0",
+              "display": "Protein [Mass/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2225,6 +2248,7 @@
           "coding": [
             {
               "code": "5804-0",
+              "display": "Protein [Mass/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -2251,7 +2275,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -2275,12 +2299,13 @@
           "coding": [
             {
               "code": "5802-4",
+              "display": "Nitrite [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2332,6 +2357,7 @@
           "coding": [
             {
               "code": "5802-4",
+              "display": "Nitrite [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -2358,7 +2384,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -2382,12 +2408,13 @@
           "coding": [
             {
               "code": "33903-6",
+              "display": "Ketones [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2439,6 +2466,7 @@
           "coding": [
             {
               "code": "33903-6",
+              "display": "Ketones [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -2465,7 +2493,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -2489,12 +2517,13 @@
           "coding": [
             {
               "code": "2350-7",
+              "display": "Glucose [Mass/volume] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2546,6 +2575,7 @@
           "coding": [
             {
               "code": "2350-7",
+              "display": "Glucose [Mass/volume] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -2572,7 +2602,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -2596,12 +2626,13 @@
           "coding": [
             {
               "code": "5769-5",
+              "display": "Bacteria [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2653,6 +2684,7 @@
           "coding": [
             {
               "code": "5769-5",
+              "display": "Bacteria [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
@@ -2679,7 +2711,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -2703,12 +2735,13 @@
           "coding": [
             {
               "code": "32167-9",
+              "display": "Clarity of Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2760,6 +2793,7 @@
           "coding": [
             {
               "code": "32167-9",
+              "display": "Clarity of Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -2777,7 +2811,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -2801,12 +2835,13 @@
           "coding": [
             {
               "code": "2112-1",
+              "display": "Choriogonadotropin.beta subunit (pregnancy test) [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2858,6 +2893,7 @@
           "coding": [
             {
               "code": "2112-1",
+              "display": "Choriogonadotropin.beta subunit (pregnancy test) [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -2884,7 +2920,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -2908,12 +2944,13 @@
           "coding": [
             {
               "code": "5803-2",
+              "display": "pH of Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -2965,6 +3002,7 @@
           "coding": [
             {
               "code": "5803-2",
+              "display": "pH of Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -2980,7 +3018,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3004,12 +3042,13 @@
           "coding": [
             {
               "code": "2965-2",
+              "display": "Specific gravity of Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3061,13 +3100,14 @@
           "coding": [
             {
               "code": "2965-2",
+              "display": "Specific gravity of Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "effectiveDateTime": "2022-04-28T15:07:00Z",
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3091,12 +3131,13 @@
           "coding": [
             {
               "code": "19161-9",
+              "display": "Urobilinogen [Units/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3148,6 +3189,7 @@
           "coding": [
             {
               "code": "19161-9",
+              "display": "Urobilinogen [Units/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -3174,7 +3216,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3198,12 +3240,13 @@
           "coding": [
             {
               "code": "725-2",
+              "display": "Hemoglobin [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3255,6 +3298,7 @@
           "coding": [
             {
               "code": "725-2",
+              "display": "Hemoglobin [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -3262,7 +3306,7 @@
         "effectiveDateTime": "2022-04-28T15:07:00Z",
         "valueString": "Trace-lysed",
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3286,12 +3330,13 @@
           "coding": [
             {
               "code": "1977-8",
+              "display": "Bilirubin.total [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3343,6 +3388,7 @@
           "coding": [
             {
               "code": "1977-8",
+              "display": "Bilirubin.total [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -3360,7 +3406,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3384,12 +3430,13 @@
           "coding": [
             {
               "code": "5799-2",
+              "display": "Leukocyte esterase [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3441,6 +3488,7 @@
           "coding": [
             {
               "code": "5799-2",
+              "display": "Leukocyte esterase [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -3467,7 +3515,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3491,12 +3539,13 @@
           "coding": [
             {
               "code": "5804-0",
+              "display": "Protein [Mass/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3548,6 +3597,7 @@
           "coding": [
             {
               "code": "5804-0",
+              "display": "Protein [Mass/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -3565,7 +3615,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3589,12 +3639,13 @@
           "coding": [
             {
               "code": "5802-4",
+              "display": "Nitrite [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3646,6 +3697,7 @@
           "coding": [
             {
               "code": "5802-4",
+              "display": "Nitrite [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -3663,7 +3715,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3687,12 +3739,13 @@
           "coding": [
             {
               "code": "33903-6",
+              "display": "Ketones [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3744,6 +3797,7 @@
           "coding": [
             {
               "code": "33903-6",
+              "display": "Ketones [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -3761,7 +3815,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3785,12 +3839,13 @@
           "coding": [
             {
               "code": "2350-7",
+              "display": "Glucose [Mass/volume] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3842,6 +3897,7 @@
           "coding": [
             {
               "code": "2350-7",
+              "display": "Glucose [Mass/volume] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -3859,7 +3915,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3883,12 +3939,13 @@
           "coding": [
             {
               "code": "35592-5",
+              "display": "Creatinine renal clearance/1.73 sq M.predicted by Cockcroft-Gault formula, BSA formula",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -3940,6 +3997,7 @@
           "coding": [
             {
               "code": "35592-5",
+              "display": "Creatinine renal clearance/1.73 sq M.predicted by Cockcroft-Gault formula, BSA formula",
               "system": "http://loinc.org"
             }
           ]
@@ -3950,7 +4008,7 @@
           "unit": "mL/min"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -3974,12 +4032,13 @@
           "coding": [
             {
               "code": "10839-9",
+              "display": "Troponin I.cardiac [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4031,6 +4090,7 @@
           "coding": [
             {
               "code": "10839-9",
+              "display": "Troponin I.cardiac [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -4052,7 +4112,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4076,12 +4136,13 @@
           "coding": [
             {
               "code": "50384-7",
+              "display": "Glomerular filtration rate/1.73 sq M.predicted [Volume Rate/Area] in Serum, Plasma or Blood by Creatinine-based formula (Schwartz)",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4133,6 +4194,7 @@
           "coding": [
             {
               "code": "50384-7",
+              "display": "Glomerular filtration rate/1.73 sq M.predicted [Volume Rate/Area] in Serum, Plasma or Blood by Creatinine-based formula (Schwartz)",
               "system": "http://loinc.org"
             }
           ]
@@ -4140,7 +4202,7 @@
         "effectiveDateTime": "2022-04-28T01:22:00Z",
         "valueString": "Not Reported",
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4164,12 +4226,13 @@
           "coding": [
             {
               "code": "18182-6",
+              "display": "Osmolality of Serum or Plasma by calculation",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4221,6 +4284,7 @@
           "coding": [
             {
               "code": "18182-6",
+              "display": "Osmolality of Serum or Plasma by calculation",
               "system": "http://loinc.org"
             }
           ]
@@ -4242,7 +4306,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4266,12 +4330,13 @@
           "coding": [
             {
               "code": "1759-0",
+              "display": "Albumin/Globulin [Mass Ratio] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4323,6 +4388,7 @@
           "coding": [
             {
               "code": "1759-0",
+              "display": "Albumin/Globulin [Mass Ratio] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -4333,7 +4399,7 @@
           "unit": "Ratio"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4357,12 +4423,13 @@
           "coding": [
             {
               "code": "48642-3",
+              "display": "Glomerular filtration rate/1.73 sq M.predicted among non-blacks [Volume Rate/Area] in Serum, Plasma or Blood by Creatinine-based formula (MDRD)",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4414,6 +4481,7 @@
           "coding": [
             {
               "code": "48642-3",
+              "display": "Glomerular filtration rate/1.73 sq M.predicted among non-blacks [Volume Rate/Area] in Serum, Plasma or Blood by Creatinine-based formula (MDRD)",
               "system": "http://loinc.org"
             }
           ]
@@ -4421,7 +4489,7 @@
         "effectiveDateTime": "2022-04-28T01:22:00Z",
         "valueString": "64.68 mL/min/1.73m2",
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4445,12 +4513,13 @@
           "coding": [
             {
               "code": "48643-1",
+              "display": "Glomerular filtration rate/1.73 sq M.predicted among blacks [Volume Rate/Area] in Serum, Plasma or Blood by Creatinine-based formula (MDRD)",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4502,6 +4571,7 @@
           "coding": [
             {
               "code": "48643-1",
+              "display": "Glomerular filtration rate/1.73 sq M.predicted among blacks [Volume Rate/Area] in Serum, Plasma or Blood by Creatinine-based formula (MDRD)",
               "system": "http://loinc.org"
             }
           ]
@@ -4509,7 +4579,7 @@
         "effectiveDateTime": "2022-04-28T01:22:00Z",
         "valueString": "74.97 mL/min/1.73m2",
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4533,12 +4603,13 @@
           "coding": [
             {
               "code": "2951-2",
+              "display": "Sodium [Moles/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4590,6 +4661,7 @@
           "coding": [
             {
               "code": "2951-2",
+              "display": "Sodium [Moles/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -4611,7 +4683,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4635,12 +4707,13 @@
           "coding": [
             {
               "code": "2823-3",
+              "display": "Potassium [Moles/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4692,6 +4765,7 @@
           "coding": [
             {
               "code": "2823-3",
+              "display": "Potassium [Moles/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -4713,7 +4787,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4737,12 +4811,13 @@
           "coding": [
             {
               "code": "33762-6",
+              "display": "Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4794,6 +4869,7 @@
           "coding": [
             {
               "code": "33762-6",
+              "display": "Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -4815,7 +4891,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4839,12 +4915,13 @@
           "coding": [
             {
               "code": "704-7",
+              "display": "Basophils [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4896,6 +4973,7 @@
           "coding": [
             {
               "code": "704-7",
+              "display": "Basophils [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -4906,7 +4984,7 @@
           "unit": "x10e3/mcL"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -4930,12 +5008,13 @@
           "coding": [
             {
               "code": "1751-7",
+              "display": "Albumin [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -4987,6 +5066,7 @@
           "coding": [
             {
               "code": "1751-7",
+              "display": "Albumin [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -5008,7 +5088,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5032,12 +5112,13 @@
           "coding": [
             {
               "code": "742-7",
+              "display": "Monocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5089,6 +5170,7 @@
           "coding": [
             {
               "code": "742-7",
+              "display": "Monocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -5099,7 +5181,7 @@
           "unit": "x10e3/mcL"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5123,12 +5205,13 @@
           "coding": [
             {
               "code": "751-8",
+              "display": "Neutrophils [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5180,6 +5263,7 @@
           "coding": [
             {
               "code": "751-8",
+              "display": "Neutrophils [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -5190,7 +5274,7 @@
           "unit": "x10e3/mcL"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5214,12 +5298,13 @@
           "coding": [
             {
               "code": "706-2",
+              "display": "Basophils/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5271,6 +5356,7 @@
           "coding": [
             {
               "code": "706-2",
+              "display": "Basophils/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -5292,7 +5378,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5316,12 +5402,13 @@
           "coding": [
             {
               "code": "713-8",
+              "display": "Eosinophils/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5373,6 +5460,7 @@
           "coding": [
             {
               "code": "713-8",
+              "display": "Eosinophils/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -5394,7 +5482,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5418,12 +5506,13 @@
           "coding": [
             {
               "code": "736-9",
+              "display": "Lymphocytes/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5475,6 +5564,7 @@
           "coding": [
             {
               "code": "736-9",
+              "display": "Lymphocytes/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -5496,7 +5586,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5520,12 +5610,13 @@
           "coding": [
             {
               "code": "770-8",
+              "display": "Neutrophils/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5577,6 +5668,7 @@
           "coding": [
             {
               "code": "770-8",
+              "display": "Neutrophils/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -5598,7 +5690,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5622,12 +5714,13 @@
           "coding": [
             {
               "code": "17861-6",
+              "display": "Calcium [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5679,6 +5772,7 @@
           "coding": [
             {
               "code": "17861-6",
+              "display": "Calcium [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -5700,7 +5794,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5724,12 +5818,13 @@
           "coding": [
             {
               "code": "53115-2",
+              "display": "Immature granulocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5781,6 +5876,7 @@
           "coding": [
             {
               "code": "53115-2",
+              "display": "Immature granulocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -5791,7 +5887,7 @@
           "unit": "x10e3/mcL"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5815,12 +5911,13 @@
           "coding": [
             {
               "code": "731-0",
+              "display": "Lymphocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5872,6 +5969,7 @@
           "coding": [
             {
               "code": "731-0",
+              "display": "Lymphocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -5882,7 +5980,7 @@
           "unit": "x10e3/mcL"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -5906,12 +6004,13 @@
           "coding": [
             {
               "code": "5905-5",
+              "display": "Monocytes/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -5963,6 +6062,7 @@
           "coding": [
             {
               "code": "5905-5",
+              "display": "Monocytes/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -5984,7 +6084,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6008,12 +6108,13 @@
           "coding": [
             {
               "code": "788-0",
+              "display": "Erythrocyte distribution width [Ratio] by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6065,6 +6166,7 @@
           "coding": [
             {
               "code": "788-0",
+              "display": "Erythrocyte distribution width [Ratio] by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -6086,7 +6188,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6110,12 +6212,13 @@
           "coding": [
             {
               "code": "71695-1",
+              "display": "Immature granulocytes/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6167,6 +6270,7 @@
           "coding": [
             {
               "code": "71695-1",
+              "display": "Immature granulocytes/100 leukocytes in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -6188,7 +6292,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6212,12 +6316,13 @@
           "coding": [
             {
               "code": "711-2",
+              "display": "Eosinophils [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6269,6 +6374,7 @@
           "coding": [
             {
               "code": "711-2",
+              "display": "Eosinophils [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -6279,7 +6385,7 @@
           "unit": "x10e3/mcL"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6303,12 +6409,13 @@
           "coding": [
             {
               "code": "2075-0",
+              "display": "Chloride [Moles/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6360,6 +6467,7 @@
           "coding": [
             {
               "code": "2075-0",
+              "display": "Chloride [Moles/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -6381,7 +6489,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6405,12 +6513,13 @@
           "coding": [
             {
               "code": "3094-0",
+              "display": "Urea nitrogen [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6462,6 +6571,7 @@
           "coding": [
             {
               "code": "3094-0",
+              "display": "Urea nitrogen [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -6483,7 +6593,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6507,12 +6617,13 @@
           "coding": [
             {
               "code": "777-3",
+              "display": "Platelets [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6564,6 +6675,7 @@
           "coding": [
             {
               "code": "777-3",
+              "display": "Platelets [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -6585,7 +6697,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6609,12 +6721,13 @@
           "coding": [
             {
               "code": "6690-2",
+              "display": "Leukocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6666,6 +6779,7 @@
           "coding": [
             {
               "code": "6690-2",
+              "display": "Leukocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -6687,7 +6801,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6711,12 +6825,13 @@
           "coding": [
             {
               "code": "2885-2",
+              "display": "Protein [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6768,6 +6883,7 @@
           "coding": [
             {
               "code": "2885-2",
+              "display": "Protein [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -6789,7 +6905,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6813,12 +6929,13 @@
           "coding": [
             {
               "code": "789-8",
+              "display": "Erythrocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6870,6 +6987,7 @@
           "coding": [
             {
               "code": "789-8",
+              "display": "Erythrocytes [#/volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -6891,7 +7009,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -6915,12 +7033,13 @@
           "coding": [
             {
               "code": "5902-2",
+              "display": "Prothrombin time (PT)",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -6972,6 +7091,7 @@
           "coding": [
             {
               "code": "5902-2",
+              "display": "Prothrombin time (PT)",
               "system": "http://loinc.org"
             }
           ]
@@ -6993,7 +7113,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7017,12 +7137,13 @@
           "coding": [
             {
               "code": "32623-1",
+              "display": "Platelet mean volume [Entitic volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7074,6 +7195,7 @@
           "coding": [
             {
               "code": "32623-1",
+              "display": "Platelet mean volume [Entitic volume] in Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -7095,7 +7217,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7119,12 +7241,13 @@
           "coding": [
             {
               "code": "787-2",
+              "display": "MCV [Entitic volume] by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7176,6 +7299,7 @@
           "coding": [
             {
               "code": "787-2",
+              "display": "MCV [Entitic volume] by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -7197,7 +7321,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7221,12 +7345,13 @@
           "coding": [
             {
               "code": "786-4",
+              "display": "MCHC [Mass/volume] by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7278,6 +7403,7 @@
           "coding": [
             {
               "code": "786-4",
+              "display": "MCHC [Mass/volume] by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -7299,7 +7425,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7323,12 +7449,13 @@
           "coding": [
             {
               "code": "785-6",
+              "display": "MCH [Entitic mass] by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7380,6 +7507,7 @@
           "coding": [
             {
               "code": "785-6",
+              "display": "MCH [Entitic mass] by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -7401,7 +7529,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7425,12 +7553,13 @@
           "coding": [
             {
               "code": "718-7",
+              "display": "Hemoglobin [Mass/volume] in Blood",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7482,6 +7611,7 @@
           "coding": [
             {
               "code": "718-7",
+              "display": "Hemoglobin [Mass/volume] in Blood",
               "system": "http://loinc.org"
             }
           ]
@@ -7503,7 +7633,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7527,12 +7657,13 @@
           "coding": [
             {
               "code": "4544-3",
+              "display": "Hematocrit [Volume Fraction] of Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7584,6 +7715,7 @@
           "coding": [
             {
               "code": "4544-3",
+              "display": "Hematocrit [Volume Fraction] of Blood by Automated count",
               "system": "http://loinc.org"
             }
           ]
@@ -7605,7 +7737,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7629,12 +7761,13 @@
           "coding": [
             {
               "code": "2345-7",
+              "display": "Glucose [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7686,6 +7819,7 @@
           "coding": [
             {
               "code": "2345-7",
+              "display": "Glucose [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -7707,7 +7841,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7731,12 +7865,13 @@
           "coding": [
             {
               "code": "2028-9",
+              "display": "Carbon dioxide, total [Moles/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7788,6 +7923,7 @@
           "coding": [
             {
               "code": "2028-9",
+              "display": "Carbon dioxide, total [Moles/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -7809,7 +7945,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7833,12 +7969,13 @@
           "coding": [
             {
               "code": "1975-2",
+              "display": "Bilirubin.total [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7890,6 +8027,7 @@
           "coding": [
             {
               "code": "1975-2",
+              "display": "Bilirubin.total [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -7897,7 +8035,7 @@
         "effectiveDateTime": "2022-04-28T01:22:00Z",
         "valueString": "TNP see comment mg/dL",
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -7921,12 +8059,13 @@
           "coding": [
             {
               "code": "1920-8",
+              "display": "Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -7978,6 +8117,7 @@
           "coding": [
             {
               "code": "1920-8",
+              "display": "Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -7999,7 +8139,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -8023,12 +8163,13 @@
           "coding": [
             {
               "code": "1742-6",
+              "display": "Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -8080,6 +8221,7 @@
           "coding": [
             {
               "code": "1742-6",
+              "display": "Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -8101,7 +8243,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -8125,12 +8267,13 @@
           "coding": [
             {
               "code": "6768-6",
+              "display": "Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -8182,6 +8325,7 @@
           "coding": [
             {
               "code": "6768-6",
+              "display": "Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -8203,7 +8347,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -8227,12 +8371,13 @@
           "coding": [
             {
               "code": "3097-3",
+              "display": "Urea nitrogen/Creatinine [Mass Ratio] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -8284,6 +8429,7 @@
           "coding": [
             {
               "code": "3097-3",
+              "display": "Urea nitrogen/Creatinine [Mass Ratio] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -8294,7 +8440,7 @@
           "unit": "Ratio"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -8318,12 +8464,13 @@
           "coding": [
             {
               "code": "6301-6",
+              "display": "INR in Platelet poor plasma by Coagulation assay",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -8375,6 +8522,7 @@
           "coding": [
             {
               "code": "6301-6",
+              "display": "INR in Platelet poor plasma by Coagulation assay",
               "system": "http://loinc.org"
             }
           ]
@@ -8396,7 +8544,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -8420,12 +8568,13 @@
           "coding": [
             {
               "code": "1863-0",
+              "display": "Anion gap 4 in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -8477,6 +8626,7 @@
           "coding": [
             {
               "code": "1863-0",
+              "display": "Anion gap 4 in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -8487,7 +8637,7 @@
           "unit": "null"
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -8511,12 +8661,13 @@
           "coding": [
             {
               "code": "2118-8",
+              "display": "Choriogonadotropin (pregnancy test) [Presence] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -8568,6 +8719,7 @@
           "coding": [
             {
               "code": "2118-8",
+              "display": "Choriogonadotropin (pregnancy test) [Presence] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -8594,7 +8746,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
@@ -8618,12 +8770,13 @@
           "coding": [
             {
               "code": "2160-0",
+              "display": "Creatinine [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         },
         "result": [
           {
@@ -8675,6 +8828,7 @@
           "coding": [
             {
               "code": "2160-0",
+              "display": "Creatinine [Mass/volume] in Serum or Plasma",
               "system": "http://loinc.org"
             }
           ]
@@ -8696,7 +8850,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a50bf82d-639a-4f41-9ef4-b6f7fe06535e"
+          "reference": "Patient/34c1b0f0-9eed-4d62-a840-640e87f096e3"
         }
       },
       "request": {
