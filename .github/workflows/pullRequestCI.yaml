@@ -11,14 +11,11 @@ jobs:
     outputs:
       changed-files-data: ${{ steps.determine-changes.outputs.changed-files-data }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Call Determine Changes Workflow
         id: determine-changes
         uses: ./.github/workflows/determineChanges.yaml
         with:
-          fetch-depth: 0
+          fetch-depth: "0"
 
   lint-changed-files:
     needs: determine-changes
