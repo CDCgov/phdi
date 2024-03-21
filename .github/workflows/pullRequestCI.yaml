@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Call Determine Changes Workflow
         id: determine-changes
-        uses: ./.github/workflows/determineChanges.yaml
+        uses: ./.github/workflows/determineChanges.yaml@robert/1494-ci-cd-spike
         with:
           fetch-depth: "0"
 
@@ -22,6 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call Lint Workflow
-        uses: ./.github/workflows/lint.yaml
+        uses: ./.github/workflows/lint.yaml@robert/1494-ci-cd-spike
         with:
           changed-files-data: ${{ needs.determine-changes.outputs.changed-files-data }}
