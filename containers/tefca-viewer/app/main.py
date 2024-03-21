@@ -238,8 +238,16 @@ async def use_case_query(input: UseCaseQueryRequest):
         for response in [medication_administration_response, medications]:
             use_case_response["entry"].extend(response["entry"])
             use_case_response["total"] = len(use_case_response["entry"])
-    logger.info(f"Use case response: {use_case_response}")
-    # return use_case_response
+    # logger.info(f"Use case response: {use_case_response}")
+
+    # # Parse use_case_response
+    # body = {
+    #     "message": use_case_response,
+    #     "message_format": "fhir",
+    #     "parsing_schema_name": "tefca_viewer_schema.json",
+    # }
+    # response = requests.post(SERVICE_URLS["message_parser"], json=body)
+    # logger.info(f"Message Parser response: {response}")
 
     # TODO: Replace everything after "request" with TEFCA message parser output
     return templates.TemplateResponse(
