@@ -43,3 +43,29 @@ To build the Docker image for the Orchestration app from source instead of downl
 ### The API 
 
 When viewing these docs from the `/redoc` endpoint on a running instance of the Orchestration app or the PHDI website, detailed documentation on the API will be available below. 
+
+### Running the /process endpoint
+When processing an ecr .zip file through the Orchestration app, call the `/process` endpoint to run the file. 
+
+The endpoint will be a POST call to the `/process` endpoint with the following parameters in the form body
+
+- `message_type`: The type of stream of the uploaded file's underlying data (e.g. ecr, elr, etc.). If the data is in FHIR format, set to FHIR.
+- `include_error_types`: The type of errors to return (e.g. warnings, errors, fatal).
+- `data_type`: The type of data held in the uploaded file. Eligible values include `ecr`, `zip`, `fhir`, and `hl7`. In most cases it will be zip
+- `config_file_name`: The name of the configuration file to load on the service's back-end, specifying the workflow to apply. These are uploaded by the organization hosting the application. There are samples of these files in the /assets folder of this application
+- `upload_file`: A file containing clinical health care information. 
+
+An an example of calling this endpoint would look like this 
+
+```
+curl --location 'https://your_url_here/orchestration/process' \
+--form 'message_type="ecr"' \
+--form 'include_error_types="[errors]"' \
+--form 'config_file_name="sample-orchestration-s3-config.json"' \
+--form 'upload_file=@"/path_to_your_zip/sample.zip"' \
+--form 'data_type="zip"'
+```
+
+The output will vary depending on the type of configuration chosen. However, the process will have status `200` indicating it did not encounter errors when running the Orchestration app.
+
+For more information on the endpoint go to the documentation [here](https://cdcgov.github.io/phdi/latest/containers/orchestration.html)

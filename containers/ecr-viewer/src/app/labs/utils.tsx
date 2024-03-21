@@ -7,6 +7,7 @@ import {
   DataDisplay,
   evaluateData,
 } from "@/app/utils";
+import { evaluateReference, evaluateTable } from "@/app/evaluate-service";
 import { evaluate } from "fhirpath";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
@@ -271,6 +272,47 @@ const returnAnalysisTime = (
 };
 
 /**
+ * Evaluates and generates a table of observations based on the provided DiagnosticReport,
+ * FHIR bundle, mappings, and column information.
+ * @param {DiagnosticReport} report - The DiagnosticReport containing observations to be evaluated.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing observation data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @param {ColumnInfoInput[]} columnInfo - An array of column information objects specifying column names and information paths.
+ * @returns {React.JSX.Element | undefined} The JSX representation of the evaluated observation table, or undefined if there are no observations.
+ */
+export function evaluateObservationTable(
+  report: DiagnosticReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+  columnInfo: ColumnInfoInput[],
+) {
+  const observations: Observation[] =
+    report.result?.map((obsRef: Reference) =>
+      evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
+    ) ?? [];
+  let obsTable;
+  if (observations?.length > 0) {
+    obsTable = evaluateTable(observations, mappings, columnInfo, "", false);
+  }
+  return obsTable;
+}
+
+// TODO#: Add docstring
+const evaluateLabTable = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): {} => {
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Component", infoPath: "observationComponent" },
+    { columnName: "Value", infoPath: "observationValue" },
+    { columnName: "Ref Range", infoPath: "observationReferenceRange" },
+    { columnName: "Test Method", infoPath: "observationMethod" },
+  ];
+  return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
+};
+
+/**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
  * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
@@ -303,7 +345,9 @@ export const evaluateLabInfoData = (
   ];
 
   const rrData = labReports.map((report) => {
+    const obsTable = evaluateLabTable(report, fhirBundle, mappings);
     const rrInfo: DisplayData[] = [
+      { obsTable },
       {
         title: "Analysis Time",
         value: returnAnalysisTime(

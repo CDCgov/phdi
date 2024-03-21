@@ -3,7 +3,7 @@ import * as dateFns from "date-fns";
 import {
   Bundle,
   Condition,
-  FhirResource,
+  // FhirResource,
   Immunization,
   Organization,
   Procedure,
@@ -11,7 +11,13 @@ import {
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
-import { Table } from "@trussworks/react-uswds";
+// import { Table } from "@trussworks/react-uswds";
+import {
+  evaluateTable,
+  evaluateReference,
+  // evaluateDiagnosticReportData,
+  // evaluateValue,
+} from "@/app/evaluate-service";
 import {
   formatAddress,
   formatDate,
@@ -150,62 +156,6 @@ export const evaluateEncounterDate = (
 
   return `Start: ${startDate}
     End: ${endDate}`;
-};
-
-/**
- * Formats a table based on the provided resources, mappings, columns, and caption.
- * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
- *                                      The order of columns in the array determines the order of appearance.
- * @param {string} caption - The caption for the table.
- * @returns {React.JSX.Element} - A formatted table React element.
- */
-export const evaluateTable = (
-  resources: FhirResource[],
-  mappings: PathMappings,
-  columns: ColumnInfoInput[],
-  caption: string,
-): React.JSX.Element => {
-  let headers = columns.map((column, index) => (
-    <th
-      key={`${column.columnName}${index}`}
-      scope="col"
-      className="bg-gray-5 minw-15"
-    >
-      {column.columnName}
-    </th>
-  ));
-
-  let tableRows = resources.map((entry, index) => {
-    let rowCells = columns.map((column, index) => {
-      let rowCellData = evaluate(entry, mappings[column.infoPath])[0] ?? (
-        <span className={"text-italic text-base"}>No data</span>
-      );
-      return (
-        <td key={`row-data-${index}`} className="text-top">
-          {rowCellData}
-        </td>
-      );
-    });
-
-    return <tr key={`table-row-${index}`}>{rowCells}</tr>;
-  });
-
-  return (
-    <Table
-      bordered={false}
-      fullWidth={true}
-      caption={caption}
-      className="border-top border-left border-right table-caption-margin margin-y-0"
-      data-testid="table"
-    >
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{tableRows}</tbody>
-    </Table>
-  );
 };
 
 /**
@@ -427,13 +377,10 @@ export const evaluateEcrMetadata = (
 ) => {
   const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
 
-  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) => {
-    ref = ref.split("/");
-    return evaluate(fhirBundle, mappings.resolve, {
-      resourceType: ref[0],
-      id: ref[1],
-    })[0];
-  });
+  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) =>
+    evaluateReference(fhirBundle, mappings, ref),
+  );
+
   const rrDetails: DisplayData[] = [
     {
       title: "Reportable Condition(s)",
@@ -769,3 +716,42 @@ export const evaluateEmergencyContact = (
     return formattedContact;
   }
 };
+
+// /**
+//  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
+//  * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
+//  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+//  * @returns {{
+//  *   labInfo: CompleteData,
+//  *   labResults: React.JSX.Element[]
+//  * }} An object containing evaluated lab information and lab results.
+//  */
+// export const evaluateLabInfoData = (
+//   fhirBundle: Bundle,
+//   mappings: PathMappings,
+// ): {
+//   labInfo: CompleteData;
+//   labResults: React.JSX.Element[];
+// } => {
+//   const labInfo: DisplayData[] = [
+//     {
+//       title: "Lab Performing Name",
+//       value: "",
+//     },
+//     {
+//       title: "Lab Address",
+//       value: "",
+//     },
+//     {
+//       title: "Lab Contact",
+//       value: "",
+//     },
+//   ];
+
+//   const rrData = evaluateDiagnosticReportData(fhirBundle, mappings);
+
+//   return {
+//     labInfo: evaluateData(labInfo),
+//     labResults: rrData,
+//   };
+// };

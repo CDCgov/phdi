@@ -71,6 +71,7 @@ h4 {
   border-radius: .25rem;
   overflow: hidden;
   margin-top: 1rem;
+  padding-bottom: 0.5rem;
   .usa-accordion__button{
     &:hover {
       background-color: #F0F0F0;
@@ -82,6 +83,9 @@ h4 {
     &[aria-expanded="true"] {
       border-bottom: #111111 1px solid;
     }
+  }
+  .usa-accordion__content{
+    padding: 0
   }
 }
 

@@ -98,3 +98,7 @@ specimenCollectionTime: "Observation.extension[0].extension.where(url = 'specime
 specimenReceivedTime: "Observation.extension[0].extension.where(url = 'specimen receive time').valueDateTime"
 specimenSource: "Observation.extension[0].extension.where(url = 'specimen source').valueString"
 observationReferenceValue: "Observation.extension[0].extension.where(url = 'observation entry reference value').valueString"
+observationComponent: "code.coding.display"
+observationValue: "value"
+observationReferenceRange: "referenceRange.text"
+observationMethod: "method"

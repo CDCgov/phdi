@@ -159,7 +159,7 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
                 class="grid-col-auto text-pre-line"
               >
                 <table
-                  class="usa-table usa-table--borderless width-full border-top border-left border-right table-caption-margin margin-y-0"
+                  class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W table-caption-margin margin-y-0 border-top border-left border-right"
                   data-testid="table"
                 >
                   <caption>
