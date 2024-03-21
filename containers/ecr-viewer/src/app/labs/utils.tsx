@@ -297,8 +297,14 @@ export function evaluateObservationTable(
   return obsTable;
 }
 
-// TODO#: Add docstring
-const evaluateLabTable = (
+// TODO#: Fix docstring (returns)
+/**
+ * Evaluates diagnostic report data and generates the lab observations for each report.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing diagnostic report data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {React.JSX.Element[]} - An array of React elements representing the lab observations.
+ */
+export const evaluateDiagnosticReportData = (
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -345,9 +351,9 @@ export const evaluateLabInfoData = (
   ];
 
   const rrData = labReports.map((report) => {
-    const obsTable = evaluateLabTable(report, fhirBundle, mappings);
+    const labTable = evaluateDiagnosticReportData(report, fhirBundle, mappings);
     const rrInfo: DisplayData[] = [
-      { obsTable },
+      // { value: labTable },
       {
         title: "Analysis Time",
         value: returnAnalysisTime(
