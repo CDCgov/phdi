@@ -1,9 +1,5 @@
 import { evaluate } from "fhirpath";
-import {
-  evaluateReference,
-  evaluateValue,
-  // evaluateObservationTable,
-} from "@/app/evaluate-service";
+import { evaluateReference, evaluateValue } from "@/app/evaluate-service";
 import {
   evaluateObservationTable,
   evaluateDiagnosticReportData,

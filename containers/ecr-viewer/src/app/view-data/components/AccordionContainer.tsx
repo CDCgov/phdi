@@ -6,7 +6,6 @@ import {
   evaluateDemographicsData,
   evaluateEcrMetadata,
   PathMappings,
-  // evaluateLabInfoData,
 } from "../../utils";
 import { evaluateLabInfoData } from "@/app/labs/utils";
 import Demographics from "./Demographics";

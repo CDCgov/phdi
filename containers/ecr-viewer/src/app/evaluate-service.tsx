@@ -1,17 +1,7 @@
 import { evaluate } from "fhirpath";
-import {
-  Bundle,
-  CodeableConcept,
-  // DiagnosticReport,
-  FhirResource,
-  // Observation,
-  Quantity,
-  // Reference,
-} from "fhir/r4";
-// import { ColumnInfoInput, PathMappings, evaluateTable } from "@/app/utils";
+import { Bundle, CodeableConcept, FhirResource, Quantity } from "fhir/r4";
+import { ColumnInfoInput } from "@/app/utils";
 import { PathMappings } from "@/app/utils";
-// import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
-// import React from "react";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
@@ -96,68 +86,6 @@ export const evaluateReference = (
     id,
   })[0];
 };
-
-// /**
-//  * Evaluates and generates a table of observations based on the provided DiagnosticReport,
-//  * FHIR bundle, mappings, and column information.
-//  * @param {DiagnosticReport} report - The DiagnosticReport containing observations to be evaluated.
-//  * @param {Bundle} fhirBundle - The FHIR bundle containing observation data.
-//  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
-//  * @param {ColumnInfoInput[]} columnInfo - An array of column information objects specifying column names and information paths.
-//  * @returns {React.JSX.Element | undefined} The JSX representation of the evaluated observation table, or undefined if there are no observations.
-//  */
-// export function evaluateObservationTable(
-//   report: DiagnosticReport,
-//   fhirBundle: Bundle,
-//   mappings: PathMappings,
-//   columnInfo: ColumnInfoInput[],
-// ) {
-//   const observations: Observation[] =
-//     report.result?.map((obsRef: Reference) =>
-//       evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
-//     ) ?? [];
-//   let obsTable;
-//   if (observations?.length > 0) {
-//     obsTable = evaluateTable(observations, mappings, columnInfo, "", false);
-//   }
-//   return obsTable;
-// }
-
-// /**
-//  * Evaluates diagnostic report data and generates formatted lab result accordions for each report.
-//  * @param {Bundle} fhirBundle - The FHIR bundle containing diagnostic report data.
-//  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
-//  * @returns {React.JSX.Element[]} - An array of React elements representing lab result accordions.
-//  */
-// export const evaluateDiagnosticReportData = (
-//   fhirBundle: Bundle,
-//   mappings: PathMappings,
-// ): React.JSX.Element[] => {
-//   const columnInfo: ColumnInfoInput[] = [
-//     { columnName: "Component", infoPath: "observationComponent" },
-//     { columnName: "Value", infoPath: "observationValue" },
-//     { columnName: "Ref Range", infoPath: "observationReferenceRange" },
-//     { columnName: "Test Method", infoPath: "observationMethod" },
-//   ];
-
-//   return evaluate(fhirBundle, mappings["diagnosticReports"]).map(
-//     (report: DiagnosticReport) => {
-//       let obsTable = evaluateObservationTable(
-//         report,
-//         fhirBundle,
-//         mappings,
-//         columnInfo,
-//       );
-//       return (
-//         <AccordionLabResults
-//           title={report.code.coding?.[0].display ?? "\u{200B}"}
-//           abnormalTag={false}
-//           content={<>{obsTable}</>}
-//         />
-//       );
-//     },
-//   );
-// };
 
 /**
  * Evaluates the FHIR path and returns the appropriate string value. Supports choice elements

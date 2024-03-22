@@ -3,7 +3,6 @@ import * as dateFns from "date-fns";
 import {
   Bundle,
   Condition,
-  // FhirResource,
   Immunization,
   Organization,
   Procedure,
@@ -11,13 +10,7 @@ import {
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
-// import { Table } from "@trussworks/react-uswds";
-import {
-  evaluateTable,
-  evaluateReference,
-  // evaluateDiagnosticReportData,
-  // evaluateValue,
-} from "@/app/evaluate-service";
+import { evaluateTable, evaluateReference } from "@/app/evaluate-service";
 import {
   formatAddress,
   formatDate,
@@ -721,42 +714,3 @@ export const evaluateEmergencyContact = (
     return formattedContact;
   }
 };
-
-// /**
-//  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
-//  * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
-//  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
-//  * @returns {{
-//  *   labInfo: CompleteData,
-//  *   labResults: React.JSX.Element[]
-//  * }} An object containing evaluated lab information and lab results.
-//  */
-// export const evaluateLabInfoData = (
-//   fhirBundle: Bundle,
-//   mappings: PathMappings,
-// ): {
-//   labInfo: CompleteData;
-//   labResults: React.JSX.Element[];
-// } => {
-//   const labInfo: DisplayData[] = [
-//     {
-//       title: "Lab Performing Name",
-//       value: "",
-//     },
-//     {
-//       title: "Lab Address",
-//       value: "",
-//     },
-//     {
-//       title: "Lab Contact",
-//       value: "",
-//     },
-//   ];
-
-//   const rrData = evaluateDiagnosticReportData(fhirBundle, mappings);
-
-//   return {
-//     labInfo: evaluateData(labInfo),
-//     labResults: rrData,
-//   };
-// };

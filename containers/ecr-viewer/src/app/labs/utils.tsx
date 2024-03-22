@@ -6,6 +6,7 @@ import {
   DisplayData,
   DataDisplay,
   evaluateData,
+  ColumnInfoInput,
 } from "@/app/utils";
 import { evaluateReference, evaluateTable } from "@/app/evaluate-service";
 import { evaluate } from "fhirpath";
@@ -278,14 +279,14 @@ const returnAnalysisTime = (
 /**
  * Evaluates and generates a table of observations based on the provided DiagnosticReport,
  * FHIR bundle, mappings, and column information.
- * @param {DiagnosticReport} report - The DiagnosticReport containing observations to be evaluated.
+ * @param {LabReport} report - The DiagnosticReport containing observations to be evaluated.
  * @param {Bundle} fhirBundle - The FHIR bundle containing observation data.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @param {ColumnInfoInput[]} columnInfo - An array of column information objects specifying column names and information paths.
  * @returns {React.JSX.Element | undefined} The JSX representation of the evaluated observation table, or undefined if there are no observations.
  */
 export function evaluateObservationTable(
-  report: DiagnosticReport,
+  report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
   columnInfo: ColumnInfoInput[],
@@ -301,12 +302,11 @@ export function evaluateObservationTable(
   return obsTable;
 }
 
-// TODO#: Fix docstring (returns)
 /**
  * Evaluates diagnostic report data and generates the lab observations for each report.
  * @param {Bundle} fhirBundle - The FHIR bundle containing diagnostic report data.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {React.JSX.Element[]} - An array of React elements representing the lab observations.
+ * @returns {React.JSX.Element | undefined} - An array of React elements representing the lab observations.
  */
 export const evaluateDiagnosticReportData = (
   report: LabReport,
