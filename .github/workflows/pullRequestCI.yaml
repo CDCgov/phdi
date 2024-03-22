@@ -14,3 +14,9 @@ jobs:
     uses: ./.github/workflows/lintChangedFiles.yaml
     with:
       changed-files-data: ${{ needs.determine-changes.outputs.changed-files-data }}
+
+  test-changed-files:
+    needs: determine-changes
+    uses: ./.github/workflows/testChangedFiles.yaml
+    with:
+      changed-files-data: ${{ needs.determine-changes.outputs.changed-files-data }}
