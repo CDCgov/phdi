@@ -1,6 +1,6 @@
 ---
-name: SeCRET User Story
-about: Create a new user story for the SeCRET team
+name: Streamline eCR User Story
+about: Create a new user story for the Streamline eCR team
 title: ''
 labels: 'Streamline eCR'
 assignees: ''

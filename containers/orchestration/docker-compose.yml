@@ -38,6 +38,9 @@ services:
       - "${INGESTION_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
+    environment:
+      SMARTY_AUTH_ID: ${SMARTY_AUTH_ID}
+      SMARTY_AUTH_TOKEN: ${SMARTY_AUTH_TOKEN}
   message-parser-service:
     build:
       context: ../message-parser
@@ -56,3 +59,24 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "prom_data:/prometheus"
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - "4000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=DIBBsTest1!
+      - GF_SECURITY_ADMIN_USER=admin
+    depends_on:
+      - db
+volumes:
+  prom_data:
+  grafana_data:

@@ -3,10 +3,7 @@ import os
 from json.decoder import JSONDecodeError
 from typing import Union
 
-import boto3
 import requests
-from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
-from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
 from app.handlers import build_fhir_converter_request
 from app.handlers import build_geocoding_request
 from app.handlers import build_ingestion_dob_request
@@ -28,9 +25,6 @@ from fastapi import HTTPException
 from fastapi import Response
 from fastapi import WebSocket
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import create_engine
-from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import Session
 
 
 # Locations of the various services the service will delegate
@@ -39,8 +33,8 @@ SERVICE_URLS = {
     "ingestion": os.environ.get("INGESTION_URL"),
     "fhir_converter": os.environ.get("FHIR_CONVERTER_URL"),
     "message_parser": os.environ.get("MESSAGE_PARSER_URL"),
-    "save_to_db": os.environ.get("DATABASE_URL"),
-    "save_to_s3": os.environ.get("ECR_BUCKET_NAME"),
+    "save_to_db": os.environ.get("ECR_VIEWER_URL"),
+    "save_to_s3": os.environ.get("ECR_VIEWER_URL"),
 }
 
 # Mappings of endpoint names to the service input and output building
@@ -68,78 +62,25 @@ ENDPOINT_TO_RESPONSE = {
 }
 
 
-def save_to_db(**kwargs) -> dict:
+def send_to_ecr_viewer(bundle, source: str) -> dict:
     """
-    Currently, a temporary function taking the place of a save to DB
-    endpoint. Once this endpoint exists in the eCR viewer, we can
-    write full-fledged request and response handlers for this service.
+    Sends the bundle data to ecr_viewer. The source is either
+    postgres or S3
+
+    :param bundle: The fhir bundle data returned from fhir converter
+    :param source: Where the data will be saved postgres or s3
+    :return: A response object
     """
-    ecr_id = kwargs["payload"]["ecr_id"]
-    payload_data = kwargs["payload"]["data"]
-    url = kwargs["url"]
-    engine = create_engine(url)
-    pg_data = PostgresFhirDataModel(ecr_id=str(ecr_id), data=payload_data)
+    fhir_bundle = bundle.json()["bundle"]
+    payload_body = {"fhirBundle": fhir_bundle, "saveSource": source}
+
     try:
-        with Session(engine, expire_on_commit=False) as session:
-            repo = SqlAlchemyFhirRepository(session)
-            repo.persist(pg_data)
-        return CustomJSONResponse(content=jsonable_encoder(payload_data), url=url)
-    except SQLAlchemyError as e:
-        return Response(content=e, status_code=500)
-
-
-def save_to_db_payload(**kwargs) -> dict:
-    """
-    Currently, a temporary function taking the place of a save to DB
-    payload. Once this endpoint exists in the eCR viewer, we can
-    write full-fledged request and response handlers for this service.
-    """
-
-    if "bundle" not in kwargs:
-        raise HTTPException(
-            status_code=422,
-            detail={
-                "error": "Unprocessable Entity",
-                "details": "Bundle not provided to save_to_db payload",
-            },
-        )
-    bundle = kwargs["bundle"]
-    b = bundle.json()
-    ecr_id = extract_ecrid_from_bundle(b)
-
-    if not ecr_id:
-        raise HTTPException(
-            status_code=422,
-            detail={
-                "error": "Unprocessable Entity",
-                "details": "eICR ID not found, cannot save to database.",
-            },
-        )
-    return {"ecr_id": ecr_id, "data": b["bundle"]}
-
-
-def extract_ecrid_from_bundle(bundle: dict) -> Union[str, None]:
-    """
-    Helper method for extracting the eCR case ID from a supplied FHIR
-    bundle. If the supplied bundle (or bundle-containing dict) does
-    not contain an eCR ID, `None` is returned instead.
-
-    :param bundle: The dict to pull the eCR ID from.
-    :return: The ID as a string, or `None` if no ID is present.
-    """
-    bundle = bundle.get("bundle") if bundle.get("bundle") else bundle
-    entry = (
-        bundle.get("entry")
-        if isinstance(bundle, dict) and bundle.get("entry")
-        else False
-    )
-    first_entry = entry[0] if entry else False
-    resource = first_entry.get("resource") if first_entry else False
-
-    ecr_id = None
-    if entry and first_entry and resource:
-        ecr_id = resource.get("id")
-    return ecr_id
+        ecr_viewer_url_base = os.getenv("ECR_VIEWER_URL")
+        ecr_viewer_save_url = f"{ecr_viewer_url_base}/api/save-fhir-data"
+        msg = post_request(url=ecr_viewer_save_url, payload=payload_body)
+        return msg
+    except Exception as e:
+        return CustomJSONResponse(content=jsonable_encoder(e), status_code=500)
 
 
 def post_request(url: str, payload: dict) -> Response:
@@ -207,41 +148,6 @@ async def _send_websocket_dump(
 
     await websocket.send_text(json.dumps(progress_dict))
     return progress_dict
-
-
-def save_to_s3(bundle: dict) -> dict:
-    """
-    Given a dictionary and an ecr_id, create a file and upload it to
-    the S3 endpoint as specified in the .env
-
-    :param bundle: The FHIR dictionary to save.
-    :return: A dictionary containing information about the status of
-      the save operation.
-    """
-
-    bucket_name = os.getenv("ECR_BUCKET_NAME")
-    if not bucket_name:
-        return {
-            "status": "error",
-            "message": "S3 bucket name not found in environment variables.",
-        }
-
-    b = bundle.json()
-    ecr_id = extract_ecrid_from_bundle(b)
-
-    filename = f"{ecr_id}.json"
-    s3 = boto3.client("s3")
-    json_data = json.dumps(b)
-
-    try:
-        # Save the JSON data to S3
-        s3.put_object(Bucket=bucket_name, Key=filename, Body=json_data)
-        return {
-            "status": "success",
-            "message": f"File {filename} saved to bucket {bucket_name}.",
-        }
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
 
 
 async def call_apis(
@@ -316,11 +222,12 @@ async def call_apis(
             if service != "validation":
                 current_message = service_response.msg_content
             responses[service] = response
-        elif service == "save_to_s3":
-            save_to_s3(bundle=bundle)
         else:
-            db_request = save_to_db_payload(response=response, bundle=bundle)
-            response = save_to_db(url=service_url, payload=db_request)
+            if service == "save_to_s3":
+                response = send_to_ecr_viewer(bundle=bundle, source="s3")
+            elif service == "save_to_db":
+                response = send_to_ecr_viewer(bundle=bundle, source="postgres")
+
             if websocket:
                 progress_dict = await _send_websocket_dump(
                     endpoint_name,
@@ -331,5 +238,4 @@ async def call_apis(
                 )
 
             responses[service] = response
-
     return (response, responses)
