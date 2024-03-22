@@ -323,7 +323,9 @@ describe("Labs Utils", () => {
 
     it("returns NoData if none are found for field name", () => {
       const invalidFieldName = "foobar";
-      const expectedNoData = <span className="no-data">No data</span>;
+      const expectedNoData = (
+        <span className="no-data text-italic text-base">No data</span>
+      );
 
       const result = returnFieldValueFromLabHtmlString(
         report,

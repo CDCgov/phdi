@@ -21,7 +21,7 @@ export interface LabReport {
   result: Array<Reference>;
 }
 
-const noData = <span className="no-data">No data</span>;
+const noData = <span className="no-data text-italic text-base">No data</span>;
 
 /**
  * Extracts an array of `Observation` resources from a given FHIR bundle based on a list of observation references.
