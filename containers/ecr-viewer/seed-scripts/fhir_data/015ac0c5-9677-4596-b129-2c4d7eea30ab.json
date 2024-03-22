@@ -304,11 +304,7 @@
           }
         ],
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         },
         "relatesTo": [
           {
@@ -366,11 +362,7 @@
           "end": "2022-09-28T12:30:00-07:00"
         },
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         },
         "location": [
           {
@@ -861,17 +853,10 @@
       }
     },
     {
-<<<<<<< HEAD
-      "fullUrl": "urn:uuid:ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5",
+      "fullUrl": "urn:uuid:fe146169-9b45-4b16-898c-85accfe0c4ac",
       "resource": {
         "resourceType": "Patient",
-        "id": "ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5",
-=======
-      "fullUrl": "urn:uuid:069d1d08-424c-4896-be49-bed916361690",
-      "resource": {
-        "resourceType": "Patient",
-        "id": "069d1d08-424c-4896-be49-bed916361690",
->>>>>>> origin/main
+        "id": "fe146169-9b45-4b16-898c-85accfe0c4ac",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1005,11 +990,7 @@
       },
       "request": {
         "method": "PUT",
-<<<<<<< HEAD
-        "url": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-        "url": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+        "url": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
       }
     },
     {
@@ -1054,11 +1035,7 @@
         },
         "onsetDateTime": "2022-09-24",
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         },
         "meta": {
           "source": [
@@ -1113,11 +1090,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         },
         "meta": {
           "source": [
@@ -1172,11 +1145,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         },
         "meta": {
           "source": [
@@ -1215,11 +1184,7 @@
           "end": "2002-09-29T15:01:00Z"
         },
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         },
         "performer": [
           {
@@ -1345,11 +1310,7 @@
           }
         ],
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         },
         "performer": [
           {
@@ -1453,11 +1414,7 @@
           }
         ],
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         }
       },
       "request": {
@@ -1515,11 +1472,7 @@
           ]
         },
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         }
       },
       "request": {
@@ -1577,11 +1530,7 @@
           ]
         },
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         }
       },
       "request": {
@@ -1639,11 +1588,7 @@
           ]
         },
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         }
       },
       "request": {
@@ -1693,11 +1638,7 @@
         "effectiveDateTime": "2022-09-24",
         "valueString": "17",
         "subject": {
-<<<<<<< HEAD
-          "reference": "Patient/ba75d543-f9ff-4fb5-8ff1-70d00b29ceb5"
-=======
-          "reference": "Patient/069d1d08-424c-4896-be49-bed916361690"
->>>>>>> origin/main
+          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
         }
       },
       "request": {
