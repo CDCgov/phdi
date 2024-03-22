@@ -33,31 +33,20 @@ const noData = <span className="no-data text-italic text-base">No data</span>;
  * is returned.
  */
 export const getObservations = (
-  observationIds: Array<Reference>,
+  report: LabReport,
   fhirBundle: Bundle,
+  mappings: PathMappings,
 ): Array<Observation> => {
-  const ids: Array<string> = observationIds
-    .map((id) => {
-      return id.reference?.replace("Observation/", "");
+  if (!report || !Array.isArray(report.result) || report.result.length === 0)
+    return [];
+  return report.result
+    .map((obsRef) => {
+      return (
+        obsRef.reference &&
+        evaluateReference(fhirBundle, mappings, obsRef.reference)
+      );
     })
-    .filter((i): i is string => i !== undefined);
-
-  if (ids.length === 0) return [];
-
-  return ids
-    .filter((id) => {
-      const e = evaluate(
-        fhirBundle,
-        `Bundle.entry.resource.where(id = '${id}')`,
-      )[0];
-      return e !== undefined && e !== null;
-    })
-    .map((id) => {
-      return evaluate(
-        fhirBundle,
-        `Bundle.entry.resource.where(id = '${id}')`,
-      )[0];
-    });
+    .filter((obs) => obs !== undefined);
 };
 
 /**
@@ -86,7 +75,7 @@ export function searchResultRecord(
   for (const table of result) {
     // For each table, recursively search through all nodes
     if (Array.isArray(table)) {
-      const nestedResult: any = searchResultRecord(table, ref, searchKey);
+      const nestedResult: string = searchResultRecord(table, ref, searchKey);
       if (nestedResult) {
         return nestedResult;
       }
@@ -138,7 +127,7 @@ const returnSpecimenSource = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ): React.ReactNode => {
-  const observations = getObservations(report.result, fhirBundle);
+  const observations = getObservations(report, fhirBundle, mappings);
   const specimenSource = observations.flatMap((observation) => {
     return evaluate(observation, mappings["specimenSource"]);
   });
@@ -161,7 +150,8 @@ const returnCollectionTime = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ): React.ReactNode => {
-  const observations = getObservations(report.result, fhirBundle);
+  const observations = getObservations(report, fhirBundle, mappings);
+  console.log("observations", observations);
   const collectionTime = observations.flatMap((observation) => {
     const rawTime = evaluate(observation, mappings["specimenCollectionTime"]);
     return rawTime.map((dateTimeString) => formatDateTime(dateTimeString));
@@ -187,7 +177,7 @@ const returnReceivedTime = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ): React.ReactNode => {
-  const observations = getObservations(report.result, fhirBundle);
+  const observations = getObservations(report, fhirBundle, mappings);
   const receivedTime = observations.flatMap((observation) => {
     const rawTime = evaluate(observation, mappings["specimenReceivedTime"]);
     return rawTime.map((dateTimeString) => formatDateTime(dateTimeString));
@@ -216,7 +206,7 @@ export const returnFieldValueFromLabHtmlString = (
   fieldName: string,
 ): React.ReactNode => {
   // Get reference value (result ID) from Observations
-  const observations = getObservations(report.result, fhirBundle);
+  const observations = getObservations(report, fhirBundle, mappings);
   const observationRefValsArray = observations.flatMap((observation) => {
     const refVal = evaluate(observation, mappings["observationReferenceValue"]);
     return extractNumbersAndPeriods(refVal);

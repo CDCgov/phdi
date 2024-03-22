@@ -8,15 +8,19 @@ import BundleWithLabs from "../../tests/assets/BundleLabs.json";
 import { Bundle, Observation } from "fhir/r4";
 
 describe("Labs Utils", () => {
+  const mappings = loadYamlConfig();
   describe("getObservations", () => {
     it("extracts an array of observation resources", () => {
       const result = getObservations(
-        [
-          {
-            reference: "Observation/2740f365-7fa7-6a59-ee85-7d6fec905027",
-          },
-        ],
+        {
+          result: [
+            {
+              reference: "Observation/2740f365-7fa7-6a59-ee85-7d6fec905027",
+            },
+          ],
+        },
         BundleWithLabs as unknown as Bundle,
+        mappings,
       );
 
       const expectedResult = [
@@ -99,12 +103,15 @@ describe("Labs Utils", () => {
 
     it("returns an empty array of observation resources if none are found", () => {
       const result = getObservations(
-        [
-          {
-            reference: "Observation/2740f365-7fa7-6a59-ee85-7d6fec905028",
-          },
-        ],
+        {
+          result: [
+            {
+              reference: "Observation/2740f365-7fa7-6a59-ee85-7d6fec905028",
+            },
+          ],
+        },
         BundleWithLabs as unknown as Bundle,
+        mappings,
       );
       expect(result).toStrictEqual([]);
     });
@@ -202,7 +209,6 @@ describe("Labs Utils", () => {
   });
 
   describe("returnFieldValueFromLabHtmlString", () => {
-    const mappings = loadYamlConfig();
     const report = {
       resourceType: "DiagnosticReport",
       id: "68477c03-5689-f9e5-c267-a3c7bdff6fe0",
@@ -313,7 +319,7 @@ describe("Labs Utils", () => {
 
       const result = returnFieldValueFromLabHtmlString(
         report,
-        BundleWithLabs,
+        BundleWithLabs as unknown as Bundle,
         mappings,
         fieldName,
       );
@@ -329,7 +335,7 @@ describe("Labs Utils", () => {
 
       const result = returnFieldValueFromLabHtmlString(
         report,
-        BundleWithLabs,
+        BundleWithLabs as unknown as Bundle,
         mappings,
         invalidFieldName,
       );
