@@ -262,6 +262,10 @@ const returnAnalysisTime = (
     fieldName,
   );
 
+  if (fieldVals === noData) {
+    return noData;
+  }
+
   const analysisTimeArray =
     typeof fieldVals === "string" ? fieldVals.split(", ") : [];
   const analysisTimeArrayFormatted = analysisTimeArray.map((dateTime) => {
