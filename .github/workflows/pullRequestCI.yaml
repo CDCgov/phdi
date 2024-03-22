@@ -11,9 +11,6 @@ jobs:
 
   lint-changed-files:
     needs: determine-changes
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call Lint Workflow
-        uses: ./.github/workflows/lint.yaml
-        with:
-          changed-files-data: ${{ needs.determine-changes.outputs.changed-files-data }}
+    uses: ./.github/workflows/lint.yaml
+    with:
+      changed-files-data: ${{ needs.determine-changes.outputs.changed-files-data }}
