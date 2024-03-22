@@ -5,13 +5,14 @@ on:
     outputs:
       changed-files-data:
         description: "JSON formatted list of changed files with metadata"
-        value: ${{ jobs.determine-changes.outputs.changed-files-data }}
+        value: ${{ steps.changed-files.outputs.result }}
+      secrets:
+        GITHUB_TOKEN:
+          required: true
 
 jobs:
   determine-changes:
     runs-on: ubuntu-latest
-    outputs:
-      changed-files-data: ${{ steps.create-changed-files-data.outputs.changed-files-data }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -78,4 +79,4 @@ jobs:
           echo "Changed files data: $JSON_ARRAY"
 
           # set output to environment variable
-          echo "changed-files-data=$JSON_ARRAY" >> $GITHUB_OUTPUT
+          echo "result=$JSON_ARRAY" >> $GITHUB_ENV

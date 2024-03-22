@@ -7,21 +7,15 @@ on:
 
 jobs:
   determine-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      changed-files-data: ${{ steps.determine-changes.outputs.changed-files-data }}
-    steps:
-      - name: Call Determine Changes Workflow
-        id: determine-changes
-        uses: ./.github/workflows/determineChanges.yaml@${{ github.head_ref }}
-        with:
-          fetch-depth: "0"
+    uses: ./.github/workflows/determineChanges.yaml
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   lint-changed-files:
     needs: determine-changes
     runs-on: ubuntu-latest
     steps:
       - name: Call Lint Workflow
-        uses: ./.github/workflows/lint.yaml@${{ github.head_ref }}
+        uses: ./.github/workflows/lint.yaml
         with:
           changed-files-data: ${{ needs.determine-changes.outputs.changed-files-data }}

@@ -30,9 +30,9 @@ jobs:
           CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file')
           CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file')
 
-          echo "changed-python-files=$(echo $CHANGED_PY_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
-          echo "changed-js-files=$(echo $CHANGED_JS_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
-          echo "changed-yaml-files=$(echo $CHANGED_YAML_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
+          echo "changed-python-files=$(echo $CHANGED_PY_FILES | tr ' ' '\n')" >> $GITHUB_ENV
+          echo "changed-js-files=$(echo $CHANGED_JS_FILES | tr ' ' '\n')" >> $GITHUB_ENV
+          echo "changed-yaml-files=$(echo $CHANGED_YAML_FILES | tr ' ' '\n')" >> $GITHUB_ENV
 
   python-lint:
     needs: filter-files
