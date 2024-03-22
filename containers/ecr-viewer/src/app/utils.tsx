@@ -16,6 +16,7 @@ import {
   evaluateReference,
   evaluateDiagnosticReportData,
   evaluateValue,
+  evaluateLabOrganizationData,
 } from "@/app/evaluate-service";
 import {
   formatAddress,
@@ -60,6 +61,21 @@ export const evaluatePatientName = (
 };
 
 export const extractPatientAddress = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+) => {
+  const streetAddresses = evaluate(
+    fhirBundle,
+    fhirPathMappings.patientStreetAddress,
+  );
+  const city = evaluate(fhirBundle, fhirPathMappings.patientCity)[0];
+  const state = evaluate(fhirBundle, fhirPathMappings.patientState)[0];
+  const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode)[0];
+  const country = evaluate(fhirBundle, fhirPathMappings.patientCountry)[0];
+  return formatAddress(streetAddresses, city, state, zipCode, country);
+};
+
+export const extractOrg = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
@@ -789,7 +805,7 @@ export const evaluateLabInfoData = (
   mappings: PathMappings,
 ): {
   labInfo: CompleteData;
-  labResults: React.JSX.Element[];
+  labResults: any;
 } => {
   const labInfo: DisplayData[] = [
     {
@@ -807,6 +823,13 @@ export const evaluateLabInfoData = (
   ];
 
   const rrData = evaluateDiagnosticReportData(fhirBundle, mappings);
+  Object.keys(rrData).forEach((key) => {
+    evaluateLabOrganizationData(
+      fhirBundle,
+      mappings,
+      key.replace("Organization/", ""),
+    );
+  });
 
   return {
     labInfo: evaluateData(labInfo),

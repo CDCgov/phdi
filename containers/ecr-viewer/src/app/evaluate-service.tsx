@@ -5,13 +5,20 @@ import {
   DiagnosticReport,
   FhirResource,
   Observation,
+  Organization,
   Quantity,
   Reference,
 } from "fhir/r4";
-import { ColumnInfoInput, PathMappings, evaluateTable } from "@/app/utils";
+import {
+  ColumnInfoInput,
+  DisplayData,
+  PathMappings,
+  evaluateTable,
+} from "@/app/utils";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import React from "react";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
+import { formatAddress } from "./format-service";
 
 /**
  * Evaluates a reference in a FHIR bundle.
@@ -68,31 +75,105 @@ export function evaluateObservationTable(
 export const evaluateDiagnosticReportData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
-): React.JSX.Element[] => {
+): ResultObject => {
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Component", infoPath: "observationComponent" },
     { columnName: "Value", infoPath: "observationValue" },
     { columnName: "Ref Range", infoPath: "observationReferenceRange" },
     { columnName: "Test Method", infoPath: "observationMethod" },
   ];
+  const evaluatedMappings = evaluate(fhirBundle, mappings["diagnosticReports"]);
+  const resultObject: ResultObject = {};
+  evaluatedMappings.map((report: DiagnosticReport) => {
+    let obsTable = evaluateObservationTable(
+      report,
+      fhirBundle,
+      mappings,
+      columnInfo,
+    );
+    const organizationId = report.performer?.[0].reference ?? "";
+    const element = (
+      <AccordionLabResults
+        title={report.code.coding?.[0].display ?? "\u{200B}"}
+        abnormalTag={false}
+        content={<>{obsTable}</>}
+      />
+    );
+    groupElementByOrgId(resultObject, organizationId, element);
+  });
+  return resultObject;
+};
 
-  return evaluate(fhirBundle, mappings["diagnosticReports"]).map(
-    (report: DiagnosticReport) => {
-      let obsTable = evaluateObservationTable(
-        report,
-        fhirBundle,
-        mappings,
-        columnInfo,
-      );
-      return (
-        <AccordionLabResults
-          title={report.code.coding?.[0].display ?? "\u{200B}"}
-          abnormalTag={false}
-          content={<>{obsTable}</>}
-        />
-      );
-    },
+const groupElementByOrgId = (
+  resultObject: ResultObject,
+  organizationId: string,
+  element: React.JSX.Element,
+) => {
+  // Assuming resultObject exists and is the object we are building up over time
+  if (resultObject.hasOwnProperty(organizationId)) {
+    // The key exists, so we push the new element into the existing array
+    resultObject[organizationId].push(element);
+  } else {
+    // The key doesn't exist, so we create a new array with the element
+    resultObject[organizationId] = [element];
+  }
+};
+
+interface ResultObject {
+  [key: string]: JSX.Element[]; // Define the type of the values stored in the object
+}
+
+export function evaluateOrganizationTable(
+  report: DiagnosticReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+  columnInfo: ColumnInfoInput[],
+) {
+  const observations: Observation[] =
+    report.result?.map((obsRef: Reference) =>
+      evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
+    ) ?? [];
+  let obsTable;
+  if (observations?.length > 0) {
+    obsTable = evaluateTable(observations, mappings, columnInfo, "", false);
+  }
+  return obsTable;
+}
+
+export const evaluateLabOrganizationData = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+  id: string,
+) => {
+  const orgMappings = evaluate(fhirBundle, mappings["organizations"]);
+  const matchingOrg = orgMappings.map((organization: Organization) => {
+    if (organization.id === id) {
+      return organization;
+    }
+  })[0];
+  const orgAddress = matchingOrg?.address?.[0];
+  const streetAddress = orgAddress?.line ?? [];
+  const city = orgAddress?.city ?? "";
+  const state = orgAddress?.state ?? "";
+  const postalCode = orgAddress?.postalCode ?? "";
+  const country = orgAddress?.country ?? "";
+  const formattedAddress = formatAddress(
+    streetAddress,
+    city,
+    state,
+    postalCode,
+    country,
   );
+  const contactInfo = matchingOrg?.contact?.[0].telecom?.[0].value ?? "";
+  const name = matchingOrg?.name ?? "";
+  console.log(name);
+  const matchingOrgData: DisplayData[] = [
+    { title: "Lab Name", value: name },
+    { title: "Lab Address", value: formattedAddress },
+    { title: "Lab Contact", value: contactInfo },
+  ];
+
+  return matchingOrgData;
 };
 
 /**
