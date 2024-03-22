@@ -1,11 +1,11 @@
-interface MetaData {
+interface Metadata {
   [key: string]: string;
 }
 
 interface TableRow {
   [key: string]: {
     value: {};
-    metadata: MetaData;
+    metadata: Metadata;
   };
 }
 
@@ -199,7 +199,7 @@ function processTable(table: Element): any[] {
     row.querySelectorAll("td").forEach((cell, cellIndex) => {
       const key = keys[cellIndex];
 
-      const metaData: MetaData = {};
+      const metaData: Metadata = {};
       const attributes = cell.attributes || [];
       for (let i = 0; i < attributes.length; i++) {
         const attrName = attributes[i].nodeName;
