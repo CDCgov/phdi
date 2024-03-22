@@ -6,6 +6,14 @@ on:
       - "**"
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Is this working?
+        id: is-this-working
+        run: |
+          echo "is this even working?"
+
   determine-changes:
     uses: ./.github/workflows/determineChanges.yaml
 
