@@ -1,11 +1,14 @@
-name: Lint Changed Files
+name: Lint Check
 
 on:
   workflow_call:
-    inputs:
-      changed-files-data:
-        required: true
-        type: string
+  workflow_dispatch:
+  merge_group:
+    types:
+      - checks_requested
+  push:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,87 +18,32 @@ env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
 
 jobs:
-  filter-files:
+  python:
     runs-on: ubuntu-latest
-    outputs:
-      changed-python-files: ${{ steps.filter-files.outputs.changed-python-files }}
-      changed-js-files: ${{ steps.filter-files.outputs.changed-js-files }}
-      changed-yaml-files: ${{ steps.filter-files.outputs.changed-yaml-files }}
-    steps:
-      - name: Filter changed files
-        id: filter-files
-        run: |
-          CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
-
-          # Use jq to extract file paths based on extension and debug each step
-          CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | \
-            jq -r '.[] | select(.extension == "py") | .file' | \
-            tr '\n' ' ')
-          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | \
-            jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file' | \
-            tr '\n' ' ')
-          CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | \
-            jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file' | \
-            tr '\n' ' ')
-
-          # set these json blobs as outputs
-          echo "changed-python-files=$CHANGED_PY_FILES" >> $GITHUB_OUTPUT
-          echo "changed-js-files=$CHANGED_JS_FILES" >> $GITHUB_OUTPUT
-          echo "changed-yaml-files=$CHANGED_YAML_FILES" >> $GITHUB_OUTPUT
-  lint:
-    needs: filter-files
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        language: [python, javascript, yaml]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Setup Python
-        if: matrix.language == 'python' && needs.filter-files.outputs.changed-python-files != ''
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ env.TEST_RUNNER_PYTHON_VERSION }}
-
-      - name: Lint Python files
-        if: matrix.language == 'python' && needs.filter-files.outputs.changed-python-files != ''
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install dependencies
         run: |
           pip install -U pip
-          pip install black flake8
-          python_files="${{ needs.filter-files.outputs.changed-python-files }}"
-          for file in $python_files; do
-            black --check $file
-            flake8 $file
-          done
-
-      - name: Setup Node.js
-        if: matrix.language == 'javascript' && needs.filter-files.outputs.changed-js-files != ''
-        uses: actions/setup-node@v2
-        with:
-          node-version: "18"
-
-      - name: Lint JavaScript files
-        if: matrix.language == 'javascript' && needs.filter-files.outputs.changed-js-files != ''
+          pip install black==24.2.0 flake8==7.0.0
+      - name: Check format (black)
+        run: |
+          black --check --verbose .
+      - name: Check style (flake8)
+        run: |
+          flake8
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint eCR Viewer
+        working-directory: ./containers/ecr-viewer
         run: |
           npm ci
-          js_files="${{ needs.filter-files.outputs.changed-js-files }}"
-          for file in $js_files; do
-            npm run lint -- $file
-          done
-
-      - name: Install YAML Linter
-        if: matrix.language == 'yaml' && needs.filter-files.outputs.changed-yaml-files != ''
-        run: sudo apt-get install yamllint
-
-      - name: Lint YAML files
-        if: matrix.language == 'yaml' && needs.filter-files.outputs.changed-yaml-files != ''
-        run: |
-          echo "rules:" > .yamllint.yml
-          echo "  line-length:" >> .yamllint.yml
-          echo "    max: 120" >> .yamllint.yml
-          echo "    level: error" >> .yamllint.yml
-          yaml_files="${{ needs.filter-files.outputs.changed-yaml-files }}"
-          for file in $yaml_files; do
-            yamllint $file
-          done
+          npm run lint

@@ -11,6 +11,6 @@ jobs:
 
   lint-changed-files:
     needs: determine-changes
-    uses: ./.github/workflows/lint.yaml
+    uses: ./.github/workflows/lintChangedFiles.yaml
     with:
       changed-files-data: ${{ needs.determine-changes.outputs.changed-files-data }}
