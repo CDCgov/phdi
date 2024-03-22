@@ -48,30 +48,47 @@ jobs:
           for (( i = 0; i < CHANGED_FILES_LENGTH; i++ )); do
               FILE=${CHANGED_FILES[i]}
               EXTENSION="${FILE##*.}"
+              REQUIREMENTS_TXT=""
+              PACKAGE_JSON=""
+              NEEDS_POSTGRES="false"
               if [[ "$FILE" == containers/* ]]; then
-                  CATEGORY=$(echo "$FILE" | cut -d'/' -f2)
+                  CONTAINER_NAME=$(echo "$FILE" | cut -d'/' -f2)
                   TAG="container"
+                  # check if the container is a python container or not
+                  if [[ -f "containers/$CONTAINER_NAME/requirements.txt" ]]; then
+                          REQUIREMENTS_TXT="true"
+                  fi
+                  if [[ -f "containers/$CONTAINER_NAME/package.json" ]]; then
+                          PACKAGE_JSON="true"
+                  fi
+                  if [[ "$CONTAINER_NAME" == "record-linkage" || "$CONTAINER_NAME" == "ecr-viewer" ]]; then
+                      NEEDS_POSTGRES="true"
+                  fi
               elif [[ "$FILE" == ".pre-commit-config.yaml" ]] || \
                    [[ "$FILE" == .github/workflows/* ]]; then
-                  CATEGORY="ci-cd"
                   TAG="ci-cd"
               elif [[ "$FILE" == phdi/* || "$FILE" == tests/* ]]; then
-                  CATEGORY="sdk"
                   TAG="sdk"
+                  NEEDS_POSTGRES="true"
               else
-                  CATEGORY="other-changes"
                   TAG="other"
               fi
 
               JSON_ENTRY=$(jq -nc \
                   --arg file "$FILE" \
-                  --arg category "$CATEGORY" \
                   --arg tag "$TAG" \
+                  --arg container_name "$CONTAINER_NAME" \
+                  --arg requirements_txt "$REQUIREMENTS_TXT" \
+                  --arg package_json "$PACKAGE_JSON" \
+                  --arg needs_postgres "$NEEDS_POSTGRES" \
                   --arg extension "$EXTENSION" \
                   '{
                     file: $file,
-                    category: $category,
                     tag: $tag,
+                    container_name: $container_name,
+                    requirements_txt: $requirements_txt,
+                    package_json: $package_json,
+                    needs_postgres: $needs_postgres,
                     extension: $extension
                   }')
 
