@@ -36,7 +36,7 @@ jobs:
           pip install ruff
       - name: Run linter (ruff)
         run: |
-          ruff check --fix
+          ruff check
       - name: Run formatter (ruff)
         run: |
           ruff format
