@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Active Problems Table should match snapshot 1`] = `
+<div>
+  <table
+    class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W table-caption-margin margin-y-0 border-top border-left border-right"
+    data-testid="table"
+  >
+    <caption>
+      Problems List
+    </caption>
+    <thead>
+      <tr>
+        <th
+          class="bg-gray-5 minw-15"
+          scope="col"
+        >
+          Active Problem
+        </th>
+        <th
+          class="bg-gray-5 minw-15"
+          scope="col"
+        >
+          Onset Age
+        </th>
+        <th
+          class="bg-gray-5 minw-15"
+          scope="col"
+        >
+          Onset Date
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          class="text-top"
+        >
+          Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
+        <td
+          class="text-top"
+        >
+          12/14/2022
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="text-top"
+        >
+          Headache
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
+        <td
+          class="text-top"
+        >
+          08/19/2022
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="text-top"
+        >
+          Backache
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
+        <td
+          class="text-top"
+        >
+          08/19/2022
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="text-top"
+        >
+          Malignant neoplasm of urinary bladder neck
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
+        <td
+          class="text-top"
+        >
+          11/05/2021
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="text-top"
+        >
+          Malignant neoplasm of overlapping sites of pancreas
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
+        <td
+          class="text-top"
+        >
+          09/18/2017
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="text-top"
+        >
+          Bilateral malignant neoplasm of lower outer quadrant of breast in female
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
+        <td
+          class="text-top"
+        >
+          02/27/2017
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
