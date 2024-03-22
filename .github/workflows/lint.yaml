@@ -32,11 +32,6 @@ jobs:
           CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file' | tr '\n' ' ')
           CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file' | tr '\n' ' ')
 
-          # debput outputs
-          echo "changed-python-files: $CHANGED_PY_FILES"
-          echo "changed-js-files: $CHANGED_JS_FILES"
-          echo "changed-yaml-files: $CHANGED_YAML_FILES"
-
           # set these json blobs as outputs
           echo "changed-python-files=$CHANGED_PY_FILES" >> $GITHUB_OUTPUT
           echo "changed-js-files=$CHANGED_JS_FILES" >> $GITHUB_OUTPUT
