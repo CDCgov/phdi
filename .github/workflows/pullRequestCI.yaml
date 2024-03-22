@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - "**"
+  merge_group:
+    types:
+      - checks_requested
 
 jobs:
   determine-changes:
