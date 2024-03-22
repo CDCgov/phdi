@@ -1,12 +1,11 @@
 name: Build Containers
 
 on:
-  workflow_call
-  # pull_request:
-  #   branches:
-  #     - "**"
-  #   paths:
-  #     - "containers/**"
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - "containers/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
