@@ -8,8 +8,6 @@ on:
 jobs:
   determine-changes:
     uses: ./.github/workflows/determineChanges.yaml
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   lint-changed-files:
     needs: determine-changes

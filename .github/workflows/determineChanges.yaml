@@ -6,9 +6,6 @@ on:
       changed-files-data:
         description: "JSON formatted list of changed files with metadata"
         value: ${{ steps.changed-files.outputs.result }}
-      secrets:
-        GITHUB_TOKEN:
-          required: true
 
 jobs:
   determine-changes:
