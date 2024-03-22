@@ -25,7 +25,7 @@ jobs:
       - name: Filter changed files
         id: filter-files
         run: |
-          CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
+          CHANGED_FILES_JSON='${{ fromJSON(inputs.changed-files-data) }}'
           CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "py") | .file')
           CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file')
           CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file')
