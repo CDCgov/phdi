@@ -1,5 +1,5 @@
 {
-  "name": "ecr-viewer",
+  "name": "tefca-viewer",
   "description": "The DIBBs eCR Viewer app offers a REST API for processing FHIR messages into an HTML page with key insights.",
   "version": "1.0.1",
   "private": true,

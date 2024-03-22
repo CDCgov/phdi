@@ -2,7 +2,7 @@
 "use client";
 
 const ECRViewerHomePage = () => {
-  return <>ECR Viewer</>;
+  return <>TryTEFCA Viewer</>;
 };
 
 export default ECRViewerHomePage;
