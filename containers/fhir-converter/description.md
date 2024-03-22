@@ -51,6 +51,16 @@ path-to-application:
   The path to an application .dll file to execute.  
 ```
 
+##### Installing additional versions of dotnet sdk
+
+To install the previous versions with homebrew you can use the [dotnet-sdk-versions](https://github.com/isen-ng/homebrew-dotnet-sdk-versions) tap.
+```
+brew tap isen-ng/dotnet-sdk-versions
+brew install --cask <version>
+
+dotnet --list-sdks
+```
+
 #### Windows
 
 ##### Install the .NET SDK
