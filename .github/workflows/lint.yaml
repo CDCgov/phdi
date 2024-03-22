@@ -53,46 +53,49 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Python
-        if: matrix.language == "python"
+        if: matrix.language == 'python' && needs.filter-files.outputs.changed-python-files != ''
         uses: actions/setup-python@v2
         with:
           python-version: ${{ env.TEST_RUNNER_PYTHON_VERSION }}
 
-      - name: Setup Node.js
-        if: matrix.language == "javascript"
-        uses: actions/setup-node@v2
-        with:
-          node-version: "18"
-
       - name: Lint Python files
-        if: matrix.language == "python" && needs.filter-files.outputs.changed-python-files != ""
+        if: matrix.language == 'python' && needs.filter-files.outputs.changed-python-files != ''
         run: |
           pip install -U pip
           pip install black flake8
-          PYTHON_FILES="${{ needs.filter-files.outputs.changed-python-files }}"
-          for file in $PYTHON_FILES; do
+          python_files="${{ needs.filter-files.outputs.changed-python-files }}"
+          for file in $python_files; do
             black --check $file
             flake8 $file
           done
 
+      - name: Setup Node.js
+        if: matrix.language == 'javascript' && needs.filter-files.outputs.changed-js-files != ''
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
       - name: Lint JavaScript files
-        if: matrix.language == "javascript" && needs.filter-files.outputs.changed-js-files != ""
+        if: matrix.language == 'javascript' && needs.filter-files.outputs.changed-js-files != ''
         run: |
           npm ci
-          JS_FILES="${{ needs.filter-files.outputs.changed-js-files }}"
-          for file in $JS_FILES; do
+          js_files="${{ needs.filter-files.outputs.changed-js-files }}"
+          for file in $js_files; do
             npm run lint -- $file
           done
 
+      - name: Install YAML Linter
+        if: matrix.language == 'yaml' && needs.filter-files.outputs.changed-yaml-files != ''
+        run: sudo apt-get install yamllint
+
       - name: Lint YAML files
-        if: matrix.language == "yaml" && needs.filter-files.outputs.changed-yaml-files != ""
+        if: matrix.language == 'yaml' && needs.filter-files.outputs.changed-yaml-files != ''
         run: |
-          sudo apt-get install yamllint
           echo "rules:" > .yamllint.yml
           echo "  line-length:" >> .yamllint.yml
           echo "    max: 120" >> .yamllint.yml
           echo "    level: error" >> .yamllint.yml
-          YAML_FILES="${{ needs.filter-files.outputs.changed-yaml-files }}"
-          for file in $YAML_FILES; do
+          yaml_files="${{ needs.filter-files.outputs.changed-yaml-files }}"
+          for file in $yaml_files; do
             yamllint $file
           done
