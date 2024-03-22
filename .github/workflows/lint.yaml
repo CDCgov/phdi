@@ -28,9 +28,24 @@ jobs:
           CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
 
           # Use jq to extract file paths based on extension and debug each step
-          CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "py") | .file' | tr '\n' ' ')
-          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file' | tr '\n' ' ')
-          CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file' | tr '\n' ' ')
+          CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | \
+            jq -r '.[] | \
+            select(.extension == "py") | \
+            .file' | \
+            tr '\n' ' '
+          )
+          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | \
+            jq -r '.[] | \
+            select(.extension == "js" or .extension == "jsx") | \
+            .file' | \
+            tr '\n' ' '
+          )
+          CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | \
+            jq -r '.[] | \
+            select(.extension == "yaml" or .extension == "yml") | \
+            .file' | \
+            tr '\n' ' '
+          )
 
           # set these json blobs as outputs
           echo "changed-python-files=$CHANGED_PY_FILES" >> $GITHUB_OUTPUT
@@ -92,6 +107,11 @@ jobs:
         run: sudo apt-get install yamllint
       - name: Lint changed YAML files
         run: |
+          # some of the github actions expressions cannot be line broken
+          echo "rules:" > .yamllint.yml
+          echo "  line-length:" >> .yamllint.yml
+          echo "    max: 120" >> .yamllint.yamllint
+
           yaml_files="${{ needs.filter-files.outputs.changed-yaml-files }}"
           for file in $yaml_files; do
             yamllint $file
