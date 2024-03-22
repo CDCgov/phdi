@@ -5,7 +5,7 @@ on:
     outputs:
       changed-files-data:
         description: "JSON formatted list of changed files with metadata"
-        value: ${{ steps.changed-files.outputs.result }}
+        value: ${{ jobs.determine-changes.outputs.changed-files-data }}
 
 jobs:
   determine-changes:
