@@ -25,26 +25,21 @@ jobs:
       - name: Filter changed files
         id: filter-files
         run: |
-          # CHANGED_FILES_JSON='${{ fromJSON(inputs.changed-files-data) }}'
           CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
-          echo "CHANGED_FILES_JSON: $CHANGED_FILES_JSON"
 
           # Use jq to extract file paths based on extension and debug each step
           CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "py") | .file')
-          echo "CHANGED_PY_FILES: $CHANGED_PY_FILES"
           CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file')
-          echo "CHANGED_JS_FILES: $CHANGED_JS_FILES"
           CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file')
-          echo "CHANGED_YAML_FILES: $CHANGED_YAML_FILES"
 
-          # Temporarily echo the outputs for debugging
-          echo "changed-python-files=$CHANGED_PY_FILES" 
-          echo "changed-js-files=$CHANGED_JS_FILES" 
-          echo "changed-yaml-files=$CHANGED_YAML_FILES"
+          # set these json blobs as outputs
+          echo "changed-python-files=$CHANGED_PY_FILES" >> $GITHUB_OUTPUT
+          echo "changed-js-files=$CHANGED_JS_FILES" >> $GITHUB_OUTPUT
+          echo "changed-yaml-files=$CHANGED_YAML_FILES" >> $GITHUB_OUTPUT
 
   python-lint:
     needs: filter-files
-    if: ${{ needs.filter-files.outputs.changed-python-files }}
+    if: ${{ needs.filter-files.outputs.changed-python-files != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -67,7 +62,7 @@ jobs:
 
   javascript-lint:
     needs: filter-files
-    if: ${{ needs.filter-files.outputs.changed-js-files }}
+    if: ${{ needs.filter-files.outputs.changed-js-files != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -88,7 +83,7 @@ jobs:
 
   yaml-lint:
     needs: filter-files
-    if: ${{ needs.filter-files.outputs.changed-yaml-files }}
+    if: ${{ needs.filter-files.outputs.changed-yaml-files != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
