@@ -66,7 +66,9 @@
             "valueQuantity":
             {
                 "value":{{ observationEntry.value.value }},
+                {% if observationEntry.value.unit and  observationEntry.value.unit != "null" -%}
                 "unit":"{{ observationEntry.value.unit }}",
+                {% endif -%}
             },
         {% else -%}
             "valueString":"{{ observationEntry.value._ }}",
