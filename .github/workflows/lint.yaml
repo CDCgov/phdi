@@ -101,7 +101,8 @@ jobs:
           # some of the github actions expressions cannot be line broken
           echo "rules:" > .yamllint.yml
           echo "  line-length:" >> .yamllint.yml
-          echo "    max: 120" >> .yamllint.yamllint
+          echo "    max: 120" >> .yamllint.yml
+          echo "    level: error" >> .yamllint.yml
 
           yaml_files="${{ needs.filter-files.outputs.changed-yaml-files }}"
           for file in $yaml_files; do
