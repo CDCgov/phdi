@@ -47,13 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - language: "python"
-            files: ${{ needs.filter-files.outputs.changed-python-files }}
-          - language: "javascript"
-            files: ${{ needs.filter-files.outputs.changed-js-files }}
-          - language: "yaml"
-            files: ${{ needs.filter-files.outputs.changed-yaml-files }}
+        language: [python, javascript, yaml]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -71,31 +65,34 @@ jobs:
           node-version: "18"
 
       - name: Lint Python files
-        if: matrix.language == "python" && matrix.files != ""
+        if: matrix.language == "python" && && needs.filter-files.outputs.changed-python-files != ""
         run: |
           pip install -U pip
           pip install black flake8
-          for file in $matrix.files; do
+          PYTHON_FILES="${{ needs.filter-files.outputs.changed-python-files }}"
+          for file in $PYTHON_FILES; do
             black --check $file
             flake8 $file
           done
 
       - name: Lint JavaScript files
-        if: matrix.language == "javascript" && matrix.files != ""
+        if: matrix.language == "javascript" && needs.filter-files.outputs.changed-js-files != ""
         run: |
           npm ci
-          for file in $matrix.files; do
+          JS_FILES="${{ needs.filter-files.outputs.changed-js-files }}"
+          for file in $JS_FILES; do
             npm run lint -- $file
           done
 
       - name: Lint YAML files
-        if: matrix.language == "yaml" && matrix.files != ""
+        if: matrix.language == "yaml" && needs.filter-files.outputs.changed-yaml-files != ""
         run: |
           sudo apt-get install yamllint
           echo "rules:" > .yamllint.yml
           echo "  line-length:" >> .yamllint.yml
           echo "    max: 120" >> .yamllint.yml
           echo "    level: error" >> .yamllint.yml
-          for file in $matrix.files; do
+          YAML_FILES="${{ needs.filter-files.outputs.changed-yaml-files }}"
+          for file in $YAML_FILES; do
             yamllint $file
           done
