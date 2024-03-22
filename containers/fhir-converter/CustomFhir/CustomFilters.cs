@@ -1,6 +1,15 @@
+using System;
+using System.Collections.Generic;
 using System.Collections;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Microsoft.VisualBasic.FileIO;
 
 namespace Microsoft.Health.Fhir.Liquid.Converter
