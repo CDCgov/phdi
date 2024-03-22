@@ -176,4 +176,12 @@ public class CustomFilterTests
         var actual = Filters.GetLoincName(loinc);
         Assert.Equal("Vital signs, weight and height panel", actual);
     }
+
+    [Fact]
+    public void GetLoincName_InvalidLOINC_ReturnsNull()
+    {
+        var loinc = "ABC";
+        var actual = Filters.GetLoincName(loinc);
+        Assert.Null(actual);
+    }
 }
