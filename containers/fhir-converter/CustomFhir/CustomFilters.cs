@@ -187,7 +187,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       while (!parser.EndOfData)
       {
         fields = parser.ReadFields();
-        if(fields != null){
+        if (fields != null)
+        {
           string key = fields[0].Trim();
           string value = fields[1].Trim();
           csvData[key] = value;
