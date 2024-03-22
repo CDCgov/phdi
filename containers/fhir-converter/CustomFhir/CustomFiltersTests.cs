@@ -157,7 +157,7 @@ public class CustomFilterTests
         var raceString = new Dictionary<string, object>() {
                 {"_", "two"},
             };
-                    var carString = new Dictionary<string, object>() {
+        var carString = new Dictionary<string, object>() {
                 {"_", "words"},
             };
         var complete = new Dictionary<string, object>() {
