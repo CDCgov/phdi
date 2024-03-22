@@ -34,7 +34,9 @@ jobs:
           echo "Head reference: ${{ github.head_ref }}"
 
           # get the list of changed files and convert to array
-          DIFF_OUTPUT=$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})
+          DIFF_OUTPUT=$(git diff \
+            --name-only \
+            ${{ github.base_ref }}...${{ github.head_ref }})
           mapfile -t CHANGED_FILES <<< "$DIFF_OUTPUT"
           echo "Changed files:"
           printf '%s\n' "${CHANGED_FILES[@]}"
@@ -67,12 +69,11 @@ jobs:
                   --arg tag "$TAG" \
                   --arg extension "$EXTENSION" \
                   '{
-                    file: $file, 
-                    category: $category, 
-                    tag: $tag, 
+                    file: $file,
+                    category: $category,
+                    tag: $tag,
                     extension: $extension
                   }')
-
 
               JSON_ARRAY+="$JSON_ENTRY"
               if (( i < CHANGED_FILES_LENGTH - 1 )); then
