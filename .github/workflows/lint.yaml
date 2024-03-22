@@ -33,13 +33,13 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip
-          pip install black==24.2.0 flake8==7.0.0
-      - name: Check format (black)
+          pip install ruff
+      - name: Run linter (ruff)
         run: |
-          black --check --verbose .
-      - name: Check style (flake8)
+          ruff check --fix
+      - name: Run formatter (ruff)
         run: |
-          flake8
+          ruff format
   javascript:
     runs-on: ubuntu-latest
     steps:
