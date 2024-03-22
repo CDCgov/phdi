@@ -393,7 +393,12 @@ export const evaluateLabInfoData = (
         className: "lab-text-content",
       },
     ];
-    if (labTable) rrInfo.unshift({ value: labTable, className: "lab-table" });
+    if (labTable)
+      rrInfo.unshift({
+        value: labTable,
+        className: "lab-table",
+        dividerLine: false,
+      });
     const content: Array<React.JSX.Element> = rrInfo.map((item) => {
       return <DataDisplay item={item} />;
     });

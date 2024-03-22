@@ -25,6 +25,7 @@ export interface DisplayData {
   title?: string;
   className?: string;
   value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
+  dividerLine?: boolean;
 }
 
 export interface PathMappings {
@@ -641,6 +642,10 @@ export const DataDisplay: React.FC<{
   item: DisplayData;
   className?: string;
 }): React.JSX.Element => {
+  item.dividerLine =
+    item.dividerLine == null || item.dividerLine == undefined
+      ? true
+      : item.dividerLine;
   return (
     <div>
       <div className="grid-row">
@@ -655,7 +660,7 @@ export const DataDisplay: React.FC<{
           {item.value}
         </div>
       </div>
-      <div className={"section__line_gray"} />
+      {item.dividerLine ? <div className={"section__line_gray"} /> : ""}
     </div>
   );
 };
