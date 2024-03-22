@@ -28,13 +28,19 @@ jobs:
           # CHANGED_FILES_JSON='${{ fromJSON(inputs.changed-files-data) }}'
           CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
           echo "CHANGED_FILES_JSON: $CHANGED_FILES_JSON"
-          CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "py") | .file')
-          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file')
-          CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file')
 
-          echo "changed-python-files=$(echo $CHANGED_PY_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
-          echo "changed-js-files=$(echo $CHANGED_JS_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
-          echo "changed-yaml-files=$(echo $CHANGED_YAML_FILES | tr ' ' '\n')" >> $GITHUB_OUTPUT
+          # Use jq to extract file paths based on extension and debug each step
+          CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "py") | .file')
+          echo "CHANGED_PY_FILES: $CHANGED_PY_FILES"
+          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file')
+          echo "CHANGED_JS_FILES: $CHANGED_JS_FILES"
+          CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file')
+          echo "CHANGED_YAML_FILES: $CHANGED_YAML_FILES"
+
+          # Temporarily echo the outputs for debugging
+          echo "changed-python-files=$CHANGED_PY_FILES" 
+          echo "changed-js-files=$CHANGED_JS_FILES" 
+          echo "changed-yaml-files=$CHANGED_YAML_FILES"
 
   python-lint:
     needs: filter-files
