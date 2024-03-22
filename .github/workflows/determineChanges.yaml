@@ -10,6 +10,8 @@ on:
 jobs:
   determine-changes:
     runs-on: ubuntu-latest
+    outputs:
+      changed-files-data: ${{ steps.create-changed-files-data.outputs.result }}
     steps:
       - uses: actions/checkout@v3
         with:
