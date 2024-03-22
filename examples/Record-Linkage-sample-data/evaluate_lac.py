@@ -116,7 +116,7 @@ def phdi_linkage_algorithm(
     data: pd.DataFrame,
     cluster_ratio: Union[float, None] = None,
     use_log_odds_enhancement: bool = True,
-    **kwargs
+    **kwargs,
 ) -> dict:
     # func 0 maps to birthdate, func 2 to first name, func 3 to last name
     if use_log_odds_enhancement:
@@ -140,7 +140,7 @@ def phdi_linkage_algorithm(
         eval_rule,
         cluster_ratio,
         true_match_threshold=16.5,
-        **kwargs
+        **kwargs,
     )
 
     # func 10 maps to city, func 16 maps to address4
@@ -158,7 +158,7 @@ def phdi_linkage_algorithm(
         eval_rule,
         cluster_ratio,
         true_match_threshold=7,
-        **kwargs
+        **kwargs,
     )
 
     total_matches = compile_match_lists(
