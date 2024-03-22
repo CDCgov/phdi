@@ -76,4 +76,4 @@ jobs:
           echo "Changed files data: $JSON_ARRAY"
 
           # set output to environment variable
-          echo "result=$JSON_ARRAY" >> $GITHUB_ENV
+          echo "result=$JSON_ARRAY" >> $GITHUB_OUTPUT
