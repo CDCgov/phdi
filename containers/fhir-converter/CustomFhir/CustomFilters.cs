@@ -23,7 +23,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         {"list", "ul"},
         {"item", "li"}
     };
-    private static Dictionary<string, string> loincDict;
+    private static Dictionary<string, string>? loincDict;
 
     // Items from the filter could be arrays or objects, process them to be the same
     private static List<Dictionary<string, object>> ProcessItem(object item)
@@ -182,14 +182,16 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       parser.HasFieldsEnclosedInQuotes = true;
       parser.SetDelimiters(",");
 
-      string[] fields;
+      string[]? fields;
 
       while (!parser.EndOfData)
       {
         fields = parser.ReadFields();
-        string key = fields[0].Trim();
-        string value = fields[1].Trim();
-        csvData[key] = value;
+        if(fields != null){
+          string key = fields[0].Trim();
+          string value = fields[1].Trim();
+          csvData[key] = value;
+        }
       }
 
       return csvData;
@@ -202,10 +204,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// <returns>The name associated with the specified LOINC code, or null if the code is not found in the dictionary.</returns>
     public static string? GetLoincName(string loinc)
     {
-      if (loincDict == null)
-      {
-        loincDict = LoincDictionary();
-      }
+      loincDict ??= LoincDictionary();
       loincDict.TryGetValue(loinc, out string? element);
       return element;
     }
