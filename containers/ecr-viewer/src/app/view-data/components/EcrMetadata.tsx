@@ -20,31 +20,44 @@ export const ecrMetadataConfig: SectionConfig = new SectionConfig(
   ["RR Details", "eICR Details", "eCR Sender Details"],
 );
 
-interface TriggerLocationDict {
-  [key: string]: {
-    triggers: Set<string>;
-    jurisdiction: Set<string>;
+interface ReportableConditionsList {
+  [condition: string]: {
+    [trigger: string]: Set<string>; // Maps a trigger to a set of locations
   };
 }
 
-const convertDictionaryToRows = (dictionary: TriggerLocationDict) => {
+const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
   if (!dictionary) return [];
   const rows: JSX.Element[] = [];
-  Object.entries(dictionary).forEach(([key, { triggers, jurisdiction }], _) => {
-    const triggersArray = Array.from(triggers);
-    const locationsArray = Array.from(jurisdiction);
-    const maxRows = Math.max(triggersArray.length, locationsArray.length);
+  Object.entries(dictionary).forEach(([condition, triggers], _) => {
+    Object.entries(triggers).forEach(([trigger, locations], triggerIndex) => {
+      const locationsArray = Array.from(locations);
+      locationsArray.forEach((location, locationIndex) => {
+        const isConditionRow = triggerIndex === 0 && locationIndex === 0;
+        const isTriggerRow = locationIndex === 0;
+        const conditionCell = isConditionRow ? (
+          <td
+            rowSpan={Object.keys(triggers).reduce(
+              (acc, key) => acc + Array.from(triggers[key]).length,
+              0,
+            )}
+          >
+            {condition}
+          </td>
+        ) : null;
+        const triggerCell = isTriggerRow ? (
+          <td rowSpan={locationsArray.length}>{trigger}</td>
+        ) : null;
 
-    // Generate rows for the current key
-    for (let i = 0; i < maxRows; i++) {
-      rows.push(
-        <tr key={`${key}-${i}`}>
-          {i === 0 && <td rowSpan={maxRows}>{key}</td>}
-          <td>{triggersArray[i] || ""}</td>
-          <td>{locationsArray[i] || ""}</td>
-        </tr>,
-      );
-    }
+        rows.push(
+          <tr key={`${condition}-${trigger}-${location}`}>
+            {conditionCell}
+            {triggerCell}
+            <td>{location}</td>
+          </tr>,
+        );
+      });
+    });
   });
 
   return rows;

@@ -533,41 +533,31 @@ export const evaluateEcrMetadata = (
 
   let reportableConditionsList: {
     [key: string]: {
-      triggers: Set<string>;
-      jurisdiction: Set<string>;
+      [key: string]: Set<string>;
     };
   } = {};
 
   for (const condition of rrDetails1) {
     let name = condition.valueCodeableConcept.coding[0].display;
+    const triggers = condition.extension
+      .filter(
+        (x: { url: string; valueString: string }) =>
+          (x.url =
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension"),
+      )
+      .map((x: { url: string; valueString: string }) => x.valueString);
     if (!reportableConditionsList[name]) {
-      reportableConditionsList[name] = {
-        triggers: new Set(
-          condition.extension
-            .filter(
-              (x: { url: string; valueString: string }) =>
-                (x.url =
-                  "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension"),
-            )
-            .map((x: { url: string; valueString: string }) => x.valueString),
-        ),
-        jurisdiction: new Set(
-          condition.performer.map((x: { display: string }) => x.display),
-        ),
-      };
-    } else {
-      condition.extension
-        .filter(
-          (x: { url: string; valueString: string }) =>
-            (x.url =
-              "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension"),
-        )
-        .map((x: { url: string; valueString: string }) => x.valueString)
-        .forEach((x: string) => reportableConditionsList[name].triggers.add(x));
+      reportableConditionsList[name] = {};
+    }
+
+    for (let i in triggers) {
+      if (!reportableConditionsList[name][triggers[i]]) {
+        reportableConditionsList[name][triggers[i]] = new Set();
+      }
       condition.performer
         .map((x: { display: string }) => x.display)
         .forEach((x: string) =>
-          reportableConditionsList[name].jurisdiction.add(x),
+          reportableConditionsList[name][triggers[i]].add(x),
         );
     }
   }
