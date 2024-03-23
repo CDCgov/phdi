@@ -15,17 +15,17 @@ env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
 
 jobs:
-  filter-files:
+  filter-test-files:
     runs-on: ubuntu-latest
     outputs:
-      sdk-changed: ${{ steps.filter-files.outputs.sdk-changed }}
-      container-changes: ${{ steps.filter-files.outputs.container-changes }}
+      sdk-changed: ${{ steps.filter-test-files.outputs.sdk-changed }}
+      container-changes: ${{ steps.filter-test-files.outputs.container-changes }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Determine changes
-        id: filter-files
+        id: filter-test-files
         run: |
           CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
           # determine if code or tests for the sdk have changed
@@ -34,10 +34,10 @@ jobs:
           echo "container-changes=$(echo $CHANGED_FILES_JSON | jq -c '[.[] | select(.tag == "container") | {name: .container_name, requirements_txt: .requirements_txt, package_json: .package_json, needs_postgres: .needs_postgres}]')" >> $GITHUB_OUTPUT
 
   run-tests:
-    needs: filter-files
+    needs: filter-test-files
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.filter-files.outputs.container-changes)}}
+      matrix: ${{fromJson(needs.filter-test-files.outputs.container-changes)}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
