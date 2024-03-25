@@ -23,7 +23,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
           class="usa-summary-box__text"
         >
           <table
-            class="usa-table"
+            class="usa-table rrTable"
             data-testid="table"
           >
             <caption>
