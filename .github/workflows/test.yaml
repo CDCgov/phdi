@@ -241,7 +241,7 @@ jobs:
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm install
 
-      - name: Start server
+      - name: Start ecr-viewer
         working-directory: ./containers/ecr-viewer
         run: docker-compose up -d
 
@@ -255,14 +255,3 @@ jobs:
       - name: Run cypress tests
         working-directory: ./containers/ecr-viewer
         run: npm run cypress:run
-
-      # - name: Spin up app and test
-      #   working-directory: ./containers/ecr-viewer
-      #   run: docker compose up && npm run cypress:run
-      # Need to run local-dev so the database is online
-      # - name: Build
-      #   working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-      #   run: npm run local-dev
-      # - name: Spin up app and test
-      #   working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-      #   run: npm run cypress:run
