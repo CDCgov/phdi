@@ -108,7 +108,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
           <EcrMetadata
             eicrDetails={ecrMetadata.eicrDetails.availableData}
             eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
-            rrDetails={ecrMetadata.rrDetails.availableData}
+            rrDetails={ecrMetadata.rrDetails}
           />
         </>
       ),
