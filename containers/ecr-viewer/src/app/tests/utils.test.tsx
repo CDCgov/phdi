@@ -48,15 +48,14 @@ describe("Utils", () => {
   describe("Evaluate Ecr Metadata", () => {
     it("should have no available data where there is no data", () => {
       const actual = evaluateEcrMetadata(undefined as any, mappings);
-
       expect(actual.ecrSenderDetails.availableData).toBeEmpty();
       expect(actual.ecrSenderDetails.unavailableData).not.toBeEmpty();
 
       expect(actual.eicrDetails.availableData).toBeEmpty();
       expect(actual.eicrDetails.unavailableData).not.toBeEmpty();
+      console.log(actual.eicrDetails.unavailableData);
 
       expect(actual.rrDetails.availableData).toBeUndefined();
-      expect(actual.rrDetails.unavailableData).not.toBeEmpty();
     });
     it("should have ecrSenderDetails", () => {
       const actual = evaluateEcrMetadata(
@@ -101,23 +100,16 @@ describe("Utils", () => {
         mappings,
       );
 
-      expect(actual.rrDetails.availableData).toEqual([
-        {
-          title: "Reportable Condition(s)",
-          value:
-            "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
-        },
-        {
-          title: "RCKMS Trigger Summary",
-          value:
-            "COVID-19 (as a diagnosis or active problem)\nDetection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method",
-        },
-        {
-          title: "Jurisdiction(s) Sent eCR",
-          value: "Tennessee Department of Health",
-        },
-      ]);
-      expect(actual.rrDetails.unavailableData).toBeEmpty();
+      expect(actual.rrDetails).toEqual({
+        "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)":
+          {
+            "COVID-19 (as a diagnosis or active problem)": new Set([
+              "Tennessee Department of Health",
+            ]),
+            "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method":
+              new Set(["Tennessee Department of Health"]),
+          },
+      });
     });
   });
   describe("Evaluate Clinical Info", () => {

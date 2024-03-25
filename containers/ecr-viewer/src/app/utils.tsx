@@ -5,7 +5,6 @@ import {
   Condition,
   FhirResource,
   Immunization,
-  Organization,
   Procedure,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
@@ -13,7 +12,6 @@ import parse from "html-react-parser";
 import classNames from "classnames";
 import { Table } from "@trussworks/react-uswds";
 import {
-  evaluateReference,
   evaluateDiagnosticReportData,
   evaluateValue,
 } from "@/app/evaluate-service";
@@ -435,7 +433,7 @@ export const evaluateEcrMetadata = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const rrDetails1 = evaluate(fhirBundle, mappings.rrDetails);
+  const rrDetails = evaluate(fhirBundle, mappings.rrDetails);
 
   let reportableConditionsList: {
     [key: string]: {
@@ -443,7 +441,7 @@ export const evaluateEcrMetadata = (
     };
   } = {};
 
-  for (const condition of rrDetails1) {
+  for (const condition of rrDetails) {
     let name = condition.valueCodeableConcept.coding[0].display;
     const triggers = condition.extension
       .filter(
@@ -467,12 +465,6 @@ export const evaluateEcrMetadata = (
         );
     }
   }
-
-  const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
-
-  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) =>
-    evaluateReference(fhirBundle, mappings, ref),
-  );
 
   const eicrDetails: DisplayData[] = [
     {
