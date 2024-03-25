@@ -240,13 +240,13 @@ jobs:
       - name: Install dependencies
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm install
-      # - name: Spin up app and test
-      #   working-directory: ./containers/ecr-viewer
-      #   run: npm run local-dev & npm run cypress:run
-      # Need to run local-dev so the database is online
-      - name: Build
-        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-        run: npm run local-dev
       - name: Spin up app and test
-        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-        run: npm run cypress:run
+        working-directory: ./containers/ecr-viewer
+        run: npm run local-dev & npm run cypress:run
+      # Need to run local-dev so the database is online
+      # - name: Build
+      #   working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+      #   run: npm run local-dev
+      # - name: Spin up app and test
+      #   working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+      #   run: npm run cypress:run
