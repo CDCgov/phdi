@@ -63,7 +63,7 @@ describe("Utils", () => {
       );
 
       expect(actual.ecrSenderDetails.availableData).toEqual([
-        { title: "Date/Time eCR Created", value: "2022-07-28T09:01:22-05:00" },
+        { title: "Date/Time eCR Created", value: "07/28/2022 10:01 AM EDT" },
         {
           title: "Sender Facility Name",
           value: "Vanderbilt University Adult Hospital",

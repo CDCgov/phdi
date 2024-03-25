@@ -1,3 +1,14 @@
+interface Metadata {
+  [key: string]: string;
+}
+
+interface TableRow {
+  [key: string]: {
+    value: {};
+    metadata: Metadata;
+  };
+}
+
 export const formatName = (firstName: string, lastName: string) => {
   if (firstName != undefined) {
     return `${firstName} ${lastName}`.trim();
@@ -35,11 +46,12 @@ export const formatDateTime = (dateTime: string) => {
     day: "2-digit",
     hour: "numeric",
     minute: "2-digit",
+    timeZoneName: "short",
   };
-
-  return new Date(dateTime)
+  const date = new Date(dateTime)
     .toLocaleDateString("en-Us", options)
     .replace(",", "");
+  return date !== "Invalid Date" ? date : "";
 };
 
 /**
@@ -146,3 +158,89 @@ export const formatString = (input: string): string => {
 
   return result;
 };
+
+/**
+ * Parses an HTML string containing tables and converts each table into a JSON array of objects.
+ * @param {string} htmlString - The HTML string containing tables to be parsed.
+ * @returns {any[]} - An array of JSON objects representing the tables from the HTML string.
+ */
+export function formatTablesToJSON(htmlString: string): any[] {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, "text/html");
+  const jsonArray: any[] = [];
+  doc.querySelectorAll("table").forEach((table) => {
+    jsonArray.push(processTable(table));
+  });
+
+  return jsonArray;
+}
+
+/**
+ * Processes a single HTML table element, extracting data from rows and cells, and converts it into a JSON array of objects.
+ * This function extracts data from <tr> and <td> elements within the provided table element.
+ * The content of <th> elements is used as keys in the generated JSON objects.
+ * @param {Element} table - The HTML table element to be processed.
+ * @returns {any[]} - An array of JSON objects representing the rows and cells of the table.
+ */
+function processTable(table: Element): any[] {
+  const jsonArray: any[] = [];
+  const rows = table.querySelectorAll("tr");
+  const keys: string[] = [];
+
+  rows[0].querySelectorAll("th").forEach((header) => {
+    keys.push(header.textContent?.trim() || "");
+  });
+
+  rows.forEach((row, rowIndex) => {
+    // Skip the first row as it contains headers
+    if (rowIndex === 0) return;
+
+    const obj: TableRow = {};
+    row.querySelectorAll("td").forEach((cell, cellIndex) => {
+      const key = keys[cellIndex];
+
+      const metaData: Metadata = {};
+      const attributes = cell.attributes || [];
+      for (let i = 0; i < attributes.length; i++) {
+        const attrName = attributes[i].nodeName;
+        const attrValue = attributes[i].nodeValue;
+        if (attrName && attrValue) {
+          metaData[attrName] = attrValue;
+        }
+      }
+      obj[key] = {
+        value: cell.textContent?.trim() || "",
+        metadata: metaData,
+      };
+    });
+    jsonArray.push(obj);
+  });
+
+  return jsonArray;
+}
+
+/**
+ * Extracts and concatenates all sequences of numbers and periods from each string in the input array,
+ * excluding any leading and trailing periods in the first matched sequence of each string.
+ *
+ * @param {string[]} inputValues - An array of strings from which numbers and periods will be extracted.
+ * @returns {string[]} An array of strings, each corresponding to an input string with all found sequences
+ * of numbers and periods concatenated together, with any leading period in the first sequence removed.
+ *
+ * @example @param inputValues - ['#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2']
+ * @example @returns - ['1.2.840.114350.1.13.297.3.7.2.798268.1670845']
+ */
+export function extractNumbersAndPeriods(inputValues: string[]): string[] {
+  return inputValues.map((value) => {
+    // Find all sequences of numbers and periods up to the first occurrence of a letter
+    const pattern: RegExp = /[0-9.]+(?=[a-zA-Z])/;
+    const match: RegExpMatchArray | null = value.match(pattern);
+
+    if (match && match[0]) {
+      // Remove leading and trailing periods from the match
+      const cleanedMatch = match[0].replace(/^\./, "").replace(/\.$/, "");
+      return cleanedMatch;
+    }
+    return "";
+  });
+}
