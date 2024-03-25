@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.13.0a5-slim
 
 WORKDIR /code
 RUN apt-get update && apt-get upgrade -y \
