@@ -1,19 +1,9 @@
 import React from "react";
 import * as dateFns from "date-fns";
-import {
-  Bundle,
-  Condition,
-  Immunization,
-  Procedure,
-} from "fhir/r4";
+import { Bundle, Condition, Immunization, Procedure } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
-import { Table } from "@trussworks/react-uswds";
-import {
-  evaluateDiagnosticReportData,
-  evaluateValue,
-} from "@/app/evaluate-service";
 
 import {
   formatAddress,
