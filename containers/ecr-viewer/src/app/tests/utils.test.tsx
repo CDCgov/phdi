@@ -55,7 +55,7 @@ describe("Utils", () => {
       expect(actual.eicrDetails.availableData).toBeEmpty();
       expect(actual.eicrDetails.unavailableData).not.toBeEmpty();
 
-      expect(actual.rrDetails.availableData).toBeEmpty();
+      expect(actual.rrDetails.availableData).toBeUndefined();
       expect(actual.rrDetails.unavailableData).not.toBeEmpty();
     });
     it("should have ecrSenderDetails", () => {
