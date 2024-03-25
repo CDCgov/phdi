@@ -26,8 +26,9 @@ const noData = <span className="no-data text-italic text-base">No data</span>;
 /**
  * Extracts an array of `Observation` resources from a given FHIR bundle based on a list of observation references.
  *
- * @param {Array<Reference>} observationIds - An array of `Reference` objects pointing to `Observation` resources.
- * @param {Bundle} fhirBundle - The FHIR bundle containing potential `Observation` resources to extract.
+ * @param {LabReport} report - The lab report containing the results to be processed.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
  * @returns {Array<Observation>} An array of `Observation` resources from the FHIR bundle that correspond to the
  * given references. If no matching observations are found or if the input references array is empty, an empty array
  * is returned.
@@ -46,7 +47,7 @@ export const getObservations = (
         evaluateReference(fhirBundle, mappings, obsRef.reference)
       );
     })
-    .filter((obs) => obs !== undefined);
+    .filter((obs) => obs);
 };
 
 /**
