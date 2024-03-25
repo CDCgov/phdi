@@ -14,6 +14,7 @@ import {
   formatVitals,
   formatDateTime,
 } from "@/app/format-service";
+import { evaluateTable } from "./evaluate-service";
 
 export interface DisplayData {
   title?: string;
