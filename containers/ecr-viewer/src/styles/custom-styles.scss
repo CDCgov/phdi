@@ -120,6 +120,15 @@ h4 {
     }
 }
 
+.ecrTable {
+    table-layout: fixed;
+    width: 100%;
+}
+
+td {
+  vertical-align: top;
+}
+
 .usa-summary-box__body:not(:first-child) .summary-box-key-information {
   margin-top: 20px;
 }

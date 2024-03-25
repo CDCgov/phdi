@@ -76,7 +76,7 @@ const EcrMetadata = ({
         </span>
       </AccordianH4>
       <AccordianDiv>
-        <Table bordered caption="Reportibility Summary">
+        <Table bordered caption="Reportibility Summary" className="rrTable">
           <thead>
             <tr>
               <th>Reportable Condition</th>
