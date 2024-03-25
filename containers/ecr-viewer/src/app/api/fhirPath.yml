@@ -93,6 +93,11 @@ procedureReason: "Procedure.reason.display"
 
 # Lab Info
 diagnosticReports: "Bundle.entry.resource.where(resourceType = 'DiagnosticReport')"
+labResultDiv: "Bundle.entry.resource.section.where(code.coding[0].code = '30954-2').text"
+specimenCollectionTime: "Observation.extension[0].extension.where(url = 'specimen collection time').valueDateTime"
+specimenReceivedTime: "Observation.extension[0].extension.where(url = 'specimen receive time').valueDateTime"
+specimenSource: "Observation.extension[0].extension.where(url = 'specimen source').valueString"
+observationReferenceValue: "Observation.extension[0].extension.where(url = 'observation entry reference value').valueString"
 observationComponent: "code.coding.display"
 observationValue: "value"
 observationReferenceRange: "referenceRange.text"

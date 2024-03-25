@@ -3,7 +3,6 @@ import * as dateFns from "date-fns";
 import {
   Bundle,
   Condition,
-  FhirResource,
   Immunization,
   Organization,
   Procedure,
@@ -11,12 +10,7 @@ import {
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
-import { Table } from "@trussworks/react-uswds";
-import {
-  evaluateReference,
-  evaluateDiagnosticReportData,
-  evaluateValue,
-} from "@/app/evaluate-service";
+import { evaluateTable, evaluateReference } from "@/app/evaluate-service";
 import {
   formatAddress,
   formatDate,
@@ -28,8 +22,10 @@ import {
 } from "@/app/format-service";
 
 export interface DisplayData {
-  title: string;
-  value?: string | React.JSX.Element | React.JSX.Element[];
+  title?: string;
+  className?: string;
+  value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
+  dividerLine?: boolean;
 }
 
 export interface PathMappings {
@@ -155,67 +151,6 @@ export const evaluateEncounterDate = (
 
   return `Start: ${startDate}
     End: ${endDate}`;
-};
-
-/**
- * Formats a table based on the provided resources, mappings, columns, and caption.
- * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
- *                                      The order of columns in the array determines the order of appearance.
- * @param {string} caption - The caption for the table.
- * @param {boolean} [outerBorder=true] - Optional. Determines whether to include an outer border for the table. Default is true.
- * @returns {React.JSX.Element} - A formatted table React element.
- */
-export const evaluateTable = (
-  resources: FhirResource[],
-  mappings: PathMappings,
-  columns: ColumnInfoInput[],
-  caption: string,
-  outerBorder: boolean = true,
-): React.JSX.Element => {
-  let headers = columns.map((column, index) => (
-    <th
-      key={`${column.columnName}${index}`}
-      scope="col"
-      className="bg-gray-5 minw-15"
-    >
-      {column.columnName}
-    </th>
-  ));
-
-  let tableRows = resources.map((entry, index) => {
-    let rowCells = columns.map((column, index) => {
-      let rowCellData = evaluateValue(entry, mappings[column.infoPath]) || (
-        <span className={"text-italic text-base"}>No data</span>
-      );
-      return (
-        <td key={`row-data-${index}`} className="text-top">
-          {rowCellData}
-        </td>
-      );
-    });
-
-    return <tr key={`table-row-${index}`}>{rowCells}</tr>;
-  });
-
-  return (
-    <Table
-      fixed={true}
-      bordered={false}
-      fullWidth={true}
-      caption={caption}
-      className={classNames("table-caption-margin margin-y-0", {
-        "border-top border-left border-right": outerBorder,
-      })}
-      data-testid="table"
-    >
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{tableRows}</tbody>
-    </Table>
-  );
 };
 
 /**
@@ -464,7 +399,9 @@ export const evaluateEcrMetadata = (
   const ecrSenderDetails: DisplayData[] = [
     {
       title: "Date/Time eCR Created",
-      value: evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0],
+      value: formatDateTime(
+        evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0],
+      ),
     },
     {
       title: "Sender Software",
@@ -675,7 +612,7 @@ export const evaluateClinicalData = (
  * @param {DisplayData[]} data - An array of display data items to be evaluated.
  * @returns {CompleteData} - An object containing arrays of available and unavailable display data items.
  */
-const evaluateData = (data: DisplayData[]): CompleteData => {
+export const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
@@ -705,17 +642,25 @@ export const DataDisplay: React.FC<{
   item: DisplayData;
   className?: string;
 }): React.JSX.Element => {
+  item.dividerLine =
+    item.dividerLine == null || item.dividerLine == undefined
+      ? true
+      : item.dividerLine;
   return (
     <div>
       <div className="grid-row">
-        <div className="data-title">{item.title}</div>
+        {item.title ? <div className="data-title">{item.title}</div> : ""}
         <div
-          className={classNames("grid-col-auto maxw7 text-pre-line", className)}
+          className={classNames(
+            "grid-col-auto maxw7 text-pre-line",
+            className,
+            item.className ? item.className : "",
+          )}
         >
           {item.value}
         </div>
       </div>
-      <div className={"section__line_gray"} />
+      {item.dividerLine ? <div className={"section__line_gray"} /> : ""}
     </div>
   );
 };
@@ -773,43 +718,4 @@ export const evaluateEmergencyContact = (
 
     return formattedContact;
   }
-};
-
-/**
- * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
- * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {{
- *   labInfo: CompleteData,
- *   labResults: React.JSX.Element[]
- * }} An object containing evaluated lab information and lab results.
- */
-export const evaluateLabInfoData = (
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-): {
-  labInfo: CompleteData;
-  labResults: React.JSX.Element[];
-} => {
-  const labInfo: DisplayData[] = [
-    {
-      title: "Lab Performing Name",
-      value: "",
-    },
-    {
-      title: "Lab Address",
-      value: "",
-    },
-    {
-      title: "Lab Contact",
-      value: "",
-    },
-  ];
-
-  const rrData = evaluateDiagnosticReportData(fhirBundle, mappings);
-
-  return {
-    labInfo: evaluateData(labInfo),
-    labResults: rrData,
-  };
 };

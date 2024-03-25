@@ -1,15 +1,16 @@
+import { evaluate } from "fhirpath";
+import { evaluateReference, evaluateValue } from "@/app/evaluate-service";
 import {
-  evaluateReference,
-  evaluateDiagnosticReportData,
-  evaluateValue,
   evaluateObservationTable,
-} from "@/app/evaluate-service";
+  evaluateDiagnosticReportData,
+} from "@/app/labs/utils";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle, DiagnosticReport } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
+import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 
 const mappings = loadYamlConfig();
 
@@ -37,22 +38,40 @@ describe("Evaluate Reference", () => {
 
 describe("Evaluate Diagnostic Report", () => {
   it("should evaluate diagnostic report title", () => {
+    const report = evaluate(BundleLabInfo, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
+      report,
       BundleLabInfo as unknown as Bundle,
       mappings,
     );
+    const actualDisplay = (
+      <AccordionLabResults
+        title={report.code.coding?.[0].display ?? "\u{200B}"}
+        abnormalTag={false}
+        content={<>{actual}</>}
+      />
+    );
 
-    expect(actual[0].props.title).toContain(
+    expect(actualDisplay.props.title).toContain(
       "Drugs Of Abuse Comprehensive Screen, Ur",
     );
   });
   it("should evaluate diagnostic report results", () => {
+    const report = evaluate(BundleLabInfo, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
+      report,
       BundleLabInfo as unknown as Bundle,
       mappings,
     );
+    const actualDisplay = (
+      <AccordionLabResults
+        title={report.code.coding?.[0].display ?? "\u{200B}"}
+        abnormalTag={false}
+        content={<>{actual}</>}
+      />
+    );
 
-    render(actual[0].props.content);
+    render(actualDisplay.props.content);
 
     expect(screen.getByText("Phencyclidine Screen, Urine")).toBeInTheDocument();
     expect(screen.getByText("Negative")).toBeInTheDocument();
