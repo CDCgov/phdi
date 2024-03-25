@@ -254,7 +254,7 @@ jobs:
 
       - name: Run cypress tests
         working-directory: ./containers/ecr-viewer
-        run: npm run cypress:e2e
+        run: npm run cypress:run
 
       # - name: Spin up app and test
       #   working-directory: ./containers/ecr-viewer
