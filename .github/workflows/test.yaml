@@ -243,7 +243,7 @@ jobs:
 
       - name: Start ecr-viewer
         working-directory: ./containers/ecr-viewer
-        run: docker compose up
+        run: docker compose up -d
 
       - name: Wait for server to be ready
         run: |
