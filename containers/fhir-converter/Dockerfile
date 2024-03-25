@@ -45,6 +45,7 @@ RUN /root/.pyenv/shims/pip install -r requirements.txt
 COPY app /code/app
 COPY assets /code/assets
 COPY description.md /code/description.md
+COPY /CustomFhir/Loinc.csv /code/
 
 # Copy eCR templates
 COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
