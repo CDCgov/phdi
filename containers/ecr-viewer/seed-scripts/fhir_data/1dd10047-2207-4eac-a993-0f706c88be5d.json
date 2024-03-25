@@ -357,7 +357,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "encounter": {
           "reference": "Encounter/1a016589-f03e-c216-eb37-306903e8f437"
@@ -402,7 +402,7 @@
           "end": "2022-05-13T09:57:00Z"
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "location": [
           {
@@ -705,10 +705,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a7262cf8-3702-4605-9548-cfff3f9cab75",
+      "fullUrl": "urn:uuid:b61c0e67-2e77-4355-9703-6f49144f377a",
       "resource": {
         "resourceType": "Patient",
-        "id": "a7262cf8-3702-4605-9548-cfff3f9cab75",
+        "id": "b61c0e67-2e77-4355-9703-6f49144f377a",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -822,7 +822,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+        "url": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
       }
     },
     {
@@ -841,12 +841,13 @@
           "coding": [
             {
               "code": "8247-9",
+              "display": "Mucus [Presence] in Urine sediment by Light microscopy",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -898,6 +899,7 @@
           "coding": [
             {
               "code": "8247-9",
+              "display": "Mucus [Presence] in Urine sediment by Light microscopy",
               "system": "http://loinc.org"
             }
           ]
@@ -905,7 +907,7 @@
         "effectiveDateTime": "2022-05-13T07:47:00Z",
         "valueString": "NONE /LPF",
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -929,12 +931,13 @@
           "coding": [
             {
               "code": "11277-1",
+              "display": "Epithelial cells.squamous [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -986,6 +989,7 @@
           "coding": [
             {
               "code": "11277-1",
+              "display": "Epithelial cells.squamous [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
@@ -1007,7 +1011,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1031,12 +1035,13 @@
           "coding": [
             {
               "code": "5821-4",
+              "display": "Leukocytes [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -1088,6 +1093,7 @@
           "coding": [
             {
               "code": "5821-4",
+              "display": "Leukocytes [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
@@ -1109,7 +1115,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1133,12 +1139,13 @@
           "coding": [
             {
               "code": "13945-1",
+              "display": "Erythrocytes [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -1190,6 +1197,7 @@
           "coding": [
             {
               "code": "13945-1",
+              "display": "Erythrocytes [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
@@ -1211,7 +1219,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1235,12 +1243,13 @@
           "coding": [
             {
               "code": "5769-5",
+              "display": "Bacteria [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -1292,6 +1301,7 @@
           "coding": [
             {
               "code": "5769-5",
+              "display": "Bacteria [#/area] in Urine sediment by Microscopy high power field",
               "system": "http://loinc.org"
             }
           ]
@@ -1318,7 +1328,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1342,12 +1352,13 @@
           "coding": [
             {
               "code": "95419-8",
+              "display": "Whether the patient has symptoms related to condition of interest",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -1399,6 +1410,7 @@
           "coding": [
             {
               "code": "95419-8",
+              "display": "Whether the patient has symptoms related to condition of interest",
               "system": "http://loinc.org"
             }
           ]
@@ -1425,7 +1437,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1449,12 +1461,13 @@
           "coding": [
             {
               "code": "95420-6",
+              "display": "Whether the patient was admitted to intensive care unit (ICU) for condition of interest",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -1506,6 +1519,7 @@
           "coding": [
             {
               "code": "95420-6",
+              "display": "Whether the patient was admitted to intensive care unit (ICU) for condition of interest",
               "system": "http://loinc.org"
             }
           ]
@@ -1532,7 +1546,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1556,12 +1570,13 @@
           "coding": [
             {
               "code": "95421-4",
+              "display": "Whether patient resides in a congregate care setting",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -1613,6 +1628,7 @@
           "coding": [
             {
               "code": "95421-4",
+              "display": "Whether patient resides in a congregate care setting",
               "system": "http://loinc.org"
             }
           ]
@@ -1639,7 +1655,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1663,12 +1679,13 @@
           "coding": [
             {
               "code": "95417-2",
+              "display": "Whether this is the patient's first test for condition of interest",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -1720,6 +1737,7 @@
           "coding": [
             {
               "code": "95417-2",
+              "display": "Whether this is the patient's first test for condition of interest",
               "system": "http://loinc.org"
             }
           ]
@@ -1727,7 +1745,7 @@
         "effectiveDateTime": "2022-05-13T07:43:00Z",
         "valueString": "UNK",
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1751,12 +1769,13 @@
           "coding": [
             {
               "code": "95418-0",
+              "display": "Whether patient is employed in a healthcare setting",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -1808,6 +1827,7 @@
           "coding": [
             {
               "code": "95418-0",
+              "display": "Whether patient is employed in a healthcare setting",
               "system": "http://loinc.org"
             }
           ]
@@ -1834,7 +1854,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1858,12 +1878,13 @@
           "coding": [
             {
               "code": "65222-2",
+              "display": "Date and time of symptom onset",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -1915,6 +1936,7 @@
           "coding": [
             {
               "code": "65222-2",
+              "display": "Date and time of symptom onset",
               "system": "http://loinc.org"
             }
           ]
@@ -1922,7 +1944,7 @@
         "effectiveDateTime": "2022-05-13T07:43:00Z",
         "valueString": "UNK",
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -1946,12 +1968,13 @@
           "coding": [
             {
               "code": "94309-2",
+              "display": "SARS-CoV-2 (COVID-19) RNA [Presence] in Specimen by NAA with probe detection",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2010,7 +2033,7 @@
         },
         "effectiveDateTime": "2022-05-13T07:43:00Z",
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2034,12 +2057,13 @@
           "coding": [
             {
               "code": "94500-6",
+              "display": "SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2118,7 +2142,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2142,12 +2166,13 @@
           "coding": [
             {
               "code": "76080-1",
+              "display": "Influenza virus B RNA [Presence] in Nasopharynx by NAA with probe detection",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2199,6 +2224,7 @@
           "coding": [
             {
               "code": "76080-1",
+              "display": "Influenza virus B RNA [Presence] in Nasopharynx by NAA with probe detection",
               "system": "http://loinc.org"
             }
           ]
@@ -2225,7 +2251,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2249,12 +2275,13 @@
           "coding": [
             {
               "code": "76078-5",
+              "display": "Influenza virus A RNA [Presence] in Nasopharynx by NAA with probe detection",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2306,6 +2333,7 @@
           "coding": [
             {
               "code": "76078-5",
+              "display": "Influenza virus A RNA [Presence] in Nasopharynx by NAA with probe detection",
               "system": "http://loinc.org"
             }
           ]
@@ -2332,7 +2360,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2356,12 +2384,13 @@
           "coding": [
             {
               "code": "5803-2",
+              "display": "pH of Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2413,6 +2442,7 @@
           "coding": [
             {
               "code": "5803-2",
+              "display": "pH of Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -2428,7 +2458,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2452,12 +2482,13 @@
           "coding": [
             {
               "code": "2965-2",
+              "display": "Specific gravity of Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2509,13 +2540,14 @@
           "coding": [
             {
               "code": "2965-2",
+              "display": "Specific gravity of Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "effectiveDateTime": "2022-05-13T06:52:00Z",
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2539,12 +2571,13 @@
           "coding": [
             {
               "code": "19161-9",
+              "display": "Urobilinogen [Units/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2596,6 +2629,7 @@
           "coding": [
             {
               "code": "19161-9",
+              "display": "Urobilinogen [Units/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -2622,7 +2656,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2646,12 +2680,13 @@
           "coding": [
             {
               "code": "725-2",
+              "display": "Hemoglobin [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2703,6 +2738,7 @@
           "coding": [
             {
               "code": "725-2",
+              "display": "Hemoglobin [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -2710,7 +2746,7 @@
         "effectiveDateTime": "2022-05-13T06:52:00Z",
         "valueString": "Trace-lysed",
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2734,12 +2770,13 @@
           "coding": [
             {
               "code": "1977-8",
+              "display": "Bilirubin.total [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2791,6 +2828,7 @@
           "coding": [
             {
               "code": "1977-8",
+              "display": "Bilirubin.total [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -2808,7 +2846,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2832,12 +2870,13 @@
           "coding": [
             {
               "code": "5799-2",
+              "display": "Leukocyte esterase [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2889,6 +2928,7 @@
           "coding": [
             {
               "code": "5799-2",
+              "display": "Leukocyte esterase [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -2906,7 +2946,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -2930,12 +2970,13 @@
           "coding": [
             {
               "code": "5804-0",
+              "display": "Protein [Mass/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -2987,6 +3028,7 @@
           "coding": [
             {
               "code": "5804-0",
+              "display": "Protein [Mass/volume] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -3004,7 +3046,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -3028,12 +3070,13 @@
           "coding": [
             {
               "code": "5802-4",
+              "display": "Nitrite [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -3085,6 +3128,7 @@
           "coding": [
             {
               "code": "5802-4",
+              "display": "Nitrite [Presence] in Urine by Test strip",
               "system": "http://loinc.org"
             }
           ]
@@ -3102,7 +3146,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -3126,12 +3170,13 @@
           "coding": [
             {
               "code": "33903-6",
+              "display": "Ketones [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -3183,6 +3228,7 @@
           "coding": [
             {
               "code": "33903-6",
+              "display": "Ketones [Presence] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -3200,7 +3246,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
@@ -3224,12 +3270,13 @@
           "coding": [
             {
               "code": "2350-7",
+              "display": "Glucose [Mass/volume] in Urine",
               "system": "http://loinc.org"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         },
         "result": [
           {
@@ -3281,6 +3328,7 @@
           "coding": [
             {
               "code": "2350-7",
+              "display": "Glucose [Mass/volume] in Urine",
               "system": "http://loinc.org"
             }
           ]
@@ -3298,7 +3346,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a7262cf8-3702-4605-9548-cfff3f9cab75"
+          "reference": "Patient/b61c0e67-2e77-4355-9703-6f49144f377a"
         }
       },
       "request": {
