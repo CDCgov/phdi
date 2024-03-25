@@ -53,7 +53,6 @@ describe("Utils", () => {
 
       expect(actual.eicrDetails.availableData).toBeEmpty();
       expect(actual.eicrDetails.unavailableData).not.toBeEmpty();
-      console.log(actual.eicrDetails.unavailableData);
 
       expect(actual.rrDetails.availableData).toBeUndefined();
     });

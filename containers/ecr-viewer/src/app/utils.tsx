@@ -30,6 +30,12 @@ export interface DisplayData {
   value?: string | React.JSX.Element | React.JSX.Element[];
 }
 
+export interface ReportableConditions {
+  [condition: string]: {
+    [trigger: string]: Set<string>;
+  };
+}
+
 export interface PathMappings {
   [key: string]: string;
 }
@@ -435,11 +441,7 @@ export const evaluateEcrMetadata = (
 ) => {
   const rrDetails = evaluate(fhirBundle, mappings.rrDetails);
 
-  let reportableConditionsList: {
-    [key: string]: {
-      [key: string]: Set<string>;
-    };
-  } = {};
+  let reportableConditionsList: ReportableConditions = {};
 
   for (const condition of rrDetails) {
     let name = condition.valueCodeableConcept.coding[0].display;

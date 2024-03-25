@@ -1,4 +1,4 @@
-import { DisplayData } from "../../utils";
+import { DisplayData, ReportableConditions } from "../../utils";
 import { Fragment } from "react";
 
 import {
@@ -10,7 +10,7 @@ import { SectionConfig } from "./SideNav";
 import { Table } from "@trussworks/react-uswds";
 
 interface EcrMetadataProps {
-  rrDetails: any;
+  rrDetails: ReportableConditions;
   eicrDetails: DisplayData[];
   eCRSenderDetails: DisplayData[];
 }
