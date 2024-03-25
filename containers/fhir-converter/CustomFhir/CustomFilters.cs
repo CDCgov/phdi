@@ -106,9 +106,17 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       var stringBuilder = new StringBuilder();
       var tag = key;
       var addTag = supportedTags.Contains(key) || replaceTags.TryGetValue(key, out tag);
+      string? tagId = null;
+      IDictionary<string, object>? valueDict = value as IDictionary<string, object>;
+      if (valueDict != null && valueDict.ContainsKey("ID"))
+      {
+        tagId = valueDict["ID"] as string;
+      }
+
       if (addTag)
       {
-        stringBuilder.Append($"<{tag}>");
+        var tagHtml = tagId != null ? $"<{tag} data-id='{tagId}'>" : $"<{tag}>";
+        stringBuilder.Append(tagHtml);
       }
       stringBuilder.Append(ToHtmlString(value));
       if (addTag)
@@ -127,6 +135,32 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     {
       const string reduceMultiSpace = @"[ ]{2,}";
       return Regex.Replace(value.Replace("\t", " "), reduceMultiSpace, " ");
+    }
+
+    private static void PrintObject(object obj, int level)
+    {
+      string indent = new string(' ', level * 4);
+
+      if (obj is Dictionary<string, object> dict)
+      {
+        foreach (var kvp in dict)
+        {
+          Console.WriteLine($"{indent}{kvp.Key}:");
+          PrintObject(kvp.Value, level + 1);
+        }
+      }
+      else if (obj is List<object> list)
+      {
+        foreach (var item in list)
+        {
+          Console.Write($"{indent}- ");
+          PrintObject(item, level + 1);
+        }
+      }
+      else
+      {
+        Console.WriteLine($"{indent}{obj}");
+      }
     }
 
     public static string ToHtmlString(object data)

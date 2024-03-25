@@ -2992,8 +2992,10 @@
                                         root="1.2.840.114350.1.13.297.3.7.6.798268.2000" />
                                     <code code="82201-5" codeSystem="2.16.840.1.113883.6.1"
                                         codeSystemName="LOINC">
-                                        <originalText>Vibrio cholerae, NAAT<reference
-                                                value="#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5Name" /></originalText>
+                                        <originalText>Vibrio cholerae, NAAT
+                                          <reference
+                                                value="#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5Name" />
+                                        </originalText>
                                     </code>
                                     <text>
                                         <reference
