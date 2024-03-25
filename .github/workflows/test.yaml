@@ -240,9 +240,25 @@ jobs:
       - name: Install dependencies
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm install
-      - name: Spin up app and test
+
+      - name: Start server
         working-directory: ./containers/ecr-viewer
-        run: docker compose up & npm run cypress:run
+        run: docker-compose up -d
+
+      - name: Wait for server to be ready
+        run: |
+          until $(curl --output /dev/null --silent --head --fail http://localhost:3000); do
+            echo "Waiting for server to be ready..."
+            sleep 5
+          done
+
+      - name: Run cypress tests
+        working-directory: ./containers/ecr-viewer
+        run: npm run cypress:e2e
+
+      # - name: Spin up app and test
+      #   working-directory: ./containers/ecr-viewer
+      #   run: docker compose up && npm run cypress:run
       # Need to run local-dev so the database is online
       # - name: Build
       #   working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
