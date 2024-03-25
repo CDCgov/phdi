@@ -448,8 +448,8 @@ export const evaluateEcrMetadata = (
     const triggers = condition.extension
       .filter(
         (x: { url: string; valueString: string }) =>
-          (x.url =
-            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension"),
+          x.url ===
+          "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
       )
       .map((x: { url: string; valueString: string }) => x.valueString);
     if (!reportableConditionsList[name]) {
