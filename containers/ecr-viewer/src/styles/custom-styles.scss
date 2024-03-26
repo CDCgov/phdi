@@ -58,6 +58,7 @@ h4 {
 }
 
 .info-container > .usa-accordion__heading > .usa-accordion__button {
+  // Change everything to rem.
   font-size: 32px;
   background-size: 2.25rem;
 }
@@ -70,6 +71,7 @@ h4 {
   .usa-accordion__button {
     // todo: replace these with utilities?
     @include u-text('ink');
+    @include u-font-size('sans', 7);
     font-weight: normal;
     background-color: color("white");
     &:hover {
@@ -84,11 +86,14 @@ h4 {
     }
   }
 
-  .lab-table{
-    max-width: calc(100% + 2.5rem);
+  .usa-prose > table {
+    width: calc(100% + 2.5rem);
     margin-right: -1.25rem;
     margin-left: -1.25rem;
     margin-top: -1rem;
+    thead th {
+      background-color: #F0F0F0;
+    }
   }
 }
 
