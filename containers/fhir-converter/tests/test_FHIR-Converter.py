@@ -1,11 +1,17 @@
 # flake8: noqa
 import json
+import pathlib
 from unittest import mock
 
+import hl7
 import pytest
+from app.main import add_rr_data_to_eicr
 from app.main import app
 from app.service import add_data_source_to_bundle
+from app.service import normalize_hl7_datetime
+from app.service import normalize_hl7_datetime_segment
 from app.service import resolve_references
+from app.service import standardize_hl7_datetimes
 from fastapi.testclient import TestClient
 from lxml import etree
 
@@ -364,3 +370,191 @@ def test_resolve_references_valid_input():
 def test_resolve_references_invalid_input():
     actual = resolve_references("VXU or HL7 MESSAGE")
     assert actual == "VXU or HL7 MESSAGE"
+
+
+def test_add_rr_to_ecr():
+    with open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "fhir-converter"
+        / "rr_extraction"
+        / "CDA_RR.xml"
+    ) as fp:
+        rr = fp.read()
+
+    with open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "fhir-converter"
+        / "rr_extraction"
+        / "CDA_eICR.xml"
+    ) as fp:
+        ecr = fp.read()
+
+    # extract rr fields, insert to ecr
+    ecr = add_rr_data_to_eicr(rr, ecr)
+
+    # confirm root tag added
+    ecr_root = ecr.splitlines()[0]
+    xsi_tag = "xmlns:xsi"
+    assert xsi_tag in ecr_root
+
+    # confirm new section added
+    ecr = etree.fromstring(ecr)
+    tag = "{urn:hl7-org:v3}" + "section"
+    section = ecr.find(f"./{tag}", namespaces=ecr.nsmap)
+    assert section is not None
+
+    # confirm required elements added
+    rr_tags = [
+        "templateId",
+        "id",
+        "code",
+        "title",
+        "effectiveTime",
+        "confidentialityCode",
+        "entry",
+    ]
+    rr_tags = ["{urn:hl7-org:v3}" + tag for tag in rr_tags]
+    for tag in rr_tags:
+        element = section.find(f"./{tag}", namespaces=section.nsmap)
+        assert element is not None
+
+    # ensure that status has been pulled over
+    entry_tag = "{urn:hl7-org:v3}" + "entry"
+    template_id_tag = "{urn:hl7-org:v3}" + "templateId"
+    code_tag = "{urn:hl7-org:v3}" + "code"
+    for entry in section.find(f"./{entry_tag}", namespaces=section.nsmap):
+        for temps in entry.findall(f"./{template_id_tag}", namespaces=entry.nsmap):
+            status_code = entry.find(f"./{code_tag}", namespaces=entry.nsmap)
+            assert temps is not None
+            assert temps.attrib["root"] == "2.16.840.1.113883.10.20.15.2.3.29"
+            assert "RRVS19" in status_code.attrib["code"]
+
+
+def test_add_rr_to_ecr_rr_already_present(capfd):
+    with open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "fhir-converter"
+        / "rr_extraction"
+        / "CDA_RR.xml"
+    ) as fp:
+        rr = fp.read()
+
+    # This eICR has already been merged with an RR
+    with open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "fhir-converter"
+        / "rr_extraction"
+        / "merged_eICR.xml"
+    ) as fp:
+        ecr = fp.read()
+
+    merged_ecr = add_rr_data_to_eicr(rr, ecr)
+    assert merged_ecr == ecr
+
+    out, err = capfd.readouterr()
+    assert "This eCR has already been merged with RR data." in out
+
+
+def test_standardize_hl7_datetimes():
+    message_long_date = open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageLongDate.hl7"
+    ).read()
+    massage_timezone = open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageLongTZ.hl7"
+    ).read()
+    massage_invalid_segments = open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageInvalidSegments.hl7"
+    ).read()
+
+    assert (
+        standardize_hl7_datetimes(message_long_date)
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000||VXU^V04"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|20180808000000|M|||||||||||||||||||||\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
+        + "NK1|1||BRO^BROTHER^HL70063^^^^^|^^NEW GLARUS^WI^^^^^^^|\n"
+        + "PV1||R||||||||||||||||||\n"
+        + "RXA|0|999|20180809|20180809|08^HepB pediatric^CVX^90744^HepB pediatric^CPT"
+        + "|1.0|||01^^^^^~38193939^WIR immunization id^IMM_ID^^^|\n"
+    )
+    assert (
+        standardize_hl7_datetimes(massage_timezone)
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000-0400||VXU^V04"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|20180808|M|||||||||||||||||||||\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
+        + "NK1|1||BRO^BROTHER^HL70063^^^^^|^^NEW GLARUS^WI^^^^^^^|\n"
+        + "PV1||R||||||||||||||||||\n"
+        + "RXA|0|999|20180809|20180809|08^HepB pediatric^CVX^90744^HepB pediatric^CPT"
+        + "|1.0|||01^^^^^~38193939^WIR immunization id^IMM_ID^^^|||||||||||NA\n"
+    )
+    # Test for invalid segments
+    assert (
+        standardize_hl7_datetimes(massage_invalid_segments)
+        == "AAA|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31|"
+        + "2020051411020600|P^|2.4^^|||ER\n"
+        + "BBB|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "CCC|||||||||||02^^^^^|Y||||A\n"
+    )
+
+
+def test_normalize_hl7_datetime_segment():
+    message_long_date = (
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "harmonization"
+            / "FileSingleMessageLongDate.hl7"
+        )
+        .read()
+        .replace("\n", "\r")
+    )
+
+    message_long_date_parsed = hl7.parse(message_long_date)
+
+    normalize_hl7_datetime_segment(message_long_date_parsed, "PID", [7])
+
+    assert str(message_long_date_parsed).startswith(
+        "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|202005140100001234567890|"
+        + "|VXU^V04|2020051411020600|P^|2.4^^|||ER\r"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|"
+        + "HEPB^DTAP^^^^^^|20180808000000|M|||||||||||||||||||||"
+    )
+
+
+def test_normalize_hl7_datetime():
+    datetime_0 = ""
+    datetime_1 = "20200514010000"
+    datetime_2 = "202005140100005555"
+    datetime_3 = "20200514"
+    datetime_4 = "20200514.123456"
+    datetime_5 = "20200514+0400000"
+    datetime_6 = "20200514.123456-070000"
+    datetime_7 = "20200514010000.1234-0700"
+    datetime_8 = "not-a-date"
+
+    assert normalize_hl7_datetime(datetime_0) == ""
+    assert normalize_hl7_datetime(datetime_1) == "20200514010000"
+    assert normalize_hl7_datetime(datetime_2) == "20200514010000"
+    assert normalize_hl7_datetime(datetime_3) == "20200514"
+    assert normalize_hl7_datetime(datetime_4) == "20200514.1234"
+    assert normalize_hl7_datetime(datetime_5) == "20200514+0400"
+    assert normalize_hl7_datetime(datetime_6) == "20200514.1234-0700"
+    assert normalize_hl7_datetime(datetime_7) == "20200514010000.1234-0700"
+    assert normalize_hl7_datetime(datetime_8) == "not-a-date"
