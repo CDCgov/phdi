@@ -64,23 +64,26 @@ h4 {
 
 .accordion-rr {
   border: #111111 1px solid;
-  border-radius: .25rem;
-  overflow: hidden;
+  border-radius: .0625rem;
   margin-top: 1rem;
-  padding-bottom: 0.5rem;
-  .usa-accordion__button{
+  //padding-bottom: 0.5rem;
+  .usa-accordion__button {
+    // todo: replace these with utilities?
+    @include u-text('ink');
+    font-weight: normal;
+    background-color: color("white");
     &:hover {
       background-color: #F0F0F0;
     }
-    position: relative;
-    background: white;
-    padding: 12px;
-    font-weight: normal;
-    &[aria-expanded="true"] {
-      border-bottom: #111111 1px solid;
+    @include add-background-svg("usa-icons/remove");
+    border-bottom: #111111 1px solid;
+
+    &[aria-expanded="false"] {
+      border-bottom: 0;
+      @include add-background-svg("usa-icons/add");
     }
   }
-  
+
   .lab-table{
     max-width: calc(100% + 2.5rem);
     margin-right: -1.25rem;
