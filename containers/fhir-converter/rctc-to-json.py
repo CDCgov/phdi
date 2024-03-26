@@ -77,9 +77,10 @@ def convert_rctc_to_json(input_file, output_file_grouping, output_file_expansion
                     "Remap Info": val[6],
                 }
 
-    with open(output_file_grouping, "w") as outfile1, open(
-        output_file_expansion, "w"
-    ) as outfile2:
+    with (
+        open(output_file_grouping, "w") as outfile1,
+        open(output_file_expansion, "w") as outfile2,
+    ):
         json.dump(jsonData_grouping, outfile1)
 
         json.dump(jsonData_expansion, outfile2)

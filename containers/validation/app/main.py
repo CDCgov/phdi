@@ -100,7 +100,7 @@ sample_validate_responses = read_json_from_assets("sample_validate_responses.jso
 # Endpoints
 @app.post("/validate", status_code=200, responses={200: sample_validate_responses})
 async def validate_endpoint(
-    input: Annotated[ValidateInput, Body(examples=sample_validate_requests)]
+    input: Annotated[ValidateInput, Body(examples=sample_validate_requests)],
 ) -> ValidateResponse:
     """
     Check if the value presented in the 'message' key is a valid example
