@@ -1,4 +1,4 @@
-import { Accordion, Icon, Tag } from "@trussworks/react-uswds";
+import { Accordion, Tag } from "@trussworks/react-uswds";
 import React from "react";
 
 interface AccordionLabResultsProps {
@@ -32,11 +32,6 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
                   Abnormal
                 </Tag>
               )}
-              <Icon.Remove
-                className={"minimize-container"}
-                size={3}
-                aria-label={`minimize ${title} section`}
-              />
             </>
           ),
           content: content,
