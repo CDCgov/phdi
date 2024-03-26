@@ -9,6 +9,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Microsoft.Health.Fhir.Liquid.Converter
 {
@@ -22,6 +24,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         {"list", "ul"},
         {"item", "li"}
     };
+    private static Dictionary<string, string>? loincDict;
 
     // Items from the filter could be arrays or objects, process them to be the same
     private static List<Dictionary<string, object>> ProcessItem(object item)
@@ -103,9 +106,17 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       var stringBuilder = new StringBuilder();
       var tag = key;
       var addTag = supportedTags.Contains(key) || replaceTags.TryGetValue(key, out tag);
+      string? tagId = null;
+      IDictionary<string, object>? valueDict = value as IDictionary<string, object>;
+      if (valueDict != null && valueDict.ContainsKey("ID"))
+      {
+        tagId = valueDict["ID"] as string;
+      }
+
       if (addTag)
       {
-        stringBuilder.Append($"<{tag}>");
+        var tagHtml = tagId != null ? $"<{tag} data-id='{tagId}'>" : $"<{tag}>";
+        stringBuilder.Append(tagHtml);
       }
       stringBuilder.Append(ToHtmlString(value));
       if (addTag)
@@ -124,6 +135,32 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     {
       const string reduceMultiSpace = @"[ ]{2,}";
       return Regex.Replace(value.Replace("\t", " "), reduceMultiSpace, " ");
+    }
+
+    private static void PrintObject(object obj, int level)
+    {
+      string indent = new string(' ', level * 4);
+
+      if (obj is Dictionary<string, object> dict)
+      {
+        foreach (var kvp in dict)
+        {
+          Console.WriteLine($"{indent}{kvp.Key}:");
+          PrintObject(kvp.Value, level + 1);
+        }
+      }
+      else if (obj is List<object> list)
+      {
+        foreach (var item in list)
+        {
+          Console.Write($"{indent}- ");
+          PrintObject(item, level + 1);
+        }
+      }
+      else
+      {
+        Console.WriteLine($"{indent}{obj}");
+      }
     }
 
     public static string ToHtmlString(object data)
@@ -168,39 +205,44 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return CleanStringFromTabs(stringBuilder.ToString().Trim());
     }
 
-    public static string? GetLoincName(string code)
+    /// <summary>
+    /// Parses a CSV file containing LOINC codes and Long Common Names and returns a dictionary where the LOINC codes are keys and the LCN are values.
+    /// </summary>
+    /// <returns>A dictionary where the keys are LOINC codes and the values are descriptions.</returns>
+    private static Dictionary<string, string> LoincDictionary()
     {
-      string apiUrl = $"https://clinicaltables.nlm.nih.gov/loinc_form_definitions?loinc_num={code}";
-      using (HttpClient client = new HttpClient())
+      TextFieldParser parser = new TextFieldParser("Loinc.csv");
+      Dictionary<string, string> csvData = new Dictionary<string, string>();
+
+      parser.HasFieldsEnclosedInQuotes = true;
+      parser.SetDelimiters(",");
+
+      string[]? fields;
+
+      while (!parser.EndOfData)
       {
-        try
+        fields = parser.ReadFields();
+        if (fields != null)
         {
-          HttpResponseMessage response = client.GetAsync(apiUrl).Result;
-          if (response.IsSuccessStatusCode)
-          {
-            string responseBody = response.Content.ReadAsStringAsync().Result;
-            dynamic? jsonResponse = JsonConvert.DeserializeObject(responseBody);
-            if (jsonResponse != null)
-            {
-              return jsonResponse.name;
-            }
-            else
-            {
-              return null;
-            }
-          }
-          else
-          {
-            Console.WriteLine($"Failed to fetch data. Status code: {response.StatusCode}");
-            return null;
-          }
-        }
-        catch (Exception ex)
-        {
-          Console.WriteLine($"An error occurred: {ex.Message}");
-          return null;
+          string key = fields[0].Trim();
+          string value = fields[1].Trim();
+          csvData[key] = value;
         }
       }
+
+      return csvData;
+    }
+
+    /// <summary>
+    /// Retrieves the name associated with the specified LOINC code from the LOINC dictionary.
+    /// </summary>
+    /// <param name="loinc">The LOINC code for which to retrieve the name.</param>
+    /// <returns>The name associated with the specified LOINC code, or null if the code is not found in the dictionary.</returns>
+    public static string? GetLoincName(string loinc)
+    {
+      loincDict ??= LoincDictionary();
+      loincDict.TryGetValue(loinc, out string? element);
+      return element;
     }
   }
 }

@@ -84,8 +84,12 @@ h4 {
       border-bottom: #111111 1px solid;
     }
   }
-  .usa-accordion__content{
-    padding: 0
+  
+  .lab-table{
+    max-width: calc(100% + 2.5rem);
+    margin-right: -1.25rem;
+    margin-left: -1.25rem;
+    margin-top: -1rem;
   }
 }
 
@@ -118,6 +122,15 @@ h4 {
     tr td{
       border-bottom: none;
     }
+}
+
+.ecrTable {
+    table-layout: fixed;
+    width: 100%;
+}
+
+td {
+  vertical-align: top;
 }
 
 .usa-summary-box__body:not(:first-child) .summary-box-key-information {
