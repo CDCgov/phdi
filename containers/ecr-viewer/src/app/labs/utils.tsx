@@ -356,6 +356,36 @@ export const evaluateLabInfoData = (
         ),
         className: "lab-text-content",
       },
+      {
+        title: "Resulting Agency Comment",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Resulting Agency Comment",
+        ),
+        className: "lab-text-content",
+      },
+      {
+        title: "Authorizing Provider",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Authorizing Provider",
+        ),
+        className: "lab-text-content",
+      },
+      {
+        title: "Result Type",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Result Type",
+        ),
+        className: "lab-text-content",
+      },
     ];
     if (labTable)
       rrInfo.unshift({
