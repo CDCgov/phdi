@@ -152,7 +152,6 @@ const returnCollectionTime = (
   mappings: PathMappings,
 ): React.ReactNode => {
   const observations = getObservations(report, fhirBundle, mappings);
-  console.log("observations", observations);
   const collectionTime = observations.flatMap((observation) => {
     const rawTime = evaluate(observation, mappings["specimenCollectionTime"]);
     return rawTime.map((dateTimeString) => formatDateTime(dateTimeString));
