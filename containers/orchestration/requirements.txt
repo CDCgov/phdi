@@ -18,3 +18,5 @@ sqlalchemy
 requests-mock 
 pytest-mock
 opentelemetry-distro
+opentelemetry-exporter-otlp
+opentelemetry-exporter-prometheus
