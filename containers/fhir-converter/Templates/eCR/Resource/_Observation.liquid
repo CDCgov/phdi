@@ -66,7 +66,9 @@
             "valueQuantity":
             {
                 "value":{{ observationEntry.value.value }},
+                {% if observationEntry.value.unit and  observationEntry.value.unit != "null" -%}
                 "unit":"{{ observationEntry.value.unit }}",
+                {% endif -%}
             },
         {% else -%}
             "valueString":"{{ observationEntry.value._ }}",
@@ -94,6 +96,13 @@
         [
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
+        {% if observationEntry.referenceRange and observationEntry.referenceRange != null  -%}
+            "referenceRange": {
+                    "text": "{{  observationEntry.referenceRange.observationRange.text._ }}",
+                    "high": "{{ observationEntry.referenceRange.observationRange.value.high.translation.value }}",
+                    "low": "{{ observationEntry.referenceRange.observationRange.value.low.translation.value }}",
+            },
+        {%  endif -%}
         {% assign observationReferenceValue = observationEntry.text.reference.value -%}
         "extension":
             [ {
