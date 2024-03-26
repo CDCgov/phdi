@@ -280,7 +280,7 @@ export function evaluateObservationTable(
   fhirBundle: Bundle,
   mappings: PathMappings,
   columnInfo: ColumnInfoInput[],
-) {
+): React.JSX.Element | undefined {
   const observations: Observation[] =
     report.result?.map((obsRef: Reference) =>
       evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
@@ -294,6 +294,7 @@ export function evaluateObservationTable(
 
 /**
  * Evaluates diagnostic report data and generates the lab observations for each report.
+ * @param {LabReport} report - An object containing an array of result references.
  * @param {Bundle} fhirBundle - The FHIR bundle containing diagnostic report data.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @returns {React.JSX.Element | undefined} - An array of React elements representing the lab observations.
@@ -383,15 +384,14 @@ export const evaluateLabInfoData = (
         className: "lab-text-content",
       },
     ];
-    if (labTable)
-      rrInfo.unshift({
-        value: labTable,
-        className: "lab-table",
-        dividerLine: false,
-      });
-    const content: Array<React.JSX.Element> = rrInfo.map((item) => {
-      return <DataDisplay item={item} />;
-    });
+    const content: Array<React.JSX.Element> = [];
+    if (labTable) content.push(labTable);
+    content.push(
+      ...rrInfo.map((item) => {
+        return <DataDisplay item={item} />;
+      }),
+    );
+
     return (
       <AccordionLabResults
         title={report.code.coding[0].display}
