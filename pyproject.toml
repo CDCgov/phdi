@@ -68,3 +68,24 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 minversion = 6.0
 addopts = "--doctest-modules"
+
+[tool.ruff]
+exclude = [
+  ".git",
+  ".pytest_cache",
+  "__pycahce__",
+  "docs"
+]
+line-length = 88
+indent-width = 4
+target-version = "py310"
+
+[tool.ruff.lint]
+extend-ignore = ["E203"]
+fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
