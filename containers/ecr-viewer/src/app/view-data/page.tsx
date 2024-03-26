@@ -15,6 +15,7 @@ const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
   const [mappings, setMappings] = useState<PathMappings>({});
   const [errors, setErrors] = useState<Error | unknown>(null);
+  const [expanded, setExpanded] = useState<boolean>(true);
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
   const snomedCode = searchParams.get("snomed-code") ?? "";
@@ -81,7 +82,48 @@ const ECRViewerPage = () => {
                   <h2 className="margin-bottom-3" id="ecr-document">
                     eCR Document
                   </h2>
+                  <button
+                    className={"usa-button usa-button--unstyled"}
+                    onClick={() => {
+                      const buttons = document.querySelectorAll(
+                        "h3 > .usa-accordion__button",
+                      );
+                      buttons.forEach((button) =>
+                        button.setAttribute("aria-expanded", "true"),
+                      );
+                      const accordions = document.querySelectorAll(
+                        ".info-container > .usa-accordion__content",
+                      );
+                      console.log(accordions);
+                      accordions.forEach((accordion: HTMLButtonElement) =>
+                        accordion.removeAttribute("hidden"),
+                      );
+                    }}
+                  >
+                    Expand All
+                  </button>
+                  <button
+                    className={"usa-button usa-button--unstyled"}
+                    onClick={() => {
+                      const buttons = document.querySelectorAll(
+                        "h3 > .usa-accordion__button",
+                      );
+                      buttons.forEach((button) =>
+                        button.setAttribute("aria-expanded", "false"),
+                      );
+                      const accordions = document.querySelectorAll(
+                        ".info-container > .usa-accordion__content",
+                      );
+                      console.log(accordions);
+                      accordions.forEach((accordion: HTMLButtonElement) =>
+                        accordion.setAttribute("hidden", "true"),
+                      );
+                    }}
+                  >
+                    Collapse All
+                  </button>
                   <AccordionContainer
+                    expanded={expanded}
                     fhirPathMappings={mappings}
                     fhirBundle={fhirBundle}
                   />
