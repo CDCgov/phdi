@@ -21,6 +21,12 @@ export interface LabReport {
   result: Array<Reference>;
 }
 
+export interface LabJson {
+  resultId: string | null;
+  resultName: string;
+  tables: {}[][];
+}
+
 const noData = <span className="no-data text-italic text-base">No data</span>;
 
 /**
@@ -48,6 +54,56 @@ export const getObservations = (
       );
     })
     .filter((obs) => obs);
+};
+
+/**
+ * Retrieves the JSON representation of a lab report from the labs HTML string.
+ * @param {LabReport} report - The LabReport object containing information about the lab report.
+ * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
+ * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
+ * @returns {LabJson} The JSON representation of the lab report.
+ */
+export const getLabJsonObject = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): LabJson => {
+  // Get reference value (result ID) from Observations
+  const observations = getObservations(report, fhirBundle, mappings);
+  const observationRefValsArray = observations.flatMap((observation) => {
+    const refVal = evaluate(observation, mappings["observationReferenceValue"]);
+    return extractNumbersAndPeriods(refVal);
+  });
+  const observationRefVal = [...new Set(observationRefValsArray)].join(", "); // should only be 1
+
+  // Get lab reports HTML String (for all lab reports) & convert to JSON
+  const labsString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
+  const labsJson = formatTablesToJSON(labsString);
+
+  // Get specified lab report (by reference value)
+  const labReport = labsJson.filter((obj) =>
+    obj.resultId.includes(observationRefVal),
+  )[0];
+
+  return labReport;
+};
+
+/**
+ * Checks whether the result name of a lab report includes the term "abnormal"
+ * @param {LabReport} report - The LabReport object containing information about the lab report.
+ * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
+ * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
+ * @returns {boolean} True if the result name includes "abnormal" (case insensitive), otherwise false.
+ */
+export const checkAbnormalTag = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): boolean => {
+  const labResult = getLabJsonObject(report, fhirBundle, mappings);
+  const labResultName = labResult.resultName;
+
+  return labResultName.toLowerCase().includes("abnormal");
 };
 
 /**
@@ -178,24 +234,7 @@ export const returnFieldValueFromLabHtmlString = (
   mappings: PathMappings,
   fieldName: string,
 ): React.ReactNode => {
-  // Get reference value (result ID) from Observations
-  const observations = getObservations(report, fhirBundle, mappings);
-  const observationRefValsArray = observations.flatMap((observation) => {
-    const refVal = evaluate(observation, mappings["observationReferenceValue"]);
-    return extractNumbersAndPeriods(refVal);
-  });
-  const observationRefVal = [...new Set(observationRefValsArray)].join(", "); // should only be 1
-
-  // Get lab reports HTML String (for all lab reports) & convert to JSON
-  const labsString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
-  const labsJson = formatTablesToJSON(labsString);
-
-  // Get tables for specified lab report (by reference value)
-  const labTables = labsJson.filter((obj) =>
-    obj.resultId.includes(observationRefVal),
-  )[0].tables;
-
-  // Find field value from matching lab report tables
+  const labTables = getLabJsonObject(report, fhirBundle, mappings).tables;
   const fieldValue = searchResultRecord(labTables, fieldName);
 
   if (!fieldValue || fieldValue.length === 0) {
@@ -399,7 +438,7 @@ export const evaluateLabInfoData = (
     return (
       <AccordionLabResults
         title={report.code.coding[0].display}
-        abnormalTag={false}
+        abnormalTag={checkAbnormalTag(report, fhirBundle, mappings)}
         content={content}
       />
     );
