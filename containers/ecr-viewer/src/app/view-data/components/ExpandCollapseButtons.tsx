@@ -27,7 +27,7 @@ export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
           );
         }}
       >
-        Expand All
+        Expand all sections
       </button>
       <span className={"vertical-line"}></span>
       <button
@@ -44,7 +44,7 @@ export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
           );
         }}
       >
-        Collapse All
+        Collapse all sections
       </button>
     </>
   );

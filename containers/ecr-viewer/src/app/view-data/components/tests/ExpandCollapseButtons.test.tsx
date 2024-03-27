@@ -22,9 +22,9 @@ describe("expand collapse buttons", () => {
         />
       </div>,
     );
-    expect(screen.getByText("Expand All")).toBeInTheDocument();
+    expect(screen.getByText("Expand all sections")).toBeInTheDocument();
 
-    screen.getByText("Expand All").click();
+    screen.getByText("Expand all sections").click();
 
     expect(screen.getByTestId("button")).toHaveAttribute(
       "aria-expanded",
@@ -48,9 +48,9 @@ describe("expand collapse buttons", () => {
         />
       </div>,
     );
-    expect(screen.getByText("Collapse All")).toBeInTheDocument();
+    expect(screen.getByText("Collapse all sections")).toBeInTheDocument();
 
-    screen.getByText("Collapse All").click();
+    screen.getByText("Collapse all sections").click();
 
     expect(screen.getByTestId("button")).toHaveAttribute(
       "aria-expanded",
