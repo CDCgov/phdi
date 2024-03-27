@@ -191,9 +191,13 @@ export const returnFieldValueFromLabHtmlString = (
   const labsJson = formatTablesToJSON(labsString);
 
   // Get tables for specified lab report (by reference value)
-  const labTables = labsJson.filter((obj) =>
+  const labReportJson = labsJson.filter((obj) =>
     obj.resultId.includes(observationRefVal),
-  )[0].tables;
+  )[0];
+  if (!labReportJson) {
+    return noData;
+  }
+  const labTables = labReportJson.tables;
 
   // Find field value from matching lab report tables
   const fieldValue = searchResultRecord(labTables, fieldName);
