@@ -43,10 +43,6 @@ jobs:
           echo "changed-js-files=$CHANGED_JS_FILES" >> $GITHUB_OUTPUT
           echo "changed-yaml-files=$CHANGED_YAML_FILES" >> $GITHUB_OUTPUT
 
-          echo "changed-python-files=$CHANGED_PY_FILES"
-          echo "changed-js-files=$CHANGED_JS_FILES"
-          echo "changed-yaml-files=$CHANGED_YAML_FILES"
-
   lint:
     needs: filter-lint-files
     runs-on: ubuntu-latest
