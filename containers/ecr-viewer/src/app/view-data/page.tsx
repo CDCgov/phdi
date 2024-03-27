@@ -7,6 +7,7 @@ import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
 import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
+import { Grid, GridContainer } from "@trussworks/react-uswds";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -79,49 +80,58 @@ const ECRViewerPage = () => {
                   fhirBundle={fhirBundle}
                 />
                 <div className="margin-top-6">
-                  <h2 className="margin-bottom-3" id="ecr-document">
-                    eCR Document
-                  </h2>
-                  <button
-                    className={"usa-button usa-button--unstyled"}
-                    onClick={() => {
-                      const buttons = document.querySelectorAll(
-                        "h3 > .usa-accordion__button",
-                      );
-                      buttons.forEach((button) =>
-                        button.setAttribute("aria-expanded", "true"),
-                      );
-                      const accordions = document.querySelectorAll(
-                        ".info-container > .usa-accordion__content",
-                      );
-                      console.log(accordions);
-                      accordions.forEach((accordion: HTMLButtonElement) =>
-                        accordion.removeAttribute("hidden"),
-                      );
-                    }}
-                  >
-                    Expand All
-                  </button>
-                  <button
-                    className={"usa-button usa-button--unstyled"}
-                    onClick={() => {
-                      const buttons = document.querySelectorAll(
-                        "h3 > .usa-accordion__button",
-                      );
-                      buttons.forEach((button) =>
-                        button.setAttribute("aria-expanded", "false"),
-                      );
-                      const accordions = document.querySelectorAll(
-                        ".info-container > .usa-accordion__content",
-                      );
-                      console.log(accordions);
-                      accordions.forEach((accordion: HTMLButtonElement) =>
-                        accordion.setAttribute("hidden", "true"),
-                      );
-                    }}
-                  >
-                    Collapse All
-                  </button>
+                  <GridContainer className={"padding-0 margin-bottom-3"}>
+                    <Grid row>
+                      <Grid>
+                        <h2 className="margin-bottom-0" id="ecr-document">
+                          eCR Document
+                        </h2>
+                      </Grid>
+                      <Grid
+                        className={"flex-align-self-center margin-left-auto"}
+                      >
+                        <button
+                          className={"usa-button usa-button--unstyled"}
+                          onClick={() => {
+                            const buttons = document.querySelectorAll(
+                              "h3 > .usa-accordion__button",
+                            );
+                            buttons.forEach((button) =>
+                              button.setAttribute("aria-expanded", "true"),
+                            );
+                            const accordions = document.querySelectorAll(
+                              ".info-container > .usa-accordion__content",
+                            );
+                            accordions.forEach((accordion: HTMLButtonElement) =>
+                              accordion.removeAttribute("hidden"),
+                            );
+                          }}
+                        >
+                          Expand All
+                        </button>
+                        <span className={"vertical-line"}></span>
+                        <button
+                          className={"usa-button usa-button--unstyled"}
+                          onClick={() => {
+                            const buttons = document.querySelectorAll(
+                              "h3 > .usa-accordion__button",
+                            );
+                            buttons.forEach((button) =>
+                              button.setAttribute("aria-expanded", "false"),
+                            );
+                            const accordions = document.querySelectorAll(
+                              ".info-container > .usa-accordion__content",
+                            );
+                            accordions.forEach((accordion: HTMLButtonElement) =>
+                              accordion.setAttribute("hidden", "true"),
+                            );
+                          }}
+                        >
+                          Collapse All
+                        </button>
+                      </Grid>
+                    </Grid>
+                  </GridContainer>
                   <AccordionContainer
                     expanded={expanded}
                     fhirPathMappings={mappings}
