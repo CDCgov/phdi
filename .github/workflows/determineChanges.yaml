@@ -1,0 +1,107 @@
+name: Determine Changes
+
+on:
+  workflow_call:
+    outputs:
+      changed-files-data:
+        description: "JSON formatted list of changed files with metadata"
+        value: ${{ jobs.determine-changes.outputs.changed-files-data }}
+
+jobs:
+  determine-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed-files-data: ${{ steps.create-changed-files-data.outputs.result }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Fetch base and head branches
+        id: gather-branches
+        run: |
+          git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+          git fetch origin ${{ github.head_ref }}:${{ github.head_ref }}
+
+      - name: Create changed files data
+        id: create-changed-files-data
+        run: |
+          # use git diff --name-only to get a list of changed files
+          # convert to an array; loop over the array to categorize
+          # and tag changed files to be stored as JSON for use by
+          # downstream workflows via workflow_call
+          echo "Base reference: ${{ github.base_ref }}"
+          echo "Head reference: ${{ github.head_ref }}"
+
+          # get the list of changed files and convert to array
+          DIFF_OUTPUT=$(git diff \
+            --name-only \
+            ${{ github.base_ref }}...${{ github.head_ref }})
+          mapfile -t CHANGED_FILES <<< "$DIFF_OUTPUT"
+          echo "Changed files:"
+          printf '%s\n' "${CHANGED_FILES[@]}"
+
+          JSON_ARRAY="["
+
+          # for loop to add a category and a tag to each changed file
+          CHANGED_FILES_LENGTH=${#CHANGED_FILES[@]}
+          for (( i = 0; i < CHANGED_FILES_LENGTH; i++ )); do
+              FILE=${CHANGED_FILES[i]}
+              EXTENSION="${FILE##*.}"
+              REQUIREMENTS_TXT=""
+              PACKAGE_JSON=""
+              NEEDS_POSTGRES="false"
+              if [[ "$FILE" == containers/* ]]; then
+                  CONTAINER_NAME=$(echo "$FILE" | cut -d'/' -f2)
+                  TAG="container"
+                  # check if the container is a python container or not
+                  if [[ -f "containers/$CONTAINER_NAME/requirements.txt" ]]; then
+                          REQUIREMENTS_TXT="true"
+                  fi
+                  if [[ -f "containers/$CONTAINER_NAME/package.json" ]]; then
+                          PACKAGE_JSON="true"
+                  fi
+                  if [[ "$CONTAINER_NAME" == "record-linkage" || "$CONTAINER_NAME" == "ecr-viewer" ]]; then
+                      NEEDS_POSTGRES="true"
+                  fi
+              elif [[ "$FILE" == ".pre-commit-config.yaml" ]] || \
+                   [[ "$FILE" == .github/workflows/* ]]; then
+                  TAG="ci-cd"
+              elif [[ "$FILE" == phdi/* || "$FILE" == tests/* ]]; then
+                  TAG="sdk"
+                  NEEDS_POSTGRES="true"
+              else
+                  TAG="other"
+              fi
+
+              JSON_ENTRY=$(jq -nc \
+                  --arg file "$FILE" \
+                  --arg tag "$TAG" \
+                  --arg container_name "$CONTAINER_NAME" \
+                  --arg requirements_txt "$REQUIREMENTS_TXT" \
+                  --arg package_json "$PACKAGE_JSON" \
+                  --arg needs_postgres "$NEEDS_POSTGRES" \
+                  --arg extension "$EXTENSION" \
+                  '{
+                    file: $file,
+                    tag: $tag,
+                    container_name: $container_name,
+                    requirements_txt: $requirements_txt,
+                    package_json: $package_json,
+                    needs_postgres: $needs_postgres,
+                    extension: $extension
+                  }')
+
+              JSON_ARRAY+="$JSON_ENTRY"
+              if (( i < CHANGED_FILES_LENGTH - 1 )); then
+                  JSON_ARRAY+=","
+              fi
+          done
+
+          JSON_ARRAY+="]"
+
+          # show contents of output for actions ui
+          echo "Changed files data: $JSON_ARRAY"
+
+          # set output to environment variable
+          echo "result=$JSON_ARRAY" >> $GITHUB_OUTPUT
