@@ -8,6 +8,7 @@ import { PathMappings } from "../utils";
 import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
 import { Grid, GridContainer } from "@trussworks/react-uswds";
+import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -90,45 +91,12 @@ const ECRViewerPage = () => {
                       <Grid
                         className={"flex-align-self-center margin-left-auto"}
                       >
-                        <button
-                          className={"usa-button usa-button--unstyled"}
-                          onClick={() => {
-                            const buttons = document.querySelectorAll(
-                              "h3 > .usa-accordion__button",
-                            );
-                            buttons.forEach((button) =>
-                              button.setAttribute("aria-expanded", "true"),
-                            );
-                            const accordions = document.querySelectorAll(
-                              ".info-container > .usa-accordion__content",
-                            );
-                            accordions.forEach((accordion: HTMLButtonElement) =>
-                              accordion.removeAttribute("hidden"),
-                            );
-                          }}
-                        >
-                          Expand All
-                        </button>
-                        <span className={"vertical-line"}></span>
-                        <button
-                          className={"usa-button usa-button--unstyled"}
-                          onClick={() => {
-                            const buttons = document.querySelectorAll(
-                              "h3 > .usa-accordion__button",
-                            );
-                            buttons.forEach((button) =>
-                              button.setAttribute("aria-expanded", "false"),
-                            );
-                            const accordions = document.querySelectorAll(
-                              ".info-container > .usa-accordion__content",
-                            );
-                            accordions.forEach((accordion: HTMLButtonElement) =>
-                              accordion.setAttribute("hidden", "true"),
-                            );
-                          }}
-                        >
-                          Collapse All
-                        </button>
+                        <ExpandCollapseButtons
+                          buttonSelector={"h3 > .usa-accordion__button"}
+                          accordionSelector={
+                            ".info-container > .usa-accordion__content"
+                          }
+                        />
                       </Grid>
                     </Grid>
                   </GridContainer>
