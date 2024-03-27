@@ -130,7 +130,7 @@
             "title": "Problems",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr data-id='problem30'><td data-id='problem30name'>COVID toes</td><td>7/13/22</td></tr><tr data-id='problem29'><td data-id='problem29name'>Chest pain on breathing</td><td>5/26/22</td></tr><tr data-id='problem28'><td data-id='problem28name'>Type 1 diabetes</td><td>2/28/22</td></tr><tr><td data-id='problem28comment'>Overview: Formatting of this note might be different from the original. <br>08/30/21 28.69 kg/m²BMI Readings from Last 1 Encounters: <br></td></tr><tr data-id='problem27'><td data-id='problem27name'>Plague pneumonia</td><td>6/16/21</td></tr><tr data-id='problem26'><td data-id='problem26name'>Absence of menstruation</td><td>6/12/18</td></tr><tr data-id='problem25'><td data-id='problem25name'>Foot callus</td><td>8/11/17</td></tr><tr><td data-id='problem25comment'>Overview: Formatting of this note might be different from the original. <br>Ouch. <br></td></tr></tbody></table>documented as of this encounter (statuses as of 01/02/2023)"
+              "div": "<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr data-id='problem30'><td data-id='problem30name'>COVID toes</td><td>7/13/22</td></tr><tr data-id='problem29'><td data-id='problem29name'>Chest pain on breathing</td><td>5/26/22</td></tr><tr data-id='problem28'><td data-id='problem28name'>Type 1 diabetes</td><td>2/28/22</td></tr><tr><td data-id='problem28comment'><paragraph>Overview:</paragraph>Formatting of this note might be different from the original. <br>08/30/21 28.69 kg/m²BMI Readings from Last 1 Encounters: <br></td></tr><tr data-id='problem27'><td data-id='problem27name'>Plague pneumonia</td><td>6/16/21</td></tr><tr data-id='problem26'><td data-id='problem26name'>Absence of menstruation</td><td>6/12/18</td></tr><tr data-id='problem25'><td data-id='problem25name'>Foot callus</td><td>8/11/17</td></tr><tr><td data-id='problem25comment'><paragraph>Overview:</paragraph>Formatting of this note might be different from the original. <br>Ouch. <br></td></tr></tbody></table>documented as of this encounter (statuses as of 01/02/2023)"
             },
             "code": {
               "coding": [
@@ -198,7 +198,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354'>(ABNORMAL) CBC (04/11/2022 10:23 AM CDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1Name'>White Blood Cells</td><td>10.9 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2Name'>Red Blood Cells</td><td>4.91</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3Name'>Hemoglobin</td><td>14.9</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4Name'>Hematocrit</td><td>46 (H)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5Name'>Mean Cell Volume</td><td>93</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6Name'>Mean Cell Hemoglobin</td><td>30.3</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7Name'>Mean Cell Hemoglobin Concentration</td><td>32.7</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8Name'>RDW SD</td><td>51.0</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9Name'>RDW CV</td><td>15.0 (H)</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10Name'>Platelet</td><td>88 (L)</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11Name'>Mean Platelet Volume</td><td>10.4</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12Name'>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13Name'>Nucleated RBC Abs</td><td>0.00</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13Signature'></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Specimen'>Blood</td><td></td><td></td><td>04/11/2022 10:23 AM CDT</td><td>04/11/2022 10:24 AM CDT</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td>Ordered by DR. TEST ZTEST SR</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.PerformingLab'>VUMC CERNER LAB</td><td>4605 TVC VUMC 1301 Medical Center Drive</td><td>NASHVILLE, TN 37232-5310</td><td>615-875-5227</td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488'>(ABNORMAL) CBC (01/27/2022 2:39 PM CST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1Name'>White Blood Cells</td><td>18.7 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2Name'>Red Blood Cells</td><td>2.81 (L)</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3Name'>Hemoglobin</td><td>9.2 (L)</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4Name'>Hematocrit</td><td>30 (L)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5Name'>Mean Cell Volume</td><td>106 (H)</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6Name'>Mean Cell Hemoglobin</td><td>32.7 (H)</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7Name'>Mean Cell Hemoglobin Concentration</td><td>30.9 (L)</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8Name'>RDW SD</td><td>57.2 (H)</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9Name'>RDW CV</td><td>14.6 (H)</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10Name'>Platelet</td><td>123 (L)</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11Name'>Mean Platelet Volume</td><td>10.8</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12Name'>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13Name'>Nucleated RBC Abs</td><td>0.05 (H)</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13Signature'></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Specimen'>Blood</td><td></td><td></td><td>01/27/2022 2:39 PM CST</td><td>01/27/2022 2:41 PM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td>Ordered by DR. TEST ZTEST SR</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.PerformingLab'>VUMC CERNER LAB</td><td>4605 TVC VUMC 1301 Medical Center Drive</td><td>NASHVILLE, TN 37232-5310</td><td>615-875-5227</td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342'>(ABNORMAL) CBC (12/08/2021 9:55 AM CST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1Name'>White Blood Cells</td><td>19.3 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2Name'>Red Blood Cells</td><td>2.28 (L)</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3Name'>Hemoglobin</td><td>7.1 (L)</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4Name'>Hematocrit</td><td>22 (L)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5Name'>Mean Cell Volume</td><td>97</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6Name'>Mean Cell Hemoglobin</td><td>31.1</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7Name'>Mean Cell Hemoglobin Concentration</td><td>32.0</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8Name'>RDW SD</td><td>47.8</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9Name'>RDW CV</td><td>13.4</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10Name'>Platelet</td><td>209</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11Name'>Mean Platelet Volume</td><td>10.2</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12Name'>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13Name'>Nucleated RBC Abs</td><td>0.00</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13Signature'></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Specimen'>Blood</td><td></td><td></td><td>12/08/2021 9:55 AM CST</td><td>12/08/2021 9:56 AM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td>Ordered by DR. TEST ZTEST SR</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.PerformingLab'>VUMC CERNER LAB</td><td>4605 TVC VUMC 1301 Medical Center Drive</td><td>NASHVILLE, TN 37232-5310</td><td>615-875-5227</td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330'>(ABNORMAL) PCR SARS-CoV-2 and Influenza A/B (12/07/2021 4:16 PM CST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1Name'>SARS-CoV-2 Nucleic Acid (Result)</td><td>Not Detected</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1Signature'></td></tr><tr><td>Comment: <br>Results are generated using nucleic acid amplification tests that are labeled Emergency Use Only by the U.S FDA.A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2Name'>Influenza A PCR (Result)</td><td>Not Detected</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3Name'>Influenza B PCR (Result)</td><td>Detected (A)</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4Name'>Influenza SARS-CoV-2 (Specimen Type)</td><td>Nasopharynx</td><td></td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Specimen'>Nasopharynx</td><td></td><td></td><td>12/07/2021 4:16 PM CST</td><td>12/07/2021 4:17 PM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td>Ordered by MD, JONATHAN E SCHMITZ MD,</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BODY FLUIDS AND STOOLS ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.PerformingLab'>VUMC CERNER LAB</td><td>4605 TVC VUMC 1301 Medical Center Drive</td><td>NASHVILLE, TN 37232-5310</td><td>615-875-5227</td></tr></tbody></table></li></ul>documented in this encounter"
+              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354'>(ABNORMAL) CBC (04/11/2022 10:23 AM CDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1Name'>White Blood Cells</td><td>10.9 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2Name'>Red Blood Cells</td><td>4.91</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3Name'>Hemoglobin</td><td>14.9</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4Name'>Hematocrit</td><td>46 (H)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5Name'>Mean Cell Volume</td><td>93</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6Name'>Mean Cell Hemoglobin</td><td>30.3</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7Name'>Mean Cell Hemoglobin Concentration</td><td>32.7</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8Name'>RDW SD</td><td>51.0</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9Name'>RDW CV</td><td>15.0 (H)</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10Name'>Platelet</td><td>88 (L)</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11Name'>Mean Platelet Volume</td><td>10.4</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12Name'>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13Name'>Nucleated RBC Abs</td><td>0.00</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13Signature'></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Specimen'>Blood</td><td></td><td></td><td>04/11/2022 10:23 AM CDT</td><td>04/11/2022 10:24 AM CDT</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td><paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.ResultingAgencyComment'>Ordered by DR. TEST ZTEST SR</paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.PerformingLab'><paragraph>VUMC CERNER LAB</paragraph></td><td><paragraph>4605 TVC VUMC</paragraph><paragraph>1301 Medical Center Drive</paragraph></td><td><paragraph>NASHVILLE, TN 37232-5310</paragraph></td><td><paragraph>615-875-5227</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488'>(ABNORMAL) CBC (01/27/2022 2:39 PM CST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1Name'>White Blood Cells</td><td>18.7 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2Name'>Red Blood Cells</td><td>2.81 (L)</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3Name'>Hemoglobin</td><td>9.2 (L)</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4Name'>Hematocrit</td><td>30 (L)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5Name'>Mean Cell Volume</td><td>106 (H)</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6Name'>Mean Cell Hemoglobin</td><td>32.7 (H)</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7Name'>Mean Cell Hemoglobin Concentration</td><td>30.9 (L)</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8Name'>RDW SD</td><td>57.2 (H)</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9Name'>RDW CV</td><td>14.6 (H)</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10Name'>Platelet</td><td>123 (L)</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11Name'>Mean Platelet Volume</td><td>10.8</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12Name'>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13Name'>Nucleated RBC Abs</td><td>0.05 (H)</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13Signature'></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Specimen'>Blood</td><td></td><td></td><td>01/27/2022 2:39 PM CST</td><td>01/27/2022 2:41 PM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td><paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.ResultingAgencyComment'>Ordered by DR. TEST ZTEST SR</paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.PerformingLab'><paragraph>VUMC CERNER LAB</paragraph></td><td><paragraph>4605 TVC VUMC</paragraph><paragraph>1301 Medical Center Drive</paragraph></td><td><paragraph>NASHVILLE, TN 37232-5310</paragraph></td><td><paragraph>615-875-5227</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342'>(ABNORMAL) CBC (12/08/2021 9:55 AM CST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1Name'>White Blood Cells</td><td>19.3 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2Name'>Red Blood Cells</td><td>2.28 (L)</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3Name'>Hemoglobin</td><td>7.1 (L)</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4Name'>Hematocrit</td><td>22 (L)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5Name'>Mean Cell Volume</td><td>97</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6Name'>Mean Cell Hemoglobin</td><td>31.1</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7Name'>Mean Cell Hemoglobin Concentration</td><td>32.0</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8Name'>RDW SD</td><td>47.8</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9Name'>RDW CV</td><td>13.4</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10Name'>Platelet</td><td>209</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11Name'>Mean Platelet Volume</td><td>10.2</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12Name'>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13Name'>Nucleated RBC Abs</td><td>0.00</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13Signature'></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Specimen'>Blood</td><td></td><td></td><td>12/08/2021 9:55 AM CST</td><td>12/08/2021 9:56 AM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td><paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.ResultingAgencyComment'>Ordered by DR. TEST ZTEST SR</paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.PerformingLab'><paragraph>VUMC CERNER LAB</paragraph></td><td><paragraph>4605 TVC VUMC</paragraph><paragraph>1301 Medical Center Drive</paragraph></td><td><paragraph>NASHVILLE, TN 37232-5310</paragraph></td><td><paragraph>615-875-5227</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330'>(ABNORMAL) PCR SARS-CoV-2 and Influenza A/B (12/07/2021 4:16 PM CST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1Name'>SARS-CoV-2 Nucleic Acid (Result)</td><td>Not Detected</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1Signature'></td></tr><tr><td>Comment: <br>Results are generated using nucleic acid amplification tests that are labeled Emergency Use Only by the U.S FDA.A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2Name'>Influenza A PCR (Result)</td><td>Not Detected</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3Name'>Influenza B PCR (Result)</td><td>Detected (A)</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4Name'>Influenza SARS-CoV-2 (Specimen Type)</td><td>Nasopharynx</td><td></td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Specimen'>Nasopharynx</td><td></td><td></td><td>12/07/2021 4:16 PM CST</td><td>12/07/2021 4:17 PM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td><paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.ResultingAgencyComment'>Ordered by MD, JONATHAN E SCHMITZ MD,</paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BODY FLUIDS AND STOOLS ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.PerformingLab'><paragraph>VUMC CERNER LAB</paragraph></td><td><paragraph>4605 TVC VUMC</paragraph><paragraph>1301 Medical Center Drive</paragraph></td><td><paragraph>NASHVILLE, TN 37232-5310</paragraph></td><td><paragraph>615-875-5227</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -420,7 +420,7 @@
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter36'><td>10/27/21</td><td data-id='encounter36type'>Orders Only</td><td>Vanderbilt University Adult Hospital 1211 Medical Center Dr 6 Critical Care Tower Nashville, TN 37232 615-322-5000</td><td>Inpatient, Nurse, RN</td><td></td></tr></tbody></table>"
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter36'><td>10/27/21</td><td data-id='encounter36type'>Orders Only</td><td><paragraph>Vanderbilt University Adult Hospital</paragraph><paragraph>1211 Medical Center Dr</paragraph><paragraph>6 Critical Care Tower</paragraph><paragraph>Nashville, TN 37232</paragraph><paragraph>615-322-5000</paragraph></td><td><paragraph>Inpatient, Nurse, RN</paragraph></td><td></td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -492,7 +492,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "encounter": {
           "reference": "Encounter/685ebb48-a4d7-22a7-5a07-a8e42ac8f78b"
@@ -536,7 +536,7 @@
           "end": "2021-10-27"
         },
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "location": [
           {
@@ -971,10 +971,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:7714a697-6ded-44e8-901c-3ab29b1401c1",
+      "fullUrl": "urn:uuid:6d88e0dc-ce2a-4629-b21b-9de766ea5ad9",
       "resource": {
         "resourceType": "Patient",
-        "id": "7714a697-6ded-44e8-901c-3ab29b1401c1",
+        "id": "6d88e0dc-ce2a-4629-b21b-9de766ea5ad9",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1142,7 +1142,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+        "url": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
       }
     },
     {
@@ -1187,7 +1187,7 @@
         },
         "onsetDateTime": "2017-08-11",
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "meta": {
           "source": [
@@ -1242,7 +1242,7 @@
         },
         "onsetDateTime": "2018-06-12",
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "meta": {
           "source": [
@@ -1297,7 +1297,7 @@
         },
         "onsetDateTime": "2021-06-16",
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "meta": {
           "source": [
@@ -1352,7 +1352,7 @@
         },
         "onsetDateTime": "2022-02-28",
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "meta": {
           "source": [
@@ -1407,7 +1407,7 @@
         },
         "onsetDateTime": "2022-05-26",
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "meta": {
           "source": [
@@ -1462,7 +1462,7 @@
         },
         "onsetDateTime": "2022-07-13",
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "meta": {
           "source": [
@@ -1501,7 +1501,7 @@
           "end": "2021-12-07T22:16:00Z"
         },
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -1629,7 +1629,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -1742,7 +1742,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -1832,7 +1832,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -1907,7 +1907,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         }
       },
       "request": {
@@ -1941,7 +1941,7 @@
           "end": "2021-12-08T15:55:00Z"
         },
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2081,7 +2081,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2173,7 +2173,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2265,7 +2265,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2370,7 +2370,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2464,7 +2464,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2558,7 +2558,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2639,7 +2639,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2733,7 +2733,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2827,7 +2827,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -2908,7 +2908,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3002,7 +3002,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3083,7 +3083,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3164,7 +3164,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3239,7 +3239,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         }
       },
       "request": {
@@ -3273,7 +3273,7 @@
           "end": "2022-01-27T20:39:00Z"
         },
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3413,7 +3413,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3505,7 +3505,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3597,7 +3597,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3702,7 +3702,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3807,7 +3807,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -3912,7 +3912,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4004,7 +4004,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4109,7 +4109,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4214,7 +4214,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4306,7 +4306,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4400,7 +4400,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4481,7 +4481,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4573,7 +4573,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4648,7 +4648,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         }
       },
       "request": {
@@ -4682,7 +4682,7 @@
           "end": "2022-04-11T15:23:00Z"
         },
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4822,7 +4822,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4903,7 +4903,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -4984,7 +4984,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5089,7 +5089,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5183,7 +5183,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5277,7 +5277,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5358,7 +5358,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5452,7 +5452,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5557,7 +5557,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5649,7 +5649,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5743,7 +5743,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5824,7 +5824,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5905,7 +5905,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "performer": [
           {
@@ -5980,7 +5980,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         }
       },
       "request": {
@@ -6037,7 +6037,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         }
       },
       "request": {
@@ -6089,7 +6089,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/7714a697-6ded-44e8-901c-3ab29b1401c1"
+          "reference": "Patient/6d88e0dc-ce2a-4629-b21b-9de766ea5ad9"
         },
         "meta": {
           "source": [
