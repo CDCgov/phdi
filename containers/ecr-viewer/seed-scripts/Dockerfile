@@ -1,4 +1,4 @@
-FROM 3.13.0a5-slim-bullseye
+FROM python:3.12-slim-bullseye
 
 # Set the working directory in the container
 WORKDIR /code
