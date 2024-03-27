@@ -245,7 +245,9 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
 
         return person_id
 
-    def _generate_where_criteria(self, block_criteria: dict, table_name: str) -> list:
+    def _generate_where_clause(
+        self, block_criteria: dict, table_name: str
+    ) -> tuple[str, list]:
         """
         Generates a list of where criteria leveraging the blocking criteria,
         including transformations such as 'first 4' or 'last 4'.  This
@@ -271,7 +273,17 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                     where_criteria.append(
                         f"RIGHT({table_name}.{key},4) = '{criteria_value}'"
                     )
-        return where_criteria
+        where_placeholders = []
+        where_params = {}
+        for i, criterion in enumerate(where_criteria):
+            placeholder = f"criterion_{i}"
+            condition, value = criterion.split("=")
+            where_placeholders.append(f"{condition.strip()} = :{placeholder}")
+            where_params[placeholder] = value.strip()
+
+        where_clause = " AND ".join(where_placeholders)
+
+        return where_clause, where_params
 
     def _generate_block_query(
         self, organized_block_criteria: dict, query: Select
@@ -296,7 +308,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             sub_query = None
 
             cte_query_table = table_info["table"]
-            query_criteria = self._generate_where_criteria(
+            where_clause, where_params = self._generate_where_clause(
                 table_info["criteria"], table_key
             )
 
@@ -304,7 +316,8 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                 if self.dal.does_table_have_column(cte_query_table, "patient_id"):
                     cte_query = (
                         select(cte_query_table.c.patient_id.label("patient_id"))
-                        .where(text(" AND ".join(query_criteria)))
+                        .where(where_clause)
+                        .params(where_params)
                         .cte(f"{table_key}_cte")
                     )
                 else:
