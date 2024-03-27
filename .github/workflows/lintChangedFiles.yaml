@@ -18,8 +18,11 @@ jobs:
   filter-lint-files:
     runs-on: ubuntu-latest
     outputs:
+      python-files-present: ${{ steps.filter-lint-files.outputs.python-files-present }}
       changed-python-files: ${{ steps.filter-lint-files.outputs.changed-python-files }}
+      js-files-present: ${{ steps.filter-lint-files.outputs.js-files-present }}
       changed-js-files: ${{ steps.filter-lint-files.outputs.changed-js-files }}
+      yaml-files-present: ${{ steps.filter-lint-files.outputs.yaml-files-present }}
       changed-yaml-files: ${{ steps.filter-lint-files.outputs.changed-yaml-files }}
     steps:
       - name: Filter changed files
@@ -38,6 +41,17 @@ jobs:
             jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file' | \
             tr '\n' ' ')
 
+          # create flags for job conditionals downstream
+          if [[ -n "$CHANGED_PY_FILES" ]]; then 
+            echo "python-files-present=true" >> $GITHUB_ENV; else 
+            echo "python-files-present=false" >> $GITHUB_ENV; fi
+          if [[ -n "$CHANGED_JS_FILES" ]]; then 
+            echo "js-files-present=true" >> $GITHUB_ENV; else 
+            echo "js-files-present=false" >> $GITHUB_ENV; fi
+          if [[ -n "$CHANGED_YAML_FILES" ]]; then 
+            echo "yaml-files-present=true" >> $GITHUB_ENV; else 
+            echo "yaml-files-present=false" >> $GITHUB_ENV; fi
+
           # set these json blobs as outputs
           echo "changed-python-files=$CHANGED_PY_FILES" >> $GITHUB_OUTPUT
           echo "changed-js-files=$CHANGED_JS_FILES" >> $GITHUB_OUTPUT
@@ -46,21 +60,18 @@ jobs:
   lint:
     needs: filter-lint-files
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        language: [python, javascript, yaml]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Setup Python
-        if: matrix.language == 'python' && needs.filter-lint-files.outputs.changed-python-files != ''
+        if: needs.filter-lint-files.outputs.python-files-present == 'true'
         uses: actions/setup-python@v2
         with:
           python-version: ${{ env.TEST_RUNNER_PYTHON_VERSION }}
 
       - name: Lint Python files
-        if: matrix.language == 'python' && needs.filter-lint-files.outputs.changed-python-files != ''
+        if: needs.filter-lint-files.outputs.python-files-present == 'true'
         run: |
           pip install -U pip
           pip install black flake8
@@ -71,13 +82,13 @@ jobs:
           done
 
       - name: Setup Node.js
-        if: matrix.language == 'javascript' && needs.filter-lint-files.outputs.changed-js-files != ''
+        if: needs.filter-lint-files.outputs.js-files-present == 'true'
         uses: actions/setup-node@v2
         with:
           node-version: "18"
 
       - name: Lint JavaScript files
-        if: matrix.language == 'javascript' && needs.filter-lint-files.outputs.changed-js-files != ''
+        if: needs.filter-lint-files.outputs.js-files-present == 'true'
         run: |
           npm ci
           js_files="${{ needs.filter-lint-files.outputs.changed-js-files }}"
@@ -85,13 +96,10 @@ jobs:
             npm run lint -- $file
           done
 
-      - name: Install YAML Linter
-        if: matrix.language == 'yaml' && needs.filter-lint-files.outputs.changed-yaml-files != ''
-        run: sudo apt-get install yamllint
-
-      - name: Lint YAML files
-        if: matrix.language == 'yaml' && needs.filter-lint-files.outputs.changed-yaml-files != ''
+      - name: Install YAML Linter and Lint YAML
+        if: needs.filter-lint-files.outputs.yaml-files-present == 'true'
         run: |
+          sudo apt-get install yamllint
           echo "rules:" > .yamllint.yml
           echo "  line-length:" >> .yamllint.yml
           echo "    max: 120" >> .yamllint.yml
