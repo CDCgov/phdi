@@ -648,7 +648,7 @@ def test_extract_data_from_fhir_search_incremental_auth(patch_query):
         search_url=search_url, cred_manager=cred_manager
     )
 
-    assert patch_query.called_with(
+    patch_query.assert_called_with(
         url=search_url,
         cred_manager=cred_manager,
         retry_count=2,
