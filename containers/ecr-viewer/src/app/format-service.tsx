@@ -175,7 +175,7 @@ export function formatTablesToJSON(htmlString: string): any[] {
   doc.querySelectorAll("li").forEach((li) => {
     const tables: any[] = [];
     const resultId = li.getAttribute("data-id");
-    const resultName = li.textContent?.trim() || "";
+    const resultName = li.childNodes[0].textContent?.trim() || "";
     li.querySelectorAll("table").forEach((table) => {
       tables.push(processTable(table));
     });
