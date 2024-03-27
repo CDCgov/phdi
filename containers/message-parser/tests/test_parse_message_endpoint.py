@@ -393,9 +393,9 @@ def test_schema_without_reference_lookup(test_reference_schema):
 
 def test_schema_without_identifier_path(test_reference_schema):
     no_bundle_schema = deepcopy(test_reference_schema)
-    no_bundle_schema["labs"]["secondary_schema"]["ordering_provider"][
-        "fhir_path"
-    ] = "Observation.provider"
+    no_bundle_schema["labs"]["secondary_schema"]["ordering_provider"]["fhir_path"] = (
+        "Observation.provider"
+    )
     request = {
         "message_format": "fhir",
         "message": {},

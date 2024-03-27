@@ -97,7 +97,7 @@ class CensusGeocodeClient(BaseGeocodeClient):
         if searchtype == "onelineaddress":
             address = address.replace(" ", "+").replace(",", "%2C")
             return f"onelineaddress?address={address}"
-        elif searchtype == "address" and type(address) is dict:
+        elif searchtype == "address" and isinstance(address, dict):
             street = address.get("street", "").replace(" ", "+").replace(",", "%2C")
             city = address.get("city", "").replace(" ", "+").replace(",", "%2C")
             state = address.get("state", "").replace(" ", "+").replace(",", "%2C")

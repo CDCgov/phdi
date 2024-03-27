@@ -79,9 +79,9 @@ def freeze_parsing_schema_helper(schema: dict) -> frozendict:
     :param schema: A dictionary containing a parsing schema.
     :return: A frozen dictionary containing the parsing schema.
     """
-    if type(schema) is dict:
+    if isinstance(schema, dict):
         for key, value in schema.items():
-            if type(value) is dict:
+            if isinstance(value, dict):
                 schema[key] = freeze_parsing_schema_helper(value)
         return frozendict(schema)
 
@@ -402,7 +402,7 @@ def extract_and_apply_parsers(parsing_schema, message, response):
             # (e.g. we want multiple values about the Bundle's Custodian:
             # bundle.custodian is a dict with a reference, so we only need
             # to find that reference once)
-            if type(initial_values) is not list:
+            if not isinstance(initial_values, list):
                 initial_values = [initial_values]
 
             for initial_value in initial_values:

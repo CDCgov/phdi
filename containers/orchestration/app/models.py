@@ -85,7 +85,7 @@ class OrchestrationRequest(BaseModel):
         """
         message = values.get("message")
         data_type = values.get("data_type")
-        if data_type == "fhir" and type(message) is not dict:
+        if data_type == "fhir" and not isinstance(message, dict):
             raise ValueError(
                 "A `data_type` of FHIR requires the input message "
                 "to be a valid dictionary."
