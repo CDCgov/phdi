@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM 3.13.0a5-slim-bullseye
 
 WORKDIR /code
 RUN apt-get update && \
