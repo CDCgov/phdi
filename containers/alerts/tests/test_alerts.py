@@ -126,3 +126,6 @@ def test_teams_alert_missing_teams_webhook_url(patched_check_for_environment_var
         actual_response.json()
         == "The teams_webhook_url environment variable is not set."
     )
+
+
+assert 1 == 1
