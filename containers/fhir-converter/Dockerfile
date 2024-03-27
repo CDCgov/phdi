@@ -31,8 +31,8 @@ RUN curl https://pyenv.run | bash
 RUN export PYENV_ROOT="$HOME/.pyenv"
 RUN export PATH="$PYENV_ROOT/bin:$PATH"
 RUN eval "$(pyenv init -)"
-RUN /root/.pyenv/bin/pyenv install 3.10.13
-RUN /root/.pyenv/bin/pyenv global 3.10.13
+RUN /root/.pyenv/bin/pyenv install 3.12.2
+RUN /root/.pyenv/bin/pyenv global 3.12.2
 
 RUN /root/.pyenv/shims/pip install --no-cache --upgrade pip setuptools
 

@@ -209,7 +209,7 @@ def test_gcp_credential_manager(mock_gcp_creds, mock_gcp_requests):
     _ = credential_manager.get_access_token()
     _ = credential_manager.get_project_id()
     assert mock_gcp_creds.call_count == 1
-    assert mock_gcp_requests.not_called
+    mock_gcp_requests.assert_not_called
 
 
 @mock.patch("phdi.cloud.gcp.google.auth.transport.requests.Request")
