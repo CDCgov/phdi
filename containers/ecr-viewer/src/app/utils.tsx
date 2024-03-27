@@ -1,16 +1,10 @@
 import React from "react";
 import * as dateFns from "date-fns";
-import {
-  Bundle,
-  Condition,
-  Immunization,
-  Organization,
-  Procedure,
-} from "fhir/r4";
+import { Bundle, Condition, Immunization, Procedure } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
-import { evaluateTable, evaluateReference } from "@/app/evaluate-service";
+
 import {
   formatAddress,
   formatDate,
@@ -20,12 +14,19 @@ import {
   formatVitals,
   formatDateTime,
 } from "@/app/format-service";
+import { evaluateTable } from "./evaluate-service";
 
 export interface DisplayData {
   title?: string;
   className?: string;
   value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
   dividerLine?: boolean;
+}
+
+export interface ReportableConditions {
+  [condition: string]: {
+    [trigger: string]: Set<string>;
+  };
 }
 
 export interface PathMappings {
@@ -370,26 +371,35 @@ export const evaluateEcrMetadata = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
+  const rrDetails = evaluate(fhirBundle, mappings.rrDetails);
 
-  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) =>
-    evaluateReference(fhirBundle, mappings, ref),
-  );
+  let reportableConditionsList: ReportableConditions = {};
 
-  const rrDetails: DisplayData[] = [
-    {
-      title: "Reportable Condition(s)",
-      value: evaluate(fhirBundle, mappings.rrDisplayNames)?.join("\n"),
-    },
-    {
-      title: "RCKMS Trigger Summary",
-      value: evaluate(fhirBundle, mappings.rckmsTriggerSummaries)?.join("\n"),
-    },
-    {
-      title: "Jurisdiction(s) Sent eCR",
-      value: rrPerformers.map((org) => org.name)?.join("\n"),
-    },
-  ];
+  for (const condition of rrDetails) {
+    let name = condition.valueCodeableConcept.coding[0].display;
+    const triggers = condition.extension
+      .filter(
+        (x: { url: string; valueString: string }) =>
+          x.url ===
+          "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+      )
+      .map((x: { url: string; valueString: string }) => x.valueString);
+    if (!reportableConditionsList[name]) {
+      reportableConditionsList[name] = {};
+    }
+
+    for (let i in triggers) {
+      if (!reportableConditionsList[name][triggers[i]]) {
+        reportableConditionsList[name][triggers[i]] = new Set();
+      }
+      condition.performer
+        .map((x: { display: string }) => x.display)
+        .forEach((x: string) =>
+          reportableConditionsList[name][triggers[i]].add(x),
+        );
+    }
+  }
+
   const eicrDetails: DisplayData[] = [
     {
       title: "eICR Identifier",
@@ -427,7 +437,7 @@ export const evaluateEcrMetadata = (
   return {
     eicrDetails: evaluateData(eicrDetails),
     ecrSenderDetails: evaluateData(ecrSenderDetails),
-    rrDetails: evaluateData(rrDetails),
+    rrDetails: reportableConditionsList,
   };
 };
 
