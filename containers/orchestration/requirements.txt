@@ -11,10 +11,12 @@ python-dotenv
 python-multipart
 pytest-env
 pytest-asyncio
-testcontainers[compose]
+testcontainers[compose]==4.1.1
 websockets
 asyncio
 sqlalchemy
 requests-mock 
 pytest-mock
 opentelemetry-distro
+opentelemetry-exporter-otlp
+opentelemetry-exporter-prometheus

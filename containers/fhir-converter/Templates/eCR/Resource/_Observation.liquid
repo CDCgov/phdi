@@ -66,7 +66,9 @@
             "valueQuantity":
             {
                 "value":{{ observationEntry.value.value }},
+                {% if observationEntry.value.unit and  observationEntry.value.unit != "null" -%}
                 "unit":"{{ observationEntry.value.unit }}",
+                {% endif -%}
             },
         {% else -%}
             "valueString":"{{ observationEntry.value._ }}",
@@ -94,9 +96,17 @@
         [
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
+        {% if observationEntry.referenceRange and observationEntry.referenceRange != null  -%}
+            "referenceRange": {
+                    "text": "{{  observationEntry.referenceRange.observationRange.text._ }}",
+                    "high": "{{ observationEntry.referenceRange.observationRange.value.high.translation.value }}",
+                    "low": "{{ observationEntry.referenceRange.observationRange.value.low.translation.value }}",
+            },
+        {%  endif -%}
+        {% assign observationReferenceValue = observationEntry.text.reference.value -%}
         "extension":
             [ {
-                {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None"  -%}
+                {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None" or observationReferenceValue != "None" -%}
 
                     "url" : "http://hl7.org/fhir/R4/specimen.html",
                     "extension": [
@@ -110,6 +120,18 @@
                         {
                             "url" : "specimen collection time",
                             "valueDateTime" : "{{ collectTime | format_as_date_time }}",
+                        },
+                    {% endif -%}
+                    {% if receiveTime and receiveTime != None -%}
+                        {
+                            "url" : "specimen receive time",
+                            "valueDateTime" : "{{ receiveTime | format_as_date_time }}",
+                        },
+                    {% endif -%}
+                    {% if observationEntry.text.reference.value -%}
+                        {
+                            "url":"observation entry reference value",
+                            "valueString":"{{ observationReferenceValue }}",
                         },
                     {% endif -%}
                     ],

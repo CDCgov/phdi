@@ -25,9 +25,18 @@
     {% else -%}
         {% assign collectTime = "None" -%}
     {% endif -%}
+    
     {% assign comps = entry.organizer.component | to_array -%}
     {% for comp in comps -%}
         {% if comp.procedure  -%}
+            {% if comp.procedure.entryRelationship and comp.procedure.entryRelationship.act -%}
+              {% assign acts = comp.procedure.entryRelationship.act | to_array %}
+              {% for act in acts -%}
+                {% if act.code and act.code["code"] == "SPRECEIVE" %}
+                  {% assign receiveTime = act.effectiveTime.value -%}
+                {% endif -%}
+              {% endfor -%} 
+            {% endif -%}
             {% if comp.procedure.participant.participantRole.id -%}
                 {% if comp.procedure.participant.participantRole.playingEntity.code.translation -%}
                     {% assign translations = comp.procedure.participant.participantRole.playingEntity.code.translation | to_array -%}

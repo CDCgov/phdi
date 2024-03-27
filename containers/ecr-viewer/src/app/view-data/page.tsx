@@ -31,8 +31,14 @@ const ECRViewerPage = () => {
       try {
         const response = await fetch(`${basePath}/api/fhir-data?id=${fhirId}`);
         if (!response.ok) {
-          const errorData = response.statusText;
-          throw new Error(errorData || "Internal Server Error");
+          if (response.status == 404) {
+            throw new Error(
+              "Sorry, we couldn't find this eCR ID. Please try again with a different ID.",
+            );
+          } else {
+            const errorData = response.statusText;
+            throw new Error(errorData || "Internal Server Error");
+          }
         } else {
           const bundle: ApiResponse = await response.json();
           processSnomedCode(snomedCode);

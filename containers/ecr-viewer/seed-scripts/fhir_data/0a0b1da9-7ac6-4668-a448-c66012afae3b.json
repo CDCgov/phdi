@@ -112,7 +112,7 @@
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "<table>Pending Results <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Date/Time</th></tr></thead><tbody><tr><td>Drugs Of Abuse Comprehensive Screen, Ur</td><td>Lab</td><td>STAT</td><td></td><td>12/23/2022 11:13 AM PST</td></tr></tbody></table><table>Scheduled Orders <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Order Schedule</th></tr></thead><tbody><tr><td>Drugs Of Abuse Comprehensive Screen, Ur</td><td>Lab</td><td>Routine</td><td></td><td>One Time for 1 Occurrences starting 12/23/22 until 12/23/22</td></tr></tbody></table>documented as of this encounter"
+              "div": "<table>Pending Results <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Date/Time</th></tr></thead><tbody><tr data-id='procedure9'><td>Drugs Of Abuse Comprehensive Screen, Ur</td><td>Lab</td><td>STAT</td><td></td><td>12/23/2022 11:13 AM PST</td></tr></tbody></table><table>Scheduled Orders <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Order Schedule</th></tr></thead><tbody><tr data-id='procedure10'><td>Drugs Of Abuse Comprehensive Screen, Ur</td><td>Lab</td><td>Routine</td><td></td><td data-id='procedure10schedule'>One Time for 1 Occurrences starting 12/23/22 until 12/23/22</td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -130,7 +130,7 @@
             "title": "Problems",
             "text": {
               "status": "generated",
-              "div": "No known active problems documented as of this encounter (statuses as of 12/23/2022)"
+              "div": "<paragraph data-id='nof12'>No known active problems</paragraph>documented as of this encounter (statuses as of 12/23/2022)"
             },
             "code": {
               "coding": [
@@ -177,7 +177,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul><li>(ABNORMAL) Drugs of Abuse, Screen, Urine (12/23/2022 12:56 PM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr><td>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr><td>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr><td>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr><td>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr><td>Specific Gravity, Urine</td><td></td><td></td><td></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Not Indicated</td></tr><tr><td>Creatinine, Urine, Random</td><td>43</td><td>Not Established mg/dL</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Fentanyl Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Urine</td><td></td><td>Collection / Unknown</td><td>12/23/2022 12:56 PM PST</td><td>12/23/2022 12:56 PM PST</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 12/23/2022 2:59 PM PST Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Midwife Obstetrics CNM</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li><li>(ABNORMAL) Drugs of Abuse, Screen, Urine (12/23/2022 11:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr><td>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr><td>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr><td>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr><td>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr><td>Specific Gravity, Urine</td><td></td><td></td><td></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Not Indicated</td></tr><tr><td>Creatinine, Urine, Random</td><td>100</td><td>Not Established mg/dL</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Fentanyl Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Urine</td><td></td><td>Collection / Unknown</td><td>12/23/2022 11:16 AM PST</td><td>12/23/2022 11:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 12/23/2022 11:35 AM PST Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Valerie Krozel MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li><li>(ABNORMAL) PSA, Screen (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>PSA</td><td>8.00 (H)</td><td>0.06 - 4.00 ng/mL</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Victor J Aaen MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li><li>(ABNORMAL) PSA, Diagnostic (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>PSA</td><td>8.00 (H)</td><td>0.06 - 4.00 ng/mL</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li><li>(ABNORMAL) CEA (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>CEA</td><td>50.0 (H)</td><td>0.3 - 3.0 ng/mL</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li><li>(ABNORMAL) CA 125, Quant (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Cancer Antigen 125</td><td>12,200 (H)</td><td>6 - 35 U/mL</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li><li>CA 19-9, Quant (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>CA 19 9</td><td>10</td><td>1 - 37 U/mL</td><td>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li><li>(ABNORMAL) Drugs Of Abuse Comprehensive Screen, Ur (10/19/2022 10:17 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr><td>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr><td>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr><td>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr><td>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr><td>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr><td>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr><td>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr><td>Buprenorphine Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr><td>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr><td>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr><td>Specific Gravity, Urine</td><td>1.011</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Creatinine, Urine, Random</td><td>44</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Urine</td><td></td><td>Collection / Unknown</td><td>10/19/2022 10:17 AM PDT</td><td>10/19/2022 10:17 AM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 11:29 AM PDT Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Valerie Krozel MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li><li>Drugs Of Abuse Comprehensive Screen, Ur (10/19/2022 8:31 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr><td>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr><td>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr><td>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr><td>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr><td>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr><td>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr><td>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr><td>Buprenorphine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr><td>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr><td>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr><td>Specific Gravity, Urine</td><td>1.011</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Creatinine, Urine, Random</td><td>55</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Urine</td><td></td><td>Collection / Unknown</td><td>10/19/2022 8:31 AM PDT</td><td>10/19/2022 8:31 AM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 10:04 AM PDT Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Shssurgmd Ord MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li><li>(ABNORMAL) Drugs Of Abuse Comprehensive Screen, Ur (10/11/2022 12:29 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr><td>Benzodiazepines Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr><td>Barbiturates Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr><td>Amphetamine Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr><td>Cannabinoids Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr><td>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr><td>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr><td>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr><td>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr><td>Buprenorphine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr><td>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr><td>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr><td>Specific Gravity, Urine</td><td>1.014</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Creatinine, Urine, Random</td><td>63</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Urine</td><td></td><td>Collection / Unknown</td><td>10/11/2022 12:29 PM PDT</td><td>10/11/2022 12:30 PM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 10:00 AM PDT Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td>One Hoag Drive</td><td>Newport Beach, CA 92663</td><td>949-764-5600</td></tr></tbody></table></li></ul>documented in this encounter"
+              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080'>(ABNORMAL) Drugs of Abuse, Screen, Urine (12/23/2022 12:56 PM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8Name'>Specific Gravity, Urine</td><td></td><td></td><td></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8Signature'></td></tr><tr><td>Comment: Not Indicated</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9Name'>Creatinine, Urine, Random</td><td>43</td><td>Not Established mg/dL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10Name'>Fentanyl Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>12/23/2022 12:56 PM PST</td><td>12/23/2022 12:56 PM PST</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 12/23/2022 2:59 PM PST</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Midwife Obstetrics CNM</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078'>(ABNORMAL) Drugs of Abuse, Screen, Urine (12/23/2022 11:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8Name'>Specific Gravity, Urine</td><td></td><td></td><td></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8Signature'></td></tr><tr><td>Comment: Not Indicated</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9Name'>Creatinine, Urine, Random</td><td>100</td><td>Not Established mg/dL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10Name'>Fentanyl Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>12/23/2022 11:16 AM PST</td><td>12/23/2022 11:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 12/23/2022 11:35 AM PST</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Valerie Krozel MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074'>(ABNORMAL) PSA, Screen (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1Name'>PSA</td><td>8.00 (H)</td><td>0.06 - 4.00 ng/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Victor J Aaen MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072'>(ABNORMAL) PSA, Diagnostic (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1Name'>PSA</td><td>8.00 (H)</td><td>0.06 - 4.00 ng/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071'>(ABNORMAL) CEA (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1Name'>CEA</td><td>50.0 (H)</td><td>0.3 - 3.0 ng/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070'>(ABNORMAL) CA 125, Quant (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1Name'>Cancer Antigen 125</td><td>12,200 (H)</td><td>6 - 35 U/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069'>CA 19-9, Quant (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1Name'>CA 19 9</td><td>10</td><td>1 - 37 U/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317'>(ABNORMAL) Drugs Of Abuse Comprehensive Screen, Ur (10/19/2022 10:17 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8Name'>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8Signature'></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9Name'>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10Name'>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10Signature'></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11Name'>Buprenorphine Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11Signature'></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12Name'>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12Signature'></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13Name'>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13Signature'></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14Name'>Specific Gravity, Urine</td><td>1.011</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15Name'>Creatinine, Urine, Random</td><td>44</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16Name'>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16Signature'></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>10/19/2022 10:17 AM PDT</td><td>10/19/2022 10:17 AM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 11:29 AM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Valerie Krozel MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315'>Drugs Of Abuse Comprehensive Screen, Ur (10/19/2022 8:31 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8Name'>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8Signature'></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9Name'>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10Name'>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10Signature'></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11Name'>Buprenorphine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11Signature'></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12Name'>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12Signature'></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13Name'>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13Signature'></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14Name'>Specific Gravity, Urine</td><td>1.011</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15Name'>Creatinine, Urine, Random</td><td>55</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16Name'>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16Signature'></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>10/19/2022 8:31 AM PDT</td><td>10/19/2022 8:31 AM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 10:04 AM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Shssurgmd Ord MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313'>(ABNORMAL) Drugs Of Abuse Comprehensive Screen, Ur (10/11/2022 12:29 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4Name'>Barbiturates Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5Name'>Amphetamine Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6Name'>Cannabinoids Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8Name'>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8Signature'></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9Name'>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10Name'>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10Signature'></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11Name'>Buprenorphine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11Signature'></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12Name'>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12Signature'></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13Name'>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13Signature'></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14Name'>Specific Gravity, Urine</td><td>1.014</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15Name'>Creatinine, Urine, Random</td><td>63</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16Name'>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16Signature'></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>10/11/2022 12:29 PM PDT</td><td>10/11/2022 12:30 PM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 10:00 AM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -513,7 +513,7 @@
             "title": "Social History",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Smoking Tobacco: Never Assessed</td><td></td><td></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr><td>Not on file</td><td></td></tr></tbody></table>documented as of this encounter"
+              "div": "<table data-id='sochist16'><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Smoking Tobacco: Never Assessed</td><td></td><td data-id='sochist16packsperday'></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr data-id='BirthSex17'><td data-id='BirthSex17Value'>Not on file</td><td></td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -531,7 +531,7 @@
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr><td>10/11/22</td><td>Emergency</td><td>HOAG MEMORIAL HOSPITAL NEWPORT EMERGENCY CENTER 1 HOAG DR NEWPORT BEACH, CA 92663-4162 949-764-8372</td><td></td><td></td></tr></tbody></table>"
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter18'><td>10/11/22</td><td data-id='encounter18type'>Emergency</td><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT EMERGENCY CENTER</paragraph><paragraph>1 HOAG DR</paragraph><paragraph>NEWPORT BEACH, CA 92663-4162</paragraph><paragraph>949-764-8372</paragraph></td><td></td><td></td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -599,7 +599,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "relatesTo": [
           {
@@ -656,7 +656,7 @@
           "start": "2022-10-11"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "location": [
           {
@@ -1035,10 +1035,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e",
+      "fullUrl": "urn:uuid:ff3e89e1-4546-46c5-a984-1ff73804cbdc",
       "resource": {
         "resourceType": "Patient",
-        "id": "3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e",
+        "id": "ff3e89e1-4546-46c5-a984-1ff73804cbdc",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1147,7 +1147,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+        "url": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
       }
     },
     {
@@ -1176,7 +1176,7 @@
         },
         "onsetDateTime": "2018-03-08T13:56:36-08:00",
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "meta": {
           "source": [
@@ -1215,7 +1215,7 @@
           "end": "2022-10-11T19:29:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -1364,12 +1364,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -1479,12 +1487,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -1550,12 +1566,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -1632,12 +1656,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -1714,12 +1746,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -1796,12 +1836,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -1867,12 +1915,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -1938,12 +1994,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2009,12 +2073,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2080,12 +2152,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2151,12 +2231,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2222,12 +2310,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2293,12 +2389,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2376,12 +2480,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2450,12 +2562,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2521,12 +2641,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
@@ -2560,7 +2684,7 @@
           "end": "2022-10-19T15:31:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2677,12 +2801,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2748,12 +2880,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2819,12 +2959,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2890,12 +3038,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -2961,12 +3117,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3032,12 +3196,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3103,12 +3275,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3174,12 +3354,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3245,12 +3433,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3316,12 +3512,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3387,12 +3591,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3458,12 +3670,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3529,12 +3749,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3612,12 +3840,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3686,12 +3922,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3731,7 +3975,7 @@
           "end": "2022-10-19T17:17:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3851,12 +4095,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3922,12 +4174,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -3993,12 +4253,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4064,12 +4332,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4135,12 +4411,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4206,12 +4490,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4277,12 +4569,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4348,12 +4648,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4419,12 +4727,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4490,12 +4806,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4572,12 +4896,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4643,12 +4975,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4714,12 +5054,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4797,12 +5145,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4871,12 +5227,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -4942,12 +5306,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
@@ -4981,7 +5349,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -5074,12 +5442,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -5145,12 +5521,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
@@ -5184,7 +5564,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -5288,12 +5668,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -5359,12 +5747,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
@@ -5398,7 +5790,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -5502,12 +5894,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -5573,12 +5973,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
@@ -5612,7 +6016,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -5716,12 +6120,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -5787,12 +6199,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
@@ -5826,7 +6242,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -5930,12 +6346,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6001,12 +6425,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
@@ -6040,7 +6468,7 @@
           "end": "2022-12-23T19:16:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6145,12 +6573,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6216,12 +6652,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6287,12 +6731,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6358,12 +6810,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6429,12 +6889,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6500,12 +6968,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6571,12 +7047,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6641,12 +7125,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6715,12 +7207,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6797,12 +7297,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -6868,12 +7376,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
@@ -6907,7 +7419,7 @@
           "end": "2022-12-23T20:56:00Z"
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7012,12 +7524,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7083,12 +7603,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7154,12 +7682,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7225,12 +7761,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7296,12 +7840,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7367,12 +7919,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7438,12 +7998,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7508,12 +8076,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7582,12 +8158,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7664,12 +8248,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         },
         "performer": [
           {
@@ -7735,12 +8327,16 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
@@ -7797,7 +8393,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/3f1e4c50-fb18-40c1-8eef-8a11ee5dcc8e"
+          "reference": "Patient/ff3e89e1-4546-46c5-a984-1ff73804cbdc"
         }
       },
       "request": {
