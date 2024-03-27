@@ -160,16 +160,26 @@ export const formatString = (input: string): string => {
 };
 
 /**
- * Parses an HTML string containing tables and converts each table into a JSON array of objects.
+ * Parses an HTML string containing a list of tables and converts each table into a JSON array of objects.
+ * Each <li> item represents a different lab result. The resulting JSON objects contain the data-id (Result ID)
+ * and text content of the <li> items, along with an array of JSON representations of the tables contained within each <li> item.
+ *
  * @param {string} htmlString - The HTML string containing tables to be parsed.
- * @returns {any[]} - An array of JSON objects representing the tables from the HTML string.
+ * @returns {any[]} - An array of JSON objects representing the list items and their tables from the HTML string.
+ * @example @returns [{resultId: 'Result.123', resultName: 'foo', tables: [{}, {},...]}, ...]
  */
 export function formatTablesToJSON(htmlString: string): any[] {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
   const jsonArray: any[] = [];
-  doc.querySelectorAll("table").forEach((table) => {
-    jsonArray.push(processTable(table));
+  doc.querySelectorAll("li").forEach((li) => {
+    const tables: any[] = [];
+    const resultId = li.getAttribute("data-id");
+    const resultName = li.textContent?.trim() || "";
+    li.querySelectorAll("table").forEach((table) => {
+      tables.push(processTable(table));
+    });
+    jsonArray.push({ resultId, resultName, tables });
   });
 
   return jsonArray;

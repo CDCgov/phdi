@@ -40,50 +40,57 @@ describe("formatTablesToJSON", () => {
     const htmlString =
       "<li data-id='Result.12345'><table><thead><tr><th>Component</th><th>Analysis Time</th></tr></thead><tbody><tr data-id='Result.12345.Comp1'><td data-id='Result.12345.Comp1Name'>Campylobacter, NAAT</td><td>01/01/2024 1:00 PM PDT</td></tr><tr data-id='Result.12345.Comp2'><td data-id='Result.12345.Comp2Name'>Salmonella, NAAT</td><td>01/01/2024 1:00 PM PDT</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.12345.Specimen'>Stool</td><td>01/01/2024 12:00 PM PDT</td><td>01/01/2024 12:00 PM PDT</td></tr></tbody></table></li>";
     const expectedResult = [
-      [
-        {
-          Component: {
-            value: "Campylobacter, NAAT",
-            metadata: {
-              "data-id": "Result.12345.Comp1Name",
+      {
+        resultId: "Result.12345",
+        resultName:
+          "ComponentAnalysis TimeCampylobacter, NAAT01/01/2024 1:00 PM PDTSalmonella, NAAT01/01/2024 1:00 PM PDTSpecimen (Source)Collection TimeReceived TimeStool01/01/2024 12:00 PM PDT01/01/2024 12:00 PM PDT",
+        tables: [
+          [
+            {
+              Component: {
+                value: "Campylobacter, NAAT",
+                metadata: {
+                  "data-id": "Result.12345.Comp1Name",
+                },
+              },
+              "Analysis Time": {
+                value: "01/01/2024 1:00 PM PDT",
+                metadata: {},
+              },
             },
-          },
-          "Analysis Time": {
-            value: "01/01/2024 1:00 PM PDT",
-            metadata: {},
-          },
-        },
-        {
-          Component: {
-            value: "Salmonella, NAAT",
-            metadata: {
-              "data-id": "Result.12345.Comp2Name",
+            {
+              Component: {
+                value: "Salmonella, NAAT",
+                metadata: {
+                  "data-id": "Result.12345.Comp2Name",
+                },
+              },
+              "Analysis Time": {
+                value: "01/01/2024 1:00 PM PDT",
+                metadata: {},
+              },
             },
-          },
-          "Analysis Time": {
-            value: "01/01/2024 1:00 PM PDT",
-            metadata: {},
-          },
-        },
-      ],
-      [
-        {
-          "Specimen (Source)": {
-            value: "Stool",
-            metadata: {
-              "data-id": "Result.12345.Specimen",
+          ],
+          [
+            {
+              "Specimen (Source)": {
+                value: "Stool",
+                metadata: {
+                  "data-id": "Result.12345.Specimen",
+                },
+              },
+              "Collection Time": {
+                value: "01/01/2024 12:00 PM PDT",
+                metadata: {},
+              },
+              "Received Time": {
+                value: "01/01/2024 12:00 PM PDT",
+                metadata: {},
+              },
             },
-          },
-          "Collection Time": {
-            value: "01/01/2024 12:00 PM PDT",
-            metadata: {},
-          },
-          "Received Time": {
-            value: "01/01/2024 12:00 PM PDT",
-            metadata: {},
-          },
-        },
-      ],
+          ],
+        ],
+      },
     ];
 
     const result = formatTablesToJSON(htmlString);

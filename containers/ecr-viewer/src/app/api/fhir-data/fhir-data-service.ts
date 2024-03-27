@@ -27,7 +27,14 @@ export const get_postgres = async (request: NextRequest) => {
     );
   } catch (error: any) {
     console.error("Error fetching data:", error);
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    if (error.message == "No data returned from the query.") {
+      return NextResponse.json(
+        { message: "eCR ID not found" },
+        { status: 404 },
+      );
+    } else {
+      return NextResponse.json({ message: error.message }, { status: 500 });
+    }
   }
 };
 

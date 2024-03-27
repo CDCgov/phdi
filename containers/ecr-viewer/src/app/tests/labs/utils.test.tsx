@@ -147,62 +147,22 @@ describe("Labs Utils", () => {
           },
         },
       ],
-      [
-        {
-          "Specimen (Source)": {
-            value: "Stool",
-            metadata: {
-              "data-id":
-                "Result.1.2.840.114350.1.13.297.3.7.2.798268.1670850.Specimen",
-            },
-          },
-          "Collection Time": {
-            value: "09/29/2022 3:00 PM PDT",
-            metadata: {},
-          },
-        },
-        {
-          "Specimen (Source)": {
-            value: "Saliva",
-            metadata: {
-              "data-id":
-                "Result.1.2.840.114350.1.13.297.3.7.2.798268.1670850.Specimen",
-            },
-          },
-          "Collection Time": {
-            value: "09/29/2022 3:05 PM PDT",
-            metadata: {},
-          },
-        },
-      ],
     ];
 
     it("extracts string of all results of a search for specified lab report", () => {
       const searchKey = "Collection Time";
-      const ref = "1.2.840.114350.1.13.297.3.7.2.798268.1670845";
       const expectedResult = "09/28/2022 1:51 PM PDT, 09/28/2022 2:00 PM PDT";
 
-      const result = searchResultRecord(labHTLMJson, ref, searchKey);
+      const result = searchResultRecord(labHTLMJson, searchKey);
 
       expect(result).toBe(expectedResult);
     });
 
     it("returns an empty string of results if none are found for search key", () => {
       const invalidSearchKey = "foobar";
-      const ref = "1.2.840.114350.1.13.297.3.7.2.798268.1670845";
       const expectedResult = "";
 
-      const result = searchResultRecord(labHTLMJson, ref, invalidSearchKey);
-
-      expect(result).toBe(expectedResult);
-    });
-
-    it("returns an empty string of results if no lab reports with matching reference ID", () => {
-      const searchKey = "Collection Time";
-      const invalidRef = "12345";
-      const expectedResult = "";
-
-      const result = searchResultRecord(labHTLMJson, invalidRef, searchKey);
+      const result = searchResultRecord(labHTLMJson, invalidSearchKey);
 
       expect(result).toBe(expectedResult);
     });
