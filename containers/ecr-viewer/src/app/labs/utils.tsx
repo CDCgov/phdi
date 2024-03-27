@@ -93,7 +93,7 @@ export const getLabJsonObject = (
  * @param {LabReport} report - The LabReport object containing information about the lab report.
  * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
  * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
- * @returns {boolean} True if the result name includes "abnormal" (case insensitive), otherwise false.
+ * @returns {boolean} True if the result name includes "abnormal" (case insensitive), otherwise false. Will also return false if lab does not have JSON object.
  */
 export const checkAbnormalTag = (
   report: LabReport,
@@ -101,6 +101,9 @@ export const checkAbnormalTag = (
   mappings: PathMappings,
 ): boolean => {
   const labResult = getLabJsonObject(report, fhirBundle, mappings);
+  if (!labResult) {
+    return false;
+  }
   const labResultName = labResult.resultName;
 
   return labResultName.toLowerCase().includes("abnormal");
@@ -234,7 +237,11 @@ export const returnFieldValueFromLabHtmlString = (
   mappings: PathMappings,
   fieldName: string,
 ): React.ReactNode => {
-  const labTables = getLabJsonObject(report, fhirBundle, mappings).tables;
+  const labReportJson = getLabJsonObject(report, fhirBundle, mappings);
+  if (!labReportJson) {
+    return noData;
+  }
+  const labTables = labReportJson.tables;
   const fieldValue = searchResultRecord(labTables, fieldName);
 
   if (!fieldValue || fieldValue.length === 0) {
