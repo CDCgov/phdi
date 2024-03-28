@@ -1,5 +1,6 @@
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 describe("expand collapse buttons", () => {
   const pageJsx = (hidden: boolean) => (
@@ -19,10 +20,12 @@ describe("expand collapse buttons", () => {
       />
     </div>
   );
-  it("should have aria expand true and hidden removed when expand button is clicked", () => {
+  it("should have aria expand true and hidden removed when expand button is clicked", async () => {
+    const user = userEvent.setup();
+
     render(pageJsx(true));
 
-    screen.getByText("Expand all sections").click();
+    await user.click(screen.getByText("Expand all sections"));
 
     expect(screen.getByTestId("test-button")).toHaveAttribute(
       "aria-expanded",
@@ -30,10 +33,12 @@ describe("expand collapse buttons", () => {
     );
     expect(screen.getByTestId("accordion")).not.toHaveAttribute("hidden");
   });
-  it("should have aria expand false and hidden when collapse button is clicked", () => {
+  it("should have aria expand false and hidden when collapse button is clicked", async () => {
+    const user = userEvent.setup();
+
     render(pageJsx(false));
 
-    screen.getByText("Collapse all sections").click();
+    await user.click(screen.getByText("Collapse all sections"));
 
     expect(screen.getByTestId("test-button")).toHaveAttribute(
       "aria-expanded",
