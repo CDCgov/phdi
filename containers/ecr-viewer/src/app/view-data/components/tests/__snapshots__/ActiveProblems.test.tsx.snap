@@ -40,13 +40,7 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
-        </td>
+        />
         <td
           class="text-top"
         >
@@ -61,13 +55,7 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
-        </td>
+        />
         <td
           class="text-top"
         >
@@ -82,13 +70,7 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
-        </td>
+        />
         <td
           class="text-top"
         >
@@ -103,13 +85,7 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
-        </td>
+        />
         <td
           class="text-top"
         >
@@ -124,13 +100,7 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
-        </td>
+        />
         <td
           class="text-top"
         >
@@ -145,13 +115,7 @@ exports[`Active Problems Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
-        </td>
+        />
         <td
           class="text-top"
         >
