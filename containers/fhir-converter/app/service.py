@@ -101,6 +101,10 @@ def convert_to_fhir(
     input_data_file_path.write_text(input_data)
 
     # Formulate command for the FHIR Converter.
+    print("Root Template: ", root_template)
+    # Convert root template enum to string
+    root_template = root_template.value
+    print("Root Template: ", root_template)
     fhir_conversion_command = [
         f"dotnet {converter_project_path} ",
         "convert -- ",

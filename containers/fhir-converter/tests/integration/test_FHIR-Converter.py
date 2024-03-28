@@ -40,8 +40,6 @@ def test_vxu_conversion(setup, snapshot):
     }
     vxu_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
 
-    print(vxu_conversion_response.json())
-
     assert vxu_conversion_response.status_code == 200
     assert vxu_conversion_response.json()["response"] == snapshot(
         matcher=match_excluding_mutable_fields
@@ -60,8 +58,6 @@ def test_ecr_conversion(setup, snapshot):
     ).read()
     request = {"input_data": input_data, "input_type": "ecr", "root_template": "EICR"}
     ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
-
-    print(ecr_conversion_response.json())
 
     assert ecr_conversion_response.status_code == 200
     assert ecr_conversion_response.json()["response"] == snapshot(
@@ -94,8 +90,6 @@ def test_ecr_conversion_with_rr(setup, snapshot):
         "rr_data": rr_data,
     }
     ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
-
-    print(ecr_conversion_response.json())
 
     assert ecr_conversion_response.status_code == 200
     assert ecr_conversion_response.json()["response"] == snapshot(
