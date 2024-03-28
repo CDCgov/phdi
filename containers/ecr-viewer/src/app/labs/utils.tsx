@@ -51,62 +51,35 @@ export const getObservations = (
 };
 
 /**
- * Recursively searches through a nested array of objects to find values associated with a specified search key,
- * and filters results based on a reference value.
+ * Recursively searches through a nested array of objects to find values associated with a specified search key.
  * @param {any[]} result - The array of objects to search through.
- * @param {string} ref - The reference number used to filter results.
  * @param {string} searchKey - The key to search for within the objects.
- * @returns {string} - A comma-separated string containing unique search key values that match the reference number.
+ * @returns {string} - A comma-separated string containing unique search key values.
  *
  * @example result - JSON object that contains the tables for all lab reports
- * @example ref - Ex. "1.2.840.114350.1.13.297.3.7.2.798268.1670845" or another observation entry reference
- *                value. This value identifies which lab report the Observation is associated with. Function
- *                compares this value to the metadata ID in the tables to verify that the table is
- *                for the correct lab report.
  * @example searchKey - Ex. "Analysis Time" or the field that we are searching data for.
  */
-export function searchResultRecord(
-  result: any[],
-  ref: string,
-  searchKey: string,
-) {
+export function searchResultRecord(result: any[], searchKey: string) {
   let resultsArray: any[] = [];
 
   // Loop through each table
   for (const table of result) {
     // For each table, recursively search through all nodes
     if (Array.isArray(table)) {
-      const nestedResult: string = searchResultRecord(table, ref, searchKey);
+      const nestedResult: string = searchResultRecord(table, searchKey);
       if (nestedResult) {
         return nestedResult;
       }
     } else {
       const keys = Object.keys(table);
-      const refNumbers: any[] = [];
       let searchKeyValue: string = "";
       keys.forEach((key) => {
         // Search for search key value
         if (key === searchKey && table[key].hasOwnProperty("value")) {
           searchKeyValue = table[key]["value"];
         }
-        // Search for result IDs
-        if (
-          table[key].hasOwnProperty("metadata") &&
-          table[key]["metadata"].hasOwnProperty("data-id")
-        ) {
-          if (table[key]["metadata"] !== "") {
-            refNumbers.push(
-              ...extractNumbersAndPeriods([table[key]["metadata"]["data-id"]]),
-            );
-          }
-        }
       });
-      const resultRef = [...new Set(refNumbers)].join(",");
-      // Skip if IDs don't match (table is not for correct lab report)
-      if (resultRef !== ref) {
-        continue;
-      }
-      // Add to array of results, and return unique set
+
       if (searchKeyValue !== "") {
         resultsArray.push(searchKeyValue);
       }
@@ -214,15 +187,20 @@ export const returnFieldValueFromLabHtmlString = (
   const observationRefVal = [...new Set(observationRefValsArray)].join(", "); // should only be 1
 
   // Get lab reports HTML String (for all lab reports) & convert to JSON
-  const labResultString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
-  const labResultJson = formatTablesToJSON(labResultString);
+  const labsString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
+  const labsJson = formatTablesToJSON(labsString);
+
+  // Get tables for specified lab report (by reference value)
+  const labReportJson = labsJson.filter((obj) =>
+    obj.resultId.includes(observationRefVal),
+  )[0];
+  if (!labReportJson) {
+    return noData;
+  }
+  const labTables = labReportJson.tables;
 
   // Find field value from matching lab report tables
-  const fieldValue = searchResultRecord(
-    labResultJson,
-    observationRefVal,
-    fieldName,
-  );
+  const fieldValue = searchResultRecord(labTables, fieldName);
 
   if (!fieldValue || fieldValue.length === 0) {
     return noData;
@@ -380,6 +358,36 @@ export const evaluateLabInfoData = (
           fhirBundle,
           mappings,
           "Anatomical Location / Laterality",
+        ),
+        className: "lab-text-content",
+      },
+      {
+        title: "Resulting Agency Comment",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Resulting Agency Comment",
+        ),
+        className: "lab-text-content",
+      },
+      {
+        title: "Authorizing Provider",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Authorizing Provider",
+        ),
+        className: "lab-text-content",
+      },
+      {
+        title: "Result Type",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Result Type",
         ),
         className: "lab-text-content",
       },
