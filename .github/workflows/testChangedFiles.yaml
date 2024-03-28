@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       sdk-changed: ${{ steps.filter-test-files.outputs.sdk-changed }}
+      sdk-changes: ${{ steps.filter-test-files.outputs.sdk-changes }}
+      container-changed: ${{ steps.filter-test-files.outputs.container-changed }}
       container-changes: ${{ steps.filter-test-files.outputs.container-changes }}
     steps:
       - name: Checkout
@@ -31,50 +33,86 @@ jobs:
           # determine if code or tests for the sdk have changed
           SDK_CHANGES=$(echo $CHANGED_FILES_JSON | \
             jq -r '[.[] | select(.tag == "sdk")] | length > 0')
-          echo "sdk-changed: $SDK_CHANGES"
-          echo "sdk-changed=$SDK_CHANGES" >> $GITHUB_OUTPUT
+          echo "sdk-changes: $SDK_CHANGES"
           # get changed container apps with their metadata
-          CONTAINER_CHANGES=$(echo "$CHANGED_FILES_JSON" | jq -c '[.[] | select(.tag == "container") | {name: .container_name, requirements_txt: .requirements_txt, package_json: .package_json, needs_postgres: .needs_postgres}]')
-          # CONTAINER_CHANGES=$(echo $CHANGED_FILES_JSON | \
-          #   jq -c '[.[] | select(.tag == "container") | \
-          #   {name: .container_name, requirements_txt: .requirements_txt, \
-          #   package_json: .package_json, needs_postgres: .needs_postgres}]')
+          CONTAINER_CHANGES=$(
+            echo "$CHANGED_FILES_JSON" | jq -c '[.[] | 
+              select(.tag == "container") | 
+              {
+                name: .container_name, 
+                requirements_txt: .requirements_txt, 
+                package_json: .package_json, 
+                needs_postgres: .needs_postgres
+              }
+            ]'
+          )
           echo "container-changes=$CONTAINER_CHANGES"
-          if [ -z "$CONTAINER_CHANGES" ] || [ "$CONTAINER_CHANGES" == "[]" ]; then
-            CONTAINER_CHANGES='[]'
-          fi
-          echo "container-changes=$CONTAINER_CHANGES" >> $GITHUB_OUTPUT
 
-  run-tests:
+          # create flags for downstream jobs and steps with metadata
+          echo "sdk-changed=$(jq 'length > 0' <<< "$SDK_CHANGES")" >> $GITHUB_OUTPUT
+          echo "sdk-changes=$(jq -c '.' <<< "$SDK_CHANGES")" >> $GITHUB_OUTPUT
+          echo "container-changed=$(jq 'length > 0' <<< "$CONTAINER_CHANGES")" >> $GITHUB_OUTPUT
+          echo "container-changes=$(jq -c '.' <<< "$CONTAINER_CHANGES")" >> $GITHUB_OUTPUT
+
+  test-sdk:
     needs: filter-test-files
+    if: needs.filter-test-files.outputs.sdk_changed == 'true'
     runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.filter-test-files.outputs.container-changes)}}
+    services:
+      test-db:
+        image: postgres:13-alpine3.16
+        env:
+          POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+        # set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name testdb
+        ports:
+          - 5432:5432
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
+
+      - name: Install Dependencies
+        run: poetry install
+
+      - name: Run pytest with Code Coverage Output
+        run: poetry run pytest --cov-report xml --cov=phdi tests/
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unit-tests
+
+  test-containers:
+    needs: determine-changes
+    if: needs.determine-changes.outputs.containers_changed == 'true'
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # setup python if any container requires it
-      - name: Setup Python
-        if: contains(matrix.requirements_txt, 'true')
+      - name: Setup Python ${{env.TEST_RUNNER_PYTHON_VERSION}}
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ env.TEST_RUNNER_PYTHON_VERSION }}
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
 
-      # setup node.js if any container requires it
-      - name: Setup Node.js
-        if: contains(matrix.package_json, 'true')
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
-
-      # add steps for running tests in the specific container
-      - name: Run Python container tests
-        if: contains(matrix.requirements_txt, 'true')
+      - name: Run Tests for Containers
         run: |
-          echo "Running Python tests for container ${matrix.name}"
-
-      - name: Run JavaScript container tests
-        if: contains(matrix.package_json, 'true')
-        run: |
-          echo "Running JavaScript tests for container ${matrix.name}"
+          echo "need to add shell script for this part maybe?"
