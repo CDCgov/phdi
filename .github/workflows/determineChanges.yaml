@@ -48,8 +48,8 @@ jobs:
           for (( i = 0; i < CHANGED_FILES_LENGTH; i++ )); do
               FILE=${CHANGED_FILES[i]}
               EXTENSION="${FILE##*.}"
-              REQUIREMENTS_TXT=""
-              PACKAGE_JSON=""
+              REQUIREMENTS_TXT="false"
+              PACKAGE_JSON="false"
               NEEDS_POSTGRES="false"
               if [[ "$FILE" == containers/* ]]; then
                   CONTAINER_NAME=$(echo "$FILE" | cut -d'/' -f2)

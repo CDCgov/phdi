@@ -13,6 +13,7 @@ concurrency:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
+  TEST_RUNNER_NODE_VERSION: 18
 
 jobs:
   filter-lint-files:
@@ -52,24 +53,24 @@ jobs:
           # create flags for job conditionals downstream
           if [[ -n "$CHANGED_PY_FILES" ]]; then
             echo "python-files-present=true"
-            echo "python-files-present=true" >> $GITHUB_ENV;
+            echo "python-files-present=true" >> $GITHUB_OUTPUT;
           else
             echo "python-files-present=false"
-            echo "python-files-present=false" >> $GITHUB_ENV;
+            echo "python-files-present=false" >> $GITHUB_OUTPUT;
           fi
           if [[ -n "$CHANGED_JS_FILES" ]]; then
             echo "js-files-present=true"
-            echo "js-files-present=true" >> $GITHUB_ENV;
+            echo "js-files-present=true" >> $GITHUB_OUTPUT;
           else
             echo "js-files-present=false"
-            echo "js-files-present=false" >> $GITHUB_ENV;
+            echo "js-files-present=false" >> $GITHUB_OUTPUT;
           fi
           if [[ -n "$CHANGED_YAML_FILES" ]]; then
             echo "yaml-files-present=true"
-            echo "yaml-files-present=true" >> $GITHUB_ENV;
+            echo "yaml-files-present=true" >> $GITHUB_OUTPUT;
           else
             echo "yaml-files-present=false"
-            echo "yaml-files-present=false" >> $GITHUB_ENV;
+            echo "yaml-files-present=false" >> $GITHUB_OUTPUT;
           fi
 
   lint:
@@ -79,7 +80,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Python
+      - name: Setup Python ${{ env.TEST_RUNNER_PYTHON_VERSION }}
         if: needs.filter-lint-files.outputs.python-files-present == 'true'
         uses: actions/setup-python@v2
         with:
@@ -96,11 +97,11 @@ jobs:
             flake8 $file
           done
 
-      - name: Setup Node.js
+      - name: Setup Node.js ${{ env.TEST_RUNNER_NODE_VERSION }}
         if: needs.filter-lint-files.outputs.js-files-present == 'true'
         uses: actions/setup-node@v2
         with:
-          node-version: "18"
+          node-version: ${{ env.TEST_RUNNER_NODE_VERSION }}
 
       - name: Lint JavaScript files
         if: needs.filter-lint-files.outputs.js-files-present == 'true'
