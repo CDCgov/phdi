@@ -256,7 +256,8 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         function leverages the ORM to determine the table and columns.
 
         :param block_criteria: a dictionary that contains the blocking criteria.
-        :return: A list of where criteria used to append to the end of a query.
+        :return: A tuple containing the query's where clause as a string and a list of
+        the appropriate params to pass into the where clause.
 
         """
         where_placeholders = []
@@ -278,7 +279,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                     where_placeholders.append(
                         f"RIGHT({table_name}.{key},4) = :{placeholder}"
                     )
-            where_params[placeholder] = criteria_value.strip()
+            where_params[placeholder] = criteria_value
 
         where_clause = " AND ".join(where_placeholders)
 
@@ -313,7 +314,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             )
             new_query_params = {**new_query_params, **where_params}
 
-            if where_clause is not None and len(where_params) > 0:
+            if where_clause != "" and len(where_params) > 0:
                 if self.dal.does_table_have_column(cte_query_table, "patient_id"):
                     cte_query = (
                         select(cte_query_table.c.patient_id.label("patient_id"))
