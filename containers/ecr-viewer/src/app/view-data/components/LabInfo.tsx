@@ -5,6 +5,7 @@ import {
   AccordianDiv,
 } from "../component-utils";
 import React from "react";
+import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 
 interface LabInfoProps {
   labInfo: DisplayData[];
@@ -27,6 +28,15 @@ export const LabInfo = ({
       <>
         <AccordianH4 id={"lab-results-from"}>Lab Results from</AccordianH4>
         <AccordianDiv>
+          <div className={"display-flex"}>
+            <div className={"margin-left-auto"}>
+              <ExpandCollapseButtons
+                id={"labInfo"}
+                buttonSelector={""}
+                accordionSelector={""}
+              />
+            </div>
+          </div>
           {labInfo.map((item, index) => {
             return <DataDisplay item={item} key={index} />;
           })}
