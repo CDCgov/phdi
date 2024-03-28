@@ -302,7 +302,10 @@ class DataAccessLayer(object):
         return return_results
 
     def select_results(
-        self, select_statement: select, include_col_header: bool = True, **kwargs
+        self,
+        select_statement: select,
+        include_col_header: bool = True,
+        query_params: dict = None,
     ) -> List[list]:
         """
         Perform a select query and add the results to a
@@ -324,9 +327,8 @@ class DataAccessLayer(object):
             logging.info(
                 f"Starting to execute statement to return results at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
             )
-            results = session.execute(
-                select_statement, kwargs.get("query_params", None)
-            )
+            results = session.execute(select_statement, query_params)
+
             logging.info(
                 f"Done executing statement to return results at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
             )
