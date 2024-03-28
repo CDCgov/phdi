@@ -101,7 +101,7 @@ jobs:
           flags: unit-tests
 
   test-containers:
-    needs: determine-changes
+    needs: filter-test-files
     if: needs.determine-changes.outputs.containers_changed == 'true'
     runs-on: ubuntu-latest
     steps:
