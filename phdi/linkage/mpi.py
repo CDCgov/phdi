@@ -161,7 +161,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         logging.info(
             f"Starting _generate_block_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
         )
-        query_w_ctes = self._generate_block_query(
+        query_w_ctes, query_params = self._generate_block_query(
             organized_block_criteria=organized_block_vals, query=query
         )
         logging.info(
@@ -171,7 +171,9 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             f"Starting dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
         )
         blocked_data = self.dal.select_results(
-            select_statement=query_w_ctes, include_col_header=True
+            select_statement=query_w_ctes,
+            query_params=query_params,
+            include_col_header=True,
         )
         logging.info(
             f"Done with dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
@@ -257,29 +259,26 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         :return: A list of where criteria used to append to the end of a query.
 
         """
-        where_criteria = []
+        where_placeholders = []
+        where_params = {}
+
         for key, value in block_criteria.items():
+            placeholder = f"criterion_{table_name}_{key}"
             criteria_value = value["value"]
             criteria_transform = value.get("transformation", None)
 
             if criteria_transform is None:
-                where_criteria.append(f"{table_name}.{key} = '{criteria_value}'")
+                where_placeholders.append(f"{table_name}.{key} = :{placeholder}")
             else:
                 if criteria_transform == "first4":
-                    where_criteria.append(
-                        f"LEFT({table_name}.{key},4) = '{criteria_value}'"
+                    where_placeholders.append(
+                        f"LEFT({table_name}.{key},4) = :{placeholder}"
                     )
                 elif criteria_transform == "last4":
-                    where_criteria.append(
-                        f"RIGHT({table_name}.{key},4) = '{criteria_value}'"
+                    where_placeholders.append(
+                        f"RIGHT({table_name}.{key},4) = :{placeholder}"
                     )
-        where_placeholders = []
-        where_params = {}
-        for i, criterion in enumerate(where_criteria):
-            placeholder = f"criterion_{i}"
-            condition, value = criterion.split("=")
-            where_placeholders.append(f"{condition.strip()} = :{placeholder}")
-            where_params[placeholder] = value.strip()
+            where_params[placeholder] = criteria_value.strip()
 
         where_clause = " AND ".join(where_placeholders)
 
@@ -287,7 +286,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
 
     def _generate_block_query(
         self, organized_block_criteria: dict, query: Select
-    ) -> Select:
+    ) -> tuple[Select, dict]:
         """
         Generates a query for selecting a block of data from the MPI tables per the
         block field criteria.  The block field criteria should be a dictionary
@@ -296,14 +295,15 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
 
         :param organized_block_vals: a dictionary organized by MPI table name,
             with the ORM table object, and the blocking criteria.
-        :return: A 'Select' statement built by the sqlalchemy ORM utilizing
-            the blocking criteria.
+        :return: A tuple of a 'Select' statement built by the sqlalchemy ORM utilizing
+            the blocking criteria and a dictionary of the query parameters.
 
         """
         new_query = query
+        new_query_params = {}
 
         for table_key, table_info in organized_block_criteria.items():
-            query_criteria = None
+            where_params = None
             cte_query = None
             sub_query = None
 
@@ -311,13 +311,13 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             where_clause, where_params = self._generate_where_clause(
                 table_info["criteria"], table_key
             )
+            new_query_params = {**new_query_params, **where_params}
 
-            if query_criteria is not None and len(query_criteria) > 0:
+            if where_clause is not None and len(where_params) > 0:
                 if self.dal.does_table_have_column(cte_query_table, "patient_id"):
                     cte_query = (
                         select(cte_query_table.c.patient_id.label("patient_id"))
-                        .where(where_clause)
-                        .params(where_params)
+                        .where(text(where_clause))
                         .cte(f"{table_key}_cte")
                     )
                 else:
@@ -327,7 +327,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                     fk_table = fk_info.column.table
                     sub_query = (
                         select(cte_query_table)
-                        .where(text(" AND ".join(query_criteria)))
+                        .where(text(where_clause))
                         .subquery(f"{cte_query_table.name}_cte_subq")
                     )
                     cte_query = (
@@ -345,7 +345,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                     and_(cte_query.c.patient_id == self.dal.PATIENT_TABLE.c.patient_id),
                 )
 
-        return new_query
+        return new_query, new_query_params
 
     def _organize_block_criteria(self, block_fields: dict) -> dict:
         """
