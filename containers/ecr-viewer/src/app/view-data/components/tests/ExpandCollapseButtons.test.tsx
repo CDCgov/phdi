@@ -2,26 +2,24 @@ import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapse
 import { render, screen } from "@testing-library/react";
 
 describe("expand collapse buttons", () => {
+  const exampleDisplay = (hidden: boolean) => (
+    <div>
+      <button
+        className={"test-button"}
+        data-testid={"button"}
+        aria-expanded={!hidden}
+      />
+      <div className={"accordion"} data-testid={"accordion"} hidden={hidden} />
+      <ExpandCollapseButtons
+        id={"test"}
+        buttonSelector={"button"}
+        accordionSelector={".accordion"}
+      />
+    </div>
+  );
   it("should have aria expand true and hidden removed when expand button is clicked", () => {
-    render(
-      <div>
-        <button
-          className={"test-button"}
-          data-testid={"button"}
-          aria-expanded={false}
-        ></button>
-        <div
-          className={"accordion"}
-          data-testid={"accordion"}
-          hidden={true}
-        ></div>
-        <ExpandCollapseButtons
-          id={"test"}
-          buttonSelector={"button"}
-          accordionSelector={".accordion"}
-        />
-      </div>,
-    );
+    render(exampleDisplay(true));
+
     screen.getByText("Expand all sections").click();
 
     expect(screen.getByTestId("button")).toHaveAttribute(
@@ -31,21 +29,8 @@ describe("expand collapse buttons", () => {
     expect(screen.getByTestId("accordion")).not.toHaveAttribute("hidden");
   });
   it("should have aria expand false and hidden when collapse button is clicked", () => {
-    render(
-      <div>
-        <button
-          className={"test-button"}
-          data-testid={"button"}
-          aria-expanded={true}
-        ></button>
-        <div className={"accordion"} data-testid={"accordion"}></div>
-        <ExpandCollapseButtons
-          id={"test"}
-          buttonSelector={"button"}
-          accordionSelector={".accordion"}
-        />
-      </div>,
-    );
+    render(exampleDisplay(false));
+
     screen.getByText("Collapse all sections").click();
 
     expect(screen.getByTestId("button")).toHaveAttribute(
