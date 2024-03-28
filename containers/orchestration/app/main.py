@@ -30,13 +30,27 @@ from fastapi import status
 from fastapi import UploadFile
 from fastapi import WebSocket
 from fastapi import WebSocketDisconnect
+from opentelemetry import metrics
 
 from phdi.containers.base_service import BaseService
 
 logger = logging.getLogger(__name__)
+meter = metrics.get_meter("orchestration.main.meter")
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
+
+# Configure metrics trackers
+process_message_counter = meter.create_counter(
+    "process_message_counter",
+    description="The number of served requests returning each possible"
+    " status code for the process_message endpoint.",
+)
+process_counter = meter.create_counter(
+    "process_counter",
+    description="The number of served requests returning each possible"
+    " status code for the process endpoint.",
+)
 
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
@@ -167,6 +181,10 @@ async def process_endpoint(
         rr_content,
     )
 
+    # Vacuous addition--if we got here without breaking, it's a 200,
+    # or at least, can be treated as such for MVP metrics purposes
+    process_counter.add(1, {"status_code": 200})
+
     return building_block_response
 
 
@@ -194,6 +212,8 @@ async def process_message_endpoint(
         process_request.get("message"),
         process_request.get("rr_data"),
     )
+
+    process_message_counter.add(1, {"status_code": building_block_response.status_code})
 
     return building_block_response
 
