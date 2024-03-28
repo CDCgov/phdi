@@ -22,7 +22,7 @@ export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
             button.setAttribute("aria-expanded", "true"),
           );
           const accordions = document.querySelectorAll(accordionSelector);
-          accordions.forEach((accordion: HTMLButtonElement) =>
+          accordions.forEach((accordion) =>
             accordion.removeAttribute("hidden"),
           );
         }}
@@ -39,7 +39,7 @@ export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
             button.setAttribute("aria-expanded", "false"),
           );
           const accordions = document.querySelectorAll(accordionSelector);
-          accordions.forEach((accordion: HTMLButtonElement) =>
+          accordions.forEach((accordion) =>
             accordion.setAttribute("hidden", "true"),
           );
         }}
