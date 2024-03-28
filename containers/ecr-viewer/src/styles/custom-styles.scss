@@ -70,9 +70,9 @@ h4 {
 
 .accordion-rr {
   border: #111111 1px solid;
-  border-radius: .0625rem;
+  border-radius: .25rem;
+  overflow: hidden;
   margin-top: 1rem;
-  //padding-bottom: 0.5rem;
   .usa-accordion__button {
     @include u-text('ink');
     font-size: 1.125rem;
