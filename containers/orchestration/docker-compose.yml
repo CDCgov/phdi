@@ -83,7 +83,8 @@ services:
       - "4000:3000"
     volumes:
       - ./grafana.ini:/etc/grafana/grafana.ini
-      - ./grafana-dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/datasources/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
       - grafana_data:/var/lib/grafana
     depends_on:
       - db
