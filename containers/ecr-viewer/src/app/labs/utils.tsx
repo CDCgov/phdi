@@ -187,7 +187,7 @@ export const returnFieldValueFromLabHtmlString = (
   const observationRefVal = [...new Set(observationRefValsArray)].join(", "); // should only be 1
 
   // Get lab reports HTML String (for all lab reports) & convert to JSON
-  const labsString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
+  const labsString = evaluate(fhirBundle, mappings["labResultDiv"])[0]?.div;
   const labsJson = formatTablesToJSON(labsString);
 
   // Get tables for specified lab report (by reference value)
