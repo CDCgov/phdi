@@ -3,9 +3,10 @@ import { evaluateReference, evaluateValue } from "@/app/evaluate-service";
 import {
   evaluateObservationTable,
   evaluateDiagnosticReportData,
+  LabReport,
 } from "@/app/labs/utils";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
-import { Bundle, DiagnosticReport } from "fhir/r4";
+import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
 import BundleLabs from "@/app/tests/assets/BundleLabs.json";
@@ -91,7 +92,7 @@ describe("Evaluate Diagnostic Report", () => {
       },
     };
     const actual = evaluateObservationTable(
-      diagnosticReport as DiagnosticReport,
+      diagnosticReport as LabReport,
       null as Bundle,
       mappings,
       [],
