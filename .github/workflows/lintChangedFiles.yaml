@@ -32,25 +32,10 @@ jobs:
           CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
 
           # Use jq to extract file paths based on extension and add print statements for each step
+          # additionally create flags for job conditionals downstream
           CHANGED_PY_FILES=$(echo "$CHANGED_FILES_JSON" | \
             jq -r '.[] | select(.extension == "py") | .file' | \
             tr '\n' ' ')
-          echo "Changed Python Files: $CHANGED_PY_FILES"
-          echo "changed-python-files=$CHANGED_PY_FILES" >> $GITHUB_OUTPUT
-
-          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | \
-            jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file' | \
-            tr '\n' ' ')
-          echo "Changed JS Files: $CHANGED_JS_FILES"
-          echo "changed-js-files=$CHANGED_JS_FILES" >> $GITHUB_OUTPUT
-
-          CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | \
-            jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file' | \
-            tr '\n' ' ')
-          echo "Changed YAML files: $CHANGED_YAML_FILES"
-          echo "changed-yaml-files=$CHANGED_YAML_FILES" >> $GITHUB_OUTPUT
-
-          # create flags for job conditionals downstream
           if [[ -n "$CHANGED_PY_FILES" ]]; then
             echo "python-files-present=true"
             echo "python-files-present=true" >> $GITHUB_OUTPUT;
@@ -58,6 +43,12 @@ jobs:
             echo "python-files-present=false"
             echo "python-files-present=false" >> $GITHUB_OUTPUT;
           fi
+          echo "Changed Python Files: $CHANGED_PY_FILES"
+          echo "changed-python-files=$CHANGED_PY_FILES" >> $GITHUB_OUTPUT
+
+          CHANGED_JS_FILES=$(echo "$CHANGED_FILES_JSON" | \
+            jq -r '.[] | select(.extension == "js" or .extension == "jsx") | .file' | \
+            tr '\n' ' ')
           if [[ -n "$CHANGED_JS_FILES" ]]; then
             echo "js-files-present=true"
             echo "js-files-present=true" >> $GITHUB_OUTPUT;
@@ -65,6 +56,12 @@ jobs:
             echo "js-files-present=false"
             echo "js-files-present=false" >> $GITHUB_OUTPUT;
           fi
+          echo "Changed JS Files: $CHANGED_JS_FILES"
+          echo "changed-js-files=$CHANGED_JS_FILES" >> $GITHUB_OUTPUT
+
+          CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | \
+            jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file' | \
+            tr '\n' ' ')
           if [[ -n "$CHANGED_YAML_FILES" ]]; then
             echo "yaml-files-present=true"
             echo "yaml-files-present=true" >> $GITHUB_OUTPUT;
@@ -72,6 +69,8 @@ jobs:
             echo "yaml-files-present=false"
             echo "yaml-files-present=false" >> $GITHUB_OUTPUT;
           fi
+          echo "Changed YAML files: $CHANGED_YAML_FILES"
+          echo "changed-yaml-files=$CHANGED_YAML_FILES" >> $GITHUB_OUTPUT
 
   lint:
     needs: filter-lint-files
