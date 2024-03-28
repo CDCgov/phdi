@@ -47,7 +47,7 @@ jobs:
           CHANGED_YAML_FILES=$(echo "$CHANGED_FILES_JSON" | \
             jq -r '.[] | select(.extension == "yaml" or .extension == "yml") | .file' | \
             tr '\n' ' ')
-          echo "Changed YAML files: CHANGED_YAML_FILES"
+          echo "Changed YAML files: $CHANGED_YAML_FILES"
           echo "changed-yaml-files=$CHANGED_YAML_FILES" >> $GITHUB_OUTPUT
 
           # create flags for job conditionals downstream
