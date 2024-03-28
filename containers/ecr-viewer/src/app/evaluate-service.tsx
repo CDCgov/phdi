@@ -5,7 +5,6 @@ import { PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
-import Any = jasmine.Any;
 
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
