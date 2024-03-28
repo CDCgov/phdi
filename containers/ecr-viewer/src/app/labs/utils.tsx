@@ -24,7 +24,7 @@ export interface LabReport {
 export interface LabJson {
   resultId: string | null;
   resultName: string;
-  tables: {}[][];
+  tables: Array<Array<{}>>;
 }
 
 const noData = <span className="no-data text-italic text-base">No data</span>;
@@ -81,11 +81,7 @@ export const getLabJsonObject = (
   const labsJson = formatTablesToJSON(labsString);
 
   // Get specified lab report (by reference value)
-  const labReport = labsJson.filter((obj) =>
-    obj.resultId.includes(observationRefVal),
-  )[0];
-
-  return labReport;
+  return labsJson.filter((obj) => obj.resultId.includes(observationRefVal))[0];
 };
 
 /**
