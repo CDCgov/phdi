@@ -5,6 +5,7 @@ import { PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
+import Any = jasmine.Any;
 
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
@@ -35,10 +36,14 @@ export const evaluateTable = (
 
   let tableRows = resources.map((entry, index) => {
     let rowCells = columns.map((column, index) => {
-      let rowCellData = (column.value ??
-        evaluateValue(entry, mappings[column.infoPath])) || (
+      let rowCellData: any = (
         <span className={"text-italic text-base"}>No data</span>
       );
+      if (column.infoPath != undefined) {
+        rowCellData =
+          column.value ??
+          evaluateValue(entry, mappings[column.infoPath.valueOf()]);
+      }
       return (
         <td key={`row-data-${index}`} className="text-top">
           {rowCellData}

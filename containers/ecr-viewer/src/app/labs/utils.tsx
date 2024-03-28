@@ -292,7 +292,7 @@ export const evaluateDiagnosticReportData = (
         fhirBundle,
         mappings,
         "Test Method",
-      ),
+      ) as string,
     },
   ];
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
