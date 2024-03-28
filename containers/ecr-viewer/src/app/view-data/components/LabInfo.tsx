@@ -39,8 +39,10 @@ export const LabInfo = ({
               />
             </div>
           </div>
-          {labInfo.map((item, index) => {
-            return <DataDisplay item={item} key={index} />;
+          {labInfo.map((item) => {
+            return (
+              <DataDisplay item={item} key={`${item.title}-${item.value}`} />
+            );
           })}
           {labResults}
         </AccordianDiv>

@@ -393,15 +393,19 @@ export const evaluateLabInfoData = (
       },
     ];
     const content: Array<React.JSX.Element> = [];
-    if (labTable) content.push(labTable);
+    if (labTable)
+      content.push(
+        <React.Fragment key={"lab-table"}>{labTable}</React.Fragment>,
+      );
     content.push(
       ...rrInfo.map((item) => {
-        return <DataDisplay item={item} />;
+        return <DataDisplay key={`${item.title}-${item.value}`} item={item} />;
       }),
     );
 
     return (
       <AccordionLabResults
+        key={report.code.coding[0].display}
         title={report.code.coding[0].display}
         abnormalTag={false}
         content={content}

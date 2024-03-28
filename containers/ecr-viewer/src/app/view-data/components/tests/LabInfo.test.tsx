@@ -10,14 +10,16 @@ describe("LabInfo", () => {
       labInfo={[]}
       labResults={[
         <AccordionLabResults
+          key={"blah"}
           title={"ph of urine strip"}
           abnormalTag={false}
-          content={[<div>5</div>]}
+          content={[<div key={"1"}>5</div>]}
         />,
         <AccordionLabResults
+          key={"blah2"}
           title={"ph of saliva"}
           abnormalTag={false}
-          content={[<div>7</div>]}
+          content={[<div key={"2"}>7</div>]}
         />,
       ]}
     />
