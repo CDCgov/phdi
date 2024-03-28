@@ -285,7 +285,15 @@ export const evaluateDiagnosticReportData = (
     { columnName: "Component", infoPath: "observationComponent" },
     { columnName: "Value", infoPath: "observationValue" },
     { columnName: "Ref Range", infoPath: "observationReferenceRange" },
-    { columnName: "Test Method", infoPath: "observationMethod" },
+    {
+      columnName: "Test Method",
+      value: returnFieldValueFromLabHtmlString(
+        report,
+        fhirBundle,
+        mappings,
+        "Test Method",
+      ),
+    },
   ];
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
 };

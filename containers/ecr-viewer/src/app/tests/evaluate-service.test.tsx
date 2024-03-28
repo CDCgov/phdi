@@ -8,6 +8,7 @@ import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle, DiagnosticReport } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
+import BundleLabs from "@/app/tests/assets/BundleLabs.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
@@ -48,7 +49,7 @@ describe("Evaluate Diagnostic Report", () => {
       <AccordionLabResults
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
-        content={<>{actual}</>}
+        content={[<>{actual}</>]}
       />
     );
 
@@ -67,7 +68,7 @@ describe("Evaluate Diagnostic Report", () => {
       <AccordionLabResults
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
-        content={<>{actual}</>}
+        content={[<>{actual}</>]}
       />
     );
 
@@ -96,6 +97,27 @@ describe("Evaluate Diagnostic Report", () => {
       [],
     );
     expect(actual).toBeUndefined();
+  });
+  it("should evaluate test method results", () => {
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
+    const actual = evaluateDiagnosticReportData(
+      report,
+      BundleLabs as unknown as Bundle,
+      mappings,
+    );
+    const actualDisplay = (
+      <AccordionLabResults
+        title={report.code.coding?.[0].display ?? "\u{200B}"}
+        abnormalTag={false}
+        content={[<>{actual}</>]}
+      />
+    );
+
+    render(actualDisplay.props.content);
+
+    expect(
+      screen.getAllByText("LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM"),
+    ).not.toBeEmpty();
   });
 });
 

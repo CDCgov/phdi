@@ -35,7 +35,8 @@ export interface PathMappings {
 
 export interface ColumnInfoInput {
   columnName: string;
-  infoPath: string;
+  infoPath?: string;
+  value?: string;
 }
 
 export interface CompleteData {

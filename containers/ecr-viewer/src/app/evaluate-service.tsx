@@ -35,7 +35,8 @@ export const evaluateTable = (
 
   let tableRows = resources.map((entry, index) => {
     let rowCells = columns.map((column, index) => {
-      let rowCellData = evaluateValue(entry, mappings[column.infoPath]) || (
+      let rowCellData = (column.value ??
+        evaluateValue(entry, mappings[column.infoPath])) || (
         <span className={"text-italic text-base"}>No data</span>
       );
       return (
