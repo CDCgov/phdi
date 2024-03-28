@@ -16,8 +16,7 @@ const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
   const [mappings, setMappings] = useState<PathMappings>({});
-  const [errors, setErrors] = useState<Error | unknown>(null);
-  const [expanded, setExpanded] = useState<boolean>(true);
+  const [errors, setErrors] = useState<Error>();
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
   const snomedCode = searchParams.get("snomed-code") ?? "";
@@ -42,7 +41,7 @@ const ECRViewerPage = () => {
           setFhirBundle(bundle.fhirBundle);
           setMappings(bundle.fhirPathMappings);
         }
-      } catch (error) {
+      } catch (error: any) {
         setErrors(error);
         console.error("Error fetching data:", error);
       }
@@ -92,6 +91,7 @@ const ECRViewerPage = () => {
                         className={"flex-align-self-center margin-left-auto"}
                       >
                         <ExpandCollapseButtons
+                          id={"main"}
                           buttonSelector={"h3 > .usa-accordion__button"}
                           accordionSelector={
                             ".info-container > .usa-accordion__content"
@@ -101,7 +101,6 @@ const ECRViewerPage = () => {
                     </Grid>
                   </GridContainer>
                   <AccordionContainer
-                    expanded={expanded}
                     fhirPathMappings={mappings}
                     fhirBundle={fhirBundle}
                   />
