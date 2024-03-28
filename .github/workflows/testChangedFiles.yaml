@@ -34,13 +34,15 @@ jobs:
           echo "sdk-changed: $SDK_CHANGES"
           echo "sdk-changed=$SDK_CHANGES" >> $GITHUB_OUTPUT
           # get changed container apps with their metadata
-          CONTAINER_CHANGES=$(echo $CHANGED_FILES_JSON | \
-            jq -c '[.[] | select(.tag == "container") | \
-            {name: .container_name, requirements_txt: .requirements_txt, \
-            package_json: .package_json, needs_postgres: .needs_postgres}]')
+          CONTAINER_CHANGES=$(echo "$CHANGED_FILES_JSON" | jq -c '[.[] | select(.tag == "container") | {name: .container_name, requirements_txt: .requirements_txt, package_json: .package_json, needs_postgres: .needs_postgres}]')
+          # CONTAINER_CHANGES=$(echo $CHANGED_FILES_JSON | \
+          #   jq -c '[.[] | select(.tag == "container") | \
+          #   {name: .container_name, requirements_txt: .requirements_txt, \
+          #   package_json: .package_json, needs_postgres: .needs_postgres}]')
           echo "container-changes=$CONTAINER_CHANGES"
           if [ -z "$CONTAINER_CHANGES" ] || [ "$CONTAINER_CHANGES" == "[]" ]; then
             CONTAINER_CHANGES='[]'
+          fi
           echo "container-changes=$CONTAINER_CHANGES" >> $GITHUB_OUTPUT
 
   run-tests:
