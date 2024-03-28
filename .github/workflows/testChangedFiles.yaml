@@ -30,10 +30,16 @@ jobs:
         id: filter-test-files
         run: |
           CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
+
           # determine if code or tests for the sdk have changed
           SDK_CHANGES=$(echo $CHANGED_FILES_JSON | \
-            jq -r '[.[] | select(.tag == "sdk")] | length > 0')
+            jq -r '[.[] | select(.tag == "sdk")]')
+          SDK_CHANGED=$(jq 'length > 0' <<< "$SDK_CHANGES")
+          echo "sdk-changed: $SDK_CHANGED"
           echo "sdk-changes: $SDK_CHANGES"
+          echo "sdk-changed=$SDK_CHANGED" >> $GITHUB_OUTPUT
+          echo "sdk-changes=$SDK_CHANGES" >> $GITHUB_OUTPUT
+
           # get changed container apps with their metadata
           CONTAINER_CHANGES=$(
             echo "$CHANGED_FILES_JSON" | jq -c '[.[] | 
@@ -46,13 +52,11 @@ jobs:
               }
             ]'
           )
-          echo "container-changes=$CONTAINER_CHANGES"
-
-          # create flags for downstream jobs and steps with metadata
-          echo "sdk-changed=$(jq 'length > 0' <<< "$SDK_CHANGES")" >> $GITHUB_OUTPUT
-          echo "sdk-changes=$(jq -c '.' <<< "$SDK_CHANGES")" >> $GITHUB_OUTPUT
-          echo "container-changed=$(jq 'length > 0' <<< "$CONTAINER_CHANGES")" >> $GITHUB_OUTPUT
-          echo "container-changes=$(jq -c '.' <<< "$CONTAINER_CHANGES")" >> $GITHUB_OUTPUT
+          CONTAINER_CHANGED=$(jq 'length > 0' <<< "$CONTAINER_CHANGES")
+          echo "container-changed: $CONTAINER_CHANGED"
+          echo "container-changes: $CONTAINER_CHANGES"
+          echo "container-changed=$CONTAINER_CHANGED" >> $GITHUB_OUTPUT
+          echo "container-changes=$CONTAINER_CHANGES" >> $GITHUB_OUTPUT
 
   test-sdk:
     needs: filter-test-files
@@ -102,7 +106,7 @@ jobs:
 
   test-containers:
     needs: filter-test-files
-    if: needs.determine-changes.outputs.containers_changed == 'true'
+    if: needs.filter-test-files.outputs.containers_changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
