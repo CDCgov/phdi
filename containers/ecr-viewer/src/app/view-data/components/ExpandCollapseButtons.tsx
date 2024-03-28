@@ -5,12 +5,16 @@ type ExpandCollapseButtonsProps = {
   id: string;
   buttonSelector: string;
   accordionSelector: string;
+  expandButtonText: string;
+  collapseButtonText: string;
 };
 
 export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
   id,
   buttonSelector,
   accordionSelector,
+  expandButtonText,
+  collapseButtonText,
 }) => {
   return (
     <>
@@ -29,7 +33,7 @@ export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
           );
         }}
       >
-        Expand all sections
+        {expandButtonText}
       </Button>
       <span className={"vertical-line"}></span>
       <Button
@@ -47,7 +51,7 @@ export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
           );
         }}
       >
-        Collapse all sections
+        {collapseButtonText}
       </Button>
     </>
   );

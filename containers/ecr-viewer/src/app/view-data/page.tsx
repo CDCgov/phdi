@@ -102,6 +102,8 @@ const ECRViewerPage = () => {
                           accordionSelector={
                             ".info-container > .usa-accordion__content"
                           }
+                          expandButtonText={"Expand all sections"}
+                          collapseButtonText={"Collapse all sections"}
                         />
                       </Grid>
                     </Grid>

@@ -31,9 +31,11 @@ export const LabInfo = ({
           <div className={"display-flex"}>
             <div className={"margin-left-auto"}>
               <ExpandCollapseButtons
-                id={"labInfo"}
-                buttonSelector={""}
-                accordionSelector={""}
+                id={"lab-info"}
+                buttonSelector={"h5 > .usa-accordion__button"}
+                accordionSelector={".accordion-rr > .usa-accordion__content"}
+                expandButtonText={"Expand all labs"}
+                collapseButtonText={"Collapse all labs"}
               />
             </div>
           </div>

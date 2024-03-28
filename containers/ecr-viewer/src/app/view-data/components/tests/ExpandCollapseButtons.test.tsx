@@ -2,7 +2,7 @@ import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapse
 import { render, screen } from "@testing-library/react";
 
 describe("expand collapse buttons", () => {
-  const exampleDisplay = (hidden: boolean) => (
+  const pageJsx = (hidden: boolean) => (
     <div>
       <button
         className={"test-button"}
@@ -14,11 +14,13 @@ describe("expand collapse buttons", () => {
         id={"test"}
         buttonSelector={"button"}
         accordionSelector={".accordion"}
+        expandButtonText={"Expand all sections"}
+        collapseButtonText={"Collapse all sections"}
       />
     </div>
   );
   it("should have aria expand true and hidden removed when expand button is clicked", () => {
-    render(exampleDisplay(true));
+    render(pageJsx(true));
 
     screen.getByText("Expand all sections").click();
 
@@ -29,7 +31,7 @@ describe("expand collapse buttons", () => {
     expect(screen.getByTestId("accordion")).not.toHaveAttribute("hidden");
   });
   it("should have aria expand false and hidden when collapse button is clicked", () => {
-    render(exampleDisplay(false));
+    render(pageJsx(false));
 
     screen.getByText("Collapse all sections").click();
 
