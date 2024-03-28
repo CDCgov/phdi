@@ -6,7 +6,7 @@ describe("expand collapse buttons", () => {
     <div>
       <button
         className={"test-button"}
-        data-testid={"button"}
+        data-testid={"test-button"}
         aria-expanded={!hidden}
       />
       <div className={"accordion"} data-testid={"accordion"} hidden={hidden} />
@@ -22,7 +22,7 @@ describe("expand collapse buttons", () => {
 
     screen.getByText("Expand all sections").click();
 
-    expect(screen.getByTestId("button")).toHaveAttribute(
+    expect(screen.getByTestId("test-button")).toHaveAttribute(
       "aria-expanded",
       "true",
     );
@@ -33,7 +33,7 @@ describe("expand collapse buttons", () => {
 
     screen.getByText("Collapse all sections").click();
 
-    expect(screen.getByTestId("button")).toHaveAttribute(
+    expect(screen.getByTestId("test-button")).toHaveAttribute(
       "aria-expanded",
       "false",
     );

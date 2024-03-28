@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "@trussworks/react-uswds";
 
 type ExpandCollapseButtonsProps = {
   id: string;
@@ -13,9 +14,10 @@ export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
 }) => {
   return (
     <>
-      <button
+      <Button
         id={`${id}-expand-button`}
-        className={"usa-button usa-button--unstyled"}
+        type={"button"}
+        unstyled={true}
         onClick={() => {
           const buttons = document.querySelectorAll(buttonSelector);
           buttons.forEach((button) =>
@@ -28,11 +30,12 @@ export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
         }}
       >
         Expand all sections
-      </button>
+      </Button>
       <span className={"vertical-line"}></span>
-      <button
+      <Button
         id={`${id}-collapse-button`}
-        className={"usa-button usa-button--unstyled"}
+        type={"button"}
+        unstyled={true}
         onClick={() => {
           const buttons = document.querySelectorAll(buttonSelector);
           buttons.forEach((button) =>
@@ -45,7 +48,7 @@ export const ExpandCollapseButtons: React.FC<ExpandCollapseButtonsProps> = ({
         }}
       >
         Collapse all sections
-      </button>
+      </Button>
     </>
   );
 };
