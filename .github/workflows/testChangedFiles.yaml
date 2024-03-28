@@ -29,13 +29,19 @@ jobs:
         run: |
           CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
           # determine if code or tests for the sdk have changed
-          echo "sdk-changed=$(echo $CHANGED_FILES_JSON | \
-            jq -r '[.[] | select(.tag == "sdk")] | length > 0')" >> $GITHUB_OUTPUT
+          SDK_CHANGES=$(echo $CHANGED_FILES_JSON | \
+            jq -r '[.[] | select(.tag == "sdk")] | length > 0')
+          echo "sdk-changed: $SDK_CHANGES"
+          echo "sdk-changed=$SDK_CHANGES" >> $GITHUB_OUTPUT
           # get changed container apps with their metadata
-          echo "container-changes=$(echo $CHANGED_FILES_JSON | \
+          CONTAINER_CHANGES=$(echo $CHANGED_FILES_JSON | \
             jq -c '[.[] | select(.tag == "container") | \
             {name: .container_name, requirements_txt: .requirements_txt, \
-            package_json: .package_json, needs_postgres: .needs_postgres}]')" >> $GITHUB_OUTPUT
+            package_json: .package_json, needs_postgres: .needs_postgres}]')
+          echo "container-changes=$CONTAINER_CHANGES"
+          if [ -z "$CONTAINER_CHANGES" ] || [ "$CONTAINER_CHANGES" == "[]" ]; then
+            CONTAINER_CHANGES='[]'
+          echo "container-changes=$CONTAINER_CHANGES" >> $GITHUB_OUTPUT
 
   run-tests:
     needs: filter-test-files
