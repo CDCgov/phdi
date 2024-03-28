@@ -22,8 +22,6 @@ describe("expand collapse buttons", () => {
         />
       </div>,
     );
-    expect(screen.getByText("Expand all sections")).toBeInTheDocument();
-
     screen.getByText("Expand all sections").click();
 
     expect(screen.getByTestId("button")).toHaveAttribute(
@@ -48,8 +46,6 @@ describe("expand collapse buttons", () => {
         />
       </div>,
     );
-    expect(screen.getByText("Collapse all sections")).toBeInTheDocument();
-
     screen.getByText("Collapse all sections").click();
 
     expect(screen.getByTestId("button")).toHaveAttribute(
