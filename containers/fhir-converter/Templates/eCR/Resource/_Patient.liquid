@@ -25,6 +25,7 @@
             {% endfor -%}
         ],
         "birthDate":"{{ patientRole.patient.birthTime.value | add_hyphens_date }}",
+        "deceasedBoolean": "{{ patientRole.patient['sdtc:deceasedInd'].value }}",
         "gender":"{{ patientRole.patient.administrativeGenderCode.code | get_property: 'ValueSet/Gender' }}",
         "extension":
         [
