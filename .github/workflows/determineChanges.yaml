@@ -69,9 +69,16 @@ jobs:
                   TAG="ci-cd"
               elif [[ "$FILE" == phdi/* || "$FILE" == tests/* ]]; then
                   TAG="sdk"
+                  CONTAINER_NAME= ""
+                  REQUIREMENTS_TXT="false"
+                  PACKAGE_JSON="false"
                   NEEDS_POSTGRES="true"
               else
                   TAG="other"
+                  CONTAINER_NAME= ""
+                  REQUIREMENTS_TXT="false"
+                  PACKAGE_JSON="false"
+                  NEEDS_POSTGRES="false"
               fi
 
               JSON_ENTRY=$(jq -nc \
