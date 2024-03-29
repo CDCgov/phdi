@@ -117,7 +117,7 @@ jobs:
           echo "  line-length:" >> .yamllint.yml
           echo "    max: 120" >> .yamllint.yml
           echo "    level: error" >> .yamllint.yml
-          yaml_files="${{ needs.filter-lint-files.outputs.changed-yaml-files }}"
-          for file in $yaml_files; do
-            yamllint $file
-          done
+          YAML_FILES="${{ needs.filter-lint-files.outputs.changed-yaml-files }}"
+          # for file in $yaml_files; do
+          yamllint $YAML_FILES
+          # done
