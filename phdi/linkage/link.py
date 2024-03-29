@@ -1285,7 +1285,7 @@ def _compare_name_elements(
     return feature_comp
 
 
-def _condense_extract_address_from_resource(resource: dict, field: str):
+def _condense_extract_address_from_resource(resource: dict, field: str) -> List[str]:
     """
     Formatting function to account for patient resources that have multiple
     associated addresses. Each address is a self-contained object, replete
@@ -1293,6 +1293,10 @@ def _condense_extract_address_from_resource(resource: dict, field: str):
     function condenses that `line` into a single concatenated string, for
     each address object, and returns the result in a properly formatted
     list.
+
+    :param resource: The patient resource to extract the address from.
+    :param field: The field to extract the address from.
+    :return: A list of strings, each string representing a single address.
     """
     expanded_address_fhirpath = LINKING_FIELDS_TO_FHIRPATHS[field]
     expanded_address_fhirpath = ".".join(expanded_address_fhirpath.split(".")[:-1])
