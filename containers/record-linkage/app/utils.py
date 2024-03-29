@@ -240,7 +240,8 @@ def get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
 
 # Originally from phdi/containers/base_service.py
 # TODO: Move this to the dibbs SDK once created
-# TODO: change version to not be hard coded
+# TODO: change version to not be hard coded and instead pull dibbs version from
+# metadata when available
 class BaseService:
     def __init__(
         self,
