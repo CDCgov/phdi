@@ -32,8 +32,15 @@ jobs:
           CHANGED_FILES_JSON='${{ inputs.changed-files-data }}'
 
           # determine if code or tests for the sdk have changed
-          SDK_CHANGES=$(echo $CHANGED_FILES_JSON | \
-            jq -r '[.[] | select(.tag == "sdk")]')
+          SDK_CHANGES=$(
+            echo "$CHANGED_FILES_JSON" | jq -c '[.[] | 
+              select(.tag == "sdk") |
+              {
+                file: .file,
+                tag: .tag
+              }
+            ]'
+          )
           SDK_CHANGED=$(jq 'length > 0' <<< "$SDK_CHANGES")
           echo "sdk-changed: $SDK_CHANGED"
           echo "sdk-changes: $SDK_CHANGES"
