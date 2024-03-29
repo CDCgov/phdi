@@ -2,9 +2,13 @@ typing_extensions==4.8.0
 uvicorn
 pydantic==1.10.9
 fastapi>=0.109.1
-phdi @ git+https://github.com/CDCgov/phdi@main
 httpx
 pathlib
 pyway
 psycopg2-binary==2.9.7
 tabulate
+fhirpathpy
+matplotlib
+pandas
+sqlalchemy
+rapidfuzz

@@ -4,7 +4,6 @@ import pathlib
 import random
 import subprocess
 from functools import cache
-from importlib import metadata
 from pathlib import Path
 from typing import Any
 from typing import Callable
@@ -241,6 +240,7 @@ def get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
 
 # Originally from phdi/containers/base_service.py
 # TODO: Move this to the dibbs SDK once created
+# TODO: change version to not be hard coded
 class BaseService:
     def __init__(
         self,
@@ -268,7 +268,8 @@ class BaseService:
         self.include_health_check_endpoint = include_health_check_endpoint
         self.app = FastAPI(
             title=service_name,
-            version=metadata.version("phdi"),
+            # version=metadata.version("phdi"),
+            version="0.1.0",
             contact=DIBBS_CONTACT,
             license_info=LICENSES[license_info],
             description=description,
