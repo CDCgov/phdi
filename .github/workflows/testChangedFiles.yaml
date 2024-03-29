@@ -113,7 +113,7 @@ jobs:
 
   test-containers:
     needs: filter-test-files
-    if: needs.filter-test-files.outputs.containers-changed == 'true'
+    if: needs.filter-test-files.outputs.container-changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
