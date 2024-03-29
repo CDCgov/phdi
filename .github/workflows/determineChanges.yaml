@@ -64,21 +64,18 @@ jobs:
                   if [[ "$CONTAINER_NAME" == "record-linkage" || "$CONTAINER_NAME" == "ecr-viewer" ]]; then
                       NEEDS_POSTGRES="true"
                   fi
-              elif [[ "$FILE" == ".pre-commit-config.yaml" ]] || \
-                   [[ "$FILE" == .github/workflows/* ]]; then
-                  TAG="ci-cd"
-              elif [[ "$FILE" == phdi/* || "$FILE" == tests/* ]]; then
+              elif [[ "$FILE" == phdi/* ]] || [[  "$FILE" == tests/* ]]; then
                   TAG="sdk"
                   CONTAINER_NAME= ""
                   REQUIREMENTS_TXT="false"
                   PACKAGE_JSON="false"
                   NEEDS_POSTGRES="true"
+              elif [[ "$FILE" == ".pre-commit-config.yaml" ]] || \
+                   [[ "$FILE" == .github/workflows/* ]]; then
+                  TAG="ci-cd"
               else
                   TAG="other"
                   CONTAINER_NAME= ""
-                  REQUIREMENTS_TXT="false"
-                  PACKAGE_JSON="false"
-                  NEEDS_POSTGRES="false"
               fi
 
               JSON_ENTRY=$(jq -nc \
