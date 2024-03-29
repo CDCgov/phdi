@@ -1385,3 +1385,56 @@ def test_link_record_with_quote_name_against_mpi_none_record():
     assert sorted(list(mapped_patients.values())) == [1]
 
     _clean_up(MPI.dal)
+
+
+def test_link_match_missing_address_record():
+    algorithm = DIBBS_BASIC
+    MPI = _init_db()
+
+    patients = [
+        {
+            "resourceType": "Patient",
+            "id": "f6a16ff7-4a31-11eb-be7b-8344edc8f36b",
+            "name": [
+                {
+                    "family": "Neil",
+                    "given": [
+                        "Sean",
+                    ],
+                    "use": "official",
+                }
+            ],
+        },
+        {
+            "resourceType": "Patient",
+            "id": "e0900ce2-7432-4c9f-9f1d-6295996497a4",
+            "name": [
+                {
+                    "family": "Neil",
+                    "given": [
+                        "Sean",
+                    ],
+                    "use": "official",
+                }
+            ],
+        },
+    ]
+
+    # Test various null data values in incoming record
+    matches = []
+    mapped_patients = {}
+    for patient in patients:
+        matched, pid = link_record_against_mpi(
+            patient,
+            algorithm,
+        )
+        matches.append(matched)
+        if str(pid) not in mapped_patients:
+            mapped_patients[str(pid)] = 0
+        mapped_patients[str(pid)] += 1
+
+    # First patient inserted into empty MPI, no match
+    assert matches == [False, False]
+    assert sorted(list(mapped_patients.values())) == [1, 1]
+
+    _clean_up(MPI.dal)
