@@ -17,9 +17,8 @@ from app.linkage.mpi import BaseMPIConnectorClient
 from app.linkage.mpi import DIBBsMPIConnectorClient
 from app.linkage.utils import compare_strings
 from app.linkage.utils import datetime_to_str
+from app.utils import extract_value_with_resource_path
 from pydantic import Field
-
-from phdi.fhir.utils import extract_value_with_resource_path
 
 LINKING_FIELDS_TO_FHIRPATHS = {
     "first_name": "Patient.name.given",
