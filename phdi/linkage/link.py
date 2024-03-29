@@ -1296,9 +1296,13 @@ def _condense_extract_address_from_resource(resource: dict, field: str):
     """
     expanded_address_fhirpath = LINKING_FIELDS_TO_FHIRPATHS[field]
     expanded_address_fhirpath = ".".join(expanded_address_fhirpath.split(".")[:-1])
-    list_of_address_objects = extract_value_with_resource_path(
-        resource, expanded_address_fhirpath, "all"
+    list_of_address_objects = (
+        extract_value_with_resource_path(resource, expanded_address_fhirpath, "all")
+        or []
     )
+    if not list_of_address_objects:
+        return None
+
     if field == "address":
         list_of_address_lists = [
             ao.get(LINKING_FIELDS_TO_FHIRPATHS[field].split(".")[-1], [])
@@ -1313,6 +1317,7 @@ def _condense_extract_address_from_resource(resource: dict, field: str):
             list_of_usable_address_elements.append(
                 address_object.get(LINKING_FIELDS_TO_FHIRPATHS[field].split(".")[-1])
             )
+
     return list_of_usable_address_elements
 
 
