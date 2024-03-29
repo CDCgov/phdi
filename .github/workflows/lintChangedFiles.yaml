@@ -89,12 +89,10 @@ jobs:
         if: needs.filter-lint-files.outputs.python-files-present == 'true'
         run: |
           pip install -U pip
-          pip install black flake8
-          python_files="${{ needs.filter-lint-files.outputs.changed-python-files }}"
-          for file in $python_files; do
-            black --check $file
-            flake8 $file
-          done
+          pip install ruff
+          CHANGED_PYTHON_FILES="${{ needs.filter-lint-files.outputs.changed-python-files }}"
+          ruff check --output-format=github $CHANGED_PYTHON_FILES
+          ruff format --check $CHANGED_PYTHON_FILES
 
       - name: Setup Node.js ${{ env.TEST_RUNNER_NODE_VERSION }}
         if: needs.filter-lint-files.outputs.js-files-present == 'true'
