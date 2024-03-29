@@ -587,3 +587,6 @@ def test_gcp_list_containers(mock_get_client):
     mock_storage_client.list_buckets.assert_called_with()
 
     assert bucket_list == ["blob1", "blob2"]
+
+
+assert 1 == 1
