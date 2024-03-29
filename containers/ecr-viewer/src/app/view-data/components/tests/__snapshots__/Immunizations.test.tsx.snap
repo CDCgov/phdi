@@ -45,7 +45,13 @@ exports[`Immunizations Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        />
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
       </tr>
       <tr>
         <td
@@ -60,7 +66,13 @@ exports[`Immunizations Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        />
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
       </tr>
       <tr>
         <td
@@ -75,7 +87,13 @@ exports[`Immunizations Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        />
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
       </tr>
       <tr>
         <td
@@ -90,7 +108,13 @@ exports[`Immunizations Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        />
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
       </tr>
       <tr>
         <td
@@ -105,7 +129,13 @@ exports[`Immunizations Table should match snapshot 1`] = `
         </td>
         <td
           class="text-top"
-        />
+        >
+          <span
+            class="text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
       </tr>
     </tbody>
   </table>

@@ -39,8 +39,9 @@ export const evaluateTable = (
       if (column?.value) {
         rowCellData = column.value;
       } else if (column?.infoPath) {
-        rowCellData = evaluateValue(entry, mappings[column.infoPath.valueOf()]);
-      } else {
+        rowCellData = evaluateValue(entry, mappings[column.infoPath]);
+      }
+      if (!rowCellData) {
         rowCellData = <span className={"text-italic text-base"}>No data</span>;
       }
       return (
