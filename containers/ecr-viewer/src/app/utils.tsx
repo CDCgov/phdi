@@ -261,10 +261,9 @@ export const evaluateDemographicsData = (
     },
     {
       title: "Vital Status",
-      value:
-        evaluate(fhirBundle, mappings.patientVitalStatus)[0] === "true"
-          ? "Deceased"
-          : "Alive",
+      value: evaluate(fhirBundle, mappings.patientVitalStatus)[0]
+        ? "Deceased"
+        : "Alive",
     },
     { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
     { title: "Race", value: evaluate(fhirBundle, mappings.patientRace)[0] },
