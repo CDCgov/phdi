@@ -80,7 +80,12 @@ export const getLabJsonObject = (
   const labsJson = formatTablesToJSON(labsString);
 
   // Get specified lab report (by reference value)
-  return labsJson.filter((obj) => obj.resultId.includes(observationRefVal))[0];
+  // WIP: Issue with the null check
+  return labsJson.filter((obj) => {
+    if (obj.resultId === null || obj.resultId === undefined)
+      console.log("i am a obj", obj);
+    return obj.resultId.includes(observationRefVal);
+  })[0];
 };
 
 /**
@@ -440,9 +445,15 @@ export const evaluateLabInfoData = (
       element,
     );
   });
+  console.log(organizationElements);
+  return combineOrgAndReportData(organizationElements, fhirBundle, mappings);
+};
 
-  // Turns it back into an array of objects. One key being the
-  //
+export const combineOrgAndReportData = (
+  organizationElements: any,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
   return Object.keys(organizationElements).map((key: string) => {
     const orgData = evaluateLabOrganizationData(
       fhirBundle,
