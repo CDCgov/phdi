@@ -132,6 +132,7 @@ export const ClinicalInfo = ({
     );
   };
 
+  // TODO: HERE
   const renderTreatmentDetails = () => {
     const data = treatmentData.filter((item) => !React.isValidElement(item));
     return (
