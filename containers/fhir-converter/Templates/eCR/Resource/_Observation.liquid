@@ -76,11 +76,16 @@
         "referenceRange":
         [
             {
+                "text": "{{  observationEntry.referenceRange.observationRange.text._ }}",
                 {% if observationEntry.referenceRange.observationRange.value.low.value -%}
                     "low":
                     {
                         "value":{{ observationEntry.referenceRange.observationRange.value.low.value }},
                         "unit":"{{ observationEntry.referenceRange.observationRange.value.low.unit }}",
+                    },
+                {% elsif observationEntry.referenceRange.observationRange.value.low.translation.value %}
+                    "low": {
+                        "value": "{{ observationEntry.referenceRange.observationRange.value.low.translation.value }}"
                     },
                 {% endif -%}
                 {% if observationEntry.referenceRange.observationRange.value.high.value -%}
@@ -89,6 +94,10 @@
                         "value":{{ observationEntry.referenceRange.observationRange.value.high.value }},
                         "unit":"{{ observationEntry.referenceRange.observationRange.value.high.unit }}",
                     },
+                {% elsif observationEntry.referenceRange.observationRange.value.high.translation.value %}
+                    "high": {
+                        "value": "{{ observationEntry.referenceRange.observationRange.value.high.translation.value }}"
+                    },
                 {% endif -%}
             },
         ],
@@ -96,13 +105,6 @@
         [
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
-        {% if observationEntry.referenceRange and observationEntry.referenceRange != null  -%}
-            "referenceRange": {
-                    "text": "{{  observationEntry.referenceRange.observationRange.text._ }}",
-                    "high": "{{ observationEntry.referenceRange.observationRange.value.high.translation.value }}",
-                    "low": "{{ observationEntry.referenceRange.observationRange.value.low.translation.value }}",
-            },
-        {%  endif -%}
         {% assign observationReferenceValue = observationEntry.text.reference.value -%}
         "extension":
             [ {
