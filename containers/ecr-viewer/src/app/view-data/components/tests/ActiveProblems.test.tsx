@@ -1,13 +1,14 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import fs from "fs";
 import YAML from "yaml";
 import { returnProblemsTable } from "@/app/utils";
 import { Condition } from "fhir/r4";
+import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 
 describe("Active Problems Table", () => {
   let container: HTMLElement;
-  beforeAll(() => {
+  beforeEach(() => {
     const fhirPathFile = fs
       .readFileSync("./src/app/api/fhirPath.yml", "utf8")
       .toString();
@@ -92,7 +93,7 @@ describe("Active Problems Table", () => {
           },
         ],
         resourceType: "Condition",
-        onsetDateTime: "08/19/2022",
+        onsetDateTime: "08/19/2021",
         clinicalStatus: {
           coding: [
             {
@@ -136,140 +137,7 @@ describe("Active Problems Table", () => {
           },
         ],
         resourceType: "Condition",
-        onsetDateTime: "08/19/2022",
-        clinicalStatus: {
-          coding: [
-            {
-              code: "55561003",
-              system: "http://snomed.info/sct",
-              display: "Active",
-            },
-          ],
-        },
-      },
-      {
-        id: "c82b6d7b-28a5-1438-f04d-90354dc650ed",
-        code: {
-          coding: [
-            {
-              code: "C67.5",
-              system: "urn:oid:2.16.840.1.113883.6.90",
-              display: "Malignant neoplasm of urinary bladder neck",
-            },
-          ],
-        },
-        subject: {
-          reference: "Patient/34080650-1e86-08fe-c2c9-faa37629edd3",
-        },
-        category: [
-          {
-            coding: [
-              {
-                code: "problem-item-list",
-                system:
-                  "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category",
-                display: "Problem List Item",
-              },
-            ],
-          },
-        ],
-        identifier: [
-          {
-            value: "79322",
-            system: "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
-          },
-        ],
-        resourceType: "Condition",
-        onsetDateTime: "11/05/2021",
-        clinicalStatus: {
-          coding: [
-            {
-              code: "55561003",
-              system: "http://snomed.info/sct",
-              display: "Active",
-            },
-          ],
-        },
-      },
-      {
-        id: "9ade5fa1-1a7d-63e2-fde7-66c1aae14728",
-        code: {
-          coding: [
-            {
-              code: "C25.8",
-              system: "urn:oid:2.16.840.1.113883.6.90",
-              display: "Malignant neoplasm of overlapping sites of pancreas",
-            },
-          ],
-        },
-        subject: {
-          reference: "Patient/34080650-1e86-08fe-c2c9-faa37629edd3",
-        },
-        category: [
-          {
-            coding: [
-              {
-                code: "problem-item-list",
-                system:
-                  "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category",
-                display: "Problem List Item",
-              },
-            ],
-          },
-        ],
-        identifier: [
-          {
-            value: "18792",
-            system: "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
-          },
-        ],
-        resourceType: "Condition",
-        onsetDateTime: "09/18/2017",
-        clinicalStatus: {
-          coding: [
-            {
-              code: "55561003",
-              system: "http://snomed.info/sct",
-              display: "Active",
-            },
-          ],
-        },
-      },
-      {
-        id: "c95cdea1-565f-e53b-4da9-86e0a7a0c9c6",
-        code: {
-          coding: [
-            {
-              code: "C50.511",
-              system: "urn:oid:2.16.840.1.113883.6.90",
-              display:
-                "Bilateral malignant neoplasm of lower outer quadrant of breast in female",
-            },
-          ],
-        },
-        subject: {
-          reference: "Patient/34080650-1e86-08fe-c2c9-faa37629edd3",
-        },
-        category: [
-          {
-            coding: [
-              {
-                code: "problem-item-list",
-                system:
-                  "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category",
-                display: "Problem List Item",
-              },
-            ],
-          },
-        ],
-        identifier: [
-          {
-            value: "11257",
-            system: "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
-          },
-        ],
-        resourceType: "Condition",
-        onsetDateTime: "02/27/2017",
+        onsetDateTime: "08/19/2018",
         clinicalStatus: {
           coding: [
             {
@@ -282,7 +150,11 @@ describe("Active Problems Table", () => {
       },
     ];
     container = render(
-      returnProblemsTable(activeProblemsData, fhirPathMappings)!,
+      returnProblemsTable(
+        BundleWithPatient,
+        activeProblemsData,
+        fhirPathMappings,
+      )!,
     ).container;
   });
   it("should match snapshot", () => {
@@ -290,5 +162,10 @@ describe("Active Problems Table", () => {
   });
   it("should pass accessibility test", async () => {
     expect(await axe(container)).toHaveNoViolations();
+  });
+  it("should calculate onset age", () => {
+    expect(screen.getByText("7")).toBeInTheDocument();
+    expect(screen.getByText("6")).toBeInTheDocument();
+    expect(screen.getByText("3")).toBeInTheDocument();
   });
 });

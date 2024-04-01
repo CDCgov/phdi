@@ -78,7 +78,7 @@ resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %
 activeProblems: "Bundle.entry.resource.where(resourceType='Condition').where(category.coding.code='problem-item-list')"
 activeProblemsDisplay: "Condition.code.coding[0].display"
 activeProblemsOnsetDate: "Condition.onsetDateTime"
-activeProblemsOnsetAge: "idk"
+activeProblemsOnsetAge: "Condition.onsetAge"
 historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(code.coding.code = '10164-2').text"
 
 # Immunization Info

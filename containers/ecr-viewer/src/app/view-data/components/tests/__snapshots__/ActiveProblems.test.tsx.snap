@@ -41,11 +41,7 @@ exports[`Active Problems Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
+          7
         </td>
         <td
           class="text-top"
@@ -62,16 +58,12 @@ exports[`Active Problems Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
+          6
         </td>
         <td
           class="text-top"
         >
-          08/19/2022
+          08/19/2021
         </td>
       </tr>
       <tr>
@@ -83,79 +75,12 @@ exports[`Active Problems Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
+          3
         </td>
         <td
           class="text-top"
         >
-          08/19/2022
-        </td>
-      </tr>
-      <tr>
-        <td
-          class="text-top"
-        >
-          Malignant neoplasm of urinary bladder neck
-        </td>
-        <td
-          class="text-top"
-        >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
-        </td>
-        <td
-          class="text-top"
-        >
-          11/05/2021
-        </td>
-      </tr>
-      <tr>
-        <td
-          class="text-top"
-        >
-          Malignant neoplasm of overlapping sites of pancreas
-        </td>
-        <td
-          class="text-top"
-        >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
-        </td>
-        <td
-          class="text-top"
-        >
-          09/18/2017
-        </td>
-      </tr>
-      <tr>
-        <td
-          class="text-top"
-        >
-          Bilateral malignant neoplasm of lower outer quadrant of breast in female
-        </td>
-        <td
-          class="text-top"
-        >
-          <span
-            class="text-italic text-base"
-          >
-            No data
-          </span>
-        </td>
-        <td
-          class="text-top"
-        >
-          02/27/2017
+          08/19/2018
         </td>
       </tr>
     </tbody>
