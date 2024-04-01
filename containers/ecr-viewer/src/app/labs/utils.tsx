@@ -303,7 +303,14 @@ export function evaluateObservationTable(
     ) ?? [];
   let obsTable;
   if (observations?.length > 0) {
-    obsTable = evaluateTable(observations, mappings, columnInfo, "", false);
+    obsTable = evaluateTable(
+      observations,
+      mappings,
+      columnInfo,
+      "",
+      true,
+      false,
+    );
   }
   return obsTable;
 }

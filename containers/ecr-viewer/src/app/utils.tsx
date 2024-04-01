@@ -472,8 +472,8 @@ export const returnProblemsTable = (
 
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
-    { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
     { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
+    { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
   ];
 
   problemsArray.forEach((entry) => {
@@ -491,7 +491,13 @@ export const returnProblemsTable = (
       new Date(a.onsetDateTime ?? "").getTime(),
   );
 
-  return evaluateTable(problemsArray, mappings, columnInfo, "Problems List");
+  return evaluateTable(
+    problemsArray,
+    mappings,
+    columnInfo,
+    "Problems List",
+    false,
+  );
 };
 
 /**

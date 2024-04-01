@@ -21,6 +21,7 @@ export const evaluateTable = (
   mappings: PathMappings,
   columns: ColumnInfoInput[],
   caption: string,
+  fixed: boolean = true,
   outerBorder: boolean = true,
 ): React.JSX.Element => {
   let headers = columns.map((column, index) => (
@@ -50,7 +51,7 @@ export const evaluateTable = (
 
   return (
     <Table
-      fixed={true}
+      fixed={fixed}
       bordered={false}
       fullWidth={true}
       caption={caption}
