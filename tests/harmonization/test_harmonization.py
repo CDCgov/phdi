@@ -290,18 +290,14 @@ def test_convert_hl7_batch_messages_to_list():
     MSH|blah|foo|test
     PID|some^text|blah
     OBX|foo||||bar^baz&foobar
-    """.replace(
-        " ", ""
-    )
+    """.replace(" ", "")
 
     TEST_STRING2 = """
     FHS|^~&|WIR11.3.2|WIR|||20200514||1219144.update|||
     BHS|^~&|WIR11.3.2|WIR|||20200514|||||
     BTS|0|
     FTS|1|
-    """.replace(
-        " ", ""
-    )
+    """.replace(" ", "")
 
     TEST_STRING3 = """
     FHS|^~&|WIR11.3.2|WIR|||20200514||1219144.update|||
@@ -312,9 +308,7 @@ def test_convert_hl7_batch_messages_to_list():
     NK1|1||BRO^BROTHER^HL70063^^^^^|^^NEW GLARUS^WI^^^^^^^|
     BTS|5|
     FTS|1|
-    """.replace(
-        " ", ""
-    )
+    """.replace(" ", "")
 
     list1 = convert_hl7_batch_messages_to_list(TEST_STRING1)
     list2 = convert_hl7_batch_messages_to_list(TEST_STRING2)
