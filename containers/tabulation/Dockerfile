@@ -6,12 +6,15 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y git build-essential
 
+RUN apt-get install -y git
+
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
 
+RUN apt-get -y remove gcc && \
+    apt-get -y autoremove
+
 COPY ./app /code/app
-COPY ./assets /code/assets
-COPY ./config /code/config
 COPY ./description.md /code/description.md
 
 EXPOSE 8080

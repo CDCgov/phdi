@@ -11,6 +11,8 @@ describe("Demographics", () => {
         value: "Test patient",
       },
       { title: "DOB", value: "06/01/1996" },
+      { title: "Current Age", value: "27" },
+      { title: "Vital Status", value: "Alive" },
       { title: "Sex", value: "female" },
       { title: "Race", value: "Asian/Pacific Islander" },
       {
