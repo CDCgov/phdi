@@ -35,9 +35,9 @@ azure-storage-blob = "^12.12.0"
 polling = "^0.3.2"
 phonenumbers = "^8.12.48"
 pycountry = "^22.3.5"
-PyYAML = "^6.0"
+PyYAML = "^6.0.1"
 pyarrow = ">=12,<15"
-pandas = "^1.4.2"
+pandas = "^1.5.3"
 coverage = "^6.4.1"
 fhirpathpy = "^0.1.0"
 google-auth = "^2.10.0"
@@ -46,7 +46,7 @@ jsonschema = "4.16.0"
 rapidfuzz = "^2.13.6"
 lxml = "^4.9.2"
 detect-delimiter = "^0.1.1"
-psycopg2-binary = "^2.9.5"
+psycopg2-binary = "^2.9.9"
 sqlalchemy = "^2.0.0"
 matplotlib = "^3.7.1"
 azure-keyvault-secrets = "^4.7.0"
@@ -54,11 +54,12 @@ faker = "^18.4.0"
 
 [tool.poetry.dev-dependencies]
 pdoc = "^13.0.0"
-black = "^24.2.0"
-pytest = "^7.1.0"
-flake8 = "^4.0.1"
+pytest = "^8.1.1"
 pytest-cov = "^3.0.0"
 toml = "^0.10.2"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -67,3 +68,14 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 minversion = 6.0
 addopts = "--doctest-modules"
+
+[tool.ruff]
+exclude = [".git", ".pytest_cache", "__pycahce__", "docs"]
+line-length = 88
+indent-width = 4
+target-version = "py310"
+show-fixes = true
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"] # Defaults
+ignore = ["I"]                   # ignore isort rules
