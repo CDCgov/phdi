@@ -323,7 +323,7 @@ class ConversionError(Exception):
         """
         self.__http_response = http_response
 
-        if (message is None) and not (http_response is None):
+        if (message is None) and http_response is not None:
             message = (
                 "Conversion exception occurred with status code"
                 + f" {http_response.status_code} returned from the converter service."
