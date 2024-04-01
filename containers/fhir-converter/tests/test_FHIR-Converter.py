@@ -364,3 +364,6 @@ def test_resolve_references_valid_input():
 def test_resolve_references_invalid_input():
     actual = resolve_references("VXU or HL7 MESSAGE")
     assert actual == "VXU or HL7 MESSAGE"
+
+
+assert 1 == 1

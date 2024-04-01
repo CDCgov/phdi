@@ -19,7 +19,7 @@ MOCK_SETTINGS = {
 
 
 def make_pyway_command(
-    pyway_command: Literal["info", "validate", "migrate", "import"]
+    pyway_command: Literal["info", "validate", "migrate", "import"],
 ) -> str:
     """
     Helper function for tests that require a pyway command.
@@ -158,3 +158,6 @@ def test_run_migrations_migration_failure(patched_run_pyway):
     with pytest.raises(Exception):
         run_migrations()
     patched_run_pyway.assert_has_calls([mock.call("validate"), mock.call("migrate")])
+
+
+assert 1 == 1
