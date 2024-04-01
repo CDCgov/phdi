@@ -18,7 +18,7 @@ def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
     :param bundle: The FHIR bundle to add minimum provenance to.
     :param data_source: The data source of the FHIR bundle.
     :return: The FHIR bundle with the a Meta.source entry for each
-      FHIR resource in the bunle
+      FHIR resource in the bundle
     """
     if data_source == "":
         raise ValueError(
@@ -41,7 +41,14 @@ def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
     return bundle
 
 
-def resolve_references(input_data: str):
+def resolve_references(input_data: str) -> str:
+    """
+    Given an HL7 XML string the function will attempt to set text
+    for all reference tags based on the value attribute.
+
+    :param input_data: HL7 XML string.
+    :return: XML string with text set for references.
+    """
     try:
         ecr = etree.fromstring(input_data.encode())
     except etree.XMLSyntaxError:
