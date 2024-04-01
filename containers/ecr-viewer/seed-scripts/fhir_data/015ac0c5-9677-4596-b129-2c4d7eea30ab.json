@@ -94,7 +94,7 @@
             "title": "Administered Medications",
             "text": {
               "status": "generated",
-              "div": "<table data-id='admMedTable11'>Inactive Administered Medications - up to 3 most recent administrations <thead><tr><th>Medication Order</th><th>MAR Action</th><th>Action Date</th><th>Dose</th><th>Rate</th><th>Site</th></tr></thead><tbody><tr><td>alum-mag hydroxide-simeth (MAALOX) 200-200-20 mg/5 mL oral suspension 15 mL 15 mL, Oral, ONCE (IN CLINIC), On Wed 9/28/22 at 2100, For 1 dose, Order WILL be automatically substituted with P&T Approved equivalent per protocol. SHAKE WELL prior to use.</td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>15 mL</td><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td>aspirin tablet 325 mg 325 mg, Oral, ONCE, On Wed 9/28/22 at 2100, For 1 dose</td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>325 mg</td><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td>lidocaine (XYLOCAINE) 2% viscous oral solution 5 mL, Swish and Spit, ONCE (IN CLINIC), On Wed 9/28/22 at 2100, For 1 dose</td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>5 mL</td><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>documented in this encounter"
+              "div": "<table data-id='admMedTable11'>Inactive Administered Medications - up to 3 most recent administrations <thead><tr><th>Medication Order</th><th>MAR Action</th><th>Action Date</th><th>Dose</th><th>Rate</th><th>Site</th></tr></thead><tbody><tr><td><paragraph data-id='med9'>alum-mag hydroxide-simeth (MAALOX) 200-200-20 mg/5 mL oral suspension 15 mL</paragraph><paragraph>15 mL, Oral, ONCE (IN CLINIC), On Wed 9/28/22 at 2100, For 1 dose, Order WILL be automatically substituted with P&T Approved equivalent per protocol. SHAKE WELL prior to use.</paragraph></td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>15 mL</td><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td><paragraph data-id='med7'>aspirin tablet 325 mg</paragraph><paragraph>325 mg, Oral, ONCE, On Wed 9/28/22 at 2100, For 1 dose</paragraph></td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>325 mg</td><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td><paragraph data-id='med8'>lidocaine (XYLOCAINE) 2% viscous oral solution</paragraph><paragraph>5 mL, Swish and Spit, ONCE (IN CLINIC), On Wed 9/28/22 at 2100, For 1 dose</paragraph></td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>5 mL</td><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -112,7 +112,7 @@
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "Not on file documented as of this encounter"
+              "div": "<paragraph>Not on file</paragraph>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -186,7 +186,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944'>(ABNORMAL) CORONAVIRUS (COVID-19), PCR (09/29/2002 8:01 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1'><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1Name'>SARS-CoV-2, RNA</td><td>Detected (A)</td><td>Not Detected</td><td></td><td></td><td>LABCORP</td><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1Signature'></td></tr><tr><td>Comment: <br>revoked sooner.U.S.C. 360bbb-3(b)(1), unless the authorization is terminated ordiagnosis of COVID-19 infection under section 564(b)(1) of the Act, 21of in vitro diagnostic tests for detection of SARS-CoV-2 virus and/orcircumstances exist justifying the authorization of the emergency useonly authorized for the duration of time the declaration thatFDA independent review of this validation is pending. This test isduring the Public Health Emergency) issued on February 29th, 2020.prior to Emergency Use Authorization for Coronavirus Disease-2019Laboratories Certified to Perform High Complexity Testing under CLIAthe FDA's Guidance Document (Policy for Diagnostics Testing inAuthorization (EUA). This test has been validated in accordance withapproved. This test has been authorized by FDA under an Emergency Useby LabCorp Laboratories. This test has not been FDA cleared orThis test was developed and its performance characteristics determined <br></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Specimen'>Nasopharyngeal (NASOPHARYNGEAL)</td><td></td><td></td><td>09/29/2002 8:01 AM PDT</td><td>09/29/2022</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td>LABCORP - 09/29/2022 2:13 PM PDT Performed at:  01 - Labcorp Burlington 1447 York Court, Burlington, NC  272153361 Lab Director: Sanjai Nagendra MD, Phone:  8007624344 <br></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Hybrid Physician W Mycslink Cshs MD</td><td>MICRO (NON-CULT) ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.PerformingLab'>LABCORP</td><td>13112 Evening Creek Dr, Ste 200</td><td>San Diego, CA 92128</td><td>858-668-3700</td></tr></tbody></table></li></ul>documented in this encounter"
+              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944'>(ABNORMAL) CORONAVIRUS (COVID-19), PCR (09/29/2002 8:01 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1'><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1Name'>SARS-CoV-2, RNA</td><td>Detected (A)</td><td>Not Detected</td><td></td><td></td><td>LABCORP</td><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1Signature'></td></tr><tr><td>Comment: <br>revoked sooner.U.S.C. 360bbb-3(b)(1), unless the authorization is terminated ordiagnosis of COVID-19 infection under section 564(b)(1) of the Act, 21of in vitro diagnostic tests for detection of SARS-CoV-2 virus and/orcircumstances exist justifying the authorization of the emergency useonly authorized for the duration of time the declaration thatFDA independent review of this validation is pending. This test isduring the Public Health Emergency) issued on February 29th, 2020.prior to Emergency Use Authorization for Coronavirus Disease-2019Laboratories Certified to Perform High Complexity Testing under CLIAthe FDA's Guidance Document (Policy for Diagnostics Testing inAuthorization (EUA). This test has been validated in accordance withapproved. This test has been authorized by FDA under an Emergency Useby LabCorp Laboratories. This test has not been FDA cleared orThis test was developed and its performance characteristics determined <br></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Specimen'>Nasopharyngeal (NASOPHARYNGEAL)</td><td></td><td></td><td>09/29/2002 8:01 AM PDT</td><td>09/29/2022</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>LABCORP - 09/29/2022 2:13 PM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Narrative'>Performed at:  01 - Labcorp Burlington 1447 York Court, Burlington, NC  272153361 Lab Director: Sanjai Nagendra MD, Phone:  8007624344 <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Hybrid Physician W Mycslink Cshs MD</td><td>MICRO (NON-CULT) ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.PerformingLab'><paragraph>LABCORP</paragraph></td><td><paragraph>13112 Evening Creek Dr, Ste 200</paragraph></td><td><paragraph>San Diego, CA 92128</paragraph></td><td><paragraph>858-668-3700</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -232,7 +232,7 @@
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter23'><td>9/28/22</td><td data-id='encounter23type'>Office Visit</td><td>CSMG Internal Medicine 8767 Wilshire Blvd 2nd Floor BEVERLY HILLS, CA 90211 310-385-6031</td><td>Canavan, Allison H, MD 8631 W. THIRD STREET STE 510E LOS ANGELES, CA 90048 310-385-3380 (Work) 310-385-3224 (Fax) allison.canavan@cshs.org</td><td data-id='encounter23desc'><br>Close exposure to COVID-19 virusCoronavirus infection (Primary Dx);</td></tr></tbody></table>"
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter23'><td>9/28/22</td><td data-id='encounter23type'>Office Visit</td><td><paragraph>CSMG Internal Medicine</paragraph><paragraph>8767 Wilshire Blvd</paragraph><paragraph>2nd Floor</paragraph><paragraph>BEVERLY HILLS, CA 90211</paragraph><paragraph>310-385-6031</paragraph></td><td><paragraph>Canavan, Allison H, MD</paragraph><paragraph>8631 W. THIRD STREET</paragraph><paragraph>STE 510E</paragraph><paragraph>LOS ANGELES, CA 90048</paragraph><paragraph>310-385-3380 (Work)</paragraph><paragraph>310-385-3224 (Fax)</paragraph><paragraph>allison.canavan@cshs.org</paragraph></td><td data-id='encounter23desc'><br>Close exposure to COVID-19 virusCoronavirus infection (Primary Dx);</td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -304,7 +304,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         },
         "relatesTo": [
           {
@@ -362,7 +362,7 @@
           "end": "2022-09-28T12:30:00-07:00"
         },
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         },
         "location": [
           {
@@ -853,10 +853,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:fe146169-9b45-4b16-898c-85accfe0c4ac",
+      "fullUrl": "urn:uuid:3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420",
       "resource": {
         "resourceType": "Patient",
-        "id": "fe146169-9b45-4b16-898c-85accfe0c4ac",
+        "id": "3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -888,6 +888,7 @@
           }
         ],
         "birthDate": "1980-01-01",
+        "deceasedBoolean": false,
         "gender": "female",
         "extension": [
           {
@@ -990,7 +991,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+        "url": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
       }
     },
     {
@@ -1035,7 +1036,7 @@
         },
         "onsetDateTime": "2022-09-24",
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         },
         "meta": {
           "source": [
@@ -1090,7 +1091,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         },
         "meta": {
           "source": [
@@ -1145,7 +1146,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         },
         "meta": {
           "source": [
@@ -1184,7 +1185,7 @@
           "end": "2002-09-29T15:01:00Z"
         },
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         },
         "performer": [
           {
@@ -1290,6 +1291,9 @@
             ]
           }
         ],
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1310,7 +1314,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         },
         "performer": [
           {
@@ -1414,7 +1418,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         }
       },
       "request": {
@@ -1472,7 +1476,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         }
       },
       "request": {
@@ -1530,7 +1534,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         }
       },
       "request": {
@@ -1588,7 +1592,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         }
       },
       "request": {
@@ -1638,7 +1642,7 @@
         "effectiveDateTime": "2022-09-24",
         "valueString": "17",
         "subject": {
-          "reference": "Patient/fe146169-9b45-4b16-898c-85accfe0c4ac"
+          "reference": "Patient/3b45ed7e-40a0-4491-a0e0-4fb7bf5a6420"
         }
       },
       "request": {

@@ -21,6 +21,12 @@ export interface LabReport {
   result: Array<Reference>;
 }
 
+export interface LabJson {
+  resultId: string | null;
+  resultName: string;
+  tables: Array<Array<{}>>;
+}
+
 const noData = <span className="no-data text-italic text-base">No data</span>;
 
 /**
@@ -51,62 +57,84 @@ export const getObservations = (
 };
 
 /**
- * Recursively searches through a nested array of objects to find values associated with a specified search key,
- * and filters results based on a reference value.
+ * Retrieves the JSON representation of a lab report from the labs HTML string.
+ * @param {LabReport} report - The LabReport object containing information about the lab report.
+ * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
+ * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
+ * @returns {LabJson} The JSON representation of the lab report.
+ */
+export const getLabJsonObject = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): LabJson => {
+  // Get reference value (result ID) from Observations
+  const observations = getObservations(report, fhirBundle, mappings);
+  const observationRefValsArray = observations.flatMap((observation) => {
+    const refVal = evaluate(observation, mappings["observationReferenceValue"]);
+    return extractNumbersAndPeriods(refVal);
+  });
+  const observationRefVal = [...new Set(observationRefValsArray)].join(", "); // should only be 1
+
+  // Get lab reports HTML String (for all lab reports) & convert to JSON
+  const labsString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
+  const labsJson = formatTablesToJSON(labsString);
+
+  // Get specified lab report (by reference value)
+  return labsJson.filter((obj) => obj.resultId.includes(observationRefVal))[0];
+};
+
+/**
+ * Checks whether the result name of a lab report includes the term "abnormal"
+ * @param {LabReport} report - The LabReport object containing information about the lab report.
+ * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
+ * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
+ * @returns {boolean} True if the result name includes "abnormal" (case insensitive), otherwise false. Will also return false if lab does not have JSON object.
+ */
+export const checkAbnormalTag = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): boolean => {
+  const labResult = getLabJsonObject(report, fhirBundle, mappings);
+  if (!labResult) {
+    return false;
+  }
+  const labResultName = labResult.resultName;
+
+  return labResultName.toLowerCase().includes("abnormal");
+};
+
+/**
+ * Recursively searches through a nested array of objects to find values associated with a specified search key.
  * @param {any[]} result - The array of objects to search through.
- * @param {string} ref - The reference number used to filter results.
  * @param {string} searchKey - The key to search for within the objects.
- * @returns {string} - A comma-separated string containing unique search key values that match the reference number.
+ * @returns {string} - A comma-separated string containing unique search key values.
  *
  * @example result - JSON object that contains the tables for all lab reports
- * @example ref - Ex. "1.2.840.114350.1.13.297.3.7.2.798268.1670845" or another observation entry reference
- *                value. This value identifies which lab report the Observation is associated with. Function
- *                compares this value to the metadata ID in the tables to verify that the table is
- *                for the correct lab report.
  * @example searchKey - Ex. "Analysis Time" or the field that we are searching data for.
  */
-export function searchResultRecord(
-  result: any[],
-  ref: string,
-  searchKey: string,
-) {
+export function searchResultRecord(result: any[], searchKey: string) {
   let resultsArray: any[] = [];
 
   // Loop through each table
   for (const table of result) {
     // For each table, recursively search through all nodes
     if (Array.isArray(table)) {
-      const nestedResult: string = searchResultRecord(table, ref, searchKey);
+      const nestedResult: string = searchResultRecord(table, searchKey);
       if (nestedResult) {
         return nestedResult;
       }
     } else {
       const keys = Object.keys(table);
-      const refNumbers: any[] = [];
       let searchKeyValue: string = "";
       keys.forEach((key) => {
         // Search for search key value
         if (key === searchKey && table[key].hasOwnProperty("value")) {
           searchKeyValue = table[key]["value"];
         }
-        // Search for result IDs
-        if (
-          table[key].hasOwnProperty("metadata") &&
-          table[key]["metadata"].hasOwnProperty("data-id")
-        ) {
-          if (table[key]["metadata"] !== "") {
-            refNumbers.push(
-              ...extractNumbersAndPeriods([table[key]["metadata"]["data-id"]]),
-            );
-          }
-        }
       });
-      const resultRef = [...new Set(refNumbers)].join(",");
-      // Skip if IDs don't match (table is not for correct lab report)
-      if (resultRef !== ref) {
-        continue;
-      }
-      // Add to array of results, and return unique set
+
       if (searchKeyValue !== "") {
         resultsArray.push(searchKeyValue);
       }
@@ -152,7 +180,6 @@ const returnCollectionTime = (
   mappings: PathMappings,
 ): React.ReactNode => {
   const observations = getObservations(report, fhirBundle, mappings);
-  console.log("observations", observations);
   const collectionTime = observations.flatMap((observation) => {
     const rawTime = evaluate(observation, mappings["specimenCollectionTime"]);
     return rawTime.map((dateTimeString) => formatDateTime(dateTimeString));
@@ -206,24 +233,12 @@ export const returnFieldValueFromLabHtmlString = (
   mappings: PathMappings,
   fieldName: string,
 ): React.ReactNode => {
-  // Get reference value (result ID) from Observations
-  const observations = getObservations(report, fhirBundle, mappings);
-  const observationRefValsArray = observations.flatMap((observation) => {
-    const refVal = evaluate(observation, mappings["observationReferenceValue"]);
-    return extractNumbersAndPeriods(refVal);
-  });
-  const observationRefVal = [...new Set(observationRefValsArray)].join(", "); // should only be 1
-
-  // Get lab reports HTML String (for all lab reports) & convert to JSON
-  const labResultString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
-  const labResultJson = formatTablesToJSON(labResultString);
-
-  // Find field value from matching lab report tables
-  const fieldValue = searchResultRecord(
-    labResultJson,
-    observationRefVal,
-    fieldName,
-  );
+  const labReportJson = getLabJsonObject(report, fhirBundle, mappings);
+  if (!labReportJson) {
+    return noData;
+  }
+  const labTables = labReportJson.tables;
+  const fieldValue = searchResultRecord(labTables, fieldName);
 
   if (!fieldValue || fieldValue.length === 0) {
     return noData;
@@ -383,6 +398,36 @@ export const evaluateLabInfoData = (
         ),
         className: "lab-text-content",
       },
+      {
+        title: "Resulting Agency Comment",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Resulting Agency Comment",
+        ),
+        className: "lab-text-content",
+      },
+      {
+        title: "Authorizing Provider",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Authorizing Provider",
+        ),
+        className: "lab-text-content",
+      },
+      {
+        title: "Result Type",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Result Type",
+        ),
+        className: "lab-text-content",
+      },
     ];
     if (labTable)
       rrInfo.unshift({
@@ -396,7 +441,7 @@ export const evaluateLabInfoData = (
     return (
       <AccordionLabResults
         title={report.code.coding[0].display}
-        abnormalTag={false}
+        abnormalTag={checkAbnormalTag(report, fhirBundle, mappings)}
         content={content}
       />
     );

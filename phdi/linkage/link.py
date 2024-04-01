@@ -1144,9 +1144,9 @@ def _bind_func_names_to_invocations(algo_config: List[dict]):
     for lp in algo_config:
         feature_funcs = lp["funcs"]
         for func in feature_funcs:
-            if type(feature_funcs[func]) is str:
+            if isinstance(feature_funcs[func], str):
                 feature_funcs[func] = globals()[feature_funcs[func]]
-        if type(lp["matching_rule"]) is str:
+        if isinstance(lp["matching_rule"], str):
             lp["matching_rule"] = globals()[lp["matching_rule"]]
     return algo_config
 
@@ -1285,7 +1285,7 @@ def _compare_name_elements(
     return feature_comp
 
 
-def _condense_extract_address_from_resource(resource: dict, field: str):
+def _condense_extract_address_from_resource(resource: dict, field: str) -> List[str]:
     """
     Formatting function to account for patient resources that have multiple
     associated addresses. Each address is a self-contained object, replete
@@ -1293,12 +1293,20 @@ def _condense_extract_address_from_resource(resource: dict, field: str):
     function condenses that `line` into a single concatenated string, for
     each address object, and returns the result in a properly formatted
     list.
+
+    :param resource: The patient resource to extract the address from.
+    :param field: The field to extract the address from.
+    :return: A list of strings, each string representing a single address.
     """
     expanded_address_fhirpath = LINKING_FIELDS_TO_FHIRPATHS[field]
     expanded_address_fhirpath = ".".join(expanded_address_fhirpath.split(".")[:-1])
-    list_of_address_objects = extract_value_with_resource_path(
-        resource, expanded_address_fhirpath, "all"
+    list_of_address_objects = (
+        extract_value_with_resource_path(resource, expanded_address_fhirpath, "all")
+        or []
     )
+    if not list_of_address_objects:
+        return None
+
     if field == "address":
         list_of_address_lists = [
             ao.get(LINKING_FIELDS_TO_FHIRPATHS[field].split(".")[-1], [])
@@ -1313,6 +1321,7 @@ def _condense_extract_address_from_resource(resource: dict, field: str):
             list_of_usable_address_elements.append(
                 address_object.get(LINKING_FIELDS_TO_FHIRPATHS[field].split(".")[-1])
             )
+
     return list_of_usable_address_elements
 
 

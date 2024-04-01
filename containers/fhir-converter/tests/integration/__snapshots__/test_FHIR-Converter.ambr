@@ -619,6 +619,7 @@
                 'preferred': True,
               }),
             ]),
+            'deceasedBoolean': False,
             'extension': list([
               dict({
                 'extension': list([

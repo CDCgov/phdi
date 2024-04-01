@@ -112,7 +112,7 @@
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "Not on file documented as of this encounter"
+              "div": "<paragraph>Not on file</paragraph>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -130,7 +130,7 @@
             "title": "Problems",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Problem</th><th>Noted Date</th></tr></thead><tbody><tr data-id='problem15'><td data-id='problem15name'>Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive</td><td>12/14/22</td></tr><tr data-id='problem13'><td data-id='problem13name'>Headache</td><td>8/19/22</td></tr><tr data-id='problem14'><td data-id='problem14name'>Backache</td><td>8/19/22</td></tr><tr data-id='problem12'><td data-id='problem12name'>Malignant neoplasm of urinary bladder neck</td><td>11/5/21</td></tr><tr data-id='problem11'><td data-id='problem11name'>Malignant neoplasm of overlapping sites of pancreas</td><td>9/18/17</td></tr><tr><td>Cancer Staging: Stage IIB Stage III <br>(pT1, pN2, cM0) - Signed by Ocmd Phsbeacon, MD on 9/30/2022Pathologic: (cT1, cN1, cM0) - Signed by Ocmd Phsbeacon, MD on 1/13/2022Clinical stage from 1/13/2022:</td></tr><tr data-id='problem10'><td data-id='problem10name'>Bilateral malignant neoplasm of lower outer quadrant of breast in female</td><td>2/27/17</td></tr><tr><td>Cancer Staging: Stage IIA Stage IV <br>(rpT2, pN1a(f), pM1, G3, ER: Negative, PR: Negative, HER2: Negative) - Signed by Ocmd Phsbeacon, MD on 1/10/2018Pathologic stage from 12/10/2017: (T1, N1, M0) - Signed by Ocmd Phsbeacon, MD on 2/27/2017Clinical stage from 2/27/2017:</td></tr></tbody></table>documented as of this encounter (statuses as of 12/14/2022)"
+              "div": "<table><thead><tr><th>Problem</th><th>Noted Date</th></tr></thead><tbody><tr data-id='problem15'><td data-id='problem15name'>Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive</td><td>12/14/22</td></tr><tr data-id='problem13'><td data-id='problem13name'>Headache</td><td>8/19/22</td></tr><tr data-id='problem14'><td data-id='problem14name'>Backache</td><td>8/19/22</td></tr><tr data-id='problem12'><td data-id='problem12name'>Malignant neoplasm of urinary bladder neck</td><td>11/5/21</td></tr><tr data-id='problem11'><td data-id='problem11name'>Malignant neoplasm of overlapping sites of pancreas</td><td>9/18/17</td></tr><tr><td><paragraph>Cancer Staging:</paragraph>Stage IIB Stage III <br>(pT1, pN2, cM0) - Signed by Ocmd Phsbeacon, MD on 9/30/2022Pathologic: (cT1, cN1, cM0) - Signed by Ocmd Phsbeacon, MD on 1/13/2022Clinical stage from 1/13/2022:</td></tr><tr data-id='problem10'><td data-id='problem10name'>Bilateral malignant neoplasm of lower outer quadrant of breast in female</td><td>2/27/17</td></tr><tr><td><paragraph>Cancer Staging:</paragraph>Stage IIA Stage IV <br>(rpT2, pN1a(f), pM1, G3, ER: Negative, PR: Negative, HER2: Negative) - Signed by Ocmd Phsbeacon, MD on 1/10/2018Pathologic stage from 12/10/2017: (T1, N1, M0) - Signed by Ocmd Phsbeacon, MD on 2/27/2017Clinical stage from 2/27/2017:</td></tr></tbody></table>documented as of this encounter (statuses as of 12/14/2022)"
             },
             "code": {
               "coding": [
@@ -198,7 +198,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468'>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (03/31/2022 11:52 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1Name'>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2Name'>C. Diff Toxin A/B, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3Name'>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4Name'>Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5Name'>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6Name'>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7Name'>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8Name'>E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9Name'>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10Name'>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11Name'>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12Name'>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13Name'>Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14Name'>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15Name'>Cyclospora cayetanensis, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16Name'>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17Name'>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18Name'>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19Name'>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20Name'>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21Name'>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22Name'>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Specimen'>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>03/31/2022 11:52 AM PDT</td><td>03/31/2022 11:52 AM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Authorizing Provider</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.PerformingLab'>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td>2121 Santa Monica Blvd</td><td>Santa Monica, CA 90404</td><td>310-829-8800</td></tr></tbody></table></li></ul>documented in this encounter"
+              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468'>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (03/31/2022 11:52 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1Name'>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2Name'>C. Diff Toxin A/B, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3Name'>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4Name'>Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5Name'>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6Name'>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7Name'>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8Name'>E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9Name'>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10Name'>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11Name'>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12Name'>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13Name'>Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14Name'>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15Name'>Cyclospora cayetanensis, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16Name'>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17Name'>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18Name'>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19Name'>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20Name'>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21Name'>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22Name'>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22TestMethodName1'>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Specimen'>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>03/31/2022 11:52 AM PDT</td><td>03/31/2022 11:52 AM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Authorizing Provider</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.PerformingLab'><paragraph>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</paragraph></td><td><paragraph>2121 Santa Monica Blvd</paragraph></td><td><paragraph>Santa Monica, CA 90404</paragraph></td><td><paragraph>310-829-8800</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -346,7 +346,7 @@
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter16'><td>3/31/22</td><td data-id='encounter16type'>Lab Requisition</td><td>PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY 2121 Santa Monica Blvd Santa Monica, CA 90404-2303 310-829-8116</td><td>Provider, Authorizing</td><td></td></tr></tbody></table>"
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter16'><td>3/31/22</td><td data-id='encounter16type'>Lab Requisition</td><td><paragraph>PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY</paragraph><paragraph>2121 Santa Monica Blvd</paragraph><paragraph>Santa Monica, CA 90404-2303</paragraph><paragraph>310-829-8116</paragraph></td><td><paragraph>Provider, Authorizing</paragraph></td><td></td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -418,7 +418,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "relatesTo": [
           {
@@ -476,7 +476,7 @@
           "end": "2023-02-12"
         },
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "location": [
           {
@@ -950,10 +950,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:fe5f94c1-665b-4322-8eed-80665dbff27d",
+      "fullUrl": "urn:uuid:ac37d4c1-296a-42d1-9e2d-ecfab6abab4c",
       "resource": {
         "resourceType": "Patient",
-        "id": "fe5f94c1-665b-4322-8eed-80665dbff27d",
+        "id": "ac37d4c1-296a-42d1-9e2d-ecfab6abab4c",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -978,6 +978,7 @@
           }
         ],
         "birthDate": "1981-02-14",
+        "deceasedBoolean": false,
         "gender": "female",
         "extension": [
           {
@@ -1112,7 +1113,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+        "url": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
       }
     },
     {
@@ -1157,7 +1158,7 @@
         },
         "onsetDateTime": "2017-02-27",
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "meta": {
           "source": [
@@ -1212,7 +1213,7 @@
         },
         "onsetDateTime": "2017-09-18",
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "meta": {
           "source": [
@@ -1267,7 +1268,7 @@
         },
         "onsetDateTime": "2021-11-05",
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "meta": {
           "source": [
@@ -1322,7 +1323,7 @@
         },
         "onsetDateTime": "2022-08-19",
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "meta": {
           "source": [
@@ -1377,7 +1378,7 @@
         },
         "onsetDateTime": "2022-08-19",
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "meta": {
           "source": [
@@ -1432,7 +1433,7 @@
         },
         "onsetDateTime": "2022-12-14",
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "meta": {
           "source": [
@@ -1496,7 +1497,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
@@ -1530,7 +1531,7 @@
           "end": "2022-01-31T18:52:00Z"
         },
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -1690,6 +1691,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1714,7 +1718,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -1802,6 +1806,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1826,7 +1833,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -1881,6 +1888,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1905,7 +1915,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -1960,6 +1970,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1984,7 +1997,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2039,6 +2052,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2063,7 +2079,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2118,6 +2134,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2142,7 +2161,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2197,6 +2216,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2221,7 +2243,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2276,6 +2298,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2300,7 +2325,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2355,6 +2380,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2379,7 +2407,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2434,6 +2462,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2458,7 +2489,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2513,6 +2544,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2537,7 +2571,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2592,6 +2626,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2616,7 +2653,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2671,6 +2708,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2695,7 +2735,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2750,6 +2790,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2774,7 +2817,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2848,6 +2891,9 @@
             ]
           }
         ],
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2872,7 +2918,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -2927,6 +2973,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2951,7 +3000,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -3006,6 +3055,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3030,7 +3082,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -3085,6 +3137,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3109,7 +3164,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -3164,6 +3219,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3188,7 +3246,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -3243,6 +3301,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3267,7 +3328,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -3322,6 +3383,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3346,7 +3410,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -3401,6 +3465,9 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
+        "referenceRange": {
+          "text": "Not Detected"
+        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3425,7 +3492,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         },
         "performer": [
           {
@@ -3500,7 +3567,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
@@ -3557,7 +3624,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
@@ -3615,7 +3682,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
@@ -3665,7 +3732,7 @@
         "effectiveDateTime": "2020-11-09",
         "valueBoolean": true,
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
@@ -3726,7 +3793,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
@@ -3823,7 +3890,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
@@ -3871,7 +3938,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
@@ -4037,7 +4104,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
@@ -4088,7 +4155,7 @@
           "value": 20171216
         },
         "subject": {
-          "reference": "Patient/fe5f94c1-665b-4322-8eed-80665dbff27d"
+          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
         }
       },
       "request": {
