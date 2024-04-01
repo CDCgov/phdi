@@ -76,7 +76,13 @@
         "referenceRange":
         [
             {
-                "text": "{{  observationEntry.referenceRange.observationRange.text._ }}",
+                {% if observationEntry.referenceRange.observationRange.value.low.value and observationEntry.referenceRange.observationRange.value.high.value -%}
+                    "text":"{{ observationEntry.referenceRange.observationRange.value.low.value }} {{ observationEntry.referenceRange.observationRange.value.low.unit }} - {{ observationEntry.referenceRange.observationRange.value.high.value }} {{ observationEntry.referenceRange.observationRange.value.high.unit }}",
+                {% elsif observationEntry.referenceRange.observationRange.value.low.translation.value and observationEntry.referenceRange.observationRange.value.high.translation.value %}
+                    "text":"{{ observationEntry.referenceRange.observationRange.value.low.translation.value }} {{ observationEntry.referenceRange.observationRange.value.low.translation.originalText._ }} - {{ observationEntry.referenceRange.observationRange.value.high.translation.value }} {{ observationEntry.referenceRange.observationRange.value.high.translation.originalText._ }}",
+                {% else %}
+                    "text":"{{  observationEntry.referenceRange.observationRange.text._ }}",
+                {% endif %}
                 {% if observationEntry.referenceRange.observationRange.value.low.value -%}
                     "low":
                     {
@@ -85,7 +91,8 @@
                     },
                 {% elsif observationEntry.referenceRange.observationRange.value.low.translation.value %}
                     "low": {
-                        "value": "{{ observationEntry.referenceRange.observationRange.value.low.translation.value }}"
+                        "value":"{{ observationEntry.referenceRange.observationRange.value.low.translation.value }}",
+                        "unit":"{{ observationEntry.referenceRange.observationRange.value.low.translation.originalText._ }}",
                     },
                 {% endif -%}
                 {% if observationEntry.referenceRange.observationRange.value.high.value -%}
@@ -96,7 +103,8 @@
                     },
                 {% elsif observationEntry.referenceRange.observationRange.value.high.translation.value %}
                     "high": {
-                        "value": "{{ observationEntry.referenceRange.observationRange.value.high.translation.value }}"
+                        "value":"{{ observationEntry.referenceRange.observationRange.value.high.translation.value }}",
+                        "unit":"{{ observationEntry.referenceRange.observationRange.value.high.translation.originalText._ }}",
                     },
                 {% endif -%}
             },
