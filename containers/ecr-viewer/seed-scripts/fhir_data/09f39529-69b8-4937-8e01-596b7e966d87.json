@@ -492,7 +492,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "encounter": {
           "reference": "Encounter/685ebb48-a4d7-22a7-5a07-a8e42ac8f78b"
@@ -536,7 +536,7 @@
           "end": "2021-10-27"
         },
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "location": [
           {
@@ -971,10 +971,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:bed43af7-205a-4b9c-acdd-7870aebbb5ee",
+      "fullUrl": "urn:uuid:d9978706-1fe2-47ba-be1c-c4206ae39898",
       "resource": {
         "resourceType": "Patient",
-        "id": "bed43af7-205a-4b9c-acdd-7870aebbb5ee",
+        "id": "d9978706-1fe2-47ba-be1c-c4206ae39898",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1143,7 +1143,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+        "url": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
       }
     },
     {
@@ -1188,7 +1188,7 @@
         },
         "onsetDateTime": "2017-08-11",
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "meta": {
           "source": [
@@ -1243,7 +1243,7 @@
         },
         "onsetDateTime": "2018-06-12",
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "meta": {
           "source": [
@@ -1298,7 +1298,7 @@
         },
         "onsetDateTime": "2021-06-16",
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "meta": {
           "source": [
@@ -1353,7 +1353,7 @@
         },
         "onsetDateTime": "2022-02-28",
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "meta": {
           "source": [
@@ -1408,7 +1408,7 @@
         },
         "onsetDateTime": "2022-05-26",
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "meta": {
           "source": [
@@ -1463,7 +1463,7 @@
         },
         "onsetDateTime": "2022-07-13",
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "meta": {
           "source": [
@@ -1502,7 +1502,7 @@
           "end": "2021-12-07T22:16:00Z"
         },
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -1606,9 +1606,11 @@
         },
         "effectiveDateTime": "2023-01-02T16:56:09Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1633,7 +1635,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -1722,9 +1724,11 @@
         },
         "effectiveDateTime": "2023-01-02T16:56:09Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1749,7 +1753,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -1804,6 +1808,11 @@
         },
         "effectiveDateTime": "2023-01-02T16:56:09Z",
         "valueString": "Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -1815,9 +1824,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "Not Detected"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1842,7 +1848,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -1917,7 +1923,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         }
       },
       "request": {
@@ -1951,7 +1957,7 @@
           "end": "2021-12-08T15:55:00Z"
         },
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2056,6 +2062,19 @@
         "valueQuantity": {
           "value": 19.3
         },
+        "referenceRange": [
+          {
+            "text": "3.9 x10(3)/mcL - 10.7 x10(3)/mcL",
+            "low": {
+              "value": "3.9",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "10.7",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -2067,11 +2086,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "3.9 - 10.7 x10(3)/mcL",
-          "high": "10.7",
-          "low": "3.9"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2096,7 +2110,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2153,6 +2167,19 @@
         "valueQuantity": {
           "value": 2.28
         },
+        "referenceRange": [
+          {
+            "text": "4.00 x10(6)/mcL - 5.50 x10(6)/mcL",
+            "low": {
+              "value": "4.00",
+              "unit": "x10(6)/mcL"
+            },
+            "high": {
+              "value": "5.50",
+              "unit": "x10(6)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -2164,11 +2191,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "4.00 - 5.50 x10(6)/mcL",
-          "high": "5.50",
-          "low": "4.00"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2193,7 +2215,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2250,6 +2272,19 @@
         "valueQuantity": {
           "value": 7.1
         },
+        "referenceRange": [
+          {
+            "text": "11.8 gm/dL - 16.0 gm/dL",
+            "low": {
+              "value": "11.8",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "16.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -2261,11 +2296,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "11.8 - 16.0 gm/dL",
-          "high": "16.0",
-          "low": "11.8"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2290,7 +2320,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2348,6 +2378,19 @@
           "value": 22,
           "unit": "%"
         },
+        "referenceRange": [
+          {
+            "text": "36 % - 43 %",
+            "low": {
+              "value": 36,
+              "unit": "%"
+            },
+            "high": {
+              "value": 43,
+              "unit": "%"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -2359,9 +2402,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "36 - 43"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2386,7 +2426,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2444,9 +2484,19 @@
           "value": 97,
           "unit": "fL"
         },
-        "referenceRange": {
-          "text": "81 - 98"
-        },
+        "referenceRange": [
+          {
+            "text": "81 fL - 98 fL",
+            "low": {
+              "value": 81,
+              "unit": "fL"
+            },
+            "high": {
+              "value": 98,
+              "unit": "fL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2471,7 +2521,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2529,9 +2579,19 @@
           "value": 31.1,
           "unit": "pg"
         },
-        "referenceRange": {
-          "text": "27.0 - 32.0"
-        },
+        "referenceRange": [
+          {
+            "text": "27.0 pg - 32.0 pg",
+            "low": {
+              "value": 27.0,
+              "unit": "pg"
+            },
+            "high": {
+              "value": 32.0,
+              "unit": "pg"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2556,7 +2616,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2613,11 +2673,19 @@
         "valueQuantity": {
           "value": 32.0
         },
-        "referenceRange": {
-          "text": "31.0 - 35.0 gm/dL",
-          "high": "35.0",
-          "low": "31.0"
-        },
+        "referenceRange": [
+          {
+            "text": "31.0 gm/dL - 35.0 gm/dL",
+            "low": {
+              "value": "31.0",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "35.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2642,7 +2710,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2700,9 +2768,19 @@
           "value": 47.8,
           "unit": "fL"
         },
-        "referenceRange": {
-          "text": "37.4 - 52.4"
-        },
+        "referenceRange": [
+          {
+            "text": "37.4 fL - 52.4 fL",
+            "low": {
+              "value": 37.4,
+              "unit": "fL"
+            },
+            "high": {
+              "value": 52.4,
+              "unit": "fL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2727,7 +2805,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2785,9 +2863,19 @@
           "value": 13.4,
           "unit": "%"
         },
-        "referenceRange": {
-          "text": "11.1 - 14.3"
-        },
+        "referenceRange": [
+          {
+            "text": "11.1 % - 14.3 %",
+            "low": {
+              "value": 11.1,
+              "unit": "%"
+            },
+            "high": {
+              "value": 14.3,
+              "unit": "%"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2812,7 +2900,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2869,11 +2957,19 @@
         "valueQuantity": {
           "value": 209
         },
-        "referenceRange": {
-          "text": "135 - 371 x10(3)/mcL",
-          "high": "371",
-          "low": "135"
-        },
+        "referenceRange": [
+          {
+            "text": "135 x10(3)/mcL - 371 x10(3)/mcL",
+            "low": {
+              "value": "135",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "371",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2898,7 +2994,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -2956,9 +3052,19 @@
           "value": 10.2,
           "unit": "fL"
         },
-        "referenceRange": {
-          "text": "9.3 - 12.8"
-        },
+        "referenceRange": [
+          {
+            "text": "9.3 fL - 12.8 fL",
+            "low": {
+              "value": 9.3,
+              "unit": "fL"
+            },
+            "high": {
+              "value": 12.8,
+              "unit": "fL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2983,7 +3089,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3040,11 +3146,19 @@
         "valueQuantity": {
           "value": 0
         },
-        "referenceRange": {
-          "text": "0 - 0 /100 WBC",
-          "high": "0",
-          "low": "0"
-        },
+        "referenceRange": [
+          {
+            "text": "0 /100 WBC - 0 /100 WBC",
+            "low": {
+              "value": "0",
+              "unit": "/100 WBC"
+            },
+            "high": {
+              "value": "0",
+              "unit": "/100 WBC"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3069,7 +3183,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3126,11 +3240,19 @@
         "valueQuantity": {
           "value": 0.0
         },
-        "referenceRange": {
-          "text": "0.00 - 0.00 x10(3)/mcL",
-          "high": "0.00",
-          "low": "0.00"
-        },
+        "referenceRange": [
+          {
+            "text": "0.00 x10(3)/mcL - 0.00 x10(3)/mcL",
+            "low": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3155,7 +3277,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3230,7 +3352,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         }
       },
       "request": {
@@ -3264,7 +3386,7 @@
           "end": "2022-01-27T20:39:00Z"
         },
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3369,6 +3491,19 @@
         "valueQuantity": {
           "value": 18.7
         },
+        "referenceRange": [
+          {
+            "text": "3.9 x10(3)/mcL - 10.7 x10(3)/mcL",
+            "low": {
+              "value": "3.9",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "10.7",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3380,11 +3515,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "3.9 - 10.7 x10(3)/mcL",
-          "high": "10.7",
-          "low": "3.9"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3409,7 +3539,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3466,6 +3596,19 @@
         "valueQuantity": {
           "value": 2.81
         },
+        "referenceRange": [
+          {
+            "text": "4.00 x10(6)/mcL - 5.50 x10(6)/mcL",
+            "low": {
+              "value": "4.00",
+              "unit": "x10(6)/mcL"
+            },
+            "high": {
+              "value": "5.50",
+              "unit": "x10(6)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3477,11 +3620,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "4.00 - 5.50 x10(6)/mcL",
-          "high": "5.50",
-          "low": "4.00"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3506,7 +3644,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3563,6 +3701,19 @@
         "valueQuantity": {
           "value": 9.2
         },
+        "referenceRange": [
+          {
+            "text": "11.8 gm/dL - 16.0 gm/dL",
+            "low": {
+              "value": "11.8",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "16.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3574,11 +3725,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "11.8 - 16.0 gm/dL",
-          "high": "16.0",
-          "low": "11.8"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3603,7 +3749,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3661,6 +3807,19 @@
           "value": 30,
           "unit": "%"
         },
+        "referenceRange": [
+          {
+            "text": "36 % - 43 %",
+            "low": {
+              "value": 36,
+              "unit": "%"
+            },
+            "high": {
+              "value": 43,
+              "unit": "%"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3672,9 +3831,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "36 - 43"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3699,7 +3855,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3757,6 +3913,19 @@
           "value": 106,
           "unit": "fL"
         },
+        "referenceRange": [
+          {
+            "text": "81 fL - 98 fL",
+            "low": {
+              "value": 81,
+              "unit": "fL"
+            },
+            "high": {
+              "value": 98,
+              "unit": "fL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3768,9 +3937,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "81 - 98"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3795,7 +3961,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3853,6 +4019,19 @@
           "value": 32.7,
           "unit": "pg"
         },
+        "referenceRange": [
+          {
+            "text": "27.0 pg - 32.0 pg",
+            "low": {
+              "value": 27.0,
+              "unit": "pg"
+            },
+            "high": {
+              "value": 32.0,
+              "unit": "pg"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3864,9 +4043,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "27.0 - 32.0"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3891,7 +4067,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -3948,6 +4124,19 @@
         "valueQuantity": {
           "value": 30.9
         },
+        "referenceRange": [
+          {
+            "text": "31.0 gm/dL - 35.0 gm/dL",
+            "low": {
+              "value": "31.0",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "35.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3959,11 +4148,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "31.0 - 35.0 gm/dL",
-          "high": "35.0",
-          "low": "31.0"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3988,7 +4172,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4046,6 +4230,19 @@
           "value": 57.2,
           "unit": "fL"
         },
+        "referenceRange": [
+          {
+            "text": "37.4 fL - 52.4 fL",
+            "low": {
+              "value": 37.4,
+              "unit": "fL"
+            },
+            "high": {
+              "value": 52.4,
+              "unit": "fL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -4057,9 +4254,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "37.4 - 52.4"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4084,7 +4278,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4142,6 +4336,19 @@
           "value": 14.6,
           "unit": "%"
         },
+        "referenceRange": [
+          {
+            "text": "11.1 % - 14.3 %",
+            "low": {
+              "value": 11.1,
+              "unit": "%"
+            },
+            "high": {
+              "value": 14.3,
+              "unit": "%"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -4153,9 +4360,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "11.1 - 14.3"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4180,7 +4384,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4237,6 +4441,19 @@
         "valueQuantity": {
           "value": 123
         },
+        "referenceRange": [
+          {
+            "text": "135 x10(3)/mcL - 371 x10(3)/mcL",
+            "low": {
+              "value": "135",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "371",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -4248,11 +4465,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "135 - 371 x10(3)/mcL",
-          "high": "371",
-          "low": "135"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4277,7 +4489,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4335,9 +4547,19 @@
           "value": 10.8,
           "unit": "fL"
         },
-        "referenceRange": {
-          "text": "9.3 - 12.8"
-        },
+        "referenceRange": [
+          {
+            "text": "9.3 fL - 12.8 fL",
+            "low": {
+              "value": 9.3,
+              "unit": "fL"
+            },
+            "high": {
+              "value": 12.8,
+              "unit": "fL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4362,7 +4584,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4419,11 +4641,19 @@
         "valueQuantity": {
           "value": 0
         },
-        "referenceRange": {
-          "text": "0 - 0 /100 WBC",
-          "high": "0",
-          "low": "0"
-        },
+        "referenceRange": [
+          {
+            "text": "0 /100 WBC - 0 /100 WBC",
+            "low": {
+              "value": "0",
+              "unit": "/100 WBC"
+            },
+            "high": {
+              "value": "0",
+              "unit": "/100 WBC"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4448,7 +4678,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4505,6 +4735,19 @@
         "valueQuantity": {
           "value": 0.05
         },
+        "referenceRange": [
+          {
+            "text": "0.00 x10(3)/mcL - 0.00 x10(3)/mcL",
+            "low": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -4516,11 +4759,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "0.00 - 0.00 x10(3)/mcL",
-          "high": "0.00",
-          "low": "0.00"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4545,7 +4783,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4620,7 +4858,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         }
       },
       "request": {
@@ -4654,7 +4892,7 @@
           "end": "2022-04-11T15:23:00Z"
         },
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4759,6 +4997,19 @@
         "valueQuantity": {
           "value": 10.9
         },
+        "referenceRange": [
+          {
+            "text": "3.9 x10(3)/mcL - 10.7 x10(3)/mcL",
+            "low": {
+              "value": "3.9",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "10.7",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -4770,11 +5021,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "3.9 - 10.7 x10(3)/mcL",
-          "high": "10.7",
-          "low": "3.9"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4799,7 +5045,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4856,11 +5102,19 @@
         "valueQuantity": {
           "value": 4.91
         },
-        "referenceRange": {
-          "text": "4.00 - 5.50 x10(6)/mcL",
-          "high": "5.50",
-          "low": "4.00"
-        },
+        "referenceRange": [
+          {
+            "text": "4.00 x10(6)/mcL - 5.50 x10(6)/mcL",
+            "low": {
+              "value": "4.00",
+              "unit": "x10(6)/mcL"
+            },
+            "high": {
+              "value": "5.50",
+              "unit": "x10(6)/mcL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4885,7 +5139,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -4942,11 +5196,19 @@
         "valueQuantity": {
           "value": 14.9
         },
-        "referenceRange": {
-          "text": "11.8 - 16.0 gm/dL",
-          "high": "16.0",
-          "low": "11.8"
-        },
+        "referenceRange": [
+          {
+            "text": "11.8 gm/dL - 16.0 gm/dL",
+            "low": {
+              "value": "11.8",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "16.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4971,7 +5233,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5029,6 +5291,19 @@
           "value": 46,
           "unit": "%"
         },
+        "referenceRange": [
+          {
+            "text": "36 % - 43 %",
+            "low": {
+              "value": 36,
+              "unit": "%"
+            },
+            "high": {
+              "value": 43,
+              "unit": "%"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -5040,9 +5315,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "36 - 43"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5067,7 +5339,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5125,9 +5397,19 @@
           "value": 93,
           "unit": "fL"
         },
-        "referenceRange": {
-          "text": "81 - 98"
-        },
+        "referenceRange": [
+          {
+            "text": "81 fL - 98 fL",
+            "low": {
+              "value": 81,
+              "unit": "fL"
+            },
+            "high": {
+              "value": 98,
+              "unit": "fL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5152,7 +5434,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5210,9 +5492,19 @@
           "value": 30.3,
           "unit": "pg"
         },
-        "referenceRange": {
-          "text": "27.0 - 32.0"
-        },
+        "referenceRange": [
+          {
+            "text": "27.0 pg - 32.0 pg",
+            "low": {
+              "value": 27.0,
+              "unit": "pg"
+            },
+            "high": {
+              "value": 32.0,
+              "unit": "pg"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5237,7 +5529,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5294,11 +5586,19 @@
         "valueQuantity": {
           "value": 32.7
         },
-        "referenceRange": {
-          "text": "31.0 - 35.0 gm/dL",
-          "high": "35.0",
-          "low": "31.0"
-        },
+        "referenceRange": [
+          {
+            "text": "31.0 gm/dL - 35.0 gm/dL",
+            "low": {
+              "value": "31.0",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "35.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5323,7 +5623,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5381,9 +5681,19 @@
           "value": 51.0,
           "unit": "fL"
         },
-        "referenceRange": {
-          "text": "37.4 - 52.4"
-        },
+        "referenceRange": [
+          {
+            "text": "37.4 fL - 52.4 fL",
+            "low": {
+              "value": 37.4,
+              "unit": "fL"
+            },
+            "high": {
+              "value": 52.4,
+              "unit": "fL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5408,7 +5718,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5466,6 +5776,19 @@
           "value": 15.0,
           "unit": "%"
         },
+        "referenceRange": [
+          {
+            "text": "11.1 % - 14.3 %",
+            "low": {
+              "value": 11.1,
+              "unit": "%"
+            },
+            "high": {
+              "value": 14.3,
+              "unit": "%"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -5477,9 +5800,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "11.1 - 14.3"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5504,7 +5824,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5561,6 +5881,19 @@
         "valueQuantity": {
           "value": 88
         },
+        "referenceRange": [
+          {
+            "text": "135 x10(3)/mcL - 371 x10(3)/mcL",
+            "low": {
+              "value": "135",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "371",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -5572,11 +5905,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "135 - 371 x10(3)/mcL",
-          "high": "371",
-          "low": "135"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5601,7 +5929,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5659,9 +5987,19 @@
           "value": 10.4,
           "unit": "fL"
         },
-        "referenceRange": {
-          "text": "9.3 - 12.8"
-        },
+        "referenceRange": [
+          {
+            "text": "9.3 fL - 12.8 fL",
+            "low": {
+              "value": 9.3,
+              "unit": "fL"
+            },
+            "high": {
+              "value": 12.8,
+              "unit": "fL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5686,7 +6024,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5743,11 +6081,19 @@
         "valueQuantity": {
           "value": 0
         },
-        "referenceRange": {
-          "text": "0 - 0 /100 WBC",
-          "high": "0",
-          "low": "0"
-        },
+        "referenceRange": [
+          {
+            "text": "0 /100 WBC - 0 /100 WBC",
+            "low": {
+              "value": "0",
+              "unit": "/100 WBC"
+            },
+            "high": {
+              "value": "0",
+              "unit": "/100 WBC"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5772,7 +6118,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5829,11 +6175,19 @@
         "valueQuantity": {
           "value": 0.0
         },
-        "referenceRange": {
-          "text": "0.00 - 0.00 x10(3)/mcL",
-          "high": "0.00",
-          "low": "0.00"
-        },
+        "referenceRange": [
+          {
+            "text": "0.00 x10(3)/mcL - 0.00 x10(3)/mcL",
+            "low": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5858,7 +6212,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "performer": [
           {
@@ -5933,7 +6287,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         }
       },
       "request": {
@@ -5990,7 +6344,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         }
       },
       "request": {
@@ -6042,7 +6396,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/bed43af7-205a-4b9c-acdd-7870aebbb5ee"
+          "reference": "Patient/d9978706-1fe2-47ba-be1c-c4206ae39898"
         },
         "meta": {
           "source": [
