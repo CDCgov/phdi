@@ -803,36 +803,20 @@ export const evaluateEmergencyContact = (
 export const evaluateLabInfoData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
-): {
-  labInfo: CompleteData;
-  labResults: any;
-} => {
-  const labInfo: DisplayData[] = [
-    {
-      title: "Lab Performing Name",
-      value: "",
-    },
-    {
-      title: "Lab Address",
-      value: "",
-    },
-    {
-      title: "Lab Contact",
-      value: "",
-    },
-  ];
-
+): any => {
   const rrData = evaluateDiagnosticReportData(fhirBundle, mappings);
-  Object.keys(rrData).forEach((key) => {
-    evaluateLabOrganizationData(
+  const orgRrData: any[] = [];
+  Object.keys(rrData).forEach((key: string) => {
+    const orgData = evaluateLabOrganizationData(
       fhirBundle,
       mappings,
       key.replace("Organization/", ""),
     );
+    orgRrData.push({
+      rrData: rrData[key],
+      orgData: orgData,
+    });
   });
-
-  return {
-    labInfo: evaluateData(labInfo),
-    labResults: rrData,
-  };
+  console.log(orgRrData);
+  return orgRrData;
 };

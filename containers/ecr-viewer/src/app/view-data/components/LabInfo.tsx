@@ -1,4 +1,4 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
+import { DataDisplay } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -7,8 +7,7 @@ import {
 import React from "react";
 
 interface LabInfoProps {
-  labInfo: DisplayData[];
-  labResults: React.JSX.Element[];
+  labResults: any;
 }
 
 /**
@@ -18,27 +17,29 @@ interface LabInfoProps {
  * @param {React.JSX.Element[]} props.labResults - Array of Lab result items.
  * @returns {React.JSX.Element} React element representing the LabInfo component.
  */
-export const LabInfo = ({
-  labInfo,
-  labResults,
-}: LabInfoProps): React.JSX.Element => {
+export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
+  console.log(labResults);
   const renderLabInfo = () => {
     return (
       <>
-        <AccordianH4 id={"lab-results-from"}>Lab Results from</AccordianH4>
-        <AccordianDiv>
-          {labInfo.map((item, index) => {
-            return <DataDisplay item={item} key={index} />;
-          })}
-          {labResults}
-        </AccordianDiv>
+        {labResults.map((orgRrData: any) => (
+          <>
+            <AccordianH4 id={"lab-results-from"}>Lab Results from</AccordianH4>
+            <AccordianDiv>
+              {orgRrData.orgData.map((item: any, index: any) => (
+                <DataDisplay item={item} key={index} />
+              ))}
+              {orgRrData.rrData}
+            </AccordianDiv>
+          </>
+        ))}
       </>
     );
   };
 
   return (
     <AccordianSection>
-      {(labInfo.length > 0 || labResults.length > 0) && renderLabInfo()}
+      {labResults.length > 0 && renderLabInfo()}
     </AccordianSection>
   );
 };

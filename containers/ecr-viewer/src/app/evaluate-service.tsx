@@ -5,7 +5,6 @@ import {
   DiagnosticReport,
   FhirResource,
   Observation,
-  Organization,
   Quantity,
   Reference,
 } from "fhir/r4";
@@ -104,17 +103,20 @@ export const evaluateDiagnosticReportData = (
   return resultObject;
 };
 
+/**
+ * Modifies result object to be grouped by org id
+ * @param resultObject
+ * @param organizationId
+ * @param element
+ */
 const groupElementByOrgId = (
   resultObject: ResultObject,
   organizationId: string,
   element: React.JSX.Element,
 ) => {
-  // Assuming resultObject exists and is the object we are building up over time
   if (resultObject.hasOwnProperty(organizationId)) {
-    // The key exists, so we push the new element into the existing array
     resultObject[organizationId].push(element);
   } else {
-    // The key doesn't exist, so we create a new array with the element
     resultObject[organizationId] = [element];
   }
 };
@@ -123,34 +125,15 @@ interface ResultObject {
   [key: string]: JSX.Element[]; // Define the type of the values stored in the object
 }
 
-export function evaluateOrganizationTable(
-  report: DiagnosticReport,
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-  columnInfo: ColumnInfoInput[],
-) {
-  const observations: Observation[] =
-    report.result?.map((obsRef: Reference) =>
-      evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
-    ) ?? [];
-  let obsTable;
-  if (observations?.length > 0) {
-    obsTable = evaluateTable(observations, mappings, columnInfo, "", false);
-  }
-  return obsTable;
-}
-
 export const evaluateLabOrganizationData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
   id: string,
 ) => {
   const orgMappings = evaluate(fhirBundle, mappings["organizations"]);
-  const matchingOrg = orgMappings.map((organization: Organization) => {
-    if (organization.id === id) {
-      return organization;
-    }
-  })[0];
+  const matchingOrg = orgMappings.filter(
+    (organization) => organization.id === id,
+  )[0];
   const orgAddress = matchingOrg?.address?.[0];
   const streetAddress = orgAddress?.line ?? [];
   const city = orgAddress?.city ?? "";
@@ -166,13 +149,11 @@ export const evaluateLabOrganizationData = (
   );
   const contactInfo = matchingOrg?.contact?.[0].telecom?.[0].value ?? "";
   const name = matchingOrg?.name ?? "";
-  console.log(name);
   const matchingOrgData: DisplayData[] = [
     { title: "Lab Name", value: name },
     { title: "Lab Address", value: formattedAddress },
     { title: "Lab Contact", value: contactInfo },
   ];
-
   return matchingOrgData;
 };
 
