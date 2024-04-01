@@ -9,7 +9,7 @@ psycopg2-binary==2.9.7
 tabulate
 fhirpathpy
 matplotlib>=3.8.3
-pandas
+pandas>2.0.0
 sqlalchemy
 rapidfuzz
-pyarrow
+pyarrow>=14.0.1
