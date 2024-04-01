@@ -8,7 +8,6 @@ import {
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
-import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
 import BundleLabs from "@/app/tests/assets/BundleLabs.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
@@ -40,10 +39,10 @@ describe("Evaluate Reference", () => {
 
 describe("Evaluate Diagnostic Report", () => {
   it("should evaluate diagnostic report title", () => {
-    const report = evaluate(BundleLabInfo, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabInfo as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
@@ -55,14 +54,14 @@ describe("Evaluate Diagnostic Report", () => {
     );
 
     expect(actualDisplay.props.title).toContain(
-      "Drugs Of Abuse Comprehensive Screen, Ur",
+      "STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS",
     );
   });
   it("should evaluate diagnostic report results", () => {
-    const report = evaluate(BundleLabInfo, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabInfo as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
@@ -75,8 +74,8 @@ describe("Evaluate Diagnostic Report", () => {
 
     render(actualDisplay.props.content);
 
-    expect(screen.getByText("Phencyclidine Screen, Urine")).toBeInTheDocument();
-    expect(screen.getByText("Negative")).toBeInTheDocument();
+    expect(screen.getByText("E. Coli (EAEC), NAAT")).toBeInTheDocument();
+    expect(screen.getAllByText("Not Detected")).not.toBeEmpty();
   });
   it("the table should not appear when there are no results", () => {
     const diagnosticReport = {
