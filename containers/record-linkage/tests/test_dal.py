@@ -4,6 +4,7 @@ import pathlib
 
 from app.linkage.dal import DataAccessLayer
 from app.linkage.mpi import DIBBsMPIConnectorClient
+from app.utils import _clean_up
 from sqlalchemy import Engine
 from sqlalchemy import select
 from sqlalchemy import Table
@@ -38,22 +39,6 @@ def _init_db() -> DataAccessLayer:
     dal.initialize_schema()
     dal.get_session()
     return dal
-
-
-def _clean_up(dal):
-    with dal.engine.connect() as pg_connection:
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
-        pg_connection.commit()
-        pg_connection.close()
 
 
 def test_init_dal():

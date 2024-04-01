@@ -13,8 +13,10 @@ from typing import Union
 
 import fhirpathpy
 from app.config import get_settings
+from app.linkage.dal import DataAccessLayer
 from fastapi import FastAPI
 from pydantic import BaseModel
+from sqlalchemy import text
 
 
 def load_mpi_env_vars_os():
@@ -314,3 +316,20 @@ class BaseService:
         if self.include_health_check_endpoint:
             self.add_health_check_endpoint()
         return self.app
+
+
+def _clean_up(dal: DataAccessLayer):
+    with dal.engine.connect() as pg_connection:
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway CASCADE;"""))
+        pg_connection.commit()
+        pg_connection.close()

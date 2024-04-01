@@ -42,6 +42,7 @@ from app.linkage.link import read_linkage_config
 from app.linkage.link import score_linkage_vs_truth
 from app.linkage.link import write_linkage_config
 from app.linkage.mpi import DIBBsMPIConnectorClient
+from app.utils import _clean_up
 from sqlalchemy import select
 from sqlalchemy import text
 
@@ -87,22 +88,6 @@ def _init_db() -> DataAccessLayer:
     dal.initialize_schema()
 
     return DIBBsMPIConnectorClient()
-
-
-def _clean_up(dal):
-    with dal.engine.connect() as pg_connection:
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
-        pg_connection.commit()
-        pg_connection.close()
 
 
 def test_extract_blocking_values_from_record():
