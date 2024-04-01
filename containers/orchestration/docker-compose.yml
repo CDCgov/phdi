@@ -87,7 +87,7 @@ services:
       - ./grafana/datasources/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
       - grafana_data:/var/lib/grafana
     depends_on:
-      - db
+      - prometheus
 volumes:
   prom_data:
   grafana_data:
