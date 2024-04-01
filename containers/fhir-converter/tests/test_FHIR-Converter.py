@@ -1,5 +1,6 @@
 # flake8: noqa
 import json
+import os
 import pathlib
 from unittest import mock
 
@@ -373,6 +374,7 @@ def test_resolve_references_invalid_input():
 
 
 def test_add_rr_to_ecr():
+    print(os.getcwd())
     with open("CDA_RR.xml") as fp:
         rr = fp.read()
 
