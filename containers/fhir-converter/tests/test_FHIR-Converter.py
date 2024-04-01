@@ -374,11 +374,10 @@ def test_resolve_references_invalid_input():
 
 
 def test_add_rr_to_ecr():
-    print(os.getcwd())
-    with open("CDA_RR.xml") as fp:
+    with open("./tests/test_files/CDA_RR.xml") as fp:
         rr = fp.read()
 
-    with open("CDA_eICR.xml") as fp:
+    with open("./tests/test_files/CDA_eICR.xml") as fp:
         ecr = fp.read()
 
     # extract rr fields, insert to ecr
@@ -423,11 +422,11 @@ def test_add_rr_to_ecr():
 
 
 def test_add_rr_to_ecr_rr_already_present(capfd):
-    with open("CDA_RR.xml") as fp:
+    with open("./tests/test_files/CDA_RR.xml") as fp:
         rr = fp.read()
 
     # This eICR has already been merged with an RR
-    with open("merged_eICR.xml") as fp:
+    with open("./tests/test_files/merged_eICR.xml") as fp:
         ecr = fp.read()
 
     merged_ecr = add_rr_data_to_eicr(rr, ecr)
@@ -438,9 +437,11 @@ def test_add_rr_to_ecr_rr_already_present(capfd):
 
 
 def test_standardize_hl7_datetimes():
-    message_long_date = open("FileSingleMessageLongDate.hl7").read()
-    massage_timezone = open("FileSingleMessageLongTZ.hl7").read()
-    massage_invalid_segments = open("FileSingleMessageInvalidSegments.hl7").read()
+    message_long_date = open("./tests/test_files/FileSingleMessageLongDate.hl7").read()
+    massage_timezone = open("./tests/test_files/FileSingleMessageLongTZ.hl7").read()
+    massage_invalid_segments = open(
+        "./tests/test_files/FileSingleMessageInvalidSegments.hl7"
+    ).read()
 
     assert (
         standardize_hl7_datetimes(message_long_date)
@@ -478,7 +479,11 @@ def test_standardize_hl7_datetimes():
 
 
 def test_normalize_hl7_datetime_segment():
-    message_long_date = open("FileSingleMessageLongDate.hl7").read().replace("\n", "\r")
+    message_long_date = (
+        open("./tests/test_files/FileSingleMessageLongDate.hl7")
+        .read()
+        .replace("\n", "\r")
+    )
 
     message_long_date_parsed = hl7.parse(message_long_date)
 
