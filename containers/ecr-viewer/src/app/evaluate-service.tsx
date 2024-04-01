@@ -1,7 +1,6 @@
 import { evaluate } from "fhirpath";
 import { Bundle, CodeableConcept, FhirResource, Quantity } from "fhir/r4";
-import { ColumnInfoInput } from "@/app/utils";
-import { PathMappings } from "@/app/utils";
+import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
