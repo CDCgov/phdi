@@ -126,4 +126,5 @@ jobs:
 
       - name: Run Tests for Containers
         run: |
-          echo "need to add shell script for this part maybe?"
+          echo "container-changed: ${{ needs.filter-test-files.outputs.container-changed }}"
+          echo "container-changes: ${{ needs.filter-test-files.outputs.container-changes }}"
