@@ -67,6 +67,44 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
+                Current Age
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                27
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                Vital Status
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                Alive
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
                 Sex
               </div>
               <div
