@@ -1143,9 +1143,9 @@ def _bind_func_names_to_invocations(algo_config: List[dict]):
     for lp in algo_config:
         feature_funcs = lp["funcs"]
         for func in feature_funcs:
-            if isinstance(type(feature_funcs[func]), str):
+            if type(feature_funcs[func]) is str:  # noqa
                 feature_funcs[func] = globals()[feature_funcs[func]]
-        if isinstance(type(lp["matching_rule"]), str):
+        if type(lp["matching_rule"]) is str:  # noqa
             lp["matching_rule"] = globals()[lp["matching_rule"]]
     return algo_config
 

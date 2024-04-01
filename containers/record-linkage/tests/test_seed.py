@@ -20,12 +20,12 @@ def test_convert_to_patient_fhir_resources():
     for row in parquet_file.iter_batches(batch_size=1):
         data = row.to_pylist()[0]
         (iris_id, returned_fhir_bundle) = convert_to_patient_fhir_resources(data)
-        assert isinstance(type(returned_fhir_bundle), dict)
+        assert type(returned_fhir_bundle) is dict  # noqa
         assert returned_fhir_bundle["resourceType"] == "Bundle"
         assert returned_fhir_bundle["entry"][0]["resource"]["resourceType"] == "Patient"
         assert returned_fhir_bundle["id"] != ""
         assert iris_id == data["person_id"]
-        assert isinstance(returned_fhir_bundle["entry"][0]["resource"]["name"], list)
+        assert type(returned_fhir_bundle["entry"][0]["resource"]["name"]) is list  # noqa
         assert (
             "urn:uuid:" + returned_fhir_bundle["entry"][0]["resource"]["id"]
             == returned_fhir_bundle["entry"][0]["fullUrl"]
