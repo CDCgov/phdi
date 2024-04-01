@@ -248,19 +248,27 @@ def test_organize_block_criteria():
     assert result_block == expected_block_data
 
 
-def test_generate_where_criteria():
+def test_generate_where_clause():
     MPI = _init_db()
     block_data = {
         "dob": {"value": "1977-11-11"},
         "sex": {"value": "M"},
     }
 
-    where_crit = MPI._generate_where_criteria(
+    where_clause, where_params = MPI._generate_where_clause(
         block_criteria=block_data, table_name="patient"
     )
-    expected_result = ["patient.dob = '1977-11-11'", "patient.sex = 'M'"]
 
-    assert where_crit == expected_result
+    expected_where_clause = (
+        "patient.dob = :criterion_patient_dob AND patient.sex = :criterion_patient_sex"
+    )
+    expected_where_params = {
+        "criterion_patient_dob": "1977-11-11",
+        "criterion_patient_sex": "M",
+    }
+
+    assert expected_where_clause == where_clause
+    assert expected_where_params == where_params
 
 
 def test_generate_block_query():
@@ -276,20 +284,29 @@ def test_generate_block_query():
     }
 
     base_query = select(MPI.dal.PATIENT_TABLE)
-    my_query = MPI._generate_block_query(block_data, base_query)
+    my_query, my_query_params = MPI._generate_block_query(block_data, base_query)
 
-    expected_result = (
+    expected_query_result = (
         "WITH patient_cte AS"
         + "(SELECT patient.patient_id AS patient_id"
         + "FROM patient"
-        + "WHERE patient.dob = '1977-11-11' AND patient.sex = 'M')"
+        + "WHERE patient.dob = :criterion_patient_dob AND patient.sex = "
+        + ":criterion_patient_sex)"
         + "SELECT patient.patient_id, patient.person_id, patient.dob,"
         + "patient.sex, patient.race, patient.ethnicity"
         + "FROM patient JOIN patient_cte ON "
         + "patient_cte.patient_id = patient.patient_id"
     )
+    expected_query_params = {
+        "criterion_patient_dob": "1977-11-11",
+        "criterion_patient_sex": "M",
+    }
+
     # ensure query has the proper where clause added
-    assert re.sub(r"\s+", "", str(my_query)) == re.sub(r"\s+", "", expected_result)
+    assert re.sub(r"\s+", "", str(my_query)) == re.sub(
+        r"\s+", "", expected_query_result
+    )
+    assert my_query_params == expected_query_params
 
     block_data2 = {
         "given_name": {
@@ -302,25 +319,33 @@ def test_generate_block_query():
         },
     }
 
-    expected_result2 = (
+    expected_query_result2 = (
         "WITH given_name_cte AS "
         "(SELECT name.patient_id AS patient_id FROM name JOIN "
         "(SELECT given_name.given_name_id AS given_name_id, "
         "given_name.name_id AS name_id, given_name.given_name AS given_name, "
         "given_name.given_name_index AS given_name_index FROM given_name "
-        "WHERE given_name.given_name = 'Homer') AS given_name_cte_subq "
+        "WHERE given_name.given_name = :criterion_given_name_given_name) AS "
+        "given_name_cte_subq "
         "ON name.name_id = given_name_cte_subq.name_id), name_cte AS "
         "(SELECT name.patient_id AS patient_id FROM name WHERE "
-        "name.last_name = 'Simpson') SELECT patient.patient_id, patient.person_id, "
+        "name.last_name = :criterion_name_last_name) SELECT patient.patient_id, "
+        "patient.person_id, "
         "patient.dob, patient.sex, patient.race, patient.ethnicity FROM patient JOIN "
         "given_name_cte ON given_name_cte.patient_id = patient.patient_id JOIN "
         "name_cte ON name_cte.patient_id = patient.patient_id"
     )
+    expected_query_params2 = {
+        "criterion_given_name_given_name": "Homer",
+        "criterion_name_last_name": "Simpson",
+    }
     base_query2 = select(MPI.dal.PATIENT_TABLE)
-    my_query2 = MPI._generate_block_query(block_data2, base_query2)
-
+    my_query2, my_query2_params = MPI._generate_block_query(block_data2, base_query2)
     _clean_up(MPI.dal)
-    assert re.sub(r"\s+", "", str(my_query2)) == re.sub(r"\s+", "", expected_result2)
+    assert re.sub(r"\s+", "", str(my_query2)) == re.sub(
+        r"\s+", "", expected_query_result2
+    )
+    assert my_query2_params == expected_query_params2
 
 
 def test_init():

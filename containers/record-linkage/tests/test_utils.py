@@ -19,7 +19,7 @@ MOCK_SETTINGS = {
 
 
 def make_pyway_command(
-    pyway_command: Literal["info", "validate", "migrate", "import"]
+    pyway_command: Literal["info", "validate", "migrate", "import"],
 ) -> str:
     """
     Helper function for tests that require a pyway command.
