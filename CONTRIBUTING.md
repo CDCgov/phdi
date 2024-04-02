@@ -193,7 +193,12 @@ The following VS Code settings help enforce team coding conventions
 ```
 
 ##### Pre-Commit Checks
+`pre-commit` is used to enforce linting checks, format, and organize imports.
 
+To run the pre-commit checks manually:
+```
+poetry run pre-commit run --all-files
+```
 
 ### Submitting your changes
 
