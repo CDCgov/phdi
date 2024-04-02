@@ -482,7 +482,7 @@ export const combineOrgAndReportData = (
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @returns {DisplayData[]} The organization display data as an array
  */
-const evaluateLabOrganizationData = (
+export const evaluateLabOrganizationData = (
   id: string,
   fhirBundle: Bundle,
   mappings: PathMappings,

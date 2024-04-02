@@ -3,6 +3,10 @@ import { evaluateReference, evaluateValue } from "@/app/evaluate-service";
 import {
   evaluateObservationTable,
   evaluateDiagnosticReportData,
+  evaluateLabOrganizationData,
+  combineOrgAndReportData,
+  ResultObject,
+  evaluateLabInfoData,
 } from "@/app/labs/utils";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle, DiagnosticReport } from "fhir/r4";
@@ -96,6 +100,41 @@ describe("Evaluate Diagnostic Report", () => {
       [],
     );
     expect(actual).toBeUndefined();
+  });
+});
+
+describe("Evaluate Organization with ID", () => {
+  it("should return a matching org", () => {
+    const result = evaluateLabOrganizationData(
+      "d46ea14e-251a-ab52-3a32-89b12270d9e6",
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0].value).toEqual(
+      "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+    );
+  });
+  it("should combine the data into new format", () => {
+    const testResultObject: ResultObject = {
+      "Organization/d46ea14e-251a-ab52-3a32-89b12270d9e6": [<div></div>],
+    };
+    const result = combineOrgAndReportData(
+      testResultObject,
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0].organizationDisplayData).toBeArray();
+  });
+});
+
+describe("Evaluate the lab info section", () => {
+  it("should return a list of objects", () => {
+    const result = evaluateLabInfoData(
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0]).toHaveProperty("diagnosticReportDataElements");
+    expect(result[0]).toHaveProperty("organizationDisplayData");
   });
 });
 
