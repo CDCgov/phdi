@@ -1,27 +1,26 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import EcrMetadata from "../EcrMetadata";
-import { DisplayData } from "@/app/utils";
+import { DisplayData, ReportableConditions } from "@/app/utils";
 
 describe("ECR Metadata", () => {
   let container: HTMLElement;
   beforeAll(() => {
-    const rrDetails: DisplayData[] = [
-      {
-        title: "Reportable Condition(s)",
-        value:
-          "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
-      },
-      {
-        title: "RCKMS Trigger Summary",
-        value: "COVID-19 (as a diagnosis or active problem)",
-      },
-      {
-        title: "Jurisdiction(s) Sent eCR",
-        value: "California Department of Public Health",
-      },
-    ];
-
+    const rrConditionsList: ReportableConditions = {
+      "Disease caused by severe acute respiratory syndrome coronavirus 2(disorder)":
+        {
+          "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method":
+            new Set([
+              "California Department of Public Health",
+              "Los Angeles County Department of Public Health",
+            ]),
+          "Close contact in the 14 days prior to onset of symptoms with a confirmed or probable case of COVID-19 (Partially implemented as exposure with no timeframe parameters)":
+            new Set(["Los Angeles County Department of Public Health"]),
+          "COVID-19 (as a diagnosis or active problem)": new Set([
+            "Los Angeles County Department of Public Health",
+          ]),
+        },
+    };
     const eicrDetails: DisplayData[] = [
       {
         title: "eICR Identifier",
@@ -59,7 +58,7 @@ describe("ECR Metadata", () => {
       <EcrMetadata
         eicrDetails={eicrDetails}
         eCRSenderDetails={ecrSenderDetails}
-        rrDetails={rrDetails}
+        rrDetails={rrConditionsList}
       />,
     ).container;
   });
