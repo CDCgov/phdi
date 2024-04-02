@@ -6,6 +6,7 @@ import {
 } from "../component-utils";
 import React from "react";
 import { LabReportElementData } from "@/app/labs/utils";
+import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 
 interface LabInfoProps {
   labResults: LabReportElementData[];
@@ -26,6 +27,17 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
           <>
             <AccordianH4 id={"lab-results-from"}>Lab Results from</AccordianH4>
             <AccordianDiv>
+              <div className={"display-flex"}>
+                <div className={"margin-left-auto"}>
+                  <ExpandCollapseButtons
+                    id={"lab-info"}
+                    buttonSelector={"h5 > .usa-accordion__button"}
+                    accordionSelector={".accordion-rr > .usa-accordion__content"}
+                    expandButtonText={"Expand all labs"}
+                    collapseButtonText={"Collapse all labs"}
+                  />
+                </div>
+              </div>
               {labResult?.organizationDisplayData?.map(
                 (item: DisplayData, index: any) => {
                   if (item.value)

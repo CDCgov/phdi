@@ -6,6 +6,12 @@
   margin-bottom: .5rem;
 }
 
+.vertical-line {
+  border-left: 1px solid #005EA2;
+  margin-left: .5rem;
+  margin-right: .5rem;
+}
+
 .section__line_gray {
   border-top: 1px solid #DFE1E2;
   margin-top: .5rem;
@@ -58,11 +64,11 @@ h4 {
 }
 
 .info-container > .usa-accordion__heading > .usa-accordion__button {
-  font-size: 32px;
-  color: white !important;
-  background-color: #2E6276;
-  &:hover {
-    background-color: #224856;
+  font-size: 2rem;
+  background-size: 2.25rem;
+
+  &[aria-expanded="false"] {
+    margin-bottom: 2.5rem;
   }
 }
 
@@ -71,25 +77,33 @@ h4 {
   border-radius: .25rem;
   overflow: hidden;
   margin-top: 1rem;
-  padding-bottom: 0.5rem;
-  .usa-accordion__button{
+  .usa-accordion__button {
+    @include u-text('ink');
+    font-size: 1.125rem;
+    font-weight: normal;
+    background-color: color("white");
+    @include add-background-svg("usa-icons/remove");
+    border-bottom: #111111 1px solid;
+
     &:hover {
       background-color: #F0F0F0;
     }
-    position: relative;
-    background: white;
-    padding: 12px;
-    font-weight: normal;
-    &[aria-expanded="true"] {
-      border-bottom: #111111 1px solid;
+
+    &[aria-expanded="false"] {
+      border-bottom: 0;
+      @include add-background-svg("usa-icons/add");
     }
   }
-  
-  .lab-table{
-    max-width: calc(100% + 2.5rem);
+
+  .usa-prose > table {
+    overflow-wrap: anywhere;
+    width: calc(100% + 2.5rem);
     margin-right: -1.25rem;
     margin-left: -1.25rem;
     margin-top: -1rem;
+    thead th {
+      background-color: #F0F0F0;
+    }
   }
 }
 

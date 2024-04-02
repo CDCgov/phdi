@@ -57,12 +57,10 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "Encounter Info",
       content: (
-        <div>
-          <EncounterDetails
-            encounterData={encounterData.availableData}
-            providerData={providerData.availableData}
-          />
-        </div>
+        <EncounterDetails
+          encounterData={encounterData.availableData}
+          providerData={providerData.availableData}
+        />
       ),
       expanded: true,
       headingLevel: "h3",
@@ -70,22 +68,18 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "Clinical Info",
       content: (
-        <>
-          <ClinicalInfo
-            clinicalNotes={clinicalData.clinicalNotes.availableData}
-            reasonForVisitDetails={
-              clinicalData.reasonForVisitDetails.availableData
-            }
-            activeProblemsDetails={
-              clinicalData.activeProblemsDetails.availableData
-            }
-            vitalData={clinicalData.vitalData.availableData}
-            immunizationsDetails={
-              clinicalData.immunizationsDetails.availableData
-            }
-            treatmentData={clinicalData.treatmentData.availableData}
-          />
-        </>
+        <ClinicalInfo
+          clinicalNotes={clinicalData.clinicalNotes.availableData}
+          reasonForVisitDetails={
+            clinicalData.reasonForVisitDetails.availableData
+          }
+          activeProblemsDetails={
+            clinicalData.activeProblemsDetails.availableData
+          }
+          vitalData={clinicalData.vitalData.availableData}
+          immunizationsDetails={clinicalData.immunizationsDetails.availableData}
+          treatmentData={clinicalData.treatmentData.availableData}
+        />
       ),
       expanded: true,
       headingLevel: "h3",
@@ -99,13 +93,11 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "eCR Metadata",
       content: (
-        <>
-          <EcrMetadata
-            eicrDetails={ecrMetadata.eicrDetails.availableData}
-            eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
-            rrDetails={ecrMetadata.rrDetails}
-          />
-        </>
+        <EcrMetadata
+          eicrDetails={ecrMetadata.eicrDetails.availableData}
+          eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
+          rrDetails={ecrMetadata.rrDetails}
+        />
       ),
       expanded: true,
       headingLevel: "h3",
