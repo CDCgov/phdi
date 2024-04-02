@@ -50,12 +50,6 @@ const PatientSearch: React.FC = () => {
   return (
     <div>
       <h1>Patient Search</h1>
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="patient-search/style.css"
-      ></link>
-
       <div>
         <label htmlFor="fhirServer">FHIR Server:</label>
         <select
