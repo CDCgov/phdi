@@ -434,7 +434,7 @@ export const evaluateLabInfoData = (
       }),
     );
 
-    return (
+    const element = (
       <AccordionLabResults
         key={report.code.coding[0].display}
         title={report.code.coding[0].display}
