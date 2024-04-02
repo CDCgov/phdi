@@ -112,7 +112,7 @@ def convert_to_fhir(
         f"dotnet {converter_project_path} ",
         "convert -- ",
         f"--TemplateDirectory {template_directory_path} ",
-        f"--RootTemplate {root_template.value} ",
+        f"--RootTemplate {root_template} ",
         f"--InputDataFile {str(input_data_file_path)} "
         f"--OutputDataFile {str(output_data_file_path)} ",
     ]

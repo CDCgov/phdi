@@ -13,7 +13,7 @@ jobs:
       contains_release: ${{ steps.commit_check.outputs.contains_release }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Check commit message for [RELEASE]
         id: commit_check
@@ -36,7 +36,7 @@ jobs:
       version: ${{ steps.get_version.outputs.version }}
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           fetch-depth: "0"
           ref: "main"
@@ -97,7 +97,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           fetch-depth: "0"
           ref: ${{ needs.tag-release.outputs.version }}
@@ -146,7 +146,7 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           fetch-depth: "0"
           ref: ${{ needs.tag-release.outputs.version }}
@@ -198,7 +198,7 @@ jobs:
       matrix:
         container: ${{fromJson(needs.list-containers.outputs.python-containers)}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           fetch-depth: "0"
           ref: ${{ needs.tag-release.outputs.version }}
@@ -236,7 +236,7 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           ref: docs
 

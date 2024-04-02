@@ -5,13 +5,13 @@ ARG MESSAGE-PARSER_URL
 ARG SMARTY_AUTH_ID
 ARG SMARTY_AUTH_TOKEN
 
-FROM python:3.12-slim
+FROM python:3.11.5-slim
 
 WORKDIR /code
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y git build-essential
+    apt-get install -y git
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt

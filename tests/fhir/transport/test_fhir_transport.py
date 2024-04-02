@@ -149,7 +149,7 @@ def test_upload_bundle_to_fhir_server_failure(patch_log_error, patch_http_reques
 
     assert response[0].status_code == 400
 
-    patch_log_error.assert_called_with(400)
+    assert patch_log_error.called_with(400)
 
 
 @mock.patch("phdi.fhir.transport.http.http_request_with_reauth")

@@ -17,7 +17,7 @@ jobs:
       container-dirs: ${{steps.generate-list.outputs.containers}}
     steps:
       - name: Check Out Changes
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - name: Install dependencies
         run: |
           sudo apt-get install jq
@@ -34,7 +34,7 @@ jobs:
       python-containers: ${{steps.generate-python-list.outputs.python_containers}}
     steps:
       - name: Check Out Changes
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - name: Install dependencies
         run: |
           sudo apt-get install jq
@@ -51,7 +51,7 @@ jobs:
       integration-dirs: ${{steps.generate-integration-list.outputs.containers_to_test}}
     steps:
       - name: Check Out Changes
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - name: Install dependencies
         run: |
           sudo apt-get install jq

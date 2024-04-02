@@ -1,10 +1,9 @@
-FROM python:3.12-slim
+FROM python:3.10-slim
 
 WORKDIR /code
-
-RUN apt-get update && \
-  apt-get upgrade -y && \
-  apt-get install -y git build-essential
+RUN apt-get update && apt-get upgrade -y \
+  git \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
