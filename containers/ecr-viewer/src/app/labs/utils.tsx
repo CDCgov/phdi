@@ -91,8 +91,6 @@ export const getLabJsonObject = (
   // Get specified lab report (by reference value)
   // WIP: Issue with the null check
   return labsJson.filter((obj) => {
-    if (obj.resultId === null || obj.resultId === undefined)
-      console.log("i am a obj", obj);
     return obj.resultId?.includes(observationRefVal);
   })[0];
 };
