@@ -360,7 +360,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6c3ab2a3-5860-4ff1-aef0-4f878f82e501"
+          "reference": "Patient/e365e5f1-d103-4da5-8652-c6e30bf0397a"
         },
         "encounter": {
           "reference": "Encounter/3bf1e2d5-ef22-8211-097d-9acf0cc55fef"
@@ -404,7 +404,7 @@
           "start": "2022-03-24T09:33:00-04:00"
         },
         "subject": {
-          "reference": "Patient/6c3ab2a3-5860-4ff1-aef0-4f878f82e501"
+          "reference": "Patient/e365e5f1-d103-4da5-8652-c6e30bf0397a"
         },
         "location": [
           {
@@ -855,10 +855,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6c3ab2a3-5860-4ff1-aef0-4f878f82e501",
+      "fullUrl": "urn:uuid:e365e5f1-d103-4da5-8652-c6e30bf0397a",
       "resource": {
         "resourceType": "Patient",
-        "id": "6c3ab2a3-5860-4ff1-aef0-4f878f82e501",
+        "id": "e365e5f1-d103-4da5-8652-c6e30bf0397a",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -998,7 +998,165 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/6c3ab2a3-5860-4ff1-aef0-4f878f82e501"
+        "url": "Patient/e365e5f1-d103-4da5-8652-c6e30bf0397a"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9583d6c9-3c73-2bd2-b8dd-c4af7d5fefbe",
+      "resource": {
+        "resourceType": "CareTeam",
+        "id": "9583d6c9-3c73-2bd2-b8dd-c4af7d5fefbe",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:bab4bd72-ab7b-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "status": "active",
+        "name": "Patient Care Team",
+        "subject": {
+          "reference": "Patient/e365e5f1-d103-4da5-8652-c6e30bf0397a"
+        },
+        "participant": [
+          {
+            "role": {
+              "text": "admitting physician"
+            },
+            "member": {
+              "reference": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
+            },
+            "period": {
+              "start": "20220324"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "value": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "attending physician"
+            },
+            "member": {
+              "reference": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
+            },
+            "period": {
+              "start": "20220324"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "value": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "primary care physician"
+            },
+            "member": {
+              "reference": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
+            },
+            "period": {
+              "start": "20220324"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "value": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "FAMILY"
+            },
+            "member": {
+              "reference": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
+            },
+            "period": {
+              "start": "20220324"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "value": "active"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d708ffd2-b18b-fa4b-0b27-c35bf938823d",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "d708ffd2-b18b-fa4b-0b27-c35bf938823d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:8e852a95-7251-58ce-807d-943245b4c94a"
+          }
+        ],
+        "name": [
+          {
+            "family": "SOR",
+            "given": [
+              "PUMSEN",
+              "R"
+            ],
+            "prefix": [
+              "MRS."
+            ],
+            "suffix": [
+              "SR"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "1 MEDITECH CIRCLE"
+            ],
+            "city": "WESTWOOD",
+            "state": "MA",
+            "postalCode": "02830"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "PSOR@MEDITECH.COM"
+          },
+          {
+            "system": "phone",
+            "value": "+1(781)821-3000",
+            "use": "work"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
       }
     },
     {
@@ -1034,7 +1192,7 @@
         },
         "onsetDateTime": "2022-03-01",
         "subject": {
-          "reference": "Patient/6c3ab2a3-5860-4ff1-aef0-4f878f82e501"
+          "reference": "Patient/e365e5f1-d103-4da5-8652-c6e30bf0397a"
         },
         "meta": {
           "source": [
@@ -1096,7 +1254,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6c3ab2a3-5860-4ff1-aef0-4f878f82e501"
+          "reference": "Patient/e365e5f1-d103-4da5-8652-c6e30bf0397a"
         }
       },
       "request": {
@@ -1130,7 +1288,7 @@
         "status": "final",
         "valueString": "Do not know",
         "subject": {
-          "reference": "Patient/6c3ab2a3-5860-4ff1-aef0-4f878f82e501"
+          "reference": "Patient/e365e5f1-d103-4da5-8652-c6e30bf0397a"
         }
       },
       "request": {
@@ -1183,7 +1341,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/6c3ab2a3-5860-4ff1-aef0-4f878f82e501"
+          "reference": "Patient/e365e5f1-d103-4da5-8652-c6e30bf0397a"
         },
         "meta": {
           "source": [
