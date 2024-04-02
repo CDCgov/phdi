@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TEST_RUNNER_PYTHON_VERSION: 3.12.2
+  TEST_RUNNER_PYTHON_VERSION: 3.10.14
 
 jobs:
   postgres-tests:
