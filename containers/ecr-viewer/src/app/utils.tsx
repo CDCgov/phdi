@@ -35,7 +35,8 @@ export interface PathMappings {
 
 export interface ColumnInfoInput {
   columnName: string;
-  infoPath: string;
+  infoPath?: string;
+  value?: string;
 }
 
 export interface CompleteData {
@@ -480,6 +481,35 @@ export const returnProblemsTable = (
   return evaluateTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
+export const returnTreatmentTable = (
+  treatmentArray: Condition[],
+  mappings: PathMappings,
+): React.JSX.Element | undefined => {
+  if (treatmentArray.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo: ColumnInfoInput[] = [
+    {
+      columnName: "Name",
+      value: "pendingResults",
+      // columnName: "Name", value: returnFieldValueFromLabHtmlString(
+      //     report,
+      //     fhirBundle,
+      //     mappings,
+      //     "Name",
+      // ) as string,
+
+      // { columnName: "Type", value:  },
+      // { columnName: "Priority", value:  },
+      // { columnName: "Associated Diagnoses", value: },
+      // { columnName: "Date/Time", value:  },
+    },
+  ];
+
+  return evaluateTable(treatmentArray, mappings, columnInfo, "Pending Results");
+};
+
 /**
  * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
  * @param {Immunization[]} immunizationsArray - An array containing the list of immunizations.
@@ -581,6 +611,16 @@ export const evaluateClinicalData = (
     },
   ];
 
+  const planOfTreatmentTableData: DisplayData[] = [
+    {
+      title: "Plan of Treatment",
+      value: returnTreatmentTable(
+        evaluate(fhirBundle, mappings["planOfTreatment"]),
+        mappings,
+      ),
+    },
+  ];
+
   const treatmentData: DisplayData[] = [
     {
       title: "Procedures",
@@ -620,6 +660,7 @@ export const evaluateClinicalData = (
     treatmentData: evaluateData(treatmentData),
     vitalData: evaluateData(vitalData),
     immunizationsDetails: evaluateData(immunizationsData),
+    planOfTreatment: evaluateData(planOfTreatmentTableData),
   };
 };
 
