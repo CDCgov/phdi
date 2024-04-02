@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 import lxml.etree as ET
@@ -86,10 +87,11 @@ def read_schema_from_default_schemas():
 @pytest.fixture(scope="session")
 def setup(request):
     print("Setting up tests...")
-    compose_path = Path(__file__).resolve().parent / "integration"
-    compose_file_name = "docker-compose.yaml"
+    path = Path(__file__).resolve().parent / "integration"
+    compose_file_name = os.path.join(path, "docker-compose.yaml")
+
     message_parser = DockerCompose(
-        str(compose_path), compose_file_name=compose_file_name, build=True
+        path, compose_file_name=compose_file_name, build=True
     )
     parser_url = "http://0.0.0.0:8080"
 
