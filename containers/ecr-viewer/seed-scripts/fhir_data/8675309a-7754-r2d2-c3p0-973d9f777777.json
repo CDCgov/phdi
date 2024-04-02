@@ -418,7 +418,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "relatesTo": [
           {
@@ -476,7 +476,7 @@
           "end": "2023-02-12"
         },
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "location": [
           {
@@ -950,10 +950,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:ac37d4c1-296a-42d1-9e2d-ecfab6abab4c",
+      "fullUrl": "urn:uuid:e1e7c751-4ad9-4799-a999-b8a63b907bb6",
       "resource": {
         "resourceType": "Patient",
-        "id": "ac37d4c1-296a-42d1-9e2d-ecfab6abab4c",
+        "id": "e1e7c751-4ad9-4799-a999-b8a63b907bb6",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1113,7 +1113,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+        "url": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
       }
     },
     {
@@ -1158,7 +1158,7 @@
         },
         "onsetDateTime": "2017-02-27",
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "meta": {
           "source": [
@@ -1213,7 +1213,7 @@
         },
         "onsetDateTime": "2017-09-18",
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "meta": {
           "source": [
@@ -1268,7 +1268,7 @@
         },
         "onsetDateTime": "2021-11-05",
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "meta": {
           "source": [
@@ -1323,7 +1323,7 @@
         },
         "onsetDateTime": "2022-08-19",
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "meta": {
           "source": [
@@ -1378,7 +1378,7 @@
         },
         "onsetDateTime": "2022-08-19",
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "meta": {
           "source": [
@@ -1433,7 +1433,7 @@
         },
         "onsetDateTime": "2022-12-14",
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "meta": {
           "source": [
@@ -1497,7 +1497,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
@@ -1531,7 +1531,7 @@
           "end": "2022-01-31T18:52:00Z"
         },
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -1691,9 +1691,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1718,7 +1720,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -1806,9 +1808,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1833,7 +1837,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -1888,9 +1892,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1915,7 +1921,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -1970,9 +1976,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1997,7 +2005,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2052,9 +2060,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2079,7 +2089,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2134,9 +2144,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2161,7 +2173,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2216,9 +2228,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2243,7 +2257,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2298,9 +2312,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2325,7 +2341,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2380,9 +2396,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2407,7 +2425,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2462,9 +2480,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2489,7 +2509,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2544,9 +2564,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2571,7 +2593,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2626,9 +2648,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2653,7 +2677,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2708,9 +2732,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2735,7 +2761,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2790,9 +2816,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2817,7 +2845,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2880,6 +2908,11 @@
             }
           ]
         },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -2891,9 +2924,6 @@
             ]
           }
         ],
-        "referenceRange": {
-          "text": "Not Detected"
-        },
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2918,7 +2948,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -2973,9 +3003,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3000,7 +3032,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -3055,9 +3087,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3082,7 +3116,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -3137,9 +3171,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3164,7 +3200,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -3219,9 +3255,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3246,7 +3284,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -3301,9 +3339,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3328,7 +3368,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -3383,9 +3423,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3410,7 +3452,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -3465,9 +3507,11 @@
         },
         "effectiveDateTime": "2023-01-31T20:04:16Z",
         "valueString": "Not Detected",
-        "referenceRange": {
-          "text": "Not Detected"
-        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3492,7 +3536,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         },
         "performer": [
           {
@@ -3567,7 +3611,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
@@ -3624,7 +3668,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
@@ -3682,7 +3726,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
@@ -3732,7 +3776,7 @@
         "effectiveDateTime": "2020-11-09",
         "valueBoolean": true,
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
@@ -3793,7 +3837,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
@@ -3890,7 +3934,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
@@ -3938,7 +3982,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
@@ -4104,7 +4148,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
@@ -4155,7 +4199,7 @@
           "value": 20171216
         },
         "subject": {
-          "reference": "Patient/ac37d4c1-296a-42d1-9e2d-ecfab6abab4c"
+          "reference": "Patient/e1e7c751-4ad9-4799-a999-b8a63b907bb6"
         }
       },
       "request": {
