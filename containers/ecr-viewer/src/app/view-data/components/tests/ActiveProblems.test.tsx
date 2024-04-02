@@ -3,7 +3,7 @@ import { axe } from "jest-axe";
 import fs from "fs";
 import YAML from "yaml";
 import { returnProblemsTable } from "@/app/utils";
-import { Condition } from "fhir/r4";
+import { Bundle, Condition } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 
 describe("Active Problems Table", () => {
@@ -151,7 +151,7 @@ describe("Active Problems Table", () => {
     ];
     container = render(
       returnProblemsTable(
-        BundleWithPatient,
+        BundleWithPatient as unknown as Bundle,
         activeProblemsData,
         fhirPathMappings,
       )!,

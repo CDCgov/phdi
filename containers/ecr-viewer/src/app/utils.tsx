@@ -457,6 +457,7 @@ export const evaluateEcrMetadata = (
 
 /**
  * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing patient information.
  * @param {Condition[]} problemsArray - An array containing the list of problems.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
@@ -478,11 +479,9 @@ export const returnProblemsTable = (
 
   problemsArray.forEach((entry) => {
     entry.onsetDateTime = formatDate(entry.onsetDateTime);
-    entry.onsetAge = calculatePatientAge(
-      fhirBundle,
-      mappings,
-      entry.onsetDateTime,
-    );
+    entry.onsetAge = {
+      value: calculatePatientAge(fhirBundle, mappings, entry.onsetDateTime),
+    };
   });
 
   problemsArray.sort(
