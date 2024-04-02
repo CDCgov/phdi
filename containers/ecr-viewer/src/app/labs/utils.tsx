@@ -21,6 +21,12 @@ export interface LabReport {
   result: Array<Reference>;
 }
 
+export interface LabJson {
+  resultId: string | null;
+  resultName: string;
+  tables: Array<Array<{}>>;
+}
+
 const noData = <span className="no-data text-italic text-base">No data</span>;
 
 /**
@@ -48,6 +54,55 @@ export const getObservations = (
       );
     })
     .filter((obs) => obs);
+};
+
+/**
+ * Retrieves the JSON representation of a lab report from the labs HTML string.
+ * @param {LabReport} report - The LabReport object containing information about the lab report.
+ * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
+ * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
+ * @returns {LabJson} The JSON representation of the lab report.
+ */
+export const getLabJsonObject = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): LabJson => {
+  // Get reference value (result ID) from Observations
+  const observations = getObservations(report, fhirBundle, mappings);
+  const observationRefValsArray = observations.flatMap((observation) => {
+    const refVal = evaluate(observation, mappings["observationReferenceValue"]);
+    return extractNumbersAndPeriods(refVal);
+  });
+  const observationRefVal = [...new Set(observationRefValsArray)].join(", "); // should only be 1
+
+  // Get lab reports HTML String (for all lab reports) & convert to JSON
+  const labsString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
+  const labsJson = formatTablesToJSON(labsString);
+
+  // Get specified lab report (by reference value)
+  return labsJson.filter((obj) => obj.resultId.includes(observationRefVal))[0];
+};
+
+/**
+ * Checks whether the result name of a lab report includes the term "abnormal"
+ * @param {LabReport} report - The LabReport object containing information about the lab report.
+ * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
+ * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
+ * @returns {boolean} True if the result name includes "abnormal" (case insensitive), otherwise false. Will also return false if lab does not have JSON object.
+ */
+export const checkAbnormalTag = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): boolean => {
+  const labResult = getLabJsonObject(report, fhirBundle, mappings);
+  if (!labResult) {
+    return false;
+  }
+  const labResultName = labResult.resultName;
+
+  return labResultName.toLowerCase().includes("abnormal");
 };
 
 /**
@@ -178,28 +233,11 @@ export const returnFieldValueFromLabHtmlString = (
   mappings: PathMappings,
   fieldName: string,
 ): React.ReactNode => {
-  // Get reference value (result ID) from Observations
-  const observations = getObservations(report, fhirBundle, mappings);
-  const observationRefValsArray = observations.flatMap((observation) => {
-    const refVal = evaluate(observation, mappings["observationReferenceValue"]);
-    return extractNumbersAndPeriods(refVal);
-  });
-  const observationRefVal = [...new Set(observationRefValsArray)].join(", "); // should only be 1
-
-  // Get lab reports HTML String (for all lab reports) & convert to JSON
-  const labsString = evaluate(fhirBundle, mappings["labResultDiv"])[0].div;
-  const labsJson = formatTablesToJSON(labsString);
-
-  // Get tables for specified lab report (by reference value)
-  const labReportJson = labsJson.filter((obj) =>
-    obj.resultId.includes(observationRefVal),
-  )[0];
+  const labReportJson = getLabJsonObject(report, fhirBundle, mappings);
   if (!labReportJson) {
     return noData;
   }
   const labTables = labReportJson.tables;
-
-  // Find field value from matching lab report tables
   const fieldValue = searchResultRecord(labTables, fieldName);
 
   if (!fieldValue || fieldValue.length === 0) {
@@ -407,7 +445,7 @@ export const evaluateLabInfoData = (
       <AccordionLabResults
         key={report.code.coding[0].display}
         title={report.code.coding[0].display}
-        abnormalTag={false}
+        abnormalTag={checkAbnormalTag(report, fhirBundle, mappings)}
         content={content}
       />
     );

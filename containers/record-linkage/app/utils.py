@@ -24,7 +24,7 @@ def read_json_from_assets(filename: str):
 
 
 def run_pyway(
-    pyway_command: Literal["info", "validate", "migrate", "import"]
+    pyway_command: Literal["info", "validate", "migrate", "import"],
 ) -> subprocess.CompletedProcess:
     """
     Helper function to run the pyway CLI from Python.

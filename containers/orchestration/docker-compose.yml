@@ -82,12 +82,12 @@ services:
     ports:
       - "4000:3000"
     volumes:
+      - ./grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/datasources/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
       - grafana_data:/var/lib/grafana
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=DIBBsTest1!
-      - GF_SECURITY_ADMIN_USER=admin
     depends_on:
-      - db
+      - prometheus
 volumes:
   prom_data:
   grafana_data:
