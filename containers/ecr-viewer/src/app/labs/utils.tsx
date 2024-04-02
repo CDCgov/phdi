@@ -447,7 +447,6 @@ export const evaluateLabInfoData = (
       element,
     );
   });
-  console.log(organizationElements);
   return combineOrgAndReportData(organizationElements, fhirBundle, mappings);
 };
 

@@ -19,7 +19,6 @@ interface LabInfoProps {
  * @returns {React.JSX.Element} React element representing the LabInfo component.
  */
 export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
-  console.log(labResults);
   const renderLabInfo = () => {
     return (
       <>
