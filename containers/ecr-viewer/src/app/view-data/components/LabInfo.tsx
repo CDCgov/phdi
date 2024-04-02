@@ -1,13 +1,14 @@
-import { DataDisplay } from "@/app/utils";
+import { DataDisplay, DisplayData } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
   AccordianDiv,
 } from "../component-utils";
 import React from "react";
+import { LabReportElementData } from "@/app/labs/utils";
 
 interface LabInfoProps {
-  labResults: any[];
+  labResults: LabReportElementData[];
 }
 
 /**
@@ -27,9 +28,10 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
             <AccordianH4 id={"lab-results-from"}>Lab Results from</AccordianH4>
             <AccordianDiv>
               {labResult?.organizationDisplayData?.map(
-                (item: any, index: any) => (
-                  <DataDisplay item={item} key={index} />
-                ),
+                (item: DisplayData, index: any) => {
+                  if (item.value)
+                    return <DataDisplay item={item} key={index} />;
+                },
               )}
               {labResult.diagnosticReportDataElements}
             </AccordianDiv>

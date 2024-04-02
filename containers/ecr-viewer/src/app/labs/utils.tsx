@@ -26,6 +26,15 @@ export interface LabJson {
   tables: Array<Array<{}>>;
 }
 
+export interface ResultObject {
+  [key: string]: JSX.Element[];
+}
+
+export interface LabReportElementData {
+  diagnosticReportDataElements: React.JSX.Element[];
+  organizationDisplayData: DisplayData[];
+}
+
 const noData = <span className="no-data text-italic text-base">No data</span>;
 
 /**
@@ -84,7 +93,7 @@ export const getLabJsonObject = (
   return labsJson.filter((obj) => {
     if (obj.resultId === null || obj.resultId === undefined)
       console.log("i am a obj", obj);
-    return obj.resultId.includes(observationRefVal);
+    return obj.resultId?.includes(observationRefVal);
   })[0];
 };
 
@@ -332,23 +341,16 @@ export const evaluateDiagnosticReportData = (
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
 };
 
-interface ResultObject {
-  [key: string]: JSX.Element[]; // Define the type of the values stored in the object
-}
-
 /**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
  * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {{
- *   labInfo: CompleteData,
- *   labResults: React.JSX.Element[]
- * }} An object containing evaluated lab information and lab results.
+ * @returns {LabReportElementData} An array of the Diagnostic reports Elements and Organization Display Data
  */
 export const evaluateLabInfoData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
-): any => {
+): LabReportElementData[] => {
   const labReports = evaluate(fhirBundle, mappings["diagnosticReports"]);
   // the keys are the organization id, the value is an array of jsx elements of diagnsotic reports
   let organizationElements: ResultObject = {};
@@ -449,16 +451,23 @@ export const evaluateLabInfoData = (
   return combineOrgAndReportData(organizationElements, fhirBundle, mappings);
 };
 
+/**
+ * Combines the org display data with the diagnostic report elements
+ * @param {ResultObject} organizationElements - Object contianing the keys of org data, values of the diagnostic report elements
+ * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {LabReportElementData} An array of the Diagnostic reports Elements and Organization Display Data
+ */
 export const combineOrgAndReportData = (
-  organizationElements: any,
+  organizationElements: ResultObject,
   fhirBundle: Bundle,
   mappings: PathMappings,
-) => {
+): LabReportElementData[] => {
   return Object.keys(organizationElements).map((key: string) => {
     const orgData = evaluateLabOrganizationData(
+      key.replace("Organization/", ""),
       fhirBundle,
       mappings,
-      key.replace("Organization/", ""),
     );
     return {
       diagnosticReportDataElements: organizationElements[key],
@@ -467,10 +476,17 @@ export const combineOrgAndReportData = (
   });
 };
 
-export const evaluateLabOrganizationData = (
+/**
+ * Finds the Orgnization that matches the id and creates a DisplayData array
+ * @param {string} id - id of the organization
+ * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
+ * @param {PathMappings} mappings - An object containing the FHIR path mappings.
+ * @returns {DisplayData[]} The organization display data as an array
+ */
+const evaluateLabOrganizationData = (
+  id: string,
   fhirBundle: Bundle,
   mappings: PathMappings,
-  id: string,
 ) => {
   const orgMappings = evaluate(fhirBundle, mappings["organizations"]);
   const matchingOrg = orgMappings.filter(
@@ -499,6 +515,9 @@ export const evaluateLabOrganizationData = (
   return matchingOrgData;
 };
 
+/**
+ * Groups element by org ID
+ */
 const groupElementByOrgId = (
   resultObject: ResultObject,
   organizationId: string,
