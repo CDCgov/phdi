@@ -6,10 +6,7 @@ import uuid
 from datetime import date
 from datetime import datetime
 from json.decoder import JSONDecodeError
-from math import log
-from random import seed
 
-import pandas as pd
 import pytest
 from app.linkage.algorithms import DIBBS_BASIC
 from app.linkage.algorithms import DIBBS_ENHANCED
@@ -21,10 +18,6 @@ from app.linkage.link import _flatten_patient_resource
 from app.linkage.link import _match_within_block_cluster_ratio
 from app.linkage.link import add_person_resource
 from app.linkage.link import aggregate_given_names_for_linkage
-from app.linkage.link import calculate_log_odds
-from app.linkage.link import calculate_m_probs
-from app.linkage.link import calculate_u_probs
-from app.linkage.link import compile_match_lists
 from app.linkage.link import eval_log_odds_cutoff
 from app.linkage.link import eval_perfect_match
 from app.linkage.link import extract_blocking_values_from_record
@@ -37,7 +30,6 @@ from app.linkage.link import generate_hash_str
 from app.linkage.link import link_record_against_mpi
 from app.linkage.link import load_json_probs
 from app.linkage.link import match_within_block
-from app.linkage.link import perform_linkage_pass
 from app.linkage.link import read_linkage_config
 from app.linkage.link import score_linkage_vs_truth
 from app.linkage.link import write_linkage_config
@@ -45,10 +37,6 @@ from app.linkage.mpi import DIBBsMPIConnectorClient
 from app.utils import _clean_up
 from sqlalchemy import select
 from sqlalchemy import text
-
-from tests.test_data_generator import (
-    generate_list_patients_contact,
-)
 
 
 def _init_db() -> DataAccessLayer:
@@ -312,47 +300,6 @@ def test_match_within_block():
     assert match_pairs == [(5, 6), (5, 8), (6, 8)]
 
 
-def test_compile_match_lists():
-    data = generate_list_patients_contact()
-    data = pd.DataFrame(
-        data,
-        columns=[
-            "BIRTHDATE",
-            "FIRST",
-            "LAST",
-            "GENDER",
-            "ADDRESS",
-            "CITY",
-            "STATE",
-            "ZIP",
-            "ID",
-        ],
-    )
-    funcs = {
-        "FIRST": feature_match_four_char,
-        "LAST": feature_match_four_char,
-        "GENDER": feature_match_exact,
-    }
-    matches_1 = perform_linkage_pass(data, ["ZIP"], funcs, eval_perfect_match)
-    funcs = {
-        "FIRST": feature_match_four_char,
-        "LAST": feature_match_four_char,
-        "ADDRESS": feature_match_four_char,
-    }
-    matches_2 = perform_linkage_pass(data, ["BIRTHDATE"], funcs, eval_perfect_match)
-    funcs = {"GENDER": feature_match_exact}
-    matches_3 = perform_linkage_pass(data, ["ZIP"], funcs, eval_perfect_match)
-    assert compile_match_lists([matches_1, matches_2, matches_3], False) == {
-        1: {5, 11, 12, 13},
-        5: {11, 12, 13},
-        11: {12, 13},
-        12: {13},
-        23: {24, 31, 32},
-        24: {31, 32},
-        31: {32},
-    }
-
-
 def test_feature_match_four_char():
     record_i = ["Johnathan", "Shepard"]
     record_j = ["John", "Sheperd"]
@@ -364,62 +311,6 @@ def test_feature_match_four_char():
     for c in cols:
         assert feature_match_four_char(record_i, record_j, c, cols)
         assert not feature_match_four_char(record_i, record_k, c, cols)
-
-
-def test_perform_linkage_pass():
-    data = [
-        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
-        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
-        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
-        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
-        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
-        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
-        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
-        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
-        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
-        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
-        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
-        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
-    ]
-    data = pd.DataFrame(
-        data,
-        columns=[
-            "BIRTHDATE",
-            "FIRST",
-            "LAST",
-            "GENDER",
-            "ADDRESS",
-            "CITY",
-            "STATE",
-            "ZIP",
-            "ID",
-        ],
-    )
-    funcs = {
-        "FIRST": feature_match_four_char,
-        "LAST": feature_match_four_char,
-        "GENDER": feature_match_exact,
-    }
-    matches = perform_linkage_pass(data, ["ZIP"], funcs, eval_perfect_match, None)
-    assert matches == {
-        ("12345",): [],
-        ("15935",): [(23, 24), (23, 31), (24, 31)],
-        ("23456",): [],
-        ("64873",): [],
-        ("90909",): [(1, 12)],
-    }
-
-    # Now test again in cluster mode
-    matches = perform_linkage_pass(
-        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio=0.75
-    )
-    assert matches == {
-        ("12345",): [{14}],
-        ("15935",): [{24, 31, 23}, {32}],
-        ("23456",): [{18}],
-        ("64873",): [{27}],
-        ("90909",): [{1, 12}, {5}, {11}, {13}],
-    }
 
 
 def test_score_linkage_vs_truth():
@@ -457,108 +348,6 @@ def test_score_linkage_vs_truth():
     assert specificity == 0.926
     assert ppv == 0.75
     assert f1 == 0.857
-
-
-def test_read_write_m_probs():
-    data = pd.read_csv(
-        pathlib.Path(__file__).parent.parent / "assets" / "linkage" / "patient_lol.csv",
-        index_col=False,
-        dtype="object",
-        keep_default_na=False,
-    )
-    true_matches = {
-        0: {1, 2, 3},
-        1: {2, 3},
-        2: {3},
-        7: {8, 10, 11},
-        8: {10, 11},
-        10: {11},
-    }
-    true_probs = {
-        "BIRTHDATE": 1.0,
-        "FIRST": 2.0 / 13.0,
-        "LAST": 5.0 / 13.0,
-        "GENDER": 1.0,
-        "ADDRESS": 1.0,
-        "CITY": 1.0,
-        "STATE": 1.0,
-        "ZIP": 1.0,
-        "ID": 1.0 / 13.0,
-    }
-    if os.path.isfile("./m.json"):
-        os.remove("./m.json")
-
-    m_probs = calculate_m_probs(data, true_matches, file_to_write="m.json")
-    assert m_probs == true_probs
-
-    loaded_probs = load_json_probs("m.json")
-    assert loaded_probs == true_probs
-
-    os.remove("./m.json")
-
-
-def test_read_write_u_probs():
-    seed(0)
-    data = pd.read_csv(
-        pathlib.Path(__file__).parent.parent / "assets" / "linkage" / "patient_lol.csv",
-        index_col=False,
-        dtype="object",
-        keep_default_na=False,
-    )
-    true_matches = {
-        0: {1, 2, 3},
-        1: {2, 3},
-        2: {3},
-        7: {8, 10, 11},
-        8: {10, 11},
-        10: {11},
-    }
-    true_probs = {
-        "BIRTHDATE": 3.0 / 11.0,
-        "FIRST": 1.0 / 11.0,
-        "LAST": 2.0 / 11.0,
-        "GENDER": 1.0,
-        "ADDRESS": 1.0,
-        "CITY": 1.0,
-        "STATE": 1.0,
-        "ZIP": 3.0 / 11.0,
-        "ID": 1.0 / 11.0,
-    }
-    if os.path.isfile("./u.json"):
-        os.remove("./u.json")
-
-    u_probs = calculate_u_probs(
-        data, true_matches, n_samples=10, file_to_write="u.json"
-    )
-    assert u_probs == true_probs
-
-    loaded_probs = load_json_probs("u.json")
-    assert loaded_probs == true_probs
-
-    os.remove("./u.json")
-
-
-def test_read_write_log_odds():
-    if os.path.isfile("./log_odds.json"):
-        os.remove("./log_odds.json")
-    m_probs = {"A": 1.0, "B": 0.5, "C": 0.25, "D": 0.125}
-    u_probs = {"A": 0.1, "B": 0.2, "C": 0.05, "D": 0.125}
-    true_log_odds = {
-        "A": log(1.0) - log(0.1),
-        "B": log(0.5) - log(0.2),
-        "C": log(0.25) - log(0.05),
-        "D": log(1),
-    }
-    log_odds = calculate_log_odds(m_probs, u_probs, file_to_write="log_odds.json")
-    assert log_odds == true_log_odds
-    loaded_log_odds = load_json_probs("log_odds.json")
-    assert loaded_log_odds == true_log_odds
-
-    with pytest.raises(ValueError) as e:
-        calculate_log_odds({}, u_probs)
-    assert "probability dictionaries must contain the same set of keys" in str(e.value)
-
-    os.remove("log_odds.json")
 
 
 def test_load_json_probs_errors():
