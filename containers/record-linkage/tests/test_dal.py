@@ -23,8 +23,8 @@ def _init_db() -> DataAccessLayer:
         pathlib.Path(__file__).parent.parent.parent.parent
         / "containers"
         / "record-linkage"
-        / "app"
-        / "linkage"
+        / "tests"
+        / "assets"
         / "new_tables.ddl"
     ).read()
 
