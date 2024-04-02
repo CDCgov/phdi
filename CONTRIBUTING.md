@@ -105,20 +105,16 @@ In your terminal, navigate to the root project directory and run `poetry install
 
 To perform unit tests on the SDK library code, navigate to the root project directory and run:
 
-To run tests (and black, and flake8):
+To run tests:
 ```
-poetry run make test
+poetry run pytest
 ```
-
-If that fails, stating a file cannot be found, you can also try running `poetry run pytest` directly to run the tests.
 
 If you're running the SDK library in a virtual environment (in which you've run `poetry install` to install all dependencies), you can also simply activate the environment, navigate to `phdi/tests/`, and run `pytest`.
 
 
 Foundational libraries used for testing include:
 - [pytest](https://docs.pytest.org/en/6.2.x/) - for easy unit testing
-- [Black](https://black.readthedocs.io/en/stable/) - automatic code formatter that enforces PEP best practices
-- [flake8](https://flake8.pycqa.org/en/latest/) - for code style enforcement
 
 ##### Evaluating code coverage
 
@@ -175,6 +171,9 @@ Jupyter extension pack includes renderers and other useful tools for working wit
 **autoDocstring**
 This extension provides code snippet templates to generate initial docstring content automatically.
 
+**Ruff**
+Ruff is used to enforce Python style guides and to lint Python code
+
 ##### VS Code Settings
 
 The following VS Code settings help enforce team coding conventions
@@ -182,8 +181,23 @@ The following VS Code settings help enforce team coding conventions
 "autoDocstring.docstringFormat": "sphinx-notypes",
 "editor.formatOnSave": true,
 "editor.rulers": [ 88 ],
-"python.formatting.provider": "black",
-"python.linting.flake8Enabled": true,
+"[python]": { // Run Ruff on save to format and fix linter issues
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
+    "ruff.organizeImports": false
+  }
+```
+
+##### Pre-Commit Checks
+`pre-commit` is used to enforce linting checks, format, and organize imports.
+
+To run the pre-commit checks manually:
+```
+poetry run pre-commit run --all-files
 ```
 
 ### Submitting your changes
@@ -196,7 +210,7 @@ Once your changes and tests are ready to submit for review:
 
 2. **Rebase your changes**
 
-    Update your local repository with the most recent code from the principal repository, and rebase your branch on top of the latest `main` branch. We prefer your initial changes to be squashed into a single commit. Later, if we ask you to make changes, add the changes as separate commits. This makes the changes easier to review.  
+    Update your local repository with the most recent code from the principal repository, and rebase your branch on top of the latest `main` branch. We prefer your initial changes to be squashed into a single commit. Later, if we ask you to make changes, add the changes as separate commits. This makes the changes easier to review.
 
 3. **Submit a PR**
 
