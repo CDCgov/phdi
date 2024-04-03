@@ -39,8 +39,6 @@ export const evaluateTable = (
       if (column?.value) {
         rowCellData = column.value;
       } else if (column?.infoPath) {
-        console.log("Entry");
-        console.log(entry);
         rowCellData = evaluateValue(entry, mappings[column.infoPath]);
       }
       if (!rowCellData) {

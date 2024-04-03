@@ -14,6 +14,7 @@ interface ClinicalProps {
   immunizationsDetails: DisplayData[];
   treatmentData: DisplayData[];
   clinicalNotes: DisplayData[];
+  planOfTreatment: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -34,6 +35,7 @@ export const ClinicalInfo = ({
   vitalData,
   treatmentData,
   clinicalNotes,
+  planOfTreatment,
 }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
@@ -153,11 +155,32 @@ export const ClinicalInfo = ({
     );
   };
 
+  const renderPlanOfTreatmentDetails = () => {
+    console.log("planOfTreatment", planOfTreatment);
+    return (
+      <>
+        <AccordianH4>
+          <span id={clinicalInfoConfig.subNavItems?.[3].id}>
+            {clinicalInfoConfig.subNavItems?.[3].title}
+          </span>
+        </AccordianH4>
+        <AccordianDiv>
+          <div data-testid="plan-of-treatment">
+            {planOfTreatment.map((item, index) => (
+              <DataDisplay item={item} key={index} />
+            ))}
+          </div>
+        </AccordianDiv>
+      </>
+    );
+  };
+
   return (
     <AccordianSection>
       {clinicalNotes?.length > 0 && renderClinicalNotes()}
       {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
         renderSymptomsAndProblems()}
+      {planOfTreatment.length > 0 && renderPlanOfTreatmentDetails()}
       {treatmentData.length > 0 && renderTreatmentDetails()}
       {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
       {vitalData.length > 0 && renderVitalDetails()}

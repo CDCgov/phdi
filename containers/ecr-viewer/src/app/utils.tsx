@@ -15,6 +15,7 @@ import {
   formatDateTime,
 } from "@/app/format-service";
 import { evaluateTable } from "./evaluate-service";
+import { Table } from "@trussworks/react-uswds";
 
 export interface DisplayData {
   title?: string;
@@ -481,33 +482,112 @@ export const returnProblemsTable = (
   return evaluateTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
-export const returnTreatmentTable = (
-  treatmentArray: Condition[],
-  mappings: PathMappings,
+type TableEntry = {
+  Name: string;
+  Type: string;
+  Priority: string;
+  AssociatedDiagnoses?: string;
+  DateTime?: string;
+  OrderSchedule?: string;
+};
+
+type ExtractedData = {
+  pendingResults: TableEntry[];
+  scheduledOrders: TableEntry[];
+};
+
+export const returnPlanOfTreatmentTable = (
+  planOfTreatments: any[],
 ): React.JSX.Element | undefined => {
-  if (treatmentArray.length === 0) {
+  if (planOfTreatments.length === 0) {
     return undefined;
   }
 
-  const columnInfo: ColumnInfoInput[] = [
-    {
-      columnName: "Name",
-      value: "pendingResults",
-      // columnName: "Name", value: returnFieldValueFromLabHtmlString(
-      //     report,
-      //     fhirBundle,
-      //     mappings,
-      //     "Name",
-      // ) as string,
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(planOfTreatments[0].div, "text/html");
+  const tables = doc.getElementsByTagName("table");
+  const data: ExtractedData = {
+    pendingResults: [],
+    scheduledOrders: [],
+  };
 
-      // { columnName: "Type", value:  },
-      // { columnName: "Priority", value:  },
-      // { columnName: "Associated Diagnoses", value: },
-      // { columnName: "Date/Time", value:  },
-    },
+  Array.from(tables).forEach((table, index) => {
+    const rows = table.querySelectorAll("tbody tr");
+    rows.forEach((row) => {
+      const entry: TableEntry = {
+        Name: row.children[0].textContent || "",
+        Type: row.children[1].textContent || "",
+        Priority: row.children[2].textContent || "",
+      };
+
+      if (index === 0) {
+        // Assuming first table is always Pending Results
+        entry.DateTime = row.children[4].textContent || "";
+      } else {
+        // Assuming second table is always Scheduled Orders
+        entry.OrderSchedule = row.children[4].textContent || "";
+      }
+
+      if (index === 0) {
+        data.pendingResults.push(entry);
+      } else {
+        data.scheduledOrders.push(entry);
+      }
+    });
+  });
+
+  const header = [
+    "Name",
+    "Type",
+    "Priority",
+    "Associated Diagnoses",
+    "Date/Time",
   ];
 
-  return evaluateTable(treatmentArray, mappings, columnInfo, "Pending Results");
+  const cellClassNames = classNames("table-caption-margin margin-y-0", {
+    "border-top border-left border-right": true,
+  });
+
+  const myTable = (
+    <Table
+      fixed={true}
+      bordered={false}
+      fullWidth={true}
+      caption={"Pending Results"}
+      className={classNames("table-caption-margin margin-y-0", {})}
+      data-testid="table"
+    >
+      <thead>
+        <tr>
+          {header.map((column, index) => (
+            <th
+              key={`${column}${index}`}
+              scope="col"
+              className="bg-gray-5 minw-15"
+            >
+              {column}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.pendingResults.map((entry: TableEntry, index) => {
+          return (
+            <tr key={`table-row-${index}`}>
+              <td className={cellClassNames}>{entry.Name}</td>
+              <td className={cellClassNames}>{entry.Type}</td>
+              <td className={cellClassNames}>{entry.Priority}</td>
+              <td className={cellClassNames}>{entry.AssociatedDiagnoses}</td>
+              <td className={cellClassNames}>{entry.DateTime}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </Table>
+  );
+
+  console.log(myTable);
+  return myTable;
 };
 
 /**
@@ -611,12 +691,11 @@ export const evaluateClinicalData = (
     },
   ];
 
-  const planOfTreatmentTableData: DisplayData[] = [
+  const planOfTreatmentTableData = [
     {
       title: "Plan of Treatment",
-      value: returnTreatmentTable(
+      value: returnPlanOfTreatmentTable(
         evaluate(fhirBundle, mappings["planOfTreatment"]),
-        mappings,
       ),
     },
   ];

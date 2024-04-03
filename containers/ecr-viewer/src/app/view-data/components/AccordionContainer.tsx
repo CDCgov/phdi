@@ -84,6 +84,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
               clinicalData.immunizationsDetails.availableData
             }
             treatmentData={clinicalData.treatmentData.availableData}
+            planOfTreatment={clinicalData.planOfTreatment.availableData}
           />
         </>
       ),
