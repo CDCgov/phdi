@@ -6,6 +6,17 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
+import classNames from "classnames";
+import { Table } from "@trussworks/react-uswds";
+
+type TableEntry = {
+  Name: string;
+  Type: string;
+  Priority: string;
+  AssociatedDiagnoses?: string;
+  DateTime?: string;
+  OrderSchedule?: string;
+};
 
 interface ClinicalProps {
   reasonForVisitDetails: DisplayData[];
@@ -14,7 +25,9 @@ interface ClinicalProps {
   immunizationsDetails: DisplayData[];
   treatmentData: DisplayData[];
   clinicalNotes: DisplayData[];
-  planOfTreatment: DisplayData[];
+  planOfTreatment: {
+    value: TableEntry[];
+  }[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -157,6 +170,58 @@ export const ClinicalInfo = ({
 
   const renderPlanOfTreatmentDetails = () => {
     console.log("planOfTreatment", planOfTreatment);
+
+    const header = [
+      "Name",
+      "Type",
+      "Priority",
+      "Associated Diagnoses",
+      "Date/Time",
+    ];
+
+    const cellClassNames = classNames("table-caption-margin margin-y-0", {
+      "border-top border-left border-right": true,
+    });
+
+    const myTable = (
+      <Table
+        fixed={true}
+        bordered={false}
+        fullWidth={true}
+        caption={"Pending Results"}
+        className={classNames("table-caption-margin margin-y-0", {})}
+        data-testid="table"
+      >
+        <thead>
+          <tr>
+            {header.map((column, index) => (
+              <th
+                key={`${column}${index}`}
+                scope="col"
+                className="bg-gray-5 minw-15"
+              >
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {planOfTreatment[0].value.map((entry: TableEntry, index) => {
+            console.log("entry", entry);
+            return (
+              <tr key={`table-row-${index}`}>
+                <td className={cellClassNames}>{entry.Name}</td>
+                <td className={cellClassNames}>{entry.Type}</td>
+                <td className={cellClassNames}>{entry.Priority}</td>
+                <td className={cellClassNames}>{entry.AssociatedDiagnoses}</td>
+                <td className={cellClassNames}>{entry.DateTime}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    );
+
     return (
       <>
         <AccordianH4>
@@ -164,13 +229,7 @@ export const ClinicalInfo = ({
             {clinicalInfoConfig.subNavItems?.[3].title}
           </span>
         </AccordianH4>
-        <AccordianDiv>
-          <div data-testid="plan-of-treatment">
-            {planOfTreatment.map((item, index) => (
-              <DataDisplay item={item} key={index} />
-            ))}
-          </div>
-        </AccordianDiv>
+        <AccordianDiv>{myTable}</AccordianDiv>
       </>
     );
   };

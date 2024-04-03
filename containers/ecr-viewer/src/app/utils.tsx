@@ -15,7 +15,6 @@ import {
   formatDateTime,
 } from "@/app/format-service";
 import { evaluateTable } from "./evaluate-service";
-import { Table } from "@trussworks/react-uswds";
 
 export interface DisplayData {
   title?: string;
@@ -496,9 +495,7 @@ type ExtractedData = {
   scheduledOrders: TableEntry[];
 };
 
-export const returnPlanOfTreatmentTable = (
-  planOfTreatments: any[],
-): React.JSX.Element | undefined => {
+export const returnPlanOfTreatmentTable = (planOfTreatments: any[]) => {
   if (planOfTreatments.length === 0) {
     return undefined;
   }
@@ -536,58 +533,9 @@ export const returnPlanOfTreatmentTable = (
     });
   });
 
-  const header = [
-    "Name",
-    "Type",
-    "Priority",
-    "Associated Diagnoses",
-    "Date/Time",
-  ];
+  console.log(data);
 
-  const cellClassNames = classNames("table-caption-margin margin-y-0", {
-    "border-top border-left border-right": true,
-  });
-
-  const myTable = (
-    <Table
-      fixed={true}
-      bordered={false}
-      fullWidth={true}
-      caption={"Pending Results"}
-      className={classNames("table-caption-margin margin-y-0", {})}
-      data-testid="table"
-    >
-      <thead>
-        <tr>
-          {header.map((column, index) => (
-            <th
-              key={`${column}${index}`}
-              scope="col"
-              className="bg-gray-5 minw-15"
-            >
-              {column}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.pendingResults.map((entry: TableEntry, index) => {
-          return (
-            <tr key={`table-row-${index}`}>
-              <td className={cellClassNames}>{entry.Name}</td>
-              <td className={cellClassNames}>{entry.Type}</td>
-              <td className={cellClassNames}>{entry.Priority}</td>
-              <td className={cellClassNames}>{entry.AssociatedDiagnoses}</td>
-              <td className={cellClassNames}>{entry.DateTime}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </Table>
-  );
-
-  console.log(myTable);
-  return myTable;
+  return data.pendingResults;
 };
 
 /**
@@ -732,15 +680,19 @@ export const evaluateClinicalData = (
       ),
     },
   ];
-  return {
+  const result = {
     clinicalNotes: evaluateData(clinicalNotes),
     reasonForVisitDetails: evaluateData(reasonForVisitData),
     activeProblemsDetails: evaluateData(activeProblemsTableData),
     treatmentData: evaluateData(treatmentData),
     vitalData: evaluateData(vitalData),
     immunizationsDetails: evaluateData(immunizationsData),
-    planOfTreatment: evaluateData(planOfTreatmentTableData),
+    planOfTreatment: planOfTreatmentTableData,
   };
+
+  console.log(result);
+
+  return result;
 };
 
 /**
