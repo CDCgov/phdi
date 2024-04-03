@@ -35,9 +35,15 @@ export const evaluateTable = (
 
   let tableRows = resources.map((entry, index) => {
     let rowCells = columns.map((column, index) => {
-      let rowCellData = evaluateValue(entry, mappings[column.infoPath]) || (
-        <span className={"text-italic text-base"}>No data</span>
-      );
+      let rowCellData: any;
+      if (column?.value) {
+        rowCellData = column.value;
+      } else if (column?.infoPath) {
+        rowCellData = evaluateValue(entry, mappings[column.infoPath]);
+      }
+      if (!rowCellData) {
+        rowCellData = <span className={"text-italic text-base"}>No data</span>;
+      }
       return (
         <td key={`row-data-${index}`} className="text-top">
           {rowCellData}

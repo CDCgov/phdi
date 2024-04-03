@@ -3,11 +3,12 @@ import { evaluateReference, evaluateValue } from "@/app/evaluate-service";
 import {
   evaluateObservationTable,
   evaluateDiagnosticReportData,
+  LabReport,
 } from "@/app/labs/utils";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
-import { Bundle, DiagnosticReport } from "fhir/r4";
+import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
-import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
+import BundleLabs from "@/app/tests/assets/BundleLabs.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
@@ -38,43 +39,43 @@ describe("Evaluate Reference", () => {
 
 describe("Evaluate Diagnostic Report", () => {
   it("should evaluate diagnostic report title", () => {
-    const report = evaluate(BundleLabInfo, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabInfo as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
       <AccordionLabResults
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
-        content={<>{actual}</>}
+        content={[<>{actual}</>]}
       />
     );
 
     expect(actualDisplay.props.title).toContain(
-      "Drugs Of Abuse Comprehensive Screen, Ur",
+      "STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS",
     );
   });
   it("should evaluate diagnostic report results", () => {
-    const report = evaluate(BundleLabInfo, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabInfo as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
       <AccordionLabResults
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
-        content={<>{actual}</>}
+        content={[<>{actual}</>]}
       />
     );
 
     render(actualDisplay.props.content);
 
-    expect(screen.getByText("Phencyclidine Screen, Urine")).toBeInTheDocument();
-    expect(screen.getByText("Negative")).toBeInTheDocument();
+    expect(screen.getByText("E. Coli (EAEC), NAAT")).toBeInTheDocument();
+    expect(screen.getAllByText("Not Detected")).not.toBeEmpty();
   });
   it("the table should not appear when there are no results", () => {
     const diagnosticReport = {
@@ -90,12 +91,33 @@ describe("Evaluate Diagnostic Report", () => {
       },
     };
     const actual = evaluateObservationTable(
-      diagnosticReport as DiagnosticReport,
+      diagnosticReport as LabReport,
       null as Bundle,
       mappings,
       [],
     );
     expect(actual).toBeUndefined();
+  });
+  it("should evaluate test method results", () => {
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
+    const actual = evaluateDiagnosticReportData(
+      report,
+      BundleLabs as unknown as Bundle,
+      mappings,
+    );
+    const actualDisplay = (
+      <AccordionLabResults
+        title={report.code.coding?.[0].display ?? "\u{200B}"}
+        abnormalTag={false}
+        content={[<>{actual}</>]}
+      />
+    );
+
+    render(actualDisplay.props.content);
+
+    expect(
+      screen.getAllByText("LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM"),
+    ).not.toBeEmpty();
   });
 });
 
