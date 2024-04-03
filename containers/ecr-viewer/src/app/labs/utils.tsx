@@ -31,6 +31,7 @@ export interface ResultObject {
 }
 
 export interface LabReportElementData {
+  organizationId: string;
   diagnosticReportDataElements: React.JSX.Element[];
   organizationDisplayData: DisplayData[];
 }
@@ -433,16 +434,19 @@ export const evaluateLabInfoData = (
         return <DataDisplay key={`${item.title}-${item.value}`} item={item} />;
       }),
     );
-
+    const organizationId = (report.performer?.[0].reference ?? "").replace(
+      "Organization/",
+      "",
+    );
     const element = (
       <AccordionLabResults
-        key={report.code.coding[0].display}
+        key={report.id}
         title={report.code.coding[0].display}
         abnormalTag={checkAbnormalTag(report, fhirBundle, mappings)}
         content={content}
+        organizationId={organizationId}
       />
     );
-    const organizationId = report.performer?.[0].reference ?? "";
     organizationElements = groupElementByOrgId(
       organizationElements,
       organizationId,
@@ -465,12 +469,14 @@ export const combineOrgAndReportData = (
   mappings: PathMappings,
 ): LabReportElementData[] => {
   return Object.keys(organizationElements).map((key: string) => {
+    const organizationId = key.replace("Organization/", "");
     const orgData = evaluateLabOrganizationData(
-      key.replace("Organization/", ""),
+      organizationId,
       fhirBundle,
       mappings,
     );
     return {
+      organizationId: organizationId,
       diagnosticReportDataElements: organizationElements[key],
       organizationDisplayData: orgData,
     };

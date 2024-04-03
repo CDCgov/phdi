@@ -23,7 +23,7 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
   const renderLabInfo = () => {
     return (
       <>
-        {labResults.map((labResult: any, labResultIndex) => (
+        {labResults.map((labResult, labResultIndex) => (
           <div key={labResultIndex}>
             <div className={"display-flex"}>
               <AccordianH4 id={"lab-results-from"}>
@@ -33,7 +33,7 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
                 <ExpandCollapseButtons
                   id={"lab-info"}
                   buttonSelector={"h5 > .usa-accordion__button"}
-                  accordionSelector={".accordion-rr > .usa-accordion__content"}
+                  accordionSelector={`.${labResult.organizationId} > .usa-accordion__content`}
                   expandButtonText={"Expand all labs"}
                   collapseButtonText={"Collapse all labs"}
                 />

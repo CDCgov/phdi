@@ -5,6 +5,7 @@ interface AccordionLabResultsProps {
   title: string;
   abnormalTag: boolean;
   content: React.JSX.Element[];
+  organizationId: string;
 }
 
 /**
@@ -19,6 +20,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
   title,
   abnormalTag,
   content,
+  organizationId,
 }: AccordionLabResultsProps): React.JSX.Element => {
   return (
     <Accordion
@@ -40,7 +42,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
           headingLevel: "h5",
         },
       ]}
-      className={"accordion-rr margin-bottom-3"}
+      className={`accordion-rr ${organizationId} margin-bottom-3`}
     />
   );
 };

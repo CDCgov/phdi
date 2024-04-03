@@ -26,9 +26,11 @@ describe("LabInfo", () => {
               title={"ph of urine strip"}
               abnormalTag={false}
               content={[<div key={"1"}>5</div>]}
+              organizationId="abcd"
             />,
           ],
           organizationDisplayData: [labinfoOrg[0]],
+          organizationId: "abcd",
         },
         {
           diagnosticReportDataElements: [
@@ -37,22 +39,21 @@ describe("LabInfo", () => {
               title={"ph of saliva"}
               abnormalTag={false}
               content={[<div key={"2"}>7</div>]}
+              organizationId="efgh"
             />,
           ],
           organizationDisplayData: [labinfoOrg[1]],
+          organizationId: "efgh",
         },
       ]}
     />
   );
   it("should hide all labs when collapse button is clicked", async () => {
-    const user = userEvent.setup();
-
     render(labInfoJsx());
     const collapseButtons = screen.getAllByText("Collapse all labs");
-    collapseButtons.forEach(async (button) => {
-      console.log(button);
-      await user.click(button);
-    });
+    for (const button of collapseButtons) {
+      await userEvent.click(button);
+    }
     screen.debug();
     screen
       .getAllByTestId("accordionButton", { exact: false })
@@ -70,9 +71,9 @@ describe("LabInfo", () => {
 
     render(labInfoJsx());
     const collapseButtons = screen.getAllByText("Collapse all labs");
-    collapseButtons.forEach(async (button) => {
-      await user.click(button);
-    });
+    for (const button of collapseButtons) {
+      await userEvent.click(button);
+    }
     screen
       .getAllByTestId("accordionButton", { exact: false })
       .forEach((button) => {
@@ -84,7 +85,10 @@ describe("LabInfo", () => {
         expect(accordion).toHaveAttribute("hidden", "true");
       });
 
-    await user.click(screen.getByText("Expand all labs"));
+    const expandButtons = screen.getAllByText("Expand all labs");
+    for (const button of expandButtons) {
+      await userEvent.click(button);
+    }
     screen
       .getAllByTestId("accordionButton", { exact: false })
       .forEach((button) => {
