@@ -77,7 +77,6 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
     session.verify = False
 
     # Find Patient
-
     patient_query = (
         f"{fhir_host}/Patient?given={input.first_name}"
         + f"&family={input.last_name}&birthdate={input.dob}"

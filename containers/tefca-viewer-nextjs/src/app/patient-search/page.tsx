@@ -1,51 +1,20 @@
-// "use client";
-
-// import { useFormState, useFormStatus } from "react-dom";
-// import { createTodo } from "@/app/utils.tsx";
-
-// const initialState = {
-//     message: "",
-// };
-
-// function SubmitButton() {
-//     const { pending } = useFormStatus();
-
-//     return (
-//         <button type="submit" aria-disabled={pending}>
-//             Add
-//         </button>
-//     );
-// }
-
-// export function AddForm() {
-//     const [state, formAction] = useFormState(createTodo, initialState);
-
-//     return (
-//         <form action={formAction}>
-//             <label htmlFor="todo">Enter Task</label>
-//             <input type="text" id="todo" name="todo" required />
-//             <SubmitButton />
-//             <p aria-live="polite" className="sr-only" role="status">
-//                 {state?.message}
-//             </p>
-//         </form>
-//     );
-// }
-
 "use client";
 import React, { useState } from "react";
+import { use_case_query } from "./patient_search";
 
 const PatientSearch: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [fhirServer, setFhirServer] = useState<string>("");
+  const [fhirServer, setFhirServer] = useState<"meld" | "ehealthexchange">("meld");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     console.log("First Name:", firstName);
     console.log("Last Name:", lastName);
     console.log("FHIR Server:", fhirServer);
+    const patient_id = await use_case_query({ fhir_server: fhirServer, first_name: firstName, last_name: lastName });
+    console.log("Patient ID:", patient_id)
   };
+
 
   return (
     <div>
@@ -56,11 +25,11 @@ const PatientSearch: React.FC = () => {
           id="fhirServer"
           value={fhirServer}
           onChange={(event) => {
-            setFhirServer(event.target.value);
+            setFhirServer(event.target.value as "meld" | "ehealthexchange");
           }}
           required
         >
-          <option value="">Select FHIR Server</option>
+          <option value="" disabled>Select FHIR Server</option>
           <option value="meld">Meld</option>
           <option value="ehealth-exchange">eHealth Exchange</option>
         </select>
