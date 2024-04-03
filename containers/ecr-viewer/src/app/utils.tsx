@@ -543,15 +543,23 @@ export const evaluateCareTeamTable = (
     { columnName: "Member", infoPath: "careTeamParticipantMemberName" },
     { columnName: "Role", infoPath: "careTeamParticpantRole" },
     { columnName: "Status", infoPath: "careTeamParticipantStatus" }, // TODO: fhir path still doesn't work
-    { columnName: "Dates", infoPath: "careTeamParticipantPeriod" }, // TODO:  Start: Invalid Date End: undefined
+    { columnName: "Dates", infoPath: "careTeamParticipantPeriod" }, // TODO:  remove undefined values from date
   ];
 
   console.log(careTeamParticipants);
-
   careTeamParticipants.forEach((entry) => {
     if (entry?.period) {
+      // TODO: Move this out to new function, formatStartEndDate
+      const startDate = !Date.parse(entry.period.start)
+        ? `${entry.period.start?.substring(0, 4)}-${entry.period.start?.substring(4, 6)}-${entry.period.start?.substring(6, 8)}`
+        : entry.period.start;
+      const endDate = !Date.parse(entry.period.end)
+        ? `${entry.period.end?.substring(0, 4)}-${entry.period.end?.substring(4, 6)}-${entry.period.end?.substring(6, 8)}`
+        : entry.period.end;
+      console.log(startDate, endDate);
+
       (entry.period as any).text =
-        `Start: ${formatDate(entry.period.start)} End: ${formatDate(entry.period.end)}`;
+        `Start: ${formatDate(startDate)} End: ${formatDate(endDate)}`;
     }
 
     // TODO: This could maybe get abstracted out into another function?
