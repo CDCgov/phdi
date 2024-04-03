@@ -54,7 +54,6 @@ describe("LabInfo", () => {
     for (const button of collapseButtons) {
       await userEvent.click(button);
     }
-    screen.debug();
     screen
       .getAllByTestId("accordionButton", { exact: false })
       .forEach((button) => {
