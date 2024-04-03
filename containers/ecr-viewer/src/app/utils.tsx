@@ -5,7 +5,8 @@ import {
   Condition,
   Immunization,
   Procedure,
-  BackboneElement,
+  Practitioner,
+  FhirResource,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
@@ -21,6 +22,7 @@ import {
   formatDateTime,
 } from "@/app/format-service";
 import { evaluateTable, evaluateReference } from "./evaluate-service";
+import { CareTeamParticipant } from "fhir/r4b";
 
 export interface DisplayData {
   title?: string;
@@ -529,7 +531,7 @@ export const evaluateCareTeamTable = (
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
   // TODO: Build type errors
-  const careTeamParticipants: BackboneElement[] = evaluate(
+  const careTeamParticipants: CareTeamParticipant[] = evaluate(
     bundle,
     mappings["careTeamParticipants"],
   );
@@ -547,19 +549,37 @@ export const evaluateCareTeamTable = (
   console.log(careTeamParticipants);
 
   careTeamParticipants.forEach((entry) => {
-    entry.period.text = `Start: ${formatDate(entry.period.start)} End: ${formatDate(entry.period.end)}`;
+    if (entry?.period) {
+      (entry.period as any).text =
+        `Start: ${formatDate(entry.period.start)} End: ${formatDate(entry.period.end)}`;
+    }
 
     // TODO: This could maybe get abstracted out into another function?
-    // TODO: I think we also need to fhir convert the suffix name & add below (Figma includes suffix)
-    const patient = evaluateReference(bundle, mappings, entry.member.reference);
-    const patientNameObj = patient.name.find((nameObject) => nameObject.family);
-    const patientNamePrefix = patientNameObj.prefix.join(" ");
-    const patientNameGiven = patientNameObj.given.join(" ");
-    const patientNameFamily = patientNameObj.family;
-    entry.member.name = `${patientNamePrefix} ${patientNameGiven} ${patientNameFamily}`;
+    // TODO: Remove null/undefined values from name.
+    const practioner = evaluateReference(
+      bundle,
+      mappings,
+      entry?.member?.reference || "",
+    ) as Practitioner;
+    const practionerNameObj = practioner.name?.find(
+      (nameObject) => nameObject.family,
+    );
+    const practionerNamePrefix = practionerNameObj?.prefix?.join(" ");
+    const practionerNameGiven = practionerNameObj?.given?.join(" ");
+    const practionerNameFamily = practionerNameObj?.family;
+    const practionerNameSuffix = practionerNameObj?.suffix?.join(" ");
+    if (entry.member) {
+      (entry.member as any).name =
+        `${practionerNamePrefix} ${practionerNameGiven} ${practionerNameFamily} ${practionerNameSuffix}`;
+    }
   });
 
-  return evaluateTable(careTeamParticipants, mappings, columnInfo, "Care Team");
+  return evaluateTable(
+    careTeamParticipants as FhirResource[],
+    mappings,
+    columnInfo,
+    "Care Team",
+  );
 };
 
 /**
