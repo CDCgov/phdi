@@ -6,4 +6,4 @@ uvicorn
 httpx
 pytest
 jsonschema
-testcontainers[compose]==3.7.1
+testcontainers[compose]==4.1.1
