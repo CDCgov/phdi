@@ -7,7 +7,7 @@ from testcontainers.compose import DockerCompose
 @pytest.fixture(scope="session")
 def setup(request):
     print("Setting up tests...")
-    compose_path = os.path.dirname(__file__)
+    compose_path = os.path.join(os.path.dirname(__file__), "./")
     compose_file_name = "docker-compose.yaml"
     validation_service = DockerCompose(
         compose_path, compose_file_name=compose_file_name
