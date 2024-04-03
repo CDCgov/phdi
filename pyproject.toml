@@ -51,6 +51,7 @@ sqlalchemy = "^2.0.0"
 matplotlib = "^3.7.1"
 azure-keyvault-secrets = "^4.7.0"
 faker = "^18.4.0"
+pillow = "^10.3.0"
 
 [tool.poetry.dev-dependencies]
 pdoc = "^13.0.0"
@@ -70,12 +71,7 @@ minversion = 6.0
 addopts = "--doctest-modules"
 
 [tool.ruff]
-exclude = [
-  ".git",
-  ".pytest_cache",
-  "__pycahce__",
-  "docs"
-]
+exclude = [".git", ".pytest_cache", "__pycahce__", "docs"]
 line-length = 88
 indent-width = 4
 target-version = "py310"
