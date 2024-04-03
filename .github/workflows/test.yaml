@@ -166,6 +166,7 @@ jobs:
   integration-test-python-containers:
     needs: list-containers
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
