@@ -550,16 +550,26 @@ export const evaluateCareTeamTable = (
   careTeamParticipants.forEach((entry) => {
     if (entry?.period) {
       // TODO: Move this out to new function, formatStartEndDate
+      const textArray: String[] = [];
+
       const startDate = !Date.parse(entry.period.start)
         ? `${entry.period.start?.substring(0, 4)}-${entry.period.start?.substring(4, 6)}-${entry.period.start?.substring(6, 8)}`
         : entry.period.start;
-      const endDate = !Date.parse(entry.period.end)
-        ? `${entry.period.end?.substring(0, 4)}-${entry.period.end?.substring(4, 6)}-${entry.period.end?.substring(6, 8)}`
-        : entry.period.end;
-      console.log(startDate, endDate);
+      textArray.push(`Start: ${startDate}`);
 
-      (entry.period as any).text =
-        `Start: ${formatDate(startDate)} End: ${formatDate(endDate)}`;
+      if (entry.period.end) {
+        let endDate = formatDate(entry.period.end);
+        if (endDate == "Invalid Date") {
+          endDate = formatDate(
+            `${entry.period.end.substring(0, 4)}-${entry.period.end.substring(4, 6)}-${entry.period.end.substring(6, 8)}`,
+          );
+        }
+        if (endDate !== "Invalid Date") {
+          textArray.push(`End: ${endDate}`);
+        }
+      }
+
+      (entry.period as any).text = textArray.join(" ");
     }
 
     // TODO: This could maybe get abstracted out into another function?
