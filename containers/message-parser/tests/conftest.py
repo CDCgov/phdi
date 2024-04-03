@@ -87,7 +87,7 @@ def read_schema_from_default_schemas():
 @pytest.fixture(scope="session")
 def setup(request):
     print("Setting up tests...")
-    compose_path = os.path.join(os.path.dirname(__file__), "./")
+    compose_path = os.path.join(os.path.dirname(__file__), "./integration/")
     compose_file_name = "docker-compose.yaml"
     message_parser = DockerCompose(compose_path, compose_file_name=compose_file_name)
     parser_url = "http://0.0.0.0:8080"
