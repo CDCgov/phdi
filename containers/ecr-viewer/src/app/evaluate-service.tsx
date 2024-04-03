@@ -96,6 +96,9 @@ export const evaluateReference = (
  */
 export const evaluateValue = (entry: FhirResource, path: string): string => {
   let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
+  console.log(
+    `ENTRY: ${JSON.stringify(entry, null, 2)}, VALUE: ${JSON.stringify(originalValue, null, 2)}, ${typeof originalValue}`,
+  );
   let value = "";
   if (typeof originalValue === "string") {
     value = originalValue;

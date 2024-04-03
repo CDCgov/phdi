@@ -1,6 +1,12 @@
 import React from "react";
 import * as dateFns from "date-fns";
-import { Bundle, Condition, Immunization, Procedure } from "fhir/r4";
+import {
+  Bundle,
+  Condition,
+  Immunization,
+  Procedure,
+  BackboneElement,
+} from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
@@ -14,7 +20,7 @@ import {
   formatVitals,
   formatDateTime,
 } from "@/app/format-service";
-import { evaluateTable } from "./evaluate-service";
+import { evaluateTable, evaluateReference } from "./evaluate-service";
 
 export interface DisplayData {
   title?: string;
@@ -516,6 +522,44 @@ export const returnImmunizations = (
     columnInfo,
     "Immunization History",
   );
+};
+
+export const evaluateCareTeamTable = (
+  bundle: Bundle,
+  mappings: PathMappings,
+): React.JSX.Element | undefined => {
+  // TODO: Build type errors
+  const careTeamParticipants: BackboneElement[] = evaluate(
+    bundle,
+    mappings["careTeamParticipants"],
+  );
+  if (careTeamParticipants.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Member", infoPath: "careTeamParticipantMemberName" },
+    { columnName: "Role", infoPath: "careTeamParticpantRole" },
+    { columnName: "Status", infoPath: "careTeamParticipantStatus" }, // TODO: fhir path still doesn't work
+    { columnName: "Dates", infoPath: "careTeamParticipantPeriod" }, // TODO:  Start: Invalid Date End: undefined
+  ];
+
+  console.log(careTeamParticipants);
+
+  careTeamParticipants.forEach((entry) => {
+    entry.period.text = `Start: ${formatDate(entry.period.start)} End: ${formatDate(entry.period.end)}`;
+
+    // TODO: This could maybe get abstracted out into another function?
+    // TODO: I think we also need to fhir convert the suffix name & add below (Figma includes suffix)
+    const patient = evaluateReference(bundle, mappings, entry.member.reference);
+    const patientNameObj = patient.name.find((nameObject) => nameObject.family);
+    const patientNamePrefix = patientNameObj.prefix.join(" ");
+    const patientNameGiven = patientNameObj.given.join(" ");
+    const patientNameFamily = patientNameObj.family;
+    entry.member.name = `${patientNamePrefix} ${patientNameGiven} ${patientNameFamily}`;
+  });
+
+  return evaluateTable(careTeamParticipants, mappings, columnInfo, "Care Team");
 };
 
 /**
