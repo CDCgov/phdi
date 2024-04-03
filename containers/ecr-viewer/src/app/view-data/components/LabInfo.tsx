@@ -20,12 +20,11 @@ interface LabInfoProps {
  * @returns {React.JSX.Element} React element representing the LabInfo component.
  */
 export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
-  console.log(labResults);
   const renderLabInfo = () => {
     return (
       <>
-        {labResults.map((labResult: any) => (
-          <>
+        {labResults.map((labResult: any, labResultIndex) => (
+          <div key={labResultIndex}>
             <div className={"display-flex"}>
               <AccordianH4 id={"lab-results-from"}>
                 Lab Results from
@@ -49,7 +48,7 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
               )}
               {labResult.diagnosticReportDataElements}
             </AccordianDiv>
-          </>
+          </div>
         ))}
       </>
     );
