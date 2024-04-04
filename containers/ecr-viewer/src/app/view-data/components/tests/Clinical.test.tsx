@@ -349,6 +349,28 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     expect(expectedTable.length).toEqual(1);
   });
 
+  test("eCR Viewer renders treatment data given FHIR bundle with treatment data info", () => {
+    const clinicalInfo = render(
+      <ClinicalInfo
+        immunizationsDetails={[]}
+        reasonForVisitDetails={[]}
+        activeProblemsDetails={[]}
+        vitalData={[]}
+        treatmentData={[]}
+        clinicalNotes={[]}
+        planOfTreatment={testPlanOfTreatment}
+      />,
+    );
+
+    const expectedTreatmentElement = clinicalInfo.getByText("Pending Results");
+    expect(expectedTreatmentElement).toBeInTheDocument();
+
+    // Ensure only one table (Treatment) is rendering
+    const expectedTable = clinicalInfo.getAllByTestId("table");
+    expect(expectedTable[0]).toBeInTheDocument();
+    expect(expectedTable.length).toEqual(1);
+  });
+
   test("eCR Viewer renders all Clinical Info sections", () => {
     const clinicalInfo = render(
       <ClinicalInfo
