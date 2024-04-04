@@ -107,10 +107,3 @@ observationMethod: "method"
 
 # Organization
 organizations: "Bundle.entry.resource.where(resourceType = 'Organization')"
-organizationId: "id"
-organizationName: "name"
-organizationStreetAddress: "address.line"
-organizationCity: "address.city"
-organizationState: "address.state"
-organizationZip: "referenceRange.postalCode"
-organizationPhoneNumber: "telecom[0].value"
