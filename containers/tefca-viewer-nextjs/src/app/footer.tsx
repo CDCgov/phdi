@@ -13,13 +13,13 @@ export default function FooterComponent() {
               "
             >
               <div className="mobile-lg:grid-col-auto">
-                <Image
+                {/* <Image
                   src="/CDC_logo.png"
                   className="usa-footer__logo-img"
                   alt="CDC logo"
                   width={62}
                   height={36}
-                />
+                /> */}
               </div>
               <div className="mobile-lg:grid-col-auto">
                 <p className=" text-base-lightest usa-footer__logo-heading">Centers for Disease Control and Prevention</p>
@@ -34,7 +34,7 @@ export default function FooterComponent() {
               "
             >
               <div className="mobile-lg:grid-col-auto right-justified-text">
-                <p className="text-base-lightest usa_footer-trademark right-justified-text">© 2023 CDC. All rights reserved.</p>
+                <p className="text-base-lightest usa_footer-trademark right-justified-text">© 2024 CDC. All rights reserved.</p>
               </div>
             </div>
           </div>
