@@ -1,5 +1,5 @@
 import React from "react";
-import { Bundle, Observation, Reference } from "fhir/r4";
+import { Bundle, Observation, Organization, Reference } from "fhir/r4";
 import {
   PathMappings,
   DisplayData,
@@ -14,6 +14,7 @@ import {
   formatTablesToJSON,
   extractNumbersAndPeriods,
   formatAddress,
+  formatPhoneNumber,
 } from "@/app/format-service";
 
 export interface LabReport {
@@ -510,7 +511,7 @@ export const evaluateLabOrganizationData = (
   mappings: PathMappings,
 ) => {
   const orgMappings = evaluate(fhirBundle, mappings["organizations"]);
-  const matchingOrg = orgMappings.filter(
+  const matchingOrg: Organization = orgMappings.filter(
     (organization) => organization.id === id,
   )[0];
   const orgAddress = matchingOrg?.address?.[0];
@@ -526,10 +527,12 @@ export const evaluateLabOrganizationData = (
     postalCode,
     country,
   );
-  const contactInfo = matchingOrg?.contact?.[0].telecom?.[0].value ?? "";
+  console.log(matchingOrg.telecom);
+
+  const contactInfo = formatPhoneNumber(matchingOrg?.telecom?.[0].value ?? "");
   const name = matchingOrg?.name ?? "";
   const matchingOrgData: DisplayData[] = [
-    { title: "Lab Name", value: name },
+    { title: "Lab Performing Name", value: name },
     { title: "Lab Address", value: formattedAddress },
     { title: "Lab Contact", value: contactInfo },
   ];

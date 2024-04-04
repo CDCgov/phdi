@@ -73,6 +73,7 @@ export const formatDate = (date?: string): string | undefined => {
 export const formatPhoneNumber = (phoneNumber: string) => {
   try {
     return phoneNumber
+      .replace("+1", "")
       .replace(/\D/g, "")
       .replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
   } catch {
