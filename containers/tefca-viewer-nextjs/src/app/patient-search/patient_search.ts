@@ -16,7 +16,7 @@ const FHIR_SERVERS: {
     headers?: { [key: string]: string };
   };
 } = {
-  meld: { hostname: "https://gw.interop.community/HeliosConnectathonSa/open/" },
+  meld: { hostname: "https://gw.interop.community/skylightsandbox/open/" },
   ehealthexchange: {
     hostname: "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/",
     username: "svc_eHxFHIRSandbox",
@@ -45,7 +45,7 @@ type PatientQueryRequest = {
   fhir_server: "meld" | "ehealthexchange";
   first_name: string;
   last_name: string;
-  dob?: string;
+  dob: string;
 }
 
 
