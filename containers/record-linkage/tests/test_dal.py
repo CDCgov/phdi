@@ -2,13 +2,13 @@ import datetime
 import os
 import pathlib
 
+from app.linkage.dal import DataAccessLayer
+from app.linkage.mpi import DIBBsMPIConnectorClient
+from app.utils import _clean_up
 from sqlalchemy import Engine
 from sqlalchemy import select
 from sqlalchemy import Table
 from sqlalchemy import text
-
-from phdi.linkage.dal import DataAccessLayer
-from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
 
 def _init_db() -> DataAccessLayer:
@@ -20,10 +20,11 @@ def _init_db() -> DataAccessLayer:
 
     # load ddl
     schema_ddl = open(
-        pathlib.Path(__file__).parent.parent.parent
-        / "phdi"
-        / "linkage"
-        / "new_tables.ddl"
+        pathlib.Path(__file__).parent.parent.parent.parent
+        / "containers"
+        / "record-linkage"
+        / "migrations"
+        / "V01_01__flat_schema.sql"
     ).read()
 
     try:
@@ -37,23 +38,6 @@ def _init_db() -> DataAccessLayer:
     dal.initialize_schema()
     dal.get_session()
     return dal
-
-
-def _clean_up(dal):
-    with dal.engine.connect() as pg_connection:
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway CASCADE;"""))
-        pg_connection.commit()
-        pg_connection.close()
 
 
 def test_init_dal():
@@ -282,13 +266,10 @@ def test_select_results():
     records_to_add = [pt1, pt2]
     pks = dal.bulk_insert_list(dal.PATIENT_TABLE, records_to_add, True)
     mpi = DIBBsMPIConnectorClient()
-    blocked_data_query, blocked_data_query_params = mpi._generate_block_query(
+    blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )
-
-    results = dal.select_results(
-        select_statement=blocked_data_query, query_params=blocked_data_query_params
-    )
+    results = dal.select_results(select_statement=blocked_data_query)
     # ensure blocked data has two rows, headers and data
     assert len(results) == 2
     assert results[0][0] == "patient_id"
@@ -300,9 +281,7 @@ def test_select_results():
     assert results[1][3] == "male"
 
     results2 = dal.select_results(
-        select_statement=blocked_data_query,
-        query_params=blocked_data_query_params,
-        include_col_header=False,
+        select_statement=blocked_data_query, include_col_header=False
     )
 
     # ensure blocked data has one row, just the data
