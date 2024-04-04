@@ -574,21 +574,21 @@ export const evaluateCareTeamTable = (
 
     // TODO: This could maybe get abstracted out into another function?
     // TODO: Remove null/undefined values from name.
-    const practioner = evaluateReference(
+    const practitioner = evaluateReference(
       bundle,
       mappings,
       entry?.member?.reference || "",
     ) as Practitioner;
-    const practionerNameObj = practioner.name?.find(
+    const practitionerNameObj = practitioner.name?.find(
       (nameObject) => nameObject.family,
     );
-    const practionerNamePrefix = practionerNameObj?.prefix?.join(" ");
-    const practionerNameGiven = practionerNameObj?.given?.join(" ");
-    const practionerNameFamily = practionerNameObj?.family;
-    const practionerNameSuffix = practionerNameObj?.suffix?.join(" ");
+    const practitionerNamePrefix = practitionerNameObj?.prefix?.join(" ");
+    const practitionerNameGiven = practitionerNameObj?.given?.join(" ");
+    const practitionerNameFamily = practitionerNameObj?.family;
+    const practitionerNameSuffix = practitionerNameObj?.suffix?.join(" ");
     if (entry.member) {
       (entry.member as any).name =
-        `${practionerNamePrefix} ${practionerNameGiven} ${practionerNameFamily} ${practionerNameSuffix}`;
+        `${practitionerNamePrefix} ${practitionerNameGiven} ${practitionerNameFamily} ${practitionerNameSuffix}`;
     }
   });
 
