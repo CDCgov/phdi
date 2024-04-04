@@ -49,10 +49,11 @@ describe("LabInfo", () => {
     />
   );
   it("should hide all labs when collapse button is clicked", async () => {
+    const user = userEvent.setup();
     render(labInfoJsx());
     const collapseButtons = screen.getAllByText("Collapse all labs");
     for (const button of collapseButtons) {
-      await userEvent.click(button);
+      await user.click(button);
     }
     screen
       .getAllByTestId("accordionButton", { exact: false })
@@ -71,7 +72,7 @@ describe("LabInfo", () => {
     render(labInfoJsx());
     const collapseButtons = screen.getAllByText("Collapse all labs");
     for (const button of collapseButtons) {
-      await userEvent.click(button);
+      await user.click(button);
     }
     screen
       .getAllByTestId("accordionButton", { exact: false })
@@ -86,7 +87,7 @@ describe("LabInfo", () => {
 
     const expandButtons = screen.getAllByText("Expand all labs");
     for (const button of expandButtons) {
-      await userEvent.click(button);
+      await user.click(button);
     }
     screen
       .getAllByTestId("accordionButton", { exact: false })
