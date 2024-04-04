@@ -61,7 +61,7 @@ class BaseService:
         self.include_health_check_endpoint = include_health_check_endpoint
         self.app = FastAPI(
             title=service_name,
-            version=metadata.version("phdi"),
+            version=metadata.version("dibbs"),
             contact=DIBBS_CONTACT,
             license_info=LICENSES[license_info],
             description=description,
