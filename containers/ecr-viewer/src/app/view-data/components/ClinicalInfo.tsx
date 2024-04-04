@@ -9,7 +9,7 @@ import React from "react";
 import classNames from "classnames";
 import { Table } from "@trussworks/react-uswds";
 
-type TableEntry = {
+export type TableEntry = {
   Name: string;
   Type: string;
   Priority: string;
@@ -195,10 +195,7 @@ export const ClinicalInfo = ({
           )}
           data-testid="table"
         >
-          <caption className={"caption-normal-weight"}>
-            {" "}
-            Pending Results{" "}
-          </caption>
+          <caption className={"caption-normal-weight"}>Pending Results</caption>
           <thead>
             <tr>
               {header.map((column, index) => (

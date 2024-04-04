@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import ClinicalInfo from "../ClinicalInfo";
+import ClinicalInfo, { TableEntry } from "../ClinicalInfo";
 import { loadYamlConfig } from "@/app/api/utils";
 import { returnProceduresTable, evaluateClinicalData } from "@/app/utils";
 import { Procedure } from "fhir/r4";
@@ -120,6 +120,7 @@ describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () =
         reasonForVisitDetails={[]}
         immunizationsDetails={[]}
         treatmentData={treatmentData}
+        planOfTreatment={[]}
       />,
     ).container;
   });
@@ -152,6 +153,7 @@ describe("Snapshot test for Clinical Notes", () => {
         reasonForVisitDetails={[]}
         immunizationsDetails={[]}
         treatmentData={[]}
+        planOfTreatment={[]}
       />,
     );
     expect(container).toMatchSnapshot();
@@ -191,6 +193,7 @@ describe("Snapshot test for Clinical Notes", () => {
         reasonForVisitDetails={[]}
         immunizationsDetails={[]}
         treatmentData={[]}
+        planOfTreatment={[]}
       />,
     );
     expect(container).toMatchSnapshot();
@@ -215,6 +218,31 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     testClinicalData.reasonForVisitDetails.availableData;
   const testTreatmentData = testClinicalData.treatmentData.availableData;
 
+  const testPlanOfTreatment: {
+    value: TableEntry[] | undefined;
+  }[] = [
+    {
+      value: [
+        {
+          Name: "PCR SARS-CoV-2 and Influenza A/B",
+          Type: "Lab",
+          Priority: "Routine",
+          AssociatedDiagnoses: "",
+          DateTime: "12/07/2021 4:16 PM CST",
+          OrderSchedule: "",
+        },
+        {
+          Name: "Drugs Of Abuse Comprehensive Screen, Ur",
+          Type: "Lab",
+          Priority: "STAT",
+          AssociatedDiagnoses: "",
+          DateTime: "12/23/2022 11:13 AM PST",
+          OrderSchedule: "",
+        },
+      ],
+    },
+  ];
+
   test("eCR Viewer renders immunization table given FHIR bundle with immunization info", () => {
     const clinicalInfo = render(
       <ClinicalInfo
@@ -224,6 +252,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         vitalData={[]}
         treatmentData={[]}
         clinicalNotes={[]}
+        planOfTreatment={[]}
       />,
     );
 
@@ -248,6 +277,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         vitalData={[]}
         treatmentData={[]}
         clinicalNotes={[]}
+        planOfTreatment={[]}
       />,
     );
 
@@ -270,6 +300,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         vitalData={testVitalSignsData}
         treatmentData={[]}
         clinicalNotes={[]}
+        planOfTreatment={[]}
       />,
     );
 
@@ -286,6 +317,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         vitalData={[]}
         treatmentData={[]}
         clinicalNotes={[]}
+        planOfTreatment={[]}
       />,
     );
 
@@ -303,6 +335,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         vitalData={[]}
         treatmentData={testTreatmentData}
         clinicalNotes={[]}
+        planOfTreatment={[]}
       />,
     );
 
@@ -325,6 +358,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         vitalData={testVitalSignsData}
         treatmentData={testTreatmentData}
         clinicalNotes={[]}
+        planOfTreatment={testPlanOfTreatment}
       />,
     );
 
@@ -344,7 +378,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     // Ensure the three tables (Immunization History & Active Problems & Treatment) are rendering
     const expectedTable = clinicalInfo.getAllByTestId("table");
     expect(expectedTable[0]).toBeInTheDocument();
-    expect(expectedTable.length).toEqual(3);
+    expect(expectedTable.length).toEqual(4);
 
     const expectedVitalSignsElement = clinicalInfo.getByTestId("vital-signs");
     expect(expectedVitalSignsElement).toBeInTheDocument();
