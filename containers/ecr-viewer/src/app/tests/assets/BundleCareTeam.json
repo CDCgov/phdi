@@ -158,7 +158,7 @@
             "modifierExtension": [
               {
                 "url": "participant.status",
-                "value": "active"
+                "valueString": "active"
               }
             ]
           },
@@ -175,7 +175,7 @@
             "modifierExtension": [
               {
                 "url": "participant.status",
-                "value": "active"
+                "valueString": "active"
               }
             ]
           }

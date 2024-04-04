@@ -88,7 +88,7 @@ careTeamParticipants: "Bundle.entry.resource.where(resourceType='CareTeam').part
 careTeamParticipantMember: "member.reference"
 careTeamParticipantMemberName: "member.name"
 careTeamParticpantRole: "role.text"
-careTeamParticipantStatus: "modifierExtension.where(url='participant.status').value"
+careTeamParticipantStatus: "modifierExtension.where(url='participant.status').valueString"
 careTeamParticipantPeriodStart: "period.start"
 careTeamParticipantPeriodEnd: "period.end"
 careTeamParticipantPeriod: "period.text"
