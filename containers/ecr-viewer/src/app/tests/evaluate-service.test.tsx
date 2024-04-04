@@ -13,6 +13,7 @@ import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import BundleLabs from "@/app/tests/assets/BundleLabs.json";
+import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
@@ -54,6 +55,7 @@ describe("Evaluate Diagnostic Report", () => {
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
         content={[<>{actual}</>]}
+        organizationId="test"
       />
     );
 
@@ -73,6 +75,7 @@ describe("Evaluate Diagnostic Report", () => {
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
         content={[<>{actual}</>]}
+        organizationId="test"
       />
     );
 
@@ -95,8 +98,8 @@ describe("Evaluate Diagnostic Report", () => {
       },
     };
     const actual = evaluateObservationTable(
-      diagnosticReport as LabReport,
-      null as Bundle,
+      diagnosticReport as unknown as LabReport,
+      null as unknown as Bundle,
       mappings,
       [],
     );
@@ -114,6 +117,7 @@ describe("Evaluate Diagnostic Report", () => {
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
         content={[<>{actual}</>]}
+        organizationId="test"
       />
     );
 

@@ -90,7 +90,6 @@ export const getLabJsonObject = (
   const labsJson = formatTablesToJSON(labsString);
 
   // Get specified lab report (by reference value)
-  // WIP: Issue with the null check
   return labsJson.filter((obj) => {
     return obj.resultId?.includes(observationRefVal);
   })[0];
