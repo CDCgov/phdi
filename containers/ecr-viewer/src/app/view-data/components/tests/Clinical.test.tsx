@@ -349,7 +349,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     expect(expectedTable.length).toEqual(1);
   });
 
-  test("eCR Viewer renders treatment data given FHIR bundle with treatment data info", () => {
+  test("eCR Viewer renders treatment data given plan of treatment", () => {
     const clinicalInfo = render(
       <ClinicalInfo
         immunizationsDetails={[]}
