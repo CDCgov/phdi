@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import ClinicalInfo, { TableEntry } from "../ClinicalInfo";
 import { loadYamlConfig } from "@/app/api/utils";
@@ -350,7 +350,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
   });
 
   test("eCR Viewer renders treatment data given plan of treatment", () => {
-    const clinicalInfo = render(
+    const { container } = render(
       <ClinicalInfo
         immunizationsDetails={[]}
         reasonForVisitDetails={[]}
@@ -362,13 +362,14 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
       />,
     );
 
-    const expectedTreatmentElement = clinicalInfo.getByText("Pending Results");
+    const expectedTreatmentElement = screen.getByText("Pending Results");
     expect(expectedTreatmentElement).toBeInTheDocument();
 
     // Ensure only one table (Treatment) is rendering
-    const expectedTable = clinicalInfo.getAllByTestId("table");
+    const expectedTable = screen.getAllByTestId("table");
     expect(expectedTable[0]).toBeInTheDocument();
     expect(expectedTable.length).toEqual(1);
+    expect(container).toMatchSnapshot();
   });
 
   test("eCR Viewer renders all Clinical Info sections", () => {

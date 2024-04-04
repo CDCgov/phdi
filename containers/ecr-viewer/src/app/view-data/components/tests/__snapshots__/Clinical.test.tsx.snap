@@ -1,5 +1,130 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Check that Clinical Info components render given FHIR bundle eCR Viewer renders treatment data given plan of treatment 1`] = `
+<div>
+  <div>
+    <div
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <h4
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          <span
+            id="treatment-details"
+          >
+            Treatment Details
+          </span>
+        </h4>
+        <div
+          class="usa-summary-box__text"
+        >
+          <table
+            class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W table-caption-margin margin-y-0 border-top border-left border-right"
+            data-testid="table"
+          >
+            <caption
+              class="caption-normal-weight"
+            >
+              Pending Results
+            </caption>
+            <thead>
+              <tr>
+                <th
+                  class="bg-gray-5 minw-15"
+                  scope="col"
+                >
+                  Name
+                </th>
+                <th
+                  class="bg-gray-5 minw-15"
+                  scope="col"
+                >
+                  Type
+                </th>
+                <th
+                  class="bg-gray-5 minw-15"
+                  scope="col"
+                >
+                  Priority
+                </th>
+                <th
+                  class="bg-gray-5 minw-15"
+                  scope="col"
+                >
+                  Associated Diagnoses
+                </th>
+                <th
+                  class="bg-gray-5 minw-15"
+                  scope="col"
+                >
+                  Date/Time
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                >
+                  PCR SARS-CoV-2 and Influenza A/B
+                </td>
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                >
+                  Lab
+                </td>
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                >
+                  Routine
+                </td>
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                />
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                >
+                  12/07/2021 4:16 PM CST
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                >
+                  Drugs Of Abuse Comprehensive Screen, Ur
+                </td>
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                >
+                  Lab
+                </td>
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                >
+                  STAT
+                </td>
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                />
+                <td
+                  class="table-caption-margin margin-y-0 border-top border-left border-right"
+                >
+                  12/23/2022 11:13 AM PST
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Snapshot test for Clinical Notes should match snapshot for non table notes 1`] = `
 <div>
   <div>
