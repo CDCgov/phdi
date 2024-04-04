@@ -9,12 +9,24 @@ interface TableRow {
   };
 }
 
-export const formatName = (firstName: string, lastName: string) => {
-  if (firstName != undefined) {
-    return `${firstName} ${lastName}`.trim();
-  } else {
-    return undefined;
-  }
+/**
+ * Formats a person's name using given name(s), family name, optional prefix(es), and optional suffix(es).
+ *
+ * @param {string[]} given - Array of given name(s).
+ * @param {string} family - Family name or surname.
+ * @param {string[]} [prefix] - Optional array of name prefix(es).
+ * @param {string[]} [suffix] - Optional array of name suffix(es).
+ * @returns {string} Formatted name.
+ */
+export const formatName = (
+  given: string[],
+  family: string,
+  prefix?: string[],
+  suffix?: string[],
+) => {
+  const nameArray: string[] = [].concat(prefix, given, family, suffix);
+
+  return nameArray.filter(Boolean).join(" ").trim();
 };
 
 export const formatAddress = (
@@ -56,8 +68,8 @@ export const formatDateTime = (dateTime: string) => {
 
 /**
  * Formats the provided date string into a formatted date string with year, month, and day.
- * @param {string} date - The date string to be formatted.
- * @returns {string | undefined} - The formatted date string or undefined if the input date is falsy.
+ * @param {string} dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
+ * @returns {string | undefined} - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
  */
 export const formatDate = (dateString?: string): string | undefined => {
   if (dateString) {

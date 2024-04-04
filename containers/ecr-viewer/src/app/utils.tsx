@@ -367,7 +367,7 @@ export const evaluateProviderData = (
     {
       title: "Provider Name",
       value: formatName(
-        evaluate(fhirBundle, mappings["providerGivenName"])[0],
+        evaluate(fhirBundle, mappings["providerGivenName"]),
         evaluate(fhirBundle, mappings["providerFamilyName"])[0],
       ),
     },
@@ -546,7 +546,6 @@ export const evaluateCareTeamTable = (
     { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
   ];
 
-  console.log(careTeamParticipants);
   careTeamParticipants.forEach((entry) => {
     if (entry?.period) {
       const textArray: String[] = [];
@@ -568,8 +567,6 @@ export const evaluateCareTeamTable = (
       (entry.period as any).text = textArray.join(" ");
     }
 
-    // TODO: This could maybe get abstracted out into another function?
-    // TODO: Remove null/undefined values from name.
     const practitioner = evaluateReference(
       bundle,
       mappings,
@@ -578,13 +575,13 @@ export const evaluateCareTeamTable = (
     const practitionerNameObj = practitioner.name?.find(
       (nameObject) => nameObject.family,
     );
-    const practitionerNamePrefix = practitionerNameObj?.prefix?.join(" ");
-    const practitionerNameGiven = practitionerNameObj?.given?.join(" ");
-    const practitionerNameFamily = practitionerNameObj?.family;
-    const practitionerNameSuffix = practitionerNameObj?.suffix?.join(" ");
     if (entry.member) {
-      (entry.member as any).name =
-        `${practitionerNamePrefix} ${practitionerNameGiven} ${practitionerNameFamily} ${practitionerNameSuffix}`;
+      (entry.member as any).name = formatName(
+        practitionerNameObj?.given,
+        practitionerNameObj?.family,
+        practitionerNameObj?.prefix,
+        practitionerNameObj?.suffix,
+      );
     }
   });
 

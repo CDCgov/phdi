@@ -1,8 +1,43 @@
 import {
+  formatName,
   formatDate,
   extractNumbersAndPeriods,
   formatTablesToJSON,
 } from "@/app/format-service";
+
+describe("Format Name", () => {
+  const inputGiven = ["Gregory", "B"];
+  const inputFamily = "House";
+
+  it("should return only given and family name", () => {
+    const expectedName = "Gregory B House";
+
+    const result = formatName(inputGiven, inputFamily);
+    expect(result).toEqual(expectedName);
+  });
+
+  it("should return the prefix, given, family, and suffix names", () => {
+    const inputPrefix = ["Dr."];
+    const inputSuffix = ["III"];
+    const expectedName = "Dr. Gregory B House III";
+
+    const result = formatName(
+      inputGiven,
+      inputFamily,
+      inputPrefix,
+      inputSuffix,
+    );
+    expect(result).toEqual(expectedName);
+  });
+
+  it("should return an empty string", () => {
+    const inputEmpty = [];
+    const expectedName = "";
+
+    const result = formatName(inputEmpty, "", inputEmpty, inputEmpty);
+    expect(result).toEqual(expectedName);
+  });
+});
 
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
