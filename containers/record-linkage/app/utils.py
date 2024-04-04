@@ -1,10 +1,22 @@
 import json
 import logging
 import pathlib
+import random
 import subprocess
+from functools import cache
+from pathlib import Path
+from typing import Any
+from typing import Callable
+from typing import List
 from typing import Literal
+from typing import Union
 
+import fhirpathpy
 from app.config import get_settings
+from app.linkage.dal import DataAccessLayer
+from fastapi import FastAPI
+from pydantic import BaseModel
+from sqlalchemy import text
 
 
 def load_mpi_env_vars_os():
@@ -108,3 +120,216 @@ def run_migrations():
     else:
         logger.error("MPI database schema validations failed.")
         raise Exception(validation_response.stderr.decode("utf-8"))
+
+
+# Originally from phdi/fhir/utils.py
+# TODO: Move this to the dibbs SDK once created
+# create a class with the DIBBs default Creative Commons Zero v1.0 and
+# MIT license to be used by the BaseService class
+LICENSES = {
+    "CreativeCommonsZero": {
+        "name": "Creative Commons Zero v1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    },
+    "MIT": {"name": "The MIT License", "url": "https://mit-license.org/"},
+}
+
+DIBBS_CONTACT = {
+    "name": "CDC Public Health Data Infrastructure",
+    "url": "https://cdcgov.github.io/phdi-site/",
+    "email": "dmibuildingblocks@cdc.gov",
+}
+
+
+STATUS_OK = {"status": "OK"}
+
+
+# Originally from phdi/fhir/utils.py
+# TODO: Move this to the dibbs SDK once created
+class StatusResponse(BaseModel):
+    """
+    The schema for the response from the health check endpoint.
+    """
+
+    status: Literal["OK"]
+
+
+selection_criteria_types = Literal["first", "last", "random", "all"]
+
+
+# Originally from phdi/fhir/utils.py
+# TODO: Move this to the dibbs SDK once created
+def apply_selection_criteria(
+    value: List[Any],
+    selection_criteria: selection_criteria_types,
+) -> str | List:
+    """
+    Returns value(s), according to the selection criteria, from a given list of values
+    parsed from a FHIR resource. A single string value is returned - if the selected
+    value is a complex structure (list or dict), it is converted to a string.
+    :param value: A list containing the values parsed from a FHIR resource.
+    :param selection_criteria: A string indicating which element(s) of a list to select.
+    :return: Value(s) parsed from a FHIR resource that conform to the selection
+      criteria.
+    """
+
+    if selection_criteria == "first":
+        value = value[0]
+    elif selection_criteria == "last":
+        value = value[-1]
+    elif selection_criteria == "random":
+        value = random.choice(value)
+    elif selection_criteria == "all":
+        return value
+    else:
+        raise ValueError(
+            f'Selection criteria {selection_criteria} is not a valid option. Must be one of "first", "last", "random", or "all".'  # noqa
+        )
+
+    # Temporary hack to ensure no structured data is written using pyarrow.
+    # Currently Pyarrow does not support mixing non-structured and structured data.
+    # https://github.com/awslabs/aws-data-wrangler/issues/463
+    # Will need to consider other methods of writing to parquet if this is an essential
+    # feature.
+    if isinstance(type(value), dict):  # pragma: no cover
+        value = json.dumps(value)
+    elif isinstance(type(value), list):
+        value = ",".join(value)
+    return value
+
+
+# Originally from phdi/fhir/utils.py
+# TODO: Move this to the dibbs SDK once created
+def extract_value_with_resource_path(
+    resource: dict,
+    path: str,
+    selection_criteria: Literal["first", "last", "random", "all"] = "first",
+) -> Union[Any, None]:
+    """
+    Yields a single value from a resource based on a provided `fhir_path`.
+    If the path doesn't map to an extant value in the first, returns
+    `None` instead.
+    :param resource: The FHIR resource to extract a value from.
+    :param path: The `fhir_path` at which the value can be found in the
+      resource.
+    :param selection_criteria: A string dictating which value to extract,
+      if multiple values exist at the path location.
+    :return: The extracted value, or `None` if the value doesn't exist.
+    """
+    parse_function = get_fhirpathpy_parser(path)
+    value = parse_function(resource)
+    if len(value) == 0:
+        return None
+    else:
+        value = apply_selection_criteria(value, selection_criteria)
+        return value
+
+
+# Originally from phdi/fhir/utils.py
+# TODO: Move this to the dibbs SDK once created
+@cache
+def get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
+    """
+    Accepts a FHIRPath expression, and returns a callable function
+    which returns the evaluated value at fhirpath_expression for
+    a specified FHIR resource.
+    :param fhirpath_expression: The FHIRPath expression to evaluate.
+    :return: A function that, when called passing in a FHIR resource,
+      will return value at `fhirpath_expression`.
+    """
+    return fhirpathpy.compile(fhirpath_expression)
+
+
+# Originally from phdi/containers/base_service.py
+# TODO: Move this to the dibbs SDK once created
+# TODO: change version to not be hard coded and instead pull dibbs version from
+# metadata when available
+class BaseService:
+    def __init__(
+        self,
+        service_name: str,
+        service_path: str,
+        description_path: str,
+        include_health_check_endpoint: bool = True,
+        license_info: Literal["CreativeCommonsZero", "MIT"] = "CreativeCommonsZero",
+    ):
+        """
+        Initialize a BaseService instance.
+
+        :param service_name: The name of the service.
+        :param service_path: The path to used to access the service from a gateway.
+        :param description_path: The path to a markdown file containing a description of
+            the service.
+        :param include_health_check_endpoint: If True, the standard DIBBs health check
+            endpoint will be added.
+        :param license_info: If empty, the standard DIBBs Creative Commons Zero v1.0
+            Universal license will be used. The other available option is to use the
+            MIT license.
+        """
+        description = Path(description_path).read_text(encoding="utf-8")
+        self.service_path = service_path
+        self.include_health_check_endpoint = include_health_check_endpoint
+        self.app = FastAPI(
+            title=service_name,
+            # version=metadata.version("phdi"),
+            version="0.1.0",
+            contact=DIBBS_CONTACT,
+            license_info=LICENSES[license_info],
+            description=description,
+        )
+
+    def add_path_rewrite_middleware(self):
+        """
+        Add middleware to the FastAPI instance to strip the service_path
+        from the URL path if it is present. This is useful when the service
+        is behind a gateway that is using a path-based routing strategy.
+        """
+
+        @self.app.middleware("http")
+        async def rewrite_path(request, call_next):
+            if request.url.path.startswith(self.service_path):
+                request.scope["path"] = request.scope["path"].replace(
+                    self.service_path, ""
+                )
+                if request.scope["path"] == "":
+                    request.scope["path"] = "/"
+            return await call_next(request)
+
+    def add_health_check_endpoint(self):
+        @self.app.get("/")
+        async def health_check() -> StatusResponse:
+            """
+            Check service status. If an HTTP 200 status code is returned along with
+            '{"status": "OK"}' then the service is available and running properly.
+            """
+            return STATUS_OK
+
+    def start(self) -> FastAPI:
+        """
+        Return a FastAPI instance with DIBBs metadata set. If
+        `include_health_check_endpoint` is True, then the health check endpoint
+        will be added.
+
+        :return: The FastAPI instance.
+        """
+        self.add_path_rewrite_middleware()
+        if self.include_health_check_endpoint:
+            self.add_health_check_endpoint()
+        return self.app
+
+
+def _clean_up(dal: DataAccessLayer):
+    with dal.engine.connect() as pg_connection:
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway CASCADE;"""))
+        pg_connection.commit()
+        pg_connection.close()

@@ -57,12 +57,10 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "Encounter Info",
       content: (
-        <div>
-          <EncounterDetails
-            encounterData={encounterData.availableData}
-            providerData={providerData.availableData}
-          />
-        </div>
+        <EncounterDetails
+          encounterData={encounterData.availableData}
+          providerData={providerData.availableData}
+        />
       ),
       expanded: true,
       headingLevel: "h3",
@@ -105,13 +103,11 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "eCR Metadata",
       content: (
-        <>
-          <EcrMetadata
-            eicrDetails={ecrMetadata.eicrDetails.availableData}
-            eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
-            rrDetails={ecrMetadata.rrDetails}
-          />
-        </>
+        <EcrMetadata
+          eicrDetails={ecrMetadata.eicrDetails.availableData}
+          eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
+          rrDetails={ecrMetadata.rrDetails}
+        />
       ),
       expanded: true,
       headingLevel: "h3",

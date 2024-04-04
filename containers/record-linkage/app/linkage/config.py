@@ -1,14 +1,15 @@
 from functools import lru_cache
-from typing import Optional
 
 from pydantic import BaseSettings
 
 
-class Settings(BaseSettings):
-    fhir_url: Optional[str]
-    smarty_auth_id: Optional[str]
-    smarty_auth_token: Optional[str]
-    license_type: Optional[str]
+class DBSettings(BaseSettings):
+    mpi_db_type: str
+    mpi_dbname: str
+    mpi_host: str
+    mpi_user: str
+    mpi_password: str
+    mpi_port: str
 
 
 @lru_cache()
@@ -21,4 +22,4 @@ def get_settings() -> dict:
     :return: A dictionary with keys specified by the Settings. The value of each key is
     read from the corresponding environment variable.
     """
-    return Settings().dict()
+    return DBSettings().dict()
