@@ -6,12 +6,14 @@ const PatientSearch: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [fhirServer, setFhirServer] = useState<"meld" | "ehealthexchange">("meld");
+  const [dob, setdob] = useState<string>("");
 
   const handleSubmit = async () => {
     console.log("First Name:", firstName);
     console.log("Last Name:", lastName);
     console.log("FHIR Server:", fhirServer);
-    const patient_id = await use_case_query({ fhir_server: fhirServer, first_name: firstName, last_name: lastName });
+    console.log("Date of Birth:", dob);
+    const patient_id = await use_case_query({ fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
     console.log("Patient ID:", patient_id)
   };
 
@@ -53,6 +55,17 @@ const PatientSearch: React.FC = () => {
           value={lastName}
           onChange={(event) => {
             setLastName(event.target.value);
+          }}
+        />
+      </div>
+      <div>
+        <label htmlFor="dob">Date of Birth:</label>
+        <input
+          type="date"
+          id="dob"
+          value={dob}
+          onChange={(event) => {
+            setdob(event.target.value);
           }}
         />
       </div>
