@@ -23,8 +23,8 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
   const renderLabInfo = () => {
     return (
       <>
-        {labResults.map((labResult) => (
-          <div key={labResult.organizationId}>
+        {labResults.map((labResult, labIndex) => (
+          <div key={`${labResult.organizationId}${labIndex}`}>
             <div className={"display-flex"}>
               <AccordianH4 id={"lab-results-from"}>
                 Lab Results from
