@@ -40,9 +40,10 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
           expanded: true,
           id: title,
           headingLevel: "h5",
+          className: `${organizationId}_acc_item`,
         },
       ]}
-      className={`accordion-rr ${organizationId} margin-bottom-3`}
+      className={`accordion-rr ${organizationId}_accordion margin-bottom-3`}
     />
   );
 };
