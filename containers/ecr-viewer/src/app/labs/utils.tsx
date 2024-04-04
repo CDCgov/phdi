@@ -527,7 +527,6 @@ export const evaluateLabOrganizationData = (
     postalCode,
     country,
   );
-  console.log(matchingOrg.telecom);
 
   const contactInfo = formatPhoneNumber(matchingOrg?.telecom?.[0].value ?? "");
   const name = matchingOrg?.name ?? "";
