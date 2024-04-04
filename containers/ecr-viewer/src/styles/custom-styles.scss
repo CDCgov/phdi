@@ -106,6 +106,17 @@ h4 {
     }
   }
 }
+.caption-normal-weight{
+  font-weight: normal !important;
+}
+
+.usa-table {
+  overflow-wrap: anywhere;
+  thead th {
+    background-color: #F0F0F0;
+  }
+}
+
 
 .minimize-container {
   position: absolute;

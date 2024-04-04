@@ -26,7 +26,7 @@ interface ClinicalProps {
   treatmentData: DisplayData[];
   clinicalNotes: DisplayData[];
   planOfTreatment: {
-    value: TableEntry[];
+    value: TableEntry[] | undefined;
   }[];
 }
 
@@ -184,42 +184,52 @@ export const ClinicalInfo = ({
     });
 
     const myTable = (
-      <Table
-        fixed={true}
-        bordered={false}
-        fullWidth={true}
-        caption={"Pending Results"}
-        className={classNames("table-caption-margin margin-y-0", {})}
-        data-testid="table"
-      >
-        <thead>
-          <tr>
-            {header.map((column, index) => (
-              <th
-                key={`${column}${index}`}
-                scope="col"
-                className="bg-gray-5 minw-15"
-              >
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {planOfTreatment[0].value.map((entry: TableEntry, index) => {
-            console.log("entry", entry);
-            return (
-              <tr key={`table-row-${index}`}>
-                <td className={cellClassNames}>{entry.Name}</td>
-                <td className={cellClassNames}>{entry.Type}</td>
-                <td className={cellClassNames}>{entry.Priority}</td>
-                <td className={cellClassNames}>{entry.AssociatedDiagnoses}</td>
-                <td className={cellClassNames}>{entry.DateTime}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      <>
+        <Table
+          fixed={true}
+          bordered={false}
+          fullWidth={true}
+          className={classNames(
+            "table-caption-margin margin-y-0 border-top border-left border-right",
+            {},
+          )}
+          data-testid="table"
+        >
+          <caption className={"caption-normal-weight"}>
+            {" "}
+            Pending Results{" "}
+          </caption>
+          <thead>
+            <tr>
+              {header.map((column, index) => (
+                <th
+                  key={`${column}${index}`}
+                  scope="col"
+                  className="bg-gray-5 minw-15"
+                >
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {planOfTreatment[0].value?.map((entry: TableEntry, index) => {
+              console.log("entry", entry);
+              return (
+                <tr key={`table-row-${index}`}>
+                  <td className={cellClassNames}>{entry.Name}</td>
+                  <td className={cellClassNames}>{entry.Type}</td>
+                  <td className={cellClassNames}>{entry.Priority}</td>
+                  <td className={cellClassNames}>
+                    {entry.AssociatedDiagnoses}
+                  </td>
+                  <td className={cellClassNames}>{entry.DateTime}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </>
     );
 
     return (
