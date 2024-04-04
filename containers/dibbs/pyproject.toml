@@ -1,0 +1,9 @@
+[build-system]
+requires = ["setuptools>=40.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dibbs"
+version = "0.1.0"
+description = "A short description of your project"
+dependencies = ["pydantic==1.10.9", "fastapi>=0.109.1", "uvicorn"]
