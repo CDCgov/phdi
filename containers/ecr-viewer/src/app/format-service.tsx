@@ -19,14 +19,26 @@ interface TableRow {
  * @returns {string} Formatted name.
  */
 export const formatName = (
-  given: string[],
-  family: string,
-  prefix?: string[],
-  suffix?: string[],
+  given: string[] | undefined,
+  family: string | undefined,
+  prefix?: string[] | undefined,
+  suffix?: string[] | undefined,
 ) => {
-  const nameArray: string[] = [].concat(prefix, given, family, suffix);
+  const nameArray: string[] = [];
+  if (prefix) {
+    nameArray.push(...prefix);
+  }
+  if (given) {
+    nameArray.push(...given);
+  }
+  if (family) {
+    nameArray.push(family);
+  }
+  if (suffix) {
+    nameArray.push(...suffix);
+  }
 
-  return nameArray.filter(Boolean).join(" ").trim();
+  return nameArray.join(" ").trim();
 };
 
 export const formatAddress = (
@@ -74,7 +86,8 @@ export const formatDateTime = (dateTime: string) => {
 export const formatDate = (dateString?: string): string | undefined => {
   if (dateString) {
     let date = new Date(dateString);
-    if (date == "Invalid Date") {
+    console.log("DATE", date);
+    if (date.toString() == "Invalid Date") {
       const formattedDate = `${dateString.substring(0, 4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}`; // yyyy-mm-dd
       date = new Date(formattedDate);
     }

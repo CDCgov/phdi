@@ -140,10 +140,7 @@ describe("Utils", () => {
       expect(screen.getByText("Dr. Gregory House")).toBeInTheDocument();
       expect(screen.getByText("family")).toBeInTheDocument();
       expect(
-        screen.getByText(
-          "Start: November 16, 2004\
-      End: May 21, 2012",
-        ),
+        screen.getByText("Start: 11/16/2004 End: 05/21/2012"),
       ).toBeInTheDocument();
     });
 

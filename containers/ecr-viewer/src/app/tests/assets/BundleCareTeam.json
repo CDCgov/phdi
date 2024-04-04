@@ -153,7 +153,8 @@
               "reference": "Practitioner/1234"
             },
             "period": {
-              "start": "20220324"
+              "start": "20041116",
+              "end": "20120521"
             },
             "modifierExtension": [
               {
