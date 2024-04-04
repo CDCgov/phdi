@@ -48,8 +48,9 @@ type PatientQueryRequest = {
   dob: string;
 }
 
+export type PatientQueryResponse = { patient_id: string, first_name: string };
 
-export async function use_case_query(input: PatientQueryRequest) {
+export async function use_case_query(input: PatientQueryRequest): Promise<PatientQueryResponse> {
   console.log("Input:", input);
 
   const fhir_host = FHIR_SERVERS[input.fhir_server].hostname;
@@ -71,6 +72,6 @@ export async function use_case_query(input: PatientQueryRequest) {
 
   const patient_id = data.entry[0].resource.id;
 
-  return patient_id;
+  return { patient_id, first_name: input.first_name };
 }
 
