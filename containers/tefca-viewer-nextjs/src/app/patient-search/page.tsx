@@ -1,79 +1,107 @@
 "use client";
 import React, { useState } from "react";
-import { use_case_query } from "./patient_search";
+import { PatientQueryResponse, use_case_query } from "./patient_search";
+import { PatientView } from "./components/PatientView";
 
-const PatientSearch: React.FC = () => {
+export function PatientSearch() {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [fhirServer, setFhirServer] = useState<"meld" | "ehealthexchange">("meld");
   const [dob, setdob] = useState<string>("");
 
+  const [mode, setMode] = useState<"search" | "view">("search");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [useCaseQueryResponse, setUseCaseQueryResponse] = useState<PatientQueryResponse>();
+
   const handleSubmit = async () => {
+    setLoading(true);
     console.log("First Name:", firstName);
     console.log("Last Name:", lastName);
     console.log("FHIR Server:", fhirServer);
     console.log("Date of Birth:", dob);
-    const patient_id = await use_case_query({ fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
-    console.log("Patient ID:", patient_id)
+    const use_case_query_response = await use_case_query({ fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
+    console.log("Patient ID:", use_case_query_response)
+    setUseCaseQueryResponse(use_case_query_response);
+    setMode("view");
+    setLoading(false);
   };
 
 
   return (
     <div>
-      <h1>Patient Search</h1>
-      <div>
-        <label htmlFor="fhirServer">FHIR Server:</label>
-        <select
-          id="fhirServer"
-          value={fhirServer}
-          onChange={(event) => {
-            setFhirServer(event.target.value as "meld" | "ehealthexchange");
-          }}
-          required
-        >
-          <option value="" disabled>Select FHIR Server</option>
-          <option value="meld">Meld</option>
-          <option value="ehealth-exchange">eHealth Exchange</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="firstName">First Name:</label>
-        <input
-          type="text"
-          id="firstName"
-          value={firstName}
-          onChange={(event) => {
-            setFirstName(event.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <label htmlFor="lastName">Last Name:</label>
-        <input
-          type="text"
-          id="lastName"
-          value={lastName}
-          onChange={(event) => {
-            setLastName(event.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <label htmlFor="dob">Date of Birth:</label>
-        <input
-          type="date"
-          id="dob"
-          value={dob}
-          onChange={(event) => {
-            setdob(event.target.value);
-          }}
-        />
-      </div>
-      <button type="button" onClick={handleSubmit}>
-        Submit
-      </button>
+      {mode === "search" && (<>
+        <h1>Patient Search</h1>
+        <div>
+          <label htmlFor="fhirServer">FHIR Server:</label>
+          <select
+            id="fhirServer"
+            value={fhirServer}
+            onChange={(event) => {
+              setFhirServer(event.target.value as "meld" | "ehealthexchange");
+            }}
+            required
+          >
+            <option value="" disabled>Select FHIR Server</option>
+            <option value="meld">Meld</option>
+            <option value="ehealthexchange">eHealth Exchange</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            type="text"
+            id="firstName"
+            value={firstName}
+            onChange={(event) => {
+              setFirstName(event.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            type="text"
+            id="lastName"
+            value={lastName}
+            onChange={(event) => {
+              setLastName(event.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="dob">Date of Birth:</label>
+          <input
+            type="date"
+            id="dob"
+            value={dob}
+            onChange={(event) => {
+              setdob(event.target.value);
+            }}
+          />
+        </div>
+        <button type="button" onClick={handleSubmit}>
+          Submit
+        </button>
+      </>)}
+
+      {mode === "view" && (<>
+        <h1>Patient View</h1>
+        <button type="button" onClick={() => setMode("search")}>Search for a new patient</button>
+        <LoadingView loading={loading} />
+        <PatientView useCaseQueryResponse={useCaseQueryResponse} />
+      </>)}
     </div>
   );
 };
+
+function LoadingView({ loading }: { loading: boolean }) {
+  if (loading) {
+    return (<div>
+      <h2>Loading...</h2>
+    </div>)
+  } else {
+    return null;
+  }
+}
 
 export default PatientSearch;
