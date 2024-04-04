@@ -315,7 +315,14 @@ export function evaluateObservationTable(
     ) ?? [];
   let obsTable;
   if (observations?.length > 0) {
-    obsTable = evaluateTable(observations, mappings, columnInfo, "", false);
+    obsTable = evaluateTable(
+      observations,
+      mappings,
+      columnInfo,
+      "",
+      true,
+      false,
+    );
   }
   return obsTable;
 }
@@ -336,7 +343,15 @@ export const evaluateDiagnosticReportData = (
     { columnName: "Component", infoPath: "observationComponent" },
     { columnName: "Value", infoPath: "observationValue" },
     { columnName: "Ref Range", infoPath: "observationReferenceRange" },
-    { columnName: "Test Method", infoPath: "observationMethod" },
+    {
+      columnName: "Test Method",
+      value: returnFieldValueFromLabHtmlString(
+        report,
+        fhirBundle,
+        mappings,
+        "Test Method",
+      ) as string,
+    },
   ];
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
 };
