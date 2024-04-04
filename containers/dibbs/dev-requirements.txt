@@ -1,3 +1,2 @@
-../dibbs
 pytest
 httpx
