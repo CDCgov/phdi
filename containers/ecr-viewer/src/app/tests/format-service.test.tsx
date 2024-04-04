@@ -33,6 +33,14 @@ describe("Format Date", () => {
     const result = formatDate(inputDate as any);
     expect(result).toBeUndefined();
   });
+
+  it("when given yyyymmdd, should return the correct formatted date", () => {
+    const inputDate = "20220125";
+    const expectedDate = "01/25/2022";
+
+    const result = formatDate(inputDate);
+    expect(result).toEqual(expectedDate);
+  });
 });
 
 describe("formatTablesToJSON", () => {

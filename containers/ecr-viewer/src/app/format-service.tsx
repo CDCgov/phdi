@@ -59,9 +59,14 @@ export const formatDateTime = (dateTime: string) => {
  * @param {string} date - The date string to be formatted.
  * @returns {string | undefined} - The formatted date string or undefined if the input date is falsy.
  */
-export const formatDate = (date?: string): string | undefined => {
-  if (date) {
-    return new Date(date).toLocaleDateString("en-US", {
+export const formatDate = (dateString?: string): string | undefined => {
+  if (dateString) {
+    let date = new Date(dateString);
+    if (date == "Invalid Date") {
+      const formattedDate = `${dateString.substring(0, 4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}`; // yyyy-mm-dd
+      date = new Date(formattedDate);
+    }
+    return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",

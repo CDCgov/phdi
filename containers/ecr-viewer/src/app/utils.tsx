@@ -542,28 +542,24 @@ export const evaluateCareTeamTable = (
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Member", infoPath: "careTeamParticipantMemberName" },
     { columnName: "Role", infoPath: "careTeamParticpantRole" },
-    { columnName: "Status", infoPath: "careTeamParticipantStatus" }, // TODO: fhir path still doesn't work
-    { columnName: "Dates", infoPath: "careTeamParticipantPeriod" }, // TODO:  remove undefined values from date
+    { columnName: "Status", infoPath: "careTeamParticipantStatus" },
+    { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
   ];
 
   console.log(careTeamParticipants);
   careTeamParticipants.forEach((entry) => {
     if (entry?.period) {
-      // TODO: Move this out to new function, formatStartEndDate
       const textArray: String[] = [];
 
-      const startDate = !Date.parse(entry.period.start)
-        ? `${entry.period.start?.substring(0, 4)}-${entry.period.start?.substring(4, 6)}-${entry.period.start?.substring(6, 8)}`
-        : entry.period.start;
-      textArray.push(`Start: ${startDate}`);
+      if (entry.period.start) {
+        let startDate = formatDate(entry.period.start);
+        if (startDate !== "Invalid Date") {
+          textArray.push(`Start: ${startDate}`);
+        }
+      }
 
       if (entry.period.end) {
         let endDate = formatDate(entry.period.end);
-        if (endDate == "Invalid Date") {
-          endDate = formatDate(
-            `${entry.period.end.substring(0, 4)}-${entry.period.end.substring(4, 6)}-${entry.period.end.substring(6, 8)}`,
-          );
-        }
         if (endDate !== "Invalid Date") {
           textArray.push(`End: ${endDate}`);
         }
