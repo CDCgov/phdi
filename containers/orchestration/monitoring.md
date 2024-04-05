@@ -122,7 +122,7 @@ The primary configuration file for Grafana specifices various settings to custom
 
 #### `grafana/dashboards/dashboard.yml`
 
-This is a simple yaml file that specifies that dashboards saved here should be pulled in and loaded to our Grafana UI. New dashboards can be created in the UI then downloaded and saved here as JSON.
+This is a simple yaml file that specifies that dashboards saved here should be pulled in and loaded to the Grafana UI. New dashboards can be created in the UI then downloaded and saved here as JSON.
 
 #### `grafana/datasource/datasource.yml`
 
