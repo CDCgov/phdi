@@ -215,3 +215,46 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   background-color: #f0f0f0;
   min-width: 120px;
 }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-body {
+  display: grid;
+  grid-template-columns: 1fr; // Defines a single column
+  justify-content: center; // Centers the column in the container
+  row-gap: 0.1em; // Adjusts the gap between rows/items
+}
+
+.home {
+  display: grid;
+  grid-template-columns: 1fr; // Defines a single column
+  justify-content: center; // Centers the column in the container
+  margin: 0 auto; // Centers the container itself if needed
+  row-gap: 0.1em; // Adjusts the gap between rows/items
+  max-width: 640px;
+}
+
+.patient-search-form {
+  display: grid;
+  grid-template-columns: 1fr; // Defines a single column
+  justify-content: center; // Centers the column in the container
+  margin: 0 auto; // Centers the container itself if needed
+  row-gap: 0.1em; // Adjusts the gap between rows/items
+  max-width: 480px;
+}
+
+.usa-footer {
+  margin-top: auto;
+}
+
+.get-started-button{
+  max-width: 8em;
+}
+
+.usa-label{
+  margin-top: 0;
+}

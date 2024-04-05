@@ -17,8 +17,8 @@ export default function UploadTutorial() {
 
   return (
     <div className="display-flex flex-justify-center margin-top-5">
-      <div>
-        <h1 className="font-sans-2xl text-bold">TEFCA Viewer</h1>
+      <div className="home">
+        <h1 className="font-sans-2xl text-bold">Case investigation made easier</h1>
         <h2 className="font-sans-lg text-light">
           The TryTEFCA Viewer provides a low-effort and zero-cost method for you
           to see the benefit from joining a TEFCA QHIN. This demo viewer is an
@@ -43,7 +43,7 @@ export default function UploadTutorial() {
             </p>
           </ProcessListItem>
         </ProcessList>
-        <Button type="button" onClick={handleClick}>
+        <Button className="get-started-button" type="button" onClick={handleClick}>
           Get started
         </Button>
       </div>
