@@ -9,8 +9,12 @@ export function PatientSearch() {
   const [fhirServer, setFhirServer] = useState<"meld" | "ehealthexchange">("meld");
   const [dob, setdob] = useState<string>("");
 
+
+  // Set a mode to switch between search and view
   const [mode, setMode] = useState<"search" | "view">("search");
+  // Set a loading state to show a loading message when loading
   const [loading, setLoading] = useState<boolean>(false);
+  // Set a state to store the response from the use case query
   const [useCaseQueryResponse, setUseCaseQueryResponse] = useState<PatientQueryResponse>();
 
   const handleSubmit = async () => {
@@ -84,6 +88,7 @@ export function PatientSearch() {
         </button>
       </>)}
 
+      {/* Switch the mode to view to show the results of the query */}
       {mode === "view" && (<>
         <h1>Patient View</h1>
         <button type="button" onClick={() => setMode("search")}>Search for a new patient</button>
