@@ -33,8 +33,8 @@ export function PatientSearch() {
   return (
     <div>
       {mode === "search" && (<>
-        <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
         <form className="patient-search-form" onSubmit={handleSubmit}>
+          <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
           <Fieldset>
             <h2 className="font-sans-lg"><strong>Name</strong></h2>
             <div className="grid-row grid-gap">
