@@ -7,6 +7,7 @@ import {
   DataDisplay,
   evaluateData,
   ColumnInfoInput,
+  noData,
 } from "@/app/utils";
 import { evaluateReference, evaluateTable } from "@/app/evaluate-service";
 import { evaluate } from "fhirpath";
@@ -21,8 +22,6 @@ import {
 export interface LabReport {
   result: Array<Reference>;
 }
-
-const noData = <span className="no-data text-italic text-base">No data</span>;
 
 /**
  * Extracts an array of `Observation` resources from a given FHIR bundle based on a list of observation references.

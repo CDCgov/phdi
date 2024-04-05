@@ -44,6 +44,10 @@ export interface CompleteData {
   unavailableData: DisplayData[];
 }
 
+export const noData = (
+  <span className="no-data text-italic text-base">No data</span>
+);
+
 export const evaluatePatientName = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
