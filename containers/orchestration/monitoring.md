@@ -50,7 +50,7 @@ Confusingly, OpenTelemetry allows Prometheus to slot in as either a Receiver _or
 * We configure the OTel Collector with the listening/transmitting mechanisms we want to use, and then activate the Collector with a service pipeline. This is set up in `otel-collector-config.yaml`.
 * We configure Prometheus with a scrape job to fetch the metrics that the OTel Collector put together for us based on our instrumentation. This is configured in `prometheus.yml`.
 * We link Prometheus to Grafana as its database source so that it can pull metrics from Prometheus' local DB into visualization dashboards.
-* We configure `grafana/datasources/datasources.yml` to specify the Prometheus connection as the default DB to use for the visualization in Grafana.
+* We configure `grafana/datasources/datasources.yml` to specify Prometheus connection as the default data source to use for the visualization in Grafana.
 * We configure `grafana/dashboards/dashboard.yml` for the Dashboards we use throughout Grafana. New dashboards can be created in Grafana UI then downloaded as JSON and saved within the `grafana/dashboard` folder for use by any user logging into `localhost:4000`.
 
 ## The Monitoring Flow This Creates
