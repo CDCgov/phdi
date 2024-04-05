@@ -4,7 +4,7 @@ interface Metadata {
 
 export interface TableRow {
   [key: string]: {
-    value: {};
+    value: any;
     metadata: Metadata;
   };
 }
@@ -192,7 +192,7 @@ export function formatTablesToJSON(htmlString: string): TableJson[] {
   } else {
     doc.querySelectorAll("table").forEach((table) => {
       const resultName = table.caption?.textContent;
-      const resultId = table.getAttribute("data-id");
+      const resultId = table.getAttribute("data-id") ?? undefined;
       jsonArray.push({ resultId, resultName, tables: [processTable(table)] });
     });
   }
