@@ -309,3 +309,14 @@ export const truncateLabNameWholeWord = (
   // Truncate to the last full word within the limit
   return input_str.substring(0, lastSpaceIndex);
 };
+
+/**
+ * Converts a string to sentence case, making the first character uppercase and the rest lowercase.
+ *
+ * @param {string} str - The string to convert to sentence case.
+ * @returns {string} The converted sentence-case string. If the input is empty or not a string, the original input is returned.
+ */
+export function toSentenceCase(str: string) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

@@ -4,6 +4,7 @@ import {
   extractNumbersAndPeriods,
   formatTablesToJSON,
   truncateLabNameWholeWord,
+  toSentenceCase,
 } from "@/app/format-service";
 
 describe("Format Name", () => {
@@ -208,5 +209,15 @@ describe("truncateLabNameWholeWord", () => {
     const input = "HOAG MEMORIAL HOSPITAL NEWPORT";
     const output = truncateLabNameWholeWord(input, 30);
     expect(output).toBe(input);
+  });
+});
+
+describe("toSentenceCase", () => {
+  it("should return string in sentence case", () => {
+    const input = "hello there";
+    const expected = "Hello there";
+
+    const result = toSentenceCase(input);
+    expect(result).toEqual(expected);
   });
 });

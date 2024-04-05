@@ -45,6 +45,7 @@ export interface ColumnInfoInput {
   columnName: string;
   infoPath?: string;
   value?: string;
+  sentenceCase?: boolean;
 }
 
 export interface CompleteData {
@@ -561,7 +562,11 @@ export const returnCareTeamTable = (
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Member", infoPath: "careTeamParticipantMemberName" },
     { columnName: "Role", infoPath: "careTeamParticipantRole" },
-    { columnName: "Status", infoPath: "careTeamParticipantStatus" },
+    {
+      columnName: "Status",
+      infoPath: "careTeamParticipantStatus",
+      sentenceCase: true,
+    },
     { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
   ];
 
@@ -609,6 +614,7 @@ export const returnCareTeamTable = (
     mappings,
     columnInfo,
     "Care Team",
+    false,
   );
 };
 
@@ -785,7 +791,7 @@ export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
 }): React.JSX.Element => {
   return (
     <div className="grid-row">
-      <div className="grid-col-auto text-pre-line">{item.value}</div>
+      <div className="grid-col-auto width-full text-pre-line">{item.value}</div>
       <div className={"section__line_gray"} />
     </div>
   );
