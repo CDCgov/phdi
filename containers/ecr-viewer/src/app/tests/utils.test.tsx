@@ -178,7 +178,7 @@ describe("Utils", () => {
     });
   });
   describe("Calculate Patient Age", () => {
-    it("should return patient age when DOB is available", () => {
+    it("when no date is given, should return patient age when DOB is available", () => {
       // Fixed "today" for testing purposes
       jest.useFakeTimers().setSystemTime(new Date("2024-03-12"));
 
@@ -196,6 +196,18 @@ describe("Utils", () => {
       const patientAge = calculatePatientAge(undefined as any, mappings);
 
       expect(patientAge).toEqual(undefined);
+    });
+    it("when date is given, should return age at given date", () => {
+      const givenDate = "2020-01-01";
+      const expectedAge = 4;
+
+      const resultAge = calculatePatientAge(
+        BundleWithPatient as unknown as Bundle,
+        mappings,
+        givenDate,
+      );
+
+      expect(resultAge).toEqual(expectedAge);
     });
   });
 

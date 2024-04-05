@@ -7,6 +7,8 @@ import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
 import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
+import { Grid, GridContainer } from "@trussworks/react-uswds";
+import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -14,7 +16,7 @@ const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
   const [mappings, setMappings] = useState<PathMappings>({});
-  const [errors, setErrors] = useState<Error | unknown>(null);
+  const [errors, setErrors] = useState<Error>();
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
   const snomedCode = searchParams.get("snomed-code") ?? "";
@@ -45,7 +47,7 @@ const ECRViewerPage = () => {
           setFhirBundle(bundle.fhirBundle);
           setMappings(bundle.fhirPathMappings);
         }
-      } catch (error) {
+      } catch (error: any) {
         setErrors(error);
         console.error("Error fetching data:", error);
       }
@@ -84,9 +86,28 @@ const ECRViewerPage = () => {
                   fhirBundle={fhirBundle}
                 />
                 <div className="margin-top-6">
-                  <h2 className="margin-bottom-3" id="ecr-document">
-                    eCR Document
-                  </h2>
+                  <GridContainer className={"padding-0 margin-bottom-3"}>
+                    <Grid row>
+                      <Grid>
+                        <h2 className="margin-bottom-0" id="ecr-document">
+                          eCR Document
+                        </h2>
+                      </Grid>
+                      <Grid
+                        className={"flex-align-self-center margin-left-auto"}
+                      >
+                        <ExpandCollapseButtons
+                          id={"main"}
+                          buttonSelector={"h3 > .usa-accordion__button"}
+                          accordionSelector={
+                            ".info-container > .usa-accordion__content"
+                          }
+                          expandButtonText={"Expand all sections"}
+                          collapseButtonText={"Collapse all sections"}
+                        />
+                      </Grid>
+                    </Grid>
+                  </GridContainer>
                   <AccordionContainer
                     fhirPathMappings={mappings}
                     fhirBundle={fhirBundle}

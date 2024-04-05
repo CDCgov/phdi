@@ -5,10 +5,12 @@ import {
   AccordianDiv,
 } from "../component-utils";
 import React from "react";
+import { LabReportElementData } from "@/app/labs/utils";
+import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
+import { truncateLabNameWholeWord } from "@/app/format-service";
 
 interface LabInfoProps {
-  labInfo: DisplayData[];
-  labResults: React.JSX.Element[];
+  labResults: LabReportElementData[];
 }
 
 /**
@@ -18,27 +20,60 @@ interface LabInfoProps {
  * @param {React.JSX.Element[]} props.labResults - Array of Lab result items.
  * @returns {React.JSX.Element} React element representing the LabInfo component.
  */
-export const LabInfo = ({
-  labInfo,
-  labResults,
-}: LabInfoProps): React.JSX.Element => {
+export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
   const renderLabInfo = () => {
     return (
       <>
-        <AccordianH4 id={"lab-results-from"}>Lab Results from</AccordianH4>
-        <AccordianDiv>
-          {labInfo.map((item, index) => {
-            return <DataDisplay item={item} key={index} />;
-          })}
-          {labResults}
-        </AccordianDiv>
+        {labResults.map((labResult, labIndex) => {
+          // This is to build the selector based off if orgId exists
+          // Sometimes it doesn't, so we default to the base class
+          // the orgId makes it so that when you have multiple, it can distinguish
+          // which org it is modifying
+          const accordionSelectorClass = labResult.organizationId
+            ? `.${labResult.organizationId}_accordion`
+            : ".accordion-rr";
+          const buttonSelectorClass = labResult.organizationId
+            ? `.${labResult.organizationId}_acc_item`
+            : "h5";
+
+          return (
+            <div key={`${labResult.organizationId}${labIndex}`}>
+              <AccordianH4 id={"lab-results-from"}>
+                Lab Results from&nbsp;
+                {truncateLabNameWholeWord(
+                  labResult.organizationDisplayData[0].value as string,
+                )}
+              </AccordianH4>
+              <AccordianDiv>
+                {labResult?.organizationDisplayData?.map(
+                  (item: DisplayData, index: any) => {
+                    if (item.value)
+                      return <DataDisplay item={item} key={index} />;
+                  },
+                )}
+                <div className="display-flex">
+                  <div className={"margin-left-auto padding-top-1"}>
+                    <ExpandCollapseButtons
+                      id={"lab-info"}
+                      buttonSelector={`${buttonSelectorClass} > .usa-accordion__button`}
+                      accordionSelector={`${accordionSelectorClass} > .usa-accordion__content`}
+                      expandButtonText={"Expand all labs"}
+                      collapseButtonText={"Collapse all labs"}
+                    />
+                  </div>
+                </div>
+                {labResult.diagnosticReportDataElements}
+              </AccordianDiv>
+            </div>
+          );
+        })}
       </>
     );
   };
 
   return (
     <AccordianSection>
-      {(labInfo.length > 0 || labResults.length > 0) && renderLabInfo()}
+      {labResults.length > 0 && renderLabInfo()}
     </AccordianSection>
   );
 };
