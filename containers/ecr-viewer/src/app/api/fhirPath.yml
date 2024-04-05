@@ -104,3 +104,6 @@ observationComponent: "code.coding.display"
 observationValue: "value"
 observationReferenceRange: "referenceRange.text"
 observationMethod: "method"
+
+# Organization
+organizations: "Bundle.entry.resource.where(resourceType = 'Organization')"
