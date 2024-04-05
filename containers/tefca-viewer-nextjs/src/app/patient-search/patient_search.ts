@@ -4,12 +4,12 @@ import { v4 as uuidv4 } from "uuid";
 import https from 'https';
 import fetch, { RequestInit } from 'node-fetch';
 
-// Create a custom agent with SSL certificate verification disabled
+// Custom agent with SSL certificate verification disabled; do not use in prod!
 const agent = new https.Agent({
   rejectUnauthorized: false
 });
 
-// Create a custom fetch function that uses the custom agent
+// Custom fetch function that uses the custom agent
 const customFetch = (url: string, options: RequestInit = {}) => {
   if (!options.agent) {
     options.agent = agent;

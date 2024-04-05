@@ -1,7 +1,7 @@
-import { PatientQueryResponse } from "../patient_search";
+import { PatientIdQueryResponse } from "../patient_search";
 
 type PatientViewProps = {
-    useCaseQueryResponse: PatientQueryResponse | undefined;
+    useCaseQueryResponse: PatientIdQueryResponse | undefined;
 }
 export function PatientView({ useCaseQueryResponse }: PatientViewProps) {
     if (useCaseQueryResponse) {

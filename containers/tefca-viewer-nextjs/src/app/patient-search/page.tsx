@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { PatientQueryResponse, use_case_query } from "./patient_search";
+import { PatientIdQueryResponse, patient_id_query } from "./patient_search";
+// import { UseCaseQueryResponse, use_case_query } from "./patient_search";
 import { PatientView } from "./components/PatientView";
 
 export function PatientSearch() {
@@ -15,7 +16,7 @@ export function PatientSearch() {
   // Set a loading state to show a loading message when loading
   const [loading, setLoading] = useState<boolean>(false);
   // Set a state to store the response from the use case query
-  const [useCaseQueryResponse, setUseCaseQueryResponse] = useState<PatientQueryResponse>();
+  const [useCaseQueryResponse, setUseCaseQueryResponse] = useState<PatientIdQueryResponse>();
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -23,7 +24,7 @@ export function PatientSearch() {
     console.log("Last Name:", lastName);
     console.log("FHIR Server:", fhirServer);
     console.log("Date of Birth:", dob);
-    const use_case_query_response = await use_case_query({ fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
+    const use_case_query_response = await patient_id_query({ fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
     console.log("Patient ID:", use_case_query_response)
     setUseCaseQueryResponse(use_case_query_response);
     setMode("view");
