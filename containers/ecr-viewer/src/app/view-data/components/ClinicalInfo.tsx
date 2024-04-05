@@ -167,6 +167,7 @@ export const ClinicalInfo = ({
     );
   };
 
+  // TODO: write test for Plan of treatment without value 6100896d-b520-497c-b2fe-1c111c679274
   const renderPlanOfTreatmentDetails = () => {
     const header = [
       "Name",
