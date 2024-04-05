@@ -229,7 +229,6 @@ export const returnFieldValueFromLabHtmlString = (
   fieldName: string,
 ): React.ReactNode => {
   const labReportJson = getLabJsonObject(report, fhirBundle, mappings);
-
   if (!labReportJson) {
     return noData;
   }
