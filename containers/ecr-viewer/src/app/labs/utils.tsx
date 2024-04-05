@@ -33,8 +33,6 @@ export interface LabReportElementData {
   organizationDisplayData: DisplayData[];
 }
 
-const noData = <span className="no-data text-italic text-base">No data</span>;
-
 /**
  * Extracts an array of `Observation` resources from a given FHIR bundle based on a list of observation references.
  *
