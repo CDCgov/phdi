@@ -12,17 +12,17 @@ interface TableRow {
 /**
  * Formats a person's name using given name(s), family name, optional prefix(es), and optional suffix(es).
  *
- * @param {string[]} given - Array of given name(s).
- * @param {string} family - Family name or surname.
+ * @param {string[]} given - Optional array of given name(s).
+ * @param {string} family - Optional string representing family name or surname.
  * @param {string[]} [prefix] - Optional array of name prefix(es).
  * @param {string[]} [suffix] - Optional array of name suffix(es).
  * @returns {string} Formatted name.
  */
 export const formatName = (
-  given: string[] | undefined,
-  family: string | undefined,
-  prefix?: string[] | undefined,
-  suffix?: string[] | undefined,
+  given?: string[],
+  family?: string,
+  prefix?: string[],
+  suffix?: string[],
 ) => {
   const nameArray: string[] = [];
   if (prefix) {

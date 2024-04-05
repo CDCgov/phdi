@@ -560,7 +560,7 @@ export const returnCareTeamTable = (
 
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Member", infoPath: "careTeamParticipantMemberName" },
-    { columnName: "Role", infoPath: "careTeamParticpantRole" },
+    { columnName: "Role", infoPath: "careTeamParticipantRole" },
     { columnName: "Status", infoPath: "careTeamParticipantStatus" },
     { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
   ];
@@ -685,7 +685,7 @@ export const evaluateClinicalData = (
       ),
     },
     {
-      title: "CareTeam",
+      title: "Care Team",
       value: returnCareTeamTable(fhirBundle, mappings),
     },
   ];

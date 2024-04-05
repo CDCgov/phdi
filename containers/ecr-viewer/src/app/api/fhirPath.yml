@@ -85,12 +85,9 @@ historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Compositio
 ## Care Team
 careTeamParticipants: "Bundle.entry.resource.where(resourceType='CareTeam').participant"
 
-careTeamParticipantMember: "member.reference"
 careTeamParticipantMemberName: "member.name"
-careTeamParticpantRole: "role.text"
+careTeamParticipantRole: "role.text"
 careTeamParticipantStatus: "modifierExtension.where(url='participant.status').valueString"
-careTeamParticipantPeriodStart: "period.start"
-careTeamParticipantPeriodEnd: "period.end"
 careTeamParticipantPeriod: "period.text"
 
 # Immunization Info
