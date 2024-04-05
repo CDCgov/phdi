@@ -15,16 +15,11 @@ import {
   formatDateTime,
   formatTablesToJSON,
   extractNumbersAndPeriods,
+  TableJson,
 } from "@/app/format-service";
 
 export interface LabReport {
   result: Array<Reference>;
-}
-
-export interface LabJson {
-  resultId: string | null;
-  resultName: string;
-  tables: Array<Array<{}>>;
 }
 
 const noData = <span className="no-data text-italic text-base">No data</span>;
@@ -61,13 +56,13 @@ export const getObservations = (
  * @param {LabReport} report - The LabReport object containing information about the lab report.
  * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
  * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
- * @returns {LabJson} The JSON representation of the lab report.
+ * @returns {TableJson} The JSON representation of the lab report.
  */
 export const getLabJsonObject = (
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
-): LabJson => {
+): TableJson => {
   // Get reference value (result ID) from Observations
   const observations = getObservations(report, fhirBundle, mappings);
   const observationRefValsArray = observations.flatMap((observation) => {
@@ -81,7 +76,7 @@ export const getLabJsonObject = (
   const labsJson = formatTablesToJSON(labsString);
 
   // Get specified lab report (by reference value)
-  return labsJson.filter((obj) => obj.resultId.includes(observationRefVal))[0];
+  return labsJson.filter((obj) => obj.resultId?.includes(observationRefVal))[0];
 };
 
 /**
@@ -102,7 +97,7 @@ export const checkAbnormalTag = (
   }
   const labResultName = labResult.resultName;
 
-  return labResultName.toLowerCase().includes("abnormal");
+  return labResultName?.toLowerCase().includes("abnormal") ?? false;
 };
 
 /**
@@ -234,12 +229,12 @@ export const returnFieldValueFromLabHtmlString = (
   fieldName: string,
 ): React.ReactNode => {
   const labReportJson = getLabJsonObject(report, fhirBundle, mappings);
-  console.log("labReportJson", labReportJson);
+
   if (!labReportJson) {
     return noData;
   }
   const labTables = labReportJson.tables;
-  const fieldValue = searchResultRecord(labTables, fieldName);
+  const fieldValue = searchResultRecord(labTables ?? [], fieldName);
 
   if (!fieldValue || fieldValue.length === 0) {
     return noData;
