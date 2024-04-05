@@ -40,7 +40,7 @@ const FHIR_SERVERS: {
   },
 };
 
-
+// This is the expected request to the FHIR server
 type PatientQueryRequest = {
   fhir_server: "meld" | "ehealthexchange";
   first_name: string;
@@ -48,15 +48,25 @@ type PatientQueryRequest = {
   dob: string;
 }
 
+// This is the expected response from the FHIR server
 export type PatientQueryResponse = { patient_id: string, first_name: string };
 
 export async function use_case_query(input: PatientQueryRequest): Promise<PatientQueryResponse> {
+  // Set up and logging
   console.log("Input:", input);
-
   const fhir_host = FHIR_SERVERS[input.fhir_server].hostname;
   const patient_query = `Patient?given=${input.first_name}&family=${input.last_name}&birthdate=${input.dob}`;
+  const headers = FHIR_SERVERS[input.fhir_server].headers || {};
+  // Add username to headers if it exists in input.fhir_server
+  if (FHIR_SERVERS[input.fhir_server].username && FHIR_SERVERS[input.fhir_server].password) {
+    {
+      const credentials = btoa(`${FHIR_SERVERS[input.fhir_server].username}:${FHIR_SERVERS[input.fhir_server].password || ''}`);
+      headers.Authorization = `Basic ${credentials}`;
+    }
+  }
+
   const response = await fetch(fhir_host + patient_query, {
-    headers: FHIR_SERVERS[input.fhir_server].headers || {},
+    headers: headers,
   });
 
   const data = await response.json();
