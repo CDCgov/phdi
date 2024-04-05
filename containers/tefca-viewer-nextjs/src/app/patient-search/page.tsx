@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { PatientIdQueryResponse, UseCaseQueryResponse, patient_id_query, use_case_query } from "./patient_search";
-// import { UseCaseQueryResponse, use_case_query } from "./patient_search";
+import { UseCaseQueryResponse, use_case_query } from "./patient_search";
 import { PatientView } from "./components/PatientView";
 
 export function PatientSearch() {

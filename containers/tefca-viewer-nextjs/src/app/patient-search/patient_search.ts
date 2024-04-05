@@ -20,7 +20,7 @@ const FHIR_SERVERS: {
     headers?: { [key: string]: string };
   };
 } = {
-  meld: { hostname: "https://gw.interop.community/skylightsandbox/open/" },
+  meld: { hostname: "https://gw.interop.community/HeliosConnectathonSa/open/" },
   ehealthexchange: {
     hostname: "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/",
     username: "svc_eHxFHIRSandbox",
@@ -56,18 +56,16 @@ type UseCaseQueryRequest = {
 } & PatientIdQueryRequest;
 
 // Expected responses from the FHIR server
-export type PatientIdQueryResponse = { patient_id: string, fhir_host: string };
-export type UseCaseQueryResponse = Record<string, unknown>;
+export type UseCaseQueryResponse = Awaited<ReturnType<typeof use_case_query>>;
 
-export async function patient_id_query(input: PatientIdQueryRequest): Promise<PatientIdQueryResponse> {
+async function patient_id_query(input: PatientIdQueryRequest) {
   // Set up and logging
   console.log("patient_id_query input:", input);
   const fhir_host = FHIR_SERVERS[input.fhir_server].hostname;
   const patient_id_query = `Patient?given=${input.first_name}&family=${input.last_name}&birthdate=${input.dob}`;
   const headers = FHIR_SERVERS[input.fhir_server].headers || {};
-
   // Set up init object for eHealth Exchange
-  let init: RequestInit = {};
+  const init: RequestInit = {};
 
   // Add username to headers if it exists in input.fhir_server
   if (FHIR_SERVERS[input.fhir_server].username && FHIR_SERVERS[input.fhir_server].password) {
@@ -82,7 +80,6 @@ export async function patient_id_query(input: PatientIdQueryRequest): Promise<Pa
     headers: headers,
     ...init
   });
-
   const data = await response.json();
 
   if (response.status !== 200) {
@@ -98,10 +95,10 @@ export async function patient_id_query(input: PatientIdQueryRequest): Promise<Pa
 
   const patient_id = data.entry[0].resource.id;
 
-  return { patient_id, fhir_host };
+  return { patient_id, fhir_host, init };
 }
 
-export async function use_case_query(input: UseCaseQueryRequest): Promise<UseCaseQueryResponse> {
+export async function use_case_query(input: UseCaseQueryRequest) {
   // Set up and logging
   console.log("use_case_query input:", input);
 
@@ -112,19 +109,17 @@ export async function use_case_query(input: UseCaseQueryRequest): Promise<UseCas
     last_name: input.last_name,
     dob: input.dob,
   });
+  const { fhir_host, init, patient_id } = patient_id_query_response;
 
-  // Use patient id to query based on use_case
 
-  // const response = await fetch(input.fhir_host + use_case_query, {
-  //   headers: input.headers,
-  // });
+  // Use patient id to query based on use_case 
+  const social_determinants_query = `/Observation?subject=Patient/${patient_id}&category=survey"`
+  const response = await fetch(fhir_host + social_determinants_query, init);
 
-  // const data = await response.json();
+  const use_case_query_response = await response.json();
 
-  // if (response.status !== 200) {
-  //   throw new Error(`Use case query failed. Status: ${response.status}`);
-  // }
-  const use_case_response = "hello";
-
-  return { ...patient_id_query_response, use_case_response };
+  return {
+    patient_id: patient_id,
+    use_case_query_response
+  };
 }
