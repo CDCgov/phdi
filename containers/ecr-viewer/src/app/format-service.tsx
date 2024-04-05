@@ -190,15 +190,15 @@ export function formatTablesToJSON(htmlString: string): any[] {
  * This function extracts data from <tr> and <td> elements within the provided table element.
  * The content of <th> elements is used as keys in the generated JSON objects.
  * @param {Element} table - The HTML table element to be processed.
- * @returns {any[]} - An array of JSON objects representing the rows and cells of the table.
+ * @returns {TableRow[]} - An array of JSON objects representing the rows and cells of the table.
  */
-function processTable(table: Element): any[] {
+function processTable(table: Element): TableRow[] {
   const jsonArray: any[] = [];
   const rows = table.querySelectorAll("tr");
   const keys: string[] = [];
 
   rows[0].querySelectorAll("th").forEach((header) => {
-    keys.push(header.textContent?.trim() || "");
+    keys.push(header.textContent?.trim() ?? "");
   });
 
   rows.forEach((row, rowIndex) => {
@@ -211,15 +211,15 @@ function processTable(table: Element): any[] {
 
       const metaData: Metadata = {};
       const attributes = cell.attributes || [];
-      for (let i = 0; i < attributes.length; i++) {
-        const attrName = attributes[i].nodeName;
-        const attrValue = attributes[i].nodeValue;
+      for (const element of attributes) {
+        const attrName = element.nodeName;
+        const attrValue = element.nodeValue;
         if (attrName && attrValue) {
           metaData[attrName] = attrValue;
         }
       }
       obj[key] = {
-        value: cell.textContent?.trim() || "",
+        value: cell.textContent?.trim() ?? "",
         metadata: metaData,
       };
     });
