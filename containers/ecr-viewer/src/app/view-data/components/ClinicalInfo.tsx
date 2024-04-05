@@ -6,7 +6,6 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
-import { Table } from "@trussworks/react-uswds";
 
 export type TableEntry = {
   Name: string;
@@ -24,9 +23,6 @@ interface ClinicalProps {
   immunizationsDetails: DisplayData[];
   treatmentData: DisplayData[];
   clinicalNotes: DisplayData[];
-  planOfTreatment: {
-    value: TableEntry[] | undefined;
-  }[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -47,7 +43,6 @@ export const ClinicalInfo = ({
   vitalData,
   treatmentData,
   clinicalNotes,
-  planOfTreatment,
 }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
@@ -146,6 +141,7 @@ export const ClinicalInfo = ({
     );
   };
 
+  // TODO: write test for Plan of treatment without value 6100896d-b520-497c-b2fe-1c111c679274
   const renderTreatmentDetails = () => {
     const data = treatmentData.filter((item) => !React.isValidElement(item));
     return (
@@ -167,73 +163,11 @@ export const ClinicalInfo = ({
     );
   };
 
-  // TODO: write test for Plan of treatment without value 6100896d-b520-497c-b2fe-1c111c679274
-  const renderPlanOfTreatmentDetails = () => {
-    const header = [
-      "Name",
-      "Type",
-      "Priority",
-      "Associated Diagnoses",
-      "Date/Time",
-    ];
-
-    const cellClassNames =
-      "table-caption-margin margin-y-0 border-top border-left border-right";
-
-    const pendingResultsTable = (
-      <Table
-        fixed={true}
-        bordered={false}
-        fullWidth={true}
-        className={
-          "table-caption-margin margin-y-0 border-top border-left border-right"
-        }
-        data-testid="table"
-      >
-        <caption className={"caption-normal-weight"}>Pending Results</caption>
-        <thead>
-          <tr>
-            {header.map((column) => (
-              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {planOfTreatment[0].value?.map((entry: TableEntry, index) => {
-            return (
-              <tr key={`table-row-${index}`}>
-                <td className={cellClassNames}>{entry.Name}</td>
-                <td className={cellClassNames}>{entry.Type}</td>
-                <td className={cellClassNames}>{entry.Priority}</td>
-                <td className={cellClassNames}>{entry.AssociatedDiagnoses}</td>
-                <td className={cellClassNames}>{entry.DateTime}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-    );
-
-    return (
-      <>
-        <AccordianH4>
-          <span id={clinicalInfoConfig.subNavItems?.[3].id}>
-            {clinicalInfoConfig.subNavItems?.[3].title}
-          </span>
-        </AccordianH4>
-        <AccordianDiv>{pendingResultsTable}</AccordianDiv>
-      </>
-    );
-  };
-
   return (
     <AccordianSection>
       {clinicalNotes?.length > 0 && renderClinicalNotes()}
       {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
         renderSymptomsAndProblems()}
-      {planOfTreatment.length > 0 && renderPlanOfTreatmentDetails()}
       {treatmentData.length > 0 && renderTreatmentDetails()}
       {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
       {vitalData.length > 0 && renderVitalDetails()}

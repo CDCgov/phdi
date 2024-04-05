@@ -13,8 +13,11 @@ import {
   formatStartEndDateTime,
   formatVitals,
   formatDateTime,
+  formatTablesToJSON,
+  TableRow,
 } from "@/app/format-service";
 import { evaluateTable } from "./evaluate-service";
+import { Table } from "@trussworks/react-uswds";
 
 export interface DisplayData {
   title?: string;
@@ -504,61 +507,76 @@ export const returnProblemsTable = (
   );
 };
 
-type TableEntry = {
-  Name: string;
-  Type: string;
-  Priority: string;
-  AssociatedDiagnoses?: string;
-  DateTime?: string;
-  OrderSchedule?: string;
-};
+export const returnPendingResultsTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const planOfTreatmentTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["planOfTreatment"])[0]?.div,
+  );
+  const pendingResultsTableJson = planOfTreatmentTables.find(
+    (val) => val.resultName === "Pending Results",
+  );
 
-type ExtractedData = {
-  pendingResults: TableEntry[];
-  scheduledOrders: TableEntry[];
-};
+  if (pendingResultsTableJson?.tables?.[0]) {
+    const header = [
+      "Name",
+      "Type",
+      "Priority",
+      "Associated Diagnoses",
+      "Date/Time",
+    ];
+    const cellClassNames =
+      "table-caption-margin margin-y-0 border-top border-left border-right";
 
-export const returnPlanOfTreatmentTable = (planOfTreatments: any[]) => {
-  if (planOfTreatments.length === 0) {
-    return undefined;
+    return (
+      <Table
+        fixed={true}
+        bordered={false}
+        fullWidth={true}
+        className={
+          "table-caption-margin margin-y-0 border-top border-left border-right"
+        }
+        data-testid="table"
+      >
+        <caption className={"caption-normal-weight"}>Pending Results</caption>
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {pendingResultsTableJson.tables[0].map(
+            (entry: TableRow, index: number) => {
+              return (
+                <tr key={`table-row-${index}`}>
+                  <td className={cellClassNames}>
+                    {entry.Name?.value ?? noData}
+                  </td>
+                  <td className={cellClassNames}>
+                    {entry.Type?.value ?? noData}
+                  </td>
+                  <td className={cellClassNames}>
+                    {entry.Priority?.value ?? noData}
+                  </td>
+                  <td className={cellClassNames}>
+                    {entry.AssociatedDiagnoses?.value ?? noData}
+                  </td>
+                  <td className={cellClassNames}>
+                    {entry["Date/Time"]?.value ?? noData}
+                  </td>
+                </tr>
+              );
+            },
+          )}
+        </tbody>
+      </Table>
+    );
   }
-
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(planOfTreatments[0].div, "text/html");
-  const tables = doc.getElementsByTagName("table");
-  const data: ExtractedData = {
-    pendingResults: [],
-    scheduledOrders: [],
-  };
-
-  Array.from(tables).forEach((table, index) => {
-    const rows = table.querySelectorAll("tbody tr");
-    rows.forEach((row) => {
-      const entry: TableEntry = {
-        Name: row.children[0].textContent || "",
-        Type: row.children[1].textContent || "",
-        Priority: row.children[2].textContent || "",
-      };
-
-      if (index === 0) {
-        // Assuming first table is always Pending Results
-        entry.DateTime = row.children[4].textContent || "";
-      } else {
-        // Assuming second table is always Scheduled Orders
-        entry.OrderSchedule = row.children[4].textContent || "";
-      }
-
-      if (index === 0) {
-        data.pendingResults.push(entry);
-      } else {
-        data.scheduledOrders.push(entry);
-      }
-    });
-  });
-
-  console.log(data);
-
-  return data.pendingResults;
 };
 
 /**
@@ -663,14 +681,16 @@ export const evaluateClinicalData = (
     },
   ];
 
-  const planOfTreatmentTableData = [
-    {
-      title: "Plan of Treatment",
-      value: returnPlanOfTreatmentTable(
-        evaluate(fhirBundle, mappings["planOfTreatment"]),
-      ),
-    },
-  ];
+  const pendingResults = returnPendingResultsTable(fhirBundle, mappings);
+  let planOfTreatmentElement: React.JSX.Element | undefined = undefined;
+  if (pendingResults) {
+    planOfTreatmentElement = (
+      <>
+        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
+        {pendingResults}
+      </>
+    );
+  }
 
   const treatmentData: DisplayData[] = [
     {
@@ -679,6 +699,10 @@ export const evaluateClinicalData = (
         evaluate(fhirBundle, mappings["procedures"]),
         mappings,
       ),
+    },
+    {
+      title: "Plan of Treatment",
+      value: planOfTreatmentElement, //add scheduled order table here
     },
   ];
 
@@ -704,19 +728,14 @@ export const evaluateClinicalData = (
       ),
     },
   ];
-  const result = {
+  return {
     clinicalNotes: evaluateData(clinicalNotes),
     reasonForVisitDetails: evaluateData(reasonForVisitData),
     activeProblemsDetails: evaluateData(activeProblemsTableData),
     treatmentData: evaluateData(treatmentData),
     vitalData: evaluateData(vitalData),
     immunizationsDetails: evaluateData(immunizationsData),
-    planOfTreatment: planOfTreatmentTableData,
   };
-
-  console.log(result);
-
-  return result;
 };
 
 /**
