@@ -68,22 +68,18 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "Clinical Info",
       content: (
-        <>
-          <ClinicalInfo
-            clinicalNotes={clinicalData.clinicalNotes.availableData}
-            reasonForVisitDetails={
-              clinicalData.reasonForVisitDetails.availableData
-            }
-            activeProblemsDetails={
-              clinicalData.activeProblemsDetails.availableData
-            }
-            vitalData={clinicalData.vitalData.availableData}
-            immunizationsDetails={
-              clinicalData.immunizationsDetails.availableData
-            }
-            treatmentData={clinicalData.treatmentData.availableData}
-          />
-        </>
+        <ClinicalInfo
+          clinicalNotes={clinicalData.clinicalNotes.availableData}
+          reasonForVisitDetails={
+            clinicalData.reasonForVisitDetails.availableData
+          }
+          activeProblemsDetails={
+            clinicalData.activeProblemsDetails.availableData
+          }
+          vitalData={clinicalData.vitalData.availableData}
+          immunizationsDetails={clinicalData.immunizationsDetails.availableData}
+          treatmentData={clinicalData.treatmentData.availableData}
+        />
       ),
       expanded: true,
       headingLevel: "h3",

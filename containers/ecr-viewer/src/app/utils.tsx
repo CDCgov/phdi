@@ -702,7 +702,7 @@ export const evaluateClinicalData = (
     },
     {
       title: "Plan of Treatment",
-      value: planOfTreatmentElement, //add scheduled order table here
+      value: planOfTreatmentElement,
     },
   ];
 

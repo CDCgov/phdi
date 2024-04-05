@@ -181,7 +181,7 @@ export function formatTablesToJSON(htmlString: string): TableJson[] {
   const jsonArray: any[] = [];
   const liArray = doc.querySelectorAll("li");
   if (liArray.length > 0) {
-    doc.querySelectorAll("li").forEach((li) => {
+    liArray.forEach((li) => {
       const tables: any[] = [];
       const resultId = li.getAttribute("data-id");
       const resultName = li.childNodes[0].textContent?.trim() ?? "";
