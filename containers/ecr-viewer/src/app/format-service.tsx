@@ -79,6 +79,7 @@ export const formatDate = (date?: string): string | undefined => {
 export const formatPhoneNumber = (phoneNumber: string) => {
   try {
     return phoneNumber
+      .replace("+1", "")
       .replace(/\D/g, "")
       .replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
   } catch {
@@ -269,3 +270,28 @@ export function extractNumbersAndPeriods(inputValues: string[]): string[] {
     return "";
   });
 }
+
+/**
+ * Truncates up to the character limit. If it stops in the middle of the word, it removes the whole word.
+ * @param {string} input_str - The string to truncate
+ * @param {number} character_limit - The number of characters to truncate defaults to 30
+ * @returns - The string that was
+ */
+export const truncateLabNameWholeWord = (
+  input_str: string,
+  character_limit: number = 30,
+) => {
+  if (input_str.length <= character_limit) {
+    return input_str;
+  }
+
+  const trimStr = input_str.substring(0, 30);
+  const lastSpaceIndex = trimStr.lastIndexOf(" ");
+
+  if (lastSpaceIndex === -1) {
+    return input_str.length <= character_limit ? input_str : "";
+  }
+
+  // Truncate to the last full word within the limit
+  return input_str.substring(0, lastSpaceIndex);
+};

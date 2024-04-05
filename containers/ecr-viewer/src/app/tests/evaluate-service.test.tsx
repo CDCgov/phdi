@@ -3,12 +3,17 @@ import { evaluateReference, evaluateValue } from "@/app/evaluate-service";
 import {
   evaluateObservationTable,
   evaluateDiagnosticReportData,
+  evaluateLabOrganizationData,
+  combineOrgAndReportData,
+  ResultObject,
+  evaluateLabInfoData,
   LabReport,
 } from "@/app/labs/utils";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import BundleLabs from "@/app/tests/assets/BundleLabs.json";
+import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
@@ -50,6 +55,7 @@ describe("Evaluate Diagnostic Report", () => {
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
         content={[<>{actual}</>]}
+        organizationId="test"
       />
     );
 
@@ -69,6 +75,7 @@ describe("Evaluate Diagnostic Report", () => {
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
         content={[<>{actual}</>]}
+        organizationId="test"
       />
     );
 
@@ -91,8 +98,8 @@ describe("Evaluate Diagnostic Report", () => {
       },
     };
     const actual = evaluateObservationTable(
-      diagnosticReport as LabReport,
-      null as Bundle,
+      diagnosticReport as unknown as LabReport,
+      null as unknown as Bundle,
       mappings,
       [],
     );
@@ -110,6 +117,7 @@ describe("Evaluate Diagnostic Report", () => {
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
         content={[<>{actual}</>]}
+        organizationId="test"
       />
     );
 
@@ -118,6 +126,41 @@ describe("Evaluate Diagnostic Report", () => {
     expect(
       screen.getAllByText("LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM"),
     ).not.toBeEmpty();
+  });
+});
+
+describe("Evaluate Organization with ID", () => {
+  it("should return a matching org", () => {
+    const result = evaluateLabOrganizationData(
+      "d46ea14e-251a-ab52-3a32-89b12270d9e6",
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0].value).toEqual(
+      "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+    );
+  });
+  it("should combine the data into new format", () => {
+    const testResultObject: ResultObject = {
+      "Organization/d46ea14e-251a-ab52-3a32-89b12270d9e6": [<div></div>],
+    };
+    const result = combineOrgAndReportData(
+      testResultObject,
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0].organizationDisplayData).toBeArray();
+  });
+});
+
+describe("Evaluate the lab info section", () => {
+  it("should return a list of objects", () => {
+    const result = evaluateLabInfoData(
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0]).toHaveProperty("diagnosticReportDataElements");
+    expect(result[0]).toHaveProperty("organizationDisplayData");
   });
 });
 
