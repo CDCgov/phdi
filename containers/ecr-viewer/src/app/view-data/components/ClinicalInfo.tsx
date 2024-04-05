@@ -169,8 +169,6 @@ export const ClinicalInfo = ({
   };
 
   const renderPlanOfTreatmentDetails = () => {
-    console.log("planOfTreatment", planOfTreatment);
-
     const header = [
       "Name",
       "Type",
@@ -179,54 +177,49 @@ export const ClinicalInfo = ({
       "Date/Time",
     ];
 
-    const cellClassNames = classNames("table-caption-margin margin-y-0", {
-      "border-top border-left border-right": true,
-    });
+    const cellClassNames = classNames(
+      "table-caption-margin margin-y-0 border-top border-left border-right",
+    );
 
     const myTable = (
-      <>
-        <Table
-          fixed={true}
-          bordered={false}
-          fullWidth={true}
-          className={classNames(
-            "table-caption-margin margin-y-0 border-top border-left border-right",
-            {},
-          )}
-          data-testid="table"
-        >
-          <caption className={"caption-normal-weight"}>Pending Results</caption>
-          <thead>
-            <tr>
-              {header.map((column, index) => (
-                <th
-                  key={`${column}${index}`}
-                  scope="col"
-                  className="bg-gray-5 minw-15"
-                >
-                  {column}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {planOfTreatment[0].value?.map((entry: TableEntry, index) => {
-              console.log("entry", entry);
-              return (
-                <tr key={`table-row-${index}`}>
-                  <td className={cellClassNames}>{entry.Name}</td>
-                  <td className={cellClassNames}>{entry.Type}</td>
-                  <td className={cellClassNames}>{entry.Priority}</td>
-                  <td className={cellClassNames}>
-                    {entry.AssociatedDiagnoses}
-                  </td>
-                  <td className={cellClassNames}>{entry.DateTime}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-      </>
+      <Table
+        fixed={true}
+        bordered={false}
+        fullWidth={true}
+        className={classNames(
+          "table-caption-margin margin-y-0 border-top border-left border-right",
+          {},
+        )}
+        data-testid="table"
+      >
+        <caption className={"caption-normal-weight"}>Pending Results</caption>
+        <thead>
+          <tr>
+            {header.map((column, index) => (
+              <th
+                key={`${column}${index}`}
+                scope="col"
+                className="bg-gray-5 minw-15"
+              >
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {planOfTreatment[0].value?.map((entry: TableEntry, index) => {
+            return (
+              <tr key={`table-row-${index}`}>
+                <td className={cellClassNames}>{entry.Name}</td>
+                <td className={cellClassNames}>{entry.Type}</td>
+                <td className={cellClassNames}>{entry.Priority}</td>
+                <td className={cellClassNames}>{entry.AssociatedDiagnoses}</td>
+                <td className={cellClassNames}>{entry.DateTime}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
     );
 
     return (
