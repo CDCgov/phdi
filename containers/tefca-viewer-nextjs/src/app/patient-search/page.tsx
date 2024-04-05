@@ -20,6 +20,7 @@ export function PatientSearch() {
   const [useCaseQueryResponse, setUseCaseQueryResponse] = useState<UseCaseQueryResponse>();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setLoading(true);
     console.log("Event:", event)
     const use_case_query_response = await use_case_query({ use_case: "social-determinants", fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
