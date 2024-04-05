@@ -33,10 +33,12 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip
+          pip install pydocstyle
           pip install ruff
       - name: Run linter (ruff)
         run: |
           ruff check --output-format=github .
+          pydocstyle
       - name: Run formatter (ruff)
         run: |
           ruff format --check

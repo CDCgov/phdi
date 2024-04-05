@@ -2,7 +2,8 @@
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
-    "unused-imports"
+    "unused-imports",
+    "jsdoc"
   ],
   "extends": [
     "plugin:@next/next/recommended",
@@ -17,6 +18,15 @@
     "allowImportExportEverywhere": true
   },
   "rules": {
+    "jsdoc/require-jsdoc": ["warn", {
+      "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": true,
+        "FunctionExpression": true
+      }
+    }],
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
