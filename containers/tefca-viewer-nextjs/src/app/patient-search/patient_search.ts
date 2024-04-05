@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from "uuid";
 import https from 'https';
 import fetch, { RequestInit } from 'node-fetch';
+import { use } from 'react';
 
 type FHIR_SERVERS = "meld" | "ehealthexchange";
 
@@ -20,7 +21,8 @@ const FHIR_SERVERS: {
     headers?: { [key: string]: string };
   };
 } = {
-  meld: { hostname: "https://gw.interop.community/skylightsandbox/open/" },
+  // https://gw.interop.community/skylightsandbox/open/
+  meld: { hostname: "https://gw.interop.community/HeliosConnectathonSa/open/" },
   ehealthexchange: {
     hostname: "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/",
     username: "svc_eHxFHIRSandbox",
@@ -113,10 +115,14 @@ export async function use_case_query(input: UseCaseQueryRequest) {
 
 
   // Use patient id to query based on use_case 
-  const social_determinants_query = `/Observation?subject=Patient/${patient_id}&category=survey"`
+  const social_determinants_query = `/Observation?subject=Patient/${patient_id}&category=survey`
   const response = await fetch(fhir_host + social_determinants_query, init);
 
   const use_case_query_response = await response.json();
+
+  // const use_case_query_response = ({
+  //   "test": "test"
+  // })
 
   return {
     patient_id: patient_id,
