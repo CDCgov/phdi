@@ -86,7 +86,6 @@ export const formatDateTime = (dateTime: string) => {
 export const formatDate = (dateString?: string): string | undefined => {
   if (dateString) {
     let date = new Date(dateString);
-    console.log("DATE", date);
     if (date.toString() == "Invalid Date") {
       const formattedDate = `${dateString.substring(0, 4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}`; // yyyy-mm-dd
       date = new Date(formattedDate);

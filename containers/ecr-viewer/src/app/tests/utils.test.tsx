@@ -5,7 +5,7 @@ import {
   calculatePatientAge,
   evaluateClinicalData,
   evaluatePatientName,
-  evaluateCareTeamTable,
+  returnCareTeamTable,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
@@ -130,10 +130,10 @@ describe("Utils", () => {
 
   describe("Evaluate Care Team Table", () => {
     it("should evaluate care team table results", () => {
-      const actual = evaluateCareTeamTable(
+      const actual: React.JSX.Element = returnCareTeamTable(
         BundleCareTeam as unknown as Bundle,
         mappings,
-      );
+      ) as React.JSX.Element;
 
       render(actual);
 
@@ -145,7 +145,7 @@ describe("Utils", () => {
     });
 
     it("the table should not appear when there are no results", () => {
-      const actual = evaluateCareTeamTable(
+      const actual = returnCareTeamTable(
         BundleWithPatient as unknown as Bundle,
         mappings,
       );

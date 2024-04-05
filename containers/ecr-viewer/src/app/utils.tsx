@@ -526,11 +526,10 @@ export const returnImmunizations = (
   );
 };
 
-export const evaluateCareTeamTable = (
+export const returnCareTeamTable = (
   bundle: Bundle,
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
-  // TODO: Build type errors
   const careTeamParticipants: CareTeamParticipant[] = evaluate(
     bundle,
     mappings["careTeamParticipants"],
@@ -656,7 +655,6 @@ export const evaluateClinicalData = (
     },
   ];
 
-  // TODO: HERE
   const treatmentData: DisplayData[] = [
     {
       title: "Procedures",
@@ -664,6 +662,10 @@ export const evaluateClinicalData = (
         evaluate(fhirBundle, mappings["procedures"]),
         mappings,
       ),
+    },
+    {
+      title: "CareTeam",
+      value: returnCareTeamTable(fhirBundle, mappings),
     },
   ];
 
