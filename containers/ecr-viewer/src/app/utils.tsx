@@ -479,11 +479,19 @@ export const returnProblemsTable = (
   ];
 
   problemsArray.forEach((entry) => {
-    entry.onsetDateTime = formatDate(entry.onsetDateTime);
-    entry.onsetAge = {
-      value: calculatePatientAge(fhirBundle, mappings, entry.onsetDateTime),
-    };
+    if (entry.code?.coding?.[0].display !== undefined) {
+      entry.onsetDateTime = formatDate(entry.onsetDateTime);
+      entry.onsetAge = {
+        value: calculatePatientAge(fhirBundle, mappings, entry.onsetDateTime),
+      };
+    } else {
+      problemsArray.splice(problemsArray.indexOf(entry), 1);
+    }
   });
+
+  if (problemsArray.length === 0) {
+    return undefined;
+  }
 
   problemsArray.sort(
     (a, b) =>
