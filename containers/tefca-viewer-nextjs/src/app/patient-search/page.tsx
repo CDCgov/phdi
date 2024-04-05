@@ -197,7 +197,7 @@ export function PatientSearch() {
                   required>
                   <option value="" disabled selected>Select</option>
                   <option value="meld">Meld</option>
-                  <option value="ehx">eHealth Exchange</option>
+                  <option value="ehealthexchange">eHealth Exchange</option>
                 </Select>
               </div>
             </div>
