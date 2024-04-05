@@ -6,7 +6,6 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
-import classNames from "classnames";
 import { Table } from "@trussworks/react-uswds";
 
 export type TableEntry = {
@@ -177,30 +176,24 @@ export const ClinicalInfo = ({
       "Date/Time",
     ];
 
-    const cellClassNames = classNames(
-      "table-caption-margin margin-y-0 border-top border-left border-right",
-    );
+    const cellClassNames =
+      "table-caption-margin margin-y-0 border-top border-left border-right";
 
-    const myTable = (
+    const pendingResultsTable = (
       <Table
         fixed={true}
         bordered={false}
         fullWidth={true}
-        className={classNames(
-          "table-caption-margin margin-y-0 border-top border-left border-right",
-          {},
-        )}
+        className={
+          "table-caption-margin margin-y-0 border-top border-left border-right"
+        }
         data-testid="table"
       >
         <caption className={"caption-normal-weight"}>Pending Results</caption>
         <thead>
           <tr>
-            {header.map((column, index) => (
-              <th
-                key={`${column}${index}`}
-                scope="col"
-                className="bg-gray-5 minw-15"
-              >
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
                 {column}
               </th>
             ))}
@@ -229,7 +222,7 @@ export const ClinicalInfo = ({
             {clinicalInfoConfig.subNavItems?.[3].title}
           </span>
         </AccordianH4>
-        <AccordianDiv>{myTable}</AccordianDiv>
+        <AccordianDiv>{pendingResultsTable}</AccordianDiv>
       </>
     );
   };
