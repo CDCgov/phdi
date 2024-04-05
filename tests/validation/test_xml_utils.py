@@ -19,7 +19,6 @@ from phdi.validation.xml_utils import validate_xml_attributes
 from phdi.validation.xml_utils import validate_xml_elements
 from phdi.validation.xml_utils import validate_xml_value
 
-
 test_include_errors = ["fatal", "errors", "warnings", "information"]
 
 # Test file with known errors

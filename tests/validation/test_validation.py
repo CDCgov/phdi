@@ -5,7 +5,6 @@ import yaml
 from phdi.validation.validation import validate_ecr
 from tests.test_data_generator import generate_eicr_results
 
-
 test_include_errors = ["fatal", "errors", "warnings", "information"]
 
 # Test file with known errors

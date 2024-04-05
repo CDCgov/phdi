@@ -7,7 +7,6 @@ import pytest
 from app.utils import run_migrations
 from app.utils import run_pyway
 
-
 MOCK_SETTINGS = {
     "mpi_db_type": "postgres",
     "mpi_host": "localhost",

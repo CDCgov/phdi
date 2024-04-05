@@ -12,11 +12,12 @@ from typing import Literal
 from typing import Union
 
 import fhirpathpy
-from app.config import get_settings
-from app.linkage.dal import DataAccessLayer
 from fastapi import FastAPI
 from pydantic import BaseModel
 from sqlalchemy import text
+
+from app.config import get_settings
+from app.linkage.dal import DataAccessLayer
 
 
 def load_mpi_env_vars_os():

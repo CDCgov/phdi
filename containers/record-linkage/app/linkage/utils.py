@@ -4,6 +4,7 @@ from typing import Literal
 from typing import Union
 
 import rapidfuzz
+
 from app.config import get_settings
 
 
