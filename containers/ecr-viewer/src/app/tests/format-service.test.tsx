@@ -2,6 +2,7 @@ import {
   formatDate,
   extractNumbersAndPeriods,
   formatTablesToJSON,
+  truncateLabNameWholeWord,
 } from "@/app/format-service";
 
 describe("Format Date", () => {
@@ -137,5 +138,32 @@ describe("extractNumbersAndPeriods", () => {
 
     const result = extractNumbersAndPeriods(inputArray);
     expect(result).toEqual(expectedResult);
+  });
+});
+
+describe("truncateLabNameWholeWord", () => {
+  it("should return the original string if it is less than or equal to the character limit", () => {
+    const input = "Short string";
+    const output = truncateLabNameWholeWord(input, 30);
+    expect(output).toBe(input);
+  });
+
+  it("should truncate a string to the nearest whole word within the character limit", () => {
+    const input = "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY";
+    const expected = "HOAG MEMORIAL HOSPITAL";
+    const output = truncateLabNameWholeWord(input, 30);
+    expect(output).toBe(expected);
+  });
+
+  it("should return an empty string if the first word is longer than the character limit", () => {
+    const input = "Supercalifragilisticexpialidocious";
+    const output = truncateLabNameWholeWord(input, 30);
+    expect(output).toBe("");
+  });
+
+  it("should handle strings exactly at the character limit without truncation", () => {
+    const input = "HOAG MEMORIAL HOSPITAL NEWPORT";
+    const output = truncateLabNameWholeWord(input, 30);
+    expect(output).toBe(input);
   });
 });

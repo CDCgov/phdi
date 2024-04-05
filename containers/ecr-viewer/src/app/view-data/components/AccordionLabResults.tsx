@@ -1,10 +1,11 @@
-import { Accordion, Icon, Tag } from "@trussworks/react-uswds";
+import { Accordion, Tag } from "@trussworks/react-uswds";
 import React from "react";
 
 interface AccordionLabResultsProps {
   title: string;
   abnormalTag: boolean;
   content: React.JSX.Element[];
+  organizationId: string;
 }
 
 /**
@@ -19,6 +20,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
   title,
   abnormalTag,
   content,
+  organizationId,
 }: AccordionLabResultsProps): React.JSX.Element => {
   return (
     <Accordion
@@ -32,20 +34,16 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
                   Abnormal
                 </Tag>
               )}
-              <Icon.Remove
-                className={"minimize-container"}
-                size={3}
-                aria-label={`minimize ${title} section`}
-              />
             </>
           ),
           content: content,
           expanded: true,
-          id: "123",
+          id: title,
           headingLevel: "h5",
+          className: `${organizationId}_acc_item`,
         },
       ]}
-      className={"accordion-rr margin-bottom-3"}
+      className={`accordion-rr ${organizationId}_accordion margin-bottom-3`}
     />
   );
 };

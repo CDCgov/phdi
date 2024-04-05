@@ -22,7 +22,7 @@ from app.main import app, run_migrations
 from sqlalchemy import text
 import json
 import pathlib
-from phdi.linkage.mpi import DIBBsMPIConnectorClient
+from phdi.app.linkage.mpi import DIBBsMPIConnectorClient
 # fmt: on
 client = TestClient(app)
 

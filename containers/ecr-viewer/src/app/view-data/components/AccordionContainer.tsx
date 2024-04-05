@@ -57,12 +57,10 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "Encounter Info",
       content: (
-        <div>
-          <EncounterDetails
-            encounterData={encounterData.availableData}
-            providerData={providerData.availableData}
-          />
-        </div>
+        <EncounterDetails
+          encounterData={encounterData.availableData}
+          providerData={providerData.availableData}
+        />
       ),
       expanded: true,
       headingLevel: "h3",
@@ -70,47 +68,36 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "Clinical Info",
       content: (
-        <>
-          <ClinicalInfo
-            clinicalNotes={clinicalData.clinicalNotes.availableData}
-            reasonForVisitDetails={
-              clinicalData.reasonForVisitDetails.availableData
-            }
-            activeProblemsDetails={
-              clinicalData.activeProblemsDetails.availableData
-            }
-            vitalData={clinicalData.vitalData.availableData}
-            immunizationsDetails={
-              clinicalData.immunizationsDetails.availableData
-            }
-            treatmentData={clinicalData.treatmentData.availableData}
-          />
-        </>
-      ),
-      expanded: true,
-      headingLevel: "h3",
-    },
-    {
-      title: "Lab Info",
-      content: (
-        <LabInfo
-          labInfo={labInfoData.labInfo.availableData}
-          labResults={labInfoData.labResults}
+        <ClinicalInfo
+          clinicalNotes={clinicalData.clinicalNotes.availableData}
+          reasonForVisitDetails={
+            clinicalData.reasonForVisitDetails.availableData
+          }
+          activeProblemsDetails={
+            clinicalData.activeProblemsDetails.availableData
+          }
+          vitalData={clinicalData.vitalData.availableData}
+          immunizationsDetails={clinicalData.immunizationsDetails.availableData}
+          treatmentData={clinicalData.treatmentData.availableData}
         />
       ),
       expanded: true,
       headingLevel: "h3",
     },
     {
+      title: "Lab Info",
+      content: <LabInfo labResults={labInfoData} />,
+      expanded: true,
+      headingLevel: "h3",
+    },
+    {
       title: "eCR Metadata",
       content: (
-        <>
-          <EcrMetadata
-            eicrDetails={ecrMetadata.eicrDetails.availableData}
-            eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
-            rrDetails={ecrMetadata.rrDetails}
-          />
-        </>
+        <EcrMetadata
+          eicrDetails={ecrMetadata.eicrDetails.availableData}
+          eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
+          rrDetails={ecrMetadata.rrDetails}
+        />
       ),
       expanded: true,
       headingLevel: "h3",
