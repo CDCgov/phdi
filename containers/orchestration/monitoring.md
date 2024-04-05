@@ -71,7 +71,7 @@ When an API request hits the `process-message` endpoint of the Orchestration Ser
 * Any and all data that's been sent to `/metrics` without the `/metrics` endpoint being hit continues to remain there until the Prometheus `scrape_interval` hits.
 * The local Prometheus server makes an API call to the Collector's `8889/metrics` endpoint, scraping the still-OTLP encoded data into its own local, in-container database.
 * Prometheus data volumes are OTLP compatible, so the data doesn't need to be further encoded or modified before it's finally transferred to its end-destination mounted storage volume.
-* Grafana then is configured via the `dashboards.yml` file to use Prometheus as the data source.
+* Grafana then is configured via the `datasources.yml` file to use Prometheus as the data source.
 * Grafana's UI can be accessed by navigating to `localhost:4000` (the endpoint specified in `docker-compose.yml` and `grafana.ini`) to create and view dashboards.
 * In addition to dashboards, Grafana offers an Explore mode to query any data exposed by Prometheus to directly investigate metrics or issues.
 
