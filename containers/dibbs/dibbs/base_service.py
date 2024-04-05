@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI
+from fastapi import Request
+from fastapi import Response
 from pydantic import BaseModel
 
 
@@ -18,7 +20,7 @@ LICENSES = {
 
 DIBBS_CONTACT = {
     "name": "CDC Public Health Data Infrastructure",
-    "url": "https://cdcgov.github.io/phdi-site/",
+    "url": "https://cdcgov.github.io/dibbs-site/",
     "email": "dibbs@cdc.gov",
 }
 
@@ -67,6 +69,13 @@ class BaseService:
             description=description,
         )
 
+    """
+    Because this is a reusable class, middlewares and endpoints need to be
+    added after the class is instantiated. This is done by calling the start
+    method, which in turn calls the add_path_rewrite_middleware and
+    add_health_check_endpoint methods.
+    """
+
     def add_path_rewrite_middleware(self):
         """
         Add middleware to the FastAPI instance to strip the service_path
@@ -75,13 +84,13 @@ class BaseService:
         """
 
         @self.app.middleware("http")
-        async def rewrite_path(request, call_next):
+        async def rewrite_path(request: Request, call_next: callable) -> Response:
             if request.url.path.startswith(self.service_path):
                 request.scope["path"] = request.scope["path"].replace(
                     self.service_path, ""
                 )
-                if request.scope["path"] == "":
-                    request.scope["path"] = "/"
+            if request.scope["path"] == "":
+                request.scope["path"] = "/"
             return await call_next(request)
 
     def add_health_check_endpoint(self):
