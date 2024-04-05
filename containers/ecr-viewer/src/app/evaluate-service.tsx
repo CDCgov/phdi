@@ -21,13 +21,14 @@ export const evaluateTable = (
   mappings: PathMappings,
   columns: ColumnInfoInput[],
   caption: string,
+  fixed: boolean = true,
   outerBorder: boolean = true,
 ): React.JSX.Element => {
   let headers = columns.map((column, index) => (
     <th
       key={`${column.columnName}${index}`}
       scope="col"
-      className="bg-gray-5 minw-15"
+      className="bg-base-lightest"
     >
       {column.columnName}
     </th>
@@ -35,9 +36,15 @@ export const evaluateTable = (
 
   let tableRows = resources.map((entry, index) => {
     let rowCells = columns.map((column, index) => {
-      let rowCellData = evaluateValue(entry, mappings[column.infoPath]) || (
-        <span className={"text-italic text-base"}>No data</span>
-      );
+      let rowCellData: any;
+      if (column?.value) {
+        rowCellData = column.value;
+      } else if (column?.infoPath) {
+        rowCellData = evaluateValue(entry, mappings[column.infoPath]);
+      }
+      if (!rowCellData) {
+        rowCellData = <span className={"text-italic text-base"}>No data</span>;
+      }
       return (
         <td key={`row-data-${index}`} className="text-top">
           {rowCellData}
@@ -50,7 +57,7 @@ export const evaluateTable = (
 
   return (
     <Table
-      fixed={true}
+      fixed={fixed}
       bordered={false}
       fullWidth={true}
       caption={caption}
@@ -97,8 +104,8 @@ export const evaluateReference = (
 export const evaluateValue = (entry: FhirResource, path: string): string => {
   let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
   let value = "";
-  if (typeof originalValue === "string") {
-    value = originalValue;
+  if (typeof originalValue === "string" || typeof originalValue === "number") {
+    value = originalValue.toString();
   } else if (originalValue?.__path__ === "Quantity") {
     const data = originalValue as Quantity;
     let unit = data.unit;

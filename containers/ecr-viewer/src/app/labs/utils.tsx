@@ -296,20 +296,28 @@ export function evaluateObservationTable(
   fhirBundle: Bundle,
   mappings: PathMappings,
   columnInfo: ColumnInfoInput[],
-) {
+): React.JSX.Element | undefined {
   const observations: Observation[] =
     report.result?.map((obsRef: Reference) =>
       evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
     ) ?? [];
   let obsTable;
   if (observations?.length > 0) {
-    obsTable = evaluateTable(observations, mappings, columnInfo, "", false);
+    obsTable = evaluateTable(
+      observations,
+      mappings,
+      columnInfo,
+      "",
+      true,
+      false,
+    );
   }
   return obsTable;
 }
 
 /**
  * Evaluates diagnostic report data and generates the lab observations for each report.
+ * @param {LabReport} report - An object containing an array of result references.
  * @param {Bundle} fhirBundle - The FHIR bundle containing diagnostic report data.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @returns {React.JSX.Element | undefined} - An array of React elements representing the lab observations.
@@ -323,7 +331,15 @@ export const evaluateDiagnosticReportData = (
     { columnName: "Component", infoPath: "observationComponent" },
     { columnName: "Value", infoPath: "observationValue" },
     { columnName: "Ref Range", infoPath: "observationReferenceRange" },
-    { columnName: "Test Method", infoPath: "observationMethod" },
+    {
+      columnName: "Test Method",
+      value: returnFieldValueFromLabHtmlString(
+        report,
+        fhirBundle,
+        mappings,
+        "Test Method",
+      ) as string,
+    },
   ];
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
 };
@@ -429,17 +445,20 @@ export const evaluateLabInfoData = (
         className: "lab-text-content",
       },
     ];
+    const content: Array<React.JSX.Element> = [];
     if (labTable)
-      rrInfo.unshift({
-        value: labTable,
-        className: "lab-table",
-        dividerLine: false,
-      });
-    const content: Array<React.JSX.Element> = rrInfo.map((item) => {
-      return <DataDisplay item={item} />;
-    });
+      content.push(
+        <React.Fragment key={"lab-table"}>{labTable}</React.Fragment>,
+      );
+    content.push(
+      ...rrInfo.map((item) => {
+        return <DataDisplay key={`${item.title}-${item.value}`} item={item} />;
+      }),
+    );
+
     return (
       <AccordionLabResults
+        key={report.code.coding[0].display}
         title={report.code.coding[0].display}
         abnormalTag={checkAbnormalTag(report, fhirBundle, mappings)}
         content={content}

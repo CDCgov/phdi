@@ -35,7 +35,8 @@ export interface PathMappings {
 
 export interface ColumnInfoInput {
   columnName: string;
-  infoPath: string;
+  infoPath?: string;
+  value?: string;
 }
 
 export interface CompleteData {
@@ -188,15 +189,23 @@ const extractTravelHistory = (
   }
 };
 
+/**
+ * Calculates the age of a patient to a given date or today.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing patient information.
+ * @param {PathMappings} fhirPathMappings - The mappings for retrieving patient date of birth.
+ * @param {string} [givenDate] - Optional. The target date to calculate the age. Defaults to the current date if not provided.
+ * @returns {number | undefined} - The age of the patient in years, or undefined if date of birth is not available.
+ */
 export const calculatePatientAge = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
+  givenDate?: string,
 ) => {
   const patientDOBString = evaluate(fhirBundle, fhirPathMappings.patientDOB)[0];
   if (patientDOBString) {
     const patientDOB = new Date(patientDOBString);
-    const today = new Date();
-    return dateFns.differenceInYears(today, patientDOB);
+    const targetDate = givenDate ? new Date(givenDate) : new Date();
+    return dateFns.differenceInYears(targetDate, patientDOB);
   }
 };
 
@@ -449,11 +458,13 @@ export const evaluateEcrMetadata = (
 
 /**
  * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
+ * @param {Bundle} fhirBundle - The FHIR bundle containing patient information.
  * @param {Condition[]} problemsArray - An array containing the list of problems.
  * @param {PathMappings} mappings - An object containing the FHIR path mappings.
  * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
  */
 export const returnProblemsTable = (
+  fhirBundle: Bundle,
   problemsArray: Condition[],
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
@@ -463,12 +474,15 @@ export const returnProblemsTable = (
 
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
-    { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
     { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
+    { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
   ];
 
   problemsArray.forEach((entry) => {
     entry.onsetDateTime = formatDate(entry.onsetDateTime);
+    entry.onsetAge = {
+      value: calculatePatientAge(fhirBundle, mappings, entry.onsetDateTime),
+    };
   });
 
   problemsArray.sort(
@@ -477,7 +491,13 @@ export const returnProblemsTable = (
       new Date(a.onsetDateTime ?? "").getTime(),
   );
 
-  return evaluateTable(problemsArray, mappings, columnInfo, "Problems List");
+  return evaluateTable(
+    problemsArray,
+    mappings,
+    columnInfo,
+    "Problems List",
+    false,
+  );
 };
 
 /**
@@ -575,6 +595,7 @@ export const evaluateClinicalData = (
     {
       title: "Problems List",
       value: returnProblemsTable(
+        fhirBundle,
         evaluate(fhirBundle, mappings["activeProblems"]),
         mappings,
       ),
