@@ -4,20 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 import https from 'https';
 import fetch, { RequestInit } from 'node-fetch';
 
-// Custom agent with SSL certificate verification disabled; do not use in prod!
-const agent = new https.Agent({
-  rejectUnauthorized: false
-});
-
-// Custom fetch function that uses the custom agent
-const customFetch = (url: string, options: RequestInit = {}) => {
-  if (!options.agent) {
-    options.agent = agent;
-  }
-  return fetch(url, options);
-};
-
-
 type FHIR_SERVERS = "meld" | "ehealthexchange";
 
 type USE_CASES =
@@ -67,16 +53,11 @@ type PatientIdQueryRequest = {
 }
 type UseCaseQueryRequest = {
   use_case: USE_CASES;
-  fhir_host: string;
-  fhir_server: FHIR_SERVERS;
-  first_name: string;
-  last_name: string;
-  dob: string;
-}
+} & PatientIdQueryRequest;
 
 // Expected responses from the FHIR server
-export type PatientIdQueryResponse = { patient_id: string, first_name: string };
-export type UseCaseQueryResponse = { use_case_response: any }; // need to update any to TS dict
+export type PatientIdQueryResponse = { patient_id: string, fhir_host: string };
+export type UseCaseQueryResponse = Record<string, unknown>;
 
 export async function patient_id_query(input: PatientIdQueryRequest): Promise<PatientIdQueryResponse> {
   // Set up and logging
@@ -84,21 +65,29 @@ export async function patient_id_query(input: PatientIdQueryRequest): Promise<Pa
   const fhir_host = FHIR_SERVERS[input.fhir_server].hostname;
   const patient_id_query = `Patient?given=${input.first_name}&family=${input.last_name}&birthdate=${input.dob}`;
   const headers = FHIR_SERVERS[input.fhir_server].headers || {};
+
+  // Set up init object for eHealth Exchange
+  let init: RequestInit = {};
+
   // Add username to headers if it exists in input.fhir_server
   if (FHIR_SERVERS[input.fhir_server].username && FHIR_SERVERS[input.fhir_server].password) {
-    {
-      const credentials = btoa(`${FHIR_SERVERS[input.fhir_server].username}:${FHIR_SERVERS[input.fhir_server].password || ''}`);
-      headers.Authorization = `Basic ${credentials}`;
-    }
+    const credentials = btoa(`${FHIR_SERVERS[input.fhir_server].username}:${FHIR_SERVERS[input.fhir_server].password || ''}`);
+    headers.Authorization = `Basic ${credentials}`;
+    init.agent = new https.Agent({
+      rejectUnauthorized: false
+    });
   }
-
-  const response = await customFetch(fhir_host + patient_id_query, {
+  console.log("init:", init);
+  const response = await fetch(fhir_host + patient_id_query, {
     headers: headers,
+    ...init
   });
 
   const data = await response.json();
 
   if (response.status !== 200) {
+    console.log("response:", response);
+    console.log("data:", data);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
@@ -109,33 +98,33 @@ export async function patient_id_query(input: PatientIdQueryRequest): Promise<Pa
 
   const patient_id = data.entry[0].resource.id;
 
-  return { patient_id, first_name: input.first_name };
+  return { patient_id, fhir_host };
 }
 
-// export async function use_case_query(input: UseCaseQueryRequest): Promise<UseCaseQueryResponse> {
-//   // Set up and logging
-//   console.log("use_case_query input:", input);
+export async function use_case_query(input: UseCaseQueryRequest): Promise<UseCaseQueryResponse> {
+  // Set up and logging
+  console.log("use_case_query input:", input);
 
-//   // Get patient ID
-//   const patient_id_query_response = await patient_id_query({
-//     fhir_server: input.fhir_server,
-//     first_name: input.first_name,
-//     last_name: input.last_name,
-//     dob: input.dob,
-//   });
+  // Get patient ID
+  const patient_id_query_response = await patient_id_query({
+    fhir_server: input.fhir_server,
+    first_name: input.first_name,
+    last_name: input.last_name,
+    dob: input.dob,
+  });
 
-//   // Use patient id to query based on use_case
+  // Use patient id to query based on use_case
 
-//   // const response = await fetch(input.fhir_host + use_case_query, {
-//   //   headers: input.headers,
-//   // });
+  // const response = await fetch(input.fhir_host + use_case_query, {
+  //   headers: input.headers,
+  // });
 
-//   // const data = await response.json();
+  // const data = await response.json();
 
-//   // if (response.status !== 200) {
-//   //   throw new Error(`Use case query failed. Status: ${response.status}`);
-//   // }
-//   const use_case_response = "Hello, World!";
+  // if (response.status !== 200) {
+  //   throw new Error(`Use case query failed. Status: ${response.status}`);
+  // }
+  const use_case_response = "hello";
 
-//   return { use_case_response };
-// }
+  return { ...patient_id_query_response, use_case_response };
+}
