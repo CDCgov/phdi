@@ -5,6 +5,8 @@ import subprocess
 from typing import Literal
 
 from app.config import get_settings
+from app.linkage.dal import DataAccessLayer
+from sqlalchemy import text
 
 
 def load_mpi_env_vars_os():
@@ -108,3 +110,20 @@ def run_migrations():
     else:
         logger.error("MPI database schema validations failed.")
         raise Exception(validation_response.stderr.decode("utf-8"))
+
+
+def _clean_up(dal: DataAccessLayer):
+    with dal.engine.connect() as pg_connection:
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway CASCADE;"""))
+        pg_connection.commit()
+        pg_connection.close()

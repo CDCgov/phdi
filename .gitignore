@@ -74,3 +74,6 @@ persistent_storage/
 
 /kubernetes/secrets.yaml
 .next
+
+*.egg-info
+build/
