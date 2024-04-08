@@ -402,6 +402,16 @@ export const evaluateLabInfoData = (
         className: "lab-text-content",
       },
       {
+        title: "Collection Method/Volume",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Collection Method / Volume",
+        ),
+        className: "lab-text-content",
+      },
+      {
         title: "Resulting Agency Comment",
         value: returnFieldValueFromLabHtmlString(
           report,
