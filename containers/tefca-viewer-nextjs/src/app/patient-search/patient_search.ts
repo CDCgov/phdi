@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from "uuid";
 import https from 'https';
 import fetch, { RequestInit } from 'node-fetch';
-import { use } from 'react';
 
 type FHIR_SERVERS = "meld" | "ehealthexchange";
 
@@ -62,7 +61,6 @@ export type UseCaseQueryResponse = Awaited<ReturnType<typeof use_case_query>>;
 
 async function patient_id_query(input: PatientIdQueryRequest) {
   // Set up and logging
-  console.log("patient_id_query input:", input);
   const fhir_host = FHIR_SERVERS[input.fhir_server].hostname;
   const patient_id_query = `Patient?given=${input.first_name}&family=${input.last_name}&birthdate=${input.dob}`;
   const headers = FHIR_SERVERS[input.fhir_server].headers || {};
@@ -77,7 +75,6 @@ async function patient_id_query(input: PatientIdQueryRequest) {
       rejectUnauthorized: false
     });
   }
-  console.log("init:", init);
   const response = await fetch(fhir_host + patient_id_query, {
     headers: headers,
     ...init
@@ -122,6 +119,10 @@ export async function use_case_query(input: UseCaseQueryRequest) {
   const patient_query = `/Patient?_id=${patient_id}`
   const patient_response = await fetch(fhir_host + patient_query, init);
   const use_case_query_response = await patient_response.json();
+
+  // const message_parser = await fetch(`http://localhost:8080/`);
+  // const parsed_message = await message_parser.json();
+  // console.log(parsed_message)
 
   return {
     patient_id: patient_id,

@@ -56,7 +56,7 @@ export const evaluatePatientName = (
     fhirBundle,
     fhirPathMappings.patientGivenName,
   ).join(" ");
-  const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
+  const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName).join(" ");
 
   return `${givenNames} ${familyName}`;
 };
@@ -131,9 +131,8 @@ export const evaluatePatientContactInfo = (
   )
     .map(
       (phoneNumber) =>
-        `${
-          phoneNumber?.use?.charAt(0).toUpperCase() +
-          phoneNumber?.use?.substring(1)
+        `${phoneNumber?.use?.charAt(0).toUpperCase() +
+        phoneNumber?.use?.substring(1)
         } ${phoneNumber.value}`,
     )
     .join("\n");
@@ -707,20 +706,20 @@ export const DataDisplay: React.FC<{
   item: DisplayData;
   className?: string;
 }): React.JSX.Element => {
-  return (
-    <div>
-      <div className="grid-row">
-        <div className="data-title">{item.title}</div>
-        <div
-          className={classNames("grid-col-auto maxw7 text-pre-line", className)}
-        >
-          {item.value}
+    return (
+      <div>
+        <div className="grid-row">
+          <div className="data-title">{item.title}</div>
+          <div
+            className={classNames("grid-col-auto maxw7 text-pre-line", className)}
+          >
+            {item.value}
+          </div>
         </div>
+        <div className={"section__line_gray"} />
       </div>
-      <div className={"section__line_gray"} />
-    </div>
-  );
-};
+    );
+  };
 
 export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
   item,
@@ -763,9 +762,8 @@ export const evaluateEmergencyContact = (
       const phoneNumbers = evaluate(fhirBundle, mappings.patientPhoneNumbers)
         .map(
           (phoneNumber) =>
-            `${
-              phoneNumber?.use?.charAt(0).toUpperCase() +
-              phoneNumber?.use?.substring(1)
+            `${phoneNumber?.use?.charAt(0).toUpperCase() +
+            phoneNumber?.use?.substring(1)
             } ${phoneNumber.value}`,
         )
         .join("\n");
@@ -820,26 +818,26 @@ export const evaluateLabInfoData = (
 
 
 interface DataContextValue {
-    data: any; // You can define a specific data type here
-    setData: (data: any) => void;
+  data: any; // You can define a specific data type here
+  setData: (data: any) => void;
 }
 
 const DataContext = createContext<DataContextValue | undefined>(undefined);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-    const [data, setData] = useState<any | null>(null);
+  const [data, setData] = useState<any | null>(null);
 
-    return (
-        <DataContext.Provider value={{ data, setData }}>
-            {children}
-        </DataContext.Provider>
-    );
+  return (
+    <DataContext.Provider value={{ data, setData }}>
+      {children}
+    </DataContext.Provider>
+  );
 }
 
 export function useData() {
-    const context = useContext(DataContext);
-    if (!context) {
-        throw new Error('useData must be used within a DataProvider');
-    }
-    return context;
+  const context = useContext(DataContext);
+  if (!context) {
+    throw new Error('useData must be used within a DataProvider');
+  }
+  return context;
 }

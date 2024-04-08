@@ -213,7 +213,8 @@ export function PatientSearch() {
         <h1>Patient View</h1>
         <button className="usa-button" onClick={() => setMode("search")}>Search for a new patient</button>
         <LoadingView loading={loading} />
-        <PatientView useCaseQueryResponse={useCaseQueryResponse} />
+        {/* TODO: add error view if loading is done and there's no useCaseQueryResponse */}
+        {useCaseQueryResponse && <PatientView useCaseQueryResponse={useCaseQueryResponse} />}
       </>)}
     </div>
   );
