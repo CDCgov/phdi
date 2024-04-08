@@ -4,11 +4,10 @@ from typing import Literal
 from typing import Optional
 
 import requests
+from dibbs.base_service import BaseService
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-
-from phdi.containers.base_service import BaseService
 
 USE_CASES = Literal["social-determinants", "newborn-screening", "syphilis", "cancer"]
 
@@ -39,7 +38,7 @@ FHIR_SERVERS = {
 }
 
 
-# Instantiate FastAPI via PHDI's BaseService class
+# Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
     service_name="TEFCA Viewer",
     service_path="/tefca-viewer",
