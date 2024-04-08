@@ -2,10 +2,12 @@
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
-    "unused-imports"
+    "unused-imports",
+    "jsdoc"
   ],
   "extends": [
     "plugin:@next/next/recommended",
+    "plugin:jsdoc/recommended-typescript",
     "prettier"
   ],
   "env": {
