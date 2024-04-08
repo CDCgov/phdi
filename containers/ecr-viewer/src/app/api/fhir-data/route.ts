@@ -4,6 +4,10 @@ import { get_s3, get_postgres } from "./fhir-data-service";
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 
+/**
+ *
+ * @param request
+ */
 export async function GET(request: NextRequest) {
   if (process.env.SOURCE === S3_SOURCE) {
     return get_s3(request);

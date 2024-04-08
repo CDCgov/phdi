@@ -41,11 +41,10 @@ const noData = <span className="no-data text-italic text-base">No data</span>;
 
 /**
  * Extracts an array of `Observation` resources from a given FHIR bundle based on a list of observation references.
- *
- * @param {LabReport} report - The lab report containing the results to be processed.
- * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @returns {Array<Observation>} An array of `Observation` resources from the FHIR bundle that correspond to the
+ * @param report - The lab report containing the results to be processed.
+ * @param fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @returns An array of `Observation` resources from the FHIR bundle that correspond to the
  * given references. If no matching observations are found or if the input references array is empty, an empty array
  * is returned.
  */
@@ -68,10 +67,10 @@ export const getObservations = (
 
 /**
  * Retrieves the JSON representation of a lab report from the labs HTML string.
- * @param {LabReport} report - The LabReport object containing information about the lab report.
- * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
- * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
- * @returns {LabJson} The JSON representation of the lab report.
+ * @param report - The LabReport object containing information about the lab report.
+ * @param fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
+ * @param mappings - The PathMappings object containing mappings for extracting data.
+ * @returns The JSON representation of the lab report.
  */
 export const getLabJsonObject = (
   report: LabReport,
@@ -98,10 +97,10 @@ export const getLabJsonObject = (
 
 /**
  * Checks whether the result name of a lab report includes the term "abnormal"
- * @param {LabReport} report - The LabReport object containing information about the lab report.
- * @param {Bundle} fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
- * @param {PathMappings} mappings - The PathMappings object containing mappings for extracting data.
- * @returns {boolean} True if the result name includes "abnormal" (case insensitive), otherwise false. Will also return false if lab does not have JSON object.
+ * @param report - The LabReport object containing information about the lab report.
+ * @param fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
+ * @param mappings - The PathMappings object containing mappings for extracting data.
+ * @returns True if the result name includes "abnormal" (case insensitive), otherwise false. Will also return false if lab does not have JSON object.
  */
 export const checkAbnormalTag = (
   report: LabReport,
@@ -119,10 +118,9 @@ export const checkAbnormalTag = (
 
 /**
  * Recursively searches through a nested array of objects to find values associated with a specified search key.
- * @param {any[]} result - The array of objects to search through.
- * @param {string} searchKey - The key to search for within the objects.
- * @returns {string} - A comma-separated string containing unique search key values.
- *
+ * @param result - The array of objects to search through.
+ * @param searchKey - The key to search for within the objects.
+ * @returns - A comma-separated string containing unique search key values.
  * @example result - JSON object that contains the tables for all lab reports
  * @example searchKey - Ex. "Analysis Time" or the field that we are searching data for.
  */
@@ -157,11 +155,10 @@ export function searchResultRecord(result: any[], searchKey: string) {
 
 /**
  * Extracts and consolidates the specimen source descriptions from observations within a lab report.
- *
- * @param {LabReport} report - The lab report containing the results to be processed.
- * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ * @param report - The lab report containing the results to be processed.
+ * @param fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @returns A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 const returnSpecimenSource = (
   report: LabReport,
@@ -180,11 +177,10 @@ const returnSpecimenSource = (
 
 /**
  * Extracts and formats the specimen collection time(s) from observations within a lab report.
- *
- * @param {LabReport} report - The lab report containing the results to be processed.
- * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ * @param report - The lab report containing the results to be processed.
+ * @param fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @returns A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 const returnCollectionTime = (
   report: LabReport,
@@ -206,11 +202,10 @@ const returnCollectionTime = (
 
 /**
  * Extracts and formats the specimen received time(s) from observations within a lab report.
- *
- * @param {LabReport} report - The lab report containing the results to be processed.
- * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ * @param report - The lab report containing the results to be processed.
+ * @param fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @returns A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 const returnReceivedTime = (
   report: LabReport,
@@ -232,12 +227,11 @@ const returnReceivedTime = (
 
 /**
  * Extracts and formats a field value from within a lab report (sourced from HTML string).
- *
- * @param {LabReport} report - The lab report containing the results to be processed.
- * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @param {string} fieldName - A string containing the field name for which the value is being searched.
- * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ * @param report - The lab report containing the results to be processed.
+ * @param fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @param fieldName - A string containing the field name for which the value is being searched.
+ * @returns A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 export const returnFieldValueFromLabHtmlString = (
   report: LabReport,
@@ -261,12 +255,11 @@ export const returnFieldValueFromLabHtmlString = (
 
 /**
  * Extracts and formats the analysis date/time(s) from within a lab report (sourced from HTML string).
- *
- * @param {LabReport} report - The lab report containing the analysis times to be processed.
- * @param {Bundle} fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param {PathMappings} mappings - An object containing paths to relevant fields within the FHIR resources.
- * @param {string} fieldName - A string containing the field name for Analysis Time
- * @returns {React.ReactNode} A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
+ * @param report - The lab report containing the analysis times to be processed.
+ * @param fhirBundle - The FHIR bundle containing related resources for the lab report.
+ * @param mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @param fieldName - A string containing the field name for Analysis Time
+ * @returns A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 const returnAnalysisTime = (
   report: LabReport,
@@ -297,11 +290,11 @@ const returnAnalysisTime = (
 /**
  * Evaluates and generates a table of observations based on the provided DiagnosticReport,
  * FHIR bundle, mappings, and column information.
- * @param {LabReport} report - The DiagnosticReport containing observations to be evaluated.
- * @param {Bundle} fhirBundle - The FHIR bundle containing observation data.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @param {ColumnInfoInput[]} columnInfo - An array of column information objects specifying column names and information paths.
- * @returns {React.JSX.Element | undefined} The JSX representation of the evaluated observation table, or undefined if there are no observations.
+ * @param report - The DiagnosticReport containing observations to be evaluated.
+ * @param fhirBundle - The FHIR bundle containing observation data.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @param columnInfo - An array of column information objects specifying column names and information paths.
+ * @returns The JSX representation of the evaluated observation table, or undefined if there are no observations.
  */
 export function evaluateObservationTable(
   report: LabReport,
@@ -329,10 +322,10 @@ export function evaluateObservationTable(
 
 /**
  * Evaluates diagnostic report data and generates the lab observations for each report.
- * @param {LabReport} report - An object containing an array of result references.
- * @param {Bundle} fhirBundle - The FHIR bundle containing diagnostic report data.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {React.JSX.Element | undefined} - An array of React elements representing the lab observations.
+ * @param report - An object containing an array of result references.
+ * @param fhirBundle - The FHIR bundle containing diagnostic report data.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns - An array of React elements representing the lab observations.
  */
 export const evaluateDiagnosticReportData = (
   report: LabReport,
@@ -358,9 +351,9 @@ export const evaluateDiagnosticReportData = (
 
 /**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
- * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {LabReportElementData} An array of the Diagnostic reports Elements and Organization Display Data
+ * @param fhirBundle - The FHIR bundle containing lab and RR data.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns An array of the Diagnostic reports Elements and Organization Display Data
  */
 export const evaluateLabInfoData = (
   fhirBundle: Bundle,
@@ -473,10 +466,10 @@ export const evaluateLabInfoData = (
 
 /**
  * Combines the org display data with the diagnostic report elements
- * @param {ResultObject} organizationElements - Object contianing the keys of org data, values of the diagnostic report elements
- * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {LabReportElementData} An array of the Diagnostic reports Elements and Organization Display Data
+ * @param organizationElements - Object contianing the keys of org data, values of the diagnostic report elements
+ * @param fhirBundle - The FHIR bundle containing lab and RR data.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns An array of the Diagnostic reports Elements and Organization Display Data
  */
 export const combineOrgAndReportData = (
   organizationElements: ResultObject,
@@ -500,10 +493,10 @@ export const combineOrgAndReportData = (
 
 /**
  * Finds the Orgnization that matches the id and creates a DisplayData array
- * @param {string} id - id of the organization
- * @param {Bundle} fhirBundle - The FHIR bundle containing lab and RR data.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {DisplayData[]} The organization display data as an array
+ * @param id - id of the organization
+ * @param fhirBundle - The FHIR bundle containing lab and RR data.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns The organization display data as an array
  */
 export const evaluateLabOrganizationData = (
   id: string,
@@ -540,6 +533,9 @@ export const evaluateLabOrganizationData = (
 
 /**
  * Groups element by org ID
+ * @param resultObject
+ * @param organizationId
+ * @param element
  */
 const groupElementByOrgId = (
   resultObject: ResultObject,

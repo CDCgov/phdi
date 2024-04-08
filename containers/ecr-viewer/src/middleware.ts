@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { importSPKI, jwtVerify } from "jose";
 
+/**
+ *
+ * @param req
+ */
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   return (
     set_auth_cookie(req) ?? (await authorize_api(req)) ?? NextResponse.next()
@@ -11,6 +15,10 @@ export const config = {
   matcher: ["/api/:path*", "/view-data"],
 };
 
+/**
+ *
+ * @param req
+ */
 function set_auth_cookie(req: NextRequest) {
   const url = req.nextUrl;
   const auth = url.searchParams.get("auth");
@@ -23,6 +31,10 @@ function set_auth_cookie(req: NextRequest) {
   return null;
 }
 
+/**
+ *
+ * @param req
+ */
 async function authorize_api(req: NextRequest) {
   const auth = req.cookies.get("auth-token")?.value;
   const pathname = req.nextUrl.pathname;

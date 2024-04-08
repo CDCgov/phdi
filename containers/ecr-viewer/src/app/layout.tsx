@@ -4,6 +4,11 @@ export const metadata = {
   description: "View your eCR data in an easy-to-understand format.",
 };
 
+/**
+ *
+ * @param root0
+ * @param root0.children
+ */
 export default function RootLayout({
   children,
 }: {

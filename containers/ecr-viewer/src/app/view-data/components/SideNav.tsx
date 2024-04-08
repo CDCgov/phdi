@@ -32,9 +32,17 @@ const headingLevels = ["h1", "h2", "h3", "h4", "h5", "h6"];
 const headingSelector =
   "h2:not(.unavailable-info):not(.side-nav-ignore), h3:not(.unavailable-info):not(.side-nav-ignore), h4:not(.unavailable-info):not(.side-nav-ignore)";
 
+/**
+ *
+ * @param array
+ */
 function countObjects(array: SectionConfig[]): number {
   let count = 0;
 
+  /**
+   *
+   * @param item
+   */
   function countRecursively(item: SectionConfig): void {
     count++;
     if (item.subNavItems) {
@@ -123,6 +131,10 @@ const SideNav: React.FC = () => {
     headingElements.forEach((element) => observer.observe(element));
   }, []);
 
+  /**
+   *
+   * @param sectionConfigs
+   */
   function buildSideNav(sectionConfigs: SectionConfig[]) {
     let sideNavItems: React.ReactNode[] = [];
     for (let section of sectionConfigs) {
