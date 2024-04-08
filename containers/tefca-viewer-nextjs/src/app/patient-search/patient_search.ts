@@ -117,12 +117,11 @@ export async function use_case_query(input: UseCaseQueryRequest) {
   // Use patient id to query based on use_case 
   const social_determinants_query = `/Observation?subject=Patient/${patient_id}&category=survey`
   const response = await fetch(fhir_host + social_determinants_query, init);
+  // const use_case_query_response = await response.json();
 
-  const use_case_query_response = await response.json();
-
-  // const use_case_query_response = ({
-  //   "test": "test"
-  // })
+  const patient_query = `/Patient?_id=${patient_id}`
+  const patient_response = await fetch(fhir_host + patient_query, init);
+  const use_case_query_response = await patient_response.json();
 
   return {
     patient_id: patient_id,

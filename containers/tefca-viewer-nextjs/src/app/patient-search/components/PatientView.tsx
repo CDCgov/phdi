@@ -8,7 +8,8 @@ export function PatientView({ useCaseQueryResponse }: PatientViewProps) {
         return (<div>
             <h1>Welcome to the ugly page</h1>
             <h2>Patient ID: {useCaseQueryResponse.patient_id}</h2>
-            <pre>{JSON.stringify(useCaseQueryResponse.use_case_query_response, null, 2)}</pre>
+            <p>{JSON.stringify(useCaseQueryResponse.use_case_query_response, null, 4)}</p>
+
         </div>)
     } else {
         return null;
