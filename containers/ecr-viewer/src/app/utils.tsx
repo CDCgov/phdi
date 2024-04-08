@@ -526,8 +526,6 @@ export const returnPendingResultsTable = (
       "Associated Diagnoses",
       "Date/Time",
     ];
-    const cellClassNames =
-      "table-caption-margin margin-y-0 border-top border-left border-right";
 
     return (
       <Table
@@ -553,21 +551,11 @@ export const returnPendingResultsTable = (
             (entry: TableRow, index: number) => {
               return (
                 <tr key={`table-row-${index}`}>
-                  <td className={cellClassNames}>
-                    {entry.Name?.value ?? noData}
-                  </td>
-                  <td className={cellClassNames}>
-                    {entry.Type?.value ?? noData}
-                  </td>
-                  <td className={cellClassNames}>
-                    {entry.Priority?.value ?? noData}
-                  </td>
-                  <td className={cellClassNames}>
-                    {entry.AssociatedDiagnoses?.value ?? noData}
-                  </td>
-                  <td className={cellClassNames}>
-                    {entry["Date/Time"]?.value ?? noData}
-                  </td>
+                  <td>{entry.Name?.value ?? noData}</td>
+                  <td>{entry.Type?.value ?? noData}</td>
+                  <td>{entry.Priority?.value ?? noData}</td>
+                  <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
+                  <td>{entry["Date/Time"]?.value ?? noData}</td>
                 </tr>
               );
             },
