@@ -531,7 +531,6 @@ export const returnPendingResultsTable = (
 
     return (
       <Table
-        fixed={true}
         bordered={false}
         fullWidth={true}
         className={
