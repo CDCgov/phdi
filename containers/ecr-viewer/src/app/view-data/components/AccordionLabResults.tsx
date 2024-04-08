@@ -6,6 +6,7 @@ interface AccordionLabResultsProps {
   abnormalTag: boolean;
   content: React.JSX.Element[];
   organizationId: string;
+  collapsedByDefault?: boolean;
 }
 
 /**
@@ -21,6 +22,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
   abnormalTag,
   content,
   organizationId,
+  collapsedByDefault = false,
 }: AccordionLabResultsProps): React.JSX.Element => {
   return (
     <Accordion
@@ -37,7 +39,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
             </>
           ),
           content: content,
-          expanded: true,
+          expanded: collapsedByDefault,
           id: title,
           headingLevel: "h5",
           className: `${organizationId}_acc_item`,
