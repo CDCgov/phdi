@@ -9,9 +9,6 @@ const ECR_VIEWER_URL = "http://0.0.0.0:3000";
 const ECR_VIEWER_VIEW_DATA = ECR_VIEWER_URL + "/api/fhir-data";
 
 // Define a function to set up the containers.
-/**
- *
- */
 async function setup() {
   console.log("Setting up tests...");
 
@@ -24,9 +21,6 @@ async function setup() {
   console.log("eCR Viewer service ready to test!");
 
   // Define a function to tear down the containers.
-  /**
-   *
-   */
   async function teardown() {
     console.log("\nContainer output:");
     console.log(await ecrView.logs());

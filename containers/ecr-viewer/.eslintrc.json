@@ -31,5 +31,16 @@
       }
     ],
     "jsdoc/check-tag-names": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.test*",
+        "**/tests/**/*"
+      ],
+      "rules": {
+        "jsdoc/require-jsdoc": "off"
+      }
+    }
+  ]
 }
