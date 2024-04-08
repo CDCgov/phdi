@@ -16,7 +16,6 @@ interface LabInfoProps {
 /**
  * Renders lab information and RR info in an accordion section.
  * @param props - The props object.
- * @param props.labInfo - Array of lab information items.
  * @param props.labResults - Array of Lab result items.
  * @returns React element representing the LabInfo component.
  */

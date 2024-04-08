@@ -532,10 +532,16 @@ export const evaluateLabOrganizationData = (
 };
 
 /**
- * Groups element by org ID
- * @param resultObject
- * @param organizationId
- * @param element
+ * Groups a JSX element under a specific organization ID within a result object. If the organization ID
+ * already exists in the result object, the element is added to the existing array. If the organization ID
+ * does not exist, a new array is created for that ID and the element is added to it.
+ * @param resultObject - An object that accumulates grouped elements, where each key is an
+ *   organization ID and its value is an array of JSX elements associated
+ *   with that organization.
+ * @param organizationId - The organization ID used to group the element. This ID determines the key
+ *   under which the element is stored in the result object.
+ * @param element - The JSX element to be grouped under the specified organization ID.
+ * @returns The updated result object with the element added to the appropriate group.
  */
 const groupElementByOrgId = (
   resultObject: ResultObject,

@@ -12,7 +12,7 @@ import classNames from "classnames";
  * @param columns - An array of objects representing column information.
  *                                      The order of columns in the array determines the order of appearance.
  * @param caption - The caption for the table.
- * @param fixed
+ * @param fixed - Determins if the table columns are a fixed width.
  * @param [outerBorder] - Optional. Determines whether to include an outer border for the table. Default is true.
  * @returns - A formatted table React element.
  */

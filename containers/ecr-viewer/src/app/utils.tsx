@@ -73,9 +73,12 @@ export const extractPatientAddress = (
 };
 
 /**
- *
- * @param fhirBundle
- * @param fhirPathMappings
+ * Extracts a specific location resource from a given FHIR bundle based on defined path mappings.
+ * @param fhirBundle - The FHIR bundle object containing various resources, including location resources.
+ * @param fhirPathMappings - An object containing FHIR path mappings, which should include a mapping
+ *   for `facilityLocation` that determines how to find the location reference within the bundle.
+ * @returns The location resource object from the FHIR bundle that matches the UID derived from the
+ *   facility location reference. If no matching resource is found, the function returns `undefined`.
  */
 function extractLocationResource(
   fhirBundle: Bundle,

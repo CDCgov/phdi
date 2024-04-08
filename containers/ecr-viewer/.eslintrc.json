@@ -7,7 +7,7 @@
   ],
   "extends": [
     "plugin:@next/next/recommended",
-    "plugin:jsdoc/recommended-typescript",
+    "plugin:jsdoc/recommended-typescript-error",
     "prettier"
   ],
   "env": {
@@ -29,6 +29,7 @@
         "args": "after-used",
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "jsdoc/check-tag-names": "off"
   }
 }
