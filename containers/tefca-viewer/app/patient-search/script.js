@@ -1,3 +1,8 @@
+/**
+ *
+ * @param json
+ * @param indent
+ */
 function jsonToHtml(json, indent = 0) {
   if (typeof json !== "object" || json === null) {
     // Handle non-object types and null
