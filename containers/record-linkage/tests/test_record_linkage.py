@@ -6,6 +6,7 @@ import os
 import pathlib
 
 from app.config import get_settings
+from app.utils import _clean_up
 
 def set_mpi_env_vars():
     os.environ["mpi_db_type"] = "postgres"
@@ -49,24 +50,6 @@ def pop_mpi_env_vars():
     os.environ.pop("mpi_password", None)
     os.environ.pop("mpi_host", None)
     os.environ.pop("mpi_port", None)
-
-
-def _clean_up():
-    MPI = DIBBsMPIConnectorClient()
-
-    with MPI.dal.engine.connect() as pg_connection:
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway CASCADE;"""))
-        pg_connection.commit()
 
 
 def test_health_check():
