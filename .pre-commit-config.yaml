@@ -18,13 +18,13 @@ repos:
     hooks:
       - id: reorder-python-imports
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: "v9.0.0"
+    rev: "v8.56.0"
     hooks:
       - id: eslint
         files: \.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
         types: [file]
         additional_dependencies:
-          - eslint
+          - eslint@8.56.0
           - eslint-config-next
           - eslint-config-prettier
           - "@typescript-eslint/parser"
