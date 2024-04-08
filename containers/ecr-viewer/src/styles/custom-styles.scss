@@ -107,7 +107,9 @@ h4 {
   }
 }
 .caption-normal-weight{
-  font-weight: normal !important;
+  caption {
+    font-weight: normal;
+  }
 }
 
 .usa-table {

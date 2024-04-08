@@ -532,11 +532,11 @@ export const returnPendingResultsTable = (
         bordered={false}
         fullWidth={true}
         className={
-          "table-caption-margin margin-y-0 border-top border-left border-right"
+          "table-caption-margin caption-normal-weight margin-y-0 border-top border-left border-right"
         }
         data-testid="table"
+        caption={"Pending Results"}
       >
-        <caption className={"caption-normal-weight"}>Pending Results</caption>
         <thead>
           <tr>
             {header.map((column) => (
