@@ -1,3 +1,9 @@
+/**
+ * Converts JSON data into a formatted HTML string for display.
+ * @param json - The JSON data to be converted into HTML. This can be an object or an array.
+ * @param indent - The initial indentation level.
+ * @returns A string containing HTML that represents the formatted structure of the input JSON.
+ */
 function jsonToHtml(json, indent = 0) {
   if (typeof json !== "object" || json === null) {
     // Handle non-object types and null

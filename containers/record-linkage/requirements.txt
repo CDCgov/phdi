@@ -1,6 +1,6 @@
 ../dibbs
 pathlib
-pyway
+pyway==0.3.24
 psycopg2-binary==2.9.9
 tabulate
 fhirpathpy

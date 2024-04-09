@@ -15,10 +15,9 @@ interface LabInfoProps {
 
 /**
  * Renders lab information and RR info in an accordion section.
- * @param {Object} props - The props object.
- * @param {DisplayData[]} props.labInfo - Array of lab information items.
- * @param {React.JSX.Element[]} props.labResults - Array of Lab result items.
- * @returns {React.JSX.Element} React element representing the LabInfo component.
+ * @param props - The props object.
+ * @param props.labResults - Array of Lab result items.
+ * @returns React element representing the LabInfo component.
  */
 export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
   const renderLabInfo = () => {
