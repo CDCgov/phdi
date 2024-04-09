@@ -25,7 +25,7 @@ MPI_CLIENT = DIBBsMPIConnectorClient(
     pool_size=settings["connection_pool_size"],
     max_overflow=settings["connection_pool_max_overflow"],
 )
-# Instantiate FastAPI via PHDI's BaseService class
+# Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
     service_name="DIBBs Record Linkage Service",
     service_path="/record-linkage",

@@ -11,4 +11,3 @@ httpx
 lxml
 requests
 urllib3
-uvicorn
