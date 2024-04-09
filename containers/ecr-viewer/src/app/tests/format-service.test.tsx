@@ -101,7 +101,7 @@ describe("formatTablesToJSON", () => {
   it("should return an empty array when HTML string input has no tables", () => {
     const htmlString =
       "<div><h1>Hello, World!</h1><p>This HTML string has no tables.</p></div>";
-    const expectedResult = [];
+    const expectedResult: any = [];
 
     const result = formatTablesToJSON(htmlString);
 
