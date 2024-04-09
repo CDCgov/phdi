@@ -29,6 +29,19 @@ class StandardResponse(BaseModel):
 
     @root_validator
     def any_of(cls, values):
+        """
+        Validates that at least one of the specified fields is present.
+
+        Parameters:
+            cls: The class on which this validator is defined.
+            values (dict): The dictionary of field values to validate.
+
+        Returns:
+            dict: The original dictionary of values if validation passes.
+
+        Raises:
+            ValueError: If neither 'message' nor 'bundle' fields are present.
+        """
         if not any(value in values for value in ["message", "bundle"]):
             raise ValueError(
                 "A value for at least 'message' or 'bundle' must be provided"
@@ -161,4 +174,13 @@ def get_cloud_provider_storage_connection(
 
 
 def read_json_from_assets(filename: str):
+    """
+    Loads and returns the content of a JSON file from the 'assets' directory.
+
+    Parameters:
+        filename (str): The name of the JSON file to be loaded.
+
+    Returns:
+        The content of the JSON file as a dictionary.
+    """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))

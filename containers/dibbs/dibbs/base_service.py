@@ -94,6 +94,10 @@ class BaseService:
             return await call_next(request)
 
     def add_health_check_endpoint(self):
+        """
+        Adds a health check endpoint to the web service.
+        """
+
         @self.app.get("/")
         async def health_check() -> StatusResponse:
             """

@@ -107,7 +107,25 @@ def validate_config(config: dict):
 
 
 def check_for_and_extract_rr_data(input: dict):
-    # eCR is the only message type that should have accompanying RR
+    """
+    Checks the input for Reportability Response (RR) data and merges it into
+    the electronic Initial Case Report (eICR) message if present.
+
+    Parameters:
+        input (dict): A dictionary containing the message details. Expected keys
+                      are 'rr_data', 'message_type', and 'message'. 'rr_data'
+                      should contain the RR XML data, 'message_type' should specify
+                      the type of the message, and 'message' should contain the
+                      eICR XML data.
+
+    Returns:
+        dict: The updated input dictionary with the 'message' key now containing
+              the merged eICR and RR data if applicable.
+
+    Raises:
+        HTTPException: If RR data is provided for a non-'ecr' message type or if
+                       either the RR data or the eICR message is not valid XML.
+    """
     if input["rr_data"] is not None:
         if input["message_type"] != "ecr":
             raise HTTPException(
@@ -130,4 +148,18 @@ def check_for_and_extract_rr_data(input: dict):
 
 
 def read_json_from_assets(filename: str):
+    """
+    Reads and returns the content of a JSON file from the assets directory
+    as a dictionary.
+
+    Parameters:
+        filename (str): Name of the JSON file, including the '.json' extension.
+
+    Returns:
+        dict: Content of the JSON file.
+
+    Raises:
+        FileNotFoundError: If the file is not in the assets directory.
+        JSONDecodeError: If the file content is not valid JSON.
+    """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))

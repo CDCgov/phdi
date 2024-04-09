@@ -48,6 +48,28 @@ app = BaseService(
 
 
 class UseCaseQueryRequest(BaseModel):
+    """
+    Represents a query request for a use case, encapsulating all necessary
+    patient identifiers and contact information. This model is used to structure
+    the data for querying a specific FHIR server, identified by either "meld" or
+    "ehealthexchange".
+
+    Attributes:
+        fhir_server (Literal["meld", "ehealthexchange"]): Specifies the FHIR server
+            from which data will be requested. Only "meld" and "ehealthexchange"
+            are valid options.
+        first_name (str): The first name of the patient.
+        last_name (str): The last name of the patient.
+        dob (str): The date of birth of the patient, expected to be in the format
+            "YYYY-MM-DD".
+        mrn (Optional[str]): The medical record number of the patient, if available.
+        phone (Optional[str]): The phone number of the patient, if available.
+        street (Optional[str]): The street address of the patient, if available.
+        city (Optional[str]): The city of the patient's address, if available.
+        state (Optional[str]): The state of the patient's address, if available.
+        zip (Optional[str]): The ZIP code of the patient's address, if available.
+    """
+
     fhir_server: Literal["meld", "ehealthexchange"]
     first_name: str
     last_name: str
@@ -62,7 +84,22 @@ class UseCaseQueryRequest(BaseModel):
 
 @app.post("/use-case-query/{use_case}")
 async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
-    # Connect to FHIR Server
+    """
+    Processes a use case query based on the specified use case and input
+    parameters.
+
+    Parameters:
+        use_case (USE_CASES): The use case identifier.
+        input (UseCaseQueryRequest): Pydantic model with query parameters
+            and FHIR server selection.
+
+    Returns:
+        dict: FHIR server response, typically JSON of queried FHIR resources.
+
+    Raises:
+        HTTPException: For patient lookup failure or FHIR server errors.
+        XMLSyntaxError: For invalid XML when merging RR data into eICR.
+    """
     fhir_host = FHIR_SERVERS[input.fhir_server]["hostname"]
     session = requests.Session()
     fhir_server_config = FHIR_SERVERS[input.fhir_server]
@@ -200,6 +237,19 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
 
 
 def concatenate_queries(queries, session):
+    """
+    Concatenates responses from multiple FHIR server queries into a single
+    response structure.
+
+    Parameters:
+        queries (list): A list of query URLs to be executed.
+        session (requests.Session): The session used to execute queries.
+
+    Returns:
+        dict: A single response object combining "entry" lists from all
+        queries, with a "total" key indicating the cumulative number of
+        entries.
+    """
     use_case_response = None
     for query in queries:
         print(query)
@@ -220,9 +270,11 @@ app.mount(
 )
 
 
-# Root endpoint to serve the HTML page
 @app.get("/patient-search")
 async def root():
+    """
+    Returns the patient search page as a FileResponse.
+    """
     return FileResponse("./app/patient-search/index.html")
 
 

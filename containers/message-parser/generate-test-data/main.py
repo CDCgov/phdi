@@ -42,6 +42,9 @@ async def call_openai_gpt_async(
 
 
 async def main():
+    """
+    Converts XML CDA Observations to FHIR Observation resources using aio.
+    """
     patient_id = "76d0716f-6af0-49e6-b99e-73ccd831c8d8"
 
     phdc_path = pathlib.Path(__file__).parent / "HEPA_GDIT_Example.xml"

@@ -179,6 +179,17 @@ class ParseMessageInput(BaseModel):
     # and the schema upload
     @root_validator
     def require_reference_fields_to_have_lookups(cls, values):
+        """
+        Ensures that reference fields in a model have corresponding lookups.
+
+        Parameters:
+            cls: The class on which this validator is defined.
+            values (dict): The dictionary of field values to validate.
+
+        Returns:
+            dict: The validated (and potentially modified) dictionary of field
+                  values.
+        """
         return validate_secondary_reference_fields(values)
 
 
