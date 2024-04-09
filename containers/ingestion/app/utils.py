@@ -3,20 +3,19 @@ import pathlib
 from typing import Optional
 from typing import Union
 
+from app.cloud.azure import AzureCloudContainerConnection
+from app.cloud.azure import AzureCredentialManager
+from app.cloud.core import BaseCredentialManager
+from app.cloud.gcp import GcpCloudStorageConnection
+from app.cloud.gcp import GcpCredentialManager
 from app.config import get_settings
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import root_validator
 
-from phdi.cloud.azure import AzureCloudContainerConnection
-from phdi.cloud.azure import AzureCredentialManager
-from phdi.cloud.core import BaseCredentialManager
-from phdi.cloud.gcp import GcpCloudStorageConnection
-from phdi.cloud.gcp import GcpCredentialManager
-
 
 class StandardResponse(BaseModel):
-    """The standard schema for the body of responses returned by the PHDI Ingestion
+    """The standard schema for the body of responses returned by the DIBBs Ingestion
     Service."""
 
     status_code: str = Field(description="The HTTP status code of the response.")
