@@ -1,8 +1,8 @@
-'use server';
-import { NextApiRequest, NextApiResponse } from 'next';
+"use server";
+import { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
-import https from 'https';
-import fetch, { RequestInit } from 'node-fetch';
+import https from "https";
+import fetch, { RequestInit } from "node-fetch";
 
 type FHIR_SERVERS = "meld" | "ehealthexchange";
 
@@ -51,14 +51,20 @@ type PatientIdQueryRequest = {
   first_name: string;
   last_name: string;
   dob: string;
-}
+};
 type UseCaseQueryRequest = {
   use_case: USE_CASES;
 } & PatientIdQueryRequest;
 
 type PatientResourceRequest = {
+  fhir_host: string;
+  init: RequestInit;
   patient_id: string;
-} & PatientIdQueryRequest;
+};
+
+type PatientResourceQueryResponse = {
+  entry: Record<string, unknown>[];
+} & Record<string, unknown>;
 
 // Expected responses from the FHIR server
 export type UseCaseQueryResponse = Awaited<ReturnType<typeof use_case_query>>;
@@ -72,16 +78,23 @@ async function patient_id_query(input: PatientIdQueryRequest) {
   const init: RequestInit = {};
 
   // Add username to headers if it exists in input.fhir_server
-  if (FHIR_SERVERS[input.fhir_server].username && FHIR_SERVERS[input.fhir_server].password) {
-    const credentials = btoa(`${FHIR_SERVERS[input.fhir_server].username}:${FHIR_SERVERS[input.fhir_server].password || ''}`);
+  if (
+    FHIR_SERVERS[input.fhir_server].username &&
+    FHIR_SERVERS[input.fhir_server].password
+  ) {
+    const credentials = btoa(
+      `${FHIR_SERVERS[input.fhir_server].username}:${
+        FHIR_SERVERS[input.fhir_server].password || ""
+      }`
+    );
     headers.Authorization = `Basic ${credentials}`;
     init.agent = new https.Agent({
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
     });
   }
   const response = await fetch(fhir_host + patient_id_query, {
     headers: headers,
-    ...init
+    ...init,
   });
   const data = await response.json();
 
@@ -91,9 +104,8 @@ async function patient_id_query(input: PatientIdQueryRequest) {
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
-
   if (data.total === 0) {
-    throw new Error('No patient found.');
+    throw new Error("No patient found.");
   }
 
   const patient_id = data.entry[0].resource.id;
@@ -114,26 +126,49 @@ export async function use_case_query(input: UseCaseQueryRequest) {
   });
   const { fhir_host, init, patient_id } = patient_id_query_response;
 
-
-  // Use patient id to query based on use_case 
-   const patient_query = `/Patient?_id=${patient_id}`
-  const patient_response = await fetch(fhir_host + patient_query, init);
-  const use_case_query_response = await patient_response.json();
+  // Query for Patient resource
+  const use_case_query_response = await patient_resource_query({
+    fhir_host: fhir_host,
+    init: init,
+    patient_id: patient_id,
+  });
 
   // Query for social determinants
-  const social_determinants_query = `/Observation?subject=Patient/${patient_id}&category=survey`
+  const social_determinants_query = `/Observation?subject=Patient/${patient_id}&category=survey`;
   const response = await fetch(fhir_host + social_determinants_query, init);
   const social_determinants_response = await response.json();
 
   // Collect results
-  use_case_query_response["entry"] = [...use_case_query_response["entry"], ...social_determinants_response["entry"]];
+  use_case_query_response["entry"] = [
+    ...use_case_query_response["entry"],
+    ...social_determinants_response["entry"],
+  ];
 
   return {
     patient_id: patient_id,
-    use_case_query_response
+    use_case_query_response,
   };
 }
 
-async function patient_resource_query(input:PatientResourceRequest) {
+async function patient_resource_query(
+  input: PatientResourceRequest
+): Promise<PatientResourceQueryResponse> {
+  const patient_query = `/Patient?_id=${input.patient_id}`;
+  const patient_response = await fetch(
+    input.fhir_host + patient_query,
+    input.init
+  );
+  const patient_resource_response = await patient_response.json();
 
+  return patient_resource_response;
+}
+
+async function social_determinants_query(
+  input: PatientResourceRequest
+): Promise<PatientResourceQueryResponse> {
+  const query = `/Patient?_id=${input.patient_id}`;
+  const query_response = await fetch(input.fhir_host + query, input.init);
+  const response = await query_response.json();
+
+  return response;
 }
