@@ -16,7 +16,7 @@ interface AccordionLabResultsProps {
  * @param props.abnormalTag - Boolean value if the lab result is abnormal.
  * @param props.content - The content within the accordian.
  * @param props.organizationId - The id of the organization you are getting lab results for.
- * @param props.collapsedByDefault
+ * @param props.collapsedByDefault - Whether or not to collapse by default for the accordion
  * @returns React element representing the AccordionLabResults component.
  */
 export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
