@@ -86,3 +86,5 @@ ignore = ["I"]                   # ignore isort rules
 [tool.ruff.lint.per-file-ignores]
 "**/tests/*" = ["D"]
 "**/__init__.py" = ["D"]
+"**/phdi/**/*" = ["D"]
+"**/utils/zip-search/**/*" = ["D"]
