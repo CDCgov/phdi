@@ -177,30 +177,32 @@ export function PatientSearch() {
                 <Label htmlFor="mrn">Medical Record Number</Label>
                 <TextInput id="mrn" name="mrn" type="text" pattern="^\d+$" />
               </div>
-              <h2 className="font-sans-lg search-form-section-label"><strong>Case investigation topic</strong></h2>
-              <div className="grid-row grid-gap">
-                  <div className="grid-col-7">
-                      <Label htmlFor="use_case">Use case</Label>
-                      <Select id="use_case" name="use_case">
-                          <option value="" disabled selected></option>
-                          <option value="newborn-screening">Newborn Screening</option>
-                          <option value="syphilis">Syphilis</option>
-                          <option value="cancer">Cancer</option>
-                          <option value="sdoh">Social Determinants of Health</option>
-                      </Select>
-                  </div>
-                </div>
-              <h2 className="font-sans-lg search-form-section-label"><strong>FHIR Server (QHIN)</strong></h2>
-              <div className="grid-row grid-gap">
-                  <div className="grid-col-5">
-                      <Label htmlFor="fhir_server">FHIR Server</Label>
-                      <Select id="fhir_server" name="fhir_server">
-                          <option value="" disabled selected></option>
-                          <option value="meld">Meld</option> 
-                          <option value="ehx">eHealth Exchange</option>
-                      </Select>
-                  </div>
-                  </div>
+            </div>
+            <h2 className="font-sans-lg search-form-section-label"><strong>Case investigation topic</strong></h2>
+            <div className="grid-row grid-gap">
+              <div className="grid-col-7">
+                <Label htmlFor="use_case">Use case</Label>
+                <Select id="use_case" name="use_case">
+                  <option value="" disabled selected></option>
+                  <option value="newborn-screening">Newborn Screening</option>
+                  <option value="syphilis">Syphilis</option>
+                  <option value="cancer">Cancer</option>
+                  <option value="sdoh">Social Determinants of Health</option>
+                </Select>
+              </div>
+              
+              <div className="grid-col-5">
+                <Label htmlFor="fhir_server">FHIR Server</Label>
+                <Select id="fhirServer" name="fhir_server" value={fhirServer} onChange={(event) => {
+                  setFhirServer(event.target.value as "meld" | "ehealthexchange");
+                }}
+                  required>
+                  <option value="" disabled selected></option>
+                  <option value="meld">Meld</option>
+                  <option value="ehealthexchange">eHealth Exchange</option>
+                </Select>
+              </div>
+            </div>
           </Fieldset>
           <button className="usa-button" type="submit">
             Search for patient
@@ -230,4 +232,3 @@ function LoadingView({ loading }: { loading: boolean }) {
 }
 
 export default PatientSearch;
-
