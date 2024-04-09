@@ -10,7 +10,6 @@ from detect_delimiter import detect
 
 from phdi.harmonization.double_metaphone import DoubleMetaphone
 
-
 FHIR_DATE_FORMAT = "%Y-%m-%d"
 FHIR_DATE_DELIM = "-"
 

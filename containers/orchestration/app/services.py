@@ -4,6 +4,11 @@ from json.decoder import JSONDecodeError
 from typing import Union
 
 import requests
+from fastapi import HTTPException
+from fastapi import Response
+from fastapi import WebSocket
+from fastapi.encoders import jsonable_encoder
+
 from app.handlers import build_fhir_converter_request
 from app.handlers import build_geocoding_request
 from app.handlers import build_ingestion_dob_request
@@ -21,11 +26,6 @@ from app.handlers import unpack_validation_response
 from app.models import OrchestrationRequest
 from app.utils import CustomJSONResponse
 from app.utils import format_service_url
-from fastapi import HTTPException
-from fastapi import Response
-from fastapi import WebSocket
-from fastapi.encoders import jsonable_encoder
-
 
 # Locations of the various services the service will delegate
 SERVICE_URLS = {

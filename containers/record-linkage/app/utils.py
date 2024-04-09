@@ -4,9 +4,10 @@ import pathlib
 import subprocess
 from typing import Literal
 
+from sqlalchemy import text
+
 from app.config import get_settings
 from app.linkage.dal import DataAccessLayer
-from sqlalchemy import text
 
 
 def load_mpi_env_vars_os():

@@ -9,7 +9,6 @@ from fastapi import Response
 from fastapi import status
 from fastapi.testclient import TestClient
 
-
 client = TestClient(app)
 
 

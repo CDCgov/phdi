@@ -3,11 +3,11 @@ import pathlib
 from typing import Optional
 from typing import Union
 
-from app.config import get_settings
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import root_validator
 
+from app.config import get_settings
 from phdi.cloud.azure import AzureCloudContainerConnection
 from phdi.cloud.azure import AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
