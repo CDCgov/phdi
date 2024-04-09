@@ -36,7 +36,7 @@ export function PatientSearch() {
         <form className="patient-search-form" onSubmit={handleSubmit}>
           <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
           <Fieldset>
-            <h2 className="font-sans-lg"><strong>Name</strong></h2>
+            <h2 className="font-sans-lg search-form-section-label"><strong>Name</strong></h2>
             <div className="grid-row grid-gap">
               <div className="tablet:grid-col-6">
                 <Label htmlFor="first_name">First Name</Label>
@@ -55,7 +55,7 @@ export function PatientSearch() {
                   }} />
               </div>
             </div>
-            <h2 className="font-sans-lg"><strong>Phone Number</strong></h2>
+            <h2 className="font-sans-lg search-form-section-label"><strong>Phone Number</strong></h2>
             <div className="grid-row grid-gap">
               <div className="grid-col-6">
                 <Label htmlFor="phone">Phone Number</Label>
@@ -65,9 +65,9 @@ export function PatientSearch() {
               </div>
             </div>
             <div>
-              <h2 className="font-sans-lg"><strong>Date of Birth</strong></h2>
+              <h2 className="font-sans-lg search-form-section-label"><strong>Date of Birth</strong></h2>
               <div className="grid-row grid-gap">
-                <div className="grid-col-4">
+                <div className="grid-col-6">
                   <input
                     type="date"
                     id="dob"
@@ -79,7 +79,7 @@ export function PatientSearch() {
                 </div>
               </div>
             </div>
-            <h2 className="font-sans-lg"><strong>Address</strong></h2>
+            <h2 className="font-sans-lg search-form-section-label"><strong>Address</strong></h2>
             <div className="grid-row grid-gap">
               <div className="grid-col">
                 <Label htmlFor="street_address_1">Street address</Label>
@@ -100,7 +100,7 @@ export function PatientSearch() {
               <div className="tablet:grid-col-3">
                 <Label htmlFor="state">State</Label>
                 <Select id="state" name="state">
-                  <option value="" disabled selected>- Select -</option>
+                  <option value="" disabled selected></option>
                   <option value="AL">AL - Alabama</option>
                   <option value="AK">AK - Alaska</option>
                   <option value="AS">AS - American Samoa</option>
@@ -171,36 +171,36 @@ export function PatientSearch() {
                 <TextInput className="usa-input usa-input--medium" id="zip" name="zip" type="text" pattern="[\d]{5}(-[\d]{4})?" />
               </div>
             </div>
-            <h2 className="font-sans-lg"><strong>Medical Record Number (MRN)</strong></h2>
+            <h2 className="font-sans-lg search-form-section-label"><strong>Medical Record Number (MRN)</strong></h2>
             <div className="grid-row grid-gap">
               <div className="grid-col-6">
                 <Label htmlFor="mrn">Medical Record Number</Label>
                 <TextInput id="mrn" name="mrn" type="text" pattern="^\d+$" />
               </div>
-            </div>
-            <div className="grid-row grid-gap">
-              <div className="grid-col-7">
-                <Label htmlFor="use_case">Use case</Label>
-                <Select id="use_case" name="use_case">
-                  <option value="" disabled selected>Select from the following...</option>
-                  <option value="newborn-screening">Newborn Screening</option>
-                  <option value="syphilis">Syphilis</option>
-                  <option value="cancer">Cancer</option>
-                  <option value="sdoh">Social Determinants of Health</option>
-                </Select>
-              </div>
-              <div className="grid-col-5">
-                <Label htmlFor="fhir_server">QHIN</Label>
-                <Select id="fhirServer" name="fhir_server" value={fhirServer} onChange={(event) => {
-                  setFhirServer(event.target.value as "meld" | "ehealthexchange");
-                }}
-                  required>
-                  <option value="" disabled selected>Select</option>
-                  <option value="meld">Meld</option>
-                  <option value="ehealthexchange">eHealth Exchange</option>
-                </Select>
-              </div>
-            </div>
+              <h2 className="font-sans-lg search-form-section-label"><strong>Case investigation topic</strong></h2>
+              <div className="grid-row grid-gap">
+                  <div className="grid-col-7">
+                      <Label htmlFor="use_case">Use case</Label>
+                      <Select id="use_case" name="use_case">
+                          <option value="" disabled selected></option>
+                          <option value="newborn-screening">Newborn Screening</option>
+                          <option value="syphilis">Syphilis</option>
+                          <option value="cancer">Cancer</option>
+                          <option value="sdoh">Social Determinants of Health</option>
+                      </Select>
+                  </div>
+                </div>
+              <h2 className="font-sans-lg search-form-section-label"><strong>FHIR Server (QHIN)</strong></h2>
+              <div className="grid-row grid-gap">
+                  <div className="grid-col-5">
+                      <Label htmlFor="fhir_server">FHIR Server</Label>
+                      <Select id="fhir_server" name="fhir_server">
+                          <option value="" disabled selected></option>
+                          <option value="meld">Meld</option> 
+                          <option value="ehx">eHealth Exchange</option>
+                      </Select>
+                  </div>
+                  </div>
           </Fieldset>
           <button className="usa-button" type="submit">
             Search for patient
