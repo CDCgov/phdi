@@ -2,6 +2,7 @@
 azure-identity
 azure-keyvault-secrets
 azure-storage-blob
+cryptography==42.0.5
 fhirpathpy
 frozendict
 google-auth
