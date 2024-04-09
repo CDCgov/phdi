@@ -1,39 +1,3 @@
-
-
-// "use client";
-
-// import { useFormState, useFormStatus } from "react-dom";
-// import { createTodo } from "@/app/utils.tsx";
-
-// const initialState = {
-//     message: "",
-// };
-
-// function SubmitButton() {
-//     const { pending } = useFormStatus();
-
-//     return (
-//         <button type="submit" aria-disabled={pending}>
-//             Add
-//         </button>
-//     );
-// }
-
-// export function AddForm() {
-//     const [state, formAction] = useFormState(createTodo, initialState);
-
-//     return (
-//         <form action={formAction}>
-//             <label htmlFor="todo">Enter Task</label>
-//             <input type="text" id="todo" name="todo" required />
-//             <SubmitButton />
-//             <p aria-live="polite" className="sr-only" role="status">
-//                 {state?.message}
-//             </p>
-//         </form>
-//     );
-// }
-
 "use client";
 import React, { useState } from "react";
 import { Fieldset, Label, TextInput, DatePicker, Select } from "@trussworks/react-uswds";
@@ -55,7 +19,7 @@ const PatientSearch: React.FC = () => {
       <form className="patient-search-form" onSubmit={handleSubmit}>
       <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
           <Fieldset>
-              <h2 className="font-sans-lg"><strong>Name</strong></h2>
+              <h2 className="font-sans-lg search-form-section-label"><strong>Name</strong></h2>
               <div className="grid-row grid-gap">
                   <div className="tablet:grid-col-6">
                       <Label htmlFor="first_name">First Name</Label>
@@ -66,21 +30,21 @@ const PatientSearch: React.FC = () => {
                       <TextInput id="last_name" name="last_name" type="text" pattern="^[A-Za-z]+$"/>
                   </div>
               </div>
-              <h2 className="font-sans-lg"><strong>Phone Number</strong></h2>
+              <h2 className="font-sans-lg search-form-section-label"><strong>Phone Number</strong></h2>
               <div className="grid-row grid-gap">
                   <div className="grid-col-6">
                       <Label htmlFor="phone">Phone Number</Label>
                       <TextInput id="phone" name="phone" type="tel"/>
                   </div>
               </div>
-              <h2 className="font-sans-lg"><strong>Date of Birth</strong></h2>
+              <h2 className="font-sans-lg search-form-section-label"><strong>Date of Birth</strong></h2>
               <div className="grid-row grid-gap">
-                  <div className="grid-col-4">
+                  <div className="grid-col-6">
                       <Label htmlFor="dob">Date of Birth</Label>
                       <DatePicker id="dob" name="dob"/>
                   </div>
               </div>
-              <h2 className="font-sans-lg"><strong>Address</strong></h2>
+              <h2 className="font-sans-lg search-form-section-label"><strong>Address</strong></h2>
               <div className="grid-row grid-gap">
                   <div className="grid-col">
                       <Label htmlFor="street_address_1">Street address</Label>
@@ -101,7 +65,7 @@ const PatientSearch: React.FC = () => {
                   <div className="tablet:grid-col-3">
                       <Label htmlFor="state">State</Label>
                       <Select id="state" name="state">
-                          <option value="" disabled selected>- Select -</option>
+                          <option value="" disabled selected></option>
                           <option value="AL">AL - Alabama</option>
                           <option value="AK">AK - Alaska</option>
                           <option value="AS">AS - American Samoa</option>
@@ -172,36 +136,39 @@ const PatientSearch: React.FC = () => {
                       <TextInput className="usa-input usa-input--medium" id="zip" name="zip" type="text" pattern="[\d]{5}(-[\d]{4})?"/>
                   </div>
               </div>
-              <h2 className="font-sans-lg"><strong>Medical Record Number (MRN)</strong></h2>
+              <h2 className="font-sans-lg search-form-section-label"><strong>Medical Record Number (MRN)</strong></h2>
               <div className="grid-row grid-gap">
                   <div className="grid-col-6">
                       <Label htmlFor="mrn">Medical Record Number</Label>
                       <TextInput id="mrn" name="mrn" type="number" pattern="^\d+$"/>
                   </div>
               </div>
-              <h2 className="font-sans-lg"><strong>Case investigation topic</strong></h2>
+              <h2 className="font-sans-lg search-form-section-label"><strong>Case investigation topic</strong></h2>
               <div className="grid-row grid-gap">
                   <div className="grid-col-7">
                       <Label htmlFor="use_case">Use case</Label>
                       <Select id="use_case" name="use_case">
-                          <option value="" disabled selected>Select from the following...</option>
+                          <option value="" disabled selected></option>
                           <option value="newborn-screening">Newborn Screening</option>
                           <option value="syphilis">Syphilis</option>
                           <option value="cancer">Cancer</option>
                           <option value="sdoh">Social Determinants of Health</option>
                       </Select>
                   </div>
+                </div>
+              <h2 className="font-sans-lg search-form-section-label"><strong>FHIR Server (QHIN)</strong></h2>
+              <div className="grid-row grid-gap">
                   <div className="grid-col-5">
-                      <Label htmlFor="fhir_server">QHIN</Label>
+                      <Label htmlFor="fhir_server">FHIR Server</Label>
                       <Select id="fhir_server" name="fhir_server">
-                          <option value="" disabled selected>Select</option>
+                          <option value="" disabled selected></option>
                           <option value="meld">Meld</option> 
                           <option value="ehx">eHealth Exchange</option>
                       </Select>
                   </div>
                   </div>
           </Fieldset>
-          <button className="usa-button" type="submit">Search for patient</button>
+          <button className="usa-button patient-search-button" type="submit">Search for patient</button>
       </form>
     </div>
   );
