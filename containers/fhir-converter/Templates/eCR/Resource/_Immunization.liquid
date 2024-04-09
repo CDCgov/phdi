@@ -18,7 +18,15 @@
                 "statusReason": { {% include 'DataType/CodeableConcept' CodeableConcept: entryRelationship.observation.code -%} },
             {% endif -%}
         {% endfor -%}
-
+        "protocolApplied": [
+            {% for entryRelationship in entryRelationships -%}
+                {
+                    {% if entryRelationship.typeCode == "COMP" -%}
+                        "doseNumberPositiveInt": "{{ entryRelationship.sequenceNumber.value }}",
+                    {% endif %}
+                },
+            {% endfor %}
+        ],
         {% if immunization.effectiveTime.low -%}
             "occurrenceDateTime": "{{ immunization.effectiveTime.low.value | format_as_date_time }}",
         {% elsif immunization.effectiveTime.value -%}
@@ -42,7 +50,12 @@
                     {% else -%}
                         "vaccineCode":{ {% include 'DataType/CodeableConcept' CodeableConcept: manufacturedProduct.manufacturedMaterial.code -%} },
                     {% endif -%}
-                    "lotNumber":"{{ manufacturedProduct.manufacturedMaterial.IotNumberText._ }}",
+                    "lotNumber":"{{ manufacturedProduct.manufacturedMaterial.lotNumberText._ }}",
+                    {% assign manufacturerId = manufacturedProduct.manufacturerOrganization | to_json_string | generate_uuid -%}
+                    {% assign fullManufacturerId = manufacturerId | prepend: 'Organization/' -%}
+                    "manufacturer": {
+                        "reference": "{{ fullManufacturerId }}",
+                    },
                 {% endif -%}
             {% endfor -%}
         {% endfor -%}
