@@ -56,6 +56,10 @@ type UseCaseQueryRequest = {
   use_case: USE_CASES;
 } & PatientIdQueryRequest;
 
+type PatientResourceRequest = {
+  patient_id: string;
+} & PatientIdQueryRequest;
+
 // Expected responses from the FHIR server
 export type UseCaseQueryResponse = Awaited<ReturnType<typeof use_case_query>>;
 
@@ -112,20 +116,24 @@ export async function use_case_query(input: UseCaseQueryRequest) {
 
 
   // Use patient id to query based on use_case 
-  const social_determinants_query = `/Observation?subject=Patient/${patient_id}&category=survey`
-  const response = await fetch(fhir_host + social_determinants_query, init);
-  // const use_case_query_response = await response.json();
-
-  const patient_query = `/Patient?_id=${patient_id}`
+   const patient_query = `/Patient?_id=${patient_id}`
   const patient_response = await fetch(fhir_host + patient_query, init);
   const use_case_query_response = await patient_response.json();
 
-  // const message_parser = await fetch(`http://localhost:8080/`);
-  // const parsed_message = await message_parser.json();
-  // console.log(parsed_message)
+  // Query for social determinants
+  const social_determinants_query = `/Observation?subject=Patient/${patient_id}&category=survey`
+  const response = await fetch(fhir_host + social_determinants_query, init);
+  const social_determinants_response = await response.json();
+
+  // Collect results
+  use_case_query_response["entry"] = [...use_case_query_response["entry"], ...social_determinants_response["entry"]];
 
   return {
     patient_id: patient_id,
     use_case_query_response
   };
+}
+
+async function patient_resource_query(input:PatientResourceRequest) {
+
 }
