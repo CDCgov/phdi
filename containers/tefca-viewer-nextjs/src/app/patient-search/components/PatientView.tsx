@@ -16,9 +16,6 @@ export function PatientView({ useCaseQueryResponse }: PatientViewProps) {
 
     return (<div>
         <div>
-            <header>
-                <h1 className="page-title">EZ eCR Viewer</h1>
-            </header>
             <div className="main-container">
                 <div className="content-wrapper">
                     <div className="nav-wrapper">
