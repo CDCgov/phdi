@@ -1,6 +1,12 @@
 import React from "react";
 import * as dateFns from "date-fns";
-import { Bundle, Condition, Immunization, Procedure } from "fhir/r4";
+import {
+  Bundle,
+  Condition,
+  Immunization,
+  Procedure,
+  Organization,
+} from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
@@ -14,7 +20,7 @@ import {
   formatVitals,
   formatDateTime,
 } from "@/app/format-service";
-import { evaluateTable } from "./evaluate-service";
+import { evaluateReference, evaluateTable } from "./evaluate-service";
 
 export interface DisplayData {
   title?: string;
@@ -507,6 +513,7 @@ export const returnProblemsTable = (
  * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
  */
 export const returnImmunizations = (
+  fhirBundle: Bundle,
   immunizationsArray: Immunization[],
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
@@ -517,11 +524,25 @@ export const returnImmunizations = (
   const columnInfo = [
     { columnName: "Name", infoPath: "immunizationsName" },
     { columnName: "Administration Dates", infoPath: "immunizationsAdminDate" },
-    { columnName: "Next Due", infoPath: "immunizationsNextDue" },
+    { columnName: "Dose Number", infoPath: "immunizationsDoseNumber" },
+    {
+      columnName: "Manufacturer",
+      infoPath: "immunizationsManufacturerName",
+    },
+    { columnName: "Lot Number", infoPath: "immunizationsLotNumber" },
   ];
 
   immunizationsArray.forEach((entry) => {
     entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime);
+
+    const manufacturer = evaluateReference(
+      fhirBundle,
+      mappings,
+      entry.manufacturer?.reference || "",
+    ) as Organization;
+    if (manufacturer) {
+      (entry.manufacturer as any).name = manufacturer.name || "";
+    }
   });
 
   immunizationsArray.sort(
@@ -629,6 +650,7 @@ export const evaluateClinicalData = (
     {
       title: "Immunization History",
       value: returnImmunizations(
+        fhirBundle,
         evaluate(fhirBundle, mappings["immunizations"]),
         mappings,
       ),

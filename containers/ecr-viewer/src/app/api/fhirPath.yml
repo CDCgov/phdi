@@ -85,7 +85,9 @@ historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Compositio
 immunizations: "Bundle.entry.resource.where(resourceType = 'Immunization')"
 immunizationsName: "Immunization.note.text"
 immunizationsAdminDate: "Immunization.occurrenceDateTime"
-immunizationsNextDue: "idk"
+immunizationsDoseNumber: "Immunization.protocolApplied.where(doseNumberPositiveInt.exists()).doseNumberPositiveInt"
+immunizationsManufacturerName: "Immunization.manufacturer.name"
+immunizationsLotNumber: "Immunization.lotNumber"
 
 # Procedure
 procedures: "Bundle.entry.resource.where(resourceType='Procedure')"
