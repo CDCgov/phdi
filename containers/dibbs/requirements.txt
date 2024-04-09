@@ -2,3 +2,4 @@ pydantic==1.10.9
 fastapi>=0.109.1
 uvicorn
 httpx
+typing_extensions==4.8.0
