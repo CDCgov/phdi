@@ -7,6 +7,7 @@ import {
   PathMappings,
   evaluateEncounterDate,
   evaluatePatientContactInfo,
+  evaluateSocialData
 } from "../../utils";
 import { SectionConfig } from "./SideNav";
 
@@ -61,6 +62,13 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
               <div className="data-title">Patient Contact</div>
               <div className="grid-col-auto text-pre-line">
                 {evaluatePatientContactInfo(fhirBundle, fhirPathMappings)}
+              </div>
+            </div>
+            <div className={"section__line"} />
+            <div className="grid-row">
+              <div className="data-title">Patient Housing Status</div>
+              <div className="grid-col-auto text-pre-line">
+              {evaluate(fhirBundle, fhirPathMappings["patientHomelessStatus"])[0]}
               </div>
             </div>
             <div className={"section__line"} />

@@ -34,7 +34,7 @@ export function PatientView({ useCaseQueryResponse }: PatientViewProps) {
                 />
                 <div className="margin-top-6">
                   <h2 className="margin-bottom-3" id="ecr-document">
-                    eCR Document
+                    Query Results
                   </h2>
                   <AccordionContainer
                     fhirPathMappings={mappings}

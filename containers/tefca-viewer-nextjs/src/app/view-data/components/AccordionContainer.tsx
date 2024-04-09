@@ -4,15 +4,11 @@ import {
   evaluateProviderData,
   evaluateClinicalData,
   evaluateDemographicsData,
-  evaluateEcrMetadata,
   PathMappings,
   evaluateLabInfoData,
 } from "../../utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
-import UnavailableInfo from "./UnavailableInfo";
-import EcrMetadata from "./EcrMetadata";
-import EncounterDetails from "./Encounter";
 import ClinicalInfo from "./ClinicalInfo";
 import { Bundle, FhirResource } from "fhir/r4";
 import React, { ReactNode } from "react";
@@ -38,7 +34,6 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const encounterData = evaluateEncounterData(fhirBundle, fhirPathMappings);
   const providerData = evaluateProviderData(fhirBundle, fhirPathMappings);
   const clinicalData = evaluateClinicalData(fhirBundle, fhirPathMappings);
-  const ecrMetadata = evaluateEcrMetadata(fhirBundle, fhirPathMappings);
   const labInfoData = evaluateLabInfoData(fhirBundle, fhirPathMappings);
   const accordionItems: any[] = [
     {
@@ -50,19 +45,6 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             <SocialHistory socialData={social_data.availableData} />
           )}
         </>
-      ),
-      expanded: true,
-      headingLevel: "h3",
-    },
-    {
-      title: "Encounter Info",
-      content: (
-        <div>
-          <EncounterDetails
-            encounterData={encounterData.availableData}
-            providerData={providerData.availableData}
-          />
-        </div>
       ),
       expanded: true,
       headingLevel: "h3",
@@ -97,47 +79,6 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
           labInfo={labInfoData.labInfo.availableData}
           labResults={labInfoData.labResults}
         />
-      ),
-      expanded: true,
-      headingLevel: "h3",
-    },
-    {
-      title: "eCR Metadata",
-      content: (
-        <>
-          <EcrMetadata
-            eicrDetails={ecrMetadata.eicrDetails.availableData}
-            eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
-            rrDetails={ecrMetadata.rrDetails.availableData}
-          />
-        </>
-      ),
-      expanded: true,
-      headingLevel: "h3",
-    },
-    {
-      title: "Unavailable Info",
-      content: (
-        <div className="padding-top-105">
-          <UnavailableInfo
-            demographicsUnavailableData={demographicsData.unavailableData}
-            socialUnavailableData={social_data.unavailableData}
-            encounterUnavailableData={encounterData.unavailableData}
-            reasonForVisitUnavailableData={
-              clinicalData.reasonForVisitDetails.unavailableData
-            }
-            activeProblemsUnavailableData={
-              clinicalData.activeProblemsDetails.unavailableData
-            }
-            providerUnavailableData={providerData.unavailableData}
-            vitalUnavailableData={clinicalData.vitalData.unavailableData}
-            immunizationsUnavailableData={
-              clinicalData.immunizationsDetails.unavailableData
-            }
-            treatmentData={clinicalData.treatmentData.unavailableData}
-            clinicalNotesData={clinicalData.clinicalNotes.unavailableData}
-          />
-        </div>
       ),
       expanded: true,
       headingLevel: "h3",
