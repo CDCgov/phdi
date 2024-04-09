@@ -6,31 +6,9 @@ const POSTGRES_SOURCE = "postgres";
 
 /**
  * Handles POST requests and saves the FHIR Bundle to the database.
- *
  * @param request - The incoming request object. Expected to have a JSON body in the format `{"fhirBundle":{}, "saveSource": "postgres|s3""}`. FHIR bundle must include the ecr ID under entry[0].resource.id.
  * @returns A `NextResponse` object with a JSON payload indicating the success message and the status code set to 200. The response content type is set to `application/json`.
- *
- * @example - Request body
- * ```typescript
- * const body = {
-    "fhirBundle": {
-        "resourceType": "Bundle",
-        "type": "batch",
-        "entry": [
-        {
-            "fullUrl": "urn:uuid:12345",
-            "resource": {
-                "resourceType": "Composition",
-                "id": "12345"
-            }
-        }
-        ]
-    },
-    "saveSource": "postgres"
-  }
- * ```
  */
-
 export async function POST(request: NextRequest) {
   let requestBody;
   let fhirBundle;
