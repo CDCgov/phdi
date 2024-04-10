@@ -5,6 +5,7 @@ import {
   DisplayData,
   DataDisplay,
   ColumnInfoInput,
+  noData,
 } from "@/app/utils";
 import { evaluateReference, evaluateTable } from "@/app/evaluate-service";
 import { evaluate } from "fhirpath";
@@ -15,16 +16,11 @@ import {
   extractNumbersAndPeriods,
   formatAddress,
   formatPhoneNumber,
+  TableJson,
 } from "@/app/format-service";
 
 export interface LabReport {
   result: Array<Reference>;
-}
-
-export interface LabJson {
-  resultId: string | null;
-  resultName: string;
-  tables: Array<Array<{}>>;
 }
 
 export interface ResultObject {
@@ -36,8 +32,6 @@ export interface LabReportElementData {
   diagnosticReportDataElements: React.JSX.Element[];
   organizationDisplayData: DisplayData[];
 }
-
-const noData = <span className="no-data text-italic text-base">No data</span>;
 
 /**
  * Extracts an array of `Observation` resources from a given FHIR bundle based on a list of observation references.
@@ -76,7 +70,7 @@ export const getLabJsonObject = (
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
-): LabJson => {
+): TableJson => {
   // Get reference value (result ID) from Observations
   const observations = getObservations(report, fhirBundle, mappings);
   const observationRefValsArray = observations.flatMap((observation) => {
@@ -90,9 +84,7 @@ export const getLabJsonObject = (
   const labsJson = formatTablesToJSON(labsString);
 
   // Get specified lab report (by reference value)
-  return labsJson.filter((obj) => {
-    return obj.resultId?.includes(observationRefVal);
-  })[0];
+  return labsJson.filter((obj) => obj.resultId?.includes(observationRefVal))[0];
 };
 
 /**
@@ -113,7 +105,7 @@ export const checkAbnormalTag = (
   }
   const labResultName = labResult.resultName;
 
-  return labResultName.toLowerCase().includes("abnormal");
+  return labResultName?.toLowerCase().includes("abnormal") ?? false;
 };
 
 /**
@@ -244,7 +236,7 @@ export const returnFieldValueFromLabHtmlString = (
     return noData;
   }
   const labTables = labReportJson.tables;
-  const fieldValue = searchResultRecord(labTables, fieldName);
+  const fieldValue = searchResultRecord(labTables ?? [], fieldName);
 
   if (!fieldValue || fieldValue.length === 0) {
     return noData;
