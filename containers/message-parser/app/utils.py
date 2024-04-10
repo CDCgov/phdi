@@ -11,6 +11,10 @@ from typing import Union
 
 import fhirpathpy
 import requests
+from fastapi import status
+from frozendict import frozendict
+from lxml import etree as ET
+
 from app.cloud.azure import AzureCredentialManager
 from app.cloud.core import BaseCredentialManager
 from app.cloud.gcp import GcpCredentialManager
@@ -24,9 +28,6 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from app.transport.http import http_request_with_retry
-from fastapi import status
-from frozendict import frozendict
-from lxml import etree as ET
 
 DIBBS_REFERENCE_SIGNIFIER = "#REF#"
 

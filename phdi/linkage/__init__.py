@@ -29,7 +29,6 @@ from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.seed import convert_to_patient_fhir_resources
 from phdi.linkage.utils import datetime_to_str
 
-
 __all__ = [
     "DIBBS_BASIC",
     "DIBBS_ENHANCED",

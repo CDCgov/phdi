@@ -13,7 +13,6 @@ from sqlalchemy import Select
 from sqlalchemy import select
 from sqlalchemy import text
 
-
 patient_resource = json.load(
     open(
         pathlib.Path(__file__).parent.parent.parent.parent

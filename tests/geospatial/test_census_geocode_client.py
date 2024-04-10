@@ -7,7 +7,6 @@ import requests
 from phdi.geospatial.census import CensusGeocodeClient
 from phdi.geospatial.core import GeocodeResult
 
-
 CENSUS_RESPONSE_FILE = (
     pathlib.Path(__file__).parent.parent
     / "assets"

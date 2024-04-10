@@ -45,9 +45,7 @@ from phdi.linkage.link import _condense_extract_address_from_resource
 from phdi.linkage.link import _flatten_patient_resource
 from phdi.linkage.link import _match_within_block_cluster_ratio
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
-from tests.test_data_generator import (
-    generate_list_patients_contact,
-)
+from tests.test_data_generator import generate_list_patients_contact
 
 
 def _init_db() -> DataAccessLayer:
