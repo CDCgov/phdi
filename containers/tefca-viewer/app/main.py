@@ -88,17 +88,11 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
     Processes a use case query based on the specified use case and input
     parameters.
 
-    Parameters:
-        use_case (USE_CASES): The use case identifier.
-        input (UseCaseQueryRequest): Pydantic model with query parameters
-            and FHIR server selection.
-
-    Returns:
-        dict: FHIR server response, typically JSON of queried FHIR resources.
-
-    Raises:
-        HTTPException: For patient lookup failure or FHIR server errors.
-        XMLSyntaxError: For invalid XML when merging RR data into eICR.
+    :param use_case: The use case identifier.
+    :param input: Pydantic model with query parameters and FHIR server selection.
+    :return: FHIR server response, typically JSON of queried FHIR resources.
+    :raises HTTPException: For patient lookup failure or FHIR server errors.
+    XMLSyntaxError: For invalid XML when merging RR data into eICR.
     """
     fhir_host = FHIR_SERVERS[input.fhir_server]["hostname"]
     session = requests.Session()
@@ -241,14 +235,11 @@ def concatenate_queries(queries, session):
     Concatenates responses from multiple FHIR server queries into a single
     response structure.
 
-    Parameters:
-        queries (list): A list of query URLs to be executed.
-        session (requests.Session): The session used to execute queries.
-
-    Returns:
-        dict: A single response object combining "entry" lists from all
-        queries, with a "total" key indicating the cumulative number of
-        entries.
+    :param queries: A list of query URLs to be executed.
+    :param session: The session used to execute queries.
+    :return: A single response object combining "entry" lists from all
+             queries, with a "total" key indicating the cumulative number of
+             entries.
     """
     use_case_response = None
     for query in queries:

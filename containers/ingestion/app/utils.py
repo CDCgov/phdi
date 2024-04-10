@@ -32,15 +32,9 @@ class StandardResponse(BaseModel):
         """
         Validates that at least one of the specified fields is present.
 
-        Parameters:
-            cls: The class on which this validator is defined.
-            values (dict): The dictionary of field values to validate.
-
-        Returns:
-            dict: The original dictionary of values if validation passes.
-
-        Raises:
-            ValueError: If neither 'message' nor 'bundle' fields are present.
+        :param cls: The class on which this validator is defined.
+        :param values: The dictionary of field values to validate.
+        :return: The original dictionary of values if validation passes.
         """
         if not any(value in values for value in ["message", "bundle"]):
             raise ValueError(
@@ -177,10 +171,7 @@ def read_json_from_assets(filename: str):
     """
     Loads and returns the content of a JSON file from the 'assets' directory.
 
-    Parameters:
-        filename (str): The name of the JSON file to be loaded.
-
-    Returns:
-        The content of the JSON file as a dictionary.
+    :param filename: The name of the JSON file to be loaded.
+    :return: The content of the JSON file as a dictionary.
     """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
