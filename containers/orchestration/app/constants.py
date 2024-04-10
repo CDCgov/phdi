@@ -1,6 +1,5 @@
 from app.utils import read_json_from_assets
 
-
 # /process endpoint #
 process_message_request_examples = read_json_from_assets(
     "sample_process_message_requests.json"

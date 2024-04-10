@@ -2,7 +2,6 @@ import re
 
 from lxml import etree
 
-
 EICR_MSG_ID_XPATH = "//hl7:ClinicalDocument/hl7:id"
 RR_MSG_ID_XPATH = "//hl7:ClinicalDocument/hl7:section/hl7:id"
 
