@@ -13,6 +13,9 @@ from app.linkage.mpi import DIBBsMPIConnectorClient
 
 
 def read_json_from_assets(filename: str):
+    """
+    Loads a JSON file from the 'assets' directory.
+    """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
 
 

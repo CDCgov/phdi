@@ -36,9 +36,20 @@ class DoubleMetaphone(object):
         self.next = (None, 1)
 
     def __call__(self, string: str):
+        """
+        Enables the class instance to be called as a function, parsing the
+        given string.
+
+        :param string: The string to be parsed.
+        :return: The parsed result.
+        """
         return self.parse(string)
 
     def check_word_start(self):
+        """
+        Processes the start of a word, adjusting for silent letters and
+        specific phonetic rules.
+        """
         # Skip silent letters when they start a word (because they're not
         # phonetic if they're silent)
         if self.word.get_letters(0, 2) in SILENT_STARTERS:
@@ -50,6 +61,10 @@ class DoubleMetaphone(object):
             self.position += 1
 
     def process_vowel(self):
+        """
+        Processes vowels in the word, applying specific phonetic rules based
+        on their position.
+        """
         self.next = (None, 1)
 
         # All starting vowels map to 'A'
@@ -57,6 +72,10 @@ class DoubleMetaphone(object):
             self.next = ("A", 1)
 
     def process_b(self):
+        """
+        Processes the letter 'B', applying specific phonetic rules and
+        handling edge cases.
+        """
         # "-mb", e.g., "dumb", already accounted for, see 'M'
         if self.word.buffer[self.position + 1] == "B":
             self.next = ("P", 2)
@@ -64,6 +83,10 @@ class DoubleMetaphone(object):
             self.next = ("P", 1)
 
     def process_c(self):
+        """
+        Processes the letter 'C', applying various phonetic rules based on
+        context and language origins.
+        """
         buffer = self.word.buffer
         position = self.position
         start_index = self.word.start_index
@@ -188,6 +211,10 @@ class DoubleMetaphone(object):
                     self.next = ("K", 1)
 
     def process_d(self):
+        """
+        Processes the letter 'D', handling special cases like 'DG' and double
+        'D' scenarios.
+        """
         if self.word.buffer[self.position : self.position + 2] == "DG":
             # e.g. 'edge'
             if self.word.buffer[self.position + 2] in ["I", "E", "Y"]:
@@ -200,12 +227,19 @@ class DoubleMetaphone(object):
             self.next = ("T", 1)
 
     def process_f(self):
+        """
+        Processes the letter 'F', including handling of double 'F'.
+        """
         if self.word.buffer[self.position + 1] == "F":
             self.next = ("F", 2)
         else:
             self.next = ("F", 1)
 
     def process_g(self):
+        """
+        Processes the letter 'G', considering various language influences and
+        phonetic rules.
+        """
         buffer = self.word.buffer
         position = self.position
         start_index = self.word.start_index
@@ -315,6 +349,10 @@ class DoubleMetaphone(object):
             self.next = ("K", 1)
 
     def process_h(self):
+        """
+        Processes the letter 'H', determining its phonetic representation
+        based on surrounding letters.
+        """
         # Keep if self.word.start_index & before vowel, or between 2 vowels
         if (
             self.position == self.word.start_index
@@ -325,6 +363,10 @@ class DoubleMetaphone(object):
             self.next = (None, 1)
 
     def process_j(self):
+        """
+        Processes the letter 'J', accounting for different language origins
+        and phonetic contexts.
+        """
         buffer = self.word.buffer
         position = self.position
         start_index = self.word.start_index
@@ -380,12 +422,19 @@ class DoubleMetaphone(object):
             self.next = self.next + (1,)
 
     def process_k(self):
+        """
+        Processes the letter 'K', including handling of double 'K'.
+        """
         if self.word.buffer[self.position + 1] == "K":
             self.next = ("K", 2)
         else:
             self.next = ("K", 1)
 
     def process_l(self):
+        """
+        Processes the letter 'L', with special consideration for double 'L'
+        and specific phonetic contexts.
+        """
         buffer = self.word.buffer
         position = self.position
         end_index = self.word.end_index
@@ -409,6 +458,10 @@ class DoubleMetaphone(object):
             self.next = ("L", 1)
 
     def process_m(self):
+        """
+        Processes the letter 'M', including handling of 'MB' at the end of
+        words.
+        """
         buffer = self.word.buffer
         position = self.position
         if (
@@ -423,12 +476,19 @@ class DoubleMetaphone(object):
             self.next = ("M", 1)
 
     def process_n(self):
+        """
+        Processes the letter 'N', including handling of double 'N'.
+        """
         if self.word.buffer[self.position + 1] == "N":
             self.next = ("N", 2)
         else:
             self.next = ("N", 1)
 
     def process_p(self):
+        """
+        Processes the letter 'P', considering special cases like 'PH', 'PP',
+        and 'PB'.
+        """
         if self.word.buffer[self.position + 1] == "H":
             self.next = ("F", 2)
 
@@ -439,12 +499,20 @@ class DoubleMetaphone(object):
             self.next = ("P", 1)
 
     def process_q(self):
+        """
+        Processes the letter 'Q', typically converting it to 'K' and handling
+        double 'Q'.
+        """
         if self.word.buffer[self.position + 1] == "Q":
             self.next = ("K", 2)
         else:
             self.next = ("K", 1)
 
     def process_r(self):
+        """
+        Processes the letter 'R', considering its position in a word and
+        specific phonetic contexts.
+        """
         buffer = self.word.buffer
         position = self.position
         end_index = self.word.end_index
@@ -465,6 +533,10 @@ class DoubleMetaphone(object):
             self.next = self.next + (1,)
 
     def process_s(self):
+        """
+        Processes the letter 'S', applying a range of phonetic rules based on
+        context and adjacent letters.
+        """
         buffer = self.word.buffer
         position = self.position
         start_index = self.word.start_index
@@ -554,6 +626,10 @@ class DoubleMetaphone(object):
                 self.next = self.next + (1,)
 
     def process_t(self):
+        """
+        Processes the letter 'T', handling special cases like 'TION', 'TCH',
+        'TH', and double 'T'.
+        """
         buffer = self.word.buffer
         position = self.position
         start_index = self.word.start_index
@@ -582,12 +658,19 @@ class DoubleMetaphone(object):
             self.next = ("T", 1)
 
     def process_v(self):
+        """
+        Processes the letter 'V', including handling of double 'V'.
+        """
         if self.word.buffer[self.position + 1] == "V":
             self.next = ("F", 2)
         else:
             self.next = ("F", 1)
 
     def process_w(self):
+        """
+        Processes the letter 'W', considering its phonetic representation
+        based on surrounding letters.
+        """
         buffer = self.word.buffer
         position = self.position
         start_index = self.word.start_index
@@ -621,6 +704,10 @@ class DoubleMetaphone(object):
             self.next = (None, 1)
 
     def process_x(self):
+        """
+        Processes the letter 'X', typically converting it to 'KS' and
+        considering its position in a word.
+        """
         buffer = self.word.buffer
         position = self.position
 
@@ -641,6 +728,10 @@ class DoubleMetaphone(object):
             self.next = self.next + (1,)
 
     def process_z(self):
+        """
+        Processes the letter 'Z', applying specific phonetic rules and
+        handling cases like 'ZH'.
+        """
         # Chinese pinyin e.g. 'zhao'
         if self.word.buffer[self.position + 1] == "H":
             self.next = ("J",)
@@ -665,6 +756,14 @@ class DoubleMetaphone(object):
             self.next = self.next + (1,)
 
     def parse(self, input):
+        """
+        Parses the input string into its phonetic representation using the
+        defined phonetic rules.
+
+        :param input: The string to be parsed.
+        :return: A list containing the primary and secondary phonetic
+          representations.
+        """
         self.word = Word(input)
         self.position = self.word.start_index
         self.primary_phone = ""
