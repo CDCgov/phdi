@@ -81,6 +81,9 @@ activeProblemsOnsetDate: "Condition.onsetDateTime"
 activeProblemsOnsetAge: "Condition.onsetAge.value"
 historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(code.coding.code = '10164-2').text"
 
+# Treatment Details
+planOfTreatment: "Bundle.entry.resource.section.where(title = 'Plan of Treatment').text"
+
 # Immunization Info
 immunizations: "Bundle.entry.resource.where(resourceType = 'Immunization')"
 immunizationsName: "Immunization.note.text"

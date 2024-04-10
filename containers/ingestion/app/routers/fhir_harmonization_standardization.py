@@ -6,12 +6,12 @@ from pydantic import BaseModel
 from pydantic import Field
 from pydantic import validator
 
+from app.fhir.harmonization.standardization import standardize_dob
+from app.fhir.harmonization.standardization import standardize_names
+from app.fhir.harmonization.standardization import standardize_phones
 from app.utils import check_for_fhir
 from app.utils import read_json_from_assets
 from app.utils import StandardResponse
-from phdi.fhir.harmonization.standardization import standardize_dob
-from phdi.fhir.harmonization.standardization import standardize_names
-from phdi.fhir.harmonization.standardization import standardize_phones
 
 router = APIRouter(
     prefix="/fhir/harmonization/standardization",
