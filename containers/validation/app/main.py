@@ -17,9 +17,9 @@ from app.validation.validation import validate_ecr
 #  via endpoint
 ecr_config = load_ecr_config()
 
-# Instantiate FastAPI via PHDI's BaseService class
+# Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
-    service_name="PHDI Validation Service",
+    service_name="DIBBs Validation Service",
     service_path="/validation",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
