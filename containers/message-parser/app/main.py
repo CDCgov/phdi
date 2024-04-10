@@ -30,9 +30,9 @@ from fastapi import status
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
 
-# Instantiate FastAPI via PHDI's BaseService class
+# Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
-    service_name="PHDI Message Parser",
+    service_name="DIBBs Message Parser",
     service_path="/message-parser",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
