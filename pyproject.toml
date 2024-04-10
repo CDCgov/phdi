@@ -80,11 +80,16 @@ target-version = "py310"
 show-fixes = true
 
 [tool.ruff.lint]
-select = ["E4", "E7", "E9", "F", "D102", "D103", "D104", "D105", "D106"] # Defaults
-ignore = ["I"]                   # ignore isort rules
+select = ["E4", "E7", "E9", "F", "I", "D102", "D103", "D104", "D105", "D106"] # Defaults
 
 [tool.ruff.lint.per-file-ignores]
 "**/tests/*" = ["D"]
 "**/__init__.py" = ["D"]
 "**/phdi/**/*" = ["D"]
 "**/utils/zip-search/**/*" = ["D"]
+
+[tool.ruff.lint.isort]
+# The following settings reduce the number of changes from reorder-python-imports
+force-single-line = true
+# lines-after-imports = 1
+order-by-type = false

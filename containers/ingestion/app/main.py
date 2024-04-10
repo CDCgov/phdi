@@ -1,12 +1,13 @@
 from pathlib import Path
 
+from dibbs.base_service import BaseService
+
 from app.config import get_settings
 from app.routers import cloud_storage
 from app.routers import fhir_geospatial
 from app.routers import fhir_harmonization_standardization
 from app.routers import fhir_linkage_link
 from app.routers import fhir_transport_http
-from dibbs.base_service import BaseService
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()

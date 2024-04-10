@@ -7,7 +7,6 @@ from .xml_utils import validate_xml_attributes
 from .xml_utils import validate_xml_elements
 from .xml_utils import validate_xml_value
 
-
 ERROR_MESSAGES = {
     "fatal": [],
     "errors": [],

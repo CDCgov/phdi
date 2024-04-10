@@ -5,10 +5,11 @@ import pathlib
 import subprocess
 from typing import Literal
 
+from sqlalchemy import text
+
 from app.config import get_settings
 from app.linkage.dal import DataAccessLayer
 from app.linkage.mpi import DIBBsMPIConnectorClient
-from sqlalchemy import text
 
 
 def read_json_from_assets(filename: str):

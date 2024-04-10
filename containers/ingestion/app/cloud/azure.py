@@ -5,13 +5,14 @@ from typing import List
 from typing import Literal
 from typing import Union
 
-from app.cloud.core import BaseCloudStorageConnection
-from app.cloud.core import BaseCredentialManager
 from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 from azure.storage.blob import BlobServiceClient
 from azure.storage.blob import ContainerClient
+
+from app.cloud.core import BaseCloudStorageConnection
+from app.cloud.core import BaseCredentialManager
 
 
 class AzureCredentialManager(BaseCredentialManager):

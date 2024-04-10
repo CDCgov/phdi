@@ -3,10 +3,11 @@ from typing import List
 from typing import Union
 
 import google.auth.transport.requests
-from app.cloud.core import BaseCloudStorageConnection
-from app.cloud.core import BaseCredentialManager
 from google.auth.credentials import Credentials
 from google.cloud import storage
+
+from app.cloud.core import BaseCloudStorageConnection
+from app.cloud.core import BaseCredentialManager
 
 
 class GcpCredentialManager(BaseCredentialManager):

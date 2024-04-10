@@ -2,6 +2,7 @@ from typing import Literal
 from typing import Union
 
 import requests
+
 from app.geospatial.core import BaseGeocodeClient
 from app.geospatial.core import GeocodeResult
 from app.transport import http_request_with_retry

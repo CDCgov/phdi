@@ -2,6 +2,7 @@ from typing import Union
 
 import polling
 import requests
+
 from app.cloud.core import BaseCredentialManager
 from app.fhir.transport.http import http_request_with_reauth
 
