@@ -62,7 +62,17 @@ class UseCaseQueryRequest(BaseModel):
 
 @app.post("/use-case-query/{use_case}")
 async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
-    # Connect to FHIR Server
+    """
+    Processes a use case query based on the specified use case and input
+    parameters.
+
+    :param use_case: The use case identifier.
+    :param input: Pydantic model with query parameters and FHIR server
+        selection.
+    :return: FHIR server response, typically JSON of queried FHIR resources.
+    :raises HTTPException: For patient lookup failure or FHIR server errors.
+    :raises XMLSyntaxError: For invalid XML when merging RR data into eICR.
+    """
     fhir_host = FHIR_SERVERS[input.fhir_server]["hostname"]
     session = requests.Session()
     fhir_server_config = FHIR_SERVERS[input.fhir_server]
@@ -200,6 +210,15 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
 
 
 def concatenate_queries(queries, session):
+    """
+    Concatenates responses from multiple FHIR server queries into a single
+    response structure.
+
+    :param queries: A list of query URLs to be executed.
+    :param session: The session used to execute queries.
+    :return: A single response object combining "entry" lists from all queries,
+        with a "total" key indicating the cumulative number of entries.
+    """
     use_case_response = None
     for query in queries:
         print(query)
@@ -220,9 +239,11 @@ app.mount(
 )
 
 
-# Root endpoint to serve the HTML page
 @app.get("/patient-search")
 async def root():
+    """
+    Returns the patient search page as a FileResponse.
+    """
     return FileResponse("./app/patient-search/index.html")
 
 

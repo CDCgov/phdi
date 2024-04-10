@@ -22,14 +22,29 @@ class AzureCredentialManager(BaseCredentialManager):
 
     @property
     def resource_location(self) -> str:
+        """
+        The location of the resource.
+
+        :return: The resource location as a string.
+        """
         return self.__resource_location
 
     @property
     def scope(self) -> str:
+        """
+        The scope of access.
+
+        :return: The scope as a string.
+        """
         return self.__scope
 
     @property
     def access_token(self) -> AccessToken:
+        """
+        The access token for authentication.
+
+        :return: An instance of AccessToken representing the access token.
+        """
         return self.__access_token
 
     def __init__(self, resource_location: str = None, scope: str = None):
@@ -111,10 +126,20 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
     @property
     def storage_account_url(self) -> str:
+        """
+        The URL of the Azure Storage account.
+
+        :return: The storage account URL as a string.
+        """
         return self.__storage_account_url
 
     @property
     def cred_manager(self) -> AzureCredentialManager:
+        """
+        The credential manager for Azure services.
+
+        :return: An instance of AzureCredentialManager.
+        """
         return self.__cred_manager
 
     def __init__(self, storage_account_url: str, cred_manager: AzureCredentialManager):

@@ -307,6 +307,13 @@ def add_phone_numbers(column_name: str, data: pd.DataFrame) -> pd.DataFrame:
 
 
 def format_to_LAC_MPI_parquet_schema(df):
+    """
+    Formats a DataFrame to conform to the Los Angeles County Master Patient
+    Index (LAC MPI) Parquet schema.
+
+    :param df (pd.DataFrame): The original DataFrame to be formatted.
+    :return: The formatted DataFrame according to the LAC MPI Parquet schema.
+    """
     df = df[
         [
             "FIRST",
