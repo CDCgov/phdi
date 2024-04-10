@@ -184,7 +184,8 @@ class ParseMessageInput(BaseModel):
 
         :param cls: The class on which this validator is defined.
         :param values: The dictionary of field values to validate.
-        :return: The validated (and potentially modified) dictionary of field values.
+        :return: The validated (and potentially modified) dictionary of field
+            values.
         """
         return validate_secondary_reference_fields(values)
 

@@ -11,6 +11,7 @@ class FhirRepository(metaclass=abc.ABCMeta):
         Currently not implemented.
 
         :param entity: The FHIR data model entity to be persisted.
-        :raises NotImplementedError: Indicates the method is not yet implemented.
+        :raises NotImplementedError: Indicates the method is not yet
+            implemented.
         """
         raise NotImplementedError()

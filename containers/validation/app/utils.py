@@ -112,14 +112,13 @@ def check_for_and_extract_rr_data(input: dict):
     the electronic Initial Case Report (eICR) message if present.
 
     :param input: A dictionary containing the message details. Expected keys
-                  are 'rr_data', 'message_type', and 'message'. 'rr_data'
-                  should contain the RR XML data, 'message_type' should specify
-                  the type of the message, and 'message' should contain the
-                  eICR XML data.
+        are 'rr_data', 'message_type', and 'message'. 'rr_data' should contain
+        the RR XML data, 'message_type' should specify the type of the message,
+        and 'message' should contain the eICR XML data.
     :return: The updated input dictionary with the 'message' key now containing
-             the merged eICR and RR data if applicable.
-    :raises HTTPException: If RR data is provided for a non-'ecr' message type or if
-            either the RR data or the eICR message is not valid XML.
+        the merged eICR and RR data if applicable.
+    :raises HTTPException: If RR data is provided for a non-'ecr' message type
+        or if either the RR data or the eICR message is not valid XML.
     """
     if input["rr_data"] is not None:
         if input["message_type"] != "ecr":

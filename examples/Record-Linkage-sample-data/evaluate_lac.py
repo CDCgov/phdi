@@ -122,10 +122,12 @@ def phdi_linkage_algorithm(
     Executes a patient health data linkage algorithm on the provided dataset.
 
     :param data: The dataset to perform linkage on, structured as a DataFrame.
-    :param cluster_ratio: The clustering ratio used for linkage clustering, if applicable. Default is None.
-    :param use_log_odds_enhancement: Flag to enable/disable log odds ratio enhancement for feature comparison. Default is True.
-    :return: A dictionary containing the compiled list of matches identified by the
-        linkage algorithm across all passes.
+    :param cluster_ratio: The clustering ratio used for linkage clustering, if
+        applicable. Default is None.
+    :param use_log_odds_enhancement: Flag to enable/disable log odds ratio
+        enhancement for feature comparison. Default is True.
+    :return: A dictionary containing the compiled list of matches identified
+        by the linkage algorithm across all passes.
     """
     # func 0 maps to birthdate, func 2 to first name, func 3 to last name
     if use_log_odds_enhancement:
@@ -202,7 +204,8 @@ def determine_true_matches_in_synthetic_pd_dataset(data: pd.DataFrame):
 
 def set_record_id(data: pd.DataFrame):
     """
-    Sets the DataFrame index as a new 'ID' column and removes the old 'Id' column.
+    Sets the DataFrame index as a new 'ID' column and removes the old 'Id'
+    column.
 
     :param data: The DataFrame to modify.
     :return: The updated DataFrame with a new 'ID' column.
@@ -214,7 +217,8 @@ def set_record_id(data: pd.DataFrame):
 
 def add_metaphone_columns_to_data(data: pd.DataFrame):
     """
-    Adds Double Metaphone encoded columns for first and last names to the DataFrame.
+    Adds Double Metaphone encoded columns for first and last names to the
+    DataFrame.
 
     :param data: The DataFrame with 'FIRST' and 'LAST' name columns.
     :return: The modified DataFrame including Metaphone encoded columns.
@@ -277,7 +281,8 @@ def get_indices_affected_by_misses(missed_matches: dict):
     """
     Gathers unique indices from missed matches and their corresponding records.
 
-    :param missed_matches: Dict with keys as root record indices and values as sets of missed match indices.
+    :param missed_matches: Dict with keys as root record indices and values as
+                           sets of missed match indices.
     :return: Sorted list of unique indices affected by missed matches.
     """
     affected_records = set()
@@ -296,7 +301,8 @@ def display_statistical_evaluation(
 
     :param matches: Dict of matches found by the linkage algorithm.
     :param true_matches: Dict of known true matches.
-    :param cluster_mode_used (bool, optional): Flag indicating if clustering was used in linkage. Defaults to False.
+    :param cluster_mode_used: Flag indicating if clustering was used in
+                              linkage. Defaults to False.
     """
     sensitivitiy, specificity, ppv, f1 = score_linkage_vs_truth(
         matches, true_matches, DATA_SIZE, cluster_mode_used
