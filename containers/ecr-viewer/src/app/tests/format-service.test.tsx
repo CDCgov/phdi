@@ -101,9 +101,27 @@ describe("formatTablesToJSON", () => {
   it("should return an empty array when HTML string input has no tables", () => {
     const htmlString =
       "<div><h1>Hello, World!</h1><p>This HTML string has no tables.</p></div>";
-    const expectedResult: any = [];
+    const expectedResult: [] = [];
 
     const result = formatTablesToJSON(htmlString);
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  it("should return the JSON object given a table html string", () => {
+    const tableString =
+      "<table><caption>Pending Results</caption><thead><tr><th>Name</th></tr></thead><tbody><tr data-id='procedure9'><td>test1</td></tr></tbody></table><table><caption>Scheduled Orders</caption></caption><thead><tr><th>Name</th></tr></thead><tbody><tr data-id='procedure10'><td>test2</td></tr></tbody></table>documented as of this encounter\n";
+    const expectedResult = [
+      {
+        resultName: "Pending Results",
+        tables: [[{ Name: { metadata: {}, value: "test1" } }]],
+      },
+      {
+        resultName: "Scheduled Orders",
+        tables: [[{ Name: { metadata: {}, value: "test2" } }]],
+      },
+    ];
+    const result = formatTablesToJSON(tableString);
 
     expect(result).toEqual(expectedResult);
   });
