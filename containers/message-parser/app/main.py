@@ -21,19 +21,18 @@ from app.utils import load_parsing_schema
 from app.utils import read_json_from_assets
 from app.utils import search_for_required_values
 from app.utils import transform_to_phdc_input_data
+from dibbs.base_service import BaseService
 from fastapi import Body
 from fastapi import Response
 from fastapi import status
-
-from phdi.containers.base_service import BaseService
 
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
 
-# Instantiate FastAPI via PHDI's BaseService class
+# Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
-    service_name="PHDI Message Parser",
+    service_name="DIBBs Message Parser",
     service_path="/message-parser",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
