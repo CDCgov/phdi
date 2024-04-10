@@ -1,6 +1,13 @@
-pydantic==1.10.9
-fastapi>=0.109.1
+../dibbs
+azure-identity
+azure-keyvault-secrets
+azure-storage-blob
+cryptography==42.0.5
+fhirpathpy
 frozendict
-phdi @ git+https://github.com/CDCgov/phdi@main
-uvicorn
+google-auth
+google-cloud-storage
 httpx
+lxml
+requests
+urllib3

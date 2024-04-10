@@ -21,11 +21,10 @@ from app.utils import load_parsing_schema
 from app.utils import read_json_from_assets
 from app.utils import search_for_required_values
 from app.utils import transform_to_phdc_input_data
+from dibbs.base_service import BaseService
 from fastapi import Body
 from fastapi import Response
 from fastapi import status
-
-from phdi.containers.base_service import BaseService
 
 
 # Read settings immediately to fail fast in case there are invalid values.
