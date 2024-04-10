@@ -116,6 +116,7 @@ async function patient_id_query(input: PatientIdQueryRequest) {
 }
 
 export async function use_case_query(input: UseCaseQueryRequest) {
+  console.log("input:", input);
   // Get patient ID and patient resource
   const patient_resource_query_response = await patient_id_query({
     fhir_server: input.fhir_server,
@@ -126,18 +127,45 @@ export async function use_case_query(input: UseCaseQueryRequest) {
   const { patient_id, fhir_host, init, use_case_query_response } =
     patient_resource_query_response;
 
-  // Query for social determinants
-  const social_determinants_query_response = await social_determinants_query({
-    fhir_host: fhir_host,
-    init: init,
-    patient_id: patient_id,
-  });
+  if (input.use_case === "social-determinants") {
+    // Query for social determinants
+    const social_determinants_query_response = await social_determinants_query({
+      fhir_host: fhir_host,
+      init: init,
+      patient_id: patient_id,
+    });
+    // Collect results
+    use_case_query_response["entry"] = [
+      ...use_case_query_response["entry"],
+      ...social_determinants_query_response["entry"],
+    ];
+  } else if (input.use_case === "newborn-screening") {
+    // Query for newborn screening
+    const newborn_screening_query_response = await newborn_screening_query({
+      fhir_host: fhir_host,
+      init: init,
+      patient_id: patient_id,
+    });
 
-  // Collect results
-  use_case_query_response["entry"] = [
-    ...use_case_query_response["entry"],
-    ...social_determinants_query_response["entry"],
-  ];
+    // Collect results
+    use_case_query_response["entry"] = [
+      ...use_case_query_response["entry"],
+      ...newborn_screening_query_response["entry"],
+    ];
+  } else if (input.use_case === "syphilis") {
+    // Query for syphilis
+    const syphilis_query_response = await syphilis_query({
+      fhir_host: fhir_host,
+      init: init,
+      patient_id: patient_id,
+    });
+
+    // Collect results
+    use_case_query_response["entry"] = [
+      ...use_case_query_response["entry"],
+      ...syphilis_query_response["entry"],
+    ];
+  }
 
   return {
     patient_id: patient_id,
@@ -148,9 +176,129 @@ export async function use_case_query(input: UseCaseQueryRequest) {
 async function social_determinants_query(
   input: PatientResourceRequest
 ): Promise<PatientResourceQueryResponse> {
-  const query = `/Patient?_id=${input.patient_id}`;
+  const query = `/Observation?subject=${input.patient_id}&category=social-history`;
   const query_response = await fetch(input.fhir_host + query, input.init);
   const response = await query_response.json();
 
+  // Check for errors
+  if (response.status !== 200) {
+    console.log("response:", response);
+    throw new Error(`Patient search failed. Status: ${response.status}`);
+  }
+
+  if (response.total === 0) {
+    throw new Error("No patient found.");
+  }
+
   return response;
 }
+
+async function newborn_screening_query(
+  input: PatientResourceRequest
+): Promise<PatientResourceQueryResponse> {
+  const loincs: Array<string> = [
+    "73700-7",
+    "73698-3",
+    "54108-6",
+    "54109-4",
+    "58232-0",
+    "57700-7",
+    "73739-5",
+    "73742-9",
+    "2708-6",
+    "8336-0",
+  ];
+  const loincFilter: string = "code=" + loincs.join(",");
+
+  const query = `/Observation?subject=${input.patient_id}&code=${loincFilter}`;
+  const query_response = await fetch(input.fhir_host + query, input.init);
+  const response = await query_response.json();
+  // Check for errors
+  if (response.status !== 200) {
+    console.log("response:", response);
+    throw new Error(`Patient search failed. Status: ${response.status}`);
+  }
+
+  if (response.total === 0) {
+    throw new Error("No patient found.");
+  }
+
+  return response;
+}
+
+async function syphilis_query(
+  input: PatientResourceRequest
+): Promise<PatientResourceQueryResponse> {
+  const loincs: Array<string> = ["LP70657-9", "98212-4"];
+  const snomed: Array<string> = ["76272004"];
+  const loincFilter: string = loincs.join(",");
+  const snomedFilter: string = snomed.join(",");
+
+  const query = `/Observation?subject=${input.patient_id}&code=${loincFilter}`;
+  const query_response = await fetch(input.fhir_host + query, input.init);
+  const response = await query_response.json();
+
+  const diagnositic_report_query = `/DiagnosticReport?subject=${input.patient_id}&code=${loincFilter}`;
+  const diagnositic_report_query_response = await fetch(
+    input.fhir_host + diagnositic_report_query,
+    input.init
+  );
+  const diagnostic_response = await diagnositic_report_query_response.json();
+
+  const condition_query = `/Condition?subject=${input.patient_id}&code=${snomedFilter}`;
+  const condition_query_response = await fetch(
+    input.fhir_host + condition_query,
+    input.init
+  );
+  const condition_response = await condition_query_response.json();
+  const condition_id = condition_response.entry[0].resource.id;
+
+  const encounter_query = `/Encounter?subject=${input.patient_id}&reason-reference=${condition_id}`;
+  const encounter_query_response = await fetch(
+    input.fhir_host + encounter_query,
+    input.init
+  );
+  const encounter_response = await encounter_query_response.json();
+
+  // // Check for errors
+  // if (response.status !== 200) {
+  //   console.log("response:", response);
+  //   throw new Error(`Patient search failed. Status: ${response.status}`);
+  // }
+
+  // if (response.total === 0) {
+  //   throw new Error("No patient found.");
+  // }
+
+  // Collect results
+  console.log("response:", response);
+  response["entry"] = [
+    ...response["entry"],
+    ...diagnostic_response["entry"],
+    // ...condition_response["entry"],
+    ...encounter_response["entry"],
+  ];
+
+  return response;
+}
+
+// async function add_loinc_filter(input: Array<string>): Promise<string> {
+//   const loincFilter: string = "code=" + input.join(",");
+
+//   return loincFilter;
+// }
+
+// async function use_case_sub_query() {
+//   let
+//   // use input.use_case to determine if there are LOINCS
+//   // if there are LOINCS, join them together and query for the appropriate resources
+//   // Check for errors
+//   if (response.status !== 200) {
+//     console.log("response:", response);
+//     throw new Error(`Patient search failed. Status: ${response.status}`);
+//   }
+
+//   if (response.total === 0) {
+//     throw new Error("No patient found.");
+//   }
+// }

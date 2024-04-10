@@ -7,10 +7,11 @@ import { Fieldset, Label, TextInput, DatePicker, Select } from "@trussworks/reac
 export function PatientSearch() {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [fhirServer, setFhirServer] = useState<"meld" | "ehealthexchange">("meld");
+  const [fhirServer, setFhirServer] = useState<"meld" | "ehealthexchange">();
   const [phone, setPhone] = useState<string>("");
   const [dob, setDOB] = useState<string>("");
-
+  const [mrn, setMRN] = useState<string>("");
+  const [useCase, setUseCase] = useState<"social-determinants" | "newborn-screening" | "syphilis"|"cancer">();
 
   // Set a mode to switch between search and view
   const [mode, setMode] = useState<"search" | "view">("search");
@@ -23,7 +24,7 @@ export function PatientSearch() {
     event.preventDefault();
     setLoading(true);
     console.log("Event:", event)
-    const use_case_query_response = await use_case_query({ use_case: "social-determinants", fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
+    const use_case_query_response = await use_case_query({ use_case: useCase, fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
     console.log("Patient ID:", use_case_query_response)
     setUseCaseQueryResponse(use_case_query_response);
     setMode("view");
@@ -182,18 +183,21 @@ export function PatientSearch() {
             <div className="grid-row grid-gap">
               <div className="grid-col-7">
                 <Label htmlFor="use_case">Use case</Label>
-                <Select id="use_case" name="use_case">
+                <Select id="use_case" name="use_case" value={useCase} onChange={(event) => {
+                  setUseCase(event.target.value as "social-determinants" | "newborn-screening" | "syphilis" | "cancer");
+                }} 
+                required>
                   <option value="" disabled selected></option>
                   <option value="newborn-screening">Newborn Screening</option>
                   <option value="syphilis">Syphilis</option>
                   <option value="cancer">Cancer</option>
-                  <option value="sdoh">Social Determinants of Health</option>
+                  <option value="social-determinants">Social Determinants of Health</option>
                 </Select>
               </div>
               
               <div className="grid-col-5">
                 <Label htmlFor="fhir_server">FHIR Server</Label>
-                <Select id="fhirServer" name="fhir_server" value={fhirServer} onChange={(event) => {
+                <Select id="fhir_server" name="fhir_server" value={fhirServer} onChange={(event) => {
                   setFhirServer(event.target.value as "meld" | "ehealthexchange");
                 }}
                   required>
