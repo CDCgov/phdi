@@ -2,6 +2,7 @@ from typing import List
 from typing import Literal
 
 import requests
+
 from app.cloud.core import BaseCredentialManager
 from app.transport import http_request_with_retry
 

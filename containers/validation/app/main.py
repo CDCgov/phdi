@@ -1,6 +1,9 @@
 from pathlib import Path
 from typing import Annotated
 
+from dibbs.base_service import BaseService
+from fastapi import Body
+
 from app.constants import ValidateInput
 from app.constants import ValidateResponse
 from app.utils import check_for_and_extract_rr_data
@@ -8,8 +11,6 @@ from app.utils import load_ecr_config
 from app.utils import read_json_from_assets
 from app.utils import validate_error_types
 from app.validation.validation import validate_ecr
-from dibbs.base_service import BaseService
-from fastapi import Body
 
 # TODO: Remove hard coded location for config path
 # and/or provide a mechanism to pass in configuration

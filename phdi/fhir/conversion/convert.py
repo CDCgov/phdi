@@ -9,7 +9,6 @@ from phdi.fhir.transport import http_request_with_reauth
 from phdi.harmonization import standardize_hl7_datetimes
 from phdi.transport.http import http_request_with_retry
 
-
 CCDA_CODES_TO_CONVERSION_RESOURCE = {
     "34133-9": "CCD",
     "11488-4": "ConsultationNote",

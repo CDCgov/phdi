@@ -1,9 +1,5 @@
 from typing import Optional
 
-from app.fhir.linkage.link import add_patient_identifier_in_bundle
-from app.utils import check_for_fhir_bundle
-from app.utils import search_for_required_values
-from app.utils import StandardResponse
 from fastapi import APIRouter
 from fastapi import Response
 from fastapi import status
@@ -11,6 +7,10 @@ from pydantic import BaseModel
 from pydantic import Field
 from pydantic import validator
 
+from app.fhir.linkage.link import add_patient_identifier_in_bundle
+from app.utils import check_for_fhir_bundle
+from app.utils import search_for_required_values
+from app.utils import StandardResponse
 
 router = APIRouter(
     prefix="/fhir/linkage/link",

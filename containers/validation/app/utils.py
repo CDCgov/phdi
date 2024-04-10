@@ -3,10 +3,11 @@ import pathlib
 import re
 
 import yaml
-from app.fhir.conversion import add_rr_data_to_eicr
 from fastapi import HTTPException
 from fastapi import status
 from lxml.etree import XMLSyntaxError
+
+from app.fhir.conversion import add_rr_data_to_eicr
 
 VALID_ERROR_TYPES = ["fatal", "errors", "warnings", "information"]
 # TODO: remove the hard coding of the location of the config file
@@ -106,7 +107,19 @@ def validate_config(config: dict):
 
 
 def check_for_and_extract_rr_data(input: dict):
-    # eCR is the only message type that should have accompanying RR
+    """
+    Checks the input for Reportability Response (RR) data and merges it into
+    the electronic Initial Case Report (eICR) message if present.
+
+    :param input: A dictionary containing the message details. Expected keys
+        are 'rr_data', 'message_type', and 'message'. 'rr_data' should contain
+        the RR XML data, 'message_type' should specify the type of the message,
+        and 'message' should contain the eICR XML data.
+    :return: The updated input dictionary with the 'message' key now containing
+        the merged eICR and RR data if applicable.
+    :raises HTTPException: If RR data is provided for a non-'ecr' message type
+        or if either the RR data or the eICR message is not valid XML.
+    """
     if input["rr_data"] is not None:
         if input["message_type"] != "ecr":
             raise HTTPException(
@@ -129,4 +142,13 @@ def check_for_and_extract_rr_data(input: dict):
 
 
 def read_json_from_assets(filename: str):
+    """
+    Reads and returns the content of a JSON file from the assets directory
+    as a dictionary.
+
+    :param filename: Name of the JSON file, including the '.json' extension.
+    :return: Content of the JSON file.
+    :raises FileNotFoundError: If the file is not in the assets directory.
+    :raises JSONDecodeError: If the file content is not valid JSON.
+    """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
