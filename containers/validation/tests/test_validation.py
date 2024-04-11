@@ -13,20 +13,12 @@ test_error_types = ["errors", "warnings", "information"]
 
 # Test bad file
 sample_file_bad = open(
-    pathlib.Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "validation"
-    / "ecr_sample_input_bad.xml"
+    pathlib.Path(__file__).parent / "assets" / "ecr_sample_input_bad.xml"
 ).read()
 
 # Test good file with RR data
 sample_file_good_with_RR = open(
-    pathlib.Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "validation"
-    / "ecr_sample_input_good_with_RR.xml"
+    pathlib.Path(__file__).parent / "assets" / "ecr_sample_input_good_with_RR.xml"
 ).read()
 
 

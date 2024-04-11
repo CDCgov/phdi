@@ -43,11 +43,7 @@ def test_validate_error_types():
 
 def test_validate_config_bad():
     with open(
-        pathlib.Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "validation"
-        / "sample_ecr_config_bad.yaml",
+        pathlib.Path(__file__).parent / "assets" / "sample_ecr_config_bad.yaml",
         "r",
     ) as file:
         config_bad = yaml.safe_load(file)
@@ -57,11 +53,7 @@ def test_validate_config_bad():
 
 def test_validate_config_good():
     with open(
-        pathlib.Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "validation"
-        / "sample_ecr_config.yaml",
+        pathlib.Path(__file__).parent / "assets" / "sample_ecr_config.yaml",
         "r",
     ) as file:
         config = yaml.safe_load(file)
