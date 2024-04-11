@@ -7,13 +7,14 @@ import classNames from "classnames";
 
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
- * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
+ * @param resources - An array of FHIR Resources representing the data entries.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @param columns - An array of objects representing column information.
  *                                      The order of columns in the array determines the order of appearance.
- * @param {string} caption - The caption for the table.
- * @param {boolean} [outerBorder=true] - Optional. Determines whether to include an outer border for the table. Default is true.
- * @returns {React.JSX.Element} - A formatted table React element.
+ * @param caption - The caption for the table.
+ * @param fixed - Determins if the table columns are a fixed width.
+ * @param [outerBorder] - Optional. Determines whether to include an outer border for the table. Default is true.
+ * @returns - A formatted table React element.
  */
 export const evaluateTable = (
   resources: FhirResource[],
@@ -75,7 +76,6 @@ export const evaluateTable = (
 
 /**
  * Evaluates a reference in a FHIR bundle.
- *
  * @param fhirBundle - The FHIR bundle containing resources.
  * @param mappings - Path mappings for resolving references.
  * @param ref - The reference string (e.g., "Patient/123").
@@ -95,10 +95,9 @@ export const evaluateReference = (
 
 /**
  * Evaluates the FHIR path and returns the appropriate string value. Supports choice elements
- *
- * @param {FhirResource} entry - The FHIR resource to evaluate.
- * @param {string} path - The path within the resource to extract the value from.
- * @returns {string} - The evaluated value as a string.
+ * @param entry - The FHIR resource to evaluate.
+ * @param path - The path within the resource to extract the value from.
+ * @returns - The evaluated value as a string.
  */
 export const evaluateValue = (entry: FhirResource, path: string): string => {
   let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];

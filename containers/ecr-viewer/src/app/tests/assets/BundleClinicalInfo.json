@@ -249,17 +249,17 @@
             ]
           },
           {
-            "id": "7dbd51e8-1c15-8cfa-cbce-f6f4b9a1ed5d",
+            "id": "eb08daad-1e00-4280-4846-4276acb00888",
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Plan of Treatment</div>"
+              "div": "<table><caption>Pending Results</caption> <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Date/Time</th></tr></thead><tbody><tr data-id='procedure11'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure12'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure13'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure14'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure15'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure16'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure17'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure18'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure19'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure20'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure21'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure22'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure23'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
                 {
                   "code": "18776-5",
-                  "display": "Treatment Plan",
+                  "display": "Plan of care note",
                   "system": "http://loinc.org"
                 }
               ]

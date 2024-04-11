@@ -1,27 +1,21 @@
 import json
 import logging
+import os
 import pathlib
 import subprocess
 from typing import Literal
 
-from app.config import get_settings
-from app.linkage.dal import DataAccessLayer
 from sqlalchemy import text
 
-
-def load_mpi_env_vars_os():
-    """
-    Simple helper function to load some of the environment variables
-    needed to make a database connection as part of the DB migrations.
-    """
-    dbname = get_settings().get("mpi_dbname")
-    user = get_settings().get("mpi_user")
-    password = get_settings().get("mpi_password")
-    host = get_settings().get("mpi_host")
-    return dbname, user, password, host
+from app.config import get_settings
+from app.linkage.dal import DataAccessLayer
+from app.linkage.mpi import DIBBsMPIConnectorClient
 
 
 def read_json_from_assets(filename: str):
+    """
+    Loads a JSON file from the 'assets' directory.
+    """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
 
 
@@ -112,7 +106,45 @@ def run_migrations():
         raise Exception(validation_response.stderr.decode("utf-8"))
 
 
-def _clean_up(dal: DataAccessLayer):
+def set_mpi_env_vars():
+    """
+    Utility function for testing purposes that sets the environment variables
+    of the testing suite to prespecified valid values, and clears out any
+    old values from the DB Settings cache.
+    """
+    os.environ["mpi_db_type"] = "postgres"
+    os.environ["mpi_dbname"] = "testdb"
+    os.environ["mpi_user"] = "postgres"
+    os.environ["mpi_password"] = "pw"
+    os.environ["mpi_host"] = "localhost"
+    os.environ["mpi_port"] = "5432"
+    get_settings.cache_clear()
+
+
+def pop_mpi_env_vars():
+    """
+    Utility function for testing purposes that removes the environment variables
+    used for database access from the testing environment.
+    """
+    os.environ.pop("mpi_db_type", None)
+    os.environ.pop("mpi_dbname", None)
+    os.environ.pop("mpi_user", None)
+    os.environ.pop("mpi_password", None)
+    os.environ.pop("mpi_host", None)
+    os.environ.pop("mpi_port", None)
+
+
+def _clean_up(dal: DataAccessLayer | None = None) -> None:
+    """
+    Utility function for testing purposes that makes tests idempotent by cleaning up
+    database state after each test run.
+
+    :param dal: Optionally, a DataAccessLayer currently connected to an instantiated
+      MPI database. If not provided, the default DIBBsMPIConnectorClient is used
+      to perform cleanup operations.
+    """
+    if dal is None:
+        dal = DIBBsMPIConnectorClient().dal
     with dal.engine.connect() as pg_connection:
         pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))

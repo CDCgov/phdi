@@ -3,6 +3,13 @@ from pathlib import Path
 from typing import Annotated
 from typing import Optional
 
+from dibbs.base_service import BaseService
+from fastapi import Body
+from fastapi import Response
+from fastapi import status
+from pydantic import BaseModel
+from pydantic import Field
+
 from app.linkage.algorithms import DIBBS_BASIC
 from app.linkage.algorithms import DIBBS_ENHANCED
 from app.linkage.link import add_person_resource
@@ -11,12 +18,6 @@ from app.linkage.mpi import DIBBsMPIConnectorClient
 from app.utils import get_settings
 from app.utils import read_json_from_assets
 from app.utils import run_migrations
-from dibbs.base_service import BaseService
-from fastapi import Body
-from fastapi import Response
-from fastapi import status
-from pydantic import BaseModel
-from pydantic import Field
 
 # Ensure MPI is configured as expected.
 run_migrations()
@@ -25,7 +26,7 @@ MPI_CLIENT = DIBBsMPIConnectorClient(
     pool_size=settings["connection_pool_size"],
     max_overflow=settings["connection_pool_max_overflow"],
 )
-# Instantiate FastAPI via PHDI's BaseService class
+# Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
     service_name="DIBBs Record Linkage Service",
     service_path="/record-linkage",

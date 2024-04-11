@@ -19,8 +19,11 @@ import {
   formatStartEndDateTime,
   formatVitals,
   formatDateTime,
+  formatTablesToJSON,
+  TableRow,
 } from "@/app/format-service";
 import { evaluateReference, evaluateTable } from "./evaluate-service";
+import { Table } from "@trussworks/react-uswds";
 
 export interface DisplayData {
   title?: string;
@@ -50,6 +53,10 @@ export interface CompleteData {
   unavailableData: DisplayData[];
 }
 
+export const noData = (
+  <span className="no-data text-italic text-base">No data</span>
+);
+
 export const evaluatePatientName = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
@@ -78,6 +85,14 @@ export const extractPatientAddress = (
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
+/**
+ * Extracts a specific location resource from a given FHIR bundle based on defined path mappings.
+ * @param fhirBundle - The FHIR bundle object containing various resources, including location resources.
+ * @param fhirPathMappings - An object containing FHIR path mappings, which should include a mapping
+ *   for `facilityLocation` that determines how to find the location reference within the bundle.
+ * @returns The location resource object from the FHIR bundle that matches the UID derived from the
+ *   facility location reference. If no matching resource is found, the function returns `undefined`.
+ */
 function extractLocationResource(
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
@@ -163,9 +178,9 @@ export const evaluateEncounterDate = (
 
 /**
  * Extracts travel history information from the provided FHIR bundle based on the FHIR path mappings.
- * @param {Bundle} fhirBundle - The FHIR bundle containing patient travel history data.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {string | undefined} - A formatted string representing the patient's travel history, or undefined if no relevant data is found.
+ * @param fhirBundle - The FHIR bundle containing patient travel history data.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns - A formatted string representing the patient's travel history, or undefined if no relevant data is found.
  */
 const extractTravelHistory = (
   fhirBundle: Bundle,
@@ -197,10 +212,10 @@ const extractTravelHistory = (
 
 /**
  * Calculates the age of a patient to a given date or today.
- * @param {Bundle} fhirBundle - The FHIR bundle containing patient information.
- * @param {PathMappings} fhirPathMappings - The mappings for retrieving patient date of birth.
- * @param {string} [givenDate] - Optional. The target date to calculate the age. Defaults to the current date if not provided.
- * @returns {number | undefined} - The age of the patient in years, or undefined if date of birth is not available.
+ * @param fhirBundle - The FHIR bundle containing patient information.
+ * @param fhirPathMappings - The mappings for retrieving patient date of birth.
+ * @param [givenDate] - Optional. The target date to calculate the age. Defaults to the current date if not provided.
+ * @returns - The age of the patient in years, or undefined if date of birth is not available.
  */
 export const calculatePatientAge = (
   fhirBundle: Bundle,
@@ -464,10 +479,10 @@ export const evaluateEcrMetadata = (
 
 /**
  * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
- * @param {Bundle} fhirBundle - The FHIR bundle containing patient information.
- * @param {Condition[]} problemsArray - An array containing the list of problems.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
+ * @param fhirBundle - The FHIR bundle containing patient information.
+ * @param problemsArray - An array containing the list of problems.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
  */
 export const returnProblemsTable = (
   fhirBundle: Bundle,
@@ -506,11 +521,71 @@ export const returnProblemsTable = (
   );
 };
 
+export const returnPendingResultsTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const planOfTreatmentTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["planOfTreatment"])[0]?.div,
+  );
+  const pendingResultsTableJson = planOfTreatmentTables.find(
+    (val) => val.resultName === "Pending Results",
+  );
+
+  if (pendingResultsTableJson?.tables?.[0]) {
+    const header = [
+      "Name",
+      "Type",
+      "Priority",
+      "Associated Diagnoses",
+      "Date/Time",
+    ];
+
+    return (
+      <Table
+        bordered={false}
+        fullWidth={true}
+        className={
+          "table-caption-margin caption-normal-weight margin-y-0 border-top border-left border-right"
+        }
+        data-testid="table"
+        caption={"Pending Results"}
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {pendingResultsTableJson.tables[0].map(
+            (entry: TableRow, index: number) => {
+              return (
+                <tr key={`table-row-${index}`}>
+                  <td>{entry.Name?.value ?? noData}</td>
+                  <td>{entry.Type?.value ?? noData}</td>
+                  <td>{entry.Priority?.value ?? noData}</td>
+                  <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
+                  <td>{entry["Date/Time"]?.value ?? noData}</td>
+                </tr>
+              );
+            },
+          )}
+        </tbody>
+      </Table>
+    );
+  }
+};
+
 /**
  * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
- * @param {Immunization[]} immunizationsArray - An array containing the list of immunizations.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
+ * @param fhirBundle - The FHIR bundle containing patient and immunizations information.
+ * @param immunizationsArray - An array containing the list of immunizations.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
  */
 export const returnImmunizations = (
   fhirBundle: Bundle,
@@ -562,9 +637,9 @@ export const returnImmunizations = (
 
 /**
  * Generates a formatted table representing the list of procedures based on the provided array of procedures and mappings.
- * @param {Procedure[]} proceduresArray - An array containing the list of procedures.
- * @param {PathMappings} mappings - An object containing FHIR path mappings for procedure attributes.
- * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of procedures, or undefined if the procedures array is empty.
+ * @param proceduresArray - An array containing the list of procedures.
+ * @param mappings - An object containing FHIR path mappings for procedure attributes.
+ * @returns - A formatted table React element representing the list of procedures, or undefined if the procedures array is empty.
  */
 export const returnProceduresTable = (
   proceduresArray: Procedure[],
@@ -624,6 +699,17 @@ export const evaluateClinicalData = (
     },
   ];
 
+  const pendingResults = returnPendingResultsTable(fhirBundle, mappings);
+  let planOfTreatmentElement: React.JSX.Element | undefined = undefined;
+  if (pendingResults) {
+    planOfTreatmentElement = (
+      <>
+        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
+        {pendingResults}
+      </>
+    );
+  }
+
   const treatmentData: DisplayData[] = [
     {
       title: "Procedures",
@@ -631,6 +717,10 @@ export const evaluateClinicalData = (
         evaluate(fhirBundle, mappings["procedures"]),
         mappings,
       ),
+    },
+    {
+      title: "Plan of Treatment",
+      value: planOfTreatmentElement,
     },
   ];
 
@@ -669,8 +759,8 @@ export const evaluateClinicalData = (
 
 /**
  * Evaluates the provided display data to determine availability.
- * @param {DisplayData[]} data - An array of display data items to be evaluated.
- * @returns {CompleteData} - An object containing arrays of available and unavailable display data items.
+ * @param data - An array of display data items to be evaluated.
+ * @returns - An object containing arrays of available and unavailable display data items.
  */
 export const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
@@ -687,10 +777,10 @@ export const evaluateData = (data: DisplayData[]): CompleteData => {
 
 /**
  * Functional component for displaying data.
- * @param {object} props - Props for the component.
- * @param {DisplayData} props.item - The display data item to be rendered.
- * @param {string} [props.className] - Additional class name for styling purposes.
- * @returns {React.JSX.Element} - A React element representing the display of data.
+ * @param props - Props for the component.
+ * @param props.item - The display data item to be rendered.
+ * @param [props.className] - Additional class name for styling purposes.
+ * @returns - A React element representing the display of data.
  */
 export const DataDisplay: React.FC<{
   item: DisplayData;
