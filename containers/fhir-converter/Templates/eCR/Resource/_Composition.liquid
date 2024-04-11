@@ -113,7 +113,14 @@
                         {% endif -%}
                     {% endif -%}
                     "entry": 
-                    [                    
+                    [
+                        {% if component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.10" or component.section.templateId[0].root == "2.16.840.1.113883.10.20.22.2.10" %}
+                            {% assign carePlanId = component.section | to_json_string | generate_uuid -%}
+                            {% assign fullCarePlanId = carePlanId | prepend: 'CarePlan/' -%}
+                            {
+                                "reference": "{{ fullCarePlanId }}",
+                            },
+                        {% endif %}
                         {% assign entries = component.section.entry | to_array -%}
                         {% for sectionEntry in entries -%}
                             {% if sectionEntry.act.entryRelationship -%}
