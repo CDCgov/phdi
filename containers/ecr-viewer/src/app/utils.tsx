@@ -574,6 +574,25 @@ export const returnPendingResultsTable = (
   }
 };
 
+export const returnAdminMedTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const adminMedTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["administeredMedications"])[0]?.div,
+  );
+
+  if (adminMedTables[0].tables?.[0]) {
+    const header = ["Medication Order", "MAR Action", "Action Date", "Dose"];
+
+    return (
+      <Table>
+        <div>Hello</div>
+      </Table>
+    );
+  }
+};
+
 /**
  * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
  * @param immunizationsArray - An array containing the list of immunizations.
@@ -687,6 +706,18 @@ export const evaluateClinicalData = (
     );
   }
 
+  const adminMedResults = returnAdminMedTable(fhirBundle, mappings);
+  console.log("my results!", adminMedResults);
+  let adminMedElement: React.JSX.Element | undefined = undefined;
+  if (adminMedResults) {
+    adminMedElement = (
+      <>
+        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
+        {adminMedResults}
+      </>
+    );
+  }
+
   const treatmentData: DisplayData[] = [
     {
       title: "Procedures",
@@ -698,6 +729,10 @@ export const evaluateClinicalData = (
     {
       title: "Plan of Treatment",
       value: planOfTreatmentElement,
+    },
+    {
+      title: "Administered Medications",
+      value: adminMedElement,
     },
   ];
 
