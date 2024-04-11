@@ -45,7 +45,7 @@ export const formatAddress = (
     .join("\n");
 };
 
-export const formatDateTime = (dateTime: string) => {
+export const formatDateTime = (dateTime?: string) => {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "2-digit",
@@ -54,6 +54,11 @@ export const formatDateTime = (dateTime: string) => {
     minute: "2-digit",
     timeZoneName: "short",
   };
+
+  if (!dateTime) {
+    return "";
+  }
+
   const date = new Date(dateTime)
     .toLocaleDateString("en-Us", options)
     .replace(",", "");

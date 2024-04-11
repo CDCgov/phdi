@@ -1,5 +1,5 @@
 import { evaluate } from "fhirpath";
-import { Bundle, CodeableConcept, FhirResource, Quantity } from "fhir/r4";
+import { Bundle, CodeableConcept, Element, Quantity } from "fhir/r4";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Table } from "@trussworks/react-uswds";
@@ -17,7 +17,7 @@ import classNames from "classnames";
  * @returns - A formatted table React element.
  */
 export const evaluateTable = (
-  resources: FhirResource[],
+  resources: Element[],
   mappings: PathMappings,
   columns: ColumnInfoInput[],
   caption: string,
@@ -99,7 +99,7 @@ export const evaluateReference = (
  * @param path - The path within the resource to extract the value from.
  * @returns - The evaluated value as a string.
  */
-export const evaluateValue = (entry: FhirResource, path: string): string => {
+export const evaluateValue = (entry: Element, path: string): string => {
   let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
   let value = "";
   if (typeof originalValue === "string" || typeof originalValue === "number") {

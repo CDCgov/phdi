@@ -18,6 +18,7 @@ import {
 } from "@/app/format-service";
 import { evaluateTable } from "./evaluate-service";
 import { Table } from "@trussworks/react-uswds";
+import { CarePlanActivity } from "fhir/r4b";
 
 export interface DisplayData {
   title?: string;
@@ -645,6 +646,46 @@ export const returnProceduresTable = (
   return evaluateTable(proceduresArray, mappings, columnInfo, "Procedures");
 };
 
+export const returnPlannedProceduresTable = (
+  carePlanActivities: CarePlanActivity[],
+  mappings: PathMappings,
+): React.JSX.Element | undefined => {
+  if (carePlanActivities.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Procedure Name", infoPath: "plannedProcedureName" },
+    { columnName: "Ordered Date", infoPath: "plannedProcedureOrderedDate" },
+    { columnName: "Scheduled Date", infoPath: "plannedProcedureScheduledDate" },
+  ];
+
+  carePlanActivities.forEach((entry) => {
+    if (entry.detail) {
+      entry.detail.scheduledString = formatDate(entry.detail?.scheduledString);
+    }
+    if (entry.extension) {
+      const i = entry.extension?.findIndex(
+        (x) => x.url === "dibbs.orderedDate",
+      );
+
+      if (i !== -1) {
+        console.log(entry.extension[i].valueString);
+        entry.extension[i].valueString = formatDateTime(
+          entry.extension[i].valueString,
+        );
+      }
+    }
+  });
+
+  return evaluateTable(
+    carePlanActivities,
+    mappings,
+    columnInfo,
+    "Planned Procedures",
+  );
+};
+
 export const evaluateClinicalData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -698,6 +739,13 @@ export const evaluateClinicalData = (
     {
       title: "Plan of Treatment",
       value: planOfTreatmentElement,
+    },
+    {
+      title: "Planned Procedures",
+      value: returnPlannedProceduresTable(
+        evaluate(fhirBundle, mappings["plannedProcedures"]),
+        mappings,
+      ),
     },
   ];
 
