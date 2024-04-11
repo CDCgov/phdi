@@ -1,15 +1,7 @@
 ../dibbs
-azure-identity
-azure-keyvault-secrets
-azure-storage-blob
-cryptography==42.0.5
-google-auth
-google-cloud-storage
 hl7
 httpx
 jsonschema
 lxml
 pyyaml
-requests
 typing_extensions==4.8.0
-urllib3
