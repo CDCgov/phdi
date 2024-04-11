@@ -581,13 +581,50 @@ export const returnAdminMedTable = (
   const adminMedTables = formatTablesToJSON(
     evaluate(fhirBundle, mappings["administeredMedications"])[0]?.div,
   );
-
+  console.log(adminMedTables);
   if (adminMedTables[0].tables?.[0]) {
-    const header = ["Medication Order", "MAR Action", "Action Date", "Dose"];
-
+    const header = [
+      "Medication Order",
+      "MAR Action",
+      "Action Date",
+      "Dose",
+      "Rate",
+      "Site",
+    ];
+    const adminMedJson = adminMedTables[0].tables?.[0];
     return (
-      <Table>
-        <div>Hello</div>
+      <Table
+        bordered={false}
+        fullWidth={true}
+        className={
+          "table-caption-margin caption-normal-weight margin-y-0 border-top border-left border-right"
+        }
+        data-testid="table"
+        caption={"Administered Medications"}
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {adminMedJson.map((entry: TableRow, index: number) => {
+            return (
+              <tr key={`table-row-${index}`}>
+                <td>{entry["Medication Order"]?.value ?? noData}</td>
+                <td>{entry["MAR Action"]?.value ?? noData}</td>
+                <td>{entry["Action Date"]?.value ?? noData}</td>
+                <td>{entry["Dose"]?.value ?? noData}</td>
+                <td>{entry["Rate"]?.value ?? noData}</td>
+                <td>{entry["Site"]?.value ?? noData}</td>
+              </tr>
+            );
+          })}
+        </tbody>
       </Table>
     );
   }
