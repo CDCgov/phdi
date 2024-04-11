@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from fastapi import status
 from lxml.etree import XMLSyntaxError
 
-from phdi.fhir.conversion import add_rr_data_to_eicr
+from app.fhir.conversion import add_rr_data_to_eicr
 
 VALID_ERROR_TYPES = ["fatal", "errors", "warnings", "information"]
 # TODO: remove the hard coding of the location of the config file
