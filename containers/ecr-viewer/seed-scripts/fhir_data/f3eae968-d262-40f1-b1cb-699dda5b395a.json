@@ -206,7 +206,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845'>Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Name'>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Name'>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3Name'>Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4Name'>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5Name'>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6Name'>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7Name'>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8Name'>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9Name'>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10Name'>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11Name'>Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12Name'>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13Name'>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14Name'>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15Name'>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16Name'>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17Name'>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18Name'>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19Name'>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20Name'>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Specimen'>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.PerformingLab'><paragraph>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</paragraph></td><td><paragraph>501 S. Buena Vista Street</paragraph></td><td><paragraph>Burbank, CA 91505</paragraph></td><td><paragraph>818-847-6000</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844'>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Name'>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Name'>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3Name'>Salmonella, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4Name'>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5Name'>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6Name'>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7Name'>E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8Name'>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9Name'>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10Name'>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11Name'>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12Name'>Shigella/EIEC, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13Name'>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14Name'>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15Name'>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16Name'>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17Name'>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18Name'>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19Name'>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20Name'>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21Name'>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22Name'>GI Pathogens Panel</td><td>Acceptable</td><td></td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Specimen'>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.PerformingLab'><paragraph>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</paragraph></td><td><paragraph>501 S. Buena Vista Street</paragraph></td><td><paragraph>Burbank, CA 91505</paragraph></td><td><paragraph>818-847-6000</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
+              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Procedure'>Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Name'>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Name'>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3Name'>Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4Name'>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5Name'>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6Name'>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7Name'>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8Name'>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9Name'>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10Name'>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11Name'>Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12Name'>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13Name'>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp13Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14Name'>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15Name'>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16Name'>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp16Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17Name'>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp17Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18Name'>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp18Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19Name'>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp19Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20Name'>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp20Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Specimen'>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.PerformingLab'><paragraph>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</paragraph></td><td><paragraph>501 S. Buena Vista Street</paragraph></td><td><paragraph>Burbank, CA 91505</paragraph></td><td><paragraph>818-847-6000</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Procedure'>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Name'>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Name'>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3Name'>Salmonella, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4Name'>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5Name'>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6Name'>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7Name'>E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8Name'>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9Name'>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10Name'>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11Name'>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12Name'>Shigella/EIEC, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13Name'>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp13Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14Name'>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15Name'>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16Name'>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp16Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17Name'>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp17Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18Name'>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp18Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19Name'>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp19Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20Name'>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp20Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21Name'>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp21Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22Name'>GI Pathogens Panel</td><td>Acceptable</td><td></td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22TestMethodName1'>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</paragraph></td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp22Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Specimen'>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.PerformingLab'><paragraph>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</paragraph></td><td><paragraph>501 S. Buena Vista Street</paragraph></td><td><paragraph>Burbank, CA 91505</paragraph></td><td><paragraph>818-847-6000</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -496,7 +496,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "relatesTo": [
           {
@@ -554,7 +554,7 @@
           "end": "2022-09-28"
         },
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "location": [
           {
@@ -1166,10 +1166,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:96b7f627-6d25-4cad-b246-b43624907e3d",
+      "fullUrl": "urn:uuid:32282f29-7e93-4c45-a26a-7706457a3df3",
       "resource": {
         "resourceType": "Patient",
-        "id": "96b7f627-6d25-4cad-b246-b43624907e3d",
+        "id": "32282f29-7e93-4c45-a26a-7706457a3df3",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1294,7 +1294,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+        "url": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
       }
     },
     {
@@ -1303,7 +1303,7 @@
         "resourceType": "CareTeam",
         "id": "a36f1344-b355-8a67-1146-ad16f7e8649e",
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -1354,7 +1354,7 @@
         },
         "onsetDateTime": "2019-04-16",
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -1409,7 +1409,7 @@
         },
         "onsetDateTime": "2019-04-29",
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -1464,7 +1464,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -1519,7 +1519,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -1574,7 +1574,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -1629,7 +1629,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -1684,7 +1684,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -1739,7 +1739,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -1778,7 +1778,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -1962,7 +1962,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2079,7 +2079,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2182,7 +2182,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2266,7 +2266,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2350,7 +2350,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2434,7 +2434,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2518,7 +2518,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2602,7 +2602,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2686,7 +2686,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2770,7 +2770,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2854,7 +2854,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -2957,7 +2957,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3041,7 +3041,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3125,7 +3125,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3209,7 +3209,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3293,7 +3293,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3377,7 +3377,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3461,7 +3461,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3545,7 +3545,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3629,7 +3629,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3713,7 +3713,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3788,7 +3788,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         }
       },
       "request": {
@@ -3822,7 +3822,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -3975,7 +3975,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4059,7 +4059,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4143,7 +4143,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4227,7 +4227,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4311,7 +4311,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4395,7 +4395,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4479,7 +4479,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4563,7 +4563,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4647,7 +4647,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4731,7 +4731,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4815,7 +4815,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4899,7 +4899,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -4983,7 +4983,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -5067,7 +5067,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -5151,7 +5151,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -5235,7 +5235,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -5319,7 +5319,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -5403,7 +5403,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -5487,7 +5487,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -5571,7 +5571,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "performer": [
           {
@@ -5646,7 +5646,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         }
       },
       "request": {
@@ -5704,7 +5704,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         }
       },
       "request": {
@@ -5762,7 +5762,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         }
       },
       "request": {
@@ -5820,7 +5820,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         }
       },
       "request": {
@@ -5900,7 +5900,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [
@@ -5967,7 +5967,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/96b7f627-6d25-4cad-b246-b43624907e3d"
+          "reference": "Patient/32282f29-7e93-4c45-a26a-7706457a3df3"
         },
         "meta": {
           "source": [

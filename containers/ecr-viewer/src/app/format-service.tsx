@@ -2,21 +2,32 @@ interface Metadata {
   [key: string]: string;
 }
 
-interface TableRow {
+export interface TableRow {
   [key: string]: {
-    value: {};
+    value: any;
     metadata: Metadata;
   };
 }
 
+export interface TableJson {
+  resultId?: string;
+  resultName?: string;
+  tables?: TableRow[][];
+}
+
+export interface TableJson {
+  resultId?: string;
+  resultName?: string;
+  tables?: TableRow[][];
+}
+
 /**
  * Formats a person's name using given name(s), family name, optional prefix(es), and optional suffix(es).
- *
- * @param {string[]} given - Optional array of given name(s).
- * @param {string} family - Optional string representing family name or surname.
- * @param {string[]} [prefix] - Optional array of name prefix(es).
- * @param {string[]} [suffix] - Optional array of name suffix(es).
- * @returns {string} Formatted name.
+ * @param given - Optional array of given name(s).
+ * @param family - Optional string representing family name or surname.
+ * @param [prefix] - Optional array of name prefix(es).
+ * @param [suffix] - Optional array of name suffix(es).
+ * @returns Formatted name.
  */
 export const formatName = (
   given?: string[],
@@ -80,8 +91,8 @@ export const formatDateTime = (dateTime: string) => {
 
 /**
  * Formats the provided date string into a formatted date string with year, month, and day.
- * @param {string} dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
- * @returns {string | undefined} - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
+ * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
+ * @returns - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
  */
 export const formatDate = (dateString?: string): string | undefined => {
   if (dateString) {
@@ -190,27 +201,35 @@ export const formatString = (input: string): string => {
 };
 
 /**
- * Parses an HTML string containing a list of tables and converts each table into a JSON array of objects.
+ * Parses an HTML string containing tables or a list of tables and converts each table into a JSON array of objects.
  * Each <li> item represents a different lab result. The resulting JSON objects contain the data-id (Result ID)
  * and text content of the <li> items, along with an array of JSON representations of the tables contained within each <li> item.
- *
- * @param {string} htmlString - The HTML string containing tables to be parsed.
- * @returns {any[]} - An array of JSON objects representing the list items and their tables from the HTML string.
+ * @param htmlString - The HTML string containing tables to be parsed.
+ * @returns - An array of JSON objects representing the list items and their tables from the HTML string.
  * @example @returns [{resultId: 'Result.123', resultName: 'foo', tables: [{}, {},...]}, ...]
  */
-export function formatTablesToJSON(htmlString: string): any[] {
+export function formatTablesToJSON(htmlString: string): TableJson[] {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
   const jsonArray: any[] = [];
-  doc.querySelectorAll("li").forEach((li) => {
-    const tables: any[] = [];
-    const resultId = li.getAttribute("data-id");
-    const resultName = li.childNodes[0].textContent?.trim() || "";
-    li.querySelectorAll("table").forEach((table) => {
-      tables.push(processTable(table));
+  const liArray = doc.querySelectorAll("li");
+  if (liArray.length > 0) {
+    liArray.forEach((li) => {
+      const tables: any[] = [];
+      const resultId = li.getAttribute("data-id");
+      const resultName = li.childNodes[0].textContent?.trim() ?? "";
+      li.querySelectorAll("table").forEach((table) => {
+        tables.push(processTable(table));
+      });
+      jsonArray.push({ resultId, resultName, tables });
     });
-    jsonArray.push({ resultId, resultName, tables });
-  });
+  } else {
+    doc.querySelectorAll("table").forEach((table) => {
+      const resultName = table.caption?.textContent;
+      const resultId = table.getAttribute("data-id") ?? undefined;
+      jsonArray.push({ resultId, resultName, tables: [processTable(table)] });
+    });
+  }
 
   return jsonArray;
 }
@@ -219,16 +238,16 @@ export function formatTablesToJSON(htmlString: string): any[] {
  * Processes a single HTML table element, extracting data from rows and cells, and converts it into a JSON array of objects.
  * This function extracts data from <tr> and <td> elements within the provided table element.
  * The content of <th> elements is used as keys in the generated JSON objects.
- * @param {Element} table - The HTML table element to be processed.
- * @returns {any[]} - An array of JSON objects representing the rows and cells of the table.
+ * @param table - The HTML table element to be processed.
+ * @returns - An array of JSON objects representing the rows and cells of the table.
  */
-function processTable(table: Element): any[] {
+function processTable(table: Element): TableRow[] {
   const jsonArray: any[] = [];
   const rows = table.querySelectorAll("tr");
   const keys: string[] = [];
 
   rows[0].querySelectorAll("th").forEach((header) => {
-    keys.push(header.textContent?.trim() || "");
+    keys.push(header.textContent?.trim() ?? "");
   });
 
   rows.forEach((row, rowIndex) => {
@@ -241,15 +260,15 @@ function processTable(table: Element): any[] {
 
       const metaData: Metadata = {};
       const attributes = cell.attributes || [];
-      for (let i = 0; i < attributes.length; i++) {
-        const attrName = attributes[i].nodeName;
-        const attrValue = attributes[i].nodeValue;
+      for (const element of attributes) {
+        const attrName = element.nodeName;
+        const attrValue = element.nodeValue;
         if (attrName && attrValue) {
           metaData[attrName] = attrValue;
         }
       }
       obj[key] = {
-        value: cell.textContent?.trim() || "",
+        value: cell.textContent?.trim() ?? "",
         metadata: metaData,
       };
     });
@@ -262,11 +281,9 @@ function processTable(table: Element): any[] {
 /**
  * Extracts and concatenates all sequences of numbers and periods from each string in the input array,
  * excluding any leading and trailing periods in the first matched sequence of each string.
- *
- * @param {string[]} inputValues - An array of strings from which numbers and periods will be extracted.
- * @returns {string[]} An array of strings, each corresponding to an input string with all found sequences
+ * @param inputValues - An array of strings from which numbers and periods will be extracted.
+ * @returns An array of strings, each corresponding to an input string with all found sequences
  * of numbers and periods concatenated together, with any leading period in the first sequence removed.
- *
  * @example @param inputValues - ['#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2']
  * @example @returns - ['1.2.840.114350.1.13.297.3.7.2.798268.1670845']
  */
@@ -287,8 +304,8 @@ export function extractNumbersAndPeriods(inputValues: string[]): string[] {
 
 /**
  * Truncates up to the character limit. If it stops in the middle of the word, it removes the whole word.
- * @param {string} input_str - The string to truncate
- * @param {number} character_limit - The number of characters to truncate defaults to 30
+ * @param input_str - The string to truncate
+ * @param character_limit - The number of characters to truncate defaults to 30
  * @returns - The string that was
  */
 export const truncateLabNameWholeWord = (
@@ -312,9 +329,8 @@ export const truncateLabNameWholeWord = (
 
 /**
  * Converts a string to sentence case, making the first character uppercase and the rest lowercase.
- *
- * @param {string} str - The string to convert to sentence case.
- * @returns {string} The converted sentence-case string. If the input is empty or not a string, the original input is returned.
+ * @param str - The string to convert to sentence case.
+ * @returns The converted sentence-case string. If the input is empty or not a string, the original input is returned.
  */
 export function toSentenceCase(str: string) {
   if (!str) return str;

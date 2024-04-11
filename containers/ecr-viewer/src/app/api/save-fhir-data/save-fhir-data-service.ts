@@ -11,7 +11,6 @@ const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
 /**
  * Saves a FHIR bundle to a postgres database.
- *
  * @async
  * @function saveToS3
  * @param {Bundle} fhirBundle - The FHIR bundle to be saved.
@@ -49,7 +48,6 @@ export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
 
 /**
  * Saves a FHIR bundle to an AWS S3 bucket.
- *
  * @async
  * @function saveToS3
  * @param {Bundle} fhirBundle - The FHIR bundle to be saved.

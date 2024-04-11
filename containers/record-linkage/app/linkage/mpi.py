@@ -5,16 +5,17 @@ import uuid
 from functools import cache
 from typing import Dict
 from typing import List
-from typing import Literal
+from typing import Union
 
-from app.linkage.core import BaseMPIConnectorClient
-from app.linkage.dal import DataAccessLayer
-from app.linkage.utils import load_mpi_env_vars_os
-from app.utils import extract_value_with_resource_path
 from sqlalchemy import and_
 from sqlalchemy import Select
 from sqlalchemy import select
 from sqlalchemy import text
+
+from app.linkage.core import BaseMPIConnectorClient
+from app.linkage.dal import DataAccessLayer
+from app.linkage.utils import extract_value_with_resource_path
+from app.linkage.utils import load_mpi_env_vars_os
 
 
 class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
@@ -603,7 +604,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                 )
 
     @cache
-    def _get_external_source_id(self, external_source_name: str) -> Literal[str, None]:
+    def _get_external_source_id(self, external_source_name: str) -> Union[str, None]:
         """
         Gets the external source id for the external source name provided.
         :param external_source_name: The external source name.

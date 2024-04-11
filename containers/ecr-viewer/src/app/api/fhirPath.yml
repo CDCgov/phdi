@@ -82,9 +82,11 @@ activeProblemsOnsetDate: "Condition.onsetDateTime"
 activeProblemsOnsetAge: "Condition.onsetAge.value"
 historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(code.coding.code = '10164-2').text"
 
+# Treatment Details
+planOfTreatment: "Bundle.entry.resource.section.where(title = 'Plan of Treatment').text"
+
 ## Care Team
 careTeamParticipants: "Bundle.entry.resource.where(resourceType='CareTeam').participant"
-
 careTeamParticipantMemberName: "member.name"
 careTeamParticipantRole: "role.text"
 careTeamParticipantStatus: "modifierExtension.where(url='participant.status').valueString"

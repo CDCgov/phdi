@@ -5,7 +5,6 @@ from typing import Literal
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-
 # create a class with the DIBBs default Creative Commons Zero v1.0 and
 # MIT license to be used by the BaseService class
 LICENSES = {
