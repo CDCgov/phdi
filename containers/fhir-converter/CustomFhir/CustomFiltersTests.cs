@@ -1,5 +1,7 @@
 using Microsoft.Health.Fhir.Liquid.Converter;
 using System.Collections.Generic;
+using Xunit.Sdk;
+using Newtonsoft.Json;
 
 namespace CustomFhir;
 
@@ -183,4 +185,47 @@ public class CustomFilterTests
         var actual = Filters.GetLoincName(loinc);
         Assert.Null(actual);
     }
+
+    [Fact]
+    public void GetJsonTable_SingleTableString_ReturnsOneJsonTable()
+    {
+        var table = @"<content>Future Procedures</content>
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Procedure Name</th>
+                                    <th>Ordered Date</th>
+                                    <th>Scheduled Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Arterial Blood Glucose</td>
+                                    <td>January 25th, 2021 9:39am</td>
+                                    <td>March 14th, 2021 5:08pm</td>
+                                </tr>
+                                <tr>
+                                    <td>Ammonia</td>
+                                    <td>January 25th, 2021 9:39am</td>
+                                    <td>January 25th, 2021 9:38am</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>";
+        
+        var actual = Filters.GetJsonTable(table);
+
+
+        string row1 = "{\"Procedure Name\": \"Arterial Blood Glucose\", \"Ordered Date\": \"January 25th, 2021 9:39am\", \"Scheduled Date\": \"March 14th, 2021 5:08pm\" }";
+        string row2 = "{\"Procedure Name\": \"Ammonia\", \"Ordered Date\": \"January 25th, 2021 9:39am\", \"Scheduled Date\": \"January 25th, 2021 9:38am\" }";
+
+        // Deserialize JSON strings into dynamic objects
+        dynamic obj1 = JsonConvert.DeserializeObject(row1)!;
+        dynamic obj2 = JsonConvert.DeserializeObject(row2)!;
+        dynamic expected = new List<dynamic>() {obj1, obj2};
+
+        Assert.Equal(expected, actual);
+    }
+
 }

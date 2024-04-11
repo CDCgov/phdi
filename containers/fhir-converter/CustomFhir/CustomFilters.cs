@@ -244,5 +244,10 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       loincDict.TryGetValue(loinc, out string? element);
       return element;
     }
+
+    public static IEnumerable<object> GetJsonTable(string table)
+    {
+      throw new NotImplementedException();
+    }
   }
 }
