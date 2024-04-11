@@ -29,3 +29,5 @@ for d in "$BASEDIR"/baseECR/* ; do
 done
 
 docker kill "$dockId"
+
+docker rmi -f ecr-viewer-seed-db:latest
