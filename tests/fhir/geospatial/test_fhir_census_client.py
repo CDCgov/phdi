@@ -7,7 +7,6 @@ import pytest
 from phdi.fhir.geospatial.census import CensusFhirGeocodeClient
 from phdi.geospatial.core import GeocodeResult
 
-
 FHIR_BUNDLE_PATH = pathlib.Path(__file__).parent.parent.parent / "assets" / "general"
 
 

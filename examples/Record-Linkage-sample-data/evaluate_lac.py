@@ -121,17 +121,13 @@ def phdi_linkage_algorithm(
     """
     Executes a patient health data linkage algorithm on the provided dataset.
 
-    Parameters:
-        data (pd.DataFrame): The dataset to perform linkage on, structured as a DataFrame.
-        cluster_ratio (Union[float, None], optional): The clustering ratio used for
-            linkage clustering, if applicable. Default is None.
-        use_log_odds_enhancement (bool, optional): Flag to enable/disable log odds
-            ratio enhancement for feature comparison. Default is True.
-        **kwargs: Additional keyword arguments passed to the linkage pass functions.
-
-    Returns:
-        dict: A dictionary containing the compiled list of matches identified by the
-        linkage algorithm across all passes.
+    :param data: The dataset to perform linkage on, structured as a DataFrame.
+    :param cluster_ratio: The clustering ratio used for linkage clustering, if
+        applicable. Default is None.
+    :param use_log_odds_enhancement: Flag to enable/disable log odds ratio
+        enhancement for feature comparison. Default is True.
+    :return: A dictionary containing the compiled list of matches identified
+        by the linkage algorithm across all passes.
     """
     # func 0 maps to birthdate, func 2 to first name, func 3 to last name
     if use_log_odds_enhancement:
@@ -208,13 +204,11 @@ def determine_true_matches_in_synthetic_pd_dataset(data: pd.DataFrame):
 
 def set_record_id(data: pd.DataFrame):
     """
-    Sets the DataFrame index as a new 'ID' column and removes the old 'Id' column.
+    Sets the DataFrame index as a new 'ID' column and removes the old 'Id'
+    column.
 
-    Parameters:
-        data (pd.DataFrame): The DataFrame to modify.
-
-    Returns:
-        pd.DataFrame: The updated DataFrame with a new 'ID' column.
+    :param data: The DataFrame to modify.
+    :return: The updated DataFrame with a new 'ID' column.
     """
     data["ID"] = data.index
     data = data.drop(columns=["Id"])
@@ -226,13 +220,8 @@ def add_metaphone_columns_to_data(data: pd.DataFrame):
     Adds Double Metaphone encoded columns for first and last names to the
     DataFrame.
 
-    Parameters:
-        data (pd.DataFrame): The DataFrame with 'FIRST' and 'LAST' name
-                             columns.
-
-    Returns:
-        pd.DataFrame: The modified DataFrame including Metaphone encoded
-                      columns.
+    :param data: The DataFrame with 'FIRST' and 'LAST' name columns.
+    :return: The modified DataFrame including Metaphone encoded columns.
     """
     data["DM_FIRST"] = data["FIRST"].apply(lambda x: double_metaphone_string(x)[0])
     data["DM_LAST"] = data["LAST"].apply(lambda x: double_metaphone_string(x)[0])
@@ -243,11 +232,8 @@ def derive_mrn4(data: pd.DataFrame):
     """
     Derives the last 4 characters of the MRN to a new 'MRN4' column.
 
-    Parameters:
-        data (pd.DataFrame): DataFrame with an 'MRN' column.
-
-    Returns:
-        pd.DataFrame: Updated DataFrame with the 'MRN4' column added.
+    :param data: DataFrame with an 'MRN' column.
+    :return: Updated DataFrame with the 'MRN4' column added.
     """
     data["MRN4"] = data["MRN"].apply(lambda x: x[-4:] if len(x) >= 4 else x)
     return data
@@ -257,13 +243,8 @@ def add_split_birth_fields(data: pd.DataFrame):
     """
     Adds separate 'BIRTH_MONTH' and 'BIRTH_YEAR' columns from 'BIRTHDATE'.
 
-    Parameters:
-        data (pd.DataFrame): DataFrame with a 'BIRTHDATE' column in 'YYYY-MM'
-                             format.
-
-    Returns:
-        pd.DataFrame: Updated DataFrame with 'BIRTH_MONTH' and 'BIRTH_YEAR'
-                      columns.
+    :param data: DataFrame with a 'BIRTHDATE' column in 'YYYY-MM' format.
+    :return: Updated DataFrame with 'BIRTH_MONTH' and 'BIRTH_YEAR' columns.
     """
     data["BIRTH_MONTH"] = data["BIRTHDATE"].apply(
         lambda x: x.split("-")[1] if "-" in x else x
@@ -281,12 +262,9 @@ def identify_missed_matches(
     """
     Identifies true matches not found by the matching algorithm.
 
-    Parameters:
-        found_matches: Dict mapping root records to sets of found match IDs.
-        true_matches: Dict mapping root records to sets of true match IDs.
-
-    Returns:
-        Dict: Root records mapped to sets of missed match IDs.
+    :param found_matches: Dict mapping root records to sets of found match IDs.
+    :param true_matches: Dict mapping root records to sets of true match IDs.
+    :return: Root records mapped to sets of missed match IDs.
     """
     missed_matches = {}
     for root_record in true_matches:
@@ -303,12 +281,9 @@ def get_indices_affected_by_misses(missed_matches: dict):
     """
     Gathers unique indices from missed matches and their corresponding records.
 
-    Parameters:
-        missed_matches: Dict with keys as root record indices and values as sets
-                        of missed match indices.
-
-    Returns:
-        list: Sorted list of unique indices affected by missed matches.
+    :param missed_matches: Dict with keys as root record indices and values as
+                           sets of missed match indices.
+    :return: Sorted list of unique indices affected by missed matches.
     """
     affected_records = set()
     for record in missed_matches:
@@ -324,11 +299,10 @@ def display_statistical_evaluation(
     """
     Calculates and displays linkage statistics compared to a truth set.
 
-    Parameters:
-        matches: Dict of matches found by the linkage algorithm.
-        true_matches: Dict of known true matches.
-        cluster_mode_used (bool, optional): Flag indicating if clustering was
-                                            used in linkage. Defaults to False.
+    :param matches: Dict of matches found by the linkage algorithm.
+    :param true_matches: Dict of known true matches.
+    :param cluster_mode_used: Flag indicating if clustering was used in
+                              linkage. Defaults to False.
     """
     sensitivitiy, specificity, ppv, f1 = score_linkage_vs_truth(
         matches, true_matches, DATA_SIZE, cluster_mode_used
@@ -344,9 +318,8 @@ def display_missed_matches_by_type(matches: dict, true_matches: dict):
     Identifies missed matches and analyzes types of data issues contributing
     to misses.
 
-    Parameters:
-        matches: Dict of matches found by the linkage algorithm.
-        true_matches: Dict of known true matches.
+    :param matches: Dict of matches found by the linkage algorithm.
+    :param true_matches: Dict of known true matches.
     """
     missed_matches = identify_missed_matches(matches, true_matches)
     affected_indices = get_indices_affected_by_misses(missed_matches)

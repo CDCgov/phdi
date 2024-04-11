@@ -13,8 +13,11 @@ import {
   formatStartEndDateTime,
   formatVitals,
   formatDateTime,
+  formatTablesToJSON,
+  TableRow,
 } from "@/app/format-service";
 import { evaluateTable } from "./evaluate-service";
+import { Table } from "@trussworks/react-uswds";
 
 export interface DisplayData {
   title?: string;
@@ -43,6 +46,10 @@ export interface CompleteData {
   availableData: DisplayData[];
   unavailableData: DisplayData[];
 }
+
+export const noData = (
+  <span className="no-data text-italic text-base">No data</span>
+);
 
 export const evaluatePatientName = (
   fhirBundle: Bundle,
@@ -508,6 +515,65 @@ export const returnProblemsTable = (
   );
 };
 
+export const returnPendingResultsTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const planOfTreatmentTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["planOfTreatment"])[0]?.div,
+  );
+  const pendingResultsTableJson = planOfTreatmentTables.find(
+    (val) => val.resultName === "Pending Results",
+  );
+
+  if (pendingResultsTableJson?.tables?.[0]) {
+    const header = [
+      "Name",
+      "Type",
+      "Priority",
+      "Associated Diagnoses",
+      "Date/Time",
+    ];
+
+    return (
+      <Table
+        bordered={false}
+        fullWidth={true}
+        className={
+          "table-caption-margin caption-normal-weight margin-y-0 border-top border-left border-right"
+        }
+        data-testid="table"
+        caption={"Pending Results"}
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {pendingResultsTableJson.tables[0].map(
+            (entry: TableRow, index: number) => {
+              return (
+                <tr key={`table-row-${index}`}>
+                  <td>{entry.Name?.value ?? noData}</td>
+                  <td>{entry.Type?.value ?? noData}</td>
+                  <td>{entry.Priority?.value ?? noData}</td>
+                  <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
+                  <td>{entry["Date/Time"]?.value ?? noData}</td>
+                </tr>
+              );
+            },
+          )}
+        </tbody>
+      </Table>
+    );
+  }
+};
+
 /**
  * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
  * @param immunizationsArray - An array containing the list of immunizations.
@@ -610,6 +676,17 @@ export const evaluateClinicalData = (
     },
   ];
 
+  const pendingResults = returnPendingResultsTable(fhirBundle, mappings);
+  let planOfTreatmentElement: React.JSX.Element | undefined = undefined;
+  if (pendingResults) {
+    planOfTreatmentElement = (
+      <>
+        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
+        {pendingResults}
+      </>
+    );
+  }
+
   const treatmentData: DisplayData[] = [
     {
       title: "Procedures",
@@ -617,6 +694,10 @@ export const evaluateClinicalData = (
         evaluate(fhirBundle, mappings["procedures"]),
         mappings,
       ),
+    },
+    {
+      title: "Plan of Treatment",
+      value: planOfTreatmentElement,
     },
   ];
 

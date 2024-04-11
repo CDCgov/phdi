@@ -1,9 +1,7 @@
 import os
 
 from phdi.linkage.config import get_settings
-from phdi.linkage.utils import (
-    load_mpi_env_vars_os,
-)
+from phdi.linkage.utils import load_mpi_env_vars_os
 
 
 def test_get_settings_and_env_vars():

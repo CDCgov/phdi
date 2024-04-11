@@ -9,11 +9,8 @@ def extract_given_name(data: Dict):
     """
     Extracts given names from `data`.
 
-    Parameters:
-        data (Dict): Contains 'first_name' and 'middle_name' keys.
-
-    Returns:
-        list or None: List of given names or None if no names found.
+    :param data: Contains 'first_name' and 'middle_name' keys.
+    :return: List of given names or None if no names found.
     """
     first_name = data.get("first_name", None)
     middle_name = data.get("middle_name", None)
@@ -35,11 +32,8 @@ def adjust_birthdate(data: Dict):
     """
     Converts birthdate format in `data` to 'YYYY-MM-DD'.
 
-    Parameters:
-        data (Dict): Contains 'birthdate' key with date string.
-
-    Returns:
-        str or None: Formatted birthdate or None if not applicable.
+    :param data: Contains 'birthdate' key with date string.
+    :return: Formatted birthdate or None if not applicable.
     """
     # TODO: remove this function and pass in the `format` parameter to dob
     # standardization in ReadSourceData for LAC

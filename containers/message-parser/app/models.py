@@ -182,13 +182,10 @@ class ParseMessageInput(BaseModel):
         """
         Ensures that reference fields in a model have corresponding lookups.
 
-        Parameters:
-            cls: The class on which this validator is defined.
-            values (dict): The dictionary of field values to validate.
-
-        Returns:
-            dict: The validated (and potentially modified) dictionary of field
-                  values.
+        :param cls: The class on which this validator is defined.
+        :param values: The dictionary of field values to validate.
+        :return: The validated (and potentially modified) dictionary of field
+            values.
         """
         return validate_secondary_reference_fields(values)
 

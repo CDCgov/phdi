@@ -3,20 +3,20 @@ import pathlib
 from typing import Optional
 from typing import Union
 
-from app.config import get_settings
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import root_validator
 
-from phdi.cloud.azure import AzureCloudContainerConnection
-from phdi.cloud.azure import AzureCredentialManager
-from phdi.cloud.core import BaseCredentialManager
-from phdi.cloud.gcp import GcpCloudStorageConnection
-from phdi.cloud.gcp import GcpCredentialManager
+from app.cloud.azure import AzureCloudContainerConnection
+from app.cloud.azure import AzureCredentialManager
+from app.cloud.core import BaseCredentialManager
+from app.cloud.gcp import GcpCloudStorageConnection
+from app.cloud.gcp import GcpCredentialManager
+from app.config import get_settings
 
 
 class StandardResponse(BaseModel):
-    """The standard schema for the body of responses returned by the PHDI Ingestion
+    """The standard schema for the body of responses returned by the DIBBs Ingestion
     Service."""
 
     status_code: str = Field(description="The HTTP status code of the response.")
@@ -32,15 +32,9 @@ class StandardResponse(BaseModel):
         """
         Validates that at least one of the specified fields is present.
 
-        Parameters:
-            cls: The class on which this validator is defined.
-            values (dict): The dictionary of field values to validate.
-
-        Returns:
-            dict: The original dictionary of values if validation passes.
-
-        Raises:
-            ValueError: If neither 'message' nor 'bundle' fields are present.
+        :param cls: The class on which this validator is defined.
+        :param values: The dictionary of field values to validate.
+        :return: The original dictionary of values if validation passes.
         """
         if not any(value in values for value in ["message", "bundle"]):
             raise ValueError(
@@ -90,15 +84,16 @@ def check_for_fhir_bundle(value: dict) -> dict:
 def search_for_required_values(input: dict, required_values: list) -> str:
     """
     Search for required values in the input dictionary and the environment.
-    Found in the environment not present in the input dictionary that are found in the
-    environment are added to the dictionary. A message is returned indicating which,
-    if any, required values could not be found.
+    Found in the environment not present in the input dictionary that are
+    found in the environment are added to the dictionary. A message is
+    returned indicating which, if any, required values could not be found.
 
-    :param input: A dictionary potentially originating from the body of a POST request
-    :param required_values: A list of values to search for in the input dictionary and
-    the environment.
-    :return: A string message indicating if any required values could not be found and
-    if so which ones.
+    :param input: A dictionary potentially originating from the body of a POST
+        request
+    :param required_values: A list of values to search for in the input
+        dictionary and the environment.
+    :return: A string message indicating if any required values could not be
+        found and if so which ones.
     """
 
     missing_values = []
@@ -126,13 +121,13 @@ def get_cred_manager(
     cred_manager: str, location_url: str = None
 ) -> BaseCredentialManager:
     """
-    Return a credential manager for different cloud providers depending upon which
-    one the user requests via the parameter.
+    Return a credential manager for different cloud providers depending upon
+    which one the user requests via the parameter.
 
     :param credential_manager: A string identifying which cloud credential
     manager is desired.
-    :return: Either a Google Cloud Credential Manager or an Azure Credential Manager
-    depending upon the value passed in.
+    :return: Either a Google Cloud Credential Manager or an Azure Credential
+        Manager depending upon the value passed in.
     """
     cred_manager_class = cred_managers.get(cred_manager)
     result = None
@@ -153,7 +148,8 @@ def get_cloud_provider_storage_connection(
     Return a cloud provider storage connection for different cloud providers
     depending upon which one the user requests via the parameter.
 
-    :param cloud_provider: A string identifying which cloud provider is desired.
+    :param cloud_provider: A string identifying which cloud provider is
+        desired.
     :return: Either a Google Cloud Storage Connection or an Azure Storage
     Connection depending upon the value passed in.
     """
@@ -177,10 +173,7 @@ def read_json_from_assets(filename: str):
     """
     Loads and returns the content of a JSON file from the 'assets' directory.
 
-    Parameters:
-        filename (str): The name of the JSON file to be loaded.
-
-    Returns:
-        The content of the JSON file as a dictionary.
+    :param filename: The name of the JSON file to be loaded.
+    :return: The content of the JSON file as a dictionary.
     """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))

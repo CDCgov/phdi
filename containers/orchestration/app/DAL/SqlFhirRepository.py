@@ -10,11 +10,8 @@ class SqlAlchemyFhirRepository(FhirRepository):
         """
         Merges and commits an entity to the database session.
 
-        Parameters:
-            entity: The entity to be merged and committed.
-
-        Returns:
-            The merged and committed entity.
+        :param entity: The entity to be merged and committed.
+        return: The merged and committed entity.
         """
         self.session.merge(entity)
         self.session.commit()

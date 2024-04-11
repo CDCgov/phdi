@@ -1,6 +1,4 @@
-from phdi.harmonization.hl7 import (
-    _clean_hl7_batch,
-)
+from phdi.harmonization.hl7 import _clean_hl7_batch
 
 
 def test_clean_hl7_batch():
