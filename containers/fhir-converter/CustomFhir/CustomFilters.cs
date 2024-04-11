@@ -247,41 +247,33 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
     public static List<Dictionary<string, string>> GetJsonTable(string html)
     {
-      var headers = new List<string>();
-      var rows = new List<Dictionary<string, string>>();
+        var rows = Regex.Matches(html, @"<tr>(.*?)</tr>", RegexOptions.Singleline)
+                        .Cast<Match>()
+                        .Select(m => m.Groups[1].Value.Trim())
+                        .ToList();
 
-      // Regex to find table headers (assuming they are wrapped in <th> tags)
-      var headerRegex = new Regex("<th.*?>(.*?)</th>");
-      var headerMatches = headerRegex.Matches(html);
-      foreach (Match match in headerMatches)
-      {
-        Console.WriteLine("Groups:");
-        Console.WriteLine(match.Groups[1]);
-        headers.Add(match.Groups[1].Value.Trim());
-      }
+        var headers = Regex.Matches(rows[0], @"<th>(.*?)</th>")
+                            .Cast<Match>()
+                            .Select(m => m.Groups[1].Value.Trim())
+                            .ToList();
 
-      // Regex to find table rows (assuming they are wrapped in <tr> tags)
-      var rowRegex = new Regex("<tr.*?>(.*?)</tr>", RegexOptions.Singleline);
-      var rowMatches = rowRegex.Matches(html);
-
-      foreach (Match rowMatch in rowMatches)
-      {
-        var row = new Dictionary<string, string>();
-        var cellRegex = new Regex("<td.*?>(.*?)</td>", RegexOptions.Singleline);
-        var cellMatches = cellRegex.Matches(rowMatch.Groups[1].Value);
-
-        for (int i = 0; i < headers.Count && i < cellMatches.Count; i++)
+        var data = new List<Dictionary<string, string>>();
+        for (int i = 1; i < rows.Count; i++)
         {
-          row[headers[i]] = cellMatches[i].Groups[1].Value.Trim();
+            var rowData = Regex.Matches(rows[i], @"<td>(.*?)</td>")
+                                .Cast<Match>()
+                                .Select(m => m.Groups[1].Value.Trim())
+                                .ToList();
+
+            var rowDict = new Dictionary<string, string>();
+            for (int j = 0; j < headers.Count; j++)
+            {
+                rowDict[headers[j]] = rowData[j];
+            }
+            data.Add(rowDict);
         }
 
-        if (row.Count > 0)
-        {
-          rows.Add(row);
-        }
-      }
-
-      return rows;
+        return data;
     }
   }
 }
