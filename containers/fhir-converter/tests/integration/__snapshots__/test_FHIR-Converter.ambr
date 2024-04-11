@@ -712,6 +712,21 @@
         }),
         dict({
           'fullUrl': str,
+          'resource': dict({
+            'id': str,
+            'meta': dict({
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'CareTeam',
+            'subject': dict({
+              'reference': str,
+            }),
+          }),
+        }),
+        dict({
+          'fullUrl': str,
           'request': dict({
             'method': 'PUT',
             'url': str,

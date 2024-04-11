@@ -1,5 +1,6 @@
 import { evaluate } from "fhirpath";
 import { Bundle, CodeableConcept, FhirResource, Quantity } from "fhir/r4";
+import { toSentenceCase } from "./format-service";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Table } from "@trussworks/react-uswds";
@@ -12,7 +13,7 @@ import classNames from "classnames";
  * @param columns - An array of objects representing column information.
  *                                      The order of columns in the array determines the order of appearance.
  * @param caption - The caption for the table.
- * @param fixed - Determins if the table columns are a fixed width.
+ * @param [fixed] - Optional. Determines whether to fix the width of the table columns. Default is true.
  * @param [outerBorder] - Optional. Determines whether to include an outer border for the table. Default is true.
  * @returns - A formatted table React element.
  */
@@ -47,7 +48,7 @@ export const evaluateTable = (
       }
       return (
         <td key={`row-data-${index}`} className="text-top">
-          {rowCellData}
+          {column.sentenceCase ? toSentenceCase(rowCellData) : rowCellData}
         </td>
       );
     });

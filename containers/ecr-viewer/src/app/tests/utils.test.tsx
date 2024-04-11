@@ -5,6 +5,7 @@ import {
   calculatePatientAge,
   evaluateClinicalData,
   evaluatePatientName,
+  returnCareTeamTable,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
@@ -13,6 +14,7 @@ import BundleWithPatient from "../tests/assets/BundlePatient.json";
 import BundleWithEcrMetadata from "../tests/assets/BundleEcrMetadata.json";
 import BundleWithSexualOrientation from "../tests/assets/BundleSexualOrientation.json";
 import BundleWithMiscNotes from "../tests/assets/BundleMiscNotes.json";
+import BundleCareTeam from "../tests/assets/BundleCareTeam.json";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 
@@ -123,6 +125,31 @@ describe("Utils", () => {
       );
       expect(screen.getByText("Active Problems")).toBeInTheDocument();
       expect(actual.clinicalNotes.unavailableData).toBeEmpty();
+    });
+  });
+
+  describe("Evaluate Care Team Table", () => {
+    it("should evaluate care team table results", () => {
+      const actual: React.JSX.Element = returnCareTeamTable(
+        BundleCareTeam as unknown as Bundle,
+        mappings,
+      ) as React.JSX.Element;
+
+      render(actual);
+
+      expect(screen.getByText("Dr. Gregory House")).toBeInTheDocument();
+      expect(screen.getByText("family")).toBeInTheDocument();
+      expect(
+        screen.getByText("Start: 11/16/2004 End: 05/21/2012"),
+      ).toBeInTheDocument();
+    });
+
+    it("the table should not appear when there are no results", () => {
+      const actual = returnCareTeamTable(
+        BundleWithPatient as unknown as Bundle,
+        mappings,
+      );
+      expect(actual).toBeUndefined();
     });
   });
 
