@@ -215,18 +215,10 @@ public class CustomFilterTests
                         <br/>";
 
         var actual = Filters.GetJsonTable(table);
-        string resultString = JsonConvert.SerializeObject(actual, Formatting.Indented);
-        Console.WriteLine(resultString);
+        string actualString = JsonConvert.SerializeObject(actual);
+        string expectedString = "[{\"Procedure Name\":\"Arterial Blood Glucose\",\"Ordered Date\":\"January 25th, 2021 9:39am\",\"Scheduled Date\":\"March 14th, 2021 5:08pm\"},{\"Procedure Name\":\"Ammonia\",\"Ordered Date\":\"January 25th, 2021 9:39am\",\"Scheduled Date\":\"January 25th, 2021 9:38am\"}]";
 
-        string row1 = "{\"Procedure Name\": \"Arterial Blood Glucose\", \"Ordered Date\": \"January 25th, 2021 9:39am\", \"Scheduled Date\": \"March 14th, 2021 5:08pm\" }";
-        string row2 = "{\"Procedure Name\": \"Ammonia\", \"Ordered Date\": \"January 25th, 2021 9:39am\", \"Scheduled Date\": \"January 25th, 2021 9:38am\" }";
-
-        // Deserialize JSON strings into dynamic objects
-        dynamic obj1 = JsonConvert.DeserializeObject(row1)!;
-        dynamic obj2 = JsonConvert.DeserializeObject(row2)!;
-        dynamic expected = new List<dynamic>() { obj1, obj2 };
-
-        Assert.Equal(expected, actual);
+        Assert.Equal(expectedString, actualString);
     }
 
 }
