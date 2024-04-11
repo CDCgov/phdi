@@ -245,6 +245,11 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return element;
     }
 
+    /// <summary>
+    /// Parses an HTML table represented as a string and returns its data as a list of dictionaries.
+    /// </summary>
+    /// <param name="html">The HTML string containing the table to parse.</param>
+    /// <returns>A list of dictionaries representing the rows and columns of the table.</returns>
     public static List<Dictionary<string, string>> GetJsonTable(string html)
     {
       var rows = Regex.Matches(html, @"<tr>(.*?)</tr>", RegexOptions.Singleline)
