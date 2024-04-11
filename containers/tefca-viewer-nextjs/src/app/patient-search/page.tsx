@@ -69,14 +69,19 @@ export function PatientSearch() {
               <h2 className="font-sans-lg search-form-section-label"><strong>Date of Birth</strong></h2>
               <div className="grid-row grid-gap">
                 <div className="grid-col-6">
-                  <input
-                    type="date"
-                    id="dob"
-                    value={dob}
-                    onChange={(event) => {
-                      setDOB(event.target.value);
-                    }}
-                  />
+                  <Label htmlFor="dob">Date of Birth</Label>
+                  <div className="usa-date-picker">
+                    <input
+                      className="usa-input"
+                      name="dob"
+                      id="dob"
+                      type="date"
+                      value={dob}
+                      onChange={(event) => {
+                        setDOB(event.target.value);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,7 +181,9 @@ export function PatientSearch() {
             <div className="grid-row grid-gap">
               <div className="grid-col-6">
                 <Label htmlFor="mrn">Medical Record Number</Label>
-                <TextInput id="mrn" name="mrn" type="text" pattern="^\d+$" />
+                <TextInput id="mrn" name="mrn" type="text" pattern="^\d+$" value={mrn} onChange={(event) => {
+                  setMRN(event.target.value);
+                }}/>
               </div>
             </div>
             <h2 className="font-sans-lg search-form-section-label"><strong>Case investigation topic</strong></h2>
@@ -194,7 +201,9 @@ export function PatientSearch() {
                   <option value="social-determinants">Social Determinants of Health</option>
                 </Select>
               </div>
-              
+            </div>
+            <h2 className="font-sans-lg search-form-section-label"><strong>FHIR Server (QHIN)</strong></h2>
+              <div className="grid-row grid-gap">
               <div className="grid-col-5">
                 <Label htmlFor="fhir_server">FHIR Server</Label>
                 <Select id="fhir_server" name="fhir_server" value={fhirServer} onChange={(event) => {
@@ -206,9 +215,9 @@ export function PatientSearch() {
                   <option value="ehealthexchange">eHealth Exchange</option>
                 </Select>
               </div>
-            </div>
+                  </div>
           </Fieldset>
-          <button className="usa-button" type="submit">
+          <button className="usa-button patient-search-button" type="submit">
             Search for patient
           </button>
         </form>
