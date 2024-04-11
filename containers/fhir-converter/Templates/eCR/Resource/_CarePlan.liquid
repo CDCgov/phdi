@@ -12,19 +12,24 @@
         ],
         "status": "change me",
         "intent": "change me",
-        "title": "change me",
         "subject": "reference to patient",
         "activity":[
-            {% for carePlanEntry in carePlan.entry %}
+            {% for carePlanEntry in carePlan.text.table.tbody.tr %}
             {
                 "detail": {
-                    "code":{ {% include 'DataType/CodeableConcept' CodeableConcept: carePlanEntry.procedure.code -%} },
-                    "status":"{{ carePlanEntry.procedure.statusCode.code }}",
-                    "scheduledString": "{{ carePlanEntry.procedure.effectiveTime.value }}",
-                }
+                    "code":{ {% include 'DataType/CodeableConcept' Text: carePlanEntry.td[0]._ -%} },
+                    "status":"scheduled",
+                    "scheduledString": "{{ carePlanEntry.td[2]._ }}",
+                },
+                "extension": [
+                    {
+                        "url": "dibbs.orderedDate",
+                        "valueString": "{{ carePlanEntry.td[1]._ }}"
+                    }
+                ]
             },
             {% endfor %}
-            ]
+        ]
     },
     "request":{
         "method":"PUT",

@@ -244,41 +244,5 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       loincDict.TryGetValue(loinc, out string? element);
       return element;
     }
-
-    /// <summary>
-    /// Parses an HTML table represented as a string and returns its data as a list of dictionaries.
-    /// </summary>
-    /// <param name="html">The HTML string containing the table to parse.</param>
-    /// <returns>A list of dictionaries representing the rows and columns of the table.</returns>
-    public static List<Dictionary<string, string>> GetJsonTable(string html)
-    {
-      var rows = Regex.Matches(html, @"<tr>(.*?)</tr>", RegexOptions.Singleline)
-                      .Cast<Match>()
-                      .Select(m => m.Groups[1].Value.Trim())
-                      .ToList();
-
-      var headers = Regex.Matches(rows[0], @"<th>(.*?)</th>")
-                          .Cast<Match>()
-                          .Select(m => m.Groups[1].Value.Trim())
-                          .ToList();
-
-      var data = new List<Dictionary<string, string>>();
-      for (int i = 1; i < rows.Count; i++)
-      {
-        var rowData = Regex.Matches(rows[i], @"<td>(.*?)</td>")
-                            .Cast<Match>()
-                            .Select(m => m.Groups[1].Value.Trim())
-                            .ToList();
-
-        var rowDict = new Dictionary<string, string>();
-        for (int j = 0; j < headers.Count; j++)
-        {
-          rowDict[headers[j]] = rowData[j];
-        }
-        data.Add(rowDict);
-      }
-
-      return data;
-    }
   }
 }
