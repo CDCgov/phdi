@@ -242,3 +242,11 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   background-color: #f0f0f0;
   min-width: 120px;
 }
+
+.immunization_table {
+  tr {
+    td:nth-child(1) {
+      word-break:break-word
+    }
+  }
+}

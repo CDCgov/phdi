@@ -105,7 +105,10 @@ export const ClinicalInfo = ({
           </span>
         </AccordianH4>
         <AccordianDiv>
-          <div data-testid="immunization-history">
+          <div
+            className="immunization_table"
+            data-testid="immunization-history"
+          >
             {renderTableDetails(immunizationsDetails)}
           </div>
         </AccordianDiv>

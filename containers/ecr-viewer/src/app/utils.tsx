@@ -556,6 +556,7 @@ export const returnImmunizations = (
     mappings,
     columnInfo,
     "Immunization History",
+    false,
   );
 };
 
