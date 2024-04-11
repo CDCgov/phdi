@@ -245,9 +245,43 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return element;
     }
 
-    public static IEnumerable<object> GetJsonTable(string table)
+    public static List<Dictionary<string, string>> GetJsonTable(string html)
     {
-      throw new NotImplementedException();
+      var headers = new List<string>();
+      var rows = new List<Dictionary<string, string>>();
+
+      // Regex to find table headers (assuming they are wrapped in <th> tags)
+      var headerRegex = new Regex("<th.*?>(.*?)</th>");
+      var headerMatches = headerRegex.Matches(html);
+      foreach (Match match in headerMatches)
+      {
+        Console.WriteLine("Groups:");
+        Console.WriteLine(match.Groups[1]);
+        headers.Add(match.Groups[1].Value.Trim());
+      }
+
+      // Regex to find table rows (assuming they are wrapped in <tr> tags)
+      var rowRegex = new Regex("<tr.*?>(.*?)</tr>", RegexOptions.Singleline);
+      var rowMatches = rowRegex.Matches(html);
+
+      foreach (Match rowMatch in rowMatches)
+      {
+        var row = new Dictionary<string, string>();
+        var cellRegex = new Regex("<td.*?>(.*?)</td>", RegexOptions.Singleline);
+        var cellMatches = cellRegex.Matches(rowMatch.Groups[1].Value);
+
+        for (int i = 0; i < headers.Count && i < cellMatches.Count; i++)
+        {
+          row[headers[i]] = cellMatches[i].Groups[1].Value.Trim();
+        }
+
+        if (row.Count > 0)
+        {
+          rows.Add(row);
+        }
+      }
+
+      return rows;
     }
   }
 }
