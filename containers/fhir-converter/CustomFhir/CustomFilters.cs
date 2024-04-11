@@ -247,33 +247,33 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
     public static List<Dictionary<string, string>> GetJsonTable(string html)
     {
-        var rows = Regex.Matches(html, @"<tr>(.*?)</tr>", RegexOptions.Singleline)
-                        .Cast<Match>()
-                        .Select(m => m.Groups[1].Value.Trim())
-                        .ToList();
+      var rows = Regex.Matches(html, @"<tr>(.*?)</tr>", RegexOptions.Singleline)
+                      .Cast<Match>()
+                      .Select(m => m.Groups[1].Value.Trim())
+                      .ToList();
 
-        var headers = Regex.Matches(rows[0], @"<th>(.*?)</th>")
+      var headers = Regex.Matches(rows[0], @"<th>(.*?)</th>")
+                          .Cast<Match>()
+                          .Select(m => m.Groups[1].Value.Trim())
+                          .ToList();
+
+      var data = new List<Dictionary<string, string>>();
+      for (int i = 1; i < rows.Count; i++)
+      {
+        var rowData = Regex.Matches(rows[i], @"<td>(.*?)</td>")
                             .Cast<Match>()
                             .Select(m => m.Groups[1].Value.Trim())
                             .ToList();
 
-        var data = new List<Dictionary<string, string>>();
-        for (int i = 1; i < rows.Count; i++)
+        var rowDict = new Dictionary<string, string>();
+        for (int j = 0; j < headers.Count; j++)
         {
-            var rowData = Regex.Matches(rows[i], @"<td>(.*?)</td>")
-                                .Cast<Match>()
-                                .Select(m => m.Groups[1].Value.Trim())
-                                .ToList();
-
-            var rowDict = new Dictionary<string, string>();
-            for (int j = 0; j < headers.Count; j++)
-            {
-                rowDict[headers[j]] = rowData[j];
-            }
-            data.Add(rowDict);
+          rowDict[headers[j]] = rowData[j];
         }
+        data.Add(rowDict);
+      }
 
-        return data;
+      return data;
     }
   }
 }
