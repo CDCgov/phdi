@@ -5,8 +5,10 @@ from typing import Union
 
 import phonenumbers
 import pycountry
-from app.harmonization.double_metaphone import DoubleMetaphone
 from detect_delimiter import detect
+
+from app.harmonization.double_metaphone import DoubleMetaphone
+
 # import pathlib
 
 

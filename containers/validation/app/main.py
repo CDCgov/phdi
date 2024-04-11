@@ -3,14 +3,15 @@ from typing import Annotated
 
 from fastapi import Body
 
+from phdi.containers.base_service import BaseService
+from phdi.validation.validation import validate_ecr
+
 from .constants import ValidateInput
 from .constants import ValidateResponse
 from .utils import check_for_and_extract_rr_data
 from .utils import load_ecr_config
 from .utils import read_json_from_assets
 from .utils import validate_error_types
-from phdi.containers.base_service import BaseService
-from phdi.validation.validation import validate_ecr
 
 # TODO: Remove hard coded location for config path
 # and/or provide a mechanism to pass in configuration

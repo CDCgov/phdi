@@ -13,7 +13,6 @@ from sqlalchemy import text
 from phdi.linkage.dal import DataAccessLayer
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
-
 patient_resource = json.load(
     open(
         pathlib.Path(__file__).parent.parent.parent
