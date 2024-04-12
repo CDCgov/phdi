@@ -150,7 +150,7 @@ const SideNav: React.FC = () => {
 
     let options = {
       root: null,
-      rootMargin: "0px 0px -80% 0px",
+      rootMargin: "0px 0px -85% 0px",
       threshold: 0.9,
     };
 

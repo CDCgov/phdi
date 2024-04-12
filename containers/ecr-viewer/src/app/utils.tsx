@@ -163,10 +163,6 @@ export const evaluateEncounterDate = (
   const startDate = formatDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
   );
-  console.log(
-    "ENCOUNTER DATE START",
-    evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
-  );
   if (startDate) {
     textArray.push(`Start: ${startDate}`);
   }
