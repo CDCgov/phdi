@@ -13,6 +13,10 @@
                         {% include 'Reference/Immunization/Performer_Actor' ID: immunizationId, REF: fullOrganizationId -%}
                     {% endif -%}
                 {% endif -%}
+                {% if entrySub.consumable.manufacturedProduct.manufacturerOrganization -%}
+                    {% assign manufacturerId = entrySub.consumable.manufacturedProduct.manufacturerOrganization | to_json_string | generate_uuid -%}
+                    {% include 'Resource/Organization' organization: entrySub.consumable.manufacturedProduct.manufacturerOrganization, ID: manufacturerId -%}
+                {% endif -%}
                 {% include 'Reference/Immunization/Patient' ID: immunizationId, REF: fullPatientId -%}
             {% endfor -%}
         {% else -%}
@@ -25,6 +29,10 @@
                     {% include 'Reference/Immunization/Performer_Actor' ID: immunizationId, REF: fullOrganizationId -%}
                 {% endif -%}
             {% endif -%}
+            {% if entrySub.consumable.manufacturedProduct.manufacturerOrganization -%}
+                {% assign manufacturerId = entrySub.consumable.manufacturedProduct.manufacturerOrganization | to_json_string | generate_uuid -%}
+                {% include 'Resource/Organization' organization: entrySub.consumable.manufacturedProduct.manufacturerOrganization, ID: manufacturerId -%}
+            {% endif -%}
         {% endif -%}            
     {% else -%}
         {% include 'Resource/Immunization' immunization: entrySub, ID: immunizationId -%}
@@ -35,6 +43,10 @@
                 {% assign fullOrganizationId = organizationId | prepend: 'Organization/' -%}
                 {% include 'Reference/Immunization/Performer_Actor' ID: immunizationId, REF: fullOrganizationId -%}
             {% endif -%}
+        {% endif -%}
+        {% if entrySub.consumable.manufacturedProduct.manufacturerOrganization -%}
+            {% assign manufacturerId = entrySub.consumable.manufacturedProduct.manufacturerOrganization | to_json_string | generate_uuid -%}
+            {% include 'Resource/Organization' organization: entrySub.consumable.manufacturedProduct.manufacturerOrganization, ID: manufacturerId -%}
         {% endif -%}
         {% include 'Reference/Immunization/Patient' ID: immunizationId, REF: fullPatientId -%}
     {% endif -%}

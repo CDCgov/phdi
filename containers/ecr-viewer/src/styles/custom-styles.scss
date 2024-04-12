@@ -133,6 +133,10 @@ h4 {
   list-style: none;
 }
 
+.tableHeader {
+  background-color: #F0F0F0 !important;
+}
+
 .ecrTable {
     table-layout: fixed;
     margin-bottom: 0;
@@ -263,4 +267,12 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
 .clinical_info_container table thead tr th {
   background-color: #f0f0f0;
   min-width: 120px;
+}
+
+.immunization_table {
+  tr {
+    td:nth-child(1) {
+      word-break:break-word
+    }
+  }
 }
