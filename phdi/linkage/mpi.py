@@ -10,6 +10,7 @@ from sqlalchemy import and_
 from sqlalchemy import Select
 from sqlalchemy import select
 from sqlalchemy import text
+from sqlalchemy.dialects.postgresql import array_agg, aggregate_order_by
 
 from phdi.fhir.utils import extract_value_with_resource_path
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -444,9 +445,13 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                 self.dal.PATIENT_TABLE.c.sex,
                 id_sub_query.c.mrn,
                 self.dal.NAME_TABLE.c.last_name,
-                self.dal.GIVEN_NAME_TABLE.c.given_name,
-                self.dal.GIVEN_NAME_TABLE.c.given_name_index,
-                self.dal.GIVEN_NAME_TABLE.c.name_id,
+                # Aggregate the given names into an array ordered by the name index
+                array_agg(
+                    aggregate_order_by(
+                        self.dal.GIVEN_NAME_TABLE.c.given_name,
+                        self.dal.GIVEN_NAME_TABLE.c.given_name_index.asc(),
+                    )
+                ).label("given_name"),
                 # TODO: keeping this here for the time
                 # when we decide to add phone numbers into
                 # the blocking data
@@ -469,6 +474,19 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             #
             # .outerjoin(phone_sub_query)
             .outerjoin(self.dal.ADDRESS_TABLE)
+            .group_by(
+                self.dal.PATIENT_TABLE.c.patient_id,
+                self.dal.PATIENT_TABLE.c.person_id,
+                "birthdate",
+                self.dal.PATIENT_TABLE.c.sex,
+                id_sub_query.c.mrn,
+                self.dal.NAME_TABLE.c.last_name,
+                self.dal.NAME_TABLE.c.name_id,
+                "address",
+                "zip",
+                self.dal.ADDRESS_TABLE.c.city,
+                self.dal.ADDRESS_TABLE.c.state,
+            )
         )
         return query
 
