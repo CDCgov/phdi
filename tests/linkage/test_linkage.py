@@ -44,6 +44,7 @@ from phdi.linkage.link import _compare_name_elements
 from phdi.linkage.link import _condense_extract_address_from_resource
 from phdi.linkage.link import _flatten_patient_resource
 from phdi.linkage.link import _match_within_block_cluster_ratio
+from phdi.linkage.link import _convert_given_name_to_first_name
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from tests.test_data_generator import generate_list_patients_contact
 
@@ -1436,3 +1437,27 @@ def test_link_match_missing_address_record():
     assert sorted(list(mapped_patients.values())) == [1, 1]
 
     _clean_up(MPI.dal)
+
+
+def test_convert_given_name_to_first_name():
+    assert _convert_given_name_to_first_name([]) == [], \
+        "Empty data should return empty data"
+
+    data = [["last_name"], ["LENNON"], ["MCCARTNEY"], ["HARRISON"], ["STARKLEY"]]
+    assert _convert_given_name_to_first_name(data) == data, \
+        "Data without given names should return the same data"
+
+    data = [
+        ["mrn", "last_name", "given_name", "city", ],
+        ["111111111", "LENNON", ["JOHN", "WINSTON", "ONO"], "Liverpool"],
+        ["222222222", "MCCARTNEY", ["JAMES", "PAUL"], "Liverpool"],
+        ["333333333", "HARRISON", ["GEORGE", "HAROLD"], "Liverpool"],
+        ["444444444", "STARKLEY", ["RICHARD"], "Liverpool"],
+    ]
+    assert _convert_given_name_to_first_name(data) == [
+        ["mrn", "last_name", "first_name", "city", ],
+        ["111111111", "LENNON", "JOHN WINSTON ONO", "Liverpool"],
+        ["222222222", "MCCARTNEY", "JAMES PAUL", "Liverpool"],
+        ["333333333", "HARRISON", "GEORGE HAROLD", "Liverpool"],
+        ["444444444", "STARKLEY", "RICHARD", "Liverpool"],
+    ], "Given names should be concatenated into a single string"

@@ -1598,3 +1598,26 @@ def aggregate_given_names_for_linkage(data: list[list]):
     lol = df.values.tolist()
     lol.insert(0, necessary_columns)
     return lol
+
+
+def _convert_given_name_to_first_name(data: list[list]) -> list[list]:
+    """
+    In the list of query row results, convert the given_name column (which is a
+    list of given names) to a first_name column (which is a space-delimited string
+    of given names).
+
+    :param data: List of lists block data.
+    :return: List of lists with first_name column.
+    """
+    result = []
+    if not data:
+        return result  # empty list, should return an empty list
+
+    if "given_name" not in data[0]:
+        return data  # given_name not in data, should return the original
+
+    given_name_idx = data[0].index("given_name")
+    for idx, row in enumerate(data):
+        val = "first_name" if idx == 0 else " ".join(row[given_name_idx])
+        result.append(row[:given_name_idx] + [val] + row[given_name_idx + 1:])
+    return result
