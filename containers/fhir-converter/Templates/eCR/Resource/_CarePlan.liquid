@@ -20,7 +20,7 @@
                 {% if carePlanEntry.procedure.templateId.root == "2.16.840.1.113883.10.20.22.4.41" or carePlanEntry.procedure.templateId[0].root == "2.16.840.1.113883.10.20.22.4.41" %}
                 {
                     "detail": {
-                        "code":{ {% include 'DataType/CodeableConcept' Coding: carePlanEntry.procedure.code -%} },
+                        "code":{ {% include 'DataType/CodeableConcept' CodeableConcept: carePlanEntry.procedure.code -%} },
                         "status":"scheduled",
                         "scheduledString": "{{ carePlanEntry.procedure.effectiveTime.value }}",
                     },
