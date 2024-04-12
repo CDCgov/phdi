@@ -16,20 +16,22 @@
             "reference": "{{ patientReference }}",
         },
         "activity":[
-            {% for carePlanEntry in carePlan.text.table.tbody.tr %}
-            {
-                "detail": {
-                    "code":{ {% include 'DataType/CodeableConcept' Text: carePlanEntry.td[0]._ -%} },
-                    "status":"scheduled",
-                    "scheduledString": "{{ carePlanEntry.td[2]._ }}",
+            {% for carePlanEntry in carePlan.entry %}
+                {% if carePlanEntry.procedure.templateId.root == "2.16.840.1.113883.10.20.22.4.41" or carePlanEntry.procedure.templateId[0].root == "2.16.840.1.113883.10.20.22.4.41" %}
+                {
+                    "detail": {
+                        "code":{ {% include 'DataType/CodeableConcept' Coding: carePlanEntry.procedure.code -%} },
+                        "status":"scheduled",
+                        "scheduledString": "{{ carePlanEntry.procedure.effectiveTime.value }}",
+                    },
+                    "extension": [
+                        {
+                            "url": "dibbs.orderedDate",
+                            "valueString": "{{ carePlanEntry.procedure.author.time.value }}"
+                        }
+                    ]
                 },
-                "extension": [
-                    {
-                        "url": "dibbs.orderedDate",
-                        "valueString": "{{ carePlanEntry.td[1]._ }}"
-                    }
-                ]
-            },
+                {% endif %}
             {% endfor %}
         ]
     },
