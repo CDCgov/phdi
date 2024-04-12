@@ -746,9 +746,6 @@ export const returnPlannedProceduresTable = (
   ];
 
   carePlanActivities.forEach((entry) => {
-    if (entry.detail) {
-      entry.detail.scheduledString = formatDate(entry.detail.scheduledString);
-    }
     if (entry.extension) {
       const orderedDateIndex = entry.extension.findIndex(
         (extension) => extension.url === "dibbs.orderedDate",
@@ -759,6 +756,10 @@ export const returnPlannedProceduresTable = (
           entry.extension[orderedDateIndex].valueString,
         );
       }
+    }
+
+    if (entry.detail) {
+      entry.detail.scheduledString = formatDate(entry.detail.scheduledString);
     }
   });
 

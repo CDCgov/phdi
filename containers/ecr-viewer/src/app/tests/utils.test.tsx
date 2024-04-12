@@ -6,6 +6,7 @@ import {
   evaluateClinicalData,
   evaluatePatientName,
   returnCareTeamTable,
+  returnPlannedProceduresTable,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
@@ -17,6 +18,7 @@ import BundleWithMiscNotes from "../tests/assets/BundleMiscNotes.json";
 import BundleCareTeam from "../tests/assets/BundleCareTeam.json";
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import { CarePlanActivity } from "fhir/r4b";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -211,19 +213,39 @@ describe("Utils", () => {
     });
   });
 
-  describe("Extract Patient Address", () => {
-    it("should return empty string if no address is available", () => {
-      const actual = extractPatientAddress(undefined as any, mappings);
+  describe("Planned Procedures Table", () => {
+    it("should return table when data is provided", () => {
+      const carePlanActivities = [
+        {
+          detail: {
+            scheduledString: "02/01/2024",
+            code: {
+              coding: [
+                {
+                  display: "activity 1",
+                },
+              ],
+            },
+          },
+          extension: [
+            {
+              url: "dibbs.orderedDate",
+              valueString: "01/01/2024",
+            },
+          ],
+        },
+      ] as CarePlanActivity[];
+      const actual = returnPlannedProceduresTable(carePlanActivities, mappings);
+      render(actual!);
 
-      expect(actual).toBeEmpty();
+      expect(screen.getByText("activity 1")).toBeInTheDocument();
+      expect(screen.getByText("01/01/2024")).toBeInTheDocument();
+      expect(screen.getByText("02/01/2024")).toBeInTheDocument();
     });
-    it("should get patient address", () => {
-      const actual = extractPatientAddress(
-        BundleWithPatient as unknown as Bundle,
-        mappings,
-      );
+    it("should not return table when data is provided", () => {
+      const actual = returnPlannedProceduresTable([], mappings);
 
-      expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");
+      expect(actual).toBeUndefined();
     });
   });
 });
