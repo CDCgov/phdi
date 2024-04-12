@@ -741,17 +741,16 @@ export const returnPlannedProceduresTable = (
 
   carePlanActivities.forEach((entry) => {
     if (entry.detail) {
-      entry.detail.scheduledString = formatDate(entry.detail?.scheduledString);
+      entry.detail.scheduledString = formatDate(entry.detail.scheduledString);
     }
     if (entry.extension) {
-      const i = entry.extension?.findIndex(
-        (x) => x.url === "dibbs.orderedDate",
+      const orderedDateIndex = entry.extension.findIndex(
+        (extension) => extension.url === "dibbs.orderedDate",
       );
 
-      if (i !== -1) {
-        console.log(entry.extension[i].valueString);
-        entry.extension[i].valueString = formatDate(
-          entry.extension[i].valueString,
+      if (orderedDateIndex !== -1) {
+        entry.extension[orderedDateIndex].valueString = formatDate(
+          entry.extension[orderedDateIndex].valueString,
         );
       }
     }
