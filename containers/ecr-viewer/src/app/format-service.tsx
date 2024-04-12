@@ -15,12 +15,41 @@ export interface TableJson {
   tables?: TableRow[][];
 }
 
-export const formatName = (firstName: string, lastName: string) => {
-  if (firstName != undefined) {
-    return `${firstName} ${lastName}`.trim();
-  } else {
-    return undefined;
+export interface TableJson {
+  resultId?: string;
+  resultName?: string;
+  tables?: TableRow[][];
+}
+
+/**
+ * Formats a person's name using given name(s), family name, optional prefix(es), and optional suffix(es).
+ * @param given - Optional array of given name(s).
+ * @param family - Optional string representing family name or surname.
+ * @param [prefix] - Optional array of name prefix(es).
+ * @param [suffix] - Optional array of name suffix(es).
+ * @returns Formatted name.
+ */
+export const formatName = (
+  given?: string[],
+  family?: string,
+  prefix?: string[],
+  suffix?: string[],
+) => {
+  const nameArray: string[] = [];
+  if (prefix) {
+    nameArray.push(...prefix);
   }
+  if (given) {
+    nameArray.push(...given);
+  }
+  if (family) {
+    nameArray.push(family);
+  }
+  if (suffix) {
+    nameArray.push(...suffix);
+  }
+
+  return nameArray.join(" ").trim();
 };
 
 export const formatAddress = (
@@ -67,12 +96,17 @@ export const formatDateTime = (dateTime?: string) => {
 
 /**
  * Formats the provided date string into a formatted date string with year, month, and day.
- * @param date - The date string to be formatted.
- * @returns - The formatted date string or undefined if the input date is falsy.
+ * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
+ * @returns - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
  */
-export const formatDate = (date?: string): string | undefined => {
-  if (date) {
-    return new Date(date).toLocaleDateString("en-US", {
+export const formatDate = (dateString?: string): string | undefined => {
+  if (dateString) {
+    let date = new Date(dateString);
+    if (date.toString() == "Invalid Date") {
+      const formattedDate = `${dateString.substring(0, 4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}`; // yyyy-mm-dd
+      date = new Date(formattedDate);
+    }
+    return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
@@ -297,3 +331,13 @@ export const truncateLabNameWholeWord = (
   // Truncate to the last full word within the limit
   return input_str.substring(0, lastSpaceIndex);
 };
+
+/**
+ * Converts a string to sentence case, making the first character uppercase and the rest lowercase.
+ * @param str - The string to convert to sentence case.
+ * @returns The converted sentence-case string. If the input is empty or not a string, the original input is returned.
+ */
+export function toSentenceCase(str: string) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

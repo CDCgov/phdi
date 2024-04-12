@@ -65,6 +65,7 @@ rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/u
 
 # Clinical Data
 clinicalReasonForVisit: "Bundle.entry.resource.section.where(title = 'Reason for Visit')[0].extension[0].valueString"
+
 #vitals
 patientHeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='8302-2').first().valueQuantity.value"
 patientHeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='8302-2').first().valueQuantity.unit"
@@ -87,6 +88,13 @@ plannedProcedures: "Bundle.entry.resource.where(resourceType = 'CarePlan').activ
 plannedProcedureName: "detail.code.text"
 plannedProcedureOrderedDate: "extension.where(url = 'dibbs.orderedDate').valueString"
 plannedProcedureScheduledDate: "detail.scheduledString"
+
+## Care Team
+careTeamParticipants: "Bundle.entry.resource.where(resourceType='CareTeam').participant"
+careTeamParticipantMemberName: "member.name"
+careTeamParticipantRole: "role.text"
+careTeamParticipantStatus: "modifierExtension.where(url='participant.status').valueString"
+careTeamParticipantPeriod: "period.text"
 
 # Immunization Info
 immunizations: "Bundle.entry.resource.where(resourceType = 'Immunization')"

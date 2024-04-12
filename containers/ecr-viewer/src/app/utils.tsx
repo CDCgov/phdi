@@ -1,6 +1,13 @@
 import React from "react";
 import * as dateFns from "date-fns";
-import { Bundle, Condition, Immunization, Procedure } from "fhir/r4";
+import {
+  Bundle,
+  Condition,
+  Immunization,
+  Procedure,
+  Practitioner,
+  FhirResource,
+} from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
@@ -16,9 +23,9 @@ import {
   formatTablesToJSON,
   TableRow,
 } from "@/app/format-service";
-import { evaluateTable } from "./evaluate-service";
+import { evaluateTable, evaluateReference } from "./evaluate-service";
 import { Table } from "@trussworks/react-uswds";
-import { CarePlanActivity } from "fhir/r4b";
+import { CareTeamParticipant, CarePlanActivity } from "fhir/r4b";
 
 export interface DisplayData {
   title?: string;
@@ -41,6 +48,7 @@ export interface ColumnInfoInput {
   columnName: string;
   infoPath?: string;
   value?: string;
+  sentenceCase?: boolean;
 }
 
 export interface CompleteData {
@@ -384,7 +392,7 @@ export const evaluateProviderData = (
     {
       title: "Provider Name",
       value: formatName(
-        evaluate(fhirBundle, mappings["providerGivenName"])[0],
+        evaluate(fhirBundle, mappings["providerGivenName"]),
         evaluate(fhirBundle, mappings["providerFamilyName"])[0],
       ),
     },
@@ -613,6 +621,77 @@ export const returnImmunizations = (
   );
 };
 
+export const returnCareTeamTable = (
+  bundle: Bundle,
+  mappings: PathMappings,
+): React.JSX.Element | undefined => {
+  const careTeamParticipants: CareTeamParticipant[] = evaluate(
+    bundle,
+    mappings["careTeamParticipants"],
+  );
+  if (careTeamParticipants.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Member", infoPath: "careTeamParticipantMemberName" },
+    { columnName: "Role", infoPath: "careTeamParticipantRole" },
+    {
+      columnName: "Status",
+      infoPath: "careTeamParticipantStatus",
+      sentenceCase: true,
+    },
+    { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
+  ];
+
+  careTeamParticipants.forEach((entry) => {
+    if (entry?.period) {
+      const textArray: String[] = [];
+
+      if (entry.period.start) {
+        let startDate = formatDate(entry.period.start);
+        if (startDate !== "Invalid Date") {
+          textArray.push(`Start: ${startDate}`);
+        }
+      }
+
+      if (entry.period.end) {
+        let endDate = formatDate(entry.period.end);
+        if (endDate !== "Invalid Date") {
+          textArray.push(`End: ${endDate}`);
+        }
+      }
+
+      (entry.period as any).text = textArray.join(" ");
+    }
+
+    const practitioner = evaluateReference(
+      bundle,
+      mappings,
+      entry?.member?.reference || "",
+    ) as Practitioner;
+    const practitionerNameObj = practitioner.name?.find(
+      (nameObject) => nameObject.family,
+    );
+    if (entry.member) {
+      (entry.member as any).name = formatName(
+        practitionerNameObj?.given,
+        practitionerNameObj?.family,
+        practitionerNameObj?.prefix,
+        practitionerNameObj?.suffix,
+      );
+    }
+  });
+
+  return evaluateTable(
+    careTeamParticipants as FhirResource[],
+    mappings,
+    columnInfo,
+    "Care Team",
+    false,
+  );
+};
+
 /**
  * Generates a formatted table representing the list of procedures based on the provided array of procedures and mappings.
  * @param proceduresArray - An array containing the list of procedures.
@@ -741,6 +820,10 @@ export const evaluateClinicalData = (
       value: planOfTreatmentElement,
     },
     {
+      title: "Care Team",
+      value: returnCareTeamTable(fhirBundle, mappings),
+    },
+    {
       title: "Planned Procedures",
       value: returnPlannedProceduresTable(
         evaluate(fhirBundle, mappings["plannedProcedures"]),
@@ -844,7 +927,7 @@ export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
 }): React.JSX.Element => {
   return (
     <div className="grid-row">
-      <div className="grid-col-auto text-pre-line">{item.value}</div>
+      <div className="grid-col-auto width-full text-pre-line">{item.value}</div>
       <div className={"section__line_gray"} />
     </div>
   );
