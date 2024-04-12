@@ -363,7 +363,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         },
         "encounter": {
           "reference": "Encounter/79106bc4-be61-f85f-b1cd-b2ae40786a84"
@@ -407,7 +407,7 @@
           "start": "2022-03-12T19:45:00-04:00"
         },
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         },
         "location": [
           {
@@ -823,10 +823,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:ad5a6eef-f736-4f82-8829-cac1559d26a3",
+      "fullUrl": "urn:uuid:18028a5f-3605-45f7-846b-1bf65155c645",
       "resource": {
         "resourceType": "Patient",
-        "id": "ad5a6eef-f736-4f82-8829-cac1559d26a3",
+        "id": "18028a5f-3605-45f7-846b-1bf65155c645",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -962,7 +962,437 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+        "url": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1616e266-4df8-4316-b841-cdda040f26d2",
+      "resource": {
+        "resourceType": "CareTeam",
+        "id": "1616e266-4df8-4316-b841-cdda040f26d2",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:8589d445-a267-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "status": "active",
+        "name": "Patient Care Team",
+        "subject": {
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
+        },
+        "participant": [
+          {
+            "role": {
+              "text": "admitting physician"
+            },
+            "member": {
+              "reference": "Practitioner/a8840b8c-2257-6753-95fd-f80ee94db657"
+            },
+            "period": {
+              "start": "20220312"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "attending physician"
+            },
+            "member": {
+              "reference": "Practitioner/c0d4474d-7bc4-5bfa-6b8a-a618d3c87d71"
+            },
+            "period": {
+              "start": "20220312"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "primary care physician"
+            },
+            "member": {
+              "reference": "Practitioner/d31af24c-4cb8-fe6a-c548-87b784a87492"
+            },
+            "period": {
+              "start": "20220312"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "REFERRING"
+            },
+            "member": {
+              "reference": "Practitioner/52113412-cc5e-c98e-5f03-89c780d8ca9d"
+            },
+            "period": {
+              "start": "20220312"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "FAMILY"
+            },
+            "member": {
+              "reference": "Practitioner/13eb8e97-805b-5e60-968d-4860fc34b1d1"
+            },
+            "period": {
+              "start": "20220312"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "OTHER"
+            },
+            "member": {
+              "reference": "Practitioner/124242e9-e69e-ce9d-a13d-7181d307a498"
+            },
+            "period": {
+              "start": "20220312"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "CONSULTING"
+            },
+            "member": {
+              "reference": "Practitioner/c47a22d8-c9a4-32bf-1e9b-8b27c9c9f15a"
+            },
+            "period": {
+              "start": "20220312"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a8840b8c-2257-6753-95fd-f80ee94db657",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "a8840b8c-2257-6753-95fd-f80ee94db657",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:b3b93188-29ee-567e-8216-30f4d3c8e283"
+          }
+        ],
+        "name": [
+          {
+            "family": "Sher",
+            "given": [
+              "Adam"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "2 COMMERCE DR"
+            ],
+            "city": "BOSTON",
+            "state": "MA",
+            "postalCode": "11111"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/a8840b8c-2257-6753-95fd-f80ee94db657"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c0d4474d-7bc4-5bfa-6b8a-a618d3c87d71",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "c0d4474d-7bc4-5bfa-6b8a-a618d3c87d71",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:090567dd-7557-53f7-a112-4c512a7df461"
+          }
+        ],
+        "name": [
+          {
+            "family": "Sher",
+            "given": [
+              "Adam"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/c0d4474d-7bc4-5bfa-6b8a-a618d3c87d71"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d31af24c-4cb8-fe6a-c548-87b784a87492",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "d31af24c-4cb8-fe6a-c548-87b784a87492",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:362f07a0-c8bc-5023-837d-524a9c74cc60"
+          }
+        ],
+        "name": [
+          {
+            "family": "MEDITECH",
+            "given": [
+              "DR"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "20 ELM STREET"
+            ],
+            "city": "BOSTON",
+            "state": "MA",
+            "postalCode": "02154"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1(617)555-1234",
+            "use": "work"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/d31af24c-4cb8-fe6a-c548-87b784a87492"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:52113412-cc5e-c98e-5f03-89c780d8ca9d",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "52113412-cc5e-c98e-5f03-89c780d8ca9d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:8071c21f-89ed-5614-ac47-7d564a56fe75"
+          }
+        ],
+        "name": [
+          {
+            "family": "NOEL",
+            "given": [
+              "AMANDA"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/52113412-cc5e-c98e-5f03-89c780d8ca9d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:13eb8e97-805b-5e60-968d-4860fc34b1d1",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "13eb8e97-805b-5e60-968d-4860fc34b1d1",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:5751a12b-e49b-4749-9ff1-0bcbf4cac19d"
+          }
+        ],
+        "name": [
+          {
+            "family": "PARLATO",
+            "given": [
+              "AMANDA"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/13eb8e97-805b-5e60-968d-4860fc34b1d1"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:124242e9-e69e-ce9d-a13d-7181d307a498",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "124242e9-e69e-ce9d-a13d-7181d307a498",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:8b8515df-ec5c-56e3-85b1-fb812ad54a60"
+          }
+        ],
+        "name": [
+          {
+            "family": "Roberts",
+            "given": [
+              "Rickey"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/124242e9-e69e-ce9d-a13d-7181d307a498"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c47a22d8-c9a4-32bf-1e9b-8b27c9c9f15a",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "c47a22d8-c9a4-32bf-1e9b-8b27c9c9f15a",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:14570e4d-f500-55c6-9d8a-5aa496f7e3dc"
+          }
+        ],
+        "name": [
+          {
+            "family": "Newton",
+            "given": [
+              "Stephen"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/c47a22d8-c9a4-32bf-1e9b-8b27c9c9f15a"
       }
     },
     {
@@ -998,7 +1428,7 @@
         },
         "onsetDateTime": "2022-03-24T11:05:00-04:00",
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         },
         "meta": {
           "source": [
@@ -1044,7 +1474,7 @@
         },
         "onsetDateTime": "2022-03-24T11:06:00-04:00",
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         },
         "meta": {
           "source": [
@@ -1106,7 +1536,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         }
       },
       "request": {
@@ -1140,7 +1570,7 @@
         "status": "final",
         "valueString": "Do not know",
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         }
       },
       "request": {
@@ -1193,7 +1623,7 @@
           "unit": "[in_i]"
         },
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         }
       },
       "request": {
@@ -1246,7 +1676,7 @@
           "unit": "cm"
         },
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         }
       },
       "request": {
@@ -1299,7 +1729,7 @@
           "unit": "[lb_av]"
         },
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         }
       },
       "request": {
@@ -1352,7 +1782,7 @@
           "unit": "kg"
         },
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         }
       },
       "request": {
@@ -1405,7 +1835,7 @@
           "unit": "kg/m2"
         },
         "subject": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         }
       },
       "request": {
@@ -1576,7 +2006,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         },
         "meta": {
           "source": [
@@ -1636,7 +2066,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         },
         "meta": {
           "source": [
@@ -1685,7 +2115,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/ad5a6eef-f736-4f82-8829-cac1559d26a3"
+          "reference": "Patient/18028a5f-3605-45f7-846b-1bf65155c645"
         },
         "meta": {
           "source": [
