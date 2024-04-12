@@ -750,7 +750,7 @@ export const returnPlannedProceduresTable = (
 
       if (i !== -1) {
         console.log(entry.extension[i].valueString);
-        entry.extension[i].valueString = formatDateTime(
+        entry.extension[i].valueString = formatDate(
           entry.extension[i].valueString,
         );
       }
@@ -809,19 +809,19 @@ export const evaluateClinicalData = (
 
   const treatmentData: DisplayData[] = [
     {
-      title: "Procedures",
-      value: returnProceduresTable(
-        evaluate(fhirBundle, mappings["procedures"]),
-        mappings,
-      ),
-    },
-    {
       title: "Plan of Treatment",
       value: planOfTreatmentElement,
     },
     {
       title: "Care Team",
       value: returnCareTeamTable(fhirBundle, mappings),
+    },
+    {
+      title: "Procedures",
+      value: returnProceduresTable(
+        evaluate(fhirBundle, mappings["procedures"]),
+        mappings,
+      ),
     },
     {
       title: "Planned Procedures",
