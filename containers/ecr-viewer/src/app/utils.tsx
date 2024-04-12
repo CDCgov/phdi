@@ -735,6 +735,9 @@ export const returnPlannedProceduresTable = (
   carePlanActivities: CarePlanActivity[],
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
+  carePlanActivities = carePlanActivities.filter(
+    (entry) => entry.detail?.code?.coding?.[0]?.display,
+  );
   if (carePlanActivities.length === 0) {
     return undefined;
   }
