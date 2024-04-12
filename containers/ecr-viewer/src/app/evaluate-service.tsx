@@ -29,7 +29,7 @@ export const evaluateTable = (
     <th
       key={`${column.columnName}${index}`}
       scope="col"
-      className="bg-base-lightest"
+      className="tableHeader"
     >
       {column.columnName}
     </th>
