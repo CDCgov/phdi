@@ -12,7 +12,9 @@
         ],
         "status": "unknown",
         "intent": "proposal",
-        "subject": "reference to patient",
+        "subject": {
+            "reference": "{{ patientReference }}",
+        },
         "activity":[
             {% for carePlanEntry in carePlan.text.table.tbody.tr %}
             {

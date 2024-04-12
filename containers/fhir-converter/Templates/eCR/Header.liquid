@@ -119,7 +119,7 @@
 {% assign carePlan = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.10' %}
 {% assign carePlanResource = carePlan.2_16_840_1_113883_10_20_22_2_10 %}
 {% assign carePlanId = carePlanResource | to_json_string | generate_uuid %}
-{% include 'Resource/CarePlan' carePlan: carePlanResource ID: carePlanId  %}
+{% include 'Resource/CarePlan' carePlan: carePlanResource ID: carePlanId patientReference: fullPatientId  %}
 
 {% if msg.ClinicalDocument.recordTarget.patientRole.patient.guardian -%}
   {% assign relatedPersonId = msg.ClinicalDocument.recordTarget.patientRole.patient.guardian | to_json_string | generate_uuid -%}
