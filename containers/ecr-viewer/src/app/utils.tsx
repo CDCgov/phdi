@@ -725,6 +725,12 @@ export const returnProceduresTable = (
   return evaluateTable(proceduresArray, mappings, columnInfo, "Procedures");
 };
 
+/**
+ * Generates a formatted table representing the list of planned procedures
+ * @param carePlanActivities - An array containing the list of procedures.
+ * @param mappings - An object containing FHIR path mappings for procedure attributes.
+ * @returns - A formatted table React element representing the list of planned procedures, or undefined if the procedures array is empty.
+ */
 export const returnPlannedProceduresTable = (
   carePlanActivities: CarePlanActivity[],
   mappings: PathMappings,
