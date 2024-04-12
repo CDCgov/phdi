@@ -45,6 +45,14 @@ export const formatAddress = (
     .join("\n");
 };
 
+/**
+ * Formats the given date and time string according to the specified options.
+ * If the time is included in the input string, it formats the date and time in the local time zone
+ * with the year, month, day, and time components. Otherwise, it formats only the date with the
+ * year, month, and day components in the UTC time zone.
+ * @param dateTime - The date and time string to be formatted.
+ * @returns The formatted date and time string.
+ */
 export const formatDateTime = (dateTime: string) => {
   const hasTime = dateTime?.includes(":");
   const options: Intl.DateTimeFormatOptions = {
@@ -56,6 +64,8 @@ export const formatDateTime = (dateTime: string) => {
   if (hasTime) {
     options.hour = "numeric";
     options.minute = "2-digit";
+  } else {
+    options.timeZone = "UTC"; // UTC, otherwise will have timezone issues
   }
   const date = new Date(dateTime)
     .toLocaleDateString("en-Us", options)
@@ -90,31 +100,31 @@ export const formatPhoneNumber = (phoneNumber: string) => {
   }
 };
 
+/**
+ * Formats the provided start and end date-time strings and returns a formatted string
+ * with both the start and end times. Each time is labeled and separated by a carriage return
+ * and newline for clarity in display or further processing.
+ * @param startDateTime - The start date-time string to be formatted.
+ * @param endDateTime - The end date-time string to be formatted.
+ * @returns A string with the formatted start and end times, each on a new line.
+ */
 export const formatStartEndDateTime = (
-  startDateTime: "string",
-  endDateTime: "string",
+  startDateTime: string,
+  endDateTime: string,
 ) => {
-  const startDateObject = new Date(startDateTime);
-  const endDateObject = new Date(endDateTime);
+  const textArray: String[] = [];
 
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
+  const startDateObject = formatDateTime(startDateTime);
+  const endDateObject = formatDateTime(endDateTime);
 
-  const startFormattedDate = startDateObject
-    .toLocaleString("en-US", options)
-    .replace(",", "");
-  const endFormattedDate = endDateObject
-    .toLocaleString("en-us", options)
-    .replace(",", "");
+  if (startDateObject) {
+    textArray.push(`Start: ${startDateObject}`);
+  }
+  if (endDateObject) {
+    textArray.push(`End: ${endDateObject}`);
+  }
 
-  return `Start: ${startFormattedDate}
-        End: ${endFormattedDate}`;
+  return textArray.join("\r\n");
 };
 
 export const formatVitals = (
