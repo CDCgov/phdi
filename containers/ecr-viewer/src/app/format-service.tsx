@@ -46,14 +46,17 @@ export const formatAddress = (
 };
 
 export const formatDateTime = (dateTime: string) => {
+  const hasTime = dateTime?.includes(":");
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-    hour: "numeric",
-    minute: "2-digit",
-    timeZoneName: "short",
+    timeZoneName: hasTime ? "short" : undefined,
   };
+  if (hasTime) {
+    options.hour = "numeric";
+    options.minute = "2-digit";
+  }
   const date = new Date(dateTime)
     .toLocaleDateString("en-Us", options)
     .replace(",", "");

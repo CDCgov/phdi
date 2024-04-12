@@ -159,15 +159,25 @@ export const evaluateEncounterDate = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
+  const textArray: String[] = [];
   const startDate = formatDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
   );
+  console.log(
+    "ENCOUNTER DATE START",
+    evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
+  );
+  if (startDate) {
+    textArray.push(`Start: ${startDate}`);
+  }
   const endDate = formatDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
   );
+  if (endDate) {
+    textArray.push(`End: ${endDate}`);
+  }
 
-  return `Start: ${startDate}
-    End: ${endDate}`;
+  return textArray.join("\r\n");
 };
 
 /**
