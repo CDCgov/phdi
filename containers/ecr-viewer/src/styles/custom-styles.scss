@@ -232,7 +232,8 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
     font-weight: bold;
 }
 
-ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current {
+ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current,
+ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current {
     &::after{
       background-color: rgb(0, 94, 162);
       content: "";
@@ -244,6 +245,10 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
       left: 0rem;
       border-radius: 99rem;
     }
+}
+
+.usa-sidenav__sublist li.usa-sidenav__item:first-child{
+  border-top: none !important;
 }
 
 .clinical_info_container table {
