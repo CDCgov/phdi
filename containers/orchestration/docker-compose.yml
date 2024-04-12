@@ -65,15 +65,15 @@ services:
     volumes:
       - "./jaeger-ui.json:/etc/jaeger/jaeger-ui.json"
     command: --query.ui-config /etc/jaeger/jaeger-ui.json
-    environment:
-      - METRICS_STORAGE_TYPE=prometheus
-      - PROMETHEUS_SERVER_URL=http://prometheus:9090
     ports:
-      - "14250:14250" # accepts jaeger models
-      - "14268:14268" # accepts jaeger.thrift compression from clients
-      - "6831:6831/udp" # accepts jaeger.thrift via SDKs (standard)
       - "16686:16686" # serves frontend and queries
-      - "16685:16685" # jaeger internal
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "prom_data:/prometheus"
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
     container_name: "otel-collector"
@@ -85,13 +85,9 @@ services:
       - "8889:8889" # Endpoint prometheus will scrape
       - "4317:4317" # gRPC OTLP receiver
       - "4318:4318" # HTTP OTLP receiver
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    volumes:
-      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
-      - "prom_data:/prometheus"
+    depends_on:
+      - jaeger
+      - prometheus
   grafana:
     image: grafana/grafana-oss
     ports:
@@ -103,6 +99,7 @@ services:
       - grafana_data:/var/lib/grafana
     depends_on:
       - prometheus
+
 volumes:
   prom_data:
   grafana_data:

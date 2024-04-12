@@ -3,7 +3,7 @@
     "menuEnabled": true
   },
   "monitor": {
-    "menuEnabled": true
+    "menuEnabled": false
   },
   "menu": [
     {
@@ -21,11 +21,11 @@
     },
     {
       "label": "To Prometheus Server",
-      "url": "http://prometheus:9090"
+      "url": "http://localhost:9090/graph"
     },
     {
       "label": "To Grafana Dashboards",
-      "url": "http://grafana:4000"
+      "url": "http://localhost:4000"
     }
   ],
   "search": {
