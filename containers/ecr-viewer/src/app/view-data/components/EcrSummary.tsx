@@ -7,9 +7,9 @@ import {
   PathMappings,
   evaluateEncounterDate,
   evaluatePatientContactInfo,
-  noData,
 } from "../../utils";
 import { SectionConfig } from "./SideNav";
+import React, { FC } from "react";
 
 interface EcrViewerProps {
   fhirPathMappings: PathMappings;
@@ -22,19 +22,39 @@ export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
   "About the Condition",
 ]);
 
+interface DisplayProps {
+  title: string;
+  value: any[] | string;
+  classNames: string;
+}
+
 /**
  * Generates a JSX element to display the provided value.
  * If the value is null, undefined, an empty array, or an empty string,
- * it renders a predefined 'noData' JSX element.
- * Otherwise, it renders the provided value as JSX.
- * @param value - The value to be displayed. It can be an array of any type or a string.
- * @returns The JSX element representing the provided value or a 'noData' JSX element if the value is empty.
+ * it returns null. Otherwise, it renders the provided value as JSX.
+ * @param props - The props object.
+ * @param props.title - Title of the display section.
+ * @param props.value - Value to be displayed.
+ * @param [props.classNames] - Class names to be applied to the value.
+ * @returns The JSX element representing the provided value or null if the value is empty.
  */
-const display = (value: any[] | string): JSX.Element => {
+const Display: FC<DisplayProps> = ({
+  title,
+  value,
+  classNames,
+}: DisplayProps) => {
   if (!value || (Array.isArray(value) && value.length === 0)) {
-    return noData;
+    return null;
   }
-  return <>{value}</>;
+  return (
+    <>
+      <div className="grid-row">
+        <div className="data-title">{title}</div>
+        <div className={classNames}>{value}</div>
+      </div>
+      <div className={"section__line"} />
+    </>
+  );
 };
 
 const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
@@ -52,36 +72,26 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             {ecrSummaryConfig.subNavItems?.[0].title}
           </h3>
           <div className="usa-summary-box__text">
-            <div className="grid-row">
-              <div className="data-title">Patient Name</div>
-              <div className="grid-col-auto">
-                {display(evaluatePatientName(fhirBundle, fhirPathMappings))}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">DOB</div>
-              <div className="grid-col-auto text-pre-line">
-                {display(evaluate(fhirBundle, fhirPathMappings.patientDOB))}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Patient Address</div>
-              <div className="grid-col-auto text-pre-line">
-                {display(extractPatientAddress(fhirBundle, fhirPathMappings))}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Patient Contact</div>
-              <div className="grid-col-auto text-pre-line">
-                {display(
-                  evaluatePatientContactInfo(fhirBundle, fhirPathMappings),
-                )}
-              </div>
-            </div>
-            <div className={"section__line"} />
+            <Display
+              title="Patient Name"
+              value={evaluatePatientName(fhirBundle, fhirPathMappings)}
+              classNames="grid-col-auto"
+            />
+            <Display
+              title="DOB"
+              value={evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+              classNames="grid-col-auto text-pre-line"
+            />
+            <Display
+              title="Patient Address"
+              value={extractPatientAddress(fhirBundle, fhirPathMappings)}
+              classNames="grid-col-auto text-pre-line"
+            />
+            <Display
+              title="Patient Contact"
+              value={evaluatePatientContactInfo(fhirBundle, fhirPathMappings)}
+              classNames="grid-col-auto text-pre-line"
+            />
           </div>
         </div>
         <div className="usa-summary-box__body">
@@ -92,44 +102,32 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             {ecrSummaryConfig.subNavItems?.[1].title}
           </h3>
           <div className="usa-summary-box__text">
-            <div className="grid-row">
-              <div className="data-title">Facility Name</div>
-              <div className="grid-col-auto">
-                {display(evaluate(fhirBundle, fhirPathMappings.facilityName))}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Facility Address</div>
-              <div className="grid-col-auto text-pre-line">
-                {display(extractFacilityAddress(fhirBundle, fhirPathMappings))}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Facility Contact</div>
-              <div className="grid-col-auto">
-                {display(
-                  evaluate(fhirBundle, fhirPathMappings.facilityContact),
-                )}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Encounter Date/Time</div>
-              <div className="grid-col-auto text-pre-line">
-                {display(evaluateEncounterDate(fhirBundle, fhirPathMappings))}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Encounter Type</div>
-              <div className="grid-col-auto">
-                {display(evaluate(fhirBundle, fhirPathMappings.encounterType))}
-              </div>
-            </div>
+            <Display
+              title="Facility Name"
+              value={evaluate(fhirBundle, fhirPathMappings.facilityName)}
+              classNames="grid-col-auto"
+            />
+            <Display
+              title="Facility Address"
+              value={extractFacilityAddress(fhirBundle, fhirPathMappings)}
+              classNames="grid-col-auto text-pre-line"
+            />
+            <Display
+              title="Facility Contact"
+              value={evaluate(fhirBundle, fhirPathMappings.facilityContact)}
+              classNames="grid-col-auto"
+            />
+            <Display
+              title="Encounter Date/Time"
+              value={evaluateEncounterDate(fhirBundle, fhirPathMappings)}
+              classNames="grid-col-auto text-pre-line"
+            />
+            <Display
+              title="Encounter Type"
+              value={evaluate(fhirBundle, fhirPathMappings.encounterType)}
+              classNames="grid-col-auto"
+            />
           </div>
-          <div className={"section__line"} />
         </div>
         <div className="usa-summary-box__body">
           <h3
@@ -139,27 +137,18 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
-            <div className="grid-row">
-              <div className="data-title">Reportable Condition</div>
-              <div className="grid-col-fill">
-                {display(
-                  evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0],
-                )}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">RCKMS Rule Summary</div>
-              <div className="grid-col-fill text-pre-line">
-                {display(
-                  evaluate(
-                    fhirBundle,
-                    fhirPathMappings.rckmsTriggerSummaries,
-                  )[0],
-                )}
-              </div>
-            </div>
-            <div className={"section__line"} />
+            <Display
+              title="Reportable Condition"
+              value={evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0]}
+              classNames="grid-col-fill"
+            />
+            <Display
+              title="RCKMS Rule Summary"
+              value={
+                evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0]
+              }
+              classNames="grid-col-fill text-pre-line"
+            />
             <div className={"grid-row"}>
               <div className={"text-bold"}>
                 Clinical sections relevant to reportable condition

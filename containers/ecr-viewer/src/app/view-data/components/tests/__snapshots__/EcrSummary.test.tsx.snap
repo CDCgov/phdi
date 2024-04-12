@@ -191,10 +191,10 @@ End: 05/13/2022 5:57 AM EDT
               Emergency
             </div>
           </div>
+          <div
+            class="section__line"
+          />
         </div>
-        <div
-          class="section__line"
-        />
       </div>
       <div
         class="usa-summary-box__body"
