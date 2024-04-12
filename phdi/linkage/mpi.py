@@ -1,4 +1,3 @@
-import copy
 import datetime
 import logging
 import uuid
@@ -322,8 +321,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .cte(f"{table_key}_cte")
                     )
                 else:
-                    fk_query_table = copy.deepcopy(cte_query_table)
-                    fk_info = fk_query_table.foreign_keys.pop()
+                    fk_info = next(iter(cte_query_table.foreign_keys))
                     fk_column = fk_info.column
                     fk_table = fk_info.column.table
                     sub_query = (
