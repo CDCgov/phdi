@@ -10,8 +10,8 @@
                 { {% include 'DataType/Identifier' Identifier: id -%} }
             {% endfor -%}
         ],
-        "status": "change me",
-        "intent": "change me",
+        "status": "unknown",
+        "intent": "proposal",
         "subject": "reference to patient",
         "activity":[
             {% for carePlanEntry in carePlan.text.table.tbody.tr %}
