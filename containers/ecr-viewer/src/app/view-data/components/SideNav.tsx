@@ -40,12 +40,9 @@ const headingSelector =
  * @returns The total count of `SectionConfig` objects within the array, including all nested
  * objects within `subNavItems`.
  */
-function countObjects(sectionConfigs: SectionConfig[]): number {
+export function countObjects(sectionConfigs: SectionConfig[]): number {
   let count = 0;
-
-  sectionConfigs.forEach(
-    (config) => (count += countRecursively(config, count)),
-  );
+  sectionConfigs.forEach((config) => (count += countRecursively(config, 0)));
 
   return count;
 }
@@ -60,10 +57,10 @@ function countObjects(sectionConfigs: SectionConfig[]): number {
  * @returns The total count of `SectionConfig` objects, including all nested `subNavItems`.
  */
 function countRecursively(config: SectionConfig, count: number): number {
-  count++;
+  count += 1;
   if (config.subNavItems) {
     config.subNavItems.forEach(
-      (subHead) => (count += countRecursively(subHead, count)),
+      (subHead) => (count += countRecursively(subHead, 0)),
     );
   }
   return count;
