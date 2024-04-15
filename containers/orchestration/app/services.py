@@ -1,5 +1,7 @@
 import json
 import os
+from json.decoder import JSONDecodeError
+from typing import Union
 
 import requests
 from fastapi import HTTPException
@@ -73,6 +75,24 @@ def post_request(url: str, payload: dict) -> Response:
     return requests.post(url, json=payload)
 
 
+def save_bundle(response: Response, bundle: dict) -> Union[Response, dict]:
+    """
+    Helper function to perform a contextual save on a supplied FHIR bundle.
+    If the response contains a `bundle` key, the value at that key is
+    extracted and saved; if the response does not contain a `bundle`,
+    the caller's passed `bundle` is returned instead.
+    """
+    try:
+        r = response.json()
+        if "bundle" in r:
+            return response
+        else:
+            return bundle
+    except JSONDecodeError as e:
+        print("Failed to decode JSON:", e)
+        return bundle
+
+
 async def _send_websocket_dump(
     endpoint_name: str,
     base_response: Response,
@@ -132,6 +152,7 @@ async def call_apis(
     current_message = input.get("message")
     response = current_message
     responses = {}
+    bundle = {}
     # For websocket json dumps
     progress_dict = {}
     for step in workflow:
@@ -144,8 +165,9 @@ async def call_apis(
 
         request_body_func = ENDPOINT_TO_REQUEST_BODY[endpoint_name]
         response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
-        request_body = request_body_func(current_message, input, params)
+        request_body = request_body_func(current_message, input, params, bundle=bundle)
         response = post_request(service_url, request_body)
+        bundle = save_bundle(response=response, bundle=bundle)
         service_response = response_func(response)
 
         if websocket:

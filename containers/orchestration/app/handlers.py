@@ -366,6 +366,7 @@ def build_save_fhir_data_body(
     input_msg: str,
     orchestration_request: OrchestrationRequest,
     workflow_params: dict | None = None,
+    bundle: dict | None = None,
 ) -> dict:
     """
     Helper function for constructing the input payload for an API call to
@@ -379,10 +380,11 @@ def build_save_fhir_data_body(
       accept for consistency.
     :param workflow_params: Optionally, a set of configuration parameters
       included in the workflow config for the validation step of a workflow.
+    :param bundle: Optionally, the fhir bundle to be saved
     :return: A dictionary ready to send to the validation service.
     """
     return {
-        "fhirBundle": input_msg.json()["bundle"],
+        "fhirBundle": bundle,
         "save_source": workflow_params.get("saveSource"),
     }
 
