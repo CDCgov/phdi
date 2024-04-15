@@ -383,7 +383,7 @@ def build_save_fhir_data_body(
     """
     return {
         "fhirBundle": input_msg,
-        "save_source": workflow_params.get("saveSource"),
+        "saveSource": workflow_params.get("saveSource"),
     }
 
 
