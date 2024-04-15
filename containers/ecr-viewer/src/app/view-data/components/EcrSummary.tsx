@@ -10,6 +10,7 @@ import {
 } from "../../utils";
 import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
+import { formatDate } from "@/app/format-service";
 
 interface EcrViewerProps {
   fhirPathMappings: PathMappings;
@@ -79,7 +80,11 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             />
             <Display
               title="DOB"
-              value={evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+              value={
+                formatDate(
+                  evaluate(fhirBundle, fhirPathMappings.patientDOB)[0],
+                ) || ""
+              }
               classNames="grid-col-auto text-pre-line"
             />
             <Display
