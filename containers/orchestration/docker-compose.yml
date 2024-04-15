@@ -59,6 +59,21 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: "jaeger"
+    volumes:
+      - "./jaeger-ui.json:/etc/jaeger/jaeger-ui.json"
+    command: --query.ui-config /etc/jaeger/jaeger-ui.json
+    ports:
+      - "16686:16686" # serves frontend and queries
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "prom_data:/prometheus"
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
     container_name: "otel-collector"
@@ -70,13 +85,9 @@ services:
       - "8889:8889" # Endpoint prometheus will scrape
       - "4317:4317" # gRPC OTLP receiver
       - "4318:4318" # HTTP OTLP receiver
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    volumes:
-      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
-      - "prom_data:/prometheus"
+    depends_on:
+      - jaeger
+      - prometheus
   grafana:
     image: grafana/grafana-oss
     ports:
@@ -88,6 +99,7 @@ services:
       - grafana_data:/var/lib/grafana
     depends_on:
       - prometheus
+
 volumes:
   prom_data:
   grafana_data:
