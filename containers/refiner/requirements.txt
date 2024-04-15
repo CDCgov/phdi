@@ -1,2 +1,4 @@
 ../dibbs
 pathlib
+httpx
+requests
