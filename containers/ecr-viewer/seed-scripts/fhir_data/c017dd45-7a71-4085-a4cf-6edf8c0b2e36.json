@@ -57,7 +57,6 @@
           }
         ],
         "section": [
-//          add care teams references
           {
             "id": "b1d8ef1a-7a4d-0047-b589-d661e4b5e5f7",
             "title": "Care Teams",
@@ -74,7 +73,12 @@
                 }
               ]
             },
-            "mode": "snapshot"
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "CareTeam/380add44-677b-9067-a850-7b8e346cc41c"
+              }
+            ]
           },
           {
             "id": "ebee278c-baeb-2ac4-3399-7355f2cabeb5",
@@ -294,11 +298,11 @@
             "mode": "snapshot"
           },
           {
-            "id": "662c122a-9139-78c7-6035-b12415c90321",
+            "id": "8b6895de-2765-a095-a9a6-a4f37c678d9c",
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "Future Tests Pending Tests Future Visits Referrals to Other Providers Future Procedures Future Medications Patient Instructions <br><table><thead><tr><th>Procedure Name</th><th>Ordered Date</th><th>Scheduled Date</th></tr></thead><tbody><tr><td>Arterial Blood Glucose</td><td>January 25th, 2021 9:39am</td><td>March 14th, 2021 5:08pm</td></tr><tr><td>Ammonia</td><td>January 25th, 2021 9:39am</td><td>January 25th, 2021 9:38am</td></tr></tbody></table>Patient instructions are unavailableFuture medication information is unavailableReferral information is unavailableFuture appointment information is unavailablePending diagnostic test information is unavailableFuture scheduled test information is unavailable"
+              "div": "Future Tests Pending Tests Future Visits Referrals to Other Providers Future Procedures Future Medications Patient Instructions <br><table><thead><tr><th>Procedure Name</th><th>Ordered Date</th><th>Scheduled Date</th></tr></thead><tbody><tr><td>Arterial Blood Glucose</td><td>January 25th, 2021 9:39am</td><td>March 14th, 2021 5:08pm</td></tr><tr><td>Ammonia</td><td>January 25th, 2021 9:39am</td><td>January 25th, 2021 9:38am</td></tr></tbody></table>Patient instructions are unavailable Future medication information is unavailable Referral information is unavailable Future appointment information is unavailable Pending diagnostic test information is unavailable Future scheduled test information is unavailable"
             },
             "code": {
               "coding": [
@@ -309,7 +313,12 @@
                 }
               ]
             },
-            "mode": "snapshot"
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "CarePlan/360f0f52-0434-58ee-1e51-e093e4cf4847"
+              }
+            ]
           },
           {
             "id": "2294648b-92ad-aeb0-6d17-98ee07fcfcf0",
@@ -360,7 +369,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "encounter": {
           "reference": "Encounter/b7f1546c-51ce-9f42-2192-05462d480cc9"
@@ -405,7 +414,7 @@
           "end": "2019-01-29T13:10:34-04:00"
         },
         "subject": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "location": [
           {
@@ -654,10 +663,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:18ce287d-720d-4453-b135-821532c24669",
+      "fullUrl": "urn:uuid:14499738-16f0-4d65-baa7-6c24326752e0",
       "resource": {
         "resourceType": "Patient",
-        "id": "18ce287d-720d-4453-b135-821532c24669",
+        "id": "14499738-16f0-4d65-baa7-6c24326752e0",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -898,7 +907,78 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/18ce287d-720d-4453-b135-821532c24669"
+        "url": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:380add44-677b-9067-a850-7b8e346cc41c",
+      "resource": {
+        "resourceType": "CareTeam",
+        "id": "380add44-677b-9067-a850-7b8e346cc41c",
+        "subject": {
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:360f0f52-0434-58ee-1e51-e093e4cf4847",
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "360f0f52-0434-58ee-1e51-e093e4cf4847",
+        "status": "unknown",
+        "intent": "proposal",
+        "subject": {
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+        },
+        "activity": [
+          {
+            "detail": {
+              "status": "scheduled",
+              "scheduledString": "202103141708-0400"
+            },
+            "extension": [
+              {
+                "url": "dibbs.orderedDate",
+                "valueString": "20210414160302-0400"
+              }
+            ]
+          },
+          {
+            "detail": {
+              "code": {
+                "coding": [
+                  {
+                    "code": "313952006",
+                    "display": "Ammonia plas",
+                    "system": "http://snomed.info/sct"
+                  }
+                ]
+              },
+              "status": "scheduled",
+              "scheduledString": "202101250938-0400"
+            },
+            "extension": [
+              {
+                "url": "dibbs.orderedDate",
+                "valueString": "20210314170826-0400"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "CarePlan/360f0f52-0434-58ee-1e51-e093e4cf4847"
       }
     },
     {
@@ -934,7 +1014,7 @@
         },
         "onsetDateTime": "2019-03",
         "subject": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -980,7 +1060,7 @@
         },
         "onsetDateTime": "2019-03-28T13:32:08-04:00",
         "subject": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1026,7 +1106,7 @@
         },
         "onsetDateTime": "2019-03-28T13:32:08-04:00",
         "subject": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1089,7 +1169,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         }
       },
       "request": {
@@ -1142,7 +1222,7 @@
           "unit": "[in_i]"
         },
         "subject": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         }
       },
       "request": {
@@ -1195,7 +1275,7 @@
           "unit": "[lb_av]"
         },
         "subject": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         }
       },
       "request": {
@@ -1248,7 +1328,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1288,7 +1368,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1328,7 +1408,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1367,7 +1447,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1407,7 +1487,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1447,7 +1527,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1487,7 +1567,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1527,7 +1607,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1567,7 +1647,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1607,7 +1687,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1647,7 +1727,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1687,7 +1767,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1727,7 +1807,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1767,7 +1847,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1807,7 +1887,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1847,7 +1927,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1887,7 +1967,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1927,7 +2007,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -1967,7 +2047,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -2007,7 +2087,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -2047,7 +2127,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -2087,7 +2167,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [
@@ -2127,7 +2207,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/18ce287d-720d-4453-b135-821532c24669"
+          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
         },
         "meta": {
           "source": [

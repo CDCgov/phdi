@@ -264,7 +264,12 @@
                 }
               ]
             },
-            "mode": "snapshot"
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "CarePlan/ec77d178-de8a-915a-311a-1f11f2838946"
+              }
+            ]
           },
           {
             "id": "1f7f0fb5-56ac-daea-0962-3334f085966f",
@@ -357,7 +362,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "encounter": {
           "reference": "Encounter/1a016589-f03e-c216-eb37-306903e8f437"
@@ -402,7 +407,7 @@
           "end": "2022-05-13T09:57:00Z"
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "location": [
           {
@@ -705,10 +710,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:e979c4ab-e208-400f-8d30-dd1ed1b51c28",
+      "fullUrl": "urn:uuid:bf7edb36-3299-4437-b536-f123a0c34b3e",
       "resource": {
         "resourceType": "Patient",
-        "id": "e979c4ab-e208-400f-8d30-dd1ed1b51c28",
+        "id": "bf7edb36-3299-4437-b536-f123a0c34b3e",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -823,22 +828,42 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+        "url": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
       }
     },
     {
-      "fullUrl": "urn:uuid:a36f1344-b355-8a67-1146-ad16f7e8649e",
+      "fullUrl": "urn:uuid:",
       "resource": {
         "resourceType": "CareTeam",
-        "id": "a36f1344-b355-8a67-1146-ad16f7e8649e",
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "meta": {
           "source": [
             "ecr"
           ]
         }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ec77d178-de8a-915a-311a-1f11f2838946",
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "ec77d178-de8a-915a-311a-1f11f2838946",
+        "status": "unknown",
+        "intent": "proposal",
+        "subject": {
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "CarePlan/ec77d178-de8a-915a-311a-1f11f2838946"
       }
     },
     {
@@ -863,7 +888,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -923,7 +948,7 @@
         "effectiveDateTime": "2022-05-13T07:47:00Z",
         "valueString": "NONE /LPF",
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -953,7 +978,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1027,7 +1052,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1057,7 +1082,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1131,7 +1156,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1161,7 +1186,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1235,7 +1260,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1265,7 +1290,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1344,7 +1369,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1374,7 +1399,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1453,7 +1478,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1483,7 +1508,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1562,7 +1587,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1592,7 +1617,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1671,7 +1696,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1701,7 +1726,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1761,7 +1786,7 @@
         "effectiveDateTime": "2022-05-13T07:43:00Z",
         "valueString": "UNK",
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1791,7 +1816,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1870,7 +1895,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1900,7 +1925,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -1960,7 +1985,7 @@
         "effectiveDateTime": "2022-05-13T07:43:00Z",
         "valueString": "UNK",
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -1990,7 +2015,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2049,7 +2074,7 @@
         },
         "effectiveDateTime": "2022-05-13T07:43:00Z",
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2079,7 +2104,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2158,7 +2183,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2188,7 +2213,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2267,7 +2292,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2297,7 +2322,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2376,7 +2401,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2406,7 +2431,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2474,7 +2499,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2504,7 +2529,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2563,7 +2588,7 @@
         },
         "effectiveDateTime": "2022-05-13T06:52:00Z",
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2593,7 +2618,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2672,7 +2697,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2702,7 +2727,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2762,7 +2787,7 @@
         "effectiveDateTime": "2022-05-13T06:52:00Z",
         "valueString": "Trace-lysed",
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2792,7 +2817,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2862,7 +2887,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2892,7 +2917,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -2962,7 +2987,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -2992,7 +3017,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -3062,7 +3087,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -3092,7 +3117,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -3162,7 +3187,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -3192,7 +3217,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -3262,7 +3287,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
@@ -3292,7 +3317,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         },
         "result": [
           {
@@ -3362,7 +3387,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/e979c4ab-e208-400f-8d30-dd1ed1b51c28"
+          "reference": "Patient/bf7edb36-3299-4437-b536-f123a0c34b3e"
         }
       },
       "request": {
