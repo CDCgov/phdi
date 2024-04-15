@@ -1,6 +1,6 @@
-from dibbs.base_service import BaseService
 from pathlib import Path
 
+from dibbs.base_service import BaseService
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
