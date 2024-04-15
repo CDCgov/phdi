@@ -100,17 +100,15 @@ def test_process_message_success(patched_post_request):
             "entry": [{"resource": {"id": "foo"}}],
         }
     }
+    save_bundle_post_request = mock.Mock()
+    save_bundle_post_request.status_code = 200
+    save_bundle_post_request.json.return_value = {
+        "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
+    }
     message_parser_post_request = mock.Mock()
     message_parser_post_request.status_code = 200
     message_parser_post_request.json.return_value = {
         "parsed_values": {"eicr_id": "placeholder_id"}
-    }
-
-    save_bundle_post_request = mock.Mock()
-    save_bundle_post_request.status_code = 200
-    save_bundle_post_request.headers = {"content-type": "application/json"}
-    save_bundle_post_request.json.return_value = {
-        "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
     }
 
     patched_post_request.side_effect = [
@@ -290,16 +288,19 @@ def test_process_success(patched_post_request):
                 "entry": [{"resource": {"id": "foo"}}],
             }
         }
+        save_bundle_post_request = mock.Mock()
+        save_bundle_post_request.status_code = 200
+        save_bundle_post_request.json.return_value = {
+            "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
+        }
         message_parser_post_request = mock.Mock()
         message_parser_post_request.status_code = 200
         message_parser_post_request.json.return_value = {
-            "parsed_values": {"eicr_id": "placeholder_id"}
-        }
-        save_bundle_post_request = mock.Mock()
-        save_bundle_post_request.status_code = 200
-        save_bundle_post_request.headers = {"content-type": "application/json"}
-        save_bundle_post_request.json.return_value = {
-            "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
+            "bundle": {
+                "bundle_type": "batch",
+                "placeholder_id": "abcdefg",
+                "entry": [{"resource": {"id": "foo"}}],
+            }
         }
 
         patched_post_request.side_effect = [
