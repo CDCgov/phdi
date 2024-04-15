@@ -158,7 +158,7 @@ export const formatStartEndDateTime = (
     textArray.push(`End: ${endDateObject}`);
   }
 
-  return textArray.join("\r\n");
+  return textArray.join("\n");
 };
 
 export const formatVitals = (
