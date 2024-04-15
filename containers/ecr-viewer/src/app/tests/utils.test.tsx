@@ -5,6 +5,7 @@ import {
   calculatePatientAge,
   evaluateClinicalData,
   evaluatePatientName,
+  returnProblemsTable,
   returnCareTeamTable,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
@@ -14,9 +15,11 @@ import BundleWithPatient from "../tests/assets/BundlePatient.json";
 import BundleWithEcrMetadata from "../tests/assets/BundleEcrMetadata.json";
 import BundleWithSexualOrientation from "../tests/assets/BundleSexualOrientation.json";
 import BundleWithMiscNotes from "../tests/assets/BundleMiscNotes.json";
+import BundleNoActiveProblems from "../tests/assets/BundleNoActiveProblems.json";
 import BundleCareTeam from "../tests/assets/BundleCareTeam.json";
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import { evaluate } from "fhirpath";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -224,6 +227,18 @@ describe("Utils", () => {
       );
 
       expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");
+    });
+  });
+
+  describe("Render Active Problem table", () => {
+    it("should return empty if active problem name is undefined", () => {
+      const actual = returnProblemsTable(
+        BundleNoActiveProblems as unknown as Bundle,
+        evaluate(BundleNoActiveProblems, mappings["activeProblems"]),
+        mappings,
+      );
+
+      expect(actual).toBeUndefined();
     });
   });
 });
