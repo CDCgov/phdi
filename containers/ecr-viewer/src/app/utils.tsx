@@ -169,15 +169,10 @@ export const evaluateEncounterDate = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
-  const startDate = formatDateTime(
+  return formatStartEndDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
-  );
-  const endDate = formatDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
   );
-
-  return `Start: ${startDate}
-    End: ${endDate}`;
 };
 
 /**

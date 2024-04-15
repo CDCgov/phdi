@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SideNav as UswdsSideNav } from "@trussworks/react-uswds";
+import { formatString } from "@/app/format-service";
 
 export class SectionConfig {
   title: string;
@@ -8,7 +9,7 @@ export class SectionConfig {
 
   constructor(title: string, subNavItems?: string[] | SectionConfig[]) {
     this.title = title;
-    this.id = title.toLowerCase().replace(/\s+/g, "-");
+    this.id = formatString(title);
 
     if (subNavItems) {
       this.subNavItems = subNavItems.map((item) => {
@@ -125,10 +126,16 @@ const SideNav: React.FC = () => {
   useEffect(() => {
     // Select all heading tags on the page
     const headingElements = document.querySelectorAll(headingSelector);
-
     // Extract the text content from each heading and store it in the state
     const headings: HeadingObject[] = Array.from(headingElements).map(
       (heading) => {
+        const sectionId =
+          heading && heading.textContent
+            ? formatString(heading.textContent)
+            : null;
+        if (sectionId) {
+          heading.setAttribute("data-sectionid", sectionId);
+        }
         return {
           text: heading.textContent || "",
           level: heading.tagName.toLowerCase(),
@@ -143,16 +150,17 @@ const SideNav: React.FC = () => {
 
     let options = {
       root: null,
-      rootMargin: "0px 0px -80% 0px",
-      threshold: 0.8,
+      rootMargin: "0px 0px -85% 0px",
+      threshold: 0.9,
     };
 
     let observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          let id =
-            entry.target.id || entry.target.querySelectorAll("span")[0]?.id;
-          setActiveSection(id);
+          let id = entry.target.getAttribute("data-sectionid") || null;
+          if (id) {
+            setActiveSection(id);
+          }
         }
       });
     }, options);
@@ -174,6 +182,11 @@ const SideNav: React.FC = () => {
     for (let section of sectionConfigs) {
       let sideNavItem = (
         <a
+          onClick={() => {
+            setTimeout(() => {
+              setActiveSection(section.id);
+            }, 500);
+          }}
           key={section.id}
           href={"#" + section.id}
           className={activeSection === section.id ? "usa-current" : ""}

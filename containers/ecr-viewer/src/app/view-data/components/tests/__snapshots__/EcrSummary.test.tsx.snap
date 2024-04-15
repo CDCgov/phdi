@@ -171,7 +171,7 @@ Palmdale, CA
               class="grid-col-auto text-pre-line"
             >
               Start: 05/13/2022 3:25 AM EDT
-    End: 05/13/2022 5:57 AM EDT
+End: 05/13/2022 5:57 AM EDT
             </div>
           </div>
           <div
@@ -191,10 +191,10 @@ Palmdale, CA
               Emergency
             </div>
           </div>
+          <div
+            class="section__line"
+          />
         </div>
-        <div
-          class="section__line"
-        />
       </div>
       <div
         class="usa-summary-box__body"
@@ -231,12 +231,29 @@ Palmdale, CA
             <div
               class="data-title"
             >
-              RCKMS Trigger Summary
+              RCKMS Rule Summary
             </div>
             <div
               class="grid-col-fill text-pre-line"
             >
               Cough
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="text-bold"
+            >
+              Clinical sections relevant to reportable condition
+            </div>
+            <div
+              class="padding-top-05"
+            >
+              No matching clinical data found in this eCR (temp)
             </div>
           </div>
           <div
@@ -388,19 +405,6 @@ Palmdale, CA
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div
-            class="section__line"
-          />
-          <div
-            class="grid-row"
-          >
-            Clinical sections relevant to reportable condition
-            <div
-              class="padding-top-05"
-            >
-              No matching clinical data found in this eCR (temp)
             </div>
           </div>
         </div>

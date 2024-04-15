@@ -66,9 +66,6 @@ const ECRViewerPage = () => {
   } else if (fhirBundle && mappings) {
     return (
       <div>
-        <header>
-          <h1 className="page-title">EZ eCR Viewer</h1>
-        </header>
         <div className="main-container">
           <div className="content-wrapper">
             <div className="nav-wrapper">
