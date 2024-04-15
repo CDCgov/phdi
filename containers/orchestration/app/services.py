@@ -33,8 +33,7 @@ SERVICE_URLS = {
     "ingestion": os.environ.get("INGESTION_URL"),
     "fhir_converter": os.environ.get("FHIR_CONVERTER_URL"),
     "message_parser": os.environ.get("MESSAGE_PARSER_URL"),
-    "save_to_db": os.environ.get("ECR_VIEWER_URL"),
-    "save_to_s3": os.environ.get("ECR_VIEWER_URL"),
+    "save_bundle": os.environ.get("ECR_VIEWER_URL"),
 }
 
 # Mappings of endpoint names to the service input and output building
