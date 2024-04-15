@@ -7,7 +7,7 @@ import {
 import React from "react";
 import { LabReportElementData } from "@/app/labs/utils";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
-import { truncateLabNameWholeWord } from "@/app/format-service";
+import { truncateLabNameWholeWord, formatString } from "@/app/format-service";
 
 interface LabInfoProps {
   labResults: LabReportElementData[];
@@ -34,15 +34,13 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
           const buttonSelectorClass = labResult.organizationId
             ? `.${labResult.organizationId}_acc_item`
             : "h5";
-
+          const labName = `Lab Results from 
+                ${truncateLabNameWholeWord(
+                  labResult.organizationDisplayData[0].value as string,
+                )}`;
           return (
             <div key={`${labResult.organizationId}${labIndex}`}>
-              <AccordianH4 id={"lab-results-from"}>
-                Lab Results from&nbsp;
-                {truncateLabNameWholeWord(
-                  labResult.organizationDisplayData[0].value as string,
-                )}
-              </AccordianH4>
+              <AccordianH4 id={formatString(labName)}>{labName}</AccordianH4>
               <AccordianDiv>
                 {labResult?.organizationDisplayData?.map(
                   (item: DisplayData, index: any) => {
