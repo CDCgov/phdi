@@ -493,13 +493,10 @@ export const returnProblemsTable = (
   problemsArray: Condition[],
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
-  if (problemsArray.length === 0) {
-    return undefined;
-  }
-
   problemsArray = problemsArray.filter(
     (entry) => entry.code?.coding?.[0].display,
   );
+
   if (problemsArray.length === 0) {
     return undefined;
   }
