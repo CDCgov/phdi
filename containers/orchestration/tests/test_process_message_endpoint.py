@@ -108,6 +108,7 @@ def test_process_message_success(patched_post_request):
 
     save_bundle_post_request = mock.Mock()
     save_bundle_post_request.status_code = 200
+    save_bundle_post_request.headers = {"content-type": "application/json"}
     save_bundle_post_request.json.return_value = {
         "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
     }
@@ -296,6 +297,7 @@ def test_process_success(patched_post_request):
         }
         save_bundle_post_request = mock.Mock()
         save_bundle_post_request.status_code = 200
+        save_bundle_post_request.headers = {"content-type": "application/json"}
         save_bundle_post_request.json.return_value = {
             "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
         }
