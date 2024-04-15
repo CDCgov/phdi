@@ -59,20 +59,17 @@ export const ClinicalInfo = ({
         </AccordianH4>
         <AccordianDiv className={"clinical_info_container"}>
           {clinicalNotes.map((item, index) => {
-            let className = "";
             if (
               React.isValidElement(item.value) &&
               item.value.type == "table"
             ) {
-              // console.log(item.value, item.value.type)
-              item.value = addCaptionToTable(item.value, "Miscellaneous Notes");
-              console.log(item.value);
-              return renderTableDetails([item]);
+              const modItem = {
+                ...item,
+                value: addCaptionToTable(item.value, "Miscellaneous Notes"),
+              };
+              return renderTableDetails([modItem]);
             }
-            className = "maxw-full grid-col-12 margin-top-1";
-            // return (
-            //   <DataDisplay item={item} key={index} className={className} />
-            // );
+            return <DataDisplay item={item} key={index} />;
           })}
         </AccordianDiv>
       </>

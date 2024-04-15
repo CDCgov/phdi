@@ -359,6 +359,7 @@ export const addCaptionToTable = (
 ) => {
   if (React.isValidElement(element) && element.type === "table") {
     // Add the caption as the first child of the table
+    console.log("children", element.props.children);
     return React.cloneElement(element, {}, [
       <caption key="caption">{caption}</caption>,
       ...React.Children.toArray(element.props.children),
