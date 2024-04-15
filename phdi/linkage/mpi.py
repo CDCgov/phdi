@@ -10,7 +10,8 @@ from sqlalchemy import and_
 from sqlalchemy import Select
 from sqlalchemy import select
 from sqlalchemy import text
-from sqlalchemy.dialects.postgresql import array_agg, aggregate_order_by
+from sqlalchemy.dialects.postgresql import aggregate_order_by
+from sqlalchemy.dialects.postgresql import array_agg
 
 from phdi.fhir.utils import extract_value_with_resource_path
 from phdi.linkage.core import BaseMPIConnectorClient

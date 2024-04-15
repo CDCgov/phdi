@@ -1571,5 +1571,5 @@ def _convert_given_name_to_first_name(data: list[list]) -> list[list]:
     given_name_idx = data[0].index("given_name")
     for idx, row in enumerate(data):
         val = "first_name" if idx == 0 else " ".join(row[given_name_idx])
-        result.append(row[:given_name_idx] + [val] + row[given_name_idx + 1:])
+        result.append(row[:given_name_idx] + [val] + row[given_name_idx + 1 :])
     return result
