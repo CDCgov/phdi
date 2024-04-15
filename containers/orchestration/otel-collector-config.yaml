@@ -11,7 +11,7 @@ exporters:
     verbosity: detailed
   prometheus:
     endpoint: 0.0.0.0:8889
-  otlp/jaeger:  # Jaeger is natively OTLP, so just route the collector here
+  otlp/jaeger: # Jaeger is natively OTLP, so just route the collector here
     endpoint: jaeger:4317
     tls:
       insecure: true
