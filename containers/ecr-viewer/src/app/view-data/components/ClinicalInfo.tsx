@@ -6,6 +6,7 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
+import { addCaptionToTable } from "@/app/format-service";
 
 interface ClinicalProps {
   reasonForVisitDetails: DisplayData[];
@@ -63,11 +64,15 @@ export const ClinicalInfo = ({
               React.isValidElement(item.value) &&
               item.value.type == "table"
             ) {
-              className = "maxw-full grid-col-12 margin-top-1";
+              // console.log(item.value, item.value.type)
+              item.value = addCaptionToTable(item.value, "Miscellaneous Notes");
+              console.log(item.value);
+              return renderTableDetails([item]);
             }
-            return (
-              <DataDisplay item={item} key={index} className={className} />
-            );
+            className = "maxw-full grid-col-12 margin-top-1";
+            // return (
+            //   <DataDisplay item={item} key={index} className={className} />
+            // );
           })}
         </AccordianDiv>
       </>

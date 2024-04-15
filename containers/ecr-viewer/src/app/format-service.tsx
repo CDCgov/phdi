@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Metadata {
   [key: string]: string;
 }
@@ -349,3 +351,40 @@ export function toSentenceCase(str: string) {
   if (!str) return str;
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+// TODO: Add JSDoc
+export const addCaptionToTable = (
+  element: React.ReactNode,
+  caption: String,
+) => {
+  if (React.isValidElement(element) && element.type === "table") {
+    // Add the caption as the first child of the table
+    return React.cloneElement(element, {}, [
+      <caption key="caption">{caption}</caption>,
+      ...React.Children.toArray(element.props.children),
+    ]);
+  }
+
+  return element;
+};
+// export const addCaptionToTable = (element: React.ReactNode, caption: String): React.ReactNode => {
+//   return React.Children.map(element, (child: React.ReactNode) => {
+//     if (React.isValidElement(child)) {
+//       if (child.type === "table") {
+//         // Use React.cloneElement to add a caption to the table
+//         return React.cloneElement(child, {}, [
+//           <caption key="caption">{caption}</caption>,
+//           ...React.Children.toArray(child.props.children),
+//         ]);
+//       } else if (child.props && child.props.children) {
+//         // Recursively process children
+//         return React.cloneElement(
+//           child,
+//           {},
+//           addCaptionToTable(child.props.children, caption)
+//         );
+//       }
+//     }
+//     return child;
+//   });
+// };
