@@ -39,7 +39,7 @@ class BaseMPIConnectorClient(ABC):
 
     @abstractmethod
     def _generate_block_query(
-            self, organized_block_criteria: dict, query: Select
+        self, organized_block_criteria: dict, query: Select
     ) -> Select:
         """
          Generates a query for selecting a block of data from the MPI tables per the
