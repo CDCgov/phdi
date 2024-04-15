@@ -487,6 +487,13 @@ export const returnProblemsTable = (
     return undefined;
   }
 
+  problemsArray = problemsArray.filter(
+    (entry) => entry.code?.coding?.[0].display,
+  );
+  if (problemsArray.length === 0) {
+    return undefined;
+  }
+
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
     { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
@@ -494,14 +501,10 @@ export const returnProblemsTable = (
   ];
 
   problemsArray.forEach((entry) => {
-    if (entry.code?.coding?.[0].display !== undefined) {
-      entry.onsetDateTime = formatDate(entry.onsetDateTime);
-      entry.onsetAge = {
-        value: calculatePatientAge(fhirBundle, mappings, entry.onsetDateTime),
-      };
-    } else {
-      problemsArray.splice(problemsArray.indexOf(entry), 1);
-    }
+    entry.onsetDateTime = formatDate(entry.onsetDateTime);
+    entry.onsetAge = {
+      value: calculatePatientAge(fhirBundle, mappings, entry.onsetDateTime),
+    };
   });
 
   if (problemsArray.length === 0) {
