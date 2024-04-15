@@ -117,8 +117,8 @@ def test_process_message_success(patched_post_request):
         ingestion_post_request,
         ingestion_post_request,
         ingestion_post_request,
-        message_parser_post_request,
         save_bundle_post_request,
+        message_parser_post_request,
     ]
 
     actual_response = client.post("/process-message", json=request)
@@ -296,11 +296,7 @@ def test_process_success(patched_post_request):
         message_parser_post_request = mock.Mock()
         message_parser_post_request.status_code = 200
         message_parser_post_request.json.return_value = {
-            "bundle": {
-                "bundle_type": "batch",
-                "placeholder_id": "abcdefg",
-                "entry": [{"resource": {"id": "foo"}}],
-            }
+            "parsed_values": {"eicr_id": "placeholder_id"}
         }
 
         patched_post_request.side_effect = [
@@ -309,8 +305,8 @@ def test_process_success(patched_post_request):
             ingestion_post_request,
             ingestion_post_request,
             ingestion_post_request,
-            message_parser_post_request,
             save_bundle_post_request,
+            message_parser_post_request,
         ]
 
         actual_response = client.post("/process", data=form_data, files=files)
