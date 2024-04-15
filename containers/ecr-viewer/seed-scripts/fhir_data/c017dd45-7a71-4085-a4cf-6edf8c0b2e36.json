@@ -369,7 +369,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "encounter": {
           "reference": "Encounter/b7f1546c-51ce-9f42-2192-05462d480cc9"
@@ -414,7 +414,7 @@
           "end": "2019-01-29T13:10:34-04:00"
         },
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "location": [
           {
@@ -663,10 +663,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:14499738-16f0-4d65-baa7-6c24326752e0",
+      "fullUrl": "urn:uuid:9fe0745f-1739-4ddd-aa54-5148858b8f36",
       "resource": {
         "resourceType": "Patient",
-        "id": "14499738-16f0-4d65-baa7-6c24326752e0",
+        "id": "9fe0745f-1739-4ddd-aa54-5148858b8f36",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -907,7 +907,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+        "url": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
       }
     },
     {
@@ -916,7 +916,7 @@
         "resourceType": "CareTeam",
         "id": "380add44-677b-9067-a850-7b8e346cc41c",
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -933,7 +933,7 @@
         "status": "unknown",
         "intent": "proposal",
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "activity": [
           {
@@ -1014,7 +1014,7 @@
         },
         "onsetDateTime": "2019-03",
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1060,7 +1060,7 @@
         },
         "onsetDateTime": "2019-03-28T13:32:08-04:00",
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1106,7 +1106,7 @@
         },
         "onsetDateTime": "2019-03-28T13:32:08-04:00",
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1169,7 +1169,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         }
       },
       "request": {
@@ -1222,7 +1222,7 @@
           "unit": "[in_i]"
         },
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         }
       },
       "request": {
@@ -1275,7 +1275,7 @@
           "unit": "[lb_av]"
         },
         "subject": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         }
       },
       "request": {
@@ -1325,10 +1325,14 @@
             }
           ]
         },
+        "lotNumber": "245674646",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1339,6 +1343,22 @@
       "request": {
         "method": "PUT",
         "url": "Immunization/53458a77-6f8f-2f62-4a21-0e7ba1edde55"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:81335318-8424-a5e6-822b-3f53ce03b63f",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "81335318-8424-a5e6-822b-3f53ce03b63f",
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
       }
     },
     {
@@ -1365,10 +1385,14 @@
             }
           ]
         },
+        "lotNumber": "232323232",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1405,10 +1429,14 @@
             }
           ]
         },
+        "lotNumber": "+56+65464",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1444,10 +1472,14 @@
             }
           ]
         },
+        "lotNumber": "6",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1484,10 +1516,14 @@
             }
           ]
         },
+        "lotNumber": "55555555555555555",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1524,10 +1560,14 @@
             }
           ]
         },
+        "lotNumber": "3546544",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1564,10 +1604,14 @@
             }
           ]
         },
+        "lotNumber": "545645666",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1604,10 +1648,14 @@
             }
           ]
         },
+        "lotNumber": "354654",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1644,10 +1692,14 @@
             }
           ]
         },
+        "lotNumber": "2313213113",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1684,10 +1736,14 @@
             }
           ]
         },
+        "lotNumber": "654354354",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1724,10 +1780,14 @@
             }
           ]
         },
+        "lotNumber": "56465465464",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1764,10 +1824,14 @@
             }
           ]
         },
+        "lotNumber": "2135413511",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1804,10 +1868,14 @@
             }
           ]
         },
+        "lotNumber": "4565465465",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1844,10 +1912,14 @@
             }
           ]
         },
+        "lotNumber": "534354354",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1884,10 +1956,14 @@
             }
           ]
         },
+        "lotNumber": "54654",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1924,10 +2000,14 @@
             }
           ]
         },
+        "lotNumber": "75222",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -1964,10 +2044,13 @@
             }
           ]
         },
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -2004,10 +2087,14 @@
             }
           ]
         },
+        "lotNumber": "4564654",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -2044,10 +2131,14 @@
             }
           ]
         },
+        "lotNumber": "32131324313",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -2084,10 +2175,14 @@
             }
           ]
         },
+        "lotNumber": "35454364",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -2124,10 +2219,14 @@
             }
           ]
         },
+        "lotNumber": "64654654",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -2164,10 +2263,14 @@
             }
           ]
         },
+        "lotNumber": "53465464",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
@@ -2204,10 +2307,14 @@
             }
           ]
         },
+        "lotNumber": "6545646564",
+        "manufacturer": {
+          "reference": "Organization/81335318-8424-a5e6-822b-3f53ce03b63f"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/14499738-16f0-4d65-baa7-6c24326752e0"
+          "reference": "Patient/9fe0745f-1739-4ddd-aa54-5148858b8f36"
         },
         "meta": {
           "source": [
