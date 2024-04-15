@@ -11,6 +11,10 @@ exporters:
     verbosity: detailed
   prometheus:
     endpoint: 0.0.0.0:8889
+  otlp/jaeger: # Jaeger is natively OTLP, so just route the collector here
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
 
 processors:
   batch:
@@ -19,13 +23,13 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [debug]
       processors: [batch]
+      exporters: [debug, otlp/jaeger]
     metrics:
       receivers: [otlp]
-      exporters: [debug, prometheus]
       processors: [batch]
+      exporters: [debug, prometheus]
     logs:
       receivers: [otlp]
-      exporters: [debug]
       processors: [batch]
+      exporters: [debug]
