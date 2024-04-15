@@ -136,7 +136,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
         </div>
         <div className="usa-summary-box__body">
           <h3
-            className={"margin-bottom-105 margin-top-205 side-nav-ignore"}
+            className={"summary-box-key-information side-nav-ignore"}
             id={ecrSummaryConfig.subNavItems?.[2].id}
           >
             {ecrSummaryConfig.subNavItems?.[2].title}
