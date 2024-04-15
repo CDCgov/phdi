@@ -13,7 +13,7 @@ services:
         fhir-converter-service,
         ingestion-service,
         message-parser-service,
-        nextjs-app,
+        ecr-viewer,
       ]
     ports:
       - "${ORCHESTRATION_PORT_NUMBER}:8080"
