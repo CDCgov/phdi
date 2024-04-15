@@ -383,6 +383,23 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:b5c77b86-2764-79f9-10bf-5da5e63eb7c1",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "b5c77b86-2764-79f9-10bf-5da5e63eb7c1",
+        "name": "Sanofi Pasteur",
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/b5c77b86-2764-79f9-10bf-5da5e63eb7c1"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:7a4b0e4b-ca8a-a39b-1b44-19efe2c9ee5c",
       "resource": {
         "resourceType": "Immunization",
@@ -433,6 +450,15 @@
             }
           ]
         },
+        "lotNumber": "369258741",
+        "manufacturer": {
+          "reference": "Organization/b5c77b86-2764-79f9-10bf-5da5e63eb7c1"
+        },
+        "protocolApplied": [
+          {
+            "doseNumberPositiveInt": "1"
+          }
+        ],
         "status": "completed",
         "primarySource": true,
         "patient": {
