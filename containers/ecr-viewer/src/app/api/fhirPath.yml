@@ -65,6 +65,7 @@ rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/u
 
 # Clinical Data
 clinicalReasonForVisit: "Bundle.entry.resource.section.where(title = 'Reason for Visit')[0].extension[0].valueString"
+
 #vitals
 patientHeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='8302-2').first().valueQuantity.value"
 patientHeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='8302-2').first().valueQuantity.unit"
@@ -84,11 +85,20 @@ historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Compositio
 # Treatment Details
 planOfTreatment: "Bundle.entry.resource.section.where(title = 'Plan of Treatment').text"
 
+## Care Team
+careTeamParticipants: "Bundle.entry.resource.where(resourceType='CareTeam').participant"
+careTeamParticipantMemberName: "member.name"
+careTeamParticipantRole: "role.text"
+careTeamParticipantStatus: "modifierExtension.where(url='participant.status').valueString"
+careTeamParticipantPeriod: "period.text"
+
 # Immunization Info
 immunizations: "Bundle.entry.resource.where(resourceType = 'Immunization')"
 immunizationsName: "Immunization.note.text"
 immunizationsAdminDate: "Immunization.occurrenceDateTime"
-immunizationsNextDue: "idk"
+immunizationsDoseNumber: "Immunization.protocolApplied.where(doseNumberPositiveInt.exists()).doseNumberPositiveInt"
+immunizationsManufacturerName: "Immunization.manufacturer.name"
+immunizationsLotNumber: "Immunization.lotNumber"
 
 # Procedure
 procedures: "Bundle.entry.resource.where(resourceType='Procedure')"

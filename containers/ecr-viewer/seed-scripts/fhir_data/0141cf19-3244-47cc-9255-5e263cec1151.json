@@ -1,0 +1,1384 @@
+{
+  "resourceType": "Bundle",
+  "type": "batch",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:016accab-d6bf-11ec-81e1-8465ad080d41",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "016accab-d6bf-11ec-81e1-8465ad080d41",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "code": "55751-2",
+                  "display": "Public Health Case Report",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "value": "160"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+            "valueString": "57"
+          }
+        ],
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "code": "55751-2",
+              "display": "Public Health Case Report",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "date": "2022-05-18T11:27:00-04:00",
+        "title": "Initial Public Health Case Report",
+        "confidentiality": "N",
+        "section": [
+          {
+            "id": "e3ef02f2-571e-c89f-f623-26692e5a99e3",
+            "title": "Care Teams",
+            "text": {
+              "status": "generated",
+              "div": "Patient Care Team <br><table><thead><tr><th>Team Status: Active</th></tr><tr><th>Member</th><th>Role</th><th>Status</th><th>Dates</th></tr></thead><tbody><tr><td>MRS. PUMSEN R SOR SR</td><td>admitting physician</td><td>Active</td><td><br>Start: March 24th, 2022</td></tr><tr><td>MRS. PUMSEN R SOR SR</td><td>attending physician</td><td>Active</td><td><br>Start: March 24th, 2022</td></tr><tr><td>MRS. PUMSEN R SOR SR</td><td>primary care physician</td><td>Active</td><td><br>Start: March 24th, 2022</td></tr><tr><td>MRS. PUMSEN R SOR SR</td><td>FAMILY</td><td>Active</td><td><br>Start: March 24th, 2022</td></tr></tbody></table>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "85847-2",
+                  "display": "Care team",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "f3817757-cc1b-9b57-bfd8-337c3fe331d8",
+            "title": "Reason for Visit",
+            "text": {
+              "status": "generated",
+              "div": "<table><tbody><tr><th>Reason for Visit</th><td>TESTING FOR ECR</td></tr></tbody></table>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29299-5",
+                  "display": "Reason for Visit",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                "valueString": "TESTING FOR ECR"
+              }
+            ]
+          },
+          {
+            "id": "7b1d6abb-cea5-12c2-6f6b-83e0c1c01b06",
+            "title": "History of Present Illness",
+            "text": {
+              "status": "generated",
+              "div": "No history of present illness information available"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "10164-2",
+                  "display": "History Of Present Illness",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "445fc711-3d91-d630-a3e3-16239b4f0f10",
+            "title": "Social History",
+            "text": {
+              "status": "generated",
+              "div": "Smoking Status Unknown if ever smoked Additional Data <br><table><tbody><tr><th>Assigned Birth Sex</th><td data-id='birthsex'>Female</td></tr><tr><th>Gender Identity</th><td data-id='gender-identity'>unknown</td></tr><tr><th>Sexual Orientation</th><td data-id='sexual-orientation'>Do not know</td></tr></tbody></table>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29762-2",
+                  "display": "Social History",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "Observation/a48c880c-f2bf-4f42-f1f2-9e04583a3617"
+              }
+            ]
+          },
+          {
+            "id": "ffaf3015-e41a-36eb-0544-544e133c76b9",
+            "title": "Problems",
+            "text": {
+              "status": "generated",
+              "div": "Active Problems <br><table><thead><tr><th>Medical Problem</th><th>Onset Date</th><th>Status</th></tr></thead><tbody><tr><td data-id='problem-1'>Measles</td><td>March 1st, 2022</td><td>Active</td></tr></tbody></table>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "11450-4",
+                  "display": "PROBLEM LIST",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "entry": [
+              {
+                "display": "Problem - Measles",
+                "reference": "Condition/275a1dc8-ad5f-8fe3-b560-a1d0a8b6ece9"
+              }
+            ]
+          },
+          {
+            "id": "b1e03416-62c8-11ee-8933-e711a136d718",
+            "title": "Immunizations",
+            "text": {
+              "status": "generated",
+              "div": "<table><thead><tr><th>Immunization</th><th>Event Date</th><th>Not Given Reason</th><th>Dose Number</th><th>Manufacturer</th><th>Lot Number</th><th>Vaccine Information Statement (VIS) Detail</th></tr></thead><tbody><tr><td data-id='immun-1'>anthrax</td><td>March 24th, 2022 9:38am</td><td></td><td>1</td><td>PFIZER & OTHER CHARACTERS</td><td>LOT552Z</td><td></td></tr></tbody></table>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "11369-6",
+                  "display": "History of immunizations",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "b4dca430-0937-826b-5105-4c74964d84fe",
+            "title": "Procedures",
+            "text": {
+              "status": "generated",
+              "div": "No procedure information available"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "47519-4",
+                  "display": "PROCEDURES",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "cb100e34-732f-7121-cf3b-57d896f73289",
+            "title": "Relevant Diagnostic Tests and/or Laboratory Data",
+            "text": {
+              "status": "generated",
+              "div": "No known relevant diagnostic tests and/or laboratory data."
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "30954-2",
+                  "display": "RELEVANT DIAGNOSTIC TESTS AND/OR LABORATORY DATA",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "9ee15d5f-7a6b-3bcb-5fee-96e2f3b0200e",
+            "title": "Vital Signs",
+            "text": {
+              "status": "generated",
+              "div": "No vital signs result information available."
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "8716-3",
+                  "display": "VITAL SIGNS",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "6e570ca4-5a06-98b9-a5f1-4cfd357daa03",
+            "title": "Administered Medications",
+            "text": {
+              "status": "generated",
+              "div": "<table><thead><tr><th>Medication</th><th>Dose</th><th>Units</th><th>Route</th><th>Directions</th><th>Qty</th><th>Days</th><th>Start Date</th><th>End Date</th><th>Instructions</th></tr></thead><tbody><tr><td data-id='rxmed-1'>RIFA150C15 (Rifampin ) 150 MG CAPSULE</td><td>150</td><td>MG</td><td>ORAL</td><td data-id='rxsig-1'>Q6H</td><td></td><td></td><td>March 24th, 2022 9:38am</td><td>March 24th, 2022 9:38am</td><td></td></tr></tbody></table>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29549-3",
+                  "display": "MEDICATIONS ADMINISTERED",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "e5a697f2-9acd-2621-b12e-87afa82989cf",
+            "title": "Encounters",
+            "text": {
+              "status": "generated",
+              "div": "<table><thead><tr><th>Encounter</th><th>Location(s)</th><th>Arrival/Admit Date</th><th>Discharge/Depart Date</th><th>Provider(s)</th></tr></thead><tbody><tr><td data-id='encounter-1'>Admitted Inpatient</td><td>Dot Facility (No ARM)</td><td>March 24th, 2022 9:33am</td><td></td><td>MRS. PUMSEN R SOR SR</td></tr></tbody></table><table><thead><tr><th>Recent Diagnosis</th><th>Onset Date</th></tr></thead><tbody><tr><td data-id='diagnosis-1.0'>Measles</td><td>March 1st, 2022</td></tr></tbody></table><br>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "46240-8",
+                  "display": "History of encounters",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "ab4d522f-c58f-0347-0bc5-98f99a7c7093",
+            "title": "Assessments",
+            "text": {
+              "status": "generated",
+              "div": "<table><thead><tr><th>Diagnosis</th><th>Onset Date</th><th>Resolution</th><th>Status</th></tr></thead><tbody><tr><td>Measles</td><td>March 1st, 2022</td><td></td><td>Active</td></tr></tbody></table>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "51848-0",
+                  "display": "ASSESSMENTS",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "e243b8a0-5b12-36af-94af-cedabc94d3cb",
+            "title": "Plan of Treatment",
+            "text": {
+              "status": "generated",
+              "div": "Future Tests Pending Tests Future Visits Referrals to Other Providers Future Procedures Future Medications Patient Instructions <br><table><thead><tr><th>Medication Name</th><th>Start Date</th><th>Instructions</th></tr></thead><tbody><tr><td>Dapsone (Topical) - RXCUI C1741905 (DAPSONE7.5 %) 7.5 % GEL OINTMENT</td><td>March 24th, 2022 9:36am</td><td></td></tr></tbody></table>Patient instructions are unavailableFuture procedure information is unavailableReferral information is unavailableFuture appointment information is unavailablePending diagnostic test information is unavailableFuture scheduled test information is unavailable"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "18776-5",
+                  "display": "Treatment plan",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "3f5cb952-138a-ab8a-8ab2-ef3926d9ee0a",
+            "title": "Reportability Response Information Section",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>"
+            },
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition",
+                "valueIdentifier": {
+                  "use": "official",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "88085-6",
+                        "display": "Reportability response report Document Public health",
+                        "system": "http://loinc.org"
+                      }
+                    ]
+                  },
+                  "value": "36afd6df-fc73-411c-af1a-06bebce1aaa6"
+                }
+              },
+              {
+                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "RRVS19",
+                      "display": "eICR processed",
+                      "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                    }
+                  ]
+                }
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "code": "88085-6",
+                  "display": "Reportability response report Document Public health",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "entry": [
+              {
+                "display": "Relevant Reportable Condition Observation - Measles (disorder)",
+                "reference": "Observation/d1ff9f05-3582-49d2-b03f-7058091d3dca"
+              },
+              {
+                "display": "Relevant Reportable Condition Observation - Anthrax (disorder)",
+                "reference": "Observation/0362cad1-7721-40aa-a4cc-1bfe7c769d4a"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/a689fc9c-a541-4957-a372-c07537d27759"
+        },
+        "encounter": {
+          "reference": "Encounter/3bf1e2d5-ef22-8211-097d-9acf0cc55fef"
+        },
+        "custodian": {
+          "reference": "Organization/3dd0ab49-fb87-5165-5e2e-86d3fd09f39d"
+        },
+        "author": [
+          {
+            "reference": "Device/c035be3d-62bd-7ba2-22a8-cc2e8e90ffdc"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Composition/016accab-d6bf-11ec-81e1-8465ad080d41"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3bf1e2d5-ef22-8211-097d-9acf0cc55fef",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "3bf1e2d5-ef22-8211-097d-9acf0cc55fef",
+        "status": "unknown",
+        "class": {
+          "code": "IMP",
+          "display": "inpatient encounter",
+          "system": "urn:oid:2.16.840.1.113883.5.4"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:bab4bd74-ab7b-11ec-81e0-9e7eef92c510"
+          },
+          {
+            "system": "urn:oid:1.3.6.1.4.1.24310",
+            "value": "0000016920"
+          }
+        ],
+        "period": {
+          "start": "2022-03-24T09:33:00-04:00"
+        },
+        "subject": {
+          "reference": "Patient/a689fc9c-a541-4957-a372-c07537d27759"
+        },
+        "location": [
+          {
+            "id": "72e83bca-4ef6-572a-8208-bd6b36223bcc",
+            "location": {
+              "reference": "Location/4a1817d2-69fa-741a-6f95-60f1ee03a2ea",
+              "display": "Dot Facility (No ARM)"
+            },
+            "extension": [
+              {
+                "url": "http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "GIM",
+                      "display": "General internal medicine clinic",
+                      "system": "urn:oid:2.16.840.1.113883.5.111"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "ATND"
+                  }
+                ]
+              }
+            ],
+            "individual": {
+              "reference": "Practitioner/18806f3f-f471-1a17-d6df-43036130b870"
+            }
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter/3bf1e2d5-ef22-8211-097d-9acf0cc55fef"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4a1817d2-69fa-741a-6f95-60f1ee03a2ea",
+      "resource": {
+        "resourceType": "Location",
+        "id": "4a1817d2-69fa-741a-6f95-60f1ee03a2ea",
+        "identifier": [
+          {
+            "value": "72e83bca-4ef6-572a-8208-bd6b36223bcc"
+          }
+        ],
+        "name": "Dot Facility (No ARM)",
+        "address": {
+          "use": "work",
+          "line": [
+            "5001 North Mount Washington Circle Drive"
+          ],
+          "city": "North Canton",
+          "state": "MA",
+          "country": "USA",
+          "postalCode": "02740-0001"
+        },
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "GIM",
+                "display": "General internal medicine clinic",
+                "system": "urn:oid:2.16.840.1.113883.5.111"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Location/4a1817d2-69fa-741a-6f95-60f1ee03a2ea"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:18806f3f-f471-1a17-d6df-43036130b870",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "18806f3f-f471-1a17-d6df-43036130b870",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+            "valueString": "Responsible Party"
+          }
+        ],
+        "name": [
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ],
+        "address": [
+          {
+            "use": "work",
+            "line": [
+              "5001 North Mount Washington Circle Drive"
+            ],
+            "city": "North Canton",
+            "state": "MA",
+            "country": "USA",
+            "postalCode": "02740-0001"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1(781)821-3001",
+            "use": "work"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/18806f3f-f471-1a17-d6df-43036130b870"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d6930155-009b-92a0-d2b9-007761c45ad2",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "d6930155-009b-92a0-d2b9-007761c45ad2",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "California Department of Public Health",
+        "address": [
+          {
+            "use": "work",
+            "city": "Sacramento",
+            "state": "CA"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "CalREDIEeCR@cdph.ca.gov",
+            "use": "work"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d1ff9f05-3582-49d2-b03f-7058091d3dca",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d1ff9f05-3582-49d2-b03f-7058091d3dca",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:d1ff9f05-3582-49d2-b03f-7058091d3dca"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "64572001",
+              "display": "Condition",
+              "system": "http://snomed.info/sct"
+            },
+            {
+              "code": "75323-6",
+              "display": "Condition",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "14189004",
+              "display": "Measles (disorder)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Measles (as a diagnosis or active problem)"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2",
+            "display": "California Department of Public Health"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/d1ff9f05-3582-49d2-b03f-7058091d3dca"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f87de327-7272-42ac-012d-58904caf7ef1",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "f87de327-7272-42ac-012d-58904caf7ef1",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "Los Angeles County Department of Public Health"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/f87de327-7272-42ac-012d-58904caf7ef1"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0362cad1-7721-40aa-a4cc-1bfe7c769d4a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0362cad1-7721-40aa-a4cc-1bfe7c769d4a",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:0362cad1-7721-40aa-a4cc-1bfe7c769d4a"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "64572001",
+              "display": "Condition",
+              "system": "http://snomed.info/sct"
+            },
+            {
+              "code": "75323-6",
+              "display": "Condition",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "409498004",
+              "display": "Anthrax (disorder)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Anthrax vaccine administered"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/f87de327-7272-42ac-012d-58904caf7ef1",
+            "display": "Los Angeles County Department of Public Health"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0362cad1-7721-40aa-a4cc-1bfe7c769d4a"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3dd0ab49-fb87-5165-5e2e-86d3fd09f39d",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "3dd0ab49-fb87-5165-5e2e-86d3fd09f39d",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:1.3.6.1.4.1.24310"
+          }
+        ],
+        "name": "Meditech Facility Author",
+        "address": [
+          {
+            "use": "work",
+            "line": [
+              "101 Martine St"
+            ],
+            "city": "Fall River",
+            "state": "MA",
+            "country": "USA",
+            "postalCode": "05125"
+          },
+          {
+            "use": "work",
+            "line": [
+              "1 Constitution Way"
+            ],
+            "city": "Foxboro",
+            "state": "MA",
+            "country": "USA",
+            "postalCode": "05158"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1(508)947-5477",
+            "use": "work"
+          },
+          {
+            "system": "phone",
+            "value": "+1(508)945-6522",
+            "use": "work"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/3dd0ab49-fb87-5165-5e2e-86d3fd09f39d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c035be3d-62bd-7ba2-22a8-cc2e8e90ffdc",
+      "resource": {
+        "resourceType": "Device",
+        "id": "c035be3d-62bd-7ba2-22a8-cc2e8e90ffdc",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:1.3.6.1.4.1.24310"
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "display": "MEDITECH - Testing Release T5.6.7.MIS Interface Device"
+            }
+          ]
+        },
+        "manufacturer": "MEDITECH - Testing Release T5.6.7.MIS Interface Device",
+        "version": [
+          {
+            "value": "MEDITECH HCIS"
+          }
+        ],
+        "category": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/device-category",
+              "code": "software",
+              "display": "software"
+            }
+          ]
+        },
+        "owner": {
+          "reference": "Organization/3dd0ab49-fb87-5165-5e2e-86d3fd09f39d"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/c035be3d-62bd-7ba2-22a8-cc2e8e90ffdc"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a689fc9c-a541-4957-a372-c07537d27759",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a689fc9c-a541-4957-a372-c07537d27759",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.25.333577201710487679760806373015792651585",
+            "value": "0000008844"
+          },
+          {
+            "system": "urn:oid:2.25.333577201710487679760806373015792651585",
+            "value": "9279"
+          },
+          {
+            "system": "http://hl7.org/fhir/sid/us-ssn",
+            "value": "789-85-8594"
+          },
+          {
+            "system": "urn:oid:2.25.333577201710487679760806373015792651585",
+            "value": "bab4bd71-ab7b-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "TEST",
+            "given": [
+              "CHARTIE6"
+            ]
+          }
+        ],
+        "birthDate": "1979-02-02",
+        "deceasedBoolean": false,
+        "gender": "female",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "1002-5",
+                  "display": "American Indian or Alaska Native"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2108-9",
+                  "display": "European"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Mixed"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                  "code": "UNK",
+                  "display": "Unknown"
+                }
+              },
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                  "code": "UNK",
+                  "display": "Unknown"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Mixed"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+            "extension": [
+              {
+                "url": "value",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "F",
+                      "display": "Female",
+                      "system": "urn:oid:2.16.840.1.113883.5.1"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "use": "home",
+            "line": [
+              "1 MAIN ST"
+            ],
+            "city": "BROCKTON",
+            "state": "CA",
+            "country": "US",
+            "postalCode": "90201"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1(895)859-8596",
+            "use": "home"
+          }
+        ],
+        "communication": [
+          {
+            "language": {
+              "coding": [
+                {
+                  "system": "urn:ietf:bcp:47"
+                }
+              ]
+            },
+            "preferred": true
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/a689fc9c-a541-4957-a372-c07537d27759"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9583d6c9-3c73-2bd2-b8dd-c4af7d5fefbe",
+      "resource": {
+        "resourceType": "CareTeam",
+        "id": "9583d6c9-3c73-2bd2-b8dd-c4af7d5fefbe",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:bab4bd72-ab7b-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "status": "active",
+        "name": "Patient Care Team",
+        "subject": {
+          "reference": "Patient/a689fc9c-a541-4957-a372-c07537d27759"
+        },
+        "participant": [
+          {
+            "role": {
+              "text": "admitting physician"
+            },
+            "member": {
+              "reference": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
+            },
+            "period": {
+              "start": "20220324"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "attending physician"
+            },
+            "member": {
+              "reference": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
+            },
+            "period": {
+              "start": "20220324"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "primary care physician"
+            },
+            "member": {
+              "reference": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
+            },
+            "period": {
+              "start": "20220324"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          },
+          {
+            "role": {
+              "text": "FAMILY"
+            },
+            "member": {
+              "reference": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
+            },
+            "period": {
+              "start": "20220324"
+            },
+            "modifierExtension": [
+              {
+                "url": "participant.status",
+                "valueString": "active"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d708ffd2-b18b-fa4b-0b27-c35bf938823d",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "d708ffd2-b18b-fa4b-0b27-c35bf938823d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:8e852a95-7251-58ce-807d-943245b4c94a"
+          }
+        ],
+        "name": [
+          {
+            "family": "SOR",
+            "given": [
+              "PUMSEN",
+              "R"
+            ],
+            "prefix": [
+              "MRS."
+            ],
+            "suffix": [
+              "SR"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "1 MEDITECH CIRCLE"
+            ],
+            "city": "WESTWOOD",
+            "state": "MA",
+            "postalCode": "02830"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "PSOR@MEDITECH.COM"
+          },
+          {
+            "system": "phone",
+            "value": "+1(781)821-3000",
+            "use": "work"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/d708ffd2-b18b-fa4b-0b27-c35bf938823d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:275a1dc8-ad5f-8fe3-b560-a1d0a8b6ece9",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "275a1dc8-ad5f-8fe3-b560-a1d0a8b6ece9",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:5ebf017a-6374-4faf-8c91-d32b2b98c106"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "problem-item-list",
+                "display": "Problem List Item",
+                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "055.9",
+              "display": "Measles",
+              "system": "urn:oid:2.16.840.1.113883.6.103"
+            }
+          ]
+        },
+        "onsetDateTime": "2022-03-01",
+        "subject": {
+          "reference": "Patient/a689fc9c-a541-4957-a372-c07537d27759"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/275a1dc8-ad5f-8fe3-b560-a1d0a8b6ece9"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:32df0f38-fa22-d9af-ce9f-8399f27adde5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "32df0f38-fa22-d9af-ce9f-8399f27adde5",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:a7d2480d-07c7-4b95-900c-9ce93b26abb6"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "72166-2",
+              "display": "Tobacco smoking status NHIS",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "266927001",
+              "display": "Unknown if ever smoked",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/a689fc9c-a541-4957-a372-c07537d27759"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/32df0f38-fa22-d9af-ce9f-8399f27adde5"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a48c880c-f2bf-4f42-f1f2-9e04583a3617",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a48c880c-f2bf-4f42-f1f2-9e04583a3617",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "76690-7",
+              "display": "Sexual orientation"
+            }
+          ],
+          "text": "Sexual orientation"
+        },
+        "status": "final",
+        "valueString": "Do not know",
+        "subject": {
+          "reference": "Patient/a689fc9c-a541-4957-a372-c07537d27759"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/a48c880c-f2bf-4f42-f1f2-9e04583a3617"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:82028c4e-742f-d327-32e7-1de1cefd6846",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "82028c4e-742f-d327-32e7-1de1cefd6846",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:bab4bd75-ab7b-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "protocolApplied": [
+          {
+            "doseNumberPositiveInt": "1"
+          }
+        ],
+        "occurrenceDateTime": "2022-03-24T09:38:00-04:00",
+        "note": {
+          "text": "anthrax"
+        },
+        "vaccineCode": {
+          "coding": [
+            {
+              "code": "24",
+              "display": "anthrax",
+              "system": "urn:oid:2.16.840.1.113883.12.292"
+            }
+          ]
+        },
+        "lotNumber": "LOT552Z",
+        "manufacturer": {
+          "reference": "Organization/1e2d10a1-e4d3-ac11-3b25-56396aee4ba2"
+        },
+        "status": "completed",
+        "primarySource": true,
+        "patient": {
+          "reference": "Patient/a689fc9c-a541-4957-a372-c07537d27759"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Immunization/82028c4e-742f-d327-32e7-1de1cefd6846"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1e2d10a1-e4d3-ac11-3b25-56396aee4ba2",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "1e2d10a1-e4d3-ac11-3b25-56396aee4ba2",
+        "name": "PFIZER & OTHER CHARACTERS",
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/1e2d10a1-e4d3-ac11-3b25-56396aee4ba2"
+      }
+    }
+  ]
+}

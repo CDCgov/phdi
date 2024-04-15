@@ -6,6 +6,12 @@ from typing import Tuple
 
 
 def extract_given_name(data: Dict):
+    """
+    Extracts given names from `data`.
+
+    :param data: Contains 'first_name' and 'middle_name' keys.
+    :return: List of given names or None if no names found.
+    """
     first_name = data.get("first_name", None)
     middle_name = data.get("middle_name", None)
 
@@ -23,6 +29,12 @@ def extract_given_name(data: Dict):
 
 
 def adjust_birthdate(data: Dict):
+    """
+    Converts birthdate format in `data` to 'YYYY-MM-DD'.
+
+    :param data: Contains 'birthdate' key with date string.
+    :return: Formatted birthdate or None if not applicable.
+    """
     # TODO: remove this function and pass in the `format` parameter to dob
     # standardization in ReadSourceData for LAC
     format = "%d%b%Y:00:00:00.000"

@@ -12,14 +12,11 @@ async def call_openai_gpt_async(
     """
     Makes an asynchronous API call to OpenAI's GPT model using aiohttp.
 
-    Parameters:
-    - session: The aiohttp session object to use for requests.
-    - prompt (str): The input prompt to generate text from.
-    - model (str): The model to use. Default is 'gpt-3.5-turbo	'.
-    - max_tokens (int): The maximum number of tokens to generate. Default is 100.
-
-    Returns:
-    - str: The generated text response.
+    :param session: The aiohttp session object to use for requests.
+    :param prompt: The input prompt to generate text from.
+    :param model: The model to use. Default is 'gpt-3.5-turbo	'.
+    :param max_tokens: The maximum number of tokens to generate. Default is 100.
+    :return: The generated text response.
     """
     api_key = os.environ["OPENAI_API_KEY"]
     headers = {
@@ -42,6 +39,9 @@ async def call_openai_gpt_async(
 
 
 async def main():
+    """
+    Converts XML CDA Observations to FHIR Observation resources using aio.
+    """
     patient_id = "76d0716f-6af0-49e6-b99e-73ccd831c8d8"
 
     phdc_path = pathlib.Path(__file__).parent / "HEPA_GDIT_Example.xml"
