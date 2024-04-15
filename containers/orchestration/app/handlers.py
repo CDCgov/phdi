@@ -382,7 +382,7 @@ def build_save_fhir_data_body(
     :return: A dictionary ready to send to the validation service.
     """
     return {
-        "bundle": input_msg,
+        "fhirBundle": input_msg.json()["bundle"],
         "save_source": workflow_params.get("saveSource"),
     }
 
