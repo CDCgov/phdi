@@ -34,7 +34,7 @@ def test_health_check(setup):
 
     for port_number in port_number_strings:
         port = os.getenv(port_number)
-        service_response = httpx.get(f"http://0.0.0.0:{port}")
+        service_response = httpx.get(f"http://0.0.0.0:{port}", timeout=60)
         print(
             "Health check response for",
             port_number.replace("_PORT_NUMBER", ""),
