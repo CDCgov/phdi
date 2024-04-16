@@ -152,9 +152,12 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
           <div
             data-testid="treatment-details"
           >
-            <div
-              class="grid-row"
-            >
+            <div>
+              <div
+                class="text-bold margin-bottom-1"
+              >
+                Procedures
+              </div>
               <div
                 class="grid-col-auto text-pre-line"
               >

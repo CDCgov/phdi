@@ -581,16 +581,8 @@ export const returnAdminMedTable = (
   const adminMedTables = formatTablesToJSON(
     evaluate(fhirBundle, mappings["administeredMedications"])[0]?.div,
   );
-  console.log(adminMedTables);
-  if (adminMedTables[0].tables?.[0]) {
-    const header = [
-      "Medication Order",
-      "MAR Action",
-      "Action Date",
-      "Dose",
-      "Rate",
-      "Site",
-    ];
+  if (adminMedTables[0]?.tables?.[0]) {
+    const header = ["Medication Name", "Medication Start Date"];
     const adminMedJson = adminMedTables[0].tables?.[0];
     return (
       <Table
@@ -600,7 +592,6 @@ export const returnAdminMedTable = (
           "table-caption-margin caption-normal-weight margin-y-0 border-top border-left border-right"
         }
         data-testid="table"
-        caption={"Administered Medications"}
       >
         <thead>
           <tr>
@@ -613,14 +604,16 @@ export const returnAdminMedTable = (
         </thead>
         <tbody>
           {adminMedJson.map((entry: TableRow, index: number) => {
+            const entryDate = entry["Medication Start Date"].value;
+            const dateString = `${entryDate.substring(
+              0,
+              4,
+            )}-${entryDate.substring(4, 6)}-${entryDate.substring(6, 8)}`;
+            const formattedDate = formatDate(dateString);
             return (
               <tr key={`table-row-${index}`}>
-                <td>{entry["Medication Order"]?.value ?? noData}</td>
-                <td>{entry["MAR Action"]?.value ?? noData}</td>
-                <td>{entry["Action Date"]?.value ?? noData}</td>
-                <td>{entry["Dose"]?.value ?? noData}</td>
-                <td>{entry["Rate"]?.value ?? noData}</td>
-                <td>{entry["Site"]?.value ?? noData}</td>
+                <td>{entry["Medication Name"]?.value ?? noData}</td>
+                <td>{formattedDate ?? noData}</td>
               </tr>
             );
           })}
@@ -735,24 +728,13 @@ export const evaluateClinicalData = (
   const pendingResults = returnPendingResultsTable(fhirBundle, mappings);
   let planOfTreatmentElement: React.JSX.Element | undefined = undefined;
   if (pendingResults) {
-    planOfTreatmentElement = (
-      <>
-        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
-        {pendingResults}
-      </>
-    );
+    planOfTreatmentElement = <>{pendingResults}</>;
   }
 
   const adminMedResults = returnAdminMedTable(fhirBundle, mappings);
-  console.log("my results!", adminMedResults);
   let adminMedElement: React.JSX.Element | undefined = undefined;
   if (adminMedResults) {
-    adminMedElement = (
-      <>
-        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
-        {adminMedResults}
-      </>
-    );
+    adminMedElement = <>{adminMedResults}</>;
   }
 
   const treatmentData: DisplayData[] = [
@@ -867,7 +849,8 @@ export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
   item,
 }): React.JSX.Element => {
   return (
-    <div className="grid-row">
+    <div>
+      <div className="text-bold margin-bottom-1">{item.title}</div>
       <div className="grid-col-auto text-pre-line">{item.value}</div>
       <div className={"section__line_gray"} />
     </div>

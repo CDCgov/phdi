@@ -66,7 +66,8 @@ export const formatDateTime = (dateTime: string) => {
  * @returns - The formatted date string or undefined if the input date is falsy.
  */
 export const formatDate = (date?: string): string | undefined => {
-  if (date) {
+  // checks if date exists and if string is in a parseable date format
+  if (date && Date.parse(date)) {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "2-digit",

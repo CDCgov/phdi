@@ -85,7 +85,7 @@ historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Compositio
 planOfTreatment: "Bundle.entry.resource.section.where(title = 'Plan of Treatment').text"
 
 # Adminstered Medications
-administeredMedications: "Bundle.entry.resource.section.where(title = 'Administered Medications').text"
+administeredMedications: "Bundle.entry.resource.section.where(code.coding[0].code = '29549-3').text"
 
 # Immunization Info
 immunizations: "Bundle.entry.resource.where(resourceType = 'Immunization')"
