@@ -200,7 +200,7 @@ End: 05/13/2022 5:57 AM EDT
         class="usa-summary-box__body"
       >
         <h3
-          class="margin-bottom-105 margin-top-205 side-nav-ignore"
+          class="summary-box-key-information side-nav-ignore"
           id="about-the-condition"
         >
           About the Condition

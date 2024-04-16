@@ -26,7 +26,7 @@
           "text": "Sexual orientation"
         },
         "status": "final",
-        "valueString": "Do not know",
+        "valueString": "Other",
         "subject": {
           "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
         }

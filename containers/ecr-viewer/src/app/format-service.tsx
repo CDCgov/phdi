@@ -371,3 +371,13 @@ export const addCaptionToTable = (
 
   return element;
 };
+
+/**
+ * Removes HTML tags from a given string.
+ * @param element - The input string containing HTML elements.
+ * @returns - A string with all HTML tags removed.
+ */
+export const removeHtmlElements = (element: string): string => {
+  const regex = /<[^>]*>/g;
+  return element.replace(regex, "");
+};
