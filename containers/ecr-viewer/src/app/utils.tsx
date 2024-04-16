@@ -594,15 +594,20 @@ export const returnAdminMedTable = (
   const adminMedTables = formatTablesToJSON(
     evaluate(fhirBundle, mappings["administeredMedications"])[0]?.div,
   );
-  if (adminMedTables[0]?.tables?.[0]) {
+  const adminMedJson = adminMedTables[0]?.tables?.[0];
+  if (
+    adminMedJson &&
+    adminMedJson[0]["Medication Name"] &&
+    adminMedJson[0]["Medication Start Date"]
+  ) {
     const header = ["Medication Name", "Medication Start Date"];
-    const adminMedJson = adminMedTables[0].tables?.[0];
     return (
       <Table
         bordered={false}
         fullWidth={true}
+        caption="Administered Medications"
         className={
-          "table-caption-margin caption-normal-weight margin-y-0 border-top border-left border-right"
+          "table-caption-margin margin-y-0 border-top border-left border-right"
         }
         data-testid="table"
       >
@@ -618,11 +623,7 @@ export const returnAdminMedTable = (
         <tbody>
           {adminMedJson.map((entry: TableRow, index: number) => {
             const entryDate = entry["Medication Start Date"].value;
-            const dateString = `${entryDate.substring(
-              0,
-              4,
-            )}-${entryDate.substring(4, 6)}-${entryDate.substring(6, 8)}`;
-            const formattedDate = formatDate(dateString);
+            const formattedDate = formatDate(entryDate);
             return (
               <tr key={`table-row-${index}`}>
                 <td>{entry["Medication Name"]?.value ?? noData}</td>
