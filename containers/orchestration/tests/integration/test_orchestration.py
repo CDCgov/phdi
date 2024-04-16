@@ -29,6 +29,7 @@ def test_health_check(setup):
         "FHIR_CONVERTER_PORT_NUMBER",
         "INGESTION_PORT_NUMBER",
         "MESSAGE_PARSER_PORT_NUMBER",
+        "ECR_VIEWER_PORT_NUMBER",
     ]
 
     for port_number in port_number_strings:
