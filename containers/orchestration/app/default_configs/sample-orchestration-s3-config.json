@@ -36,7 +36,7 @@
       "url": "${ECR_VIEWER_URL}",
       "endpoint": "/api/save-fhir-data",
       "params": {
-        "saveSource": "postgres"
+        "saveSource": "s3"
       }
     },
     {
