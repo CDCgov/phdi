@@ -1,8 +1,5 @@
 version: "3.3"
 
-include:
-  - ../ecr-viewer/docker-compose.yml
-
 services:
   orchestration-service:
     build:
@@ -52,6 +49,31 @@ services:
       - "${MESSAGE_PARSER_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
+  ecr-viewer:
+    build:
+      context: ../ecr-viewer
+    ports:
+      - "${ECR_VIEWER_PORT_NUMBER}:3000"
+    volumes:
+      - ./src/app:/app
+    environment:
+      - DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
+    depends_on:
+      seed-db:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+  db:
+    extends:
+      file: docker-compose-ecr-viewer.yml
+      service: db
+  seed-db:
+    extends:
+      file: docker-compose-ecr-viewer.yml
+      service: seed-db
+    depends_on:
+      db:
+        condition: service_healthy
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
     container_name: "otel-collector"
