@@ -888,14 +888,6 @@ export const evaluateClinicalData = (
 
   const treatmentData: DisplayData[] = [
     {
-      title: "Plan of Treatment",
-      value: planOfTreatmentElement,
-    },
-    {
-      title: "Care Team",
-      value: returnCareTeamTable(fhirBundle, mappings),
-    },
-    {
       title: "Procedures",
       value: returnProceduresTable(
         evaluate(fhirBundle, mappings["procedures"]),
