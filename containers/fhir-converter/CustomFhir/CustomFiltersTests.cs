@@ -1,7 +1,5 @@
 using Microsoft.Health.Fhir.Liquid.Converter;
 using System.Collections.Generic;
-using Xunit.Sdk;
-using Newtonsoft.Json;
 
 namespace CustomFhir;
 
