@@ -32,6 +32,14 @@
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     },
     {
+      "service": "save_bundle",
+      "url": "${ECR_VIEWER_URL}",
+      "endpoint": "/api/save-fhir-data",
+      "params": {
+        "saveSource": "s3"
+      }
+    },
+    {
       "service": "message_parser",
       "url": "${MESSAGE_PARSER_URL}",
       "endpoint": "/parse_message",
@@ -40,10 +48,6 @@
         "parsing_schema_name": "ecr.json",
         "credential_manager": "azure"
       }
-    },
-    {
-      "service": "save_to_s3",
-      "endpoint": ""
     }
   ]
 }

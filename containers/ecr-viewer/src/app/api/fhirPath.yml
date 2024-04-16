@@ -85,6 +85,9 @@ historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Compositio
 # Treatment Details
 planOfTreatment: "Bundle.entry.resource.section.where(title = 'Plan of Treatment').text"
 
+# Adminstered Medications
+administeredMedications: "Bundle.entry.resource.section.where(code.coding[0].code = '29549-3').text"
+
 ## Care Team
 careTeamParticipants: "Bundle.entry.resource.where(resourceType='CareTeam').participant"
 careTeamParticipantMemberName: "member.name"

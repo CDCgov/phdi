@@ -3,6 +3,8 @@ from pathlib import Path
 from dibbs.base_service import BaseService
 from app.models import RefinerInput, RefinerResponse
 
+from app.models import RefinerInput
+from app.models import RefinerResponse
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
