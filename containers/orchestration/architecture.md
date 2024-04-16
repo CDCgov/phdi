@@ -78,7 +78,7 @@ The core loop of the Orchestration Service is found in the `call_apis` function 
 * Unpacks the service's response, and
 * Makes any required data updates to the message being parsed.
 
-These steps are repeated for each service specified in the workflow configuration. The abstraction techniques in the handlers and response objects above allow the `call_apis` loop to only worry about passing data to the right service, at the right URL, with the right parameters. This information is found, respectively, in the user's workflow configuration and the Orchestration Service's environment variables. Currently, a special case exists in the loop to handle `save_to_db` requests, since that functionality isn't yet implemented as its own endpoint, but once it is, database saving can be collapsed into the same handlers as the other DIBBs services.
+These steps are repeated for each service specified in the workflow configuration. The abstraction techniques in the handlers and response objects above allow the `call_apis` loop to only worry about passing data to the right service, at the right URL, with the right parameters. This information is found, respectively, in the user's workflow configuration and the Orchestration Service's environment variables.
 
 ## Request Inputs and API Endpoints
 Currently, the Orchestration Service can be accessed via several API endpoints, both with and without a connected websocket. Each endpoint (regardless of whether a websocket is or isn't used) performs the same broad functionality, which is executing a workflow on a given message. Valid endpoints include:
