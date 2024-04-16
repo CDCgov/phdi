@@ -19,6 +19,6 @@ def test_refiner(
     ),
     expected_successful_response={"refined_message": "test test", "status": "OK"},
 ):
-    actual_response = client.post("/refine", json=input.dict())
+    actual_response = client.post("/refine-ecr", json=input.dict())
     assert actual_response.status_code == 200
     assert actual_response.json() == expected_successful_response

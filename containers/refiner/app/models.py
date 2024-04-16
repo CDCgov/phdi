@@ -3,7 +3,6 @@ from typing import List
 
 from pydantic import BaseModel
 from pydantic import Field
-from lxml import etree as ET
 
 
 class RefinerInput(BaseModel):
@@ -17,7 +16,7 @@ class RefinerInput(BaseModel):
     fields_to_include: Optional[List[str]] = Field(
         description="Fields to include in the refinement."
     )
-    message: ET.ElementTree = Field(description="The XML to refine.")
+    message: str = Field(description="The XML to refine.")
 
 
 class RefinerResponse(BaseModel):
@@ -29,4 +28,4 @@ class RefinerResponse(BaseModel):
         description="A message describing the result of a request to "
         "the /refine endpoint."
     )
-    refined_message: ET.ElementTree = Field(description="The refined XML.")
+    refined_message: str = Field(description="The refined XML.")

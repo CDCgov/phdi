@@ -1,6 +1,10 @@
 from pathlib import Path
 
 from dibbs.base_service import BaseService
+from app.models import RefinerInput, RefinerResponse
+from lxml import etree as ET
+from pydantic import BaseModel
+
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -19,3 +23,18 @@ async def health_check():
     properly.
     """
     return {"status": "OK"}
+
+
+@app.post("/refine-ecr")
+async def refine_ecr(
+    input: RefinerInput,
+) -> RefinerResponse:
+    """
+    Refines an incoming XML message based on the fields to include and whether
+    to include headers.
+
+    :param input: The input to the refiner service.
+    :return: The RefinerResponse which includes the `refined_message` and a
+    `status`.
+    """
+    return RefinerResponse(refined_message=input.message, status="OK")
