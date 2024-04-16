@@ -112,7 +112,7 @@
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "<table><caption>Pending Results</caption> <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Date/Time</th></tr></thead><tbody><tr data-id='procedure9'><td>Drugs Of Abuse Comprehensive Screen, Ur</td><td>Lab</td><td>STAT</td><td></td><td>12/23/2022 11:13 AM PST</td></tr></tbody></table><table><caption>Scheduled Orders</caption> <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Order Schedule</th></tr></thead><tbody><tr data-id='procedure10'><td>Drugs Of Abuse Comprehensive Screen, Ur</td><td>Lab</td><td>Routine</td><td></td><td data-id='procedure10schedule'>One Time for 1 Occurrences starting 12/23/22 until 12/23/22</td></tr></tbody></table>documented as of this encounter"
+              "div": "<table>Pending Results <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Date/Time</th></tr></thead><tbody><tr data-id='procedure9'><td>Drugs Of Abuse Comprehensive Screen, Ur</td><td>Lab</td><td>STAT</td><td></td><td>12/23/2022 11:13 AM PST</td></tr></tbody></table><table>Scheduled Orders <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Order Schedule</th></tr></thead><tbody><tr data-id='procedure10'><td>Drugs Of Abuse Comprehensive Screen, Ur</td><td>Lab</td><td>Routine</td><td></td><td data-id='procedure10schedule'>One Time for 1 Occurrences starting 12/23/22 until 12/23/22</td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -177,7 +177,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Procedure'>(ABNORMAL) Drugs of Abuse, Screen, Urine (12/23/2022 12:56 PM PST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8Name'>Specific Gravity, Urine</td><td></td><td></td><td></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8Signature'></td></tr><tr><td>Comment: Not Indicated</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9Name'>Creatinine, Urine, Random</td><td>43</td><td>Not Established mg/dL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10Name'>Fentanyl Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>12/23/2022 12:56 PM PST</td><td>12/23/2022 12:56 PM PST</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 12/23/2022 2:59 PM PST</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Midwife Obstetrics CNM</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Procedure'>(ABNORMAL) Drugs of Abuse, Screen, Urine (12/23/2022 11:16 AM PST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8Name'>Specific Gravity, Urine</td><td></td><td></td><td></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8Signature'></td></tr><tr><td>Comment: Not Indicated</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9Name'>Creatinine, Urine, Random</td><td>100</td><td>Not Established mg/dL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10Name'>Fentanyl Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>12/23/2022 11:16 AM PST</td><td>12/23/2022 11:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 12/23/2022 11:35 AM PST</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Valerie Krozel MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Procedure'>(ABNORMAL) PSA, Screen (11/23/2022 9:16 AM PST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1Name'>PSA</td><td>8.00 (H)</td><td>0.06 - 4.00 ng/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Victor J Aaen MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Procedure'>(ABNORMAL) PSA, Diagnostic (11/23/2022 9:16 AM PST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1Name'>PSA</td><td>8.00 (H)</td><td>0.06 - 4.00 ng/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Procedure'>(ABNORMAL) CEA (11/23/2022 9:16 AM PST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1Name'>CEA</td><td>50.0 (H)</td><td>0.3 - 3.0 ng/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Procedure'>(ABNORMAL) CA 125, Quant (11/23/2022 9:16 AM PST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1Name'>Cancer Antigen 125</td><td>12,200 (H)</td><td>6 - 35 U/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Procedure'>CA 19-9, Quant (11/23/2022 9:16 AM PST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1Name'>CA 19 9</td><td>10</td><td>1 - 37 U/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS® 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Procedure'>(ABNORMAL) Drugs Of Abuse Comprehensive Screen, Ur (10/19/2022 10:17 AM PDT)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8Name'>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8Signature'></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9Name'>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10Name'>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10Signature'></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11Name'>Buprenorphine Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11Signature'></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12Name'>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12Signature'></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13Name'>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13Signature'></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14Name'>Specific Gravity, Urine</td><td>1.011</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15Name'>Creatinine, Urine, Random</td><td>44</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16Name'>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16Signature'></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>10/19/2022 10:17 AM PDT</td><td>10/19/2022 10:17 AM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 11:29 AM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Valerie Krozel MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Procedure'>Drugs Of Abuse Comprehensive Screen, Ur (10/19/2022 8:31 AM PDT)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8Name'>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8Signature'></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9Name'>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10Name'>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10Signature'></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11Name'>Buprenorphine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11Signature'></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12Name'>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12Signature'></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13Name'>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13Signature'></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14Name'>Specific Gravity, Urine</td><td>1.011</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15Name'>Creatinine, Urine, Random</td><td>55</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16Name'>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16Signature'></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>10/19/2022 8:31 AM PDT</td><td>10/19/2022 8:31 AM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 10:04 AM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Shssurgmd Ord MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313'><caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Procedure'>(ABNORMAL) Drugs Of Abuse Comprehensive Screen, Ur (10/11/2022 12:29 PM PDT)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4Name'>Barbiturates Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5Name'>Amphetamine Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6Name'>Cannabinoids Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8Name'>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8Signature'></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9Name'>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10Name'>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10Signature'></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11Name'>Buprenorphine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11Signature'></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12Name'>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12Signature'></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13Name'>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13Signature'></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14Name'>Specific Gravity, Urine</td><td>1.014</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15Name'>Creatinine, Urine, Random</td><td>63</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16Name'>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16Signature'></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>10/11/2022 12:29 PM PDT</td><td>10/11/2022 12:30 PM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 10:00 AM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
+              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080'>(ABNORMAL) Drugs of Abuse, Screen, Urine (12/23/2022 12:56 PM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8Name'>Specific Gravity, Urine</td><td></td><td></td><td></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp8Signature'></td></tr><tr><td>Comment: Not Indicated</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9Name'>Creatinine, Urine, Random</td><td>43</td><td>Not Established mg/dL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10Name'>Fentanyl Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 2:59 PM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Comp10Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>12/23/2022 12:56 PM PST</td><td>12/23/2022 12:56 PM PST</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 12/23/2022 2:59 PM PST</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Midwife Obstetrics CNM</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078'>(ABNORMAL) Drugs of Abuse, Screen, Urine (12/23/2022 11:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8Name'>Specific Gravity, Urine</td><td></td><td></td><td></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp8Signature'></td></tr><tr><td>Comment: Not Indicated</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9Name'>Creatinine, Urine, Random</td><td>100</td><td>Not Established mg/dL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10Name'>Fentanyl Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>12/23/2022 11:35 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Comp10Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>12/23/2022 11:16 AM PST</td><td>12/23/2022 11:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 12/23/2022 11:35 AM PST</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Valerie Krozel MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074'>(ABNORMAL) PSA, Screen (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1Name'>PSA</td><td>8.00 (H)</td><td>0.06 - 4.00 ng/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Victor J Aaen MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703074.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072'>(ABNORMAL) PSA, Diagnostic (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1Name'>PSA</td><td>8.00 (H)</td><td>0.06 - 4.00 ng/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703072.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071'>(ABNORMAL) CEA (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1Name'>CEA</td><td>50.0 (H)</td><td>0.3 - 3.0 ng/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703071.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070'>(ABNORMAL) CA 125, Quant (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1Name'>Cancer Antigen 125</td><td>12,200 (H)</td><td>6 - 35 U/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703070.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069'>CA 19-9, Quant (11/23/2022 9:16 AM PST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1Name'>CA 19 9</td><td>10</td><td>1 - 37 U/mL</td><td><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1TestMethodName1'>LAB DEVICE: ORTHO CLINICAL DIAGNOSTICS VITROS\u00ae 7500</paragraph></td><td>11/23/2022 9:17 AM PST</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Comp1Signature'></td></tr><tr><td>Comment: This immunoassay is manufactured by Ortho clinical Diagnostics. Tumor marker values using different test methods or manufacturers may vary and cannot be compared. If there is a change to the manufacturer or methodology, patients undergoing serial monitoring should have additional testing performed to confirm baseline values.</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.Specimen'>Blood</td><td></td><td>Venipuncture / Unknown</td><td>11/23/2022 9:16 AM PST</td><td>11/23/2022 9:16 AM PST</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1703069.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317'>(ABNORMAL) Drugs Of Abuse Comprehensive Screen, Ur (10/19/2022 10:17 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8Name'>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp8Signature'></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9Name'>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp9Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10Name'>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp10Signature'></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11Name'>Buprenorphine Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp11Signature'></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12Name'>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp12Signature'></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13Name'>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp13Signature'></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14Name'>Specific Gravity, Urine</td><td>1.011</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15Name'>Creatinine, Urine, Random</td><td>44</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16Name'>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 11:29 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16Signature'></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>10/19/2022 10:17 AM PDT</td><td>10/19/2022 10:17 AM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 11:29 AM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Valerie Krozel MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315'>Drugs Of Abuse Comprehensive Screen, Ur (10/19/2022 8:31 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4Name'>Barbiturates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5Name'>Amphetamine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6Name'>Cannabinoids Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8Name'>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp8Signature'></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9Name'>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp9Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10Name'>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp10Signature'></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11Name'>Buprenorphine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp11Signature'></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12Name'>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp12Signature'></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13Name'>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp13Signature'></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14Name'>Specific Gravity, Urine</td><td>1.011</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15Name'>Creatinine, Urine, Random</td><td>55</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16Name'>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:04 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16Signature'></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>10/19/2022 8:31 AM PDT</td><td>10/19/2022 8:31 AM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 10:04 AM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Shssurgmd Ord MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313'>(ABNORMAL) Drugs Of Abuse Comprehensive Screen, Ur (10/11/2022 12:29 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1Name'>Phencyclidine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp1Signature'></td></tr><tr><td>Comment: <br>PCP: Cut-off conc 25 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2Name'>Benzodiazepines Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp2Signature'></td></tr><tr><td>Comment: <br>Benzo: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3Name'>Cocaine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp3Signature'></td></tr><tr><td>Comment: Cocaine: Cut-off conc 150 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4Name'>Barbiturates Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp4Signature'></td></tr><tr><td>Comment: <br>Barb: Cut-off conc 200 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5Name'>Amphetamine Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp5Signature'></td></tr><tr><td>Comment: <br>Amph: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6Name'>Cannabinoids Screen, Urine</td><td>Positive (A)</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp6Signature'></td></tr><tr><td>Comment: THC: Cut-off conc 50 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7Name'>Opiates Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp7Signature'></td></tr><tr><td>Comment: Opiates: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8Name'>Methadone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp8Signature'></td></tr><tr><td>Comment: Methadone: Cut-off conc 300 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9Name'>Fentanyl Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp9Signature'></td></tr><tr><td>Comment: Fentanyl: Cut-off conc 1 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10Name'>Ethyl Glucuronide Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp10Signature'></td></tr><tr><td>Comment: Ethyl Glucuronide: Cut-off conc 500 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11Name'>Buprenorphine Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp11Signature'></td></tr><tr><td>Comment: Buprenorphine: Cut-off conc 5 ng/mL</td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12Name'>Oxycodone Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp12Signature'></td></tr><tr><td>Comment: <br>Oxycodone: Cut-off conc 100 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13Name'>MDMA Screen, Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp13Signature'></td></tr><tr><td>Comment: <br>MDMA: Cut-off conc 500 ng/mL <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14Name'>Specific Gravity, Urine</td><td>1.014</td><td>1.003 - 1.035</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp14Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15Name'>Creatinine, Urine, Random</td><td>63</td><td>Not Established mg/dL</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp15Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16'><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16Name'>Mitragynine (Kratom), Urine</td><td>Negative</td><td>Negative</td><td></td><td>10/19/2022 10:00 AM PDT</td><td>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</td><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16Signature'></td></tr><tr><td>Comment: Mitragynine: Cut-off conc 50 ng/mL</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Specimen'>Urine</td><td></td><td>Collection / Unknown</td><td>10/11/2022 12:29 PM PDT</td><td>10/11/2022 12:30 PM PDT</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635) - 10/19/2022 10:00 AM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Narrative'>Positive screening results are unconfirmed and are to be used only for medical (i.e., treatment) purposes. Unconfirmed screening results must not be used for non-medical purposes (e.g., employment testing). Only positive maternal and neonatal screening results reflex for confirmation and are reported separately. <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ruth A Fischer-Wright MD</td><td>URINE ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.PerformingLab'><paragraph>HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)</paragraph></td><td><paragraph>One Hoag Drive</paragraph></td><td><paragraph>Newport Beach, CA 92663</paragraph></td><td><paragraph>949-764-5600</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -599,7 +599,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "relatesTo": [
           {
@@ -656,7 +656,7 @@
           "start": "2022-10-11"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "location": [
           {
@@ -1035,10 +1035,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:be40b7a4-2604-4d2c-b052-a044a09b6ee8",
+      "fullUrl": "urn:uuid:6ef568db-8f22-47b8-a831-52f3611298f0",
       "resource": {
         "resourceType": "Patient",
-        "id": "be40b7a4-2604-4d2c-b052-a044a09b6ee8",
+        "id": "6ef568db-8f22-47b8-a831-52f3611298f0",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1148,22 +1148,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:a36f1344-b355-8a67-1146-ad16f7e8649e",
-      "resource": {
-        "resourceType": "CareTeam",
-        "id": "a36f1344-b355-8a67-1146-ad16f7e8649e",
-        "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
-        },
-        "meta": {
-          "source": [
-            "ecr"
-          ]
-        }
+        "url": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
       }
     },
     {
@@ -1192,7 +1177,7 @@
         },
         "onsetDateTime": "2018-03-08T13:56:36-08:00",
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "meta": {
           "source": [
@@ -1231,7 +1216,7 @@
           "end": "2022-10-11T19:29:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -1317,6 +1302,13 @@
             "postalCode": "92663"
           }
         ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1-949-764-8400",
+            "use": "work"
+          }
+        ],
         "meta": {
           "source": [
             "ecr"
@@ -1398,7 +1390,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -1526,7 +1518,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -1610,7 +1602,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -1705,7 +1697,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -1800,7 +1792,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -1895,7 +1887,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -1979,7 +1971,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2063,7 +2055,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2147,7 +2139,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2231,7 +2223,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2315,7 +2307,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2399,7 +2391,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2483,7 +2475,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2575,7 +2567,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2662,7 +2654,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2737,7 +2729,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {
@@ -2771,7 +2763,7 @@
           "end": "2022-10-19T15:31:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2906,7 +2898,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -2990,7 +2982,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3074,7 +3066,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3158,7 +3150,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3242,7 +3234,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3326,7 +3318,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3410,7 +3402,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3494,7 +3486,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3578,7 +3570,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3662,7 +3654,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3746,7 +3738,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3830,7 +3822,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -3914,7 +3906,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4006,7 +3998,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4093,7 +4085,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4133,7 +4125,7 @@
           "end": "2022-10-19T17:17:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4271,7 +4263,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4355,7 +4347,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4439,7 +4431,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4523,7 +4515,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4607,7 +4599,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4691,7 +4683,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4775,7 +4767,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4859,7 +4851,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -4943,7 +4935,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5027,7 +5019,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5122,7 +5114,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5206,7 +5198,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5290,7 +5282,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5382,7 +5374,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5469,7 +5461,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5544,7 +5536,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {
@@ -5578,7 +5570,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5685,7 +5677,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5760,7 +5752,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {
@@ -5794,7 +5786,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5912,7 +5904,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -5987,7 +5979,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {
@@ -6021,7 +6013,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -6139,7 +6131,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -6214,7 +6206,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {
@@ -6248,7 +6240,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -6366,7 +6358,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -6441,7 +6433,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {
@@ -6475,7 +6467,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -6593,7 +6585,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -6668,7 +6660,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {
@@ -6702,7 +6694,7 @@
           "end": "2022-12-23T19:16:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -6825,7 +6817,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -6909,7 +6901,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -6993,7 +6985,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7077,7 +7069,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7161,7 +7153,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7245,7 +7237,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7329,7 +7321,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7407,7 +7399,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7494,7 +7486,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7589,7 +7581,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7664,7 +7656,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {
@@ -7698,7 +7690,7 @@
           "end": "2022-12-23T20:56:00Z"
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7821,7 +7813,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7905,7 +7897,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -7989,7 +7981,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -8073,7 +8065,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -8157,7 +8149,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -8241,7 +8233,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -8325,7 +8317,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -8403,7 +8395,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -8490,7 +8482,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -8585,7 +8577,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         },
         "performer": [
           {
@@ -8660,7 +8652,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {
@@ -8717,7 +8709,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/be40b7a4-2604-4d2c-b052-a044a09b6ee8"
+          "reference": "Patient/6ef568db-8f22-47b8-a831-52f3611298f0"
         }
       },
       "request": {

@@ -169,15 +169,10 @@ export const evaluateEncounterDate = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
-  const startDate = formatDateTime(
+  return formatStartEndDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
-  );
-  const endDate = formatDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
   );
-
-  return `Start: ${startDate}
-    End: ${endDate}`;
 };
 
 /**
@@ -493,6 +488,10 @@ export const returnProblemsTable = (
   problemsArray: Condition[],
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
+  problemsArray = problemsArray.filter(
+    (entry) => entry.code?.coding?.[0].display,
+  );
+
   if (problemsArray.length === 0) {
     return undefined;
   }
@@ -509,6 +508,10 @@ export const returnProblemsTable = (
       value: calculatePatientAge(fhirBundle, mappings, entry.onsetDateTime),
     };
   });
+
+  if (problemsArray.length === 0) {
+    return undefined;
+  }
 
   problemsArray.sort(
     (a, b) =>
