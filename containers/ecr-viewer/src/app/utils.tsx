@@ -833,10 +833,9 @@ export const evaluateClinicalData = (
   }
 
   const adminMedResults = returnAdminMedTable(fhirBundle, mappings);
-  let adminMedElement: React.JSX.Element | undefined = undefined;
-  if (adminMedResults) {
-    adminMedElement = <>{adminMedResults}</>;
-  }
+  let adminMedElement: React.JSX.Element | undefined = adminMedResults ? (
+    <>{adminMedResults}</>
+  ) : undefined;
 
   const treatmentData: DisplayData[] = [
     {
