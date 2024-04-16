@@ -587,6 +587,56 @@ export const returnPendingResultsTable = (
   }
 };
 
+export const returnAdminMedTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const adminMedTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["administeredMedications"])[0]?.div,
+  );
+  const adminMedJson = adminMedTables[0]?.tables?.[0];
+  if (
+    adminMedJson &&
+    adminMedJson[0]["Medication Name"] &&
+    adminMedJson[0]["Medication Start Date"]
+  ) {
+    const header = ["Medication Name", "Medication Start Date"];
+    return (
+      <Table
+        bordered={false}
+        fullWidth={true}
+        caption="Administered Medications"
+        className={
+          "table-caption-margin margin-y-0 border-top border-left border-right"
+        }
+        data-testid="table"
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {adminMedJson.map((entry: TableRow, index: number) => {
+            const entryDate = entry["Medication Start Date"].value;
+            const formattedDate = formatDate(entryDate);
+            return (
+              <tr key={`table-row-${index}`}>
+                <td>{entry["Medication Name"]?.value ?? noData}</td>
+                <td>{formattedDate ?? noData}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    );
+  }
+};
+
 /**
  * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
  * @param fhirBundle - The FHIR bundle containing patient and immunizations information.
@@ -828,13 +878,13 @@ export const evaluateClinicalData = (
   const pendingResults = returnPendingResultsTable(fhirBundle, mappings);
   let planOfTreatmentElement: React.JSX.Element | undefined = undefined;
   if (pendingResults) {
-    planOfTreatmentElement = (
-      <>
-        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
-        {pendingResults}
-      </>
-    );
+    planOfTreatmentElement = <>{pendingResults}</>;
   }
+
+  const adminMedResults = returnAdminMedTable(fhirBundle, mappings);
+  let adminMedElement: React.JSX.Element | undefined = adminMedResults ? (
+    <>{adminMedResults}</>
+  ) : undefined;
 
   const treatmentData: DisplayData[] = [
     {
@@ -858,6 +908,18 @@ export const evaluateClinicalData = (
         evaluate(fhirBundle, mappings["plannedProcedures"]),
         mappings,
       ),
+    },
+    {
+      title: "Plan of Treatment",
+      value: planOfTreatmentElement,
+    },
+    {
+      title: "Administered Medications",
+      value: adminMedElement,
+    },
+    {
+      title: "Care Team",
+      value: returnCareTeamTable(fhirBundle, mappings),
     },
   ];
 

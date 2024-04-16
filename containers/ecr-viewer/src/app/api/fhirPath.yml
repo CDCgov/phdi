@@ -89,6 +89,9 @@ plannedProcedureName: "detail.code.coding[0].display"
 plannedProcedureOrderedDate: "extension.where(url = 'dibbs.orderedDate').valueString"
 plannedProcedureScheduledDate: "detail.scheduledString"
 
+# Adminstered Medications
+administeredMedications: "Bundle.entry.resource.section.where(code.coding[0].code = '29549-3').text"
+
 ## Care Team
 careTeamParticipants: "Bundle.entry.resource.where(resourceType='CareTeam').participant"
 careTeamParticipantMemberName: "member.name"

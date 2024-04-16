@@ -83,6 +83,9 @@ export const formatAddress = (
  * @returns The formatted date and time string.
  */
 export const formatDateTime = (dateTime?: string) => {
+  if (!dateTime) {
+    return "";
+  }
   const hasTime = dateTime?.includes(":");
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
@@ -107,19 +110,26 @@ export const formatDateTime = (dateTime?: string) => {
  * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
  * @returns - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
  */
+
 export const formatDate = (dateString?: string): string | undefined => {
   if (dateString) {
     let date = new Date(dateString);
     if (date.toString() == "Invalid Date") {
-      const formattedDate = `${dateString.substring(0, 4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}`; // yyyy-mm-dd
+      const formattedDate = `${dateString.substring(
+        0,
+        4,
+      )}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}`; // yyyy-mm-dd
       date = new Date(formattedDate);
     }
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC",
-    }); // UTC, otherwise will have timezone issues
+    // double check that the reformat actually worked otherwise return nothing
+    if (date.toString() != "Invalid Date") {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone: "UTC",
+      }); // UTC, otherwise will have timezone issues
+    }
   }
 };
 
