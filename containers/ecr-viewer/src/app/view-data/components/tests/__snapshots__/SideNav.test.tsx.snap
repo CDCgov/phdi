@@ -76,26 +76,31 @@ exports[`SectionConfig should match the snapshot 1`] = `
     </li>
   </ul>
   <h2
+    data-sectionid="section-1"
     id="section-1"
   >
     Section 1
   </h2>
   <h2
+    data-sectionid="section-2"
     id="section-2"
   >
     Section 2
   </h2>
   <h3
+    data-sectionid="section-3"
     id="section-3"
   >
     Section 3
   </h3>
   <h4
+    data-sectionid="section-4"
     id="section-4"
   >
     Section 4
   </h4>
   <h2
+    data-sectionid="section-2---2"
     id="section-2-2"
   >
     Section 2 - 2

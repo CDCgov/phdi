@@ -15,12 +15,41 @@ export interface TableJson {
   tables?: TableRow[][];
 }
 
-export const formatName = (firstName: string, lastName: string) => {
-  if (firstName != undefined) {
-    return `${firstName} ${lastName}`.trim();
-  } else {
-    return undefined;
+export interface TableJson {
+  resultId?: string;
+  resultName?: string;
+  tables?: TableRow[][];
+}
+
+/**
+ * Formats a person's name using given name(s), family name, optional prefix(es), and optional suffix(es).
+ * @param given - Optional array of given name(s).
+ * @param family - Optional string representing family name or surname.
+ * @param [prefix] - Optional array of name prefix(es).
+ * @param [suffix] - Optional array of name suffix(es).
+ * @returns Formatted name.
+ */
+export const formatName = (
+  given?: string[],
+  family?: string,
+  prefix?: string[],
+  suffix?: string[],
+) => {
+  const nameArray: string[] = [];
+  if (prefix) {
+    nameArray.push(...prefix);
   }
+  if (given) {
+    nameArray.push(...given);
+  }
+  if (family) {
+    nameArray.push(family);
+  }
+  if (suffix) {
+    nameArray.push(...suffix);
+  }
+
+  return nameArray.join(" ").trim();
 };
 
 export const formatAddress = (
@@ -45,15 +74,28 @@ export const formatAddress = (
     .join("\n");
 };
 
+/**
+ * Formats the given date and time string according to the specified options.
+ * If the time is included in the input string, it formats the date and time in the local time zone
+ * with the year, month, day, and time components. Otherwise, it formats only the date with the
+ * year, month, and day components in the UTC time zone.
+ * @param dateTime - The date and time string to be formatted.
+ * @returns The formatted date and time string.
+ */
 export const formatDateTime = (dateTime: string) => {
+  const hasTime = dateTime?.includes(":");
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-    hour: "numeric",
-    minute: "2-digit",
-    timeZoneName: "short",
+    timeZoneName: hasTime ? "short" : undefined,
   };
+  if (hasTime) {
+    options.hour = "numeric";
+    options.minute = "2-digit";
+  } else {
+    options.timeZone = "UTC"; // UTC, otherwise will have timezone issues
+  }
   const date = new Date(dateTime)
     .toLocaleDateString("en-Us", options)
     .replace(",", "");
@@ -62,13 +104,18 @@ export const formatDateTime = (dateTime: string) => {
 
 /**
  * Formats the provided date string into a formatted date string with year, month, and day.
- * @param date - The date string to be formatted.
- * @returns - The formatted date string or undefined if the input date is falsy.
+ * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
+ * @returns - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
  */
-export const formatDate = (date?: string): string | undefined => {
-  // checks if date exists and if string is in a parseable date format
-  if (date && Date.parse(date)) {
-    return new Date(date).toLocaleDateString("en-US", {
+
+export const formatDate = (dateString?: string): string | undefined => {
+  if (dateString) {
+    let date = new Date(dateString);
+    if (date.toString() == "Invalid Date") {
+      const formattedDate = `${dateString.substring(0, 4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}`; // yyyy-mm-dd
+      date = new Date(formattedDate);
+    }
+    return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
@@ -88,31 +135,31 @@ export const formatPhoneNumber = (phoneNumber: string) => {
   }
 };
 
+/**
+ * Formats the provided start and end date-time strings and returns a formatted string
+ * with both the start and end times. Each time is labeled and separated by a carriage return
+ * and newline for clarity in display or further processing.
+ * @param startDateTime - The start date-time string to be formatted.
+ * @param endDateTime - The end date-time string to be formatted.
+ * @returns A string with the formatted start and end times, each on a new line.
+ */
 export const formatStartEndDateTime = (
-  startDateTime: "string",
-  endDateTime: "string",
+  startDateTime: string,
+  endDateTime: string,
 ) => {
-  const startDateObject = new Date(startDateTime);
-  const endDateObject = new Date(endDateTime);
+  const textArray: String[] = [];
 
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
+  const startDateObject = formatDateTime(startDateTime);
+  const endDateObject = formatDateTime(endDateTime);
 
-  const startFormattedDate = startDateObject
-    .toLocaleString("en-US", options)
-    .replace(",", "");
-  const endFormattedDate = endDateObject
-    .toLocaleString("en-us", options)
-    .replace(",", "");
+  if (startDateObject) {
+    textArray.push(`Start: ${startDateObject}`);
+  }
+  if (endDateObject) {
+    textArray.push(`End: ${endDateObject}`);
+  }
 
-  return `Start: ${startFormattedDate}
-        End: ${endFormattedDate}`;
+  return textArray.join("\n");
 };
 
 export const formatVitals = (
@@ -293,3 +340,13 @@ export const truncateLabNameWholeWord = (
   // Truncate to the last full word within the limit
   return input_str.substring(0, lastSpaceIndex);
 };
+
+/**
+ * Converts a string to sentence case, making the first character uppercase and the rest lowercase.
+ * @param str - The string to convert to sentence case.
+ * @returns The converted sentence-case string. If the input is empty or not a string, the original input is returned.
+ */
+export function toSentenceCase(str: string) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

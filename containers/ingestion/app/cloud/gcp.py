@@ -3,10 +3,11 @@ from typing import List
 from typing import Union
 
 import google.auth.transport.requests
-from app.cloud.core import BaseCloudStorageConnection
-from app.cloud.core import BaseCredentialManager
 from google.auth.credentials import Credentials
 from google.cloud import storage
+
+from app.cloud.core import BaseCloudStorageConnection
+from app.cloud.core import BaseCredentialManager
 
 
 class GcpCredentialManager(BaseCredentialManager):
@@ -16,14 +17,29 @@ class GcpCredentialManager(BaseCredentialManager):
 
     @property
     def scope(self) -> str:
+        """
+        The scope of access for the credentials.
+
+        :return: The access scope as a string.
+        """
         return self.__scope
 
     @property
     def scoped_credentials(self) -> Credentials:
+        """
+        The credentials limited by the specified scope.
+
+        :return: An instance of Credentials, scoped as per the `scope` property.
+        """
         return self.__scoped_credentials
 
     @property
     def project_id(self) -> str:
+        """
+        The identifier for the project associated with the credentials.
+
+        :return: The project ID as a string.
+        """
         return self.__project_id
 
     def __init__(self, scope: list = None):
@@ -95,6 +111,11 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
 
     @property
     def storage_client(self) -> storage.Client:
+        """
+        The client used for interacting with storage services.
+
+        :return: An instance of the storage service client.
+        """
         return self.__storage_client
 
     def __init__(self):
