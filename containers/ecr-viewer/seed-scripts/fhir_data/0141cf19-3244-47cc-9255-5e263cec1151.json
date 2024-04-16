@@ -360,7 +360,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/0b330f8b-c945-4682-9413-4037ed8552e0"
+          "reference": "Patient/93aff156-5046-4d10-b2da-9cd2917c1ece"
         },
         "encounter": {
           "reference": "Encounter/3bf1e2d5-ef22-8211-097d-9acf0cc55fef"
@@ -404,7 +404,7 @@
           "start": "2022-03-24T09:33:00-04:00"
         },
         "subject": {
-          "reference": "Patient/0b330f8b-c945-4682-9413-4037ed8552e0"
+          "reference": "Patient/93aff156-5046-4d10-b2da-9cd2917c1ece"
         },
         "location": [
           {
@@ -855,10 +855,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:0b330f8b-c945-4682-9413-4037ed8552e0",
+      "fullUrl": "urn:uuid:93aff156-5046-4d10-b2da-9cd2917c1ece",
       "resource": {
         "resourceType": "Patient",
-        "id": "0b330f8b-c945-4682-9413-4037ed8552e0",
+        "id": "93aff156-5046-4d10-b2da-9cd2917c1ece",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -998,7 +998,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/0b330f8b-c945-4682-9413-4037ed8552e0"
+        "url": "Patient/93aff156-5046-4d10-b2da-9cd2917c1ece"
       }
     },
     {
@@ -1015,7 +1015,7 @@
         "status": "active",
         "name": "Patient Care Team",
         "subject": {
-          "reference": "Patient/0b330f8b-c945-4682-9413-4037ed8552e0"
+          "reference": "Patient/93aff156-5046-4d10-b2da-9cd2917c1ece"
         },
         "participant": [
           {
@@ -1192,7 +1192,7 @@
         },
         "onsetDateTime": "2022-03-01",
         "subject": {
-          "reference": "Patient/0b330f8b-c945-4682-9413-4037ed8552e0"
+          "reference": "Patient/93aff156-5046-4d10-b2da-9cd2917c1ece"
         },
         "meta": {
           "source": [
@@ -1254,7 +1254,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/0b330f8b-c945-4682-9413-4037ed8552e0"
+          "reference": "Patient/93aff156-5046-4d10-b2da-9cd2917c1ece"
         }
       },
       "request": {
@@ -1288,7 +1288,7 @@
         "status": "final",
         "valueString": "Do not know",
         "subject": {
-          "reference": "Patient/0b330f8b-c945-4682-9413-4037ed8552e0"
+          "reference": "Patient/93aff156-5046-4d10-b2da-9cd2917c1ece"
         }
       },
       "request": {
@@ -1325,6 +1325,11 @@
             "value": "urn:uuid:bab4bd75-ab7b-11ec-81e0-9e7eef92c510"
           }
         ],
+        "protocolApplied": [
+          {
+            "doseNumberPositiveInt": "1"
+          }
+        ],
         "occurrenceDateTime": "2022-03-24T09:38:00-04:00",
         "note": {
           "text": "anthrax"
@@ -1338,10 +1343,14 @@
             }
           ]
         },
+        "lotNumber": "LOT552Z",
+        "manufacturer": {
+          "reference": "Organization/1e2d10a1-e4d3-ac11-3b25-56396aee4ba2"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/0b330f8b-c945-4682-9413-4037ed8552e0"
+          "reference": "Patient/93aff156-5046-4d10-b2da-9cd2917c1ece"
         },
         "meta": {
           "source": [
@@ -1352,6 +1361,23 @@
       "request": {
         "method": "PUT",
         "url": "Immunization/82028c4e-742f-d327-32e7-1de1cefd6846"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1e2d10a1-e4d3-ac11-3b25-56396aee4ba2",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "1e2d10a1-e4d3-ac11-3b25-56396aee4ba2",
+        "name": "PFIZER & OTHER CHARACTERS",
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/1e2d10a1-e4d3-ac11-3b25-56396aee4ba2"
       }
     }
   ]

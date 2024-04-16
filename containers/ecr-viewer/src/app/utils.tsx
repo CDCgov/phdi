@@ -7,6 +7,7 @@ import {
   Procedure,
   Practitioner,
   FhirResource,
+  Organization,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
@@ -168,15 +169,10 @@ export const evaluateEncounterDate = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
-  const startDate = formatDateTime(
+  return formatStartEndDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
-  );
-  const endDate = formatDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
   );
-
-  return `Start: ${startDate}
-    End: ${endDate}`;
 };
 
 /**
@@ -492,6 +488,10 @@ export const returnProblemsTable = (
   problemsArray: Condition[],
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
+  problemsArray = problemsArray.filter(
+    (entry) => entry.code?.coding?.[0].display,
+  );
+
   if (problemsArray.length === 0) {
     return undefined;
   }
@@ -508,6 +508,10 @@ export const returnProblemsTable = (
       value: calculatePatientAge(fhirBundle, mappings, entry.onsetDateTime),
     };
   });
+
+  if (problemsArray.length === 0) {
+    return undefined;
+  }
 
   problemsArray.sort(
     (a, b) =>
@@ -585,11 +589,13 @@ export const returnPendingResultsTable = (
 
 /**
  * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
+ * @param fhirBundle - The FHIR bundle containing patient and immunizations information.
  * @param immunizationsArray - An array containing the list of immunizations.
  * @param mappings - An object containing the FHIR path mappings.
  * @returns - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
  */
 export const returnImmunizations = (
+  fhirBundle: Bundle,
   immunizationsArray: Immunization[],
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
@@ -600,11 +606,25 @@ export const returnImmunizations = (
   const columnInfo = [
     { columnName: "Name", infoPath: "immunizationsName" },
     { columnName: "Administration Dates", infoPath: "immunizationsAdminDate" },
-    { columnName: "Next Due", infoPath: "immunizationsNextDue" },
+    { columnName: "Dose Number", infoPath: "immunizationsDoseNumber" },
+    {
+      columnName: "Manufacturer",
+      infoPath: "immunizationsManufacturerName",
+    },
+    { columnName: "Lot Number", infoPath: "immunizationsLotNumber" },
   ];
 
   immunizationsArray.forEach((entry) => {
     entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime);
+
+    const manufacturer = evaluateReference(
+      fhirBundle,
+      mappings,
+      entry.manufacturer?.reference || "",
+    ) as Organization;
+    if (manufacturer) {
+      (entry.manufacturer as any).name = manufacturer.name || "";
+    }
   });
 
   immunizationsArray.sort(
@@ -802,6 +822,7 @@ export const evaluateClinicalData = (
     {
       title: "Immunization History",
       value: returnImmunizations(
+        fhirBundle,
         evaluate(fhirBundle, mappings["immunizations"]),
         mappings,
       ),
