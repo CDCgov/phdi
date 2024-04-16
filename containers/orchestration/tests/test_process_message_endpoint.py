@@ -51,8 +51,7 @@ manifests on real data in each step.
 
 # /process-message tests
 @mock.patch("app.services.post_request")
-@mock.patch("app.services.send_to_ecr_viewer")
-def test_process_message_success(patched_send_to_ecr_viewer, patched_post_request):
+def test_process_message_success(patched_post_request):
     message = open(
         Path(__file__).parent.parent.parent.parent
         / "tests"
@@ -107,12 +106,12 @@ def test_process_message_success(patched_send_to_ecr_viewer, patched_post_reques
         "parsed_values": {"eicr_id": "placeholder_id"}
     }
 
-    send_to_ecr_viewer_response = mock.Mock()
-    send_to_ecr_viewer_response.status_code = 200
-    send_to_ecr_viewer_response.json.return_value = {
+    save_bundle_post_request = mock.Mock()
+    save_bundle_post_request.status_code = 200
+    save_bundle_post_request.headers = {"content-type": "application/json"}
+    save_bundle_post_request.json.return_value = {
         "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
     }
-    send_to_ecr_viewer_response.headers.get.side_effect = mock_headers_get
 
     patched_post_request.side_effect = [
         validation_post_request,
@@ -121,8 +120,8 @@ def test_process_message_success(patched_send_to_ecr_viewer, patched_post_reques
         ingestion_post_request,
         ingestion_post_request,
         message_parser_post_request,
+        save_bundle_post_request,
     ]
-    patched_send_to_ecr_viewer.return_value = send_to_ecr_viewer_response
 
     actual_response = client.post("/process-message", json=request)
     assert actual_response.status_code == 200
@@ -239,8 +238,7 @@ def test_process_message_input_validation_with_rr_data():
 
 # # /process tests
 @mock.patch("app.services.post_request")
-@mock.patch("app.services.send_to_ecr_viewer")
-def test_process_success(patched_send_to_ecr_viewer, patched_post_request):
+def test_process_success(patched_post_request):
     with open(
         Path(__file__).parent.parent.parent.parent
         / "tests"
@@ -297,12 +295,12 @@ def test_process_success(patched_send_to_ecr_viewer, patched_post_request):
         message_parser_post_request.json.return_value = {
             "parsed_values": {"eicr_id": "placeholder_id"}
         }
-        send_to_ecr_viewer_response = mock.Mock()
-        send_to_ecr_viewer_response.status_code = 200
-        send_to_ecr_viewer_response.json.return_value = {
+        save_bundle_post_request = mock.Mock()
+        save_bundle_post_request.status_code = 200
+        save_bundle_post_request.headers = {"content-type": "application/json"}
+        save_bundle_post_request.json.return_value = {
             "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
         }
-        send_to_ecr_viewer_response.headers.get.side_effect = mock_headers_get
 
         patched_post_request.side_effect = [
             validation_post_request,
@@ -311,8 +309,8 @@ def test_process_success(patched_send_to_ecr_viewer, patched_post_request):
             ingestion_post_request,
             ingestion_post_request,
             message_parser_post_request,
+            save_bundle_post_request,
         ]
-        patched_send_to_ecr_viewer.return_value = send_to_ecr_viewer_response
 
         actual_response = client.post("/process", data=form_data, files=files)
         assert actual_response.status_code == 200
