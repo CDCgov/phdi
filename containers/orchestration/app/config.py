@@ -27,4 +27,6 @@ def get_settings() -> dict:
     :return: A dictionary with keys specified by the Settings. The value of each key is
     read from the corresponding environment variable.
     """
+    print(Settings().dict()["ecr_viewer_url"])
+    print(Settings().dict()["message_parser_url"])
     return Settings().dict()
