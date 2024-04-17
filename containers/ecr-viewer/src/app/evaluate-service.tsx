@@ -1,10 +1,42 @@
 import { evaluate } from "fhirpath";
 import { Bundle, CodeableConcept, Element, Quantity } from "fhir/r4";
-import { toSentenceCase } from "./format-service";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
+import React from "react";
+
+/**
+ * Builds a table cell for a row based on the provided column information and entry data.
+ * @param column - Information about the column for which the cell is being built.
+ * @param entry - The entry data from which the cell's data is extracted.
+ * @param mappings - The mappings for extracting data from the entry.
+ * @param index - The index of the cell in the row.
+ * @returns - A React component representing the table cell.
+ */
+const buildRowCell = (
+  column: ColumnInfoInput,
+  entry: Element,
+  mappings: PathMappings,
+  index: number,
+) => {
+  let rowCellData: any;
+  if (column?.value) {
+    rowCellData = column.value;
+  } else if (column?.infoPath) {
+    rowCellData = evaluateValue(entry, mappings[column.infoPath]);
+  }
+  if (rowCellData && column.applyToValue) {
+    rowCellData = column.applyToValue(rowCellData);
+  } else if (!rowCellData) {
+    rowCellData = <span className={"text-italic text-base"}>No data</span>;
+  }
+  return (
+    <td key={`row-data-${index}`} className="text-top">
+      {rowCellData}
+    </td>
+  );
+};
 
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
@@ -37,20 +69,7 @@ export const evaluateTable = (
 
   let tableRows = resources.map((entry, index) => {
     let rowCells = columns.map((column, index) => {
-      let rowCellData: any;
-      if (column?.value) {
-        rowCellData = column.value;
-      } else if (column?.infoPath) {
-        rowCellData = evaluateValue(entry, mappings[column.infoPath]);
-      }
-      if (!rowCellData) {
-        rowCellData = <span className={"text-italic text-base"}>No data</span>;
-      }
-      return (
-        <td key={`row-data-${index}`} className="text-top">
-          {column.sentenceCase ? toSentenceCase(rowCellData) : rowCellData}
-        </td>
-      );
+      return buildRowCell(column, entry, mappings, index);
     });
 
     return <tr key={`table-row-${index}`}>{rowCells}</tr>;

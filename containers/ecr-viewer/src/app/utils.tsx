@@ -23,6 +23,7 @@ import {
   formatDateTime,
   formatTablesToJSON,
   TableRow,
+  toSentenceCase,
 } from "@/app/format-service";
 import { evaluateTable, evaluateReference } from "./evaluate-service";
 import { Table } from "@trussworks/react-uswds";
@@ -49,7 +50,7 @@ export interface ColumnInfoInput {
   columnName: string;
   infoPath?: string;
   value?: string;
-  sentenceCase?: boolean;
+  applyToValue?: (value: any) => any;
 }
 
 export interface CompleteData {
@@ -709,7 +710,7 @@ export const returnCareTeamTable = (
     {
       columnName: "Status",
       infoPath: "careTeamParticipantStatus",
-      sentenceCase: true,
+      applyToValue: toSentenceCase,
     },
     { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
   ];
@@ -814,27 +815,17 @@ export const returnPlannedProceduresTable = (
 
   const columnInfo: ColumnInfoInput[] = [
     { columnName: "Procedure Name", infoPath: "plannedProcedureName" },
-    { columnName: "Ordered Date", infoPath: "plannedProcedureOrderedDate" },
-    { columnName: "Scheduled Date", infoPath: "plannedProcedureScheduledDate" },
+    {
+      columnName: "Ordered Date",
+      infoPath: "plannedProcedureOrderedDate",
+      applyToValue: formatDate,
+    },
+    {
+      columnName: "Scheduled Date",
+      infoPath: "plannedProcedureScheduledDate",
+      applyToValue: formatDate,
+    },
   ];
-
-  carePlanActivities.forEach((entry) => {
-    if (entry.extension) {
-      const orderedDateIndex = entry.extension.findIndex(
-        (extension) => extension.url === "dibbs.orderedDate",
-      );
-
-      if (orderedDateIndex !== -1) {
-        entry.extension[orderedDateIndex].valueString = formatDate(
-          entry.extension[orderedDateIndex].valueString,
-        );
-      }
-    }
-
-    if (entry.detail) {
-      entry.detail.scheduledString = formatDate(entry.detail.scheduledString);
-    }
-  });
 
   return evaluateTable(
     carePlanActivities,
