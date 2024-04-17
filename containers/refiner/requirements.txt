@@ -1,0 +1,4 @@
+../dibbs
+pathlib
+httpx
+requests
