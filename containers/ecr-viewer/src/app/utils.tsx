@@ -845,11 +845,6 @@ export const evaluateData = (data: DisplayData[]): CompleteData => {
     } else {
       availableData.push(item);
     }
-    // if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
-    //   unavailableData.push(item);
-    // } else {
-    //   availableData.push(item);
-    // }
   });
   return { availableData: availableData, unavailableData: unavailableData };
 };
@@ -873,7 +868,6 @@ export const isDataAvailable = (item: DisplayData): Boolean => {
   ];
   for (const i in unavailableTerms) {
     if (removeHtmlElements(`${item.value}`).trim() === unavailableTerms[i]) {
-      console.log("S: ", `${item.value}`, "TERM: ", unavailableTerms[i]);
       return false;
     }
   }
