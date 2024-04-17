@@ -105,9 +105,7 @@ async def process_message_endpoint_ws(
                 "message": unzipped_data.get("ecr"),
                 "rr_data": unzipped_data.get("rr"),
             }
-            processing_config = load_processing_config(
-                "sample-orchestration-config.json"
-            )
+            processing_config = load_processing_config("test-no-save.json")
             response, responses = await call_apis(
                 config=processing_config, input=initial_input, websocket=websocket
             )
