@@ -5,10 +5,11 @@ from dibbs.base_service import BaseService
 from app.models import RefinerInput
 from app.models import RefinerResponse
 
+
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
-    service_name="eCR Refiner",
-    service_path="/refiner",
+    service_name="Message Refiner",
+    service_path="/message-refiner",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
 ).start()
@@ -24,16 +25,13 @@ async def health_check():
     return {"status": "OK"}
 
 
-@app.post("/refine-ecr")
-async def refine_ecr(
-    input: RefinerInput,
-) -> RefinerResponse:
+@app.post("/ecr")
+async def refine_ecr(refiner_input: RefinerInput):
     """
     Refines an incoming XML message based on the fields to include and whether
     to include headers.
 
-    :param input: The input to the refiner service.
-    :return: The RefinerResponse which includes the `refined_message` and a
-    `status`.
+    :param request: The request object containing the XML input.
+    :return: The RefinerResponse which includes the `refined_message`
     """
-    return RefinerResponse(refined_message=input.message, status="OK")
+    return RefinerResponse(refined_message=refiner_input.message)
