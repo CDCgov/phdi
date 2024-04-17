@@ -554,7 +554,7 @@ export const returnPendingResultsTable = (
         bordered={false}
         fullWidth={true}
         className={
-          "table-caption-margin caption-normal-weight margin-y-0 border-top border-left border-right"
+          "table-caption-margin caption-normal-weight margin-top-0 border-top border-left border-right margin-bottom-2"
         }
         data-testid="table"
         caption={"Pending Results"}
@@ -570,6 +570,65 @@ export const returnPendingResultsTable = (
         </thead>
         <tbody>
           {pendingResultsTableJson.tables[0].map(
+            (entry: TableRow, index: number) => {
+              return (
+                <tr key={`table-row-${index}`}>
+                  <td>{entry.Name?.value ?? noData}</td>
+                  <td>{entry.Type?.value ?? noData}</td>
+                  <td>{entry.Priority?.value ?? noData}</td>
+                  <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
+                  <td>{entry["Date/Time"]?.value ?? noData}</td>
+                </tr>
+              );
+            },
+          )}
+        </tbody>
+      </Table>
+    );
+  }
+};
+
+export const returnScheduledOrdersTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const planOfTreatmentTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["planOfTreatment"])[0]?.div,
+  );
+  const scheduledOrdersTableJson = planOfTreatmentTables.find(
+    (val) => val.resultName === "Scheduled Orders",
+  );
+
+  if (scheduledOrdersTableJson?.tables?.[0]) {
+    const header = [
+      "Name",
+      "Type",
+      "Priority",
+      "Associated Diagnoses",
+      "Date/Time",
+    ];
+
+    return (
+      <Table
+        bordered={false}
+        fullWidth={true}
+        className={
+          "table-caption-margin margin-top-1 caption-normal-weight margin-y-0 border-top border-left border-right"
+        }
+        data-testid="table"
+        caption={"Scheduled Orders"}
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {scheduledOrdersTableJson.tables[0].map(
             (entry: TableRow, index: number) => {
               return (
                 <tr key={`table-row-${index}`}>
@@ -828,9 +887,16 @@ export const evaluateClinicalData = (
   ];
 
   const pendingResults = returnPendingResultsTable(fhirBundle, mappings);
+  const scheduledOrders = returnScheduledOrdersTable(fhirBundle, mappings);
   let planOfTreatmentElement: React.JSX.Element | undefined = undefined;
   if (pendingResults) {
-    planOfTreatmentElement = <>{pendingResults}</>;
+    planOfTreatmentElement = (
+      <>
+        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
+        {pendingResults}
+        {scheduledOrders}
+      </>
+    );
   }
 
   const adminMedResults = returnAdminMedTable(fhirBundle, mappings);
