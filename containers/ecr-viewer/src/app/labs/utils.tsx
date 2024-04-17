@@ -484,6 +484,7 @@ export const combineOrgAndReportData = (
       organizationId,
       fhirBundle,
       mappings,
+      organizationElements[key].length,
     );
     return {
       organizationId: organizationId,
@@ -498,12 +499,14 @@ export const combineOrgAndReportData = (
  * @param id - id of the organization
  * @param fhirBundle - The FHIR bundle containing lab and RR data.
  * @param mappings - An object containing the FHIR path mappings.
+ * @param labReportCount - A number representing the amount of lab reports for a specific organization
  * @returns The organization display data as an array
  */
 export const evaluateLabOrganizationData = (
   id: string,
   fhirBundle: Bundle,
   mappings: PathMappings,
+  labReportCount: number,
 ) => {
   const orgMappings = evaluate(fhirBundle, mappings["organizations"]);
   const matchingOrg: Organization = orgMappings.filter(
@@ -529,6 +532,7 @@ export const evaluateLabOrganizationData = (
     { title: "Lab Performing Name", value: name },
     { title: "Lab Address", value: formattedAddress },
     { title: "Lab Contact", value: contactInfo },
+    { title: "Number of Results", value: labReportCount },
   ];
   return matchingOrgData;
 };

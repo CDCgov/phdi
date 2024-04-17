@@ -135,6 +135,7 @@ describe("Evaluate Organization with ID", () => {
       "d46ea14e-251a-ab52-3a32-89b12270d9e6",
       BundleLabInfo as unknown as Bundle,
       mappings,
+      0,
     );
     expect(result[0].value).toEqual(
       "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
