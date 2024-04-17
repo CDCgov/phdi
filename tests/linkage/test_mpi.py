@@ -291,7 +291,7 @@ def test_generate_block_query():
 
     expected_query_result = (
         "WITH patient_cte AS"
-        + "(SELECT patient.patient_id AS patient_id"
+        + "(SELECT DISTINCT patient.patient_id AS patient_id"
         + "FROM patient"
         + "WHERE patient.dob = :criterion_patient_dob AND patient.sex = "
         + ":criterion_patient_sex)"
@@ -324,14 +324,14 @@ def test_generate_block_query():
 
     expected_query_result2 = (
         "WITH given_name_cte AS "
-        "(SELECT name.patient_id AS patient_id FROM name JOIN "
+        "(SELECT DISTINCT name.patient_id AS patient_id FROM name JOIN "
         "(SELECT given_name.given_name_id AS given_name_id, "
         "given_name.name_id AS name_id, given_name.given_name AS given_name, "
         "given_name.given_name_index AS given_name_index FROM given_name "
         "WHERE given_name.given_name = :criterion_given_name_given_name) AS "
         "given_name_cte_subq "
         "ON name.name_id = given_name_cte_subq.name_id), name_cte AS "
-        "(SELECT name.patient_id AS patient_id FROM name WHERE "
+        "(SELECT DISTINCT name.patient_id AS patient_id FROM name WHERE "
         "name.last_name = :criterion_name_last_name) SELECT patient.patient_id, "
         "patient.person_id, "
         "patient.dob, patient.sex, patient.race, patient.ethnicity FROM patient JOIN "
