@@ -1,9 +1,45 @@
 import {
+  formatName,
   formatDate,
   extractNumbersAndPeriods,
   formatTablesToJSON,
   truncateLabNameWholeWord,
+  toSentenceCase,
 } from "@/app/format-service";
+
+describe("Format Name", () => {
+  const inputGiven = ["Gregory", "B"];
+  const inputFamily = "House";
+
+  it("should return only given and family name", () => {
+    const expectedName = "Gregory B House";
+
+    const result = formatName(inputGiven, inputFamily);
+    expect(result).toEqual(expectedName);
+  });
+
+  it("should return the prefix, given, family, and suffix names", () => {
+    const inputPrefix = ["Dr."];
+    const inputSuffix = ["III"];
+    const expectedName = "Dr. Gregory B House III";
+
+    const result = formatName(
+      inputGiven,
+      inputFamily,
+      inputPrefix,
+      inputSuffix,
+    );
+    expect(result).toEqual(expectedName);
+  });
+
+  it("should return an empty string", () => {
+    const inputEmpty = [];
+    const expectedName = "";
+
+    const result = formatName(inputEmpty, "", inputEmpty, inputEmpty);
+    expect(result).toEqual(expectedName);
+  });
+});
 
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
@@ -33,6 +69,14 @@ describe("Format Date", () => {
 
     const result = formatDate(inputDate as any);
     expect(result).toBeUndefined();
+  });
+
+  it("when given yyyymmdd, should return the correct formatted date", () => {
+    const inputDate = "20220125";
+    const expectedDate = "01/25/2022";
+
+    const result = formatDate(inputDate);
+    expect(result).toEqual(expectedDate);
   });
 });
 
@@ -183,5 +227,15 @@ describe("truncateLabNameWholeWord", () => {
     const input = "HOAG MEMORIAL HOSPITAL NEWPORT";
     const output = truncateLabNameWholeWord(input, 30);
     expect(output).toBe(input);
+  });
+});
+
+describe("toSentenceCase", () => {
+  it("should return string in sentence case", () => {
+    const input = "hello there";
+    const expected = "Hello there";
+
+    const result = toSentenceCase(input);
+    expect(result).toEqual(expected);
   });
 });
