@@ -5,6 +5,7 @@ import {
   formatTablesToJSON,
   truncateLabNameWholeWord,
   toSentenceCase,
+  removeHtmlElements,
 } from "@/app/format-service";
 
 describe("Format Name", () => {
@@ -236,6 +237,23 @@ describe("toSentenceCase", () => {
     const expected = "Hello there";
 
     const result = toSentenceCase(input);
+    expect(result).toEqual(expected);
+  });
+});
+
+describe("removeHtmlElements", () => {
+  it("should remove all HTML tags from string", () => {
+    const input = "<div><p>Hello <br/>there</p></div>";
+    const expected = "Hello there";
+
+    const result = removeHtmlElements(input);
+    expect(result).toEqual(expected);
+  });
+  it("should return the same string if no HTML tags are included", () => {
+    const input = "Hello there";
+    const expected = "Hello there";
+
+    const result = removeHtmlElements(input);
     expect(result).toEqual(expected);
   });
 });

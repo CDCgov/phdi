@@ -23,6 +23,7 @@ import {
   formatDateTime,
   formatTablesToJSON,
   TableRow,
+  removeHtmlElements,
 } from "@/app/format-service";
 import { evaluateTable, evaluateReference } from "./evaluate-service";
 import { Table } from "@trussworks/react-uswds";
@@ -901,13 +902,38 @@ export const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
-    if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
+    if (!isDataAvailable(item)) {
       unavailableData.push(item);
     } else {
       availableData.push(item);
     }
   });
   return { availableData: availableData, unavailableData: unavailableData };
+};
+
+/**
+ * Checks if data is available based on DisplayData value. Also filters out terms that indicate info is unavailable.
+ * @param item - The DisplayData object to check for availability.
+ * @returns - Returns true if data is available, false otherwise.
+ */
+export const isDataAvailable = (item: DisplayData): Boolean => {
+  if (!item.value || (Array.isArray(item.value) && item.value.length === 0))
+    return false;
+  const unavailableTerms = [
+    "Not on file",
+    "Not on file documented in this encounter",
+    "Unknown",
+    "Unknown if ever smoked",
+    "Tobacco smoking consumption unknown",
+    "Do not know",
+    "No history of present illness information available",
+  ];
+  for (const i in unavailableTerms) {
+    if (removeHtmlElements(`${item.value}`).trim() === unavailableTerms[i]) {
+      return false;
+    }
+  }
+  return true;
 };
 
 /**
