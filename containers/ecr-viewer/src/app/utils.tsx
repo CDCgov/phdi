@@ -540,7 +540,7 @@ export const returnPendingResultsTable = (
         bordered={false}
         fullWidth={true}
         className={
-          "table-caption-margin caption-normal-weight margin-y-0 border-top border-left border-right"
+          "table-caption-margin caption-normal-weight margin-top-0 border-top border-left border-right margin-bottom-2"
         }
         data-testid="table"
         caption={"Pending Results"}
@@ -584,8 +584,6 @@ export const returnScheduledOrdersTable = (
   const scheduledOrdersTableJson = planOfTreatmentTables.find(
     (val) => val.resultName === "Scheduled Orders",
   );
-
-  console.log(scheduledOrdersTableJson);
 
   if (scheduledOrdersTableJson?.tables?.[0]) {
     const header = [
