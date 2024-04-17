@@ -24,8 +24,4 @@ class RefinerResponse(BaseModel):
     The schema for responses from the /refine endpoint.
     """
 
-    status: str = Field(
-        description="A message describing the result of a request to "
-        "the /refine endpoint."
-    )
     refined_message: str = Field(description="The refined XML.")

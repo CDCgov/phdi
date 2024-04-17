@@ -17,7 +17,7 @@ def test_refiner(
     input=RefinerInput(
         message="test test",
     ),
-    expected_successful_response={"refined_message": "test test", "status": "OK"},
+    expected_successful_response={"refined_message": "test test"},
 ):
     actual_response = client.post("/refine-ecr", json=input.dict())
     assert actual_response.status_code == 200
