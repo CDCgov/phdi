@@ -7,8 +7,6 @@ from dibbs.utils import read_file_from_test_assets
 
 client = TestClient(app)
 
-test_xml = read_file_from_test_assets("CDA_eICR.xml")
-
 
 def test_health_check():
     actual_response = client.get("/")
@@ -18,9 +16,39 @@ def test_health_check():
     }
 
 
-def test_ecr_refiner():
+test_xml = '<?xml version="1.0" encoding="UTF-8"?>'
 
-    expected_successful_response = {"refined_message": test_xml}
-    actual_response = client.post("/ecr", json={"message": test_xml})
+
+@pytest.mark.parametrize(
+    "test_data, expected_result",
+    [
+        # Test case: sections_to_include = None
+        (
+            {
+                "test_xml": test_xml,
+                "sections_to_include": None,
+            },
+            test_xml,
+        ),
+        # Test case: sections_to_include = "section_1,section2"
+        (
+            {
+                "test_xml": test_xml,
+                "sections_to_include": "section_1,section2",
+            },
+            test_xml,
+        ),
+    ],
+)
+def test_ecr_refiner(test_data, expected_result):
+
+    sections_to_include = test_data["sections_to_include"]
+    content = test_data["test_xml"]
+    endpoint = "/ecr/"
+    if sections_to_include:
+        endpoint = f"/ecr/?{sections_to_include}"
+
+    actual_response = client.post(endpoint, content=content)
+
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_successful_response
+    assert actual_response.content.decode() == expected_result
