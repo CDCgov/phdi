@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Metadata {
   [key: string]: string;
 }
@@ -356,3 +358,33 @@ export function toSentenceCase(str: string) {
   if (!str) return str;
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+/**
+ * Adds a caption to a table element.
+ * @param element - The React element representing the table.
+ * @param caption - The caption text to be added.
+ * @returns A React element with the caption added as the first child of the table.
+ */
+export const addCaptionToTable = (
+  element: React.ReactNode,
+  caption: String,
+) => {
+  if (React.isValidElement(element) && element.type === "table") {
+    return React.cloneElement(element, {}, [
+      <caption key="caption">{caption}</caption>,
+      ...React.Children.toArray(element.props.children),
+    ]);
+  }
+
+  return element;
+};
+
+/**
+ * Removes HTML tags from a given string.
+ * @param element - The input string containing HTML elements.
+ * @returns - A string with all HTML tags removed.
+ */
+export const removeHtmlElements = (element: string): string => {
+  const regex = /<[^>]*>/g;
+  return element.replace(regex, "");
+};
