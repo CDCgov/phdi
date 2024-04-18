@@ -1,9 +1,6 @@
-import pytest
-
 from app.main import app
-from fastapi.testclient import TestClient
-
 from dibbs.utils import read_file_from_test_assets
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 

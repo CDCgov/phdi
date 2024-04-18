@@ -4,7 +4,6 @@ from pathlib import Path
 from dibbs.base_service import BaseService
 from fastapi import Response, Request
 
-
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
     service_name="Message Refiner",
