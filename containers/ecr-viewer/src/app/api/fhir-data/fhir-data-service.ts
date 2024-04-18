@@ -2,15 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import pgPromise from "pg-promise";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { loadYamlConfig, streamToJson } from "../utils";
+import { database } from "@/app/api/fhir-data/db";
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
 export const get_postgres = async (request: NextRequest) => {
   const params = request.nextUrl.searchParams;
   const ecr_id = params.get("id") ? params.get("id") : null;
-  const db_url = process.env.DATABASE_URL || "";
-  const db = pgPromise();
-  const database = db(db_url);
   const mappings = loadYamlConfig();
 
   const { ParameterizedQuery: PQ } = pgPromise;
