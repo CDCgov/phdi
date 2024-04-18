@@ -1,5 +1,5 @@
-from app.main import app
 import pytest
+from app.main import app
 from fastapi.testclient import TestClient
 
 client = TestClient(app)
@@ -38,7 +38,6 @@ test_xml = '<?xml version="1.0" encoding="UTF-8"?>'
     ],
 )
 def test_ecr_refiner(test_data, expected_result):
-
     sections_to_include = test_data["sections_to_include"]
     content = test_data["test_xml"]
     endpoint = "/ecr/"
