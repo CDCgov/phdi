@@ -1,5 +1,5 @@
 from app.main import app
-from dibbs.utils import read_file_from_test_assets
+import pytest
 from fastapi.testclient import TestClient
 
 client = TestClient(app)
