@@ -49,7 +49,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="grid-col-auto text-pre-line"
             >
-              2015-04-15
+              04/15/2015
             </div>
           </div>
           <div
@@ -200,7 +200,7 @@ End: 05/13/2022 5:57 AM EDT
         class="usa-summary-box__body"
       >
         <h3
-          class="margin-bottom-105 margin-top-205 side-nav-ignore"
+          class="summary-box-key-information side-nav-ignore"
           id="about-the-condition"
         >
           About the Condition

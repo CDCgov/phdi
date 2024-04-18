@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Metadata {
   [key: string]: string;
 }
@@ -107,19 +109,26 @@ export const formatDateTime = (dateTime: string) => {
  * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
  * @returns - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
  */
+
 export const formatDate = (dateString?: string): string | undefined => {
   if (dateString) {
     let date = new Date(dateString);
     if (date.toString() == "Invalid Date") {
-      const formattedDate = `${dateString.substring(0, 4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}`; // yyyy-mm-dd
+      const formattedDate = `${dateString.substring(
+        0,
+        4,
+      )}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}`; // yyyy-mm-dd
       date = new Date(formattedDate);
     }
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC",
-    }); // UTC, otherwise will have timezone issues
+    // double check that the reformat actually worked otherwise return nothing
+    if (date.toString() != "Invalid Date") {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone: "UTC",
+      }); // UTC, otherwise will have timezone issues
+    }
   }
 };
 
@@ -349,3 +358,33 @@ export function toSentenceCase(str: string) {
   if (!str) return str;
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+/**
+ * Adds a caption to a table element.
+ * @param element - The React element representing the table.
+ * @param caption - The caption text to be added.
+ * @returns A React element with the caption added as the first child of the table.
+ */
+export const addCaptionToTable = (
+  element: React.ReactNode,
+  caption: String,
+) => {
+  if (React.isValidElement(element) && element.type === "table") {
+    return React.cloneElement(element, {}, [
+      <caption key="caption">{caption}</caption>,
+      ...React.Children.toArray(element.props.children),
+    ]);
+  }
+
+  return element;
+};
+
+/**
+ * Removes HTML tags from a given string.
+ * @param element - The input string containing HTML elements.
+ * @returns - A string with all HTML tags removed.
+ */
+export const removeHtmlElements = (element: string): string => {
+  const regex = /<[^>]*>/g;
+  return element.replace(regex, "");
+};

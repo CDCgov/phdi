@@ -73,18 +73,14 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
           class="usa-summary-box__text clinical_info_container"
         >
           <div>
-            <div
-              class="grid-row"
-            >
+            <div>
               <div
-                class="data-title"
-              >
-                Miscellaneous Notes
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line maxw-full grid-col-12 margin-top-1"
+                class="grid-col-auto text-pre-line"
               >
                 <table>
+                  <caption>
+                    Miscellaneous Notes
+                  </caption>
                   <thead>
                     <tr>
                       <th>
@@ -115,10 +111,10 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
                   </tbody>
                 </table>
               </div>
+              <div
+                class="section__line_gray"
+              />
             </div>
-            <div
-              class="section__line_gray"
-            />
           </div>
         </div>
       </div>
