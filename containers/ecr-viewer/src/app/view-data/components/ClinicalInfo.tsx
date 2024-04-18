@@ -6,6 +6,7 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
+import { addCaptionToTable } from "@/app/format-service";
 
 interface ClinicalProps {
   reasonForVisitDetails: DisplayData[];
@@ -58,16 +59,21 @@ export const ClinicalInfo = ({
         </AccordianH4>
         <AccordianDiv className={"clinical_info_container"}>
           {clinicalNotes.map((item, index) => {
-            let className = "";
             if (
               React.isValidElement(item.value) &&
               item.value.type == "table"
             ) {
-              className = "maxw-full grid-col-12 margin-top-1";
+              const modItem = {
+                ...item,
+                value: addCaptionToTable(item.value, "Miscellaneous Notes"),
+              };
+              return (
+                <React.Fragment key={index}>
+                  {renderTableDetails([modItem])}
+                </React.Fragment>
+              );
             }
-            return (
-              <DataDisplay item={item} key={index} className={className} />
-            );
+            return <DataDisplay item={item} key={index} />;
           })}
         </AccordianDiv>
       </>
