@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as dateFns from "date-fns";
 import {
   Bundle,
@@ -26,7 +26,7 @@ import {
   removeHtmlElements,
 } from "@/app/format-service";
 import { evaluateTable, evaluateReference } from "./evaluate-service";
-import { Table } from "@trussworks/react-uswds";
+import { Button, Table } from "@trussworks/react-uswds";
 import { CareTeamParticipant } from "fhir/r4b";
 
 export interface DisplayData {
@@ -1019,10 +1019,6 @@ export const DataDisplay: React.FC<{
   item: DisplayData;
   className?: string;
 }): React.JSX.Element => {
-  item.dividerLine =
-    item.dividerLine == null || item.dividerLine == undefined
-      ? true
-      : item.dividerLine;
   return (
     <div>
       <div className="grid-row">
@@ -1034,12 +1030,38 @@ export const DataDisplay: React.FC<{
             item.className ? item.className : "",
           )}
         >
-          {item.value}
+          <FieldValue value={item.value} />
         </div>
       </div>
       {item.dividerLine ? <div className={"section__line_gray"} /> : ""}
     </div>
   );
+};
+
+const FieldValue: React.FC<{
+  value?: React.JSX.Element | React.JSX.Element[] | React.ReactNode;
+}> = ({ value }) => {
+  const maxLength = 300;
+  const [hideText, setHideText] = useState(true);
+  if (value && typeof value === "string") {
+    if (value.length > maxLength) {
+      return (
+        <>
+          {hideText ? value.substring(0, maxLength) + "..." : value}{" "}
+          <Button
+            type={"button"}
+            unstyled={true}
+            onClick={() => setHideText(!hideText)}
+          >
+            View {hideText ? "more" : "less"}
+          </Button>
+        </>
+      );
+    } else {
+      return value;
+    }
+  }
+  return <></>;
 };
 
 export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({

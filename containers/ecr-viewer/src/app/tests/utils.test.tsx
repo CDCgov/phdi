@@ -9,6 +9,7 @@ import {
   returnProblemsTable,
   returnCareTeamTable,
   isDataAvailable,
+  DataDisplay,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
@@ -22,6 +23,7 @@ import BundleCareTeam from "../tests/assets/BundleCareTeam.json";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { evaluate } from "fhirpath";
+import userEvent from "@testing-library/user-event";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -270,6 +272,77 @@ describe("Utils", () => {
       };
       const result = isDataAvailable(input);
       expect(result).toEqual(true);
+    });
+  });
+
+  describe("DataDisplay", () => {
+    it("should display text up to 500 characters", () => {
+      const FiveHundredChars =
+        "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz";
+      expect(FiveHundredChars).toHaveLength(500);
+
+      render(
+        <DataDisplay item={{ title: "field", value: FiveHundredChars }} />,
+      );
+
+      expect(screen.getByText(FiveHundredChars)).toBeInTheDocument();
+    });
+    it("should only show first 300 characters when full string is greater than 500 characters", () => {
+      const FiveHundredOneChars =
+        "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz1";
+      expect(FiveHundredOneChars).toHaveLength(501);
+
+      render(
+        <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
+      );
+
+      expect(
+        screen.getByText(FiveHundredOneChars.substring(0, 300) + "..."),
+      ).toBeInTheDocument();
+      expect(screen.getByText("View more")).toBeInTheDocument();
+      expect(
+        screen.queryByText(FiveHundredOneChars.substring(300)),
+      ).not.toBeInTheDocument();
+    });
+    it("should show full text when view more is clicked", async () => {
+      const user = userEvent.setup();
+      const FiveHundredOneChars =
+        "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz1";
+      expect(FiveHundredOneChars).toHaveLength(501);
+
+      render(
+        <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
+      );
+
+      await user.click(screen.getByText("View more"));
+
+      expect(screen.getByText(FiveHundredOneChars)).toBeInTheDocument();
+      expect(screen.getByText("View less")).toBeInTheDocument();
+      expect(screen.queryByText("View more")).not.toBeInTheDocument();
+      expect(screen.queryByText("...")).not.toBeInTheDocument();
+    });
+    it("should hide text when view less is clicked", async () => {
+      const user = userEvent.setup();
+      const FiveHundredOneChars =
+        "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz1";
+      expect(FiveHundredOneChars).toHaveLength(501);
+
+      render(
+        <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
+      );
+
+      await user.click(screen.getByText("View more"));
+      expect(screen.getByText(FiveHundredOneChars)).toBeInTheDocument();
+
+      await user.click(screen.getByText("View less"));
+
+      expect(
+        screen.getByText(FiveHundredOneChars.substring(0, 300) + "..."),
+      ).toBeInTheDocument();
+      expect(screen.getByText("View more")).toBeInTheDocument();
+      expect(
+        screen.queryByText(FiveHundredOneChars.substring(300)),
+      ).not.toBeInTheDocument();
     });
   });
 });
