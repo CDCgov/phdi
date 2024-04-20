@@ -99,8 +99,10 @@ const BuildRow: React.FC<BuildRowProps> = ({
       rowCellData = <span className={"text-italic text-base"}>No data</span>;
     } else if (column.hiddenBaseText) {
       hiddenRows.push(
-        <tr hidden={hiddenComment}>
-          <td colSpan={columns.length}>{rowCellData}</td>
+        <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
+          <td colSpan={columns.length} className={"hideableData"}>
+            {rowCellData}
+          </td>
         </tr>,
       );
       rowCellData = (
@@ -108,6 +110,8 @@ const BuildRow: React.FC<BuildRowProps> = ({
           unstyled={true}
           type={"button"}
           onClick={() => setHiddenComment(!hiddenComment)}
+          aria-controls={`hidden-comment-${index}`}
+          aria-expanded={!hiddenComment}
         >
           {hiddenComment ? "View" : "Hide"} {column.hiddenBaseText}
         </Button>
