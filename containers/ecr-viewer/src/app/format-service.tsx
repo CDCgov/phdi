@@ -76,32 +76,36 @@ export const formatAddress = (
     .join("\n");
 };
 
-/**
- * Formats the given date and time string according to the specified options.
- * If the time is included in the input string, it formats the date and time in the local time zone
- * with the year, month, day, and time components. Otherwise, it formats only the date with the
- * year, month, and day components in the UTC time zone.
- * @param dateTime - The date and time string to be formatted.
- * @returns The formatted date and time string.
- */
-export const formatDateTime = (dateTime: string) => {
-  const hasTime = dateTime?.includes(":");
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZoneName: hasTime ? "short" : undefined,
-  };
-  if (hasTime) {
-    options.hour = "numeric";
-    options.minute = "2-digit";
-  } else {
-    options.timeZone = "UTC"; // UTC, otherwise will have timezone issues
+export const formatDateTime = (dateTimeString: string): string => {
+  // Split the datetime string into date and time parts
+  if (!dateTimeString) {
+    return "";
   }
-  const date = new Date(dateTime)
-    .toLocaleDateString("en-Us", options)
-    .replace(",", "");
-  return date !== "Invalid Date" ? date : "";
+  console.log(dateTimeString);
+  const [datePart, timePart] = dateTimeString.split("T");
+
+  // Further split the date part into YYYY, MM, DD
+  const [year, month, day] = datePart.split("-");
+
+  if (timePart) {
+    // Split the time part into HH:MM:SS and timezone (±HH:MM)
+    const [time, timeZone] = timePart.split(/(?=[+-])/);
+
+    console.log(timeZone);
+
+    // We only need HH:MM from the time
+    const [hours, minutes] = time.split(":");
+
+    // Convert 24-hour time to 12-hour time
+    const hoursInt = parseInt(hours, 10);
+    const suffix = hoursInt >= 12 ? "PM" : "AM";
+    const hours12 = ((hoursInt + 11) % 12) + 1; // Convert 24h to 12h format
+
+    return `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${timeZone === undefined ? "UTC" : timeZone}`;
+  }
+
+  // Reformat the string as needed
+  return `${month}/${day}/${year}`;
 };
 
 /**
