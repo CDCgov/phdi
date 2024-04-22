@@ -77,11 +77,11 @@ export const formatAddress = (
 };
 
 export const formatDateTime = (dateTimeString: string): string => {
-  // Split the datetime string into date and time parts
   if (!dateTimeString) {
     return "";
   }
-  console.log(dateTimeString);
+
+  // Split the datetime string into date and time parts
   const [datePart, timePart] = dateTimeString.split("T");
 
   // Further split the date part into YYYY, MM, DD
@@ -90,8 +90,6 @@ export const formatDateTime = (dateTimeString: string): string => {
   if (timePart) {
     // Split the time part into HH:MM:SS and timezone (±HH:MM)
     const [time, timeZone] = timePart.split(/(?=[+-])/);
-
-    console.log(timeZone);
 
     // We only need HH:MM from the time
     const [hours, minutes] = time.split(":");
