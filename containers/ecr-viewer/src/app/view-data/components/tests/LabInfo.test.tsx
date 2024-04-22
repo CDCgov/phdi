@@ -4,6 +4,12 @@ import userEvent from "@testing-library/user-event";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import React from "react";
 import { DisplayData } from "@/app/utils";
+import { evaluateLabInfoData } from "@/app/labs/utils";
+import * as BundleLabs from "@/app/tests/assets/BundleLabs.json";
+import { loadYamlConfig } from "@/app/api/utils";
+import { Bundle } from "fhir/r4";
+
+const mappings = loadYamlConfig();
 
 describe("LabInfo", () => {
   const labinfoOrg: DisplayData[] = [
@@ -48,6 +54,15 @@ describe("LabInfo", () => {
       ]}
     />
   );
+  it("should match snapshot test", async () => {
+    const labData = evaluateLabInfoData(
+      BundleLabs as unknown as Bundle,
+      mappings,
+    );
+    const labJsx = <LabInfo labResults={labData} />;
+    const container = render(labJsx).container;
+    expect(container).toMatchSnapshot();
+  });
   it("should hide all labs when collapse button is clicked", async () => {
     const user = userEvent.setup();
     render(labInfoJsx());

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LabInfo should match snapshot test 1`] = `
+<div>
+  <div>
+    <div
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      />
+    </div>
+  </div>
+</div>
+`;
