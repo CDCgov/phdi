@@ -1,5 +1,5 @@
 {% if component.observation -%}
-  {% if component.observation.code.nullFlavor -%}
+  {% if component.observation.code.nullFlavor and component.observation.code.nullFlavor != 'UNK' -%}
     {% else -%}
       {% assign observationId = component.observation | to_json_string | generate_uuid -%}
       {% include 'Resource/Observation' observationCategory: 'laboratory', observationEntry: component.observation, ID: observationId, specimenValue: specValue, collectTime: collectTime, receiveTime: receiveTime -%}

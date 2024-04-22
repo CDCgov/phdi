@@ -114,6 +114,7 @@
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
         {% assign observationReferenceValue = observationEntry.text.reference.value -%}
+        {% assign observationReferenceValue2 = observationEntry.value.reference.value -%}
         "extension":
             [ {
                 {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None" or observationReferenceValue != "None" -%}
@@ -142,6 +143,11 @@
                         {
                             "url":"observation entry reference value",
                             "valueString":"{{ observationReferenceValue }}",
+                        },
+                    {% elsif observationEntry.value.reference.value -%}
+                        {
+                            "url":"observation entry reference value",
+                            "valueString":"{{ observationReferenceValue2 }}",
                         },
                     {% endif -%}
                     ],
