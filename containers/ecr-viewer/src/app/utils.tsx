@@ -1046,23 +1046,19 @@ const FieldValue: React.FC<{
   value?: React.JSX.Element | React.JSX.Element[] | React.ReactNode;
 }> = ({ value }) => {
   const [hideText, setHideText] = useState(true);
-  if (value && typeof value === "string") {
-    if (value.length > 500) {
-      return (
-        <>
-          {hideText ? value.substring(0, 300) + "..." : value}{" "}
-          <Button
-            type={"button"}
-            unstyled={true}
-            onClick={() => setHideText(!hideText)}
-          >
-            View {hideText ? "more" : "less"}
-          </Button>
-        </>
-      );
-    } else {
-      return value;
-    }
+  if (value && typeof value === "string" && value.length > 500) {
+    return (
+      <>
+        {hideText ? value.substring(0, 300) + "..." : value}{" "}
+        <Button
+          type={"button"}
+          unstyled={true}
+          onClick={() => setHideText(!hideText)}
+        >
+          View {hideText ? "more" : "less"}
+        </Button>
+      </>
+    );
   }
   return value;
 };
