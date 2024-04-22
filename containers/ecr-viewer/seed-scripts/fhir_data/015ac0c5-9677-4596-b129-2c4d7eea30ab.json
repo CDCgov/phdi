@@ -123,12 +123,7 @@
                 }
               ]
             },
-            "mode": "snapshot",
-            "entry": [
-              {
-                "reference": "CarePlan/5ddcb7d6-d32c-e91c-f715-cf239eb4aee6"
-              }
-            ]
+            "mode": "snapshot"
           },
           {
             "id": "4D3C57C8-4441-11ED-B2C1-005056A7FB21",
@@ -309,7 +304,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         },
         "relatesTo": [
           {
@@ -367,7 +362,7 @@
           "end": "2022-09-28T12:30:00-07:00"
         },
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         },
         "location": [
           {
@@ -858,10 +853,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a8e4cb0a-78ee-44ff-9aa6-425d243c1a75",
+      "fullUrl": "urn:uuid:3f63928c-6f93-46d5-872d-9a007d1d5cdf",
       "resource": {
         "resourceType": "Patient",
-        "id": "a8e4cb0a-78ee-44ff-9aa6-425d243c1a75",
+        "id": "3f63928c-6f93-46d5-872d-9a007d1d5cdf",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -996,42 +991,22 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+        "url": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
       }
     },
     {
-      "fullUrl": "urn:uuid:",
+      "fullUrl": "urn:uuid:a36f1344-b355-8a67-1146-ad16f7e8649e",
       "resource": {
         "resourceType": "CareTeam",
+        "id": "a36f1344-b355-8a67-1146-ad16f7e8649e",
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         },
         "meta": {
           "source": [
             "ecr"
           ]
         }
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:5ddcb7d6-d32c-e91c-f715-cf239eb4aee6",
-      "resource": {
-        "resourceType": "CarePlan",
-        "id": "5ddcb7d6-d32c-e91c-f715-cf239eb4aee6",
-        "status": "unknown",
-        "intent": "proposal",
-        "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
-        },
-        "meta": {
-          "source": [
-            "ecr"
-          ]
-        }
-      },
-      "request": {
-        "method": "PUT",
-        "url": "CarePlan/5ddcb7d6-d32c-e91c-f715-cf239eb4aee6"
       }
     },
     {
@@ -1076,7 +1051,7 @@
         },
         "onsetDateTime": "2022-09-24",
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         },
         "meta": {
           "source": [
@@ -1131,7 +1106,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         },
         "meta": {
           "source": [
@@ -1186,7 +1161,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         },
         "meta": {
           "source": [
@@ -1225,7 +1200,7 @@
           "end": "2002-09-29T15:01:00Z"
         },
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         },
         "performer": [
           {
@@ -1336,6 +1311,11 @@
             ]
           }
         ],
+        "note": [
+          {
+            "text": "This test was developed and its performance characteristics determined by LabCorp Laboratories. This test has not been FDA cleared or approved. This test has been authorized by FDA under an Emergency Use Authorization (EUA). This test has been validated in accordance with the FDA's Guidance Document (Policy for Diagnostics Testing in Laboratories Certified to Perform High Complexity Testing under CLIA prior to Emergency Use Authorization for Coronavirus Disease-2019 during the Public Health Emergency) issued on February 29th, 2020. FDA independent review of this validation is pending. This test is only authorized for the duration of time the declaration that circumstances exist justifying the authorization of the emergency use of in vitro diagnostic tests for detection of SARS-CoV-2 virus and/or diagnosis of COVID-19 infection under section 564(b)(1) of the Act, 21 U.S.C. 360bbb-3(b)(1), unless the authorization is terminated or revoked sooner."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1356,7 +1336,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         },
         "performer": [
           {
@@ -1460,7 +1440,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         }
       },
       "request": {
@@ -1518,7 +1498,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         }
       },
       "request": {
@@ -1576,7 +1556,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         }
       },
       "request": {
@@ -1634,7 +1614,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         }
       },
       "request": {
@@ -1684,7 +1664,7 @@
         "effectiveDateTime": "2022-09-24",
         "valueString": "17",
         "subject": {
-          "reference": "Patient/a8e4cb0a-78ee-44ff-9aa6-425d243c1a75"
+          "reference": "Patient/3f63928c-6f93-46d5-872d-9a007d1d5cdf"
         }
       },
       "request": {

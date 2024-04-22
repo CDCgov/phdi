@@ -66,12 +66,7 @@
                 }
               ]
             },
-            "mode": "snapshot",
-            "entry": [
-              {
-                "reference": "CareTeam/79b436ff-9672-3ec2-a508-dd1d153c36c9"
-              }
-            ]
+            "mode": "snapshot"
           },
           {
             "id": "f3817757-cc1b-9b57-bfd8-337c3fe331d8",
@@ -304,12 +299,7 @@
                 }
               ]
             },
-            "mode": "snapshot",
-            "entry": [
-              {
-                "reference": "CarePlan/b1d5ebdd-98f0-7a97-ac2e-3ff11bb1720e"
-              }
-            ]
+            "mode": "snapshot"
           },
           {
             "id": "3f5cb952-138a-ab8a-8ab2-ef3926d9ee0a",
@@ -370,7 +360,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/74f351bf-aff7-4041-a813-dccf382a1b37"
+          "reference": "Patient/3880299d-4abe-4f97-b34a-83bc1edaf793"
         },
         "encounter": {
           "reference": "Encounter/3bf1e2d5-ef22-8211-097d-9acf0cc55fef"
@@ -414,7 +404,7 @@
           "start": "2022-03-24T09:33:00-04:00"
         },
         "subject": {
-          "reference": "Patient/74f351bf-aff7-4041-a813-dccf382a1b37"
+          "reference": "Patient/3880299d-4abe-4f97-b34a-83bc1edaf793"
         },
         "location": [
           {
@@ -865,10 +855,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:74f351bf-aff7-4041-a813-dccf382a1b37",
+      "fullUrl": "urn:uuid:3880299d-4abe-4f97-b34a-83bc1edaf793",
       "resource": {
         "resourceType": "Patient",
-        "id": "74f351bf-aff7-4041-a813-dccf382a1b37",
+        "id": "3880299d-4abe-4f97-b34a-83bc1edaf793",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1008,14 +998,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/74f351bf-aff7-4041-a813-dccf382a1b37"
+        "url": "Patient/3880299d-4abe-4f97-b34a-83bc1edaf793"
       }
     },
     {
-      "fullUrl": "urn:uuid:79b436ff-9672-3ec2-a508-dd1d153c36c9",
+      "fullUrl": "urn:uuid:9583d6c9-3c73-2bd2-b8dd-c4af7d5fefbe",
       "resource": {
         "resourceType": "CareTeam",
-        "id": "79b436ff-9672-3ec2-a508-dd1d153c36c9",
+        "id": "9583d6c9-3c73-2bd2-b8dd-c4af7d5fefbe",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1025,7 +1015,7 @@
         "status": "active",
         "name": "Patient Care Team",
         "subject": {
-          "reference": "Patient/74f351bf-aff7-4041-a813-dccf382a1b37"
+          "reference": "Patient/3880299d-4abe-4f97-b34a-83bc1edaf793"
         },
         "participant": [
           {
@@ -1170,27 +1160,6 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:b1d5ebdd-98f0-7a97-ac2e-3ff11bb1720e",
-      "resource": {
-        "resourceType": "CarePlan",
-        "id": "b1d5ebdd-98f0-7a97-ac2e-3ff11bb1720e",
-        "status": "unknown",
-        "intent": "proposal",
-        "subject": {
-          "reference": "Patient/74f351bf-aff7-4041-a813-dccf382a1b37"
-        },
-        "meta": {
-          "source": [
-            "ecr"
-          ]
-        }
-      },
-      "request": {
-        "method": "PUT",
-        "url": "CarePlan/b1d5ebdd-98f0-7a97-ac2e-3ff11bb1720e"
-      }
-    },
-    {
       "fullUrl": "urn:uuid:275a1dc8-ad5f-8fe3-b560-a1d0a8b6ece9",
       "resource": {
         "resourceType": "Condition",
@@ -1223,7 +1192,7 @@
         },
         "onsetDateTime": "2022-03-01",
         "subject": {
-          "reference": "Patient/74f351bf-aff7-4041-a813-dccf382a1b37"
+          "reference": "Patient/3880299d-4abe-4f97-b34a-83bc1edaf793"
         },
         "meta": {
           "source": [
@@ -1285,7 +1254,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/74f351bf-aff7-4041-a813-dccf382a1b37"
+          "reference": "Patient/3880299d-4abe-4f97-b34a-83bc1edaf793"
         }
       },
       "request": {
@@ -1319,7 +1288,7 @@
         "status": "final",
         "valueString": "Do not know",
         "subject": {
-          "reference": "Patient/74f351bf-aff7-4041-a813-dccf382a1b37"
+          "reference": "Patient/3880299d-4abe-4f97-b34a-83bc1edaf793"
         }
       },
       "request": {
@@ -1381,7 +1350,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/74f351bf-aff7-4041-a813-dccf382a1b37"
+          "reference": "Patient/3880299d-4abe-4f97-b34a-83bc1edaf793"
         },
         "meta": {
           "source": [

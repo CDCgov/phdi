@@ -51,6 +51,7 @@ export interface ColumnInfoInput {
   columnName: string;
   infoPath?: string;
   value?: string;
+  hiddenBaseText?: string;
   applyToValue?: (value: any) => any;
 }
 

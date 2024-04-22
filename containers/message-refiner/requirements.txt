@@ -2,3 +2,5 @@
 pathlib
 httpx
 requests
+lxml
+python-multipart

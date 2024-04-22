@@ -2,41 +2,15 @@ import { evaluate } from "fhirpath";
 import { Bundle, CodeableConcept, Element, Quantity } from "fhir/r4";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
-import { Table } from "@trussworks/react-uswds";
+import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
-import React from "react";
+import React, { ReactNode, useState } from "react";
 
-/**
- * Builds a table cell for a row based on the provided column information and entry data.
- * @param column - Information about the column for which the cell is being built.
- * @param entry - The entry data from which the cell's data is extracted.
- * @param mappings - The mappings for extracting data from the entry.
- * @param index - The index of the cell in the row.
- * @returns - A React component representing the table cell.
- */
-const buildRowCell = (
-  column: ColumnInfoInput,
-  entry: Element,
-  mappings: PathMappings,
-  index: number,
-) => {
-  let rowCellData: any;
-  if (column?.value) {
-    rowCellData = column.value;
-  } else if (column?.infoPath) {
-    rowCellData = evaluateValue(entry, mappings[column.infoPath]);
-  }
-  if (rowCellData && column.applyToValue) {
-    rowCellData = column.applyToValue(rowCellData);
-  } else if (!rowCellData) {
-    rowCellData = <span className={"text-italic text-base"}>No data</span>;
-  }
-  return (
-    <td key={`row-data-${index}`} className="text-top">
-      {rowCellData}
-    </td>
-  );
-};
+interface BuildRowProps {
+  mappings: PathMappings;
+  columns: ColumnInfoInput[];
+  entry: Element;
+}
 
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
@@ -68,11 +42,14 @@ export const evaluateTable = (
   ));
 
   let tableRows = resources.map((entry, index) => {
-    let rowCells = columns.map((column, index) => {
-      return buildRowCell(column, entry, mappings, index);
-    });
-
-    return <tr key={`table-row-${index}`}>{rowCells}</tr>;
+    return (
+      <BuildRow
+        key={index}
+        columns={columns}
+        mappings={mappings}
+        entry={entry}
+      />
+    );
   });
 
   return (
@@ -92,6 +69,72 @@ export const evaluateTable = (
       <tbody>{tableRows}</tbody>
     </Table>
   );
+};
+
+/**
+ * Builds a row for a table based on provided columns, mappings, and entry data.
+ * @param props - The properties object containing columns, mappings, and entry data.
+ * @param props.columns - An array of column objects defining the structure of the row.
+ * @param props.mappings - An object containing mappings for column data.
+ * @param props.entry - The data entry object for the row.
+ * @returns - The JSX element representing the constructed row.
+ */
+const BuildRow: React.FC<BuildRowProps> = ({
+  columns,
+  mappings,
+  entry,
+}: BuildRowProps) => {
+  const [hiddenComment, setHiddenComment] = useState(true);
+
+  let hiddenRows: React.JSX.Element[] = [];
+  let rowCells = columns.map((column, index) => {
+    let rowCellData: ReactNode;
+    if (column?.value) {
+      rowCellData = column.value;
+    } else if (column?.infoPath) {
+      rowCellData = evaluateValue(entry, mappings[column.infoPath]);
+    }
+    if (rowCellData && column.applyToValue) {
+      rowCellData = column.applyToValue(rowCellData);
+    } else if (!rowCellData) {
+      rowCellData = <span className={"text-italic text-base"}>No data</span>;
+    } else if (column.hiddenBaseText) {
+      hiddenRows.push(
+        <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
+          <td colSpan={columns.length} className={"hideableData"}>
+            {rowCellData}
+          </td>
+        </tr>,
+      );
+      rowCellData = (
+        <Button
+          unstyled={true}
+          type={"button"}
+          onClick={() => setHiddenComment(!hiddenComment)}
+          aria-controls={`hidden-comment-${index}`}
+          aria-expanded={!hiddenComment}
+        >
+          {hiddenComment ? "View" : "Hide"} {column.hiddenBaseText}
+        </Button>
+      );
+    }
+    return (
+      <td key={`row-data-${index}`} className="text-top">
+        {rowCellData}
+      </td>
+    );
+  });
+
+  if (hiddenRows) {
+    return (
+      <React.Fragment>
+        <tr>{rowCells}</tr>
+        {...hiddenRows}
+      </React.Fragment>
+    );
+  } else {
+    return <tr>{rowCells}</tr>;
+  }
 };
 
 /**

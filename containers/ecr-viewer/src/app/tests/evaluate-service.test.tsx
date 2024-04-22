@@ -21,6 +21,8 @@ import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
+import { ColumnInfoInput, PathMappings } from "@/app/utils";
+import userEvent from "@testing-library/user-event";
 
 const mappings = loadYamlConfig();
 
@@ -130,6 +132,17 @@ describe("Evaluate Diagnostic Report", () => {
     expect(
       screen.getAllByText("LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM"),
     ).not.toBeEmpty();
+  });
+  it("should display comment", () => {
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
+    const actual = evaluateDiagnosticReportData(
+      report,
+      BundleLabs as unknown as Bundle,
+      mappings,
+    );
+    render(actual!);
+
+    expect(screen.getByText("View comment")).toBeInTheDocument();
   });
 });
 
@@ -316,5 +329,112 @@ describe("Evaluate table", () => {
 
     expect(screen.getByText("Col1")).toBeInTheDocument();
     expect(screen.getByText("No data")).toBeInTheDocument();
+  });
+});
+
+describe("Evaluate Table", () => {
+  describe("hiddenBaseText", () => {
+    const pathMapping: PathMappings = { idPath: "id", notePath: "note.text" };
+    describe("single column", () => {
+      const columnInfo: ColumnInfoInput[] = [
+        {
+          infoPath: "notePath",
+          columnName: "Lab notes",
+          hiddenBaseText: "notes",
+        },
+      ];
+
+      it("should show view notes button", () => {
+        const fhirResource = [
+          {
+            note: [
+              {
+                text: "wow this is interesting",
+              },
+            ],
+          } as any,
+        ];
+        render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+
+        expect(screen.getByText("View notes")).toBeInTheDocument();
+        expect(screen.queryByText("wow this is interesting")).not.toBeVisible();
+      });
+      it("should show notes text and replace 'View notes' with 'Hide notes' when 'View notes' button is clicked", async () => {
+        const user = userEvent.setup();
+        const pathMapping: PathMappings = { notePath: "note.text" };
+        const fhirResource = [
+          {
+            note: [
+              {
+                text: "wow this is interesting",
+              },
+            ],
+          } as any,
+        ];
+        render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+
+        await user.click(screen.getByText("View notes"));
+
+        expect(screen.queryByText("View notes")).not.toBeInTheDocument();
+        expect(screen.getByText("Hide notes")).toBeInTheDocument();
+        expect(screen.getByText("wow this is interesting")).toBeVisible();
+      });
+      it("should only open one note when 'View notes' is clicked", async () => {
+        const user = userEvent.setup();
+        const fhirResource = [
+          {
+            note: [
+              {
+                text: "wow this is interesting",
+              },
+            ],
+          } as any,
+          {
+            note: [
+              {
+                text: "no one should see this",
+              },
+            ],
+          },
+        ];
+
+        render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+
+        await user.click(screen.getAllByText("View notes")[0]);
+
+        expect(screen.getAllByText("View notes")).toHaveLength(1);
+        expect(screen.getByText("no one should see this")).not.toBeVisible();
+      });
+    });
+    it("should span across the whole table", async () => {
+      const columnInfo: ColumnInfoInput[] = [
+        {
+          columnName: "id",
+          infoPath: "idPath",
+        },
+        {
+          columnName: "Lab notes",
+          infoPath: "notePath",
+          hiddenBaseText: "notes",
+        },
+      ];
+      const fhirResource = [
+        {
+          id: "1234",
+          note: [
+            {
+              text: "wow this is interesting",
+            },
+          ],
+        } as any,
+      ];
+
+      render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+
+      expect(screen.getByText("wow this is interesting")).toHaveAttribute(
+        "colSpan",
+        "2",
+      );
+    });
   });
 });
