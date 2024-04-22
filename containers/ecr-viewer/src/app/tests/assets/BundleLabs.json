@@ -1917,6 +1917,11 @@
         },
         "effectiveDateTime": "2022-09-28T21:00:53Z",
         "valueString": "Not Detected",
+        "note": [
+          {
+            "text": "this is ok"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
