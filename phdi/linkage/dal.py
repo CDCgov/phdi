@@ -360,8 +360,6 @@ class DataAccessLayer(object):
         :return: SqlAlchemy ORM Table Object.
         """
 
-        self.initialize_schema()
-
         if table_name is not None and table_name != "":
             # TODO: I am sure there is an easier way to do this
             for table in self.TABLE_LIST:
@@ -379,8 +377,6 @@ class DataAccessLayer(object):
             table it belongs to.
         :return: SqlAlchemy ORM Table Object.
         """
-
-        self.initialize_schema()
 
         if column_name is not None and column_name != "":
             # TODO: I am sure there is an easier way to do this

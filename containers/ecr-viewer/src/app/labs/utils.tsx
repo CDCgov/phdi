@@ -339,6 +339,11 @@ export const evaluateDiagnosticReportData = (
         "Test Method",
       ) as string,
     },
+    {
+      columnName: "Lab Comment",
+      infoPath: "observationNote",
+      hiddenBaseText: "comment",
+    },
   ];
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
 };
