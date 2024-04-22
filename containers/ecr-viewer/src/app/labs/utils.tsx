@@ -84,7 +84,9 @@ export const getLabJsonObject = (
   const labsJson = formatTablesToJSON(labsString);
 
   // Get specified lab report (by reference value)
-  return labsJson.filter((obj) => obj.resultId?.includes(observationRefVal))[0];
+  return observationRefVal
+    ? labsJson.filter((obj) => obj.resultId?.includes(observationRefVal))[0]
+    : ({} as TableJson);
 };
 
 /**
@@ -430,6 +432,16 @@ export const evaluateLabInfoData = (
           fhirBundle,
           mappings,
           "Result Type",
+        ),
+        className: "lab-text-content",
+      },
+      {
+        title: "Narrative",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Narrative",
         ),
         className: "lab-text-content",
       },
