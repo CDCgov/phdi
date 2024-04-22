@@ -1019,6 +1019,10 @@ export const DataDisplay: React.FC<{
   item: DisplayData;
   className?: string;
 }): React.JSX.Element => {
+  item.dividerLine =
+    item.dividerLine == null || item.dividerLine == undefined
+      ? true
+      : item.dividerLine;
   return (
     <div>
       <div className="grid-row">
@@ -1041,13 +1045,12 @@ export const DataDisplay: React.FC<{
 const FieldValue: React.FC<{
   value?: React.JSX.Element | React.JSX.Element[] | React.ReactNode;
 }> = ({ value }) => {
-  const maxLength = 300;
   const [hideText, setHideText] = useState(true);
   if (value && typeof value === "string") {
-    if (value.length > maxLength) {
+    if (value.length > 500) {
       return (
         <>
-          {hideText ? value.substring(0, maxLength) + "..." : value}{" "}
+          {hideText ? value.substring(0, 300) + "..." : value}{" "}
           <Button
             type={"button"}
             unstyled={true}
@@ -1061,7 +1064,7 @@ const FieldValue: React.FC<{
       return value;
     }
   }
-  return <></>;
+  return value;
 };
 
 export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
