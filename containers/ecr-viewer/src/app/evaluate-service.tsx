@@ -5,7 +5,7 @@ import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 interface BuildRowProps {
   mappings: PathMappings;
@@ -89,7 +89,7 @@ const BuildRow: React.FC<BuildRowProps> = ({
 
   let hiddenRows: React.JSX.Element[] = [];
   let rowCells = columns.map((column, index) => {
-    let rowCellData: any;
+    let rowCellData: ReactNode;
     if (column?.value) {
       rowCellData = column.value;
     } else if (column?.infoPath) {
@@ -119,7 +119,9 @@ const BuildRow: React.FC<BuildRowProps> = ({
     }
     return (
       <td key={`row-data-${index}`} className="text-top">
-        {column.sentenceCase ? toSentenceCase(rowCellData) : rowCellData}
+        {column.sentenceCase && typeof rowCellData === "string"
+          ? toSentenceCase(rowCellData)
+          : rowCellData}
       </td>
     );
   });
