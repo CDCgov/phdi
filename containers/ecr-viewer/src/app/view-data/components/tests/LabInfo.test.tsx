@@ -5,7 +5,7 @@ import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResu
 import React from "react";
 import { DisplayData } from "@/app/utils";
 import { evaluateLabInfoData } from "@/app/labs/utils";
-import * as BundleLabs from "@/app/tests/assets/BundleLabs.json";
+import BundleLabs from "@/app/tests/assets/BundleLabs.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
 
@@ -119,7 +119,7 @@ describe("LabInfo", () => {
         expect(accordion).not.toBeVisible();
       });
   });
-  it("should match snapshot test", async () => {
+  it("should match snapshot test", () => {
     const labData = evaluateLabInfoData(
       BundleLabs as unknown as Bundle,
       mappings,

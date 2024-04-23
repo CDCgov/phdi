@@ -8,7 +8,2172 @@ exports[`LabInfo should match snapshot test 1`] = `
     >
       <div
         class="usa-summary-box__body"
-      />
+      >
+        <div>
+          <h4
+            class="usa-summary-box__heading padding-y-105"
+            id="lab-results-from-providence-st-joseph-medical"
+          >
+            Lab Results from 
+                PROVIDENCE ST. JOSEPH MEDICAL
+          </h4>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Lab Performing Name
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Lab Address
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  501 S. Buena Vista Street
+Burbank, CA
+91505
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Number of Results
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  2
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div
+              class="display-flex"
+            >
+              <div
+                class="margin-left-auto padding-top-1"
+              >
+                <button
+                  class="usa-button usa-button--unstyled"
+                  data-testid="button"
+                  id="lab-info-expand-button"
+                  type="button"
+                >
+                  Expand all labs
+                </button>
+                <span
+                  class="vertical-line"
+                />
+                <button
+                  class="usa-button usa-button--unstyled"
+                  data-testid="button"
+                  id="lab-info-collapse-button"
+                  type="button"
+                >
+                  Collapse all labs
+                </button>
+              </div>
+            </div>
+            <div
+              class="usa-accordion accordion-rr accordion_9e215f4e-aac1-10cb-e412-020cd13a6ad9 margin-bottom-3"
+              data-testid="accordion"
+            >
+              <h5
+                class="usa-accordion__heading acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9"
+              >
+                <button
+                  aria-controls="STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
+                  aria-expanded="false"
+                  class="usa-accordion__button"
+                  data-testid="accordionButton_STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
+                  type="button"
+                >
+                  STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS
+                  <span
+                    class="usa-tag margin-left-105"
+                    data-testid="tag"
+                    style="background: rgb(181, 9, 9);"
+                  >
+                    Abnormal
+                  </span>
+                </button>
+              </h5>
+              <div
+                class="usa-accordion__content usa-prose acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9"
+                data-testid="accordionItem_STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
+                hidden=""
+                id="STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
+              >
+                <table
+                  class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W table-caption-margin margin-y-0"
+                  data-testid="table"
+                >
+                  <thead>
+                    <tr>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Component
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Value
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Ref Range
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Test Method
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Lab Comment
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Campylobacter, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <button
+                          aria-controls="hidden-comment-4"
+                          aria-expanded="false"
+                          class="usa-button usa-button--unstyled"
+                          data-testid="button"
+                          type="button"
+                        >
+                          View
+                           
+                          comment
+                        </button>
+                      </td>
+                    </tr>
+                    <tr
+                      hidden=""
+                      id="hidden-comment-4"
+                    >
+                      <td
+                        class="hideableData"
+                        colspan="5"
+                      >
+                        this is ok
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Plesiomonas shigelloides, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Salmonella, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        DETECTED
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Vibrio, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Vibrio cholerae, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Yersinia enterocolitica, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        E. Coli O157, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        E. Coli (EAEC), NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        E. Coli (EPEC), NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        E. Coli (ETEC), NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Shiga-Like Toxin E. Coli (STEC), NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Shigella/EIEC, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        DETECTED
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Cryptosporidium, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Cyclospora cayetanensis, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        E. histolytica, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Giardia lamblia, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Adenovirus F 40/41, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Astrovirus, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Norovirus, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Rotavirus A, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Sapovirus, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Lab Interpretation
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Abnormal
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Analysis Time
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      09/28/2022 5:00 PM EDT
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Collection Time
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      09/28/2022 4:51 PM EDT
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Received Time
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      09/28/2022 4:51 PM EDT
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Specimen (Source)
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      Stool
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Anatomical Location/Laterality
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      STOOL SPECIMEN / Unknown
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Collection Method/Volume
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      <span
+                        class="no-data text-italic text-base"
+                      >
+                        No data
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Resulting Agency Comment
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      <span
+                        class="no-data text-italic text-base"
+                      >
+                        No data
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Authorizing Provider
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      Ambhp1 Test MD
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Result Type
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      MICROBIOLOGY - GENERAL ORDERABLES
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Narrative
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      <span
+                        class="no-data text-italic text-base"
+                      >
+                        No data
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="usa-accordion accordion-rr accordion_9e215f4e-aac1-10cb-e412-020cd13a6ad9 margin-bottom-3"
+              data-testid="accordion"
+            >
+              <h5
+                class="usa-accordion__heading acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9"
+              >
+                <button
+                  aria-controls="STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
+                  aria-expanded="false"
+                  class="usa-accordion__button"
+                  data-testid="accordionButton_STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
+                  type="button"
+                >
+                  STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS
+                </button>
+              </h5>
+              <div
+                class="usa-accordion__content usa-prose acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9"
+                data-testid="accordionItem_STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
+                hidden=""
+                id="STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
+              >
+                <table
+                  class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W table-caption-margin margin-y-0"
+                  data-testid="table"
+                >
+                  <thead>
+                    <tr>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Component
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Value
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Ref Range
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Test Method
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Lab Comment
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Campylobacter, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Plesiomonas shigelloides, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Salmonella, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Vibrio, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Vibrio cholerae, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Yersinia enterocolitica, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        E. Coli (EAEC), NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        E. Coli (EPEC), NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        E. Coli (ETEC), NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Shiga-Like Toxin E. Coli (STEC), NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Shigella/EIEC, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Cryptosporidium, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Cyclospora cayetanensis, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        E. histolytica, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Giardia lamblia, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Adenovirus F 40/41, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Astrovirus, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Norovirus, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Rotavirus A, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Sapovirus, NAAT
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Not Detected
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Lab Interpretation
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Normal
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        <span
+                          class="text-italic text-base"
+                        >
+                          No data
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Analysis Time
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      09/28/2022 4:59 PM EDT
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Collection Time
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      09/28/2022 4:51 PM EDT
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Received Time
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      09/28/2022 4:51 PM EDT
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Specimen (Source)
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      Stool
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Anatomical Location/Laterality
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      STOOL SPECIMEN / Unknown
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Collection Method/Volume
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      <span
+                        class="no-data text-italic text-base"
+                      >
+                        No data
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Resulting Agency Comment
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      <span
+                        class="no-data text-italic text-base"
+                      >
+                        No data
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Authorizing Provider
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      Ambhp1 Test MD
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Result Type
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      MICROBIOLOGY - GENERAL ORDERABLES
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="data-title"
+                    >
+                      Narrative
+                    </div>
+                    <div
+                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                    >
+                      <span
+                        class="no-data text-italic text-base"
+                      >
+                        No data
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
