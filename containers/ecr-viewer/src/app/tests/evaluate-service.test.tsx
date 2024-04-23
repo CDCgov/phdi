@@ -163,6 +163,16 @@ describe("Evaluate the lab info section", () => {
     expect(result[0]).toHaveProperty("diagnosticReportDataElements");
     expect(result[0]).toHaveProperty("organizationDisplayData");
   });
+  it("should properly count the number of labs", () => {
+    const result = evaluateLabInfoData(
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0].organizationDisplayData[3].title).toEqual(
+      "Number of Results",
+    );
+    expect(result[0].organizationDisplayData[3].value).toEqual(1);
+  });
 });
 
 describe("evaluate value", () => {
