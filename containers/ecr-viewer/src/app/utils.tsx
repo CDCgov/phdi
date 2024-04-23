@@ -5,9 +5,6 @@ import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
 
-
-
-
 import {
   formatAddress,
   formatDate,
@@ -265,16 +262,20 @@ export const evaluatePatientIds = (
   const patientIds = evaluate(fhirBundle, fhirPathMappings.patientId);
   const patientIdsFormatted = patientIds.map((id) => {
     return (
-      <span key={id} className="usa-tooltip" data-position="bottom" data-text={id} 
-      title="Unique patient identifier(s) from their medical record. 
-      For example, a patient's social security number or medical record number">
-      {id}
+      <span
+        key={id}
+        className="usa-tooltip"
+        data-position="bottom"
+        data-text={id}
+        title="Unique patient identifier(s) from their medical record. 
+      For example, a patient's social security number or medical record number"
+      >
+        {id}
       </span>
     );
   });
   return patientIdsFormatted;
 };
-
 
 export const evaluateDemographicsData = (
   fhirBundle: Bundle,
