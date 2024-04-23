@@ -4,6 +4,16 @@ import os
 from pathlib import Path
 from typing import Annotated
 
+from fastapi import Body
+from fastapi import File
+from fastapi import Form
+from fastapi import Response
+from fastapi import status
+from fastapi import UploadFile
+from fastapi import WebSocket
+from fastapi import WebSocketDisconnect
+from opentelemetry import metrics
+
 from app.config import get_settings
 from app.constants import process_message_response_examples
 from app.constants import sample_get_config_response
@@ -22,16 +32,6 @@ from app.utils import load_json_from_binary
 from app.utils import load_processing_config
 from app.utils import unzip_http
 from app.utils import unzip_ws
-from fastapi import Body
-from fastapi import File
-from fastapi import Form
-from fastapi import Response
-from fastapi import status
-from fastapi import UploadFile
-from fastapi import WebSocket
-from fastapi import WebSocketDisconnect
-from opentelemetry import metrics
-
 from phdi.containers.base_service import BaseService
 
 logger = logging.getLogger(__name__)
@@ -105,9 +105,7 @@ async def process_message_endpoint_ws(
                 "message": unzipped_data.get("ecr"),
                 "rr_data": unzipped_data.get("rr"),
             }
-            processing_config = load_processing_config(
-                "sample-orchestration-config.json"
-            )
+            processing_config = load_processing_config("test-no-save.json")
             response, responses = await call_apis(
                 config=processing_config, input=initial_input, websocket=websocket
             )

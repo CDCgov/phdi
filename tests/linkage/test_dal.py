@@ -51,6 +51,7 @@ def _clean_up(dal):
         pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway CASCADE;"""))
         pg_connection.commit()
         pg_connection.close()
 

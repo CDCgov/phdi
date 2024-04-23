@@ -2,27 +2,17 @@
 # fmt: off
 import os
 
-from app.config import get_settings
-
-def set_mpi_env_vars():
-    os.environ["mpi_db_type"] = "postgres"
-    os.environ["mpi_dbname"] = "testdb"
-    os.environ["mpi_user"] = "postgres"
-    os.environ["mpi_password"] = "pw"
-    os.environ["mpi_host"] = "localhost"
-    os.environ["mpi_port"] = "5432"
-    get_settings.cache_clear()
+from app.utils import set_mpi_env_vars
 
 
 set_mpi_env_vars()
 
-from fastapi import status
 from fastapi.testclient import TestClient
 from app.main import app, run_migrations
-from sqlalchemy import text
+from app.utils import _clean_up
+from app.utils import pop_mpi_env_vars
 import json
 import pathlib
-from phdi.linkage.mpi import DIBBsMPIConnectorClient
 # fmt: on
 client = TestClient(app)
 
@@ -37,34 +27,6 @@ def load_test_bundle():
         )
     )
     return test_bundle
-
-
-def pop_mpi_env_vars():
-    os.environ.pop("mpi_db_type", None)
-    os.environ.pop("mpi_dbname", None)
-    os.environ.pop("mpi_user", None)
-    os.environ.pop("mpi_password", None)
-    os.environ.pop("mpi_host", None)
-    os.environ.pop("mpi_port", None)
-
-
-def _clean_up():
-    MPI = DIBBsMPIConnectorClient()
-
-    with MPI.dal.engine.connect() as pg_connection:
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway;"""))
-        pg_connection.commit()
-        pg_connection.close()
 
 
 def seed_testdb():

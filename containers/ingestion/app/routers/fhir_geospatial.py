@@ -2,11 +2,6 @@ from typing import Annotated
 from typing import Literal
 from typing import Optional
 
-from app.config import get_settings
-from app.utils import check_for_fhir_bundle
-from app.utils import read_json_from_assets
-from app.utils import search_for_required_values
-from app.utils import StandardResponse
 from fastapi import APIRouter
 from fastapi import Body
 from fastapi import Response
@@ -15,8 +10,13 @@ from pydantic import BaseModel
 from pydantic import Field
 from pydantic import validator
 
-from phdi.fhir.geospatial import CensusFhirGeocodeClient
-from phdi.fhir.geospatial import SmartyFhirGeocodeClient
+from app.config import get_settings
+from app.fhir.geospatial import CensusFhirGeocodeClient
+from app.fhir.geospatial import SmartyFhirGeocodeClient
+from app.utils import check_for_fhir_bundle
+from app.utils import read_json_from_assets
+from app.utils import search_for_required_values
+from app.utils import StandardResponse
 
 router = APIRouter(
     prefix="/fhir/geospatial/geocode",

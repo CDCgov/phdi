@@ -1,20 +1,28 @@
 import { evaluate } from "fhirpath";
 import { Bundle, CodeableConcept, FhirResource, Quantity } from "fhir/r4";
-import { ColumnInfoInput } from "@/app/utils";
-import { PathMappings } from "@/app/utils";
+import { toSentenceCase } from "./format-service";
+import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
-import { Table } from "@trussworks/react-uswds";
+import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
+import React, { ReactNode, useState } from "react";
+
+interface BuildRowProps {
+  mappings: PathMappings;
+  columns: ColumnInfoInput[];
+  entry: FhirResource;
+}
 
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
- * @param {FhirResource[]} resources - An array of FHIR Resources representing the data entries.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @param {ColumnInfoInput[]} columns - An array of objects representing column information.
+ * @param resources - An array of FHIR Resources representing the data entries.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @param columns - An array of objects representing column information.
  *                                      The order of columns in the array determines the order of appearance.
- * @param {string} caption - The caption for the table.
- * @param {boolean} [outerBorder=true] - Optional. Determines whether to include an outer border for the table. Default is true.
- * @returns {React.JSX.Element} - A formatted table React element.
+ * @param caption - The caption for the table.
+ * @param [fixed] - Optional. Determines whether to fix the width of the table columns. Default is true.
+ * @param [outerBorder] - Optional. Determines whether to include an outer border for the table. Default is true.
+ * @returns - A formatted table React element.
  */
 export const evaluateTable = (
   resources: FhirResource[],
@@ -28,31 +36,21 @@ export const evaluateTable = (
     <th
       key={`${column.columnName}${index}`}
       scope="col"
-      className="bg-base-lightest"
+      className="tableHeader"
     >
       {column.columnName}
     </th>
   ));
 
   let tableRows = resources.map((entry, index) => {
-    let rowCells = columns.map((column, index) => {
-      let rowCellData: any;
-      if (column?.value) {
-        rowCellData = column.value;
-      } else if (column?.infoPath) {
-        rowCellData = evaluateValue(entry, mappings[column.infoPath]);
-      }
-      if (!rowCellData) {
-        rowCellData = <span className={"text-italic text-base"}>No data</span>;
-      }
-      return (
-        <td key={`row-data-${index}`} className="text-top">
-          {rowCellData}
-        </td>
-      );
-    });
-
-    return <tr key={`table-row-${index}`}>{rowCells}</tr>;
+    return (
+      <BuildRow
+        key={index}
+        columns={columns}
+        mappings={mappings}
+        entry={entry}
+      />
+    );
   });
 
   return (
@@ -75,8 +73,73 @@ export const evaluateTable = (
 };
 
 /**
+ * Builds a row for a table based on provided columns, mappings, and entry data.
+ * @param props - The properties object containing columns, mappings, and entry data.
+ * @param props.columns - An array of column objects defining the structure of the row.
+ * @param props.mappings - An object containing mappings for column data.
+ * @param props.entry - The data entry object for the row.
+ * @returns - The JSX element representing the constructed row.
+ */
+const BuildRow: React.FC<BuildRowProps> = ({
+  columns,
+  mappings,
+  entry,
+}: BuildRowProps) => {
+  const [hiddenComment, setHiddenComment] = useState(true);
+
+  let hiddenRows: React.JSX.Element[] = [];
+  let rowCells = columns.map((column, index) => {
+    let rowCellData: ReactNode;
+    if (column?.value) {
+      rowCellData = column.value;
+    } else if (column?.infoPath) {
+      rowCellData = evaluateValue(entry, mappings[column.infoPath]);
+    }
+    if (!rowCellData) {
+      rowCellData = <span className={"text-italic text-base"}>No data</span>;
+    } else if (column.hiddenBaseText) {
+      hiddenRows.push(
+        <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
+          <td colSpan={columns.length} className={"hideableData"}>
+            {rowCellData}
+          </td>
+        </tr>,
+      );
+      rowCellData = (
+        <Button
+          unstyled={true}
+          type={"button"}
+          onClick={() => setHiddenComment(!hiddenComment)}
+          aria-controls={`hidden-comment-${index}`}
+          aria-expanded={!hiddenComment}
+        >
+          {hiddenComment ? "View" : "Hide"} {column.hiddenBaseText}
+        </Button>
+      );
+    }
+    return (
+      <td key={`row-data-${index}`} className="text-top">
+        {column.sentenceCase && typeof rowCellData === "string"
+          ? toSentenceCase(rowCellData)
+          : rowCellData}
+      </td>
+    );
+  });
+
+  if (hiddenRows) {
+    return (
+      <React.Fragment>
+        <tr>{rowCells}</tr>
+        {...hiddenRows}
+      </React.Fragment>
+    );
+  } else {
+    return <tr>{rowCells}</tr>;
+  }
+};
+
+/**
  * Evaluates a reference in a FHIR bundle.
- *
  * @param fhirBundle - The FHIR bundle containing resources.
  * @param mappings - Path mappings for resolving references.
  * @param ref - The reference string (e.g., "Patient/123").
@@ -96,10 +159,9 @@ export const evaluateReference = (
 
 /**
  * Evaluates the FHIR path and returns the appropriate string value. Supports choice elements
- *
- * @param {FhirResource} entry - The FHIR resource to evaluate.
- * @param {string} path - The path within the resource to extract the value from.
- * @returns {string} - The evaluated value as a string.
+ * @param entry - The FHIR resource to evaluate.
+ * @param path - The path within the resource to extract the value from.
+ * @returns - The evaluated value as a string.
  */
 export const evaluateValue = (entry: FhirResource, path: string): string => {
   let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];

@@ -26,14 +26,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
       - name: Install dependencies
         run: |
           pip install -U pip
-          pip install ruff
+          pip install ruff==0.3.7
       - name: Run linter (ruff)
         run: |
           ruff check --output-format=github .

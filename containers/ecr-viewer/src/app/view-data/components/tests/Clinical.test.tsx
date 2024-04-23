@@ -313,7 +313,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     // Ensure only one table (Treatment) is rendering
     const expectedTable = clinicalInfo.getAllByTestId("table");
     expect(expectedTable[0]).toBeInTheDocument();
-    expect(expectedTable.length).toEqual(1);
+    expect(expectedTable.length).toEqual(3);
   });
 
   test("eCR Viewer renders all Clinical Info sections", () => {
@@ -344,7 +344,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     // Ensure the three tables (Immunization History & Active Problems & Treatment) are rendering
     const expectedTable = clinicalInfo.getAllByTestId("table");
     expect(expectedTable[0]).toBeInTheDocument();
-    expect(expectedTable.length).toEqual(3);
+    expect(expectedTable.length).toEqual(5);
 
     const expectedVitalSignsElement = clinicalInfo.getByTestId("vital-signs");
     expect(expectedVitalSignsElement).toBeInTheDocument();

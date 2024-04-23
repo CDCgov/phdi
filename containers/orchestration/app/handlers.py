@@ -1,8 +1,8 @@
 import os
 
-from app.models import OrchestrationRequest
 from requests import Response
 
+from app.models import OrchestrationRequest
 
 MESSAGE_TO_TEMPLATE_MAP = {
     "fhir": "",
@@ -362,6 +362,31 @@ def build_geocoding_request(
     }
 
 
+def build_save_fhir_data_body(
+    input_msg: str,
+    orchestration_request: OrchestrationRequest,
+    workflow_params: dict | None = None,
+) -> dict:
+    """
+    Helper function for constructing the input payload for an API call to
+    the DIBBs ecr viewer.
+
+    :param input_msg: The data the user sent for workflow processing, as
+      a string.
+    :param orchestration_request: The request the client initially sent
+      to the orchestration service. This request bundles a number of
+      parameter settings into one dictionary that each handler can
+      accept for consistency.
+    :param workflow_params: Optionally, a set of configuration parameters
+      included in the workflow config for the validation step of a workflow.
+    :return: A dictionary ready to send to the validation service.
+    """
+    return {
+        "fhirBundle": input_msg,
+        "saveSource": workflow_params.get("saveSource"),
+    }
+
+
 def unpack_fhir_converter_response(response: Response) -> ServiceHandlerResponse:
     """
     Helper function for processing a response from the DIBBs FHIR converter.
@@ -505,5 +530,38 @@ def unpack_ingestion_standardization(response: Response) -> ServiceHandlerRespon
             return ServiceHandlerResponse(
                 status_code,
                 f"Standardization request failed: {response.text}",
+                False,
+            )
+
+
+def unpack_save_fhir_data_response(response: Response) -> ServiceHandlerResponse:
+    """
+    Helper function for processing a response from save fhir data.
+
+    If the status code of the response the server sent back is OK, return
+    the message from the response body. Otherwise, report what
+    went wrong based on status_code.
+
+    :param response: The response returned by a POST request to the ingestion service.
+    :return: A tuple containing the status code of the response as well as
+      parsed message created by the service.
+    """
+    status_code = response.status_code
+
+    match status_code:
+        case 200:
+            return ServiceHandlerResponse(
+                status_code,
+                response.json().get("message"),
+                True,
+            )
+        case 400:
+            return ServiceHandlerResponse(
+                status_code, response.json().get("message"), False
+            )
+        case _:
+            return ServiceHandlerResponse(
+                status_code,
+                f"Saving failed: {response.text}",
                 False,
             )

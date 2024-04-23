@@ -5,54 +5,72 @@ import {
   AccordianDiv,
 } from "../component-utils";
 import React from "react";
+import { LabReportElementData } from "@/app/labs/utils";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
+import { truncateLabNameWholeWord, formatString } from "@/app/format-service";
 
 interface LabInfoProps {
-  labInfo: DisplayData[];
-  labResults: React.JSX.Element[];
+  labResults: LabReportElementData[];
 }
 
 /**
  * Renders lab information and RR info in an accordion section.
- * @param {Object} props - The props object.
- * @param {DisplayData[]} props.labInfo - Array of lab information items.
- * @param {React.JSX.Element[]} props.labResults - Array of Lab result items.
- * @returns {React.JSX.Element} React element representing the LabInfo component.
+ * @param props - The props object.
+ * @param props.labResults - Array of Lab result items.
+ * @returns React element representing the LabInfo component.
  */
-export const LabInfo = ({
-  labInfo,
-  labResults,
-}: LabInfoProps): React.JSX.Element => {
+export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
   const renderLabInfo = () => {
     return (
       <>
-        <AccordianH4 id={"lab-results-from"}>Lab Results from</AccordianH4>
-        <AccordianDiv>
-          <div className={"display-flex"}>
-            <div className={"margin-left-auto"}>
-              <ExpandCollapseButtons
-                id={"lab-info"}
-                buttonSelector={"h5 > .usa-accordion__button"}
-                accordionSelector={".accordion-rr > .usa-accordion__content"}
-                expandButtonText={"Expand all labs"}
-                collapseButtonText={"Collapse all labs"}
-              />
+        {labResults.map((labResult, labIndex) => {
+          // This is to build the selector based off if orgId exists
+          // Sometimes it doesn't, so we default to the base class
+          // the orgId makes it so that when you have multiple, it can distinguish
+          // which org it is modifying
+          const accordionSelectorClass = labResult.organizationId
+            ? `.${labResult.organizationId}_accordion`
+            : ".accordion-rr";
+          const buttonSelectorClass = labResult.organizationId
+            ? `.${labResult.organizationId}_acc_item`
+            : "h5";
+          const labName = `Lab Results from 
+                ${truncateLabNameWholeWord(
+                  labResult.organizationDisplayData[0].value as string,
+                )}`;
+          return (
+            <div key={`${labResult.organizationId}${labIndex}`}>
+              <AccordianH4 id={formatString(labName)}>{labName}</AccordianH4>
+              <AccordianDiv>
+                {labResult?.organizationDisplayData?.map(
+                  (item: DisplayData, index: any) => {
+                    if (item.value)
+                      return <DataDisplay item={item} key={index} />;
+                  },
+                )}
+                <div className="display-flex">
+                  <div className={"margin-left-auto padding-top-1"}>
+                    <ExpandCollapseButtons
+                      id={"lab-info"}
+                      buttonSelector={`${buttonSelectorClass} > .usa-accordion__button`}
+                      accordionSelector={`${accordionSelectorClass} > .usa-accordion__content`}
+                      expandButtonText={"Expand all labs"}
+                      collapseButtonText={"Collapse all labs"}
+                    />
+                  </div>
+                </div>
+                {labResult.diagnosticReportDataElements}
+              </AccordianDiv>
             </div>
-          </div>
-          {labInfo.map((item) => {
-            return (
-              <DataDisplay item={item} key={`${item.title}-${item.value}`} />
-            );
-          })}
-          {labResults}
-        </AccordianDiv>
+          );
+        })}
       </>
     );
   };
 
   return (
     <AccordianSection>
-      {(labInfo.length > 0 || labResults.length > 0) && renderLabInfo()}
+      {labResults.length > 0 && renderLabInfo()}
     </AccordianSection>
   );
 };

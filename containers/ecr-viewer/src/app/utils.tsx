@@ -1,6 +1,14 @@
 import React from "react";
 import * as dateFns from "date-fns";
-import { Bundle, Condition, Immunization, Procedure } from "fhir/r4";
+import {
+  Bundle,
+  Condition,
+  Immunization,
+  Procedure,
+  Practitioner,
+  FhirResource,
+  Organization,
+} from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
@@ -13,8 +21,13 @@ import {
   formatStartEndDateTime,
   formatVitals,
   formatDateTime,
+  formatTablesToJSON,
+  TableRow,
+  removeHtmlElements,
 } from "@/app/format-service";
-import { evaluateTable } from "./evaluate-service";
+import { evaluateTable, evaluateReference } from "./evaluate-service";
+import { Table } from "@trussworks/react-uswds";
+import { CareTeamParticipant } from "fhir/r4b";
 
 export interface DisplayData {
   title?: string;
@@ -37,12 +50,18 @@ export interface ColumnInfoInput {
   columnName: string;
   infoPath?: string;
   value?: string;
+  sentenceCase?: boolean;
+  hiddenBaseText?: string;
 }
 
 export interface CompleteData {
   availableData: DisplayData[];
   unavailableData: DisplayData[];
 }
+
+export const noData = (
+  <span className="no-data text-italic text-base">No data</span>
+);
 
 export const evaluatePatientName = (
   fhirBundle: Bundle,
@@ -72,6 +91,14 @@ export const extractPatientAddress = (
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
+/**
+ * Extracts a specific location resource from a given FHIR bundle based on defined path mappings.
+ * @param fhirBundle - The FHIR bundle object containing various resources, including location resources.
+ * @param fhirPathMappings - An object containing FHIR path mappings, which should include a mapping
+ *   for `facilityLocation` that determines how to find the location reference within the bundle.
+ * @returns The location resource object from the FHIR bundle that matches the UID derived from the
+ *   facility location reference. If no matching resource is found, the function returns `undefined`.
+ */
 function extractLocationResource(
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
@@ -144,22 +171,17 @@ export const evaluateEncounterDate = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
-  const startDate = formatDateTime(
+  return formatStartEndDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
-  );
-  const endDate = formatDateTime(
     evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
   );
-
-  return `Start: ${startDate}
-    End: ${endDate}`;
 };
 
 /**
  * Extracts travel history information from the provided FHIR bundle based on the FHIR path mappings.
- * @param {Bundle} fhirBundle - The FHIR bundle containing patient travel history data.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {string | undefined} - A formatted string representing the patient's travel history, or undefined if no relevant data is found.
+ * @param fhirBundle - The FHIR bundle containing patient travel history data.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns - A formatted string representing the patient's travel history, or undefined if no relevant data is found.
  */
 const extractTravelHistory = (
   fhirBundle: Bundle,
@@ -191,10 +213,10 @@ const extractTravelHistory = (
 
 /**
  * Calculates the age of a patient to a given date or today.
- * @param {Bundle} fhirBundle - The FHIR bundle containing patient information.
- * @param {PathMappings} fhirPathMappings - The mappings for retrieving patient date of birth.
- * @param {string} [givenDate] - Optional. The target date to calculate the age. Defaults to the current date if not provided.
- * @returns {number | undefined} - The age of the patient in years, or undefined if date of birth is not available.
+ * @param fhirBundle - The FHIR bundle containing patient information.
+ * @param fhirPathMappings - The mappings for retrieving patient date of birth.
+ * @param [givenDate] - Optional. The target date to calculate the age. Defaults to the current date if not provided.
+ * @returns - The age of the patient in years, or undefined if date of birth is not available.
  */
 export const calculatePatientAge = (
   fhirBundle: Bundle,
@@ -392,7 +414,7 @@ export const evaluateProviderData = (
     {
       title: "Provider Name",
       value: formatName(
-        evaluate(fhirBundle, mappings["providerGivenName"])[0],
+        evaluate(fhirBundle, mappings["providerGivenName"]),
         evaluate(fhirBundle, mappings["providerFamilyName"])[0],
       ),
     },
@@ -482,16 +504,20 @@ export const evaluateEcrMetadata = (
 
 /**
  * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
- * @param {Bundle} fhirBundle - The FHIR bundle containing patient information.
- * @param {Condition[]} problemsArray - An array containing the list of problems.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
+ * @param fhirBundle - The FHIR bundle containing patient information.
+ * @param problemsArray - An array containing the list of problems.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
  */
 export const returnProblemsTable = (
   fhirBundle: Bundle,
   problemsArray: Condition[],
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
+  problemsArray = problemsArray.filter(
+    (entry) => entry.code?.coding?.[0].display,
+  );
+
   if (problemsArray.length === 0) {
     return undefined;
   }
@@ -509,6 +535,10 @@ export const returnProblemsTable = (
     };
   });
 
+  if (problemsArray.length === 0) {
+    return undefined;
+  }
+
   problemsArray.sort(
     (a, b) =>
       new Date(b.onsetDateTime ?? "").getTime() -
@@ -524,13 +554,183 @@ export const returnProblemsTable = (
   );
 };
 
+export const returnPendingResultsTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const planOfTreatmentTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["planOfTreatment"])[0]?.div,
+  );
+  const pendingResultsTableJson = planOfTreatmentTables.find(
+    (val) => val.resultName === "Pending Results",
+  );
+
+  if (pendingResultsTableJson?.tables?.[0]) {
+    const header = [
+      "Name",
+      "Type",
+      "Priority",
+      "Associated Diagnoses",
+      "Date/Time",
+    ];
+
+    return (
+      <Table
+        bordered={false}
+        fullWidth={true}
+        className={
+          "table-caption-margin caption-normal-weight margin-top-0 border-top border-left border-right margin-bottom-2"
+        }
+        data-testid="table"
+        caption={"Pending Results"}
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {pendingResultsTableJson.tables[0].map(
+            (entry: TableRow, index: number) => {
+              return (
+                <tr key={`table-row-${index}`}>
+                  <td>{entry.Name?.value ?? noData}</td>
+                  <td>{entry.Type?.value ?? noData}</td>
+                  <td>{entry.Priority?.value ?? noData}</td>
+                  <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
+                  <td>{entry["Date/Time"]?.value ?? noData}</td>
+                </tr>
+              );
+            },
+          )}
+        </tbody>
+      </Table>
+    );
+  }
+};
+
+export const returnScheduledOrdersTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const planOfTreatmentTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["planOfTreatment"])[0]?.div,
+  );
+  const scheduledOrdersTableJson = planOfTreatmentTables.find(
+    (val) => val.resultName === "Scheduled Orders",
+  );
+
+  if (scheduledOrdersTableJson?.tables?.[0]) {
+    const header = [
+      "Name",
+      "Type",
+      "Priority",
+      "Associated Diagnoses",
+      "Date/Time",
+    ];
+
+    return (
+      <Table
+        bordered={false}
+        fullWidth={true}
+        className={
+          "table-caption-margin margin-top-1 caption-normal-weight margin-y-0 border-top border-left border-right"
+        }
+        data-testid="table"
+        caption={"Scheduled Orders"}
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {scheduledOrdersTableJson.tables[0].map(
+            (entry: TableRow, index: number) => {
+              return (
+                <tr key={`table-row-${index}`}>
+                  <td>{entry.Name?.value ?? noData}</td>
+                  <td>{entry.Type?.value ?? noData}</td>
+                  <td>{entry.Priority?.value ?? noData}</td>
+                  <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
+                  <td>{entry["Date/Time"]?.value ?? noData}</td>
+                </tr>
+              );
+            },
+          )}
+        </tbody>
+      </Table>
+    );
+  }
+};
+
+export const returnAdminMedTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const adminMedTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["administeredMedications"])[0]?.div,
+  );
+  const adminMedJson = adminMedTables[0]?.tables?.[0];
+  if (
+    adminMedJson &&
+    adminMedJson[0]["Medication Name"] &&
+    adminMedJson[0]["Medication Start Date"]
+  ) {
+    const header = ["Medication Name", "Medication Start Date"];
+    return (
+      <Table
+        bordered={false}
+        fullWidth={true}
+        caption="Administered Medications"
+        className={
+          "table-caption-margin margin-y-0 border-top border-left border-right"
+        }
+        data-testid="table"
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {adminMedJson.map((entry: TableRow, index: number) => {
+            const entryDate = entry["Medication Start Date"].value;
+            const formattedDate = formatDate(entryDate);
+            return (
+              <tr key={`table-row-${index}`}>
+                <td>{entry["Medication Name"]?.value ?? noData}</td>
+                <td>{formattedDate ?? noData}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    );
+  }
+};
+
 /**
  * Generates a formatted table representing the list of immunizations based on the provided array of immunizations and mappings.
- * @param {Immunization[]} immunizationsArray - An array containing the list of immunizations.
- * @param {PathMappings} mappings - An object containing the FHIR path mappings.
- * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
+ * @param fhirBundle - The FHIR bundle containing patient and immunizations information.
+ * @param immunizationsArray - An array containing the list of immunizations.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
  */
 export const returnImmunizations = (
+  fhirBundle: Bundle,
   immunizationsArray: Immunization[],
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
@@ -541,11 +741,25 @@ export const returnImmunizations = (
   const columnInfo = [
     { columnName: "Name", infoPath: "immunizationsName" },
     { columnName: "Administration Dates", infoPath: "immunizationsAdminDate" },
-    { columnName: "Next Due", infoPath: "immunizationsNextDue" },
+    { columnName: "Dose Number", infoPath: "immunizationsDoseNumber" },
+    {
+      columnName: "Manufacturer",
+      infoPath: "immunizationsManufacturerName",
+    },
+    { columnName: "Lot Number", infoPath: "immunizationsLotNumber" },
   ];
 
   immunizationsArray.forEach((entry) => {
     entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime);
+
+    const manufacturer = evaluateReference(
+      fhirBundle,
+      mappings,
+      entry.manufacturer?.reference || "",
+    ) as Organization;
+    if (manufacturer) {
+      (entry.manufacturer as any).name = manufacturer.name || "";
+    }
   });
 
   immunizationsArray.sort(
@@ -562,11 +776,82 @@ export const returnImmunizations = (
   );
 };
 
+export const returnCareTeamTable = (
+  bundle: Bundle,
+  mappings: PathMappings,
+): React.JSX.Element | undefined => {
+  const careTeamParticipants: CareTeamParticipant[] = evaluate(
+    bundle,
+    mappings["careTeamParticipants"],
+  );
+  if (careTeamParticipants.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Member", infoPath: "careTeamParticipantMemberName" },
+    { columnName: "Role", infoPath: "careTeamParticipantRole" },
+    {
+      columnName: "Status",
+      infoPath: "careTeamParticipantStatus",
+      sentenceCase: true,
+    },
+    { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
+  ];
+
+  careTeamParticipants.forEach((entry) => {
+    if (entry?.period) {
+      const textArray: String[] = [];
+
+      if (entry.period.start) {
+        let startDate = formatDate(entry.period.start);
+        if (startDate !== "Invalid Date") {
+          textArray.push(`Start: ${startDate}`);
+        }
+      }
+
+      if (entry.period.end) {
+        let endDate = formatDate(entry.period.end);
+        if (endDate !== "Invalid Date") {
+          textArray.push(`End: ${endDate}`);
+        }
+      }
+
+      (entry.period as any).text = textArray.join(" ");
+    }
+
+    const practitioner = evaluateReference(
+      bundle,
+      mappings,
+      entry?.member?.reference || "",
+    ) as Practitioner;
+    const practitionerNameObj = practitioner.name?.find(
+      (nameObject) => nameObject.family,
+    );
+    if (entry.member) {
+      (entry.member as any).name = formatName(
+        practitionerNameObj?.given,
+        practitionerNameObj?.family,
+        practitionerNameObj?.prefix,
+        practitionerNameObj?.suffix,
+      );
+    }
+  });
+
+  return evaluateTable(
+    careTeamParticipants as FhirResource[],
+    mappings,
+    columnInfo,
+    "Care Team",
+    false,
+  );
+};
+
 /**
  * Generates a formatted table representing the list of procedures based on the provided array of procedures and mappings.
- * @param {Procedure[]} proceduresArray - An array containing the list of procedures.
- * @param {PathMappings} mappings - An object containing FHIR path mappings for procedure attributes.
- * @returns {React.JSX.Element | undefined} - A formatted table React element representing the list of procedures, or undefined if the procedures array is empty.
+ * @param proceduresArray - An array containing the list of procedures.
+ * @param mappings - An object containing FHIR path mappings for procedure attributes.
+ * @returns - A formatted table React element representing the list of procedures, or undefined if the procedures array is empty.
  */
 export const returnProceduresTable = (
   proceduresArray: Procedure[],
@@ -626,6 +911,24 @@ export const evaluateClinicalData = (
     },
   ];
 
+  const pendingResults = returnPendingResultsTable(fhirBundle, mappings);
+  const scheduledOrders = returnScheduledOrdersTable(fhirBundle, mappings);
+  let planOfTreatmentElement: React.JSX.Element | undefined = undefined;
+  if (pendingResults) {
+    planOfTreatmentElement = (
+      <>
+        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
+        {pendingResults}
+        {scheduledOrders}
+      </>
+    );
+  }
+
+  const adminMedResults = returnAdminMedTable(fhirBundle, mappings);
+  let adminMedElement: React.JSX.Element | undefined = adminMedResults ? (
+    <>{adminMedResults}</>
+  ) : undefined;
+
   const treatmentData: DisplayData[] = [
     {
       title: "Procedures",
@@ -633,6 +936,18 @@ export const evaluateClinicalData = (
         evaluate(fhirBundle, mappings["procedures"]),
         mappings,
       ),
+    },
+    {
+      title: "Plan of Treatment",
+      value: planOfTreatmentElement,
+    },
+    {
+      title: "Administered Medications",
+      value: adminMedElement,
+    },
+    {
+      title: "Care Team",
+      value: returnCareTeamTable(fhirBundle, mappings),
     },
   ];
 
@@ -653,6 +968,7 @@ export const evaluateClinicalData = (
     {
       title: "Immunization History",
       value: returnImmunizations(
+        fhirBundle,
         evaluate(fhirBundle, mappings["immunizations"]),
         mappings,
       ),
@@ -670,14 +986,14 @@ export const evaluateClinicalData = (
 
 /**
  * Evaluates the provided display data to determine availability.
- * @param {DisplayData[]} data - An array of display data items to be evaluated.
- * @returns {CompleteData} - An object containing arrays of available and unavailable display data items.
+ * @param data - An array of display data items to be evaluated.
+ * @returns - An object containing arrays of available and unavailable display data items.
  */
 export const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
-    if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
+    if (!isDataAvailable(item)) {
       unavailableData.push(item);
     } else {
       availableData.push(item);
@@ -687,11 +1003,36 @@ export const evaluateData = (data: DisplayData[]): CompleteData => {
 };
 
 /**
+ * Checks if data is available based on DisplayData value. Also filters out terms that indicate info is unavailable.
+ * @param item - The DisplayData object to check for availability.
+ * @returns - Returns true if data is available, false otherwise.
+ */
+export const isDataAvailable = (item: DisplayData): Boolean => {
+  if (!item.value || (Array.isArray(item.value) && item.value.length === 0))
+    return false;
+  const unavailableTerms = [
+    "Not on file",
+    "Not on file documented in this encounter",
+    "Unknown",
+    "Unknown if ever smoked",
+    "Tobacco smoking consumption unknown",
+    "Do not know",
+    "No history of present illness information available",
+  ];
+  for (const i in unavailableTerms) {
+    if (removeHtmlElements(`${item.value}`).trim() === unavailableTerms[i]) {
+      return false;
+    }
+  }
+  return true;
+};
+
+/**
  * Functional component for displaying data.
- * @param {object} props - Props for the component.
- * @param {DisplayData} props.item - The display data item to be rendered.
- * @param {string} [props.className] - Additional class name for styling purposes.
- * @returns {React.JSX.Element} - A React element representing the display of data.
+ * @param props - Props for the component.
+ * @param props.item - The display data item to be rendered.
+ * @param [props.className] - Additional class name for styling purposes.
+ * @returns - A React element representing the display of data.
  */
 export const DataDisplay: React.FC<{
   item: DisplayData;
@@ -731,7 +1072,7 @@ export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
 }): React.JSX.Element => {
   return (
     <div className="grid-row">
-      <div className="grid-col-auto text-pre-line">{item.value}</div>
+      <div className="grid-col-auto width-full text-pre-line">{item.value}</div>
       <div className={"section__line_gray"} />
     </div>
   );

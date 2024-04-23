@@ -101,11 +101,35 @@ h4 {
     margin-right: -1.25rem;
     margin-left: -1.25rem;
     margin-top: -1rem;
+    border-bottom: #1b1b1b 1px solid;
     thead th {
       background-color: #F0F0F0;
     }
+    tr td{
+      border-bottom: 0;
+    }
+    .hideableData {
+      border-top: color("base-lighter") 1px solid;
+    }
   }
 }
+.caption-normal-weight{
+  caption {
+    font-weight: normal;
+  }
+}
+
+.usa-table {
+  overflow-wrap: anywhere;
+  thead th {
+    background-color: #F0F0F0;
+    vertical-align: top;
+  }
+  th,td {
+    padding: .75rem;
+  }
+}
+
 
 .minimize-container {
   position: absolute;
@@ -114,6 +138,10 @@ h4 {
 
 .list-style-none {
   list-style: none;
+}
+
+.tableHeader {
+  background-color: #F0F0F0 !important;
 }
 
 .ecrTable {
@@ -179,7 +207,7 @@ td {
   flex-direction: column;
   align-items: flex-start;
   margin-top: 48px;
-  min-width: 250px;
+  width: 250px;
 }
 
 .sticky-nav {
@@ -215,7 +243,8 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
     font-weight: bold;
 }
 
-ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current {
+ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current,
+ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current {
     &::after{
       background-color: rgb(0, 94, 162);
       content: "";
@@ -227,6 +256,10 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
       left: 0rem;
       border-radius: 99rem;
     }
+}
+
+.usa-sidenav__sublist li.usa-sidenav__item:first-child{
+  border-top: none !important;
 }
 
 .clinical_info_container table {
@@ -241,4 +274,12 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
 .clinical_info_container table thead tr th {
   background-color: #f0f0f0;
   min-width: 120px;
+}
+
+.immunization_table {
+  tr {
+    td:nth-child(1) {
+      word-break:break-word
+    }
+  }
 }

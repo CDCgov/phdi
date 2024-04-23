@@ -73,18 +73,14 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
           class="usa-summary-box__text clinical_info_container"
         >
           <div>
-            <div
-              class="grid-row"
-            >
+            <div>
               <div
-                class="data-title"
-              >
-                Miscellaneous Notes
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line maxw-full grid-col-12 margin-top-1"
+                class="grid-col-auto text-pre-line"
               >
                 <table>
+                  <caption>
+                    Miscellaneous Notes
+                  </caption>
                   <thead>
                     <tr>
                       <th>
@@ -115,10 +111,10 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
                   </tbody>
                 </table>
               </div>
+              <div
+                class="section__line_gray"
+              />
             </div>
-            <div
-              class="section__line_gray"
-            />
           </div>
         </div>
       </div>
@@ -156,7 +152,7 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
               class="grid-row"
             >
               <div
-                class="grid-col-auto text-pre-line"
+                class="grid-col-auto width-full text-pre-line"
               >
                 <table
                   class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W table-caption-margin margin-y-0 border-top border-left border-right"
@@ -168,19 +164,19 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
                   <thead>
                     <tr>
                       <th
-                        class="bg-base-lightest"
+                        class="tableHeader"
                         scope="col"
                       >
                         Name
                       </th>
                       <th
-                        class="bg-base-lightest"
+                        class="tableHeader"
                         scope="col"
                       >
                         Date Performed
                       </th>
                       <th
-                        class="bg-base-lightest"
+                        class="tableHeader"
                         scope="col"
                       >
                         Reason

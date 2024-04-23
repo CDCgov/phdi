@@ -1,25 +1,25 @@
 from pathlib import Path
 from typing import Annotated
 
+from dibbs.base_service import BaseService
 from fastapi import Body
 
-from .constants import ValidateInput
-from .constants import ValidateResponse
-from .utils import check_for_and_extract_rr_data
-from .utils import load_ecr_config
-from .utils import read_json_from_assets
-from .utils import validate_error_types
-from phdi.containers.base_service import BaseService
-from phdi.validation.validation import validate_ecr
+from app.constants import ValidateInput
+from app.constants import ValidateResponse
+from app.utils import check_for_and_extract_rr_data
+from app.utils import load_ecr_config
+from app.utils import read_json_from_assets
+from app.utils import validate_error_types
+from app.validation.validation import validate_ecr
 
 # TODO: Remove hard coded location for config path
 # and/or provide a mechanism to pass in configuration
 #  via endpoint
 ecr_config = load_ecr_config()
 
-# Instantiate FastAPI via PHDI's BaseService class
+# Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
-    service_name="PHDI Validation Service",
+    service_name="DIBBs Validation Service",
     service_path="/validation",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()

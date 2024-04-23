@@ -68,10 +68,22 @@ def replace_env_var_placeholders(config: dict) -> None:
 
 
 def read_json_from_assets(filename: str) -> Dict:
+    """
+    Loads a JSON file from the 'assets' directory.
+
+    :param filename: Name of the JSON file to load.
+    :return: Parsed JSON content as a dictionary.
+    """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
 
 
 def unzip_ws(file_bytes) -> Dict:
+    """
+    Extracts and processes data from a zip file's bytes.
+
+    :param file_bytes: Bytes of the zip file to be processed.
+    :return: Processed data from the zip file.
+    """
     zipfile = ZipFile(io.BytesIO(file_bytes), "r")
     if zipfile.namelist():
         return search_for_ecr_data(zipfile)
@@ -80,6 +92,12 @@ def unzip_ws(file_bytes) -> Dict:
 
 
 def unzip_http(upload_file: UploadFile) -> Dict:
+    """
+    Extracts and processes ECR data from an uploaded zip file.
+
+    :param upload_file: The uploaded zip file.
+    :return: ECR data extracted from the zip file.
+    """
     zipped_file = ZipFile(io.BytesIO(upload_file.file.read()), "r")
     return search_for_ecr_data(zipped_file)
 
@@ -92,6 +110,12 @@ def load_json_from_binary(upload_file: UploadFile) -> Dict:
 
 
 def search_for_ecr_data(valid_zipfile: ZipFile) -> Dict:
+    """
+    Searches for and extracts eICR and optional RR data from a valid zip file.
+
+    :param valid_zipfile: A ZipFile object to search within.
+    :return: Contains 'ecr' data as a mandatory key, and 'rr' data if present.
+    """
     return_data = {}
 
     ecr_reference = search_for_file_in_zip("CDA_eICR.xml", valid_zipfile)
@@ -113,6 +137,13 @@ def search_for_ecr_data(valid_zipfile: ZipFile) -> Dict:
 
 
 def search_for_file_in_zip(filename: str, zipfile: ZipFile) -> Optional[str]:
+    """
+    Searches for a file by name within a zip file.
+
+    :param filename: The name of the file to search for.
+    :param zipfile: The zip file to search within.
+    :return: The name of the first matching file, or None if not found.
+    """
     results = [file for file in zipfile.namelist() if filename in file]
     if results:
         return results[0]
@@ -121,6 +152,13 @@ def search_for_file_in_zip(filename: str, zipfile: ZipFile) -> Optional[str]:
 
 
 def load_config_assets(upload_config_response_examples, PutConfigResponse) -> Dict:
+    """
+    Loads JSON config assets, updating the input dict in place.
+
+    :param upload_config_response_examples: Status codes to JSON filenames.
+    :param PutConfigResponse: Intended for future use or extension.
+    :return: Updated with loaded JSON content.
+    """
     for status_code, file_name in upload_config_response_examples.items():
         upload_config_response_examples[status_code] = read_json_from_assets(file_name)
         # upload_config_response_examples[status_code]["model"] = PutConfigResponse
@@ -134,6 +172,11 @@ class CustomJSONResponse(JSONResponse):
         self.url = url
 
     def json(self) -> Dict:
+        """
+        Returns the JSON content as a dictionary.
+
+        :return: The content of the JSON.
+        """
         return self._content
 
 

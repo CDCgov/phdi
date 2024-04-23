@@ -1,0 +1,27 @@
+{
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "simple_reference_schema": {
+          "summary": "Simple response for the custom reference schema",
+          "value": {
+            "message": "FHIR extraction succeeded!",
+            "parsed_values": {
+              "first_name": "JOHN",
+              "last_name": "DOE",
+              "labs": [
+                {
+                  "test_type": "Blood culture",
+                  "test_result_code_display": "Staphylococcus aureus",
+                  "ordering_provider": "Western Pennsylvania Medical General",
+                  "requesting_organization_contact_person": "Dr. Totally Real Doctor, M.D."
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

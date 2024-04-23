@@ -86,12 +86,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     },
     {
       title: "Lab Info",
-      content: (
-        <LabInfo
-          labInfo={labInfoData.labInfo.availableData}
-          labResults={labInfoData.labResults}
-        />
-      ),
+      content: <LabInfo labResults={labInfoData} />,
       expanded: true,
       headingLevel: "h3",
     },

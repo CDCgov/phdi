@@ -1,8 +1,46 @@
 import {
+  formatName,
   formatDate,
   extractNumbersAndPeriods,
   formatTablesToJSON,
+  truncateLabNameWholeWord,
+  toSentenceCase,
+  removeHtmlElements,
 } from "@/app/format-service";
+
+describe("Format Name", () => {
+  const inputGiven = ["Gregory", "B"];
+  const inputFamily = "House";
+
+  it("should return only given and family name", () => {
+    const expectedName = "Gregory B House";
+
+    const result = formatName(inputGiven, inputFamily);
+    expect(result).toEqual(expectedName);
+  });
+
+  it("should return the prefix, given, family, and suffix names", () => {
+    const inputPrefix = ["Dr."];
+    const inputSuffix = ["III"];
+    const expectedName = "Dr. Gregory B House III";
+
+    const result = formatName(
+      inputGiven,
+      inputFamily,
+      inputPrefix,
+      inputSuffix,
+    );
+    expect(result).toEqual(expectedName);
+  });
+
+  it("should return an empty string", () => {
+    const inputEmpty = [];
+    const expectedName = "";
+
+    const result = formatName(inputEmpty, "", inputEmpty, inputEmpty);
+    expect(result).toEqual(expectedName);
+  });
+});
 
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
@@ -32,6 +70,14 @@ describe("Format Date", () => {
 
     const result = formatDate(inputDate as any);
     expect(result).toBeUndefined();
+  });
+
+  it("when given yyyymmdd, should return the correct formatted date", () => {
+    const inputDate = "20220125";
+    const expectedDate = "01/25/2022";
+
+    const result = formatDate(inputDate);
+    expect(result).toEqual(expectedDate);
   });
 });
 
@@ -100,9 +146,27 @@ describe("formatTablesToJSON", () => {
   it("should return an empty array when HTML string input has no tables", () => {
     const htmlString =
       "<div><h1>Hello, World!</h1><p>This HTML string has no tables.</p></div>";
-    const expectedResult = [];
+    const expectedResult: [] = [];
 
     const result = formatTablesToJSON(htmlString);
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  it("should return the JSON object given a table html string", () => {
+    const tableString =
+      "<table><caption>Pending Results</caption><thead><tr><th>Name</th></tr></thead><tbody><tr data-id='procedure9'><td>test1</td></tr></tbody></table><table><caption>Scheduled Orders</caption></caption><thead><tr><th>Name</th></tr></thead><tbody><tr data-id='procedure10'><td>test2</td></tr></tbody></table>documented as of this encounter\n";
+    const expectedResult = [
+      {
+        resultName: "Pending Results",
+        tables: [[{ Name: { metadata: {}, value: "test1" } }]],
+      },
+      {
+        resultName: "Scheduled Orders",
+        tables: [[{ Name: { metadata: {}, value: "test2" } }]],
+      },
+    ];
+    const result = formatTablesToJSON(tableString);
 
     expect(result).toEqual(expectedResult);
   });
@@ -137,5 +201,59 @@ describe("extractNumbersAndPeriods", () => {
 
     const result = extractNumbersAndPeriods(inputArray);
     expect(result).toEqual(expectedResult);
+  });
+});
+
+describe("truncateLabNameWholeWord", () => {
+  it("should return the original string if it is less than or equal to the character limit", () => {
+    const input = "Short string";
+    const output = truncateLabNameWholeWord(input, 30);
+    expect(output).toBe(input);
+  });
+
+  it("should truncate a string to the nearest whole word within the character limit", () => {
+    const input = "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY";
+    const expected = "HOAG MEMORIAL HOSPITAL";
+    const output = truncateLabNameWholeWord(input, 30);
+    expect(output).toBe(expected);
+  });
+
+  it("should return an empty string if the first word is longer than the character limit", () => {
+    const input = "Supercalifragilisticexpialidocious";
+    const output = truncateLabNameWholeWord(input, 30);
+    expect(output).toBe("");
+  });
+
+  it("should handle strings exactly at the character limit without truncation", () => {
+    const input = "HOAG MEMORIAL HOSPITAL NEWPORT";
+    const output = truncateLabNameWholeWord(input, 30);
+    expect(output).toBe(input);
+  });
+});
+
+describe("toSentenceCase", () => {
+  it("should return string in sentence case", () => {
+    const input = "hello there";
+    const expected = "Hello there";
+
+    const result = toSentenceCase(input);
+    expect(result).toEqual(expected);
+  });
+});
+
+describe("removeHtmlElements", () => {
+  it("should remove all HTML tags from string", () => {
+    const input = "<div><p>Hello <br/>there</p></div>";
+    const expected = "Hello there";
+
+    const result = removeHtmlElements(input);
+    expect(result).toEqual(expected);
+  });
+  it("should return the same string if no HTML tags are included", () => {
+    const input = "Hello there";
+    const expected = "Hello there";
+
+    const result = removeHtmlElements(input);
+    expect(result).toEqual(expected);
   });
 });

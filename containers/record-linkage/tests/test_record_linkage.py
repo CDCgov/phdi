@@ -5,31 +5,20 @@ import json
 import os
 import pathlib
 
+import pytest
 from app.config import get_settings
-from app.main import app
-from app.utils import run_migrations
-
-
-def set_mpi_env_vars():
-    os.environ["mpi_db_type"] = "postgres"
-    os.environ["mpi_dbname"] = "testdb"
-    os.environ["mpi_user"] = "postgres"
-    os.environ["mpi_password"] = "pw"
-    os.environ["mpi_host"] = "localhost"
-    os.environ["mpi_port"] = "5432"
-    get_settings.cache_clear()
-
+from app.utils import pop_mpi_env_vars
+from app.utils import set_mpi_env_vars
 
 set_mpi_env_vars()
 
 from fastapi import status
 from fastapi.testclient import TestClient
 from app.main import app, run_migrations
-from sqlalchemy import text
+from app.utils import _clean_up
 import copy
 import json
 import pathlib
-from phdi.linkage.mpi import DIBBsMPIConnectorClient
 # fmt: on
 client = TestClient(app)
 
@@ -45,47 +34,29 @@ def load_test_bundle():
     return test_bundle
 
 
-def pop_mpi_env_vars():
-    os.environ.pop("mpi_db_type", None)
-    os.environ.pop("mpi_dbname", None)
-    os.environ.pop("mpi_user", None)
-    os.environ.pop("mpi_password", None)
-    os.environ.pop("mpi_host", None)
-    os.environ.pop("mpi_port", None)
-
-
-def _clean_up():
-    MPI = DIBBsMPIConnectorClient()
-
-    with MPI.dal.engine.connect() as pg_connection:
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway;"""))
-        pg_connection.commit()
-        pg_connection.close()
-
-
-def test_health_check():
+@pytest.fixture(autouse=True)
+def setup_and_clean_tests():
+    # This code will always run before every test in this file
+    # We want it to set up env variables and run migrations
     set_mpi_env_vars()
-    actual_response = client.get("/")
-    assert actual_response.status_code == 200
-    assert actual_response.json() == {
-        "status": "OK",
-        "mpi_connection_status": "OK",
-    }
+    run_migrations()
+
+    # pytest will automatically plug each test in this scoped file
+    # in place of this yield
+    yield
+
+    # This code will run at the end of the test plugged into the yield
+    _clean_up()
     pop_mpi_env_vars()
 
 
+def test_health_check():
+    actual_response = client.get("/")
+    assert actual_response.status_code == 200
+    assert actual_response.json() == {"status": "OK", "mpi_connection_status": "OK"}
+
+
 def test_linkage_bundle_with_no_patient():
-    set_mpi_env_vars()
     bad_bundle = {"entry": []}
     expected_response = {
         "message": "Supplied bundle contains no Patient resource to link on.",
@@ -98,11 +69,9 @@ def test_linkage_bundle_with_no_patient():
     )
     assert actual_response.json() == expected_response
     assert actual_response.status_code == status.HTTP_400_BAD_REQUEST
-    pop_mpi_env_vars()
 
 
 def test_linkage_invalid_db_type():
-    set_mpi_env_vars()
     invalid_db_type = "mssql"
     os.environ["mpi_db_type"] = invalid_db_type
     get_settings.cache_clear()
@@ -120,14 +89,8 @@ def test_linkage_invalid_db_type():
     assert actual_response.json() == expected_response
     assert actual_response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
-    pop_mpi_env_vars()
-    os.environ.pop("mpi_db_type", None)
-
 
 def test_linkage_success():
-    _clean_up()
-    set_mpi_env_vars()
-    run_migrations()
     test_bundle = load_test_bundle()
     entry_list = copy.deepcopy(test_bundle["entry"])
 
@@ -190,10 +153,6 @@ def test_linkage_success():
 
 
 def test_use_enhanced_algo():
-    # Start with fresh tables to make tests atomic
-    _clean_up()
-    set_mpi_env_vars()
-    run_migrations()
     test_bundle = load_test_bundle()
     entry_list = copy.deepcopy(test_bundle["entry"])
 
@@ -265,6 +224,3 @@ def test_use_enhanced_algo():
     ][0]
     assert resp_6.json()["found_match"]
     assert person_6.get("id") == person_1.get("id")
-
-    _clean_up()
-    pop_mpi_env_vars()
