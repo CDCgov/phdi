@@ -152,6 +152,7 @@ describe("Evaluate Organization with ID", () => {
       "d46ea14e-251a-ab52-3a32-89b12270d9e6",
       BundleLabInfo as unknown as Bundle,
       mappings,
+      0,
     );
     expect(result[0].value).toEqual(
       "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
@@ -178,6 +179,16 @@ describe("Evaluate the lab info section", () => {
     );
     expect(result[0]).toHaveProperty("diagnosticReportDataElements");
     expect(result[0]).toHaveProperty("organizationDisplayData");
+  });
+  it("should properly count the number of labs", () => {
+    const result = evaluateLabInfoData(
+      BundleLabInfo as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0].organizationDisplayData[3].title).toEqual(
+      "Number of Results",
+    );
+    expect(result[0].organizationDisplayData[3].value).toEqual(1);
   });
 });
 
