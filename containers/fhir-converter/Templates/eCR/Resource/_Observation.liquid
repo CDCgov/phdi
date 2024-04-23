@@ -126,10 +126,11 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
-        {% assign observationReferenceValue = observationEntry.text.reference.value -%}
+        {% assign observationTextReferenceValue = observationEntry.text.reference.value -%}
+        {% assign observationValueReferenceValue = observationEntry.value.reference.value -%}
         "extension":
             [ {
-                {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None" or observationReferenceValue != "None" -%}
+                {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None" or observationTextReferenceValue != "None" or observationValueReferenceValue != "None" -%}
 
                     "url" : "http://hl7.org/fhir/R4/specimen.html",
                     "extension": [
@@ -151,10 +152,15 @@
                             "valueDateTime" : "{{ receiveTime | format_as_date_time }}",
                         },
                     {% endif -%}
-                    {% if observationEntry.text.reference.value -%}
+                    {% if observationTextReferenceValue -%}
                         {
                             "url":"observation entry reference value",
-                            "valueString":"{{ observationReferenceValue }}",
+                            "valueString":"{{ observationTextReferenceValue }}",
+                        },
+                    {% elsif observationValueReferenceValue -%}
+                        {
+                            "url":"observation entry reference value",
+                            "valueString":"{{ observationValueReferenceValue }}",
                         },
                     {% endif -%}
                     ],
