@@ -5,6 +5,9 @@ import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
 
+
+
+
 import {
   formatAddress,
   formatDate,
@@ -254,6 +257,25 @@ export const evaluateSocialData = (
   return evaluateData(socialData);
 };
 
+// add a tooltip to the Patient IDs
+export const evaluatePatientIds = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+) => {
+  const patientIds = evaluate(fhirBundle, fhirPathMappings.patientId);
+  const patientIdsFormatted = patientIds.map((id) => {
+    return (
+      <span key={id} className="usa-tooltip" data-position="bottom" data-text={id} 
+      title="Unique patient identifier(s) from their medical record. 
+      For example, a patient's social security number or medical record number">
+      {id}
+      </span>
+    );
+  });
+  return patientIdsFormatted;
+};
+
+
 export const evaluateDemographicsData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -306,7 +328,8 @@ export const evaluateDemographicsData = (
     },
     {
       title: "Patient IDs",
-      value: evaluate(fhirBundle, mappings.patientId)[0],
+      //value: evaluate(fhirBundle, mappings.patientId)[0],
+      value: evaluatePatientIds(fhirBundle, mappings),
     },
   ];
   return evaluateData(demographicsData);
