@@ -404,7 +404,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "relatesTo": [
           {
@@ -462,7 +462,7 @@
           "end": "2022-02-18"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "location": [
           {
@@ -1223,10 +1223,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33",
+      "fullUrl": "urn:uuid:5ff2effd-85f2-4ea2-92ca-d70e18a98725",
       "resource": {
         "resourceType": "Patient",
-        "id": "f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33",
+        "id": "5ff2effd-85f2-4ea2-92ca-d70e18a98725",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1388,7 +1388,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+        "url": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
       }
     },
     {
@@ -1397,7 +1397,7 @@
         "resourceType": "CareTeam",
         "id": "a36f1344-b355-8a67-1146-ad16f7e8649e",
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "meta": {
           "source": [
@@ -1448,7 +1448,7 @@
         },
         "onsetDateTime": "2017-08-11",
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "meta": {
           "source": [
@@ -1503,7 +1503,7 @@
         },
         "onsetDateTime": "2018-06-12",
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "meta": {
           "source": [
@@ -1558,7 +1558,7 @@
         },
         "onsetDateTime": "2021-06-16",
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "meta": {
           "source": [
@@ -1613,7 +1613,7 @@
         },
         "onsetDateTime": "2022-02-28",
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "meta": {
           "source": [
@@ -1668,7 +1668,7 @@
         },
         "onsetDateTime": "2022-05-26",
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "meta": {
           "source": [
@@ -1723,7 +1723,7 @@
         },
         "onsetDateTime": "2022-07-13",
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "meta": {
           "source": [
@@ -1762,7 +1762,7 @@
           "end": "2022-03-10T16:00:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -1889,7 +1889,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -2013,7 +2013,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -2088,7 +2088,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -2155,7 +2155,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -2189,7 +2189,7 @@
           "end": "2022-03-10T20:30:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -2286,7 +2286,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -2376,7 +2376,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -2451,7 +2451,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -2518,7 +2518,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -2552,7 +2552,7 @@
           "end": "2022-03-11T14:51:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -2648,7 +2648,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -2738,7 +2738,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -2813,7 +2813,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -2880,7 +2880,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -2914,7 +2914,7 @@
           "end": "2022-03-11T19:05:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3003,7 +3003,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3076,7 +3076,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -3110,7 +3110,7 @@
           "end": "2022-03-11T19:05:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3185,6 +3185,11 @@
             "text": "Not Detected"
           }
         ],
+        "note": [
+          {
+            "text": "A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. This test was performed using a multiplexed nucleic acid amplification test that is labeled Emergence Use Only by the U.S. FDA. Results of this test should not be used as the sole basis for diagnosis, treatment, or other management decisions."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3209,7 +3214,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3287,7 +3292,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3360,7 +3365,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -3394,7 +3399,7 @@
           "end": "2022-03-17T18:11:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3494,7 +3499,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3584,7 +3589,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3663,7 +3668,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3738,7 +3743,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -3805,7 +3810,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -3839,7 +3844,7 @@
           "end": "2022-03-17T18:34:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -3939,7 +3944,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4029,7 +4034,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4107,7 +4112,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4182,7 +4187,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -4249,7 +4254,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -4283,7 +4288,7 @@
           "end": "2022-03-22T18:27:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4386,7 +4391,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4465,7 +4470,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4544,7 +4549,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4623,7 +4628,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4702,7 +4707,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4775,7 +4780,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -4809,7 +4814,7 @@
           "end": "2022-03-29T18:53:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4875,6 +4880,11 @@
           ]
         },
         "effectiveDateTime": "2022-03-29T20:10:54Z",
+        "note": [
+          {
+            "text": "This test was performed at: Quest Laboratory,Location Varies,,,,,,"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4899,7 +4909,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -4972,7 +4982,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -5006,7 +5016,7 @@
           "end": "2022-03-31T22:36:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -5095,7 +5105,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -5168,7 +5178,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -5202,7 +5212,7 @@
           "end": "2022-04-04T16:55:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -5294,7 +5304,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -5371,7 +5381,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -5438,7 +5448,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -5472,7 +5482,7 @@
           "end": "2022-05-12T11:00:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -5558,6 +5568,11 @@
             ]
           }
         ],
+        "note": [
+          {
+            "text": "Positive: Presumptive history of HCV infection; nucleic acid testing recommended to document viral replication. Equivocal: Antibodies to HCV may or may not be present; repeat serologic testing in approximately 8 weeks or nucleic acid testing is recommended to assess possible infection. Negative: Antibodies to HCV not detected; does not exclude possibility of infection with HCV."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5582,7 +5597,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -5657,7 +5672,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -5724,7 +5739,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -5758,7 +5773,7 @@
           "end": "2022-07-27T20:49:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -5836,6 +5851,11 @@
             "text": "Not Detected"
           }
         ],
+        "note": [
+          {
+            "text": "A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. This test was performed using a multiplexed nucleic acid amplification test that is labeled Emergence Use Only by the U.S. FDA. Results of this test should not be used as the sole basis for diagnosis, treatment, or other management decisions."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5860,7 +5880,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -5938,7 +5958,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -6015,7 +6035,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -6082,7 +6102,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -6116,7 +6136,7 @@
           "end": "2022-07-27T20:49:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -6194,6 +6214,11 @@
             "text": "Not Detected"
           }
         ],
+        "note": [
+          {
+            "text": "A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. This test was performed using a multiplexed nucleic acid amplification test that is labeled Emergence Use Only by the U.S. FDA. Results of this test should not be used as the sole basis for diagnosis, treatment, or other management decisions."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -6218,7 +6243,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -6296,7 +6321,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -6373,7 +6398,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -6440,7 +6465,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -6474,7 +6499,7 @@
           "end": "2022-07-27T20:49:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -6552,6 +6577,11 @@
             "text": "Not Detected"
           }
         ],
+        "note": [
+          {
+            "text": "A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. This test was performed using a multiplexed nucleic acid amplification test that is labeled Emergence Use Only by the U.S. FDA. Results of this test should not be used as the sole basis for diagnosis, treatment, or other management decisions."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -6576,7 +6606,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -6654,7 +6684,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -6731,7 +6761,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -6798,7 +6828,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -6832,7 +6862,7 @@
           "end": "2022-07-27T20:49:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -6924,6 +6954,11 @@
             ]
           }
         ],
+        "note": [
+          {
+            "text": "A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. This test was performed using a multiplexed nucleic acid amplification test that is labeled Emergence Use Only by the U.S. FDA. Results of this test should not be used as the sole basis for diagnosis, treatment, or other management decisions."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -6948,7 +6983,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -7026,7 +7061,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -7103,7 +7138,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -7172,7 +7207,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -7239,7 +7274,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -7273,7 +7308,7 @@
           "end": "2022-07-27T20:49:00Z"
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -7365,6 +7400,11 @@
             ]
           }
         ],
+        "note": [
+          {
+            "text": "A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. This test was performed using a multiplexed nucleic acid amplification test that is labeled Emergence Use Only by the U.S. FDA. Results of this test should not be used as the sole basis for diagnosis, treatment, or other management decisions."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -7389,7 +7429,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -7467,7 +7507,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "performer": [
           {
@@ -7544,7 +7584,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -7613,7 +7653,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -7680,7 +7720,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -7737,7 +7777,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         }
       },
       "request": {
@@ -7793,7 +7833,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/f677fe9b-5bf3-4fa2-b9e0-3fd7e3cf9d33"
+          "reference": "Patient/5ff2effd-85f2-4ea2-92ca-d70e18a98725"
         },
         "meta": {
           "source": [
