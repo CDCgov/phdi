@@ -3,19 +3,7 @@ from pathlib import Path
 from dibbs.base_service import BaseService
 from fastapi import Request
 from fastapi import Response
-
-MESSAGE_SECTIONS = {
-    "10164-2": "HISTORY OF PRESENT ILLNESS",
-    "11369-6": "History of Immunization Narrative",
-    "29549-3": "MEDICATIONS ADMINISTERED",
-    "18776-5": "Plan of care note",
-    "11450-4": "Problem list - Reported",
-    "29299-5": "REASON FOR VISIT",
-    "30954-2": "Relevant diagnostic tests/laboratory data Narrative",
-    "29762-2": "Social history Narrative",
-    "46240-8": "History of Hospitalizations+Outpatient visits Narrative",
-}
-
+from lxml import etree as ET
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -51,8 +39,8 @@ async def refine_ecr(
     data = await refiner_input.body()
 
     if sections_to_include:
-        # TODO: add logic to filter the XML message based on the sections_to_include
-        refined_message = Response(content=data, media_type="application/xml")
+        refined_data = refine(data, sections_to_include)
+        refined_message = Response(content=refined_data, media_type="application/xml")
     else:
         refined_message = Response(content=data, media_type="application/xml")
 
@@ -61,60 +49,75 @@ async def refine_ecr(
 
 def validate_sections_to_include(sections_to_include: str | None) -> list:
     """
-    Validates the sections to include in the refined message.
+    Validates the sections to include in the refined message and returns them as a list
+    of corresponding LOINC codes.
 
     :param sections_to_include: The sections to include in the refined message.
-    :return: The sections to include in the refined message as a list
+    :return: The sections to include in the refined message as a list of LOINC codes
+    corresponding to the sections.
     """
+    section_LOINCs = {
+        "history of present illness": "10164-2",
+        "history of immunization narrative": "11369-6",
+        "medications administered": "29549-3",
+        "plan of care note": "18776-5",
+        "problem list - reported": "11450-4",
+        "reason for visit": "29299-5",
+        "relevant diagnostic tests/laboratory data narrative": "30954-2",
+        "social history narrative": "29762-2",
+        "history of hospitalizations+outpatient visits narrative": "46240-8",
+    }
+
     if sections_to_include:
         sections = sections_to_include.split(",")
+        section_loincs = []
         for section in sections:
             if section not in [
                 "social-history",
                 "medications",
             ]:
                 raise ValueError("Invalid section to include.")
-    return sections_to_include
+
+            else:
+                section_loincs.append(section_LOINCs[section.lower()])
+
+    return section_loincs
 
 
-def refine():
-    # Parse XML
-    with open(
-        "C://Repos/phdi/containers/message-refiner/tests/assets/CDA_eICR_LAC.xml",
-        # ("C://Repos/phdi/containers/message-parser/assets/demo_phdc.xml"),
-        "r",
-    ) as file:
-        xml_string = file.read()
-        # parser = ET.XMLParser(remove_blank_text=True)
-        # tree = ET.parse(
-        #     file,
-        #     parser,
-        # )
+def refine(raw_message: bytes, sections_to_include: str | None = None) -> bytes:
+    """
+    Refines an incoming XML message based on the sections to include.
 
-    # Parse the XML string into an ElementTree
-    root = ET.fromstring(xml_string)
+    :param raw_message: The XML input.
+    :param sections_to_include: The sections to include in the refined message.
+    :return: The refined message.
+    """
 
-    # Define the namespace dictionary for XPath queries
-    ns = {"ns0": "urn:hl7-org:v3"}
+    # Validate sections to include
+    if sections_to_include:
+        sections = validate_sections_to_include(sections_to_include)
 
-    # Define the XPath expression to select elements before the first component,social history, and encounter details
-    xpath_expr = "//*[not(preceding-sibling::ns0:component)] | //ns0:socialHistory | //ns0:encounterDetails"
+    # Set up XPath expression
+    sections_xpath = "or".join([f"@code='{section}'" for section in sections])
+    xpath_expr = f"//*[local-name()='section'][.//code[{sections_xpath}]]"
 
     # Use XPath to find elements matching the expression
-    elements = root.xpath(xpath_expr, namespaces=ns)
+    elements = raw_message.xpath(xpath_expr)
 
-    # Create a new root element for the filtered XML
-    filtered_root = ET.Element(root.tag)
+    # Create & set up a new root element for the refined XML
+    refined_message_root = ET.Element(raw_message.tag)
+    component = ET.Element("component")
+    structuredBody = ET.Element("structuredBody")
 
     # Append the filtered elements to the new root
     for element in elements:
-        filtered_root.append(element)
-
-    # Serialize the filtered XML to a string
-    # filtered_xml_str = ET.tostring(filtered_root, encoding="unicode")
+        c = ET.Element("component")
+        c.append(element)
+        structuredBody.append(c)
+    component.append(structuredBody)
+    refined_message_root.append(component)
 
     # Create a new ElementTree with the result root
-    filtered_tree = ET.ElementTree(filtered_root)
+    refined_message = ET.ElementTree(refined_message_root)
 
-    # Print the result as XML
-    filtered_tree.write("C://Repos/phdi/result.xml")
+    return refined_message
