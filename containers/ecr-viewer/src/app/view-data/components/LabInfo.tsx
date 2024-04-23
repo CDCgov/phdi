@@ -29,10 +29,10 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
           // the orgId makes it so that when you have multiple, it can distinguish
           // which org it is modifying
           const accordionSelectorClass = labResult.organizationId
-            ? `.${labResult.organizationId}_accordion`
+            ? `.accordion_${labResult.organizationId}`
             : ".accordion-rr";
           const buttonSelectorClass = labResult.organizationId
-            ? `.${labResult.organizationId}_acc_item`
+            ? `.acc_item_${labResult.organizationId}`
             : "h5";
           const labName = `Lab Results from 
                 ${truncateLabNameWholeWord(
