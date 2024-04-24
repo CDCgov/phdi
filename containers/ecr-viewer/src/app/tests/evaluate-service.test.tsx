@@ -16,7 +16,7 @@ import {
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
-import BundleLabsFinal from "@/app/tests/assets/BundleLabsFinal.json"; // TODO LAB: Rename
+import BundleLabs from "@/app/tests/assets/BundleLabs.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
@@ -49,10 +49,10 @@ describe("Evaluate Reference", () => {
 
 describe("Evaluate Diagnostic Report", () => {
   it("should evaluate diagnostic report title", () => {
-    const report = evaluate(BundleLabsFinal, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabsFinal as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
@@ -69,10 +69,10 @@ describe("Evaluate Diagnostic Report", () => {
     );
   });
   it("should evaluate diagnostic report results", () => {
-    const report = evaluate(BundleLabsFinal, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabsFinal as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
@@ -111,10 +111,10 @@ describe("Evaluate Diagnostic Report", () => {
     expect(actual).toBeUndefined();
   });
   it("should evaluate test method results", () => {
-    const report = evaluate(BundleLabsFinal, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabsFinal as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
@@ -133,10 +133,10 @@ describe("Evaluate Diagnostic Report", () => {
     ).not.toBeEmpty();
   });
   it("should display comment", () => {
-    const report = evaluate(BundleLabsFinal, mappings["diagnosticReports"])[2];
+    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[2];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabsFinal as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     render(actual!);
@@ -149,7 +149,7 @@ describe("Evaluate Organization with ID", () => {
   it("should return a matching org", () => {
     const result = evaluateLabOrganizationData(
       "22c6cdd0-bde1-e220-9ba4-2c2802f795ad",
-      BundleLabsFinal as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
       0,
     );
@@ -161,7 +161,7 @@ describe("Evaluate Organization with ID", () => {
     };
     const result = combineOrgAndReportData(
       testResultObject,
-      BundleLabsFinal as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     expect(result[0].organizationDisplayData).toBeArray();
@@ -171,7 +171,7 @@ describe("Evaluate Organization with ID", () => {
 describe("Evaluate the lab info section", () => {
   it("should return a list of objects", () => {
     const result = evaluateLabInfoData(
-      BundleLabsFinal as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     expect(result[0]).toHaveProperty("diagnosticReportDataElements");
@@ -179,7 +179,7 @@ describe("Evaluate the lab info section", () => {
   });
   it("should properly count the number of labs", () => {
     const result = evaluateLabInfoData(
-      BundleLabsFinal as unknown as Bundle,
+      BundleLabs as unknown as Bundle,
       mappings,
     );
     expect(result[0].organizationDisplayData[3].title).toEqual(
