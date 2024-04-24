@@ -38,7 +38,9 @@ class BaseMPIConnectorClient(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
-    def _generate_block_query(self, block_critieria: dict) -> Select:
+    def _generate_block_query(
+        self, organized_block_criteria: dict, query: Select
+    ) -> Select:
         """
          Generates a query for selecting a block of data from the MPI tables per the
         block field criteria.  The block field criteria should be a dictionary

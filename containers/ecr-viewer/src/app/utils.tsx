@@ -51,6 +51,7 @@ export interface ColumnInfoInput {
   infoPath?: string;
   value?: string;
   sentenceCase?: boolean;
+  hiddenBaseText?: string;
 }
 
 export interface CompleteData {

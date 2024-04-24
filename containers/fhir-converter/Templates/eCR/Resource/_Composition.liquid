@@ -138,7 +138,7 @@
                                 {% assign orgComps = sectionEntry.organizer.component | to_array -%}
                                 {% for orgComp in orgComps -%}
                                     {% if orgComp.observation -%}
-                                        {% if orgComp.observation.code.nullFlavor -%}
+                                        {% if orgComp.observation.code.nullFlavor && orgComp.observation.code.nullFlavor != "UNK" -%}
                                         {% else -%}
                                         {% assign observationId = orgComp.observation | to_json_string | generate_uuid -%}
                                         {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
