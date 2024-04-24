@@ -67,16 +67,15 @@ def validate_sections_to_include(sections_to_include: str | None) -> list:
         "social history narrative": "29762-2",
         "history of hospitalizations+outpatient visits narrative": "46240-8",
     }
-
+    section_loincs = None
     if sections_to_include:
         sections = sections_to_include.split(",")
         section_loincs = []
         for section in sections:
-            if section not in [
-                "social-history",
-                "medications",
-            ]:
-                raise ValueError("Invalid section to include.")
+            if section not in section_LOINCs.keys():
+                raise ValueError(
+                    f"{section} is invalid. Please provide a valid section."
+                )
 
             else:
                 section_loincs.append(section_LOINCs[section.lower()])
@@ -93,31 +92,32 @@ def refine(raw_message: bytes, sections_to_include: str | None = None) -> bytes:
     :return: The refined message.
     """
 
-    # Validate sections to include
-    if sections_to_include:
+    if sections_to_include is None:
+        return raw_message
+    else:
+        # Validate sections to include
         sections = validate_sections_to_include(sections_to_include)
 
-    # Set up XPath expression
-    sections_xpath = "or".join([f"@code='{section}'" for section in sections])
-    xpath_expr = f"//*[local-name()='section'][.//code[{sections_xpath}]]"
+        # Set up XPath expression
+        sections_xpath = "or".join([f"@code='{section}'" for section in sections])
+        xpath_expr = f"//*[local-name()='section'][.//code[{sections_xpath}]]"
 
-    # Use XPath to find elements matching the expression
-    elements = raw_message.xpath(xpath_expr)
+        # Use XPath to find elements matching the expression
+        elements = raw_message.xpath(xpath_expr)
 
-    # Create & set up a new root element for the refined XML
-    refined_message_root = ET.Element(raw_message.tag)
-    component = ET.Element("component")
-    structuredBody = ET.Element("structuredBody")
+        # Create & set up a new root element for the refined XML
+        refined_message_root = ET.Element(raw_message.tag)
+        component = ET.Element("component")
+        structuredBody = ET.Element("structuredBody")
 
-    # Append the filtered elements to the new root
-    for element in elements:
-        c = ET.Element("component")
-        c.append(element)
-        structuredBody.append(c)
-    component.append(structuredBody)
-    refined_message_root.append(component)
+        # Append the filtered elements to the new root
+        for element in elements:
+            c = ET.Element("component")
+            c.append(element)
+            structuredBody.append(c)
+        component.append(structuredBody)
+        refined_message_root.append(component)
 
-    # Create a new ElementTree with the result root
-    refined_message = ET.ElementTree(refined_message_root)
-
-    return refined_message
+        # Create a new ElementTree with the result root
+        refined_message = ET.ElementTree(refined_message_root)
+        return refined_message
