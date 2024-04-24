@@ -3,7 +3,7 @@ import LabInfo from "@/app/view-data/components/LabInfo";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import { evaluateLabInfoData } from "@/app/labs/utils";
-import BundleLabs from "@/app/tests/assets/BundleLabs.json";
+import BundleLab from "@/app/tests/assets/BundleLab.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
 
@@ -11,7 +11,7 @@ const mappings = loadYamlConfig();
 
 describe("LabInfo", () => {
   const labinfoOrg = evaluateLabInfoData(
-    BundleLabs as unknown as Bundle,
+    BundleLab as unknown as Bundle,
     mappings,
   );
   const labInfoJsx = <LabInfo labResults={labinfoOrg} />;

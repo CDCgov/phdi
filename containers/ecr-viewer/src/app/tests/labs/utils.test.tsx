@@ -6,17 +6,17 @@ import {
   checkAbnormalTag,
 } from "@/app/labs/utils";
 import { loadYamlConfig } from "@/app/api/utils";
-import BundleLabs from "../../tests/assets/BundleLabs.json";
+import BundleLab from "../../tests/assets/BundleLab.json";
 import { Bundle, Observation } from "fhir/r4";
 import { evaluate } from "fhirpath";
 
 const pathLabReportAbnormal =
   "Bundle.entry.resource.where(resourceType = 'DiagnosticReport').where(id = '68477c03-5689-f9e5-c267-a3c7bdff6fe0')";
-const labReportAbnormal = evaluate(BundleLabs, pathLabReportAbnormal)[0];
+const labReportAbnormal = evaluate(BundleLab, pathLabReportAbnormal)[0];
 
 const pathLabReportNormal =
   "Bundle.entry.resource.where(resourceType = 'DiagnosticReport').where(id = 'c090d379-9aea-f26e-4ddc-378223841e3b')";
-const labReportNormal = evaluate(BundleLabs, pathLabReportNormal)[0];
+const labReportNormal = evaluate(BundleLab, pathLabReportNormal)[0];
 const labReportNormalJsonObject = {
   resultId: "Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845",
   resultName:
@@ -153,14 +153,14 @@ describe("Labs Utils", () => {
             },
           ],
         },
-        BundleLabs as unknown as Bundle,
+        BundleLab as unknown as Bundle,
         mappings,
       );
 
       const expectedObservationPath =
         "Bundle.entry.resource.where(resourceType = 'Observation').where(id = '1c0f3367-0588-c90e-fed0-0d8c15c5ac1b')";
       const expectedResult = evaluate(
-        BundleLabs,
+        BundleLab,
         expectedObservationPath,
       ) as unknown[] as Observation[];
       expect(result.toString()).toBe(expectedResult.toString());
@@ -175,7 +175,7 @@ describe("Labs Utils", () => {
             },
           ],
         },
-        BundleLabs as unknown as Bundle,
+        BundleLab as unknown as Bundle,
         mappings,
       );
       expect(result).toStrictEqual([]);
@@ -188,7 +188,7 @@ describe("Labs Utils", () => {
 
       const result = getLabJsonObject(
         labReportNormal,
-        BundleLabs as unknown as Bundle,
+        BundleLab as unknown as Bundle,
         mappings,
       );
 
@@ -201,7 +201,7 @@ describe("Labs Utils", () => {
       const expectedResult = true;
       const result = checkAbnormalTag(
         labReportAbnormal,
-        BundleLabs as unknown as Bundle,
+        BundleLab as unknown as Bundle,
         mappings,
       );
 
@@ -212,7 +212,7 @@ describe("Labs Utils", () => {
       const expectedResult = false;
       const result = checkAbnormalTag(
         labReportNormal,
-        BundleLabs as unknown as Bundle,
+        BundleLab as unknown as Bundle,
         mappings,
       );
 
@@ -249,7 +249,7 @@ describe("Labs Utils", () => {
 
       const result = returnFieldValueFromLabHtmlString(
         labReportNormal,
-        BundleLabs as unknown as Bundle,
+        BundleLab as unknown as Bundle,
         mappings,
         fieldName,
       );
@@ -265,7 +265,7 @@ describe("Labs Utils", () => {
 
       const result = returnFieldValueFromLabHtmlString(
         labReportNormal,
-        BundleLabs as unknown as Bundle,
+        BundleLab as unknown as Bundle,
         mappings,
         invalidFieldName,
       );
