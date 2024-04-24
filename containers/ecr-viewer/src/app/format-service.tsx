@@ -76,6 +76,11 @@ export const formatAddress = (
     .join("\n");
 };
 
+/**
+ * Format a datetime string from the format "YYYY-MM-DDTHH:MM:SS±HH:MM" to "MM/DD/YYYY HH:MM AM/PM ±HH:MM"
+ * @param dateTimeString datetime string in the format "YYYY-MM-DDTHH:MM:SS±HH:MM". If the time part is missing, it will be ignored. This is the format the FHIR converor outputs.
+ * @returns string formatted as "MM/DD/YYYY HH:MM AM/PM ±HH:MM"
+ */
 export const formatDateTime = (dateTimeString: string): string => {
   if (!dateTimeString) {
     return "";
@@ -99,7 +104,7 @@ export const formatDateTime = (dateTimeString: string): string => {
     const suffix = hoursInt >= 12 ? "PM" : "AM";
     const hours12 = ((hoursInt + 11) % 12) + 1; // Convert 24h to 12h format
 
-    return `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${timeZone === undefined ? "UTC" : timeZone}`;
+    return `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${timeZone || "UTC"}`;
   }
 
   // Reformat the string as needed
