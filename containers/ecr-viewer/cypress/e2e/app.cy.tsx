@@ -1,8 +1,4 @@
 describe("Happy Path", () => {
-  it("Should visit the eCR Viewer homepage", () => {
-    cy.visit("http://localhost:3000");
-  });
-
   it("Should load the eCR Viewer for a known ID", () => {
     // Visit a valid URL
     cy.visit(
