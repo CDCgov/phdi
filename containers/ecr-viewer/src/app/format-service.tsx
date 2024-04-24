@@ -77,38 +77,55 @@ export const formatAddress = (
 };
 
 /**
- * Format a datetime string from the format "YYYY-MM-DDTHH:MM:SS±HH:MM" to "MM/DD/YYYY HH:MM AM/PM ±HH:MM"
- * @param dateTimeString datetime string in the format "YYYY-MM-DDTHH:MM:SS±HH:MM". If the time part is missing, it will be ignored. This is the format the FHIR converor outputs.
- * @returns string formatted as "MM/DD/YYYY HH:MM AM/PM ±HH:MM"
+ * Format a datetime string to "MM/DD/YYYY HH:MM AM/PM Z" where "Z" is the timezone abbreviation. If the input string contains a UTC offset then the returned string will be in the format "MM/DD/YYYY HH:MM AM/PM ±HH:MM". If the input string do not contain a time part, the returned string will be in the format "MM/DD/YYYY". If the input string is not in the expected format, it will be returned as is. If the input is falsy a blank string will be returned. The following formats are supported:
+ * - "YYYY-MM-DDTHH:MM±HH:MM"
+ * - "YYYY-MM-DDTHH:MMZ"
+ * - "YYYY-MM-DD"
+ * - "MM/DD/YYYY HH:MM AM/PM ±HH:MM"
+ * @param dateTimeString datetime string.
+ * @returns Formatted datetime string.
  */
 export const formatDateTime = (dateTimeString: string): string => {
   if (!dateTimeString) {
     return "";
   }
 
-  // Split the datetime string into date and time parts
-  const [datePart, timePart] = dateTimeString.split("T");
+  // This is roughly the format that we want to convert to, therefore we can return it as is.
+  const customFormatRegex = /^\d{2}\/\d{2}\/\d{4} \d\d?:\d{2} [AP]M \w{3}$/;
+  const isoDateTimeRegex =
+    /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2})?)?/;
+  if (customFormatRegex.test(dateTimeString)) {
+    return dateTimeString;
+  } else if (isoDateTimeRegex.test(dateTimeString)) {
+    // Split the datetime string into date and time parts
+    const [datePart, timePart] = dateTimeString.split("T");
 
-  // Further split the date part into YYYY, MM, DD
-  const [year, month, day] = datePart.split("-");
+    // Further split the date part into YYYY, MM, DD
+    const [year, month, day] = datePart.split("-");
 
-  if (timePart) {
-    // Split the time part into HH:MM:SS and timezone (±HH:MM)
-    const [time, timeZone] = timePart.split(/(?=[+-])/);
+    if (timePart) {
+      // Split the time part into HH:MM:SS and timezone (±HH:MM)
+      const [time, timeZone] = timePart.split(/(?=[+-])/);
 
-    // We only need HH:MM from the time
-    const [hours, minutes] = time.split(":");
+      // We only need HH:MM from the time
+      const [hours, minutes] = time.split(":");
 
-    // Convert 24-hour time to 12-hour time
-    const hoursInt = parseInt(hours, 10);
-    const suffix = hoursInt >= 12 ? "PM" : "AM";
-    const hours12 = ((hoursInt + 11) % 12) + 1; // Convert 24h to 12h format
+      // Convert 24-hour time to 12-hour time
+      const hoursInt = parseInt(hours, 10);
+      const suffix = hoursInt >= 12 ? "PM" : "AM";
+      const hours12 = ((hoursInt + 11) % 12) + 1; // Convert 24h to 12h format
 
-    return `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${timeZone || "UTC"}`;
+      const formattedDateTime = `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${timeZone || "UTC"}`;
+      return formattedDateTime;
+    }
+
+    // Reformat the string as needed
+    const formattedDate = `${month}/${day}/${year}`;
+    return formattedDate;
   }
 
-  // Reformat the string as needed
-  return `${month}/${day}/${year}`;
+  // If the input string is not in the expected format, return it as is
+  return dateTimeString;
 };
 
 /**
