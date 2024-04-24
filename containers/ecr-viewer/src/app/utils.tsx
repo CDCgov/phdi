@@ -1044,7 +1044,7 @@ export const DataDisplay: React.FC<{
 };
 
 const FieldValue: React.FC<{
-  value?: React.JSX.Element | React.JSX.Element[] | React.ReactNode;
+  value?: React.ReactNode;
 }> = ({ value }) => {
   const [hideText, setHideText] = useState(true);
   if (value && typeof value === "string" && value.length > 500) {
