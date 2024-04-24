@@ -96,6 +96,7 @@ def test_unpack_fhir_converter_response():
     converter_result.content = {"fhir_conversion_failed": True}
     response = Mock()
     response.status_code = 400
+    response.text = "conversion failed"
     response.json.return_value = {"response": converter_result}
     result = unpack_fhir_converter_response(response)
     assert result.status_code == 400
@@ -134,6 +135,7 @@ def test_unpack_validation_response():
     validator_result.text = "validation didn't work"
     response = Mock()
     response.status_code = 400
+    response.text = "validation failed"
     response.json.return_value = validator_result
     result = unpack_validation_response(response)
     assert result.status_code == 400
@@ -468,7 +470,7 @@ def test_unpack_ingestion_standardization_name():
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
-    response.json.return_value = error_message
+    response.json.return_value = error_message.__str__()
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
@@ -515,7 +517,7 @@ def test_unpack_ingestion_standardization_phone():
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
-    response.json.return_value = error_message
+    response.json.return_value = error_message.__str__()
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
@@ -562,7 +564,7 @@ def test_unpack_ingestion_standardization_dob():
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
-    response.json.return_value = error_message
+    response.json.return_value = error_message.__str__()
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
@@ -610,7 +612,7 @@ def test_unpack_ingestion_geocoding():
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
-    response.json.return_value = error_message
+    response.json.return_value = error_message.__str__()
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
