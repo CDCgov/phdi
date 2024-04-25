@@ -299,6 +299,7 @@ export const evaluatePatientIds = (
   return patientIdsFormatted;
 };
 
+
 export const evaluateDemographicsData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -438,6 +439,7 @@ export const evaluateEcrMetadata = (
 
   for (const condition of rrDetails) {
     let name = condition.valueCodeableConcept.coding[0].display;
+    console.log("hello",name);
     const triggers = condition.extension
       .filter(
         (x: { url: string; valueString: string }) =>
@@ -461,12 +463,25 @@ export const evaluateEcrMetadata = (
     }
   }
 
+
+
+
   const eicrDetails: DisplayData[] = [
     {
       title: "eICR Identifier",
-      value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
+      value: (
+        <span title="Unique document ID for the eICR that originates from the medical record. 
+        Different from the Document ID that NBS creates for all incoming records.">
+          {evaluate(fhirBundle, mappings.eicrIdentifier)[0]}
+        </span>
+      ),
     },
   ];
+
+
+
+
+
   const ecrSenderDetails: DisplayData[] = [
     {
       title: "Date/Time eCR Created",
@@ -879,11 +894,13 @@ export const returnProceduresTable = (
 
   return evaluateTable(proceduresArray, mappings, columnInfo, "Procedures");
 };
+// Add a tooltip for Miscellanous Notes
 
 export const evaluateClinicalData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
+  
   const clinicalNotes: DisplayData[] = [
     {
       title: "Miscellaneous Notes",

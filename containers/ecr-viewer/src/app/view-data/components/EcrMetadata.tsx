@@ -79,9 +79,28 @@ const EcrMetadata = ({
         <Table bordered caption="Reportibility Summary" className="rrTable">
           <thead>
             <tr>
-              <th>Reportable Condition</th>
-              <th>RCKMS Rule Summary</th>
-              <th>Jurisdiction Sent eCR</th>
+              <th>
+                <span title="List of conditions that caused this eCR to be sent to your 
+                jurisdiction based on the rules set up for routing eCRs by your jurisdiction 
+                in RCKMS (Reportable Condition Knowledge Management System). 
+                Can include multiple Reportable Conditions for one eCR.">
+                Reportable Condition
+              </span>
+              </th>
+              <th>
+                <span title="Reason(s) that this eCR was sent for this condition. 
+                Corresponds to your jurisdiction's rules for routing eCRs in RCKMS 
+                (Reportable Condition Knowledge Management System).">
+                  RCKMS Rule Summary
+                </span>
+              </th>
+              <th>
+                <span title="List of jurisdictions this eCR was sent to. Can 
+                include multiple jurisdictions depending on provider location, 
+                patient address, and jurisdictions onboarded to eCR.">
+                  Jurisdiction Sent eCR
+                  </span>
+              </th>
             </tr>
           </thead>
           <tbody>{convertDictionaryToRows(rrDetails)}</tbody>
@@ -97,7 +116,7 @@ const EcrMetadata = ({
             <Fragment key={title}>
               <div className="grid-row">
                 <div className="data-title">{title}</div>
-                <div className="grid-col-auto text-pre-line">{value}</div>
+                <div className="grid-col-auto text-pre-line">{value}aaaaa</div>
               </div>
               <div className={"section__line_gray"} />
             </Fragment>
