@@ -1092,7 +1092,7 @@ const getReactNodeLength = (value: React.ReactNode): number => {
 const viewMoreElement = (
   value: React.ReactNode,
   remainingLength: number,
-  setHideText: (val: boolean) => void,
+  setHidden: (val: boolean) => void,
 ): { value: React.ReactNode; remainingLength: number } => {
   if (typeof value === "string") {
     const cutString = value.substring(0, remainingLength);
@@ -1104,7 +1104,7 @@ const viewMoreElement = (
             <Button
               type={"button"}
               unstyled={true}
-              onClick={() => setHideText(false)}
+              onClick={() => setHidden(false)}
             >
               View more
             </Button>
@@ -1121,9 +1121,13 @@ const viewMoreElement = (
     let newValArr = [];
     for (let i = 0; i < value.length; i++) {
       if (remainingLength > 0) {
-        let splitVal = viewMoreElement(value[i], remainingLength, setHideText);
+        let splitVal = viewMoreElement(value[i], remainingLength, setHidden);
         remainingLength = splitVal.remainingLength;
-        newValArr.push(splitVal.value);
+        newValArr.push(
+          <React.Fragment key={`arr-${i}-${splitVal.value}`}>
+            {splitVal.value}
+          </React.Fragment>,
+        );
       }
     }
     return { value: newValArr, remainingLength: remainingLength };
@@ -1135,10 +1139,10 @@ const viewMoreElement = (
       } else {
         childrenCopy = value.props.children;
       }
-      let split = viewMoreElement(childrenCopy, remainingLength, setHideText);
+      let split = viewMoreElement(childrenCopy, remainingLength, setHidden);
       const newElement = React.cloneElement(
         value,
-        { ...value.props, key: split.value },
+        { ...value.props },
         split.value,
       );
       return { value: newElement, remainingLength: split.remainingLength };
