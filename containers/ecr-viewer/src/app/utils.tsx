@@ -1048,46 +1048,48 @@ const FieldValue: React.FC<{
 }> = ({ value }) => {
   const maxLength = 500;
   const cutLength = 300;
-  const [hideText, setHideText] = useState(true);
+  const [hidden, setHidden] = useState(true);
+  const [fieldValue, setFieldValue] = useState(value);
+  const valueLength = getLengthRecursively(value);
+  const hiddenValue = viewMoreElement(value, cutLength, setHidden).value;
   useEffect(() => {
-    console.log(hideText);
-  }, [hideText]);
-  if (value && typeof value === "string" && value.length > maxLength) {
-    return (
-      <>
-        {hideText ? value.substring(0, cutLength) + "..." : value}{" "}
-        <Button
-          type={"button"}
-          unstyled={true}
-          onClick={() => setHideText(!hideText)}
-        >
-          View {hideText ? "more" : "less"}
-        </Button>
-      </>
-    );
-  } else if (Array.isArray(value) || React.isValidElement(value)) {
-    if (RecurCount(value) > maxLength) {
-      return RecurSplit(value, cutLength, setHideText).value;
-      // show cut version or original
+    if (valueLength > maxLength) {
+      if (hidden) {
+        setFieldValue(hiddenValue);
+      } else {
+        setFieldValue(
+          <>
+            {value}{" "}
+            <Button
+              type={"button"}
+              unstyled={true}
+              onClick={() => setHidden(true)}
+            >
+              View less
+            </Button>
+          </>,
+        );
+      }
     }
-  }
-  return value;
+  }, [hidden]);
+
+  return fieldValue;
 };
 
-const RecurCount = (value: React.ReactNode): number => {
+const getLengthRecursively = (value: React.ReactNode): number => {
   if (typeof value === "string") {
     return value.length;
   } else if (Array.isArray(value)) {
     let count = 0;
-    value.forEach((val) => (count += RecurCount(val)));
+    value.forEach((val) => (count += getLengthRecursively(val)));
     return count;
   } else if (React.isValidElement(value) && value.props.children) {
-    return RecurCount(value.props.children);
+    return getLengthRecursively(value.props.children);
   }
   return 0;
 };
 
-const RecurSplit = (
+const viewMoreElement = (
   value: React.ReactNode,
   remainingLength: number,
   setHideText: (val: boolean) => void,
@@ -1118,16 +1120,15 @@ const RecurSplit = (
       remainingLength: remainingLength - cutString.length,
     };
   } else if (Array.isArray(value)) {
+    let newValArr = [];
     for (let i = 0; i < value.length; i++) {
       if (remainingLength > 0) {
-        let splitVal = RecurSplit(value[i], remainingLength, setHideText);
+        let splitVal = viewMoreElement(value[i], remainingLength, setHideText);
         remainingLength = splitVal.remainingLength;
-        value[i] = splitVal.value;
-      } else {
-        delete value[i];
+        newValArr.push(splitVal.value);
       }
     }
-    return { value: value.filter(Boolean), remainingLength: remainingLength };
+    return { value: newValArr, remainingLength: remainingLength };
   } else if (React.isValidElement(value) && value.props.children) {
     if (remainingLength > 0) {
       let childrenCopy: ReactNode;
@@ -1136,7 +1137,7 @@ const RecurSplit = (
       } else {
         childrenCopy = value.props.children;
       }
-      let split = RecurSplit(childrenCopy, remainingLength, setHideText);
+      let split = viewMoreElement(childrenCopy, remainingLength, setHideText);
       const newElement = React.cloneElement(
         value,
         { ...value.props, key: split.value },
