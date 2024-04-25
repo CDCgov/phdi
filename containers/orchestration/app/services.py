@@ -177,7 +177,9 @@ async def call_apis(
                     "service": service,
                     "endpoint": endpoint,
                     "endpoint_name": endpoint_name,
-                    "config_params": params,
+                    "config_params": [f"{k}: {v}" for k, v in params.items()]
+                    if params is not None
+                    else "",
                 },
             )
 
@@ -209,7 +211,10 @@ async def call_apis(
 
             if service_response.status_code != 200:
                 call_span.record_exception(
-                    HTTPException,
+                    HTTPException(
+                        status_code=service_response.status_code,
+                        detail="Received non-200 from unpacked building block response",
+                    ),
                     attributes={"status_code": service_response.status_code},
                 )
                 error_detail = f"Service {service} failed with error {service_response.msg_content}"
