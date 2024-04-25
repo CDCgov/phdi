@@ -30,7 +30,7 @@ import { Table } from "@trussworks/react-uswds";
 import { CareTeamParticipant } from "fhir/r4b";
 
 export interface DisplayData {
-  title?: string;
+  title?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
   className?: string;
   value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
   dividerLine?: boolean;
@@ -351,8 +351,8 @@ export const evaluateDemographicsData = (
       value: evaluateEmergencyContact(fhirBundle, mappings),
     },
     {
-      title: "Patient IDs",
-      //value: evaluate(fhirBundle, mappings.patientId)[0],
+      title: (<span title="Unique patient identifier(s) from their medical record. 
+      For example, a patient's social security number or medical record number" className="usa-tooltip" data-position="bottom">Patient IDs</span>),
       value: evaluatePatientIds(fhirBundle, mappings),
     },
   ];
@@ -439,7 +439,6 @@ export const evaluateEcrMetadata = (
 
   for (const condition of rrDetails) {
     let name = condition.valueCodeableConcept.coding[0].display;
-    console.log("hello",name);
     const triggers = condition.extension
       .filter(
         (x: { url: string; valueString: string }) =>
@@ -468,10 +467,13 @@ export const evaluateEcrMetadata = (
 
   const eicrDetails: DisplayData[] = [
     {
-      title: "eICR Identifier",
+      title: (<span title="Unique document ID for the eICR that originates from the medical record. 
+      Different from the Document ID that NBS creates for all incoming records"
+      className="usa-tooltip" data-position="bottom">eICR ID</span>),
       value: (
         <span title="Unique document ID for the eICR that originates from the medical record. 
-        Different from the Document ID that NBS creates for all incoming records.">
+        Different from the Document ID that NBS creates for all incoming records."
+        className="usa-tooltip" data-position="bottom">
           {evaluate(fhirBundle, mappings.eicrIdentifier)[0]}
         </span>
       ),
@@ -490,7 +492,8 @@ export const evaluateEcrMetadata = (
       ),
     },
     {
-      title: "Sender Software",
+      title: (<span title="EHR system used by the sending provider." 
+      className="usa-tooltip" data-position="bottom">Sender Software</span>),
       value: evaluate(fhirBundle, mappings.senderSoftware)[0],
     },
     {

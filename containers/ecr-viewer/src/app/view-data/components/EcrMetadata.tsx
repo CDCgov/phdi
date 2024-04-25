@@ -83,21 +83,24 @@ const EcrMetadata = ({
                 <span title="List of conditions that caused this eCR to be sent to your 
                 jurisdiction based on the rules set up for routing eCRs by your jurisdiction 
                 in RCKMS (Reportable Condition Knowledge Management System). 
-                Can include multiple Reportable Conditions for one eCR.">
+                Can include multiple Reportable Conditions for one eCR." 
+                className="usa-tooltip" data-position="bottom" >
                 Reportable Condition
               </span>
               </th>
               <th>
                 <span title="Reason(s) that this eCR was sent for this condition. 
                 Corresponds to your jurisdiction's rules for routing eCRs in RCKMS 
-                (Reportable Condition Knowledge Management System).">
+                (Reportable Condition Knowledge Management System)."
+                className="usa-tooltip" data-position="bottom" >
                   RCKMS Rule Summary
                 </span>
               </th>
               <th>
                 <span title="List of jurisdictions this eCR was sent to. Can 
                 include multiple jurisdictions depending on provider location, 
-                patient address, and jurisdictions onboarded to eCR.">
+                patient address, and jurisdictions onboarded to eCR."
+                className="usa-tooltip" data-position="bottom">
                   Jurisdiction Sent eCR
                   </span>
               </th>
