@@ -54,12 +54,12 @@
                 {% if participant.participantRole and participant.participantRole.code.codeSystem == "2.16.840.1.114222.4.5.232" and participant.participantRole.code.code == "RR7" %}
                   {% assign organizationRoutingEntityId = participant | to_json_string | generate_uuid %}
                   {% assign organizationRoutingEntityName = participant.participantRole.playingEntity.name._ %}
-                  {% include'Resource/OrganizationRRRoutingEntity' organization: participant.participantRole, ID: organizationRoutingEntityId  %}
+                  {% include "Resource/OrganizationRRRoutingEntity" organization: participant.participantRole, ID: organizationRoutingEntityId  %}
                 {% endif %}
               {% endfor %}
             {% endif -%}
 
-            {% include 'Resource/ObservationRRCondition' observationEntry: ob, ID: observationId, RoutingEntityId: organizationRoutingEntityId, RoutingEntityName: organizationRoutingEntityName-%}
+            {% include "Resource/ObservationRRCondition" observationEntry: ob, ID: observationId, RoutingEntityId: organizationRoutingEntityId, RoutingEntityName: organizationRoutingEntityName-%}
 
           {% endif -%}
         {% endfor -%}

@@ -77,3 +77,6 @@ persistent_storage/
 
 *.egg-info
 build/
+
+## KY Seed Data
+/containers/ecr-viewer/seed-scripts/fhir_data/1.2.840.114350.1.13.542.3.7.8.688883.370070.json
