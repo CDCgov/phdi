@@ -589,7 +589,7 @@ def unpack_parsed_message_response(
                     "Message parser responded with unprocessable entity / bad input parameters"
                 )
                 handler_span.set_status(
-                    StatusCode(2), "Error Message: " + response.json()
+                    StatusCode(2), "Error Message: " + response.json().__str__()
                 )
                 return ServiceHandlerResponse(status_code, response.json(), False)
             case _:
@@ -631,7 +631,7 @@ def unpack_fhir_to_phdc_response(response: Response) -> ServiceHandlerResponse:
                     "Message parser responded with unprocessable entity / bad input parameters"
                 )
                 handler_span.set_status(
-                    StatusCode(2), "Error Message: " + response.json()
+                    StatusCode(2), "Error Message: " + response.json().__str__()
                 )
                 return ServiceHandlerResponse(status_code, response.json(), False)
             case _:
@@ -737,7 +737,7 @@ def unpack_ingestion_standardization(response: Response) -> ServiceHandlerRespon
                     "ingestion service responded with unprocessable entity / bad input params"
                 )
                 handler_span.set_status(
-                    StatusCode(2), "Error Message: " + response.json()
+                    StatusCode(2), "Error Message: " + response.json().__str__()
                 )
                 return ServiceHandlerResponse(status_code, response.json(), False)
             case _:

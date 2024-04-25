@@ -470,7 +470,7 @@ def test_unpack_ingestion_standardization_name():
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
-    response.json.return_value = error_message.__str__()
+    response.json.return_value = error_message
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
@@ -517,7 +517,7 @@ def test_unpack_ingestion_standardization_phone():
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
-    response.json.return_value = error_message.__str__()
+    response.json.return_value = error_message
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
@@ -564,7 +564,7 @@ def test_unpack_ingestion_standardization_dob():
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
-    response.json.return_value = error_message.__str__()
+    response.json.return_value = error_message
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
@@ -612,7 +612,7 @@ def test_unpack_ingestion_geocoding():
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
-    response.json.return_value = error_message.__str__()
+    response.json.return_value = error_message
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
