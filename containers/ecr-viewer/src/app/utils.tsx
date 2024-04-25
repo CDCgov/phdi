@@ -1050,7 +1050,7 @@ const FieldValue: React.FC<{
   const cutLength = 300;
   const [hidden, setHidden] = useState(true);
   const [fieldValue, setFieldValue] = useState(value);
-  const valueLength = getLengthRecursively(value);
+  const valueLength = getReactNodeLength(value);
   const hiddenValue = viewMoreElement(value, cutLength, setHidden).value;
   useEffect(() => {
     if (valueLength > maxLength) {
@@ -1076,15 +1076,15 @@ const FieldValue: React.FC<{
   return fieldValue;
 };
 
-const getLengthRecursively = (value: React.ReactNode): number => {
+const getReactNodeLength = (value: React.ReactNode): number => {
   if (typeof value === "string") {
     return value.length;
   } else if (Array.isArray(value)) {
     let count = 0;
-    value.forEach((val) => (count += getLengthRecursively(val)));
+    value.forEach((val) => (count += getReactNodeLength(val)));
     return count;
   } else if (React.isValidElement(value) && value.props.children) {
-    return getLengthRecursively(value.props.children);
+    return getReactNodeLength(value.props.children);
   }
   return 0;
 };
