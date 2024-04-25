@@ -8,6 +8,10 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import { Table } from "@trussworks/react-uswds";
+import {
+  TooltipDiv,
+} from "../../utils";
+import { Tooltip } from '@trussworks/react-uswds'
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
@@ -81,7 +85,16 @@ const EcrMetadata = ({
             <tr>
               <th>Reportable Condition</th>
               <th>RCKMS Rule Summary</th>
-              <th>Jurisdiction Sent eCR</th>
+              <th>
+                <Tooltip
+                  label={"List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR."}
+                  asCustom={TooltipDiv}
+                  className="data-title usa-tooltip"
+                  position="left"
+                >
+                  {`Jurisdiction Sent eCR`}
+                </Tooltip>
+              </th>
             </tr>
           </thead>
           <tbody>{convertDictionaryToRows(rrDetails)}</tbody>

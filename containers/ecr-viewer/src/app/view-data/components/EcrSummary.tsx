@@ -7,10 +7,12 @@ import {
   PathMappings,
   evaluateEncounterDate,
   evaluatePatientContactInfo,
+  TooltipDiv,
 } from "../../utils";
 import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
 import { formatDate } from "@/app/format-service";
+import { Tooltip } from '@trussworks/react-uswds'
 
 interface EcrViewerProps {
   fhirPathMappings: PathMappings;
@@ -27,6 +29,7 @@ interface DisplayProps {
   title: string;
   value: any[] | string;
   classNames: string;
+  toolTip?: string | null;
 }
 
 /**
@@ -37,12 +40,14 @@ interface DisplayProps {
  * @param props.title - Title of the display section.
  * @param props.value - Value to be displayed.
  * @param [props.classNames] - Class names to be applied to the value.
+ * @param [props.toolTip] - Tooltip of element
  * @returns The JSX element representing the provided value or null if the value is empty.
  */
 const Display: FC<DisplayProps> = ({
   title,
   value,
   classNames,
+  toolTip=null,
 }: DisplayProps) => {
   if (!value || (Array.isArray(value) && value.length === 0)) {
     return null;
@@ -50,7 +55,15 @@ const Display: FC<DisplayProps> = ({
   return (
     <>
       <div className="grid-row">
-        <div className="data-title">{title}</div>
+        { toolTip
+          ? (
+            <Tooltip label={toolTip} asCustom={TooltipDiv} className="data-title usa-tooltip">
+              {title}
+            </Tooltip>
+          ) : (
+            <div className="data-title">{title}</div>
+          )
+        }
         <div className={classNames}>{value}</div>
       </div>
       <div className={"section__line"} />
@@ -146,6 +159,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
               title="Reportable Condition"
               value={evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0]}
               classNames="grid-col-fill"
+              toolTip="List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR."
             />
             <Display
               title="RCKMS Rule Summary"
@@ -153,6 +167,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
                 evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0]
               }
               classNames="grid-col-fill text-pre-line"
+              toolTip="Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System)."
             />
             <div className={"grid-row"}>
               <div className={"text-bold"}>
