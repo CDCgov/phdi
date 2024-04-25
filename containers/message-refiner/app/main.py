@@ -39,12 +39,10 @@ async def refine_ecr(
     data = await refiner_input.body()
 
     if sections_to_include:
-        refined_data = refine(data, sections_to_include)
-        refined_message = Response(content=refined_data, media_type="application/xml")
-    else:
-        refined_message = Response(content=data, media_type="application/xml")
+        sections_to_include = validate_sections_to_include(sections_to_include)
+        data = refine(data, sections_to_include)
 
-    return refined_message
+    return Response(content=data, media_type="application/xml")
 
 
 def validate_sections_to_include(sections_to_include: str | None) -> list:
@@ -53,6 +51,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> list:
     of corresponding LOINC codes.
 
     :param sections_to_include: The sections to include in the refined message.
+    :raises ValueError: When at least one of the sections_to_inlcude is invalid.
     :return: The sections to include in the refined message as a list of LOINC codes
     corresponding to the sections.
     """
@@ -84,7 +83,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> list:
     return section_loincs
 
 
-def refine(raw_message: bytes, sections_to_include: str | None = None) -> bytes:
+def refine(raw_message: bytes, sections_to_include: str) -> bytes:
     """
     Refines an incoming XML message based on the sections to include.
 
@@ -93,39 +92,33 @@ def refine(raw_message: bytes, sections_to_include: str | None = None) -> bytes:
     :return: The refined message.
     """
 
-    if sections_to_include is None:
-        return raw_message
-    else:
-        raw_message = ET.fromstring(raw_message)
+    raw_message = ET.fromstring(raw_message)
 
-        # Validate sections to include
-        sections = validate_sections_to_include(sections_to_include)
+    # Set up XPath expression
+    namespaces = {"hl7": "urn:hl7-org:v3"}
+    sections_xpath_expression = "or".join(
+        [f"@code='{section}'" for section in sections_to_include]
+    )
+    xpath_expression = (
+        f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
+    )
 
-        # Set up XPath expression
-        namespaces = {"hl7": "urn:hl7-org:v3"}
-        sections_xpath_expression = "or".join(
-            [f"@code='{section}'" for section in sections]
-        )
-        xpath_expression = (
-            f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
-        )
+    # Use XPath to find elements matching the expression
+    elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
 
-        # Use XPath to find elements matching the expression
-        elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
+    # Create & set up a new root element for the refined XML
+    refined_message_root = ET.Element(raw_message.tag)
+    component = ET.Element("component")
+    structuredBody = ET.Element("structuredBody")
 
-        # Create & set up a new root element for the refined XML
-        refined_message_root = ET.Element(raw_message.tag)
-        component = ET.Element("component")
-        structuredBody = ET.Element("structuredBody")
+    # Append the filtered elements to the new root
+    for element in elements:
+        c = ET.Element("component")
+        c.append(element)
+        structuredBody.append(c)
+    component.append(structuredBody)
+    refined_message_root.append(component)
 
-        # Append the filtered elements to the new root
-        for element in elements:
-            c = ET.Element("component")
-            c.append(element)
-            structuredBody.append(c)
-        component.append(structuredBody)
-        refined_message_root.append(component)
-
-        # Create a new ElementTree with the result root
-        refined_message = ET.ElementTree(refined_message_root)
-        return refined_message
+    # Create a new ElementTree with the result root
+    refined_message = ET.ElementTree(refined_message_root)
+    return refined_message
