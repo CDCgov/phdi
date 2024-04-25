@@ -261,38 +261,12 @@ describe("Evaluate table", () => {
     expect(screen.getByText("Col1")).toBeInTheDocument();
     expect(screen.getByText("Data1")).toBeInTheDocument();
   });
-  it("should create a table with 1 row using the provided value", () => {
-    render(
-      evaluateTable(
-        [{}],
-        mappings,
-        [{ columnName: "Col1", value: "Data1" }],
-        "",
-      ),
-    );
-
-    expect(screen.getByText("Col1")).toBeInTheDocument();
-    expect(screen.getByText("Data1")).toBeInTheDocument();
-  });
   it("should create a table with 1 row evaluate the fhir element", () => {
     render(
       evaluateTable(
         [{ id: "id1" }],
         { id: "id" },
         [{ columnName: "Col1", infoPath: "id" }],
-        "",
-      ),
-    );
-
-    expect(screen.getByText("Col1")).toBeInTheDocument();
-    expect(screen.getByText("id1")).toBeInTheDocument();
-  });
-  it("should create a table with 1 row evaluate the fhir element", () => {
-    render(
-      evaluateTable(
-        [{ id: "id1" }],
-        { getId: "id" },
-        [{ columnName: "Col1", infoPath: "getId" }],
         "",
       ),
     );
