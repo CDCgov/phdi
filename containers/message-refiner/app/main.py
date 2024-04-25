@@ -108,11 +108,9 @@ def refine(raw_message: bytes, sections_to_include: str | None = None) -> bytes:
         xpath_expression = (
             f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
         )
-        # print("xpath_expr: ", xpath_expression)
 
         # Use XPath to find elements matching the expression
         elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
-        # print("len(elements): ", len(elements))
 
         # Create & set up a new root element for the refined XML
         refined_message_root = ET.Element(raw_message.tag)
