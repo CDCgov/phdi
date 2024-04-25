@@ -4,7 +4,6 @@ import pytest
 from app.main import app
 from app.main import refine
 from app.main import validate_sections_to_include
-from dibbs.utils import read_file_from_test_assets
 from fastapi.testclient import TestClient
 from lxml import etree as ET
 
@@ -29,18 +28,18 @@ def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
         return tree
 
 
-# def read_file_from_test_assets(filename: str) -> str:
-#     """
-#     Reads a file from the assets directory.
+def read_file_from_test_assets(filename: str) -> str:
+    """
+    Reads a file from the assets directory.
 
-#     :param filename: The name of the file to read.
-#     :return: A string containing the contents of the file.
-#     """
-#     with open(
-#         (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename),
-#         "r",
-#     ) as file:
-#         return file.read()
+    :param filename: The name of the file to read.
+    :return: A string containing the contents of the file.
+    """
+    with open(
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename),
+        "r",
+    ) as file:
+        return file.read()
 
 
 test_eICR_xml = read_file_from_test_assets("CDA_eICR.xml")
