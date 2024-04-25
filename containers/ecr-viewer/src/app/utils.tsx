@@ -1097,19 +1097,17 @@ const viewMoreElement = (
   if (typeof value === "string") {
     const cutString = value.substring(0, remainingLength);
     if (remainingLength > 0 && remainingLength - cutString.length === 0) {
-      const button = (
-        <Button
-          type={"button"}
-          unstyled={true}
-          onClick={() => setHideText(false)}
-        >
-          View more
-        </Button>
-      );
       return {
         value: (
           <>
-            {cutString}... {button}
+            {cutString}...{" "}
+            <Button
+              type={"button"}
+              unstyled={true}
+              onClick={() => setHideText(false)}
+            >
+              View more
+            </Button>
           </>
         ),
         remainingLength: 0,
