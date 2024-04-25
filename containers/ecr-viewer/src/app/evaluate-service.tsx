@@ -47,7 +47,10 @@ export const evaluateTable = (
         rowCellData = <span className={"text-italic text-base"}>No data</span>;
       }
       return (
-        <td key={`row-data-${index}`} className="text-top">
+        <td
+          key={`row-data-${index}`}
+          className={`text-top ${column.className}`}
+        >
           {column.sentenceCase ? toSentenceCase(rowCellData) : rowCellData}
         </td>
       );

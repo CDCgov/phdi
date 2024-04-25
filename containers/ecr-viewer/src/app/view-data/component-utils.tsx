@@ -12,7 +12,7 @@ export const AccordianSection: React.FC<AccordianSectionProps> = ({
   className,
 }) => {
   return (
-    <div>
+    <div className="margin-top-0">
       <div className="padding-bottom-3">
         <div className={classNames("usa-summary-box__body", className)}>
           {children}
