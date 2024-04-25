@@ -84,7 +84,9 @@ export const getLabJsonObject = (
   const labsJson = formatTablesToJSON(labsString);
 
   // Get specified lab report (by reference value)
-  return labsJson.filter((obj) => obj.resultId?.includes(observationRefVal))[0];
+  return observationRefVal
+    ? labsJson.filter((obj) => obj.resultId?.includes(observationRefVal))[0]
+    : ({} as TableJson);
 };
 
 /**
@@ -337,6 +339,11 @@ export const evaluateDiagnosticReportData = (
         "Test Method",
       ) as string,
     },
+    {
+      columnName: "Lab Comment",
+      infoPath: "observationNote",
+      hiddenBaseText: "comment",
+    },
   ];
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
 };
@@ -433,6 +440,16 @@ export const evaluateLabInfoData = (
         ),
         className: "lab-text-content",
       },
+      {
+        title: "Narrative",
+        value: returnFieldValueFromLabHtmlString(
+          report,
+          fhirBundle,
+          mappings,
+          "Narrative",
+        ),
+        className: "lab-text-content",
+      },
     ];
     const content: Array<React.JSX.Element> = [];
     if (labTable)
@@ -484,6 +501,7 @@ export const combineOrgAndReportData = (
       organizationId,
       fhirBundle,
       mappings,
+      organizationElements[key].length,
     );
     return {
       organizationId: organizationId,
@@ -498,12 +516,14 @@ export const combineOrgAndReportData = (
  * @param id - id of the organization
  * @param fhirBundle - The FHIR bundle containing lab and RR data.
  * @param mappings - An object containing the FHIR path mappings.
+ * @param labReportCount - A number representing the amount of lab reports for a specific organization
  * @returns The organization display data as an array
  */
 export const evaluateLabOrganizationData = (
   id: string,
   fhirBundle: Bundle,
   mappings: PathMappings,
+  labReportCount: number,
 ) => {
   const orgMappings = evaluate(fhirBundle, mappings["organizations"]);
   const matchingOrg: Organization = orgMappings.filter(
@@ -529,6 +549,7 @@ export const evaluateLabOrganizationData = (
     { title: "Lab Performing Name", value: name },
     { title: "Lab Address", value: formattedAddress },
     { title: "Lab Contact", value: contactInfo },
+    { title: "Number of Results", value: labReportCount },
   ];
   return matchingOrgData;
 };

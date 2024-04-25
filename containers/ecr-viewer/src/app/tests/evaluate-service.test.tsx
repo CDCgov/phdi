@@ -1,5 +1,9 @@
 import { evaluate } from "fhirpath";
-import { evaluateReference, evaluateValue } from "@/app/evaluate-service";
+import {
+  evaluateReference,
+  evaluateTable,
+  evaluateValue,
+} from "@/app/evaluate-service";
 import {
   evaluateObservationTable,
   evaluateDiagnosticReportData,
@@ -12,11 +16,12 @@ import {
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
-import BundleLabs from "@/app/tests/assets/BundleLabs.json";
-import BundleLabInfo from "@/app/tests/assets/BundleLabInfo.json";
+import BundleLab from "@/app/tests/assets/BundleLab.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
+import { ColumnInfoInput, PathMappings } from "@/app/utils";
+import userEvent from "@testing-library/user-event";
 
 const mappings = loadYamlConfig();
 
@@ -44,10 +49,10 @@ describe("Evaluate Reference", () => {
 
 describe("Evaluate Diagnostic Report", () => {
   it("should evaluate diagnostic report title", () => {
-    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLab, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabs as unknown as Bundle,
+      BundleLab as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
@@ -64,10 +69,10 @@ describe("Evaluate Diagnostic Report", () => {
     );
   });
   it("should evaluate diagnostic report results", () => {
-    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLab, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabs as unknown as Bundle,
+      BundleLab as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
@@ -81,7 +86,7 @@ describe("Evaluate Diagnostic Report", () => {
 
     render(actualDisplay.props.content);
 
-    expect(screen.getByText("E. Coli (EAEC), NAAT")).toBeInTheDocument();
+    expect(screen.getByText("Campylobacter, NAAT")).toBeInTheDocument();
     expect(screen.getAllByText("Not Detected")).not.toBeEmpty();
   });
   it("the table should not appear when there are no results", () => {
@@ -106,10 +111,10 @@ describe("Evaluate Diagnostic Report", () => {
     expect(actual).toBeUndefined();
   });
   it("should evaluate test method results", () => {
-    const report = evaluate(BundleLabs, mappings["diagnosticReports"])[0];
+    const report = evaluate(BundleLab, mappings["diagnosticReports"])[0];
     const actual = evaluateDiagnosticReportData(
       report,
-      BundleLabs as unknown as Bundle,
+      BundleLab as unknown as Bundle,
       mappings,
     );
     const actualDisplay = (
@@ -127,26 +132,36 @@ describe("Evaluate Diagnostic Report", () => {
       screen.getAllByText("LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM"),
     ).not.toBeEmpty();
   });
+  it("should display comment", () => {
+    const report = evaluate(BundleLab, mappings["diagnosticReports"])[2];
+    const actual = evaluateDiagnosticReportData(
+      report,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    render(actual!);
+
+    expect(screen.getByText("View comment")).toBeInTheDocument();
+  });
 });
 
 describe("Evaluate Organization with ID", () => {
   it("should return a matching org", () => {
     const result = evaluateLabOrganizationData(
-      "d46ea14e-251a-ab52-3a32-89b12270d9e6",
-      BundleLabInfo as unknown as Bundle,
+      "22c6cdd0-bde1-e220-9ba4-2c2802f795ad",
+      BundleLab as unknown as Bundle,
       mappings,
+      0,
     );
-    expect(result[0].value).toEqual(
-      "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
-    );
+    expect(result[0].value).toEqual("VUMC CERNER LAB");
   });
   it("should combine the data into new format", () => {
     const testResultObject: ResultObject = {
-      "Organization/d46ea14e-251a-ab52-3a32-89b12270d9e6": [<div></div>],
+      "Organization/22c6cdd0-bde1-e220-9ba4-2c2802f795ad": [<div></div>],
     };
     const result = combineOrgAndReportData(
       testResultObject,
-      BundleLabInfo as unknown as Bundle,
+      BundleLab as unknown as Bundle,
       mappings,
     );
     expect(result[0].organizationDisplayData).toBeArray();
@@ -156,11 +171,21 @@ describe("Evaluate Organization with ID", () => {
 describe("Evaluate the lab info section", () => {
   it("should return a list of objects", () => {
     const result = evaluateLabInfoData(
-      BundleLabInfo as unknown as Bundle,
+      BundleLab as unknown as Bundle,
       mappings,
     );
     expect(result[0]).toHaveProperty("diagnosticReportDataElements");
     expect(result[0]).toHaveProperty("organizationDisplayData");
+  });
+  it("should properly count the number of labs", () => {
+    const result = evaluateLabInfoData(
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0].organizationDisplayData[3].title).toEqual(
+      "Number of Results",
+    );
+    expect(result[0].organizationDisplayData[3].value).toEqual(2);
   });
 });
 
@@ -212,6 +237,113 @@ describe("evaluate value", () => {
       );
 
       expect(actual).toEqual("1%");
+    });
+  });
+});
+
+describe("Evaluate Table", () => {
+  describe("hiddenBaseText", () => {
+    const pathMapping: PathMappings = { idPath: "id", notePath: "note.text" };
+    describe("single column", () => {
+      const columnInfo: ColumnInfoInput[] = [
+        {
+          infoPath: "notePath",
+          columnName: "Lab notes",
+          hiddenBaseText: "notes",
+        },
+      ];
+
+      it("should show view notes button", () => {
+        const fhirResource = [
+          {
+            note: [
+              {
+                text: "wow this is interesting",
+              },
+            ],
+          } as any,
+        ];
+        render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+
+        expect(screen.getByText("View notes")).toBeInTheDocument();
+        expect(screen.queryByText("wow this is interesting")).not.toBeVisible();
+      });
+      it("should show notes text and replace 'View notes' with 'Hide notes' when 'View notes' button is clicked", async () => {
+        const user = userEvent.setup();
+        const pathMapping: PathMappings = { notePath: "note.text" };
+        const fhirResource = [
+          {
+            note: [
+              {
+                text: "wow this is interesting",
+              },
+            ],
+          } as any,
+        ];
+        render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+
+        await user.click(screen.getByText("View notes"));
+
+        expect(screen.queryByText("View notes")).not.toBeInTheDocument();
+        expect(screen.getByText("Hide notes")).toBeInTheDocument();
+        expect(screen.getByText("wow this is interesting")).toBeVisible();
+      });
+      it("should only open one note when 'View notes' is clicked", async () => {
+        const user = userEvent.setup();
+        const fhirResource = [
+          {
+            note: [
+              {
+                text: "wow this is interesting",
+              },
+            ],
+          } as any,
+          {
+            note: [
+              {
+                text: "no one should see this",
+              },
+            ],
+          },
+        ];
+
+        render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+
+        await user.click(screen.getAllByText("View notes")[0]);
+
+        expect(screen.getAllByText("View notes")).toHaveLength(1);
+        expect(screen.getByText("no one should see this")).not.toBeVisible();
+      });
+    });
+    it("should span across the whole table", async () => {
+      const columnInfo: ColumnInfoInput[] = [
+        {
+          columnName: "id",
+          infoPath: "idPath",
+        },
+        {
+          columnName: "Lab notes",
+          infoPath: "notePath",
+          hiddenBaseText: "notes",
+        },
+      ];
+      const fhirResource = [
+        {
+          id: "1234",
+          note: [
+            {
+              text: "wow this is interesting",
+            },
+          ],
+        } as any,
+      ];
+
+      render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+
+      expect(screen.getByText("wow this is interesting")).toHaveAttribute(
+        "colSpan",
+        "2",
+      );
     });
   });
 });

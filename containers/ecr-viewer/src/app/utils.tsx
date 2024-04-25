@@ -23,6 +23,7 @@ import {
   formatDateTime,
   formatTablesToJSON,
   TableRow,
+  removeHtmlElements,
 } from "@/app/format-service";
 import { evaluateTable, evaluateReference } from "./evaluate-service";
 import { Table } from "@trussworks/react-uswds";
@@ -51,6 +52,7 @@ export interface ColumnInfoInput {
   value?: string;
   sentenceCase?: boolean;
   className?: string;
+  hiddenBaseText?: string;
 }
 
 export interface CompleteData {
@@ -558,7 +560,7 @@ export const returnPendingResultsTable = (
         bordered={false}
         fullWidth={true}
         className={
-          "table-caption-margin caption-normal-weight margin-y-0 border-top border-left border-right"
+          "table-caption-margin caption-normal-weight margin-top-0 border-top border-left border-right margin-bottom-2"
         }
         data-testid="table"
         caption={"Pending Results"}
@@ -574,6 +576,65 @@ export const returnPendingResultsTable = (
         </thead>
         <tbody>
           {pendingResultsTableJson.tables[0].map(
+            (entry: TableRow, index: number) => {
+              return (
+                <tr key={`table-row-${index}`}>
+                  <td>{entry.Name?.value ?? noData}</td>
+                  <td>{entry.Type?.value ?? noData}</td>
+                  <td>{entry.Priority?.value ?? noData}</td>
+                  <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
+                  <td>{entry["Date/Time"]?.value ?? noData}</td>
+                </tr>
+              );
+            },
+          )}
+        </tbody>
+      </Table>
+    );
+  }
+};
+
+export const returnScheduledOrdersTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const planOfTreatmentTables = formatTablesToJSON(
+    evaluate(fhirBundle, mappings["planOfTreatment"])[0]?.div,
+  );
+  const scheduledOrdersTableJson = planOfTreatmentTables.find(
+    (val) => val.resultName === "Scheduled Orders",
+  );
+
+  if (scheduledOrdersTableJson?.tables?.[0]) {
+    const header = [
+      "Name",
+      "Type",
+      "Priority",
+      "Associated Diagnoses",
+      "Date/Time",
+    ];
+
+    return (
+      <Table
+        bordered={false}
+        fullWidth={true}
+        className={
+          "table-caption-margin margin-top-1 caption-normal-weight margin-y-0 border-top border-left border-right"
+        }
+        data-testid="table"
+        caption={"Scheduled Orders"}
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {scheduledOrdersTableJson.tables[0].map(
             (entry: TableRow, index: number) => {
               return (
                 <tr key={`table-row-${index}`}>
@@ -832,9 +893,16 @@ export const evaluateClinicalData = (
   ];
 
   const pendingResults = returnPendingResultsTable(fhirBundle, mappings);
+  const scheduledOrders = returnScheduledOrdersTable(fhirBundle, mappings);
   let planOfTreatmentElement: React.JSX.Element | undefined = undefined;
   if (pendingResults) {
-    planOfTreatmentElement = <>{pendingResults}</>;
+    planOfTreatmentElement = (
+      <>
+        <div className={"data-title margin-bottom-1"}>Plan of Treatment</div>
+        {pendingResults}
+        {scheduledOrders}
+      </>
+    );
   }
 
   const adminMedResults = returnAdminMedTable(fhirBundle, mappings);
@@ -906,13 +974,38 @@ export const evaluateData = (data: DisplayData[]): CompleteData => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
-    if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
+    if (!isDataAvailable(item)) {
       unavailableData.push(item);
     } else {
       availableData.push(item);
     }
   });
   return { availableData: availableData, unavailableData: unavailableData };
+};
+
+/**
+ * Checks if data is available based on DisplayData value. Also filters out terms that indicate info is unavailable.
+ * @param item - The DisplayData object to check for availability.
+ * @returns - Returns true if data is available, false otherwise.
+ */
+export const isDataAvailable = (item: DisplayData): Boolean => {
+  if (!item.value || (Array.isArray(item.value) && item.value.length === 0))
+    return false;
+  const unavailableTerms = [
+    "Not on file",
+    "Not on file documented in this encounter",
+    "Unknown",
+    "Unknown if ever smoked",
+    "Tobacco smoking consumption unknown",
+    "Do not know",
+    "No history of present illness information available",
+  ];
+  for (const i in unavailableTerms) {
+    if (removeHtmlElements(`${item.value}`).trim() === unavailableTerms[i]) {
+      return false;
+    }
+  }
+  return true;
 };
 
 /**
