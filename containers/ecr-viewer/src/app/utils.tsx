@@ -1035,7 +1035,7 @@ export const DataDisplay: React.FC<{
             item.className ? item.className : "",
           )}
         >
-          <FieldValue value={item.value} />
+          <FieldValue>{item.value}</FieldValue>
         </div>
       </div>
       {item.dividerLine ? <div className={"section__line_gray"} /> : ""}
@@ -1043,15 +1043,21 @@ export const DataDisplay: React.FC<{
   );
 };
 
+/**
+ * Functional component for displaying a value. If the value has a length greater than 500 characters, it will be split after 300 characters with a view more button to view the entire value.
+ * @param value - props for the component
+ * @param value.children - the value to be displayed in the value
+ * @returns - A React element representing the display of the value
+ */
 const FieldValue: React.FC<{
-  value?: React.ReactNode;
-}> = ({ value }) => {
+  children: React.ReactNode;
+}> = ({ children }) => {
   const maxLength = 500;
   const cutLength = 300;
   const [hidden, setHidden] = useState(true);
-  const [fieldValue, setFieldValue] = useState(value);
-  const valueLength = getReactNodeLength(value);
-  const hiddenValue = viewMoreElement(value, cutLength, setHidden).value;
+  const [fieldValue, setFieldValue] = useState(children);
+  const valueLength = getReactNodeLength(children);
+  const hiddenValue = viewMoreElement(children, cutLength, setHidden).value;
   useEffect(() => {
     if (valueLength > maxLength) {
       if (hidden) {
@@ -1059,7 +1065,7 @@ const FieldValue: React.FC<{
       } else {
         setFieldValue(
           <>
-            {value}{" "}
+            {children}{" "}
             <Button
               type={"button"}
               unstyled={true}
@@ -1076,6 +1082,11 @@ const FieldValue: React.FC<{
   return fieldValue;
 };
 
+/**
+ * Recursively determine the character length of a ReactNode
+ * @param value - react node to be measured
+ * @returns - the number of characters in the ReactNode
+ */
 const getReactNodeLength = (value: React.ReactNode): number => {
   if (typeof value === "string") {
     return value.length;
@@ -1089,6 +1100,13 @@ const getReactNodeLength = (value: React.ReactNode): number => {
   return 0;
 };
 
+/**
+ * Create an element with `remainingLength` length followed by a view more button
+ * @param value - the value that will be cut
+ * @param remainingLength - the length of how long the returned element will be
+ * @param setHidden - a function used to signify that the view more button has been clicked.
+ * @returns - an object with the shortened value and the length left over.
+ */
 const viewMoreElement = (
   value: React.ReactNode,
   remainingLength: number,
