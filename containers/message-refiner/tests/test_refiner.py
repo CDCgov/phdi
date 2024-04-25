@@ -1,9 +1,55 @@
+import pathlib
+
 import pytest
 from app.main import app
+from app.main import refine
 from app.main import validate_sections_to_include
 from fastapi.testclient import TestClient
+from lxml import etree as ET
 
 client = TestClient(app)
+
+
+def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
+    """
+    Parses a file from the assets directory into an ElementTree.
+
+    :param filename: The name of the file to read.
+    :return: An ElementTree containing the contents of the file.
+    """
+    with open(
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
+    ) as file:
+        parser = ET.XMLParser(remove_blank_text=True)
+        tree = ET.parse(
+            file,
+            parser,
+        )
+        return tree
+
+
+def read_file_from_test_assets(filename: str) -> str:
+    """
+    Reads a file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A string containing the contents of the file.
+    """
+    with open(
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename),
+        "r",
+    ) as file:
+        return file.read()
+
+
+test_eICR_xml = read_file_from_test_assets("CDA_eICR.xml")
+refined_test_eICR_social_history_only = parse_file_from_test_assets(
+    "refined_message_social_history_only.xml"
+)
+refined_test_eICR_labs_reason = parse_file_from_test_assets(
+    "refined_message_labs_reason.xml"
+)
+test_xml = '<?xml version="1.0" encoding="UTF-8"?>'
 
 
 def test_health_check():
@@ -12,9 +58,6 @@ def test_health_check():
     assert actual_response.json() == {
         "status": "OK",
     }
-
-
-test_xml = '<?xml version="1.0" encoding="UTF-8"?>'
 
 
 @pytest.mark.parametrize(
@@ -89,3 +132,29 @@ def test_validate_sections_to_include(test_data, expected_result):
         actual_response = validate_sections_to_include(test_data)
         assert actual_response == expected_result
         assert isinstance(actual_response, list)
+
+
+def test_refine():
+    raw_message = test_eICR_xml
+    # Test case: Refine for only social history
+    expected_message = refined_test_eICR_social_history_only
+    sections_to_include = "social history narrative"
+    refined_message = refine(raw_message, sections_to_include)
+
+    actual_flattened = [i.tag for i in refined_message.iter()]
+    expected_flattened = [i.tag for i in expected_message.iter()]
+
+    assert actual_flattened == expected_flattened
+
+    # Test case: Refine for labs/diagnostics and reason for visit
+    expected_message = refined_test_eICR_labs_reason
+    sections_to_include = (
+        "relevant diagnostic tests/laboratory data narrative,reason for visit"
+    )
+    raw_message = test_eICR_xml
+    refined_message = refine(raw_message, sections_to_include)
+
+    actual_flattened = [i.tag for i in refined_message.iter()]
+    expected_flattened = [i.tag for i in expected_message.iter()]
+
+    assert actual_flattened == expected_flattened

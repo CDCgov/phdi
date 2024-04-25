@@ -95,15 +95,24 @@ def refine(raw_message: bytes, sections_to_include: str | None = None) -> bytes:
     if sections_to_include is None:
         return raw_message
     else:
+        raw_message = ET.fromstring(raw_message)
+
         # Validate sections to include
         sections = validate_sections_to_include(sections_to_include)
 
         # Set up XPath expression
-        sections_xpath = "or".join([f"@code='{section}'" for section in sections])
-        xpath_expr = f"//*[local-name()='section'][.//code[{sections_xpath}]]"
+        namespaces = {"hl7": "urn:hl7-org:v3"}
+        sections_xpath_expression = "or".join(
+            [f"@code='{section}'" for section in sections]
+        )
+        xpath_expression = (
+            f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
+        )
+        # print("xpath_expr: ", xpath_expression)
 
         # Use XPath to find elements matching the expression
-        elements = raw_message.xpath(xpath_expr)
+        elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
+        # print("len(elements): ", len(elements))
 
         # Create & set up a new root element for the refined XML
         refined_message_root = ET.Element(raw_message.tag)
