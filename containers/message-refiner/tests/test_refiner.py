@@ -99,12 +99,12 @@ def test_ecr_refiner(test_data, expected_result):
     [
         # Test case: single sections_to_include
         (
-            "history of present illness",
+            "10164-2",
             ["10164-2"],
         ),
         # Test case: multiple sections_to_include
         (
-            "history of present illness,reason for visit",
+            "10164-2,29299-5",
             ["10164-2", "29299-5"],
         ),
         # Test case: no sections_to_include
@@ -138,7 +138,7 @@ def test_refine():
     raw_message = test_eICR_xml
     # Test case: Refine for only social history
     expected_message = refined_test_eICR_social_history_only
-    sections_to_include = "social history narrative"
+    sections_to_include = "29762-2"
     refined_message = refine(raw_message, sections_to_include)
 
     actual_flattened = [i.tag for i in refined_message.iter()]
@@ -148,9 +148,7 @@ def test_refine():
 
     # Test case: Refine for labs/diagnostics and reason for visit
     expected_message = refined_test_eICR_labs_reason
-    sections_to_include = (
-        "relevant diagnostic tests/laboratory data narrative,reason for visit"
-    )
+    sections_to_include = "30954-2,29299-5"
     raw_message = test_eICR_xml
     refined_message = refine(raw_message, sections_to_include)
 

@@ -56,29 +56,30 @@ def validate_sections_to_include(sections_to_include: str | None) -> list:
     :return: The sections to include in the refined message as a list of LOINC codes
     corresponding to the sections.
     """
-    section_LOINCs = {
-        "history of present illness": "10164-2",
-        "history of immunization narrative": "11369-6",
-        "medications administered": "29549-3",
-        "plan of care note": "18776-5",
-        "problem list - reported": "11450-4",
-        "reason for visit": "29299-5",
-        "relevant diagnostic tests/laboratory data narrative": "30954-2",
-        "social history narrative": "29762-2",
-        "history of hospitalizations+outpatient visits narrative": "46240-8",
-    }
+    section_LOINCs = [
+        "10164-2",  # history of present illness
+        "11369-6",  # history of immunization narrative
+        "29549-3",  # medications administered
+        "18776-5",  # plan of care note
+        "11450-4",  # problem list - reported
+        "29299-5",  # reason for visit
+        "30954-2",  # relevant diagnostic tests/laboratory data narrative
+        "29762-2",  # social history narrative
+        "46240-8",  # history of hospitalizations+outpatient visits narrative
+    ]
+
     section_loincs = None
     if sections_to_include:
         sections = sections_to_include.split(",")
         section_loincs = []
         for section in sections:
-            if section not in section_LOINCs.keys():
+            if section not in section_LOINCs:
                 raise ValueError(
                     f"{section} is invalid. Please provide a valid section."
                 )
 
             else:
-                section_loincs.append(section_LOINCs[section.lower()])
+                section_loincs.append(section)
 
     return section_loincs
 
