@@ -10,7 +10,7 @@ exports[`EcrSummary should match snapshot 1`] = `
       class="usa-summary-box padding-3"
     >
       <div
-        class="usa-summary-box__body"
+        class="usa-summary-box__body margin-bottom-05"
       >
         <h3
           class="summary-box-key-information side-nav-ignore"
@@ -246,7 +246,7 @@ End: 05/13/2022 5:57 AM EDT
             class="grid-row"
           >
             <div
-              class="text-bold"
+              class="text-bold width-full"
             >
               Clinical sections relevant to reportable condition
             </div>
