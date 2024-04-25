@@ -276,197 +276,200 @@ describe("Utils", () => {
   });
 
   describe("DataDisplay", () => {
-    it("should display text up to 500 characters", () => {
-      const FiveHundredChars =
-        "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz";
-      expect(FiveHundredChars).toHaveLength(500);
+    describe("string value", () => {
+      it("should display text up to 500 characters", () => {
+        const FiveHundredChars =
+          "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz";
+        expect(FiveHundredChars).toHaveLength(500);
 
-      render(
-        <DataDisplay item={{ title: "field", value: FiveHundredChars }} />,
-      );
+        render(
+          <DataDisplay item={{ title: "field", value: FiveHundredChars }} />,
+        );
 
-      expect(screen.getByText(FiveHundredChars)).toBeInTheDocument();
+        expect(screen.getByText(FiveHundredChars)).toBeInTheDocument();
+      });
+      it("should only show first 300 characters when full string is greater than 500 characters", () => {
+        const FiveHundredOneChars =
+          "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz1";
+        expect(FiveHundredOneChars).toHaveLength(501);
+
+        render(
+          <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
+        );
+
+        expect(
+          screen.getByText(FiveHundredOneChars.substring(0, 300) + "..."),
+        ).toBeInTheDocument();
+        expect(screen.getByText("View more")).toBeInTheDocument();
+        expect(
+          screen.queryByText(FiveHundredOneChars.substring(300)),
+        ).not.toBeInTheDocument();
+      });
+      it("should show full text when view more is clicked", async () => {
+        const user = userEvent.setup();
+        const FiveHundredOneChars =
+          "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz1";
+        expect(FiveHundredOneChars).toHaveLength(501);
+
+        render(
+          <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
+        );
+
+        await user.click(screen.getByText("View more"));
+
+        expect(screen.getByText(FiveHundredOneChars)).toBeInTheDocument();
+        expect(screen.getByText("View less")).toBeInTheDocument();
+        expect(screen.queryByText("View more")).not.toBeInTheDocument();
+        expect(screen.queryByText("...")).not.toBeInTheDocument();
+      });
+      it("should hide text when view less is clicked", async () => {
+        const user = userEvent.setup();
+        const FiveHundredOneChars =
+          "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz1";
+        expect(FiveHundredOneChars).toHaveLength(501);
+
+        render(
+          <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
+        );
+
+        await user.click(screen.getByText("View more"));
+        expect(screen.getByText(FiveHundredOneChars)).toBeInTheDocument();
+
+        await user.click(screen.getByText("View less"));
+
+        expect(
+          screen.getByText(FiveHundredOneChars.substring(0, 300) + "..."),
+        ).toBeInTheDocument();
+        expect(screen.getByText("View more")).toBeInTheDocument();
+        expect(
+          screen.queryByText(FiveHundredOneChars.substring(300)),
+        ).not.toBeInTheDocument();
+      });
     });
-    it("should only show first 300 characters when full string is greater than 500 characters", () => {
-      const FiveHundredOneChars =
-        "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz1";
-      expect(FiveHundredOneChars).toHaveLength(501);
+    describe("Array ReactNode value", () => {
+      it("should only show first 300 characters when the full element contains greater than 500 characters", () => {
+        const OneHundredTwentyFiveCharStrings = [
+          "gFuhsHGaiecclYWTrp7EvwBAr2JAhfN9Kv09RtBbj4QevWU1FolfXZJBWPgW6LCTUaDaiYMiHDOhNXrIeqn1ICE7fBHTRY1Gq8f5f9g9oAyCKwf2uluoe8nDzXJmV",
+          "pHW6mej26PNCPI1GRAkq7ForT93tNROGU4D4FE8fJETXar1hLVCZXGSQRZBDwBOtXCK0jT7LxtNedMAt4RxLFsM23KpFpvx7ke3EfOOBBOeyulFcXqZaonYkObOv9",
+          "KCu7m7fYs5Jw2IeNf9PtmVHmNJakfdwu19783oUXwHcm9gUAMnQ5FQEgnsfCLy1r79Fx4hQhLm8rdz4sA4cMMD6r8Cpsgt9KsImZRNH2RC5BRgb6cMsGAfOTb8Kri",
+          "qWF7VqoRKetCfdzvRupMCtFNrwZBJb2NEReYStddzm4GGOADg6m5nhgC0goXgzB3GKVIp6qY60aOmyjPnyH2OrAZszdmnthkh6DwI4VROKwPTKbGJorQTy3B8oi8p",
+          "C35z0HsExV59WKHHsBgupEXcHnxyp4rtlfmhWA067Go52PJvzeNgoKU4h27JWobzjWAQ6U9WdEboVvFkkp2SpSkUzG0YR38Ijl3vYpfumtJMFBLvFkPrEkjEbo7UF",
+        ];
+        const FiveHundredOneChars = [
+          <ul key={"1234"}>
+            <li>{OneHundredTwentyFiveCharStrings[0]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[1]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[2]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[3]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[4]}</li>
+          </ul>,
+          "this is more text",
+        ];
 
-      render(
-        <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
-      );
+        render(
+          <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
+        );
 
-      expect(
-        screen.getByText(FiveHundredOneChars.substring(0, 300) + "..."),
-      ).toBeInTheDocument();
-      expect(screen.getByText("View more")).toBeInTheDocument();
-      expect(
-        screen.queryByText(FiveHundredOneChars.substring(300)),
-      ).not.toBeInTheDocument();
-    });
-    it("should show full text when view more is clicked", async () => {
-      const user = userEvent.setup();
-      const FiveHundredOneChars =
-        "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz1";
-      expect(FiveHundredOneChars).toHaveLength(501);
+        expect(
+          screen.getByText(OneHundredTwentyFiveCharStrings[0]),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByText(OneHundredTwentyFiveCharStrings[1]),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByText(
+            OneHundredTwentyFiveCharStrings[2].substring(0, 50) + "...",
+          ),
+        ).toBeInTheDocument();
+        expect(screen.getByText("View more")).toBeInTheDocument();
+        expect(
+          screen.queryByText(OneHundredTwentyFiveCharStrings[2].substring(50)),
+        ).not.toBeInTheDocument();
+        expect(
+          screen.queryByText(OneHundredTwentyFiveCharStrings[3]),
+        ).not.toBeInTheDocument();
+        expect(
+          screen.queryByText(OneHundredTwentyFiveCharStrings[4]),
+        ).not.toBeInTheDocument();
+      });
+      it("should show the whole ReactNode when view more is clicked", async () => {
+        const user = userEvent.setup();
+        const OneHundredTwentyFiveCharStrings = [
+          "gFuhsHGaiecclYWTrp7EvwBAr2JAhfN9Kv09RtBbj4QevWU1FolfXZJBWPgW6LCTUaDaiYMiHDOhNXrIeqn1ICE7fBHTRY1Gq8f5f9g9oAyCKwf2uluoe8nDzXJmV",
+          "pHW6mej26PNCPI1GRAkq7ForT93tNROGU4D4FE8fJETXar1hLVCZXGSQRZBDwBOtXCK0jT7LxtNedMAt4RxLFsM23KpFpvx7ke3EfOOBBOeyulFcXqZaonYkObOv9",
+          "KCu7m7fYs5Jw2IeNf9PtmVHmNJakfdwu19783oUXwHcm9gUAMnQ5FQEgnsfCLy1r79Fx4hQhLm8rdz4sA4cMMD6r8Cpsgt9KsImZRNH2RC5BRgb6cMsGAfOTb8Kri",
+          "qWF7VqoRKetCfdzvRupMCtFNrwZBJb2NEReYStddzm4GGOADg6m5nhgC0goXgzB3GKVIp6qY60aOmyjPnyH2OrAZszdmnthkh6DwI4VROKwPTKbGJorQTy3B8oi8p",
+          "C35z0HsExV59WKHHsBgupEXcHnxyp4rtlfmhWA067Go52PJvzeNgoKU4h27JWobzjWAQ6U9WdEboVvFkkp2SpSkUzG0YR38Ijl3vYpfumtJMFBLvFkPrEkjEbo7UF",
+        ];
+        const LongReactNode = [
+          <ul key={"1234"}>
+            <li>{OneHundredTwentyFiveCharStrings[0]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[1]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[2]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[3]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[4]}</li>
+          </ul>,
+          "this is more text",
+        ];
 
-      render(
-        <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
-      );
+        render(<DataDisplay item={{ title: "field", value: LongReactNode }} />);
 
-      await user.click(screen.getByText("View more"));
+        await user.click(screen.getByText("View more"));
 
-      expect(screen.getByText(FiveHundredOneChars)).toBeInTheDocument();
-      expect(screen.getByText("View less")).toBeInTheDocument();
-      expect(screen.queryByText("View more")).not.toBeInTheDocument();
-      expect(screen.queryByText("...")).not.toBeInTheDocument();
-    });
-    it("should hide text when view less is clicked", async () => {
-      const user = userEvent.setup();
-      const FiveHundredOneChars =
-        "xVP5yPfQAbNOFOOl8Vi1ytfcQ39Cz0dl73SBMj6xQHuCwRRO1FmS7v5wqD55U914tsDfqTtsEQ0mISsLoiMZbco4iwb2xU3nNL6YAneY0tMqsJdb55JWHSI2uqyuuwIvjjZY5Jl9vIda6lLoYke3ywsQFR6nlEFCipJMF9vA9OQqkZljCYirZJu4kZTENk6V1Yirwuzw9L6uV3avK6VhMK6o8qZbxLkDFnMgjzx8kf25tz98mU5m6Rp8zNcY2cf02xA2aV27WfeWvy5TS73SzJK8a9cFZxCe5xsHtAkVqNa4UzGINwt6i2mLN4kuGgmk7GZGoMaOcNyaOr80TfgpWVjqLMobAXvjv1JHBXLXHczFG8jKQtU3U3FoAxTu39CPcjuq43BWsNej1inbzexa7e9njXZUvZGa3z5Nep4vlrQQtV8F5jZFGHvdlhLr1ZdRJE8sAQEi9nWHviYHSYCVR1ijVNtcHVj9JKkJZ5FAn1a9hDFVq2Tz1";
-      expect(FiveHundredOneChars).toHaveLength(501);
+        OneHundredTwentyFiveCharStrings.forEach((str) =>
+          expect(screen.getByText(str)).toBeInTheDocument(),
+        );
+        expect(screen.getByText("this is more text")).toBeInTheDocument();
+        expect(screen.getByText("View less")).toBeInTheDocument();
+      });
+      it("should only show first 300 characters when ReactNode element when view less is clicked", async () => {
+        const user = userEvent.setup();
+        const OneHundredTwentyFiveCharStrings = [
+          "gFuhsHGaiecclYWTrp7EvwBAr2JAhfN9Kv09RtBbj4QevWU1FolfXZJBWPgW6LCTUaDaiYMiHDOhNXrIeqn1ICE7fBHTRY1Gq8f5f9g9oAyCKwf2uluoe8nDzXJmV",
+          "pHW6mej26PNCPI1GRAkq7ForT93tNROGU4D4FE8fJETXar1hLVCZXGSQRZBDwBOtXCK0jT7LxtNedMAt4RxLFsM23KpFpvx7ke3EfOOBBOeyulFcXqZaonYkObOv9",
+          "KCu7m7fYs5Jw2IeNf9PtmVHmNJakfdwu19783oUXwHcm9gUAMnQ5FQEgnsfCLy1r79Fx4hQhLm8rdz4sA4cMMD6r8Cpsgt9KsImZRNH2RC5BRgb6cMsGAfOTb8Kri",
+          "qWF7VqoRKetCfdzvRupMCtFNrwZBJb2NEReYStddzm4GGOADg6m5nhgC0goXgzB3GKVIp6qY60aOmyjPnyH2OrAZszdmnthkh6DwI4VROKwPTKbGJorQTy3B8oi8p",
+          "C35z0HsExV59WKHHsBgupEXcHnxyp4rtlfmhWA067Go52PJvzeNgoKU4h27JWobzjWAQ6U9WdEboVvFkkp2SpSkUzG0YR38Ijl3vYpfumtJMFBLvFkPrEkjEbo7UF",
+        ];
+        const FiveHundredOneChars = [
+          <ul key={"1234"}>
+            <li>{OneHundredTwentyFiveCharStrings[0]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[1]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[2]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[3]}</li>
+            <li>{OneHundredTwentyFiveCharStrings[4]}</li>
+          </ul>,
+          "this is more text",
+        ];
 
-      render(
-        <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
-      );
+        render(
+          <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
+        );
+        await user.click(screen.getByText("View more"));
+        await user.click(screen.getByText("View less"));
 
-      await user.click(screen.getByText("View more"));
-      expect(screen.getByText(FiveHundredOneChars)).toBeInTheDocument();
-
-      await user.click(screen.getByText("View less"));
-
-      expect(
-        screen.getByText(FiveHundredOneChars.substring(0, 300) + "..."),
-      ).toBeInTheDocument();
-      expect(screen.getByText("View more")).toBeInTheDocument();
-      expect(
-        screen.queryByText(FiveHundredOneChars.substring(300)),
-      ).not.toBeInTheDocument();
-    });
-
-    it("should only show first 300 characters when ReactNode element contains more than 500 characters", () => {
-      const OneHundredTwentyFiveCharStrings = [
-        "gFuhsHGaiecclYWTrp7EvwBAr2JAhfN9Kv09RtBbj4QevWU1FolfXZJBWPgW6LCTUaDaiYMiHDOhNXrIeqn1ICE7fBHTRY1Gq8f5f9g9oAyCKwf2uluoe8nDzXJmV",
-        "pHW6mej26PNCPI1GRAkq7ForT93tNROGU4D4FE8fJETXar1hLVCZXGSQRZBDwBOtXCK0jT7LxtNedMAt4RxLFsM23KpFpvx7ke3EfOOBBOeyulFcXqZaonYkObOv9",
-        "KCu7m7fYs5Jw2IeNf9PtmVHmNJakfdwu19783oUXwHcm9gUAMnQ5FQEgnsfCLy1r79Fx4hQhLm8rdz4sA4cMMD6r8Cpsgt9KsImZRNH2RC5BRgb6cMsGAfOTb8Kri",
-        "qWF7VqoRKetCfdzvRupMCtFNrwZBJb2NEReYStddzm4GGOADg6m5nhgC0goXgzB3GKVIp6qY60aOmyjPnyH2OrAZszdmnthkh6DwI4VROKwPTKbGJorQTy3B8oi8p",
-        "C35z0HsExV59WKHHsBgupEXcHnxyp4rtlfmhWA067Go52PJvzeNgoKU4h27JWobzjWAQ6U9WdEboVvFkkp2SpSkUzG0YR38Ijl3vYpfumtJMFBLvFkPrEkjEbo7UF",
-      ];
-      const FiveHundredOneChars = [
-        <ul key={"1234"}>
-          <li>{OneHundredTwentyFiveCharStrings[0]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[1]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[2]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[3]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[4]}</li>
-        </ul>,
-        "this is more text",
-      ];
-
-      render(
-        <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
-      );
-
-      expect(
-        screen.getByText(OneHundredTwentyFiveCharStrings[0]),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(OneHundredTwentyFiveCharStrings[1]),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(
-          OneHundredTwentyFiveCharStrings[2].substring(0, 50) + "...",
-        ),
-      ).toBeInTheDocument();
-      expect(screen.getByText("View more")).toBeInTheDocument();
-      expect(
-        screen.queryByText(OneHundredTwentyFiveCharStrings[2].substring(50)),
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText(OneHundredTwentyFiveCharStrings[3]),
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText(OneHundredTwentyFiveCharStrings[4]),
-      ).not.toBeInTheDocument();
-    });
-    it("should show the whole ReactNode when view more is clicked", async () => {
-      const user = userEvent.setup();
-      const OneHundredTwentyFiveCharStrings = [
-        "gFuhsHGaiecclYWTrp7EvwBAr2JAhfN9Kv09RtBbj4QevWU1FolfXZJBWPgW6LCTUaDaiYMiHDOhNXrIeqn1ICE7fBHTRY1Gq8f5f9g9oAyCKwf2uluoe8nDzXJmV",
-        "pHW6mej26PNCPI1GRAkq7ForT93tNROGU4D4FE8fJETXar1hLVCZXGSQRZBDwBOtXCK0jT7LxtNedMAt4RxLFsM23KpFpvx7ke3EfOOBBOeyulFcXqZaonYkObOv9",
-        "KCu7m7fYs5Jw2IeNf9PtmVHmNJakfdwu19783oUXwHcm9gUAMnQ5FQEgnsfCLy1r79Fx4hQhLm8rdz4sA4cMMD6r8Cpsgt9KsImZRNH2RC5BRgb6cMsGAfOTb8Kri",
-        "qWF7VqoRKetCfdzvRupMCtFNrwZBJb2NEReYStddzm4GGOADg6m5nhgC0goXgzB3GKVIp6qY60aOmyjPnyH2OrAZszdmnthkh6DwI4VROKwPTKbGJorQTy3B8oi8p",
-        "C35z0HsExV59WKHHsBgupEXcHnxyp4rtlfmhWA067Go52PJvzeNgoKU4h27JWobzjWAQ6U9WdEboVvFkkp2SpSkUzG0YR38Ijl3vYpfumtJMFBLvFkPrEkjEbo7UF",
-      ];
-      const LongReactNode = [
-        <ul key={"1234"}>
-          <li>{OneHundredTwentyFiveCharStrings[0]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[1]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[2]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[3]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[4]}</li>
-        </ul>,
-        "this is more text",
-      ];
-
-      render(<DataDisplay item={{ title: "field", value: LongReactNode }} />);
-
-      await user.click(screen.getByText("View more"));
-
-      OneHundredTwentyFiveCharStrings.forEach((str) =>
-        expect(screen.getByText(str)).toBeInTheDocument(),
-      );
-      expect(screen.getByText("this is more text")).toBeInTheDocument();
-      expect(screen.getByText("View less")).toBeInTheDocument();
-    });
-    it("should only show first 300 characters when ReactNode element when view less is clicked", async () => {
-      const user = userEvent.setup();
-      const OneHundredTwentyFiveCharStrings = [
-        "gFuhsHGaiecclYWTrp7EvwBAr2JAhfN9Kv09RtBbj4QevWU1FolfXZJBWPgW6LCTUaDaiYMiHDOhNXrIeqn1ICE7fBHTRY1Gq8f5f9g9oAyCKwf2uluoe8nDzXJmV",
-        "pHW6mej26PNCPI1GRAkq7ForT93tNROGU4D4FE8fJETXar1hLVCZXGSQRZBDwBOtXCK0jT7LxtNedMAt4RxLFsM23KpFpvx7ke3EfOOBBOeyulFcXqZaonYkObOv9",
-        "KCu7m7fYs5Jw2IeNf9PtmVHmNJakfdwu19783oUXwHcm9gUAMnQ5FQEgnsfCLy1r79Fx4hQhLm8rdz4sA4cMMD6r8Cpsgt9KsImZRNH2RC5BRgb6cMsGAfOTb8Kri",
-        "qWF7VqoRKetCfdzvRupMCtFNrwZBJb2NEReYStddzm4GGOADg6m5nhgC0goXgzB3GKVIp6qY60aOmyjPnyH2OrAZszdmnthkh6DwI4VROKwPTKbGJorQTy3B8oi8p",
-        "C35z0HsExV59WKHHsBgupEXcHnxyp4rtlfmhWA067Go52PJvzeNgoKU4h27JWobzjWAQ6U9WdEboVvFkkp2SpSkUzG0YR38Ijl3vYpfumtJMFBLvFkPrEkjEbo7UF",
-      ];
-      const FiveHundredOneChars = [
-        <ul key={"1234"}>
-          <li>{OneHundredTwentyFiveCharStrings[0]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[1]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[2]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[3]}</li>
-          <li>{OneHundredTwentyFiveCharStrings[4]}</li>
-        </ul>,
-        "this is more text",
-      ];
-
-      render(
-        <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
-      );
-      await user.click(screen.getByText("View more"));
-      await user.click(screen.getByText("View less"));
-
-      expect(
-        screen.getByText(OneHundredTwentyFiveCharStrings[0]),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(OneHundredTwentyFiveCharStrings[1]),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(
-          OneHundredTwentyFiveCharStrings[2].substring(0, 50) + "...",
-        ),
-      ).toBeInTheDocument();
-      expect(screen.getByText("View more")).toBeInTheDocument();
-      expect(
-        screen.queryByText(OneHundredTwentyFiveCharStrings[2].substring(50)),
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText(OneHundredTwentyFiveCharStrings[3]),
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText(OneHundredTwentyFiveCharStrings[4]),
-      ).not.toBeInTheDocument();
+        expect(
+          screen.getByText(OneHundredTwentyFiveCharStrings[0]),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByText(OneHundredTwentyFiveCharStrings[1]),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByText(
+            OneHundredTwentyFiveCharStrings[2].substring(0, 50) + "...",
+          ),
+        ).toBeInTheDocument();
+        expect(screen.getByText("View more")).toBeInTheDocument();
+        expect(
+          screen.queryByText(OneHundredTwentyFiveCharStrings[2].substring(50)),
+        ).not.toBeInTheDocument();
+        expect(
+          screen.queryByText(OneHundredTwentyFiveCharStrings[3]),
+        ).not.toBeInTheDocument();
+        expect(
+          screen.queryByText(OneHundredTwentyFiveCharStrings[4]),
+        ).not.toBeInTheDocument();
+      });
     });
   });
 });
