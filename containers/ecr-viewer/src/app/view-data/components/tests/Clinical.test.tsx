@@ -310,7 +310,6 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
       clinicalInfo.getByTestId("treatment-details");
     expect(expectedTreatmentElement).toBeInTheDocument();
 
-    // Ensure only one table (Treatment) is rendering
     const expectedTable = clinicalInfo.getAllByTestId("table");
     expect(expectedTable[0]).toBeInTheDocument();
     expect(expectedTable.length).toEqual(4);
@@ -341,7 +340,6 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
       clinicalInfo.getByTestId("treatment-details");
     expect(expectedTreatmentElement).toBeInTheDocument();
 
-    // Ensure the three tables (Immunization History & Active Problems & Treatment) are rendering
     const expectedTable = clinicalInfo.getAllByTestId("table");
     expect(expectedTable[0]).toBeInTheDocument();
     expect(expectedTable.length).toEqual(6);
