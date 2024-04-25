@@ -344,5 +344,51 @@ describe("Utils", () => {
         screen.queryByText(FiveHundredOneChars.substring(300)),
       ).not.toBeInTheDocument();
     });
+
+    it("should only show first 300 characters when ReactNode element contains more than 500 characters", () => {
+      const OneHundredTwentyFiveCharStrings = [
+        "gFuhsHGaiecclYWTrp7EvwBAr2JAhfN9Kv09RtBbj4QevWU1FolfXZJBWPgW6LCTUaDaiYMiHDOhNXrIeqn1ICE7fBHTRY1Gq8f5f9g9oAyCKwf2uluoe8nDzXJmV",
+        "pHW6mej26PNCPI1GRAkq7ForT93tNROGU4D4FE8fJETXar1hLVCZXGSQRZBDwBOtXCK0jT7LxtNedMAt4RxLFsM23KpFpvx7ke3EfOOBBOeyulFcXqZaonYkObOv9",
+        "KCu7m7fYs5Jw2IeNf9PtmVHmNJakfdwu19783oUXwHcm9gUAMnQ5FQEgnsfCLy1r79Fx4hQhLm8rdz4sA4cMMD6r8Cpsgt9KsImZRNH2RC5BRgb6cMsGAfOTb8Kri",
+        "qWF7VqoRKetCfdzvRupMCtFNrwZBJb2NEReYStddzm4GGOADg6m5nhgC0goXgzB3GKVIp6qY60aOmyjPnyH2OrAZszdmnthkh6DwI4VROKwPTKbGJorQTy3B8oi8p",
+        "C35z0HsExV59WKHHsBgupEXcHnxyp4rtlfmhWA067Go52PJvzeNgoKU4h27JWobzjWAQ6U9WdEboVvFkkp2SpSkUzG0YR38Ijl3vYpfumtJMFBLvFkPrEkjEbo7UF",
+      ];
+      const FiveHundredOneChars = [
+        <ul key={"1234"}>
+          <li>{OneHundredTwentyFiveCharStrings[0]}</li>
+          <li>{OneHundredTwentyFiveCharStrings[1]}</li>
+          <li>{OneHundredTwentyFiveCharStrings[2]}</li>
+          <li>{OneHundredTwentyFiveCharStrings[3]}</li>
+          <li>{OneHundredTwentyFiveCharStrings[4]}</li>
+        </ul>,
+        "this is more text",
+      ];
+
+      render(
+        <DataDisplay item={{ title: "field", value: FiveHundredOneChars }} />,
+      );
+
+      expect(
+        screen.getByText(OneHundredTwentyFiveCharStrings[0]),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(OneHundredTwentyFiveCharStrings[1]),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          OneHundredTwentyFiveCharStrings[2].substring(0, 50) + "...",
+        ),
+      ).toBeInTheDocument();
+      expect(screen.getByText("View more")).toBeInTheDocument();
+      expect(
+        screen.queryByText(OneHundredTwentyFiveCharStrings[2].substring(50)),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(OneHundredTwentyFiveCharStrings[3]),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(OneHundredTwentyFiveCharStrings[4]),
+      ).not.toBeInTheDocument();
+    });
   });
 });

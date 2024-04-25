@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import * as dateFns from "date-fns";
 import {
   Bundle,
@@ -1046,11 +1046,16 @@ export const DataDisplay: React.FC<{
 const FieldValue: React.FC<{
   value?: React.ReactNode;
 }> = ({ value }) => {
+  const maxLength = 500;
+  const cutLength = 300;
   const [hideText, setHideText] = useState(true);
-  if (value && typeof value === "string" && value.length > 500) {
+  useEffect(() => {
+    console.log(hideText);
+  }, [hideText]);
+  if (value && typeof value === "string" && value.length > maxLength) {
     return (
       <>
-        {hideText ? value.substring(0, 300) + "..." : value}{" "}
+        {hideText ? value.substring(0, cutLength) + "..." : value}{" "}
         <Button
           type={"button"}
           unstyled={true}
@@ -1060,8 +1065,89 @@ const FieldValue: React.FC<{
         </Button>
       </>
     );
+  } else if (Array.isArray(value) || React.isValidElement(value)) {
+    if (RecurCount(value) > maxLength) {
+      return RecurSplit(value, cutLength, setHideText).value;
+      // show cut version or original
+    }
   }
   return value;
+};
+
+const RecurCount = (value: React.ReactNode): number => {
+  if (typeof value === "string") {
+    return value.length;
+  } else if (Array.isArray(value)) {
+    let count = 0;
+    value.forEach((val) => (count += RecurCount(val)));
+    return count;
+  } else if (React.isValidElement(value) && value.props.children) {
+    return RecurCount(value.props.children);
+  }
+  return 0;
+};
+
+const RecurSplit = (
+  value: React.ReactNode,
+  remainingLength: number,
+  setHideText: (val: boolean) => void,
+): { value: React.ReactNode; remainingLength: number } => {
+  if (typeof value === "string") {
+    const cutString = value.substring(0, remainingLength);
+    if (remainingLength > 0 && remainingLength - cutString.length === 0) {
+      const button = (
+        <Button
+          type={"button"}
+          unstyled={true}
+          onClick={() => setHideText(false)}
+        >
+          View more
+        </Button>
+      );
+      return {
+        value: (
+          <>
+            {cutString}... {button}
+          </>
+        ),
+        remainingLength: 0,
+      };
+    }
+    return {
+      value: cutString,
+      remainingLength: remainingLength - cutString.length,
+    };
+  } else if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      if (remainingLength > 0) {
+        let splitVal = RecurSplit(value[i], remainingLength, setHideText);
+        remainingLength = splitVal.remainingLength;
+        value[i] = splitVal.value;
+      } else {
+        delete value[i];
+      }
+    }
+    return { value: value.filter(Boolean), remainingLength: remainingLength };
+  } else if (React.isValidElement(value) && value.props.children) {
+    if (remainingLength > 0) {
+      let childrenCopy: ReactNode;
+      if (Array.isArray(value.props.children)) {
+        childrenCopy = [...value.props.children];
+      } else {
+        childrenCopy = value.props.children;
+      }
+      let split = RecurSplit(childrenCopy, remainingLength, setHideText);
+      const newElement = React.cloneElement(
+        value,
+        { ...value.props, key: split.value },
+        split.value,
+      );
+      return { value: newElement, remainingLength: split.remainingLength };
+    } else {
+      return { value: null, remainingLength: remainingLength };
+    }
+  }
+  return { value, remainingLength: remainingLength };
 };
 
 export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
