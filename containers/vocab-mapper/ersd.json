@@ -1,0 +1,78 @@
+{
+  "value_set_type": {
+    "fhir_path": "entry.resource.where(resourceType='ValueSet' and url.contains('http://ersd.aimsplatform.org/fhir/ValueSet/')",
+    "data_type": "string",
+    "nullable": false,
+    "secondary_schema": {
+      "id": {
+        "fhir_path": "id",
+        "data_type": "string",
+        "nullable": false
+      },
+      "clinical_service_type": {
+        "fhir_path": "title",
+        "data_type": "string",
+        "nullable": false
+      }
+    }
+  },
+  "clincal_services": {
+    "fhir_path": "entry.resource.where(resourceType='ValueSet' and url.contains('http://cts.nlm.nih.gov/fhir/ValueSet/')",
+    "data_type": "string",
+    "nullable": false,
+    "secondary_schema": {
+      "value_set_id": {
+        "fhir_path": "id",
+        "data_type": "string",
+        "nullable": false
+      },
+      "display": {
+        "fhir_path": "title",
+        "data_type": "string",
+        "nullable": false
+      },
+      "valueable_codes": {
+        "fhir_path": "useContext.valueCodeableConcept.where(coding.system!='http://hl7.org/fhir/us/ecr/CodeSystem/us-ph-usage-context')",
+        "data_type": "array",
+        "nullable": false
+      },
+      "compose_codes": {
+        "fhir_path": "compose.include",
+        "data_type": "string",
+        "nullable": false
+      },
+      "expansion_codes": {
+        "fhir_path": "expansion.contains",
+        "data_type": "string",
+        "nullable": false
+      }
+    }
+  },
+  "value_sets": {
+    "fhir_path": "entry.resource.where(resourceType='ValueSet' and url.contains('http://ersd.aimsplatform.org/fhir/ValueSet/')",
+    "data_type": "string",
+    "nullable": false,
+    "secondary_schema": {
+      "clinical_service_type_id": {
+        "fhir_path": "id",
+        "data_type": "string",
+        "nullable": false
+      },
+      "version": {
+        "fhir_path": "version",
+        "data_type": "string",
+        "nullable": false
+      },
+      "compose_codes": {
+        "fhir_path": "compose.include.valueSet",
+        "data_type": "string",
+        "nullable": false
+      },
+      "expansion_codes": {
+        "fhir_path": "expansion.contains",
+        "data_type": "array",
+        "nullable": false
+      }
+    }
+  }
+}
