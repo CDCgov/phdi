@@ -989,6 +989,62 @@
         "method": "PUT",
         "url": "Procedure/b40f0081-4052-4971-3f3b-e3d9f5e1e44d"
       }
+    },
+    {
+      "fullUrl": "urn:uuid:360f0f52-0434-58ee-1e51-e093e4cf4847",
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "360f0f52-0434-58ee-1e51-e093e4cf4847",
+        "status": "unknown",
+        "intent": "proposal",
+        "subject": {
+          "reference": "Patient/1317daf3-8ee2-4583-8e95-7e327a87e1f1"
+        },
+        "activity": [
+          {
+            "detail": {
+              "status": "scheduled",
+              "scheduledString": "202103141708-0400"
+            },
+            "extension": [
+              {
+                "url": "dibbs.orderedDate",
+                "valueString": "20210414160302-0400"
+              }
+            ]
+          },
+          {
+            "detail": {
+              "code": {
+                "coding": [
+                  {
+                    "code": "313952006",
+                    "display": "Ammonia plas",
+                    "system": "http://snomed.info/sct"
+                  }
+                ]
+              },
+              "status": "scheduled",
+              "scheduledString": "202101250938-0400"
+            },
+            "extension": [
+              {
+                "url": "dibbs.orderedDate",
+                "valueString": "20210314170826-0400"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "CarePlan/360f0f52-0434-58ee-1e51-e093e4cf4847"
+      }
     }
   ]
 }
