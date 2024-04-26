@@ -1,6 +1,5 @@
 import { evaluate } from "fhirpath";
-import { Bundle, CodeableConcept, FhirResource, Quantity } from "fhir/r4";
-import { toSentenceCase } from "./format-service";
+import { Bundle, CodeableConcept, Element, Quantity } from "fhir/r4";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Button, Table } from "@trussworks/react-uswds";
@@ -10,7 +9,7 @@ import React, { ReactNode, useState } from "react";
 interface BuildRowProps {
   mappings: PathMappings;
   columns: ColumnInfoInput[];
-  entry: FhirResource;
+  entry: Element;
 }
 
 /**
@@ -25,7 +24,7 @@ interface BuildRowProps {
  * @returns - A formatted table React element.
  */
 export const evaluateTable = (
-  resources: FhirResource[],
+  resources: Element[],
   mappings: PathMappings,
   columns: ColumnInfoInput[],
   caption: string,
@@ -95,7 +94,9 @@ const BuildRow: React.FC<BuildRowProps> = ({
     } else if (column?.infoPath) {
       rowCellData = evaluateValue(entry, mappings[column.infoPath]);
     }
-    if (!rowCellData) {
+    if (rowCellData && column.applyToValue) {
+      rowCellData = column.applyToValue(rowCellData);
+    } else if (!rowCellData) {
       rowCellData = <span className={"text-italic text-base"}>No data</span>;
     } else if (column.hiddenBaseText) {
       hiddenRows.push(
@@ -119,9 +120,7 @@ const BuildRow: React.FC<BuildRowProps> = ({
     }
     return (
       <td key={`row-data-${index}`} className="text-top">
-        {column.sentenceCase && typeof rowCellData === "string"
-          ? toSentenceCase(rowCellData)
-          : rowCellData}
+        {rowCellData}
       </td>
     );
   });
@@ -163,7 +162,7 @@ export const evaluateReference = (
  * @param path - The path within the resource to extract the value from.
  * @returns - The evaluated value as a string.
  */
-export const evaluateValue = (entry: FhirResource, path: string): string => {
+export const evaluateValue = (entry: Element, path: string): string => {
   let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
   let value = "";
   if (typeof originalValue === "string" || typeof originalValue === "number") {

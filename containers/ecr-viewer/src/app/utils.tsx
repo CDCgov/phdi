@@ -24,10 +24,11 @@ import {
   formatTablesToJSON,
   TableRow,
   removeHtmlElements,
+  toSentenceCase,
 } from "@/app/format-service";
 import { evaluateTable, evaluateReference } from "./evaluate-service";
 import { Table } from "@trussworks/react-uswds";
-import { CareTeamParticipant } from "fhir/r4b";
+import { CareTeamParticipant, CarePlanActivity } from "fhir/r4b";
 
 export interface DisplayData {
   title?: string;
@@ -53,6 +54,7 @@ export interface ColumnInfoInput {
   sentenceCase?: boolean;
   className?: string;
   hiddenBaseText?: string;
+  applyToValue?: (value: any) => any;
 }
 
 export interface CompleteData {
@@ -775,7 +777,7 @@ export const returnCareTeamTable = (
     {
       columnName: "Status",
       infoPath: "careTeamParticipantStatus",
-      sentenceCase: true,
+      applyToValue: toSentenceCase,
     },
     { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
   ];
@@ -861,6 +863,45 @@ export const returnProceduresTable = (
   return evaluateTable(proceduresArray, mappings, columnInfo, "Procedures");
 };
 
+/**
+ * Generates a formatted table representing the list of planned procedures
+ * @param carePlanActivities - An array containing the list of procedures.
+ * @param mappings - An object containing FHIR path mappings for procedure attributes.
+ * @returns - A formatted table React element representing the list of planned procedures, or undefined if the procedures array is empty.
+ */
+export const returnPlannedProceduresTable = (
+  carePlanActivities: CarePlanActivity[],
+  mappings: PathMappings,
+): React.JSX.Element | undefined => {
+  carePlanActivities = carePlanActivities.filter(
+    (entry) => entry.detail?.code?.coding?.[0]?.display,
+  );
+  if (carePlanActivities.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Procedure Name", infoPath: "plannedProcedureName" },
+    {
+      columnName: "Ordered Date",
+      infoPath: "plannedProcedureOrderedDate",
+      applyToValue: formatDate,
+    },
+    {
+      columnName: "Scheduled Date",
+      infoPath: "plannedProcedureScheduledDate",
+      applyToValue: formatDate,
+    },
+  ];
+
+  return evaluateTable(
+    carePlanActivities,
+    mappings,
+    columnInfo,
+    "Planned Procedures",
+  );
+};
+
 export const evaluateClinicalData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -915,6 +956,13 @@ export const evaluateClinicalData = (
       title: "Procedures",
       value: returnProceduresTable(
         evaluate(fhirBundle, mappings["procedures"]),
+        mappings,
+      ),
+    },
+    {
+      title: "Planned Procedures",
+      value: returnPlannedProceduresTable(
+        evaluate(fhirBundle, mappings["plannedProcedures"]),
         mappings,
       ),
     },

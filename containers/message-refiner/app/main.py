@@ -3,6 +3,7 @@ from pathlib import Path
 from dibbs.base_service import BaseService
 from fastapi import Request
 from fastapi import Response
+from lxml import etree as ET
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -38,9 +39,95 @@ async def refine_ecr(
     data = await refiner_input.body()
 
     if sections_to_include:
-        # TODO: add logic to filter the XML message based on the sections to include
-        refined_message = Response(content=data, media_type="application/xml")
-    else:
-        refined_message = Response(content=data, media_type="application/xml")
+        sections_to_include, error_message = validate_sections_to_include(
+            sections_to_include
+        )
 
-    return refined_message
+        if error_message != "":
+            return Response(content=error_message, status_code=422)
+
+        data = refine(data, sections_to_include)
+
+    return Response(content=data, media_type="application/xml")
+
+
+def validate_sections_to_include(sections_to_include: str | None) -> tuple[list, str]:
+    """
+    Validates the sections to include in the refined message and returns them as a list
+    of corresponding LOINC codes.
+
+    :param sections_to_include: The sections to include in the refined message.
+    :raises ValueError: When at least one of the sections_to_inlcude is invalid.
+    :return: A tuple that includes the sections to include in the refined message as a
+    list of LOINC codes corresponding to the sections and an error message. If there is
+    no error in validating the sections to include, the error message will be an empty
+    string.
+    """
+    section_LOINCs = [
+        "10164-2",  # history of present illness
+        "11369-6",  # history of immunization narrative
+        "29549-3",  # medications administered
+        "18776-5",  # plan of care note
+        "11450-4",  # problem list - reported
+        "29299-5",  # reason for visit
+        "30954-2",  # relevant diagnostic tests/laboratory data narrative
+        "29762-2",  # social history narrative
+        "46240-8",  # history of hospitalizations+outpatient visits narrative
+    ]
+
+    error_message = ""
+    section_loincs = []
+
+    if sections_to_include:
+        section_loincs = []
+        sections = sections_to_include.split(",")
+        for section in sections:
+            if section not in section_LOINCs:
+                section_loincs = None
+                error_message = f"{section} is invalid. Please provide a valid section."
+                break
+            else:
+                section_loincs.append(section)
+
+    return (section_loincs, error_message) if section_loincs else (None, error_message)
+
+
+def refine(raw_message: bytes, sections_to_include: str) -> str:
+    """
+    Refines an incoming XML message based on the sections to include.
+
+    :param raw_message: The XML input.
+    :param sections_to_include: The sections to include in the refined message.
+    :return: The refined message.
+    """
+
+    raw_message = ET.fromstring(raw_message)
+
+    # Set up XPath expression
+    namespaces = {"hl7": "urn:hl7-org:v3"}
+    sections_xpath_expression = "or".join(
+        [f"@code='{section}'" for section in sections_to_include]
+    )
+    xpath_expression = (
+        f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
+    )
+
+    # Use XPath to find elements matching the expression
+    elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
+
+    # Create & set up a new root element for the refined XML
+    refined_message_root = ET.Element(raw_message.tag)
+    component = ET.Element("component")
+    structuredBody = ET.Element("structuredBody")
+
+    # Append the filtered elements to the new root
+    for element in elements:
+        c = ET.Element("component")
+        c.append(element)
+        structuredBody.append(c)
+    component.append(structuredBody)
+    refined_message_root.append(component)
+
+    # Create a new ElementTree with the result root
+    refined_message = ET.ElementTree(refined_message_root)
+    return ET.tostring(refined_message, encoding="unicode")

@@ -84,6 +84,10 @@ historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Compositio
 
 # Treatment Details
 planOfTreatment: "Bundle.entry.resource.section.where(title = 'Plan of Treatment').text"
+plannedProcedures: "Bundle.entry.resource.where(resourceType = 'CarePlan').activity"
+plannedProcedureName: "detail.code.coding[0].display"
+plannedProcedureOrderedDate: "extension.where(url = 'dibbs.orderedDate').valueString"
+plannedProcedureScheduledDate: "detail.scheduledString"
 
 # Adminstered Medications
 administeredMedications: "Bundle.entry.resource.section.where(code.coding[0].code = '29549-3').text"
