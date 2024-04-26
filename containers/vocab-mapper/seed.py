@@ -8,11 +8,11 @@ from dotenv import load_dotenv
 load_dotenv()
 # key can be obtained here: https://ersd.aimsplatform.org/#/api-keys
 ERSD_API_KEY = os.getenv("ERSD_API_KEY")
-URL = f"https://ersd.aimsplatform.org/api/ersd/v2specification?format=json&api-key={ERSD_API_KEY}"
-MESSAGE_PARSER_ENDPOINT = "http://localhost:8085/parse_message"
+ERSD_URL = f"https://ersd.aimsplatform.org/api/ersd/v2specification?format=json&api-key={ERSD_API_KEY}"
+# TODO: use python to start service
+MESSAGE_PARSER_URL = "http://localhost:8085/"
 
 
-# Specify the path to your JSON file and the output CSV file
 def load_ersd(URL: str) -> json:
     """
     Loads the latest v2 eRSD data from the eRSD API in a json format.
@@ -21,46 +21,81 @@ def load_ersd(URL: str) -> json:
     :return: eRSD FHIR bundle in JSON format
     """
     response = requests.get(URL)
-    # Ensure the request was successful
     if response.status_code == 200:
-        # Load JSON data from the response
         data = response.json()
     else:
         print("Failed to retrieve data:", response.status_code)
     return data
 
 
-def parse_ersd(MESSAGE_PARSER_ENDPOINT: str, data: json) -> json:
+def load_ersd_schema(MESSAGE_PARSER_URL: str):
+    """
+    Loads the ersd.json to the message-parser endpoint to use to parse eRSD
+    :param MESSAGE_PARSER_URL: message-parser endpoint URL
+
+    TODO: This does not currently seem to work; I can see the config loaded
+    but I cannot seem to get parse-message to work with it
+    """
+    with open("ersd.json", "r") as json_file:
+        ersd_schema = json.load(json_file)
+    # Create payload to upload the schema to message-parser
+    url = MESSAGE_PARSER_URL + "schemas/ersd.json"
+    headers = {"Content-Type": "application/json"}
+    payload = {
+        "overwrite": "true",
+        "parsing_schema": ersd_schema,
+        "parsing_schema_name": "ersd.json",
+    }
+    try:
+        requests.put(url=url, headers=headers, json=payload)
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+
+
+def get_clinical_services_types(data: json) -> json:
+    """
+    Loop through eRSD json bundle in order to create a small dictionary of
+    each of the (currently) 6 service types as defined by APHL with an array
+    of their respective value set urls.
+
+    This is the only part of the eRSD json bundle where the service type is
+    defined for each of the value sets, so this will be a
+
+    :param data: eRSD json bundle
+    :return: ca dictionary of each service types with an array of their
+    respective value set urls
+    """
+    clinical_service_dict = {}
+    for service_type in data.get("entry"):
+        url = service_type.get("resource").get("url")
+        if url.startswith("http://ersd.aimsplatform.org/fhir/ValueSet/"):
+            id = service_type.get("fullUrl").split("/")[-1]
+            vs = service_type["resource"]["compose"]["include"][0]["valueSet"]
+            clinical_service_dict[id] = vs
+    return clinical_service_dict
+
+
+def parse_ersd(MESSAGE_PARSER_URL: str, data: json) -> json:
     """
     Takes the eRSD bundle and posts it to the message parser. This flattens the
     eRSD bundle to a flatter json that can be parsed.
 
     :param MESSAGE_PARSER_ENDPOINT: endpoint of message_parser to send data.
+    :param data: eRSD json bundle
     :return: parsed message.
     """
-    headers = {"Content-Type": "application/json"}  # Specify the content type
-    # can be removed later once ersd.json is part of message_parser image
-    ersd_schema = json.load(
-        open(
-            os.path.join(
-                os.path.dirname(os.getcwd()),
-                "message-parser",
-                "app",
-                "default_schemas",
-                "ersd.json",
-            )
-        )
-    )
+    with open("ersd.json", "r") as json_file:
+        ersd_schema = json.load(json_file)
+    url = MESSAGE_PARSER_URL + "parse_message"
+    headers = {"Content-Type": "application/json"}
     payload = {
         "message_format": "fhir",
         "message": data,
-        "parsing_schema": ersd_schema,  # replace with below
+        "parsing_schema": ersd_schema,  # see load_ersd_schema, need to debug
         # "parsing_schema_name": "ersd.json"
     }
     try:
-        parsed_message = requests.post(
-            url=MESSAGE_PARSER_ENDPOINT, headers=headers, json=payload
-        )
+        parsed_message = requests.post(url=url, headers=headers, json=payload)
         match parsed_message.status_code:
             case 200:
                 return parsed_message.json().get("parsed_values")
@@ -72,8 +107,19 @@ def parse_ersd(MESSAGE_PARSER_ENDPOINT: str, data: json) -> json:
         print(f"An error occurred: {e}")
 
 
-ersd_data = load_ersd(URL)
-parsed_data = parse_ersd(MESSAGE_PARSER_ENDPOINT, ersd_data)
+ersd_data = load_ersd(ERSD_URL)
+load_ersd_schema(MESSAGE_PARSER_URL)
+clinincal_service_dict = get_clinical_services_types(ersd_data)
+
+"""
+TODO: We will add functions / update parse_ersd
+based on plan in #1683 ticket
+We should be able to use the clinical services dict to create pared down
+FHIR bundles of just the relevant ValueSets, which will also require
+updating ersd.json
+"""
+
+parsed_data = parse_ersd(MESSAGE_PARSER_URL, ersd_data)
 
 
 def clinical_services_table(data: json) -> list:
