@@ -100,38 +100,41 @@ def test_ecr_refiner(test_data, expected_result):
         # Test case: single sections_to_include
         (
             "10164-2",
-            ["10164-2"],
+            (["10164-2"], ""),
         ),
         # Test case: multiple sections_to_include
         (
             "10164-2,29299-5",
-            ["10164-2", "29299-5"],
+            (["10164-2", "29299-5"], ""),
         ),
         # Test case: no sections_to_include
         (
             None,
-            None,
+            (None, ""),
         ),
         # Test case: invalid sections_to_include
         (
             "blah blah blah",
-            ValueError("blah blah blah is invalid. Please provide a valid section."),
+            (None, "blah blah blah is invalid. Please provide a valid section."),
         ),
     ],
 )
 def test_validate_sections_to_include(test_data, expected_result):
-    if isinstance(expected_result, ValueError):
-        with pytest.raises(ValueError) as e:
-            validate_sections_to_include(test_data)
-            assert str(e.value) == str(expected_result)
+    # # Test cases: single and multiple sections_to_include
+    if test_data != "blah blah blah" and test_data is not None:
+        actual_response = validate_sections_to_include(test_data)
+        assert actual_response == expected_result
+        assert isinstance(actual_response[0], list)
+    # Test case: no sections_to_include
     elif test_data is None:
         actual_response = validate_sections_to_include(test_data)
         assert actual_response == expected_result
-        assert actual_response is None
+        assert actual_response[0] is None
+    # Test case: invalid sections_to_include
     else:
         actual_response = validate_sections_to_include(test_data)
         assert actual_response == expected_result
-        assert isinstance(actual_response, list)
+        assert actual_response[1] != ""
 
 
 def test_refine():
