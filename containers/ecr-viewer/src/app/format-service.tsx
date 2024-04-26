@@ -84,7 +84,10 @@ export const formatAddress = (
  * @param dateTime - The date and time string to be formatted.
  * @returns The formatted date and time string.
  */
-export const formatDateTime = (dateTime: string) => {
+export const formatDateTime = (dateTime?: string) => {
+  if (!dateTime) {
+    return "";
+  }
   const hasTime = dateTime?.includes(":");
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
