@@ -6,4 +6,4 @@ build-backend = "setuptools.build_meta"
 name = "dibbs"
 version = "0.1.0"
 description = "A small library of tools shared across the DIBBS project"
-dependencies = ["pydantic==1.10.9", "fastapi>=0.109.1", "uvicorn"]
+dependencies = ["pydantic==1.10.13", "fastapi>=0.109.1", "uvicorn"]

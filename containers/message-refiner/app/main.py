@@ -39,21 +39,29 @@ async def refine_ecr(
     data = await refiner_input.body()
 
     if sections_to_include:
-        sections_to_include = validate_sections_to_include(sections_to_include)
+        sections_to_include, error_message = validate_sections_to_include(
+            sections_to_include
+        )
+
+        if error_message != "":
+            return Response(content=error_message, status_code=422)
+
         data = refine(data, sections_to_include)
 
     return Response(content=data, media_type="application/xml")
 
 
-def validate_sections_to_include(sections_to_include: str | None) -> list:
+def validate_sections_to_include(sections_to_include: str | None) -> tuple[list, str]:
     """
     Validates the sections to include in the refined message and returns them as a list
     of corresponding LOINC codes.
 
     :param sections_to_include: The sections to include in the refined message.
     :raises ValueError: When at least one of the sections_to_inlcude is invalid.
-    :return: The sections to include in the refined message as a list of LOINC codes
-    corresponding to the sections.
+    :return: A tuple that includes the sections to include in the refined message as a
+    list of LOINC codes corresponding to the sections and an error message. If there is
+    no error in validating the sections to include, the error message will be an empty
+    string.
     """
     section_LOINCs = [
         "10164-2",  # history of present illness
@@ -67,23 +75,24 @@ def validate_sections_to_include(sections_to_include: str | None) -> list:
         "46240-8",  # history of hospitalizations+outpatient visits narrative
     ]
 
-    section_loincs = None
+    error_message = ""
+    section_loincs = []
+
     if sections_to_include:
-        sections = sections_to_include.split(",")
         section_loincs = []
+        sections = sections_to_include.split(",")
         for section in sections:
             if section not in section_LOINCs:
-                raise ValueError(
-                    f"{section} is invalid. Please provide a valid section."
-                )
-
+                section_loincs = None
+                error_message = f"{section} is invalid. Please provide a valid section."
+                break
             else:
                 section_loincs.append(section)
 
-    return section_loincs
+    return (section_loincs, error_message) if section_loincs else (None, error_message)
 
 
-def refine(raw_message: bytes, sections_to_include: str) -> bytes:
+def refine(raw_message: bytes, sections_to_include: str) -> str:
     """
     Refines an incoming XML message based on the sections to include.
 
@@ -121,4 +130,4 @@ def refine(raw_message: bytes, sections_to_include: str) -> bytes:
 
     # Create a new ElementTree with the result root
     refined_message = ET.ElementTree(refined_message_root)
-    return refined_message
+    return ET.tostring(refined_message, encoding="unicode")

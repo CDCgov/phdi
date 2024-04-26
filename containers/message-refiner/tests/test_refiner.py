@@ -49,7 +49,6 @@ refined_test_eICR_social_history_only = parse_file_from_test_assets(
 refined_test_eICR_labs_reason = parse_file_from_test_assets(
     "refined_message_labs_reason.xml"
 )
-test_xml = '<?xml version="1.0" encoding="UTF-8"?>'
 
 
 def test_health_check():
@@ -60,38 +59,47 @@ def test_health_check():
     }
 
 
-@pytest.mark.parametrize(
-    "test_data, expected_result",
-    [
-        # Test case: sections_to_include = None
-        (
-            {
-                "test_xml": test_xml,
-                "sections_to_include": None,
-            },
-            test_xml,
-        ),
-        # Test case: sections_to_include = "section_1,section2"
-        (
-            {
-                "test_xml": test_xml,
-                "sections_to_include": "section_1,section2",
-            },
-            test_xml,
-        ),
-    ],
-)
-def test_ecr_refiner(test_data, expected_result):
-    sections_to_include = test_data["sections_to_include"]
-    content = test_data["test_xml"]
+def test_ecr_refiner():
+    # Test case: sections_to_include = None
+    expected_response = test_eICR_xml
+    content = test_eICR_xml
+    sections_to_include = None
     endpoint = "/ecr/"
-    if sections_to_include:
-        endpoint = f"/ecr/?{sections_to_include}"
-
     actual_response = client.post(endpoint, content=content)
-
     assert actual_response.status_code == 200
-    assert actual_response.content.decode() == expected_result
+    assert actual_response.content.decode() == expected_response
+
+    # Test case: sections_to_include = "29762-2" # social history narrative
+    expected_response = refined_test_eICR_social_history_only
+    content = test_eICR_xml
+    sections_to_include = "29762-2"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}"
+    actual_response = client.post(endpoint, content=content)
+    assert actual_response.status_code == 200
+
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
+
+    # Test case: sections_to_include = "30954-2,29299-5" # labs/diagnostics and reason for visit
+    expected_response = refined_test_eICR_labs_reason
+    content = test_eICR_xml
+    sections_to_include = "30954-2,29299-5"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}"
+    actual_response = client.post(endpoint, content=content)
+    assert actual_response.status_code == 200
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
+
+    # Test case: sections_to_include is invalid
+    expected_response = "blah blah blah is invalid. Please provide a valid section."
+    content = test_eICR_xml
+    sections_to_include = "blah blah blah"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}"
+    actual_response = client.post(endpoint, content=content)
+    assert actual_response.status_code == 422
+    assert actual_response.content.decode() == expected_response
 
 
 @pytest.mark.parametrize(
@@ -99,39 +107,42 @@ def test_ecr_refiner(test_data, expected_result):
     [
         # Test case: single sections_to_include
         (
-            "10164-2",
-            ["10164-2"],
+            "29762-2",
+            (["29762-2"], ""),
         ),
         # Test case: multiple sections_to_include
         (
             "10164-2,29299-5",
-            ["10164-2", "29299-5"],
+            (["10164-2", "29299-5"], ""),
         ),
         # Test case: no sections_to_include
         (
             None,
-            None,
+            (None, ""),
         ),
         # Test case: invalid sections_to_include
         (
             "blah blah blah",
-            ValueError("blah blah blah is invalid. Please provide a valid section."),
+            (None, "blah blah blah is invalid. Please provide a valid section."),
         ),
     ],
 )
 def test_validate_sections_to_include(test_data, expected_result):
-    if isinstance(expected_result, ValueError):
-        with pytest.raises(ValueError) as e:
-            validate_sections_to_include(test_data)
-            assert str(e.value) == str(expected_result)
+    # # Test cases: single and multiple sections_to_include
+    if test_data != "blah blah blah" and test_data is not None:
+        actual_response = validate_sections_to_include(test_data)
+        assert actual_response == expected_result
+        assert isinstance(actual_response[0], list)
+    # Test case: no sections_to_include
     elif test_data is None:
         actual_response = validate_sections_to_include(test_data)
         assert actual_response == expected_result
-        assert actual_response is None
+        assert actual_response[0] is None
+    # Test case: invalid sections_to_include
     else:
         actual_response = validate_sections_to_include(test_data)
         assert actual_response == expected_result
-        assert isinstance(actual_response, list)
+        assert actual_response[1] != ""
 
 
 def test_refine():
@@ -141,9 +152,8 @@ def test_refine():
     sections_to_include = ["29762-2"]
     refined_message = refine(raw_message, sections_to_include)
 
-    actual_flattened = [i.tag for i in refined_message.iter()]
+    actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
     expected_flattened = [i.tag for i in expected_message.iter()]
-
     assert actual_flattened == expected_flattened
 
     # Test case: Refine for labs/diagnostics and reason for visit
@@ -152,7 +162,6 @@ def test_refine():
     raw_message = test_eICR_xml
     refined_message = refine(raw_message, sections_to_include)
 
-    actual_flattened = [i.tag for i in refined_message.iter()]
+    actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
     expected_flattened = [i.tag for i in expected_message.iter()]
-
     assert actual_flattened == expected_flattened
