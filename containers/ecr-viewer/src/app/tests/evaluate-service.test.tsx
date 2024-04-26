@@ -79,7 +79,7 @@ describe("Evaluate Diagnostic Report", () => {
       <AccordionLabResults
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
-        content={[<>{actual}</>]}
+        content={[<div key={"1"}>{actual}</div>]}
         organizationId="test"
       />
     );
@@ -121,7 +121,7 @@ describe("Evaluate Diagnostic Report", () => {
       <AccordionLabResults
         title={report.code.coding?.[0].display ?? "\u{200B}"}
         abnormalTag={false}
-        content={[<>{actual}</>]}
+        content={[<div key={"1"}>{actual}</div>]}
         organizationId="test"
       />
     );
@@ -238,6 +238,79 @@ describe("evaluate value", () => {
 
       expect(actual).toEqual("1%");
     });
+  });
+});
+
+describe("Evaluate table", () => {
+  it("should create an empty table with a caption", () => {
+    render(evaluateTable([], mappings, [], "Table Caption"));
+
+    expect(screen.getByText("Table Caption")).toBeInTheDocument();
+    expect(screen.getByTestId("table")).toBeInTheDocument();
+  });
+  it("should create a table with 1 row using the provided value", () => {
+    render(
+      evaluateTable(
+        [{}],
+        mappings,
+        [{ columnName: "Col1", value: "Data1" }],
+        "",
+      ),
+    );
+
+    expect(screen.getByText("Col1")).toBeInTheDocument();
+    expect(screen.getByText("Data1")).toBeInTheDocument();
+  });
+  it("should create a table with 1 row evaluate the fhir element", () => {
+    render(
+      evaluateTable(
+        [{ id: "id1" }],
+        { id: "id" },
+        [{ columnName: "Col1", infoPath: "id" }],
+        "",
+      ),
+    );
+
+    expect(screen.getByText("Col1")).toBeInTheDocument();
+    expect(screen.getByText("id1")).toBeInTheDocument();
+  });
+  it("should create a table and apply a function to the row value", () => {
+    render(
+      evaluateTable(
+        [{ id: "id1" }],
+        { getId: "id" },
+        [
+          {
+            columnName: "Col1",
+            infoPath: "getId",
+            applyToValue: (value) => value?.toUpperCase(),
+          },
+        ],
+        "",
+      ),
+    );
+
+    expect(screen.getByText("Col1")).toBeInTheDocument();
+    expect(screen.getByText("ID1")).toBeInTheDocument();
+  });
+  it("should not apply a function to the row value if value is null", () => {
+    render(
+      evaluateTable(
+        [{}],
+        { getId: "id" },
+        [
+          {
+            columnName: "Col1",
+            infoPath: "getId",
+            applyToValue: (value) => value?.toUpperCase(),
+          },
+        ],
+        "",
+      ),
+    );
+
+    expect(screen.getByText("Col1")).toBeInTheDocument();
+    expect(screen.getByText("No data")).toBeInTheDocument();
   });
 });
 

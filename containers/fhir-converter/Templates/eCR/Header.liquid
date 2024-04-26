@@ -115,7 +115,7 @@
   {% include 'Resource/Patient' patientRole: msg.ClinicalDocument.recordTarget.patientRole ID: patientId SOCIALOBS: socialObs contact: msg.ClinicalDocument.participant.associatedEntity -%}
   {% assign careTeam = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.500' %} 
   {% if careTeam %}
-    {% assign careTeamId = careTeam | to_json_string | generate_uuid -%}
+    {% assign careTeamId = careTeam.2_16_840_1_113883_10_20_22_2_500 | to_json_string | generate_uuid -%}
     {% assign fullPatientId = patientId | prepend: 'Patient/' -%}
     {% include 'Resource/CareTeam' careTeamEntry: careTeam.2_16_840_1_113883_10_20_22_2_500.entry.organizer ID: careTeamId patientId: fullPatientId%}
     {% for member in careTeam.2_16_840_1_113883_10_20_22_2_500.entry.organizer.component %}
@@ -126,6 +126,10 @@
 {% endif -%}
 {% assign patientSectionObservations = false -%}
 
+{% assign carePlan = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.10' %}
+{% assign carePlanResource = carePlan.2_16_840_1_113883_10_20_22_2_10 %}
+{% assign carePlanId = carePlanResource | to_json_string | generate_uuid %}
+{% include 'Resource/CarePlan' carePlan: carePlanResource ID: carePlanId patientReference: fullPatientId  %}
 
 {% if msg.ClinicalDocument.recordTarget.patientRole.patient.guardian -%}
   {% assign relatedPersonId = msg.ClinicalDocument.recordTarget.patientRole.patient.guardian | to_json_string | generate_uuid -%}
