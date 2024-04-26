@@ -3,7 +3,10 @@ import pathlib
 import pytest
 from app.main import app
 from app.main import refine
+from app.main import select_message_header
 from app.main import validate_sections_to_include
+
+# from dibbs.utils import read_file_from_test_assets
 from fastapi.testclient import TestClient
 from lxml import etree as ET
 
@@ -49,6 +52,7 @@ refined_test_eICR_social_history_only = parse_file_from_test_assets(
 refined_test_eICR_labs_reason = parse_file_from_test_assets(
     "refined_message_labs_reason.xml"
 )
+test_header = parse_file_from_test_assets("test_header.xml")
 
 
 def test_health_check():
@@ -165,3 +169,14 @@ def test_refine():
     actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
     expected_flattened = [i.tag for i in expected_message.iter()]
     assert actual_flattened == expected_flattened
+
+
+def test_select_header():
+    raw_message = test_eICR_xml
+    actual_header = select_message_header(raw_message)
+    expected_header = test_header
+    actual_flattened = [i.tag for i in ET.fromstring(actual_header).iter()]
+    expected_flattened = [i.tag for i in expected_header.iter()]
+    assert actual_flattened == expected_flattened
+    # ET.fromstring(actual_header).write("C://Repos/phdi/header.xml")
+    # actual_flattened = [i.tag for i in ET.fromstring(actual_header).iter()]

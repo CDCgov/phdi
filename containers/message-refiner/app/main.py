@@ -131,3 +131,52 @@ def refine(raw_message: bytes, sections_to_include: str) -> str:
     # Create a new ElementTree with the result root
     refined_message = ET.ElementTree(refined_message_root)
     return ET.tostring(refined_message, encoding="unicode")
+
+
+def select_message_header(raw_message: bytes) -> str:
+    """
+    Selects the header of an incoming message.
+
+    :param raw_message: The XML input.
+    :return: The header section of the XML as a string.
+    """
+    HEADER_SECTIONS = [
+        "realmCode",
+        "typeId",
+        "templateId",
+        "id",
+        "code",
+        "title",
+        "effectiveTime",
+        "confidentialityCode",
+        "languageCode",
+        "setId",
+        "versionNumber",
+        "recordTarget",
+        "author",
+        "custodian",
+        "componentOf",
+    ]
+
+    # TODO: add error handling for invalid XML in refiner_ecr so the input to this function is always valid
+    raw_message = ET.fromstring(raw_message)
+
+    # Set up XPath expression
+    namespaces = {"hl7": "urn:hl7-org:v3"}
+    xpath_expression = " | ".join(
+        [f"//hl7:ClinicalDocument/hl7:{section}" for section in HEADER_SECTIONS]
+    )
+    # Use XPath to find elements matching the expression
+    elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
+
+    # Create & set up a new root element for the refined XML
+    header_root = ET.Element(raw_message.tag)
+
+    # Append the filtered elements to the new root
+    for element in elements:
+        header_root.append(element)
+
+    # Create a new ElementTree with the result root
+    header_tree = ET.ElementTree(header_root)
+
+    return ET.tostring(header_tree, encoding="unicode")
