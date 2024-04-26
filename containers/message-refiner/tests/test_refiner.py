@@ -5,8 +5,6 @@ from app.main import app
 from app.main import refine
 from app.main import select_message_header
 from app.main import validate_sections_to_include
-
-# from dibbs.utils import read_file_from_test_assets
 from fastapi.testclient import TestClient
 from lxml import etree as ET
 
@@ -175,8 +173,6 @@ def test_select_header():
     raw_message = test_eICR_xml
     actual_header = select_message_header(raw_message)
     expected_header = test_header
-    actual_flattened = [i.tag for i in ET.fromstring(actual_header).iter()]
+    actual_flattened = [i.tag for i in actual_header.iter()]
     expected_flattened = [i.tag for i in expected_header.iter()]
     assert actual_flattened == expected_flattened
-    # ET.fromstring(actual_header).write("C://Repos/phdi/header.xml")
-    # actual_flattened = [i.tag for i in ET.fromstring(actual_header).iter()]

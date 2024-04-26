@@ -100,7 +100,9 @@ def refine(raw_message: bytes, sections_to_include: str) -> str:
     :param sections_to_include: The sections to include in the refined message.
     :return: The refined message.
     """
+    header = select_message_header(raw_message)
 
+    # TODO: add error handling for invalid XML in refiner_ecr so the input to this function is always valid
     raw_message = ET.fromstring(raw_message)
 
     # Set up XPath expression
@@ -117,6 +119,8 @@ def refine(raw_message: bytes, sections_to_include: str) -> str:
 
     # Create & set up a new root element for the refined XML
     refined_message_root = ET.Element(raw_message.tag)
+    for h in header:
+        refined_message_root.append(h)
     component = ET.Element("component")
     structuredBody = ET.Element("structuredBody")
 
@@ -133,12 +137,12 @@ def refine(raw_message: bytes, sections_to_include: str) -> str:
     return ET.tostring(refined_message, encoding="unicode")
 
 
-def select_message_header(raw_message: bytes) -> str:
+def select_message_header(raw_message: str) -> bytes:
     """
     Selects the header of an incoming message.
 
     :param raw_message: The XML input.
-    :return: The header section of the XML as a string.
+    :return: The header section of the XML.
     """
     HEADER_SECTIONS = [
         "realmCode",
@@ -170,13 +174,10 @@ def select_message_header(raw_message: bytes) -> str:
     elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
 
     # Create & set up a new root element for the refined XML
-    header_root = ET.Element(raw_message.tag)
+    header = ET.Element(raw_message.tag)
 
     # Append the filtered elements to the new root
     for element in elements:
-        header_root.append(element)
+        header.append(element)
 
-    # Create a new ElementTree with the result root
-    header_tree = ET.ElementTree(header_root)
-
-    return ET.tostring(header_tree, encoding="unicode")
+    return header
