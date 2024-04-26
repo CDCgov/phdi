@@ -42,8 +42,10 @@ async def refine_ecr(
         sections_to_include, error_message = validate_sections_to_include(
             sections_to_include
         )
+
         if error_message != "":
             return Response(content=error_message, status_code=422)
+
         data = refine(data, sections_to_include)
 
     return Response(content=data, media_type="application/xml")
@@ -90,7 +92,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     return (section_loincs, error_message) if section_loincs else (None, error_message)
 
 
-def refine(raw_message: bytes, sections_to_include: str) -> bytes:
+def refine(raw_message: bytes, sections_to_include: str) -> str:
     """
     Refines an incoming XML message based on the sections to include.
 
@@ -128,4 +130,4 @@ def refine(raw_message: bytes, sections_to_include: str) -> bytes:
 
     # Create a new ElementTree with the result root
     refined_message = ET.ElementTree(refined_message_root)
-    return refined_message
+    return ET.tostring(refined_message, encoding="unicode")
