@@ -1,29 +1,56 @@
 import React from 'react';
 import { Table } from '@trussworks/react-uswds';
+import { Observation, CodeableConcept } from 'fhir/r4';
 
-export interface Observation {
-    id: string;
-    typeDisplay: string;
-    typeCode: string;
-    typeSystem: string;
-    valueString: string;
-    valueQuantity: string;
-    valueUnit: string;
-    valueDisplay: string;
-    valueCode: string;
-    valueSystem: string;
-    interpDisplay: string;
-    interpCode: string;
-    interpSystem: string;
-    effectiveDateTime: string;
-    referenceRangeHigh: string;
-    referenceRangeLow: string;
-    referenceRangeHighUnit: string;
-    referenceRangeLowUnit: string;
-}
 
 export interface ObservationTableProps {
     observations: Observation[];
+}
+
+
+/**
+    * Formats a CodeableConcept object for display. If the object has a coding array, 
+    * the first coding object is used.
+    * @param {CodeableConcept} concept - The CodeableConcept object.
+    * @returns {React.JSX.Element || string} The CodeableConcept data formatted for 
+    * display.
+ */
+function formatCodeableConcept(concept: CodeableConcept){
+    if(!concept.coding || concept.coding.length === 0){
+        return concept.text || "";
+    }
+    const coding = concept.coding[0];
+    return <> {concept.text} <br /> {coding.code} <br /> {coding.system} </>;
+}
+
+function formatValue(obs: Observation){
+    if(obs.valueCodeableConcept){
+        return formatCodeableConcept(obs.valueCodeableConcept);
+    }
+    else if(obs.valueQuantity){
+        return [obs.valueQuantity.value, obs.valueQuantity.unit].join(" ");
+    }
+    else if(obs.valueString){
+        return obs.valueString;
+    }
+    return "";
+}
+
+
+function formatReferenceRange(obs: Observation){
+    if(!obs.referenceRange || obs.referenceRange.length === 0){
+        return "";
+    }
+    const range = obs.referenceRange[0];
+
+    if(range.high || range.low){
+        return <>{["HIGH:", range.high?.value, range.high?.unit].join(" ")} <br /> {["LOW:", range.low?.value, range.low?.unit].join(" ")}</>;
+    }
+    else if(range.text){
+        return range.text;
+    }
+    return "";
+
 }
 
 export default function ObservationTable(props: ObservationTableProps) {
@@ -41,11 +68,11 @@ export default function ObservationTable(props: ObservationTableProps) {
             <tbody>
                 {props.observations.map((obs) => (
                     <tr key={obs.id}>
-                        <td>{obs.effectiveDateTime}</td>
-                        <td>{obs.typeDisplay} <br /> {obs.typeCode} <br /> {obs.typeSystem}</td>
-                        <td>{obs.interpDisplay} <br /> {obs.interpCode} <br /> {obs.interpSystem}</td>
-                        <td>{obs.valueString || [obs.valueQuantity, obs.valueUnit].join(" ") || [obs.valueDisplay, obs.valueCode, obs.valueSystem].join("\n")}</td>
-                        <td>{["HIGH:", obs.referenceRangeHigh, obs.referenceRangeHighUnit].join(" ")} <br /> {["LOW:", obs.referenceRangeLow, obs.referenceRangeLowUnit].join(" ")}</td>
+                        <td>{obs?.effectiveDateTime}</td>
+                        <td>{formatCodeableConcept(obs.code)}</td>
+                        <td>{obs?.interpretation && obs.interpretation.length > 0 ? formatCodeableConcept(obs.interpretation[0]) : ""}</td>
+                        <td>{formatValue(obs)}</td>
+                        <td>{formatReferenceRange(obs)}</td>
                     </tr>
                 ))}
             </tbody>

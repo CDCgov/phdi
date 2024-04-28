@@ -5,10 +5,8 @@ import {
 } from "../../utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
-import ObservationTable from "./Observations";
-import {Observation} from "./Observations";
-import {ObservationTableProps} from "./Observations";
-import { Bundle, FhirResource } from "fhir/r4";
+import ObservationTable, {ObservationTableProps} from "./Observations";
+import { Bundle, FhirResource, Observation } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import { formatString } from "@/app/format-service";
@@ -21,47 +19,56 @@ import {
 
 const fakeObservations: Observation[] = [
   {
-    id: "1",
-    typeDisplay: "Blood Pressure",
-    typeCode: "Blood Pressure",
-    typeSystem: "http://loinc.org",
-    valueString: "120/80",
-    valueQuantity: "120",
-    valueUnit: "mm[Hg]",
-    valueDisplay: "120/80",
-    valueCode: "120/80",
-    valueSystem: "http://loinc.org",
-    interpDisplay: "Normal",
-    interpCode: "Normal",
-    interpSystem: "http://snomed.info/sct",
-    effectiveDateTime: "2021-09-01",
-    referenceRangeHigh: "120",
-    referenceRangeLow: "80",
-    referenceRangeHighUnit: "mm[Hg]",
-    referenceRangeLowUnit: "mm[Hg]",
-  },
-  {
-    id: "2",
-    typeDisplay: "Temperature",
-    typeCode: "Temperature",
-    typeSystem: "http://loinc.org",
-    valueString: "98.6",
-    valueQuantity: "98.6",
-    valueUnit: "F",
-    valueDisplay: "98.6",
-    valueCode: "98.6",
-    valueSystem: "http://loinc.org",
-    interpDisplay: "Normal",
-    interpCode: "Normal",
-    interpSystem: "http://snomed.info/sct",
-    effectiveDateTime: "2021-09-01",
-    referenceRangeHigh: "98.6",
-    referenceRangeLow: "98.6",
-    referenceRangeHighUnit: "F",
-    referenceRangeLowUnit: "F",
-  },
-];
-
+    "resourceType": "Observation",
+    "id": "1",
+    "status": "final",
+    "code": {
+      "coding": [
+        {
+          "system": "http://loinc.org",
+          "code": "8302-2",
+          "display": "Body Height"
+        }
+      ],
+      "text": "Body Height",
+    },
+    "valueQuantity": {
+      "value": 180,
+      "unit": "cm",
+      "system": "http://unitsofmeasure.org",
+      "code": "cm"
+    },
+    "interpretation": [
+      {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+          "code": "N",
+          "display": "Normal"
+        }
+      ],
+      "text": "Normal"
+    }
+  ],
+    "effectiveDateTime": "2021-01-01",
+    "referenceRange": [
+      {
+        "low": {
+          "value": 160,
+          "unit": "cm",
+          "system": "http://unitsofmeasure.org",
+          "code": "cm"
+        },
+        "high": {
+          "value": 200,
+          "unit": "cm",
+          "system": "http://unitsofmeasure.org",
+          "code": "cm"
+        }
+      }
+    ]
+  }
+]
 const fakeObservationTableProps: ObservationTableProps = {
   observations: fakeObservations,
 };
