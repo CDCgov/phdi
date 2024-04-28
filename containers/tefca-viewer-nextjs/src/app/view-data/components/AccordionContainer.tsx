@@ -1,20 +1,70 @@
 import {
   evaluateSocialData,
-  evaluateEncounterData,
-  evaluateProviderData,
-  evaluateClinicalData,
   evaluateDemographicsData,
   PathMappings,
-  evaluateLabInfoData,
 } from "../../utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
-import ClinicalInfo from "./ClinicalInfo";
+import ObservationTable from "./Observations";
+import {Observation} from "./Observations";
+import {ObservationTableProps} from "./Observations";
 import { Bundle, FhirResource } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
-import LabInfo from "@/app/view-data/components/LabInfo";
 import { formatString } from "@/app/format-service";
+import {
+  AccordianSection,
+  AccordianH4,
+  AccordianDiv,
+} from "../component-utils";
+
+
+const fakeObservations: Observation[] = [
+  {
+    id: "1",
+    typeDisplay: "Blood Pressure",
+    typeCode: "Blood Pressure",
+    typeSystem: "http://loinc.org",
+    valueString: "120/80",
+    valueQuantity: "120",
+    valueUnit: "mm[Hg]",
+    valueDisplay: "120/80",
+    valueCode: "120/80",
+    valueSystem: "http://loinc.org",
+    interpDisplay: "Normal",
+    interpCode: "Normal",
+    interpSystem: "http://snomed.info/sct",
+    effectiveDateTime: "2021-09-01",
+    referenceRangeHigh: "120",
+    referenceRangeLow: "80",
+    referenceRangeHighUnit: "mm[Hg]",
+    referenceRangeLowUnit: "mm[Hg]",
+  },
+  {
+    id: "2",
+    typeDisplay: "Temperature",
+    typeCode: "Temperature",
+    typeSystem: "http://loinc.org",
+    valueString: "98.6",
+    valueQuantity: "98.6",
+    valueUnit: "F",
+    valueDisplay: "98.6",
+    valueCode: "98.6",
+    valueSystem: "http://loinc.org",
+    interpDisplay: "Normal",
+    interpCode: "Normal",
+    interpSystem: "http://snomed.info/sct",
+    effectiveDateTime: "2021-09-01",
+    referenceRangeHigh: "98.6",
+    referenceRangeLow: "98.6",
+    referenceRangeHighUnit: "F",
+    referenceRangeLowUnit: "F",
+  },
+];
+
+const fakeObservationTableProps: ObservationTableProps = {
+  observations: fakeObservations,
+};
 
 type AccordionContainerProps = {
   children?: ReactNode;
@@ -31,10 +81,6 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     fhirPathMappings,
   );
   const social_data = evaluateSocialData(fhirBundle, fhirPathMappings);
-  const encounterData = evaluateEncounterData(fhirBundle, fhirPathMappings);
-  const providerData = evaluateProviderData(fhirBundle, fhirPathMappings);
-  const clinicalData = evaluateClinicalData(fhirBundle, fhirPathMappings);
-  const labInfoData = evaluateLabInfoData(fhirBundle, fhirPathMappings);
   const accordionItems: any[] = [
     {
       title: "Patient Info",
@@ -50,39 +96,23 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       headingLevel: "h3",
     },
     {
-      title: "Clinical Info",
+      title: "Observations",
       content: (
         <>
-          <ClinicalInfo
-            clinicalNotes={clinicalData.clinicalNotes.availableData}
-            reasonForVisitDetails={
-              clinicalData.reasonForVisitDetails.availableData
-            }
-            activeProblemsDetails={
-              clinicalData.activeProblemsDetails.availableData
-            }
-            vitalData={clinicalData.vitalData.availableData}
-            immunizationsDetails={
-              clinicalData.immunizationsDetails.availableData
-            }
-            treatmentData={clinicalData.treatmentData.availableData}
-          />
+          <AccordianSection>
+            <AccordianH4>
+              <span id="observations">Observations</span>
+            </AccordianH4>
+            <AccordianDiv>
+              <ObservationTable {...fakeObservationTableProps} />
+            </AccordianDiv>   
+          </AccordianSection>
         </>
       ),
       expanded: true,
       headingLevel: "h3",
-    },
-    {
-      title: "Lab Info",
-      content: (
-        <LabInfo
-          labInfo={labInfoData.labInfo.availableData}
-          labResults={labInfoData.labResults}
-        />
-      ),
-      expanded: true,
-      headingLevel: "h3",
-    },
+
+    }
   ];
 
   //Add id, adjust title

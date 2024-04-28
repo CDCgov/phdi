@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from '@trussworks/react-uswds';
 
-interface Observation {
+export interface Observation {
     id: string;
     typeDisplay: string;
     typeCode: string;
@@ -22,8 +22,8 @@ interface Observation {
     referenceRangeLowUnit: string;
 }
 
-interface ObservationTableProps {
-    observation: Observation[];
+export interface ObservationTableProps {
+    observations: Observation[];
 }
 
 export default function ObservationTable(props: ObservationTableProps) {
@@ -39,13 +39,13 @@ export default function ObservationTable(props: ObservationTableProps) {
                 </tr>
             </thead>
             <tbody>
-                {props.observation.map((obs) => (
+                {props.observations.map((obs) => (
                     <tr key={obs.id}>
                         <td>{obs.effectiveDateTime}</td>
-                        <td>{[obs.typeDisplay, obs.typeCode, obs.typeSystem].join("\n")}</td>
-                        <td>{[obs.interpDisplay, obs.interpCode, obs.interpSystem].join("\n")}</td>
+                        <td>{obs.typeDisplay} <br /> {obs.typeCode} <br /> {obs.typeSystem}</td>
+                        <td>{obs.interpDisplay} <br /> {obs.interpCode} <br /> {obs.interpSystem}</td>
                         <td>{obs.valueString || [obs.valueQuantity, obs.valueUnit].join(" ") || [obs.valueDisplay, obs.valueCode, obs.valueSystem].join("\n")}</td>
-                        <td>{["HIGH:", obs.referenceRangeHigh, obs.referenceRangeHighUnit].join(" ") + "\n" + ["LOW:", obs.referenceRangeLow, obs.referenceRangeLowUnit].join(" ")}</td>
+                        <td>{["HIGH:", obs.referenceRangeHigh, obs.referenceRangeHighUnit].join(" ")} <br /> {["LOW:", obs.referenceRangeLow, obs.referenceRangeLowUnit].join(" ")}</td>
                     </tr>
                 ))}
             </tbody>
