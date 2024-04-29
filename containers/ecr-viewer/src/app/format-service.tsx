@@ -54,6 +54,15 @@ export const formatName = (
   return nameArray.join(" ").trim();
 };
 
+/**
+ * Formats an address based on its components.
+ * @param streetAddress - An array containing street address lines.
+ * @param city - The city name.
+ * @param state - The state or region name.
+ * @param zipCode - The ZIP code or postal code.
+ * @param country - The country name.
+ * @returns The formatted address string.
+ */
 export const formatAddress = (
   streetAddress: string[],
   city: string,
@@ -160,6 +169,11 @@ export const formatDate = (dateString?: string): string | undefined => {
   }
 };
 
+/**
+ * Formats a phone number into a standard format of XXX-XXX-XXXX.
+ * @param phoneNumber - The phone number to format.
+ * @returns The formatted phone number or undefined if the input is invalid.
+ */
 export const formatPhoneNumber = (phoneNumber: string) => {
   try {
     return phoneNumber
@@ -198,11 +212,20 @@ export const formatStartEndDateTime = (
   return textArray.join("\n");
 };
 
+/**
+ * Formats vital signs information into a single line string with proper units .
+ * @param heightAmount - The amount of height.
+ * @param heightUnit - The measurement type of height (e.g., "[in_i]" for inches, "cm" for centimeters).
+ * @param weightAmount - The amount of weight.
+ * @param weightUnit - The measurement type of weight (e.g., "[lb_av]" for pounds, "kg" for kilograms).
+ * @param bmi - The Body Mass Index (BMI).
+ * @returns The formatted vital signs information.
+ */
 export const formatVitals = (
   heightAmount: string,
-  heightMeasurementType: string,
+  heightUnit: string,
   weightAmount: string,
-  weightMeasurementType: string,
+  weightUnit: string,
   bmi: string,
 ) => {
   let heightString = "";
@@ -211,19 +234,19 @@ export const formatVitals = (
 
   let heightType = "";
   let weightType = "";
-  if (heightAmount && heightMeasurementType) {
-    if (heightMeasurementType === "[in_i]") {
+  if (heightAmount && heightUnit) {
+    if (heightUnit === "[in_i]") {
       heightType = "inches";
-    } else if (heightMeasurementType === "cm") {
+    } else if (heightUnit === "cm") {
       heightType = "cm";
     }
     heightString = `Height: ${heightAmount} ${heightType}\n\n`;
   }
 
-  if (weightAmount && weightMeasurementType) {
-    if (weightMeasurementType === "[lb_av]") {
+  if (weightAmount && weightUnit) {
+    if (weightUnit === "[lb_av]") {
       weightType = "Lbs";
-    } else if (weightMeasurementType === "kg") {
+    } else if (weightUnit === "kg") {
       weightType = "kg";
     }
     weightString = `Weight: ${weightAmount} ${weightType}\n\n`;
@@ -237,6 +260,11 @@ export const formatVitals = (
   return combinedString.trim();
 };
 
+/**
+ * Formats a string by converting it to lowercase, replacing spaces with underscores, and removing special characters except underscores.
+ * @param input - The input string to be formatted.
+ * @returns The formatted string.
+ */
 export const formatString = (input: string): string => {
   // Convert to lowercase
   let result = input.toLowerCase();

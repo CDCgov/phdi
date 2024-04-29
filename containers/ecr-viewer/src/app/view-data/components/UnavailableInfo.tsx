@@ -15,7 +15,22 @@ interface UnavailableInfoProps {
   immunizationsUnavailableData: DisplayData[];
 }
 
-const UnavailableInfo = ({
+/**
+ * Function component for displaying data that is unavailable in the eCR viewer.
+ * @param props The properties for unavailable information
+ * @param props.demographicsUnavailableData The unavailable demographic data
+ * @param props.socialUnavailableData The unavailable social data
+ * @param props.encounterUnavailableData The unavailable encounter data
+ * @param props.providerUnavailableData The unavailable provider data
+ * @param props.reasonForVisitUnavailableData The unavailable reason for visit data
+ * @param props.activeProblemsUnavailableData The unavailable active problems data
+ * @param props.immunizationsUnavailableData The unavailable immunizations data
+ * @param props.vitalUnavailableData The unavailable vital data
+ * @param props.treatmentData The unavailable treatment data
+ * @param props.clinicalNotesData The unavailable clinical notes
+ * @returns The JSX element representing all unavailable data.
+ */
+const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
   demographicsUnavailableData,
   socialUnavailableData,
   encounterUnavailableData,
@@ -26,7 +41,7 @@ const UnavailableInfo = ({
   vitalUnavailableData,
   treatmentData,
   clinicalNotesData,
-}: UnavailableInfoProps) => {
+}) => {
   const renderSection = (sectionTitle: string, data: DisplayData[]) => {
     return (
       <div className="margin-bottom-4">
