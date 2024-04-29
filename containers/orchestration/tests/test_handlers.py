@@ -96,6 +96,7 @@ def test_unpack_fhir_converter_response():
     converter_result.content = {"fhir_conversion_failed": True}
     response = Mock()
     response.status_code = 400
+    response.text = "conversion failed"
     response.json.return_value = {"response": converter_result}
     result = unpack_fhir_converter_response(response)
     assert result.status_code == 400
@@ -134,6 +135,7 @@ def test_unpack_validation_response():
     validator_result.text = "validation didn't work"
     response = Mock()
     response.status_code = 400
+    response.text = "validation failed"
     response.json.return_value = validator_result
     result = unpack_validation_response(response)
     assert result.status_code == 400

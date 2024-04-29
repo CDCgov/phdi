@@ -67,7 +67,11 @@ export const ClinicalInfo = ({
                 ...item,
                 value: addCaptionToTable(item.value, "Miscellaneous Notes"),
               };
-              return renderTableDetails([modItem]);
+              return (
+                <React.Fragment key={index}>
+                  {renderTableDetails([modItem])}
+                </React.Fragment>
+              );
             }
             return <DataDisplay item={item} key={index} />;
           })}

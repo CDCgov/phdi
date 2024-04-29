@@ -85,6 +85,7 @@ export const formatAddress = (
  * @param dateTimeString datetime string.
  * @returns Formatted datetime string.
  */
+
 export const formatDateTime = (dateTimeString: string): string => {
   if (!dateTimeString) {
     return "";
