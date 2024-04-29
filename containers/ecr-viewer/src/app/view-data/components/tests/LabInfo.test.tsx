@@ -20,7 +20,6 @@ describe("LabInfo", () => {
   it("all should be collapsed by default", () => {
     render(labInfoJsx);
 
-
     screen
       .getAllByTestId("accordionButton", { exact: false })
       .forEach((button) => {
