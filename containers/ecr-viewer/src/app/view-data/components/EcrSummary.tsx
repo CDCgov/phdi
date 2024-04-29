@@ -12,7 +12,7 @@ import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
 import { formatDate } from "@/app/format-service";
 
-interface EcrViewerProps {
+interface EcrSummaryProps {
   fhirPathMappings: PathMappings;
   fhirBundle: Bundle;
 }
@@ -58,7 +58,17 @@ const Display: FC<DisplayProps> = ({
   );
 };
 
-const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
+/**
+ * Functional component for rendering the eCR summary.
+ * @param props - Properties for the ecrSummary.
+ * @param props.fhirPathMappings - The fhir path mappings.
+ * @param props.fhirBundle - The fhir bundle.
+ * @returns The JSX element for eCR summary information.
+ */
+const EcrSummary: React.FC<EcrSummaryProps> = ({
+  fhirPathMappings,
+  fhirBundle,
+}) => {
   return (
     <div className={"info-container"}>
       <div
