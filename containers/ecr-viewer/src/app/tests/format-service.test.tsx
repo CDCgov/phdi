@@ -6,6 +6,7 @@ import {
   truncateLabNameWholeWord,
   toSentenceCase,
   removeHtmlElements,
+  formatDateTime,
 } from "@/app/format-service";
 
 describe("Format Name", () => {
@@ -39,6 +40,40 @@ describe("Format Name", () => {
 
     const result = formatName(inputEmpty, "", inputEmpty, inputEmpty);
     expect(result).toEqual(expectedName);
+  });
+});
+
+describe("formatDateTime", () => {
+  it("Given an ISO date time string, should return the correct formatted date and time", () => {
+    const inputDate = "2022-10-11T19:29:00Z";
+    const expectedDate = "10/11/2022 7:29 PM UTC";
+
+    const result = formatDateTime(inputDate);
+    expect(result).toEqual(expectedDate);
+  });
+
+  it("Given an ISO date time string with a UTC offset, should return the correct formatted date and time", () => {
+    const inputDate = "2022-12-23T14:59:44-08:00";
+    const expectedDate = "12/23/2022 2:59 PM -08:00";
+
+    const result = formatDateTime(inputDate);
+    expect(result).toEqual(expectedDate);
+  });
+
+  it("Given an ISO date string, should return the correct formatted date", () => {
+    const inputDate = "2022-10-11";
+    const expectedDate = "10/11/2022";
+
+    const result = formatDateTime(inputDate);
+    expect(result).toEqual(expectedDate);
+  });
+
+  it("Given a date time in the format of 'MM/DD/YYYY HH:MM AM/PM Z.' (as found in Lab Info Analysis Time), should return the correct formatted date", () => {
+    const inputDate = "10/19/2022 10:00 AM PDT";
+    const expectedDate = "10/19/2022 10:00 AM PDT";
+
+    const result = formatDateTime(inputDate);
+    expect(result).toEqual(expectedDate);
   });
 });
 
