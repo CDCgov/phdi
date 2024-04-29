@@ -51,7 +51,6 @@ export interface ColumnInfoInput {
   columnName: string;
   infoPath?: string;
   value?: string;
-  sentenceCase?: boolean;
   className?: string;
   hiddenBaseText?: string;
   applyToValue?: (value: any) => any;
@@ -1165,7 +1164,6 @@ export const DataDisplay: React.FC<{
     </div>
   );
 };
-
 
 /**
  * Functional component for displaying a value. If the value has a length greater than 500 characters, it will be split after 300 characters with a view more button to view the entire value.
