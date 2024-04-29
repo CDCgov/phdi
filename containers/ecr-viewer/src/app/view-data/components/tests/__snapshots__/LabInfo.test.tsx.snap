@@ -2,7 +2,9 @@
 
 exports[`LabInfo should match snapshot test 1`] = `
 <div>
-  <div>
+  <div
+    class="margin-top-0"
+  >
     <div
       class="padding-bottom-3"
     >

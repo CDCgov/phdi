@@ -51,6 +51,8 @@ export interface ColumnInfoInput {
   columnName: string;
   infoPath?: string;
   value?: string;
+  sentenceCase?: boolean;
+  className?: string;
   hiddenBaseText?: string;
   applyToValue?: (value: any) => any;
 }
@@ -534,7 +536,11 @@ export const returnProblemsTable = (
   }
 
   const columnInfo: ColumnInfoInput[] = [
-    { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
+    {
+      columnName: "Active Problem",
+      infoPath: "activeProblemsDisplay",
+      className: "width-mobile-lg",
+    },
     { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
     { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
   ];
