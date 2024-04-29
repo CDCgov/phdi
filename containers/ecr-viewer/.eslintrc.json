@@ -30,7 +30,16 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "jsdoc/check-tag-names": "off"
+    "jsdoc/check-tag-names": "off",
+    "jsdoc/require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "ArrowFunctionExpression": true
+        },
+        "publicOnly": true
+      }
+    ]
   },
   "overrides": [
     {

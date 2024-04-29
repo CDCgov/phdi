@@ -67,6 +67,14 @@ const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
   return rows;
 };
 
+/**
+ * Functional component for displaying eCR metadata.
+ * @param props - Props containing eCR metadata.
+ * @param props.rrDetails - The reportable conditions details.
+ * @param props.eicrDetails - The eICR details.
+ * @param props.eCRSenderDetails - The eCR sender details.
+ * @returns The JSX element representing the eCR metadata.
+ */
 const EcrMetadata = ({
   rrDetails,
   eicrDetails,

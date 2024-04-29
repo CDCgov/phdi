@@ -119,6 +119,10 @@ export const sortHeadings = (headings: HeadingObject[]): SectionConfig[] => {
   return result;
 };
 
+/**
+ * Functional component for the side navigation.
+ * @returns The JSX element representing the side navigation.
+ */
 const SideNav: React.FC = () => {
   const [sectionConfigs, setSectionConfigs] = useState<SectionConfig[]>([]);
   const [activeSection, setActiveSection] = useState<string>("");
