@@ -77,7 +77,12 @@ export const formatAddress = (
 };
 
 /**
- * Format a datetime string to "MM/DD/YYYY HH:MM AM/PM Z" where "Z" is the timezone abbreviation. If the input string contains a UTC offset then the returned string will be in the format "MM/DD/YYYY HH:MM AM/PM ±HH:MM". If the input string do not contain a time part, the returned string will be in the format "MM/DD/YYYY". If the input string is not in the expected format, it will be returned as is. If the input is falsy a blank string will be returned. The following formats are supported:
+ * Format a datetime string to "MM/DD/YYYY HH:MM AM/PM Z" where "Z" is the timezone abbreviation.If
+ * the input string contains a UTC offset then the returned string will be in the format
+ * "MM/DD/YYYY HH:MM AM/PM ±HH:MM". If the input string do not contain a time part, the returned
+ * string will be in the format "MM/DD/YYYY". If the input string is not in the expected format, it
+ * will be returned as is. If the input is falsy a blank string will be returned. The following
+ * formats are supported:
  * - "YYYY-MM-DDTHH:MM±HH:MM"
  * - "YYYY-MM-DDTHH:MMZ"
  * - "YYYY-MM-DD"
@@ -85,7 +90,6 @@ export const formatAddress = (
  * @param dateTimeString datetime string.
  * @returns Formatted datetime string.
  */
-
 export const formatDateTime = (dateTimeString: string): string => {
   if (!dateTimeString) {
     return "";
@@ -134,7 +138,6 @@ export const formatDateTime = (dateTimeString: string): string => {
  * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
  * @returns - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
  */
-
 export const formatDate = (dateString?: string): string | undefined => {
   if (dateString) {
     let date = new Date(dateString);
