@@ -63,6 +63,14 @@ const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
   return rows;
 };
 
+/**
+ * Functional component for displaying eCR metadata.
+ * @param props - Props containing eCR metadata.
+ * @param props.rrDetails - The reportable conditions details.
+ * @param props.eicrDetails - The eICR details.
+ * @param props.eCRSenderDetails - The eCR sender details.
+ * @returns The JSX element representing the eCR metadata.
+ */
 const EcrMetadata = ({
   rrDetails,
   eicrDetails,
@@ -79,6 +87,7 @@ const EcrMetadata = ({
         <Table bordered caption="Reportibility Summary" className="rrTable">
           <thead>
             <tr>
+
               <th>
                 <span title="List of conditions that caused this eCR to be sent to your 
                 jurisdiction based on the rules set up for routing eCRs by your jurisdiction 
@@ -103,6 +112,14 @@ const EcrMetadata = ({
                 className="usa-tooltip" data-position="bottom">
                   Jurisdiction Sent eCR
                   </span>
+
+              <th className="reportability_summary_header">
+                Reportable Condition
+              </th>
+              <th>RCKMS Rule Summary</th>
+              <th className="reportability_summary_header">
+                Jurisdiction Sent eCR
+
               </th>
             </tr>
           </thead>

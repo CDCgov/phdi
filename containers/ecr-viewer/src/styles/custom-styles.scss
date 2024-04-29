@@ -38,7 +38,7 @@ h4 {
 }
 
 .maxw7 {
-  max-width: 70%;
+  max-width: 68%;
 }
 
 .page-title {
@@ -54,7 +54,7 @@ h4 {
 
 
 .info-container {
-  width: 687px;
+  width: 775px;
 }
 
 .data-title {
@@ -228,7 +228,7 @@ td {
 }
 
 .ecr-content {
-  max-width: 1222px;
+  max-width: 1440px;
 }
 .ecr-content h2:first-of-type {
     margin-top: 0;
@@ -282,4 +282,8 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
       word-break:break-word
     }
   }
+}
+
+.reportability_summary_header {
+  width: 190px;
 }

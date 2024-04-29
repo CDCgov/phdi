@@ -12,7 +12,7 @@ import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
 import { formatDate } from "@/app/format-service";
 
-interface EcrViewerProps {
+interface EcrSummaryProps {
   fhirPathMappings: PathMappings;
   fhirBundle: Bundle;
 }
@@ -58,14 +58,24 @@ const Display: FC<DisplayProps> = ({
   );
 };
 
-const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
+/**
+ * Functional component for rendering the eCR summary.
+ * @param props - Properties for the ecrSummary.
+ * @param props.fhirPathMappings - The fhir path mappings.
+ * @param props.fhirBundle - The fhir bundle.
+ * @returns The JSX element for eCR summary information.
+ */
+const EcrSummary: React.FC<EcrSummaryProps> = ({
+  fhirPathMappings,
+  fhirBundle,
+}) => {
   return (
     <div className={"info-container"}>
       <div
         className="usa-summary-box padding-3"
         aria-labelledby="summary-box-key-information"
       >
-        <div className="usa-summary-box__body">
+        <div className="usa-summary-box__body margin-bottom-05">
           <h3
             className="summary-box-key-information side-nav-ignore"
             id={ecrSummaryConfig.subNavItems?.[0].id}
@@ -155,7 +165,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
               classNames="grid-col-fill text-pre-line"
             />
             <div className={"grid-row"}>
-              <div className={"text-bold"}>
+              <div className={"text-bold width-full"}>
                 Clinical sections relevant to reportable condition
               </div>
               <div className={"padding-top-05"}>

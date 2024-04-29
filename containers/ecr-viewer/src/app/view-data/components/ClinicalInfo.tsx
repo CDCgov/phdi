@@ -28,6 +28,17 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   ],
 );
 
+/**
+ * Functional component for displaying clinical information.
+ * @param props - Props containing clinical information.
+ * @param props.reasonForVisitDetails - The details of the reason for visit.
+ * @param props.activeProblemsDetails - The details of active problems.
+ * @param props.immunizationsDetails - The details of immunizations.
+ * @param props.vitalData - The vital signs data.
+ * @param props.treatmentData - The details of treatments.
+ * @param props.clinicalNotes - The clinical notes data.
+ * @returns The JSX element representing the clinical information.
+ */
 export const ClinicalInfo = ({
   reasonForVisitDetails,
   activeProblemsDetails,
@@ -67,7 +78,11 @@ export const ClinicalInfo = ({
                 ...item,
                 value: addCaptionToTable(item.value, "Miscellaneous Notes"),
               };
-              return renderTableDetails([modItem]);
+              return (
+                <React.Fragment key={index}>
+                  {renderTableDetails([modItem])}
+                </React.Fragment>
+              );
             }
             return <DataDisplay item={item} key={index} />;
           })}

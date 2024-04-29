@@ -1,55 +1,25 @@
 import { render, screen } from "@testing-library/react";
 import LabInfo from "@/app/view-data/components/LabInfo";
 import userEvent from "@testing-library/user-event";
-import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import React from "react";
-import { DisplayData } from "@/app/utils";
+import { evaluateLabInfoData } from "@/app/labs/utils";
+import BundleLab from "@/app/tests/assets/BundleLab.json";
+import { loadYamlConfig } from "@/app/api/utils";
+import { Bundle } from "fhir/r4";
+
+const mappings = loadYamlConfig();
 
 describe("LabInfo", () => {
-  const labinfoOrg: DisplayData[] = [
-    {
-      title: "Lab Name",
-      value: "Org1",
-    },
-    {
-      title: "Lab Name",
-      value: "Org2",
-    },
-  ];
-  const labInfoJsx = () => (
-    <LabInfo
-      labResults={[
-        {
-          diagnosticReportDataElements: [
-            <AccordionLabResults
-              key={"blah"}
-              title={"ph of urine strip"}
-              abnormalTag={false}
-              content={[<div key={"1"}>5</div>]}
-              organizationId="abcd"
-            />,
-          ],
-          organizationDisplayData: [labinfoOrg[0]],
-          organizationId: "abcd",
-        },
-        {
-          diagnosticReportDataElements: [
-            <AccordionLabResults
-              key={"blah2"}
-              title={"ph of saliva"}
-              abnormalTag={false}
-              content={[<div key={"2"}>7</div>]}
-              organizationId="efgh"
-            />,
-          ],
-          organizationDisplayData: [labinfoOrg[1]],
-          organizationId: "efgh",
-        },
-      ]}
-    />
+  const labinfoOrg = evaluateLabInfoData(
+    BundleLab as unknown as Bundle,
+    mappings,
   );
+
+  const labInfoJsx = <LabInfo labResults={labinfoOrg} />;
+
   it("all should be collapsed by default", () => {
-    render(labInfoJsx());
+    render(labInfoJsx);
+
 
     screen
       .getAllByTestId("accordionButton", { exact: false })
@@ -64,7 +34,9 @@ describe("LabInfo", () => {
   });
   it("should expand all labs when collapse button is clicked", async () => {
     const user = userEvent.setup();
-    render(labInfoJsx());
+
+    render(labInfoJsx);
+
     const expandButtons = screen.getAllByText("Expand all labs");
     for (const button of expandButtons) {
       await user.click(button);
@@ -82,7 +54,8 @@ describe("LabInfo", () => {
   });
   it("should hide all labs when collapse button is clicked", async () => {
     const user = userEvent.setup();
-    render(labInfoJsx());
+    render(labInfoJsx);
+
     const expandButtons = screen.getAllByText("Expand all labs");
     for (const button of expandButtons) {
       await user.click(button);
@@ -112,5 +85,9 @@ describe("LabInfo", () => {
       .forEach((accordion) => {
         expect(accordion).not.toBeVisible();
       });
+  });
+  it("should match snapshot test", () => {
+    const container = render(labInfoJsx).container;
+    expect(container).toMatchSnapshot();
   });
 });

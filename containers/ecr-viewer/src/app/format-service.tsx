@@ -54,6 +54,15 @@ export const formatName = (
   return nameArray.join(" ").trim();
 };
 
+/**
+ * Formats an address based on its components.
+ * @param streetAddress - An array containing street address lines.
+ * @param city - The city name.
+ * @param state - The state or region name.
+ * @param zipCode - The ZIP code or postal code.
+ * @param country - The country name.
+ * @returns The formatted address string.
+ */
 export const formatAddress = (
   streetAddress: string[],
   city: string,
@@ -77,31 +86,60 @@ export const formatAddress = (
 };
 
 /**
- * Formats the given date and time string according to the specified options.
- * If the time is included in the input string, it formats the date and time in the local time zone
- * with the year, month, day, and time components. Otherwise, it formats only the date with the
- * year, month, and day components in the UTC time zone.
- * @param dateTime - The date and time string to be formatted.
- * @returns The formatted date and time string.
+ * Format a datetime string to "MM/DD/YYYY HH:MM AM/PM Z" where "Z" is the timezone abbreviation.If
+ * the input string contains a UTC offset then the returned string will be in the format
+ * "MM/DD/YYYY HH:MM AM/PM ±HH:MM". If the input string do not contain a time part, the returned
+ * string will be in the format "MM/DD/YYYY". If the input string is not in the expected format, it
+ * will be returned as is. If the input is falsy a blank string will be returned. The following
+ * formats are supported:
+ * - "YYYY-MM-DDTHH:MM±HH:MM"
+ * - "YYYY-MM-DDTHH:MMZ"
+ * - "YYYY-MM-DD"
+ * - "MM/DD/YYYY HH:MM AM/PM ±HH:MM"
+ * @param dateTimeString datetime string.
+ * @returns Formatted datetime string.
  */
-export const formatDateTime = (dateTime: string) => {
-  const hasTime = dateTime?.includes(":");
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZoneName: hasTime ? "short" : undefined,
-  };
-  if (hasTime) {
-    options.hour = "numeric";
-    options.minute = "2-digit";
-  } else {
-    options.timeZone = "UTC"; // UTC, otherwise will have timezone issues
+export const formatDateTime = (dateTimeString: string): string => {
+  if (!dateTimeString) {
+    return "";
   }
-  const date = new Date(dateTime)
-    .toLocaleDateString("en-Us", options)
-    .replace(",", "");
-  return date !== "Invalid Date" ? date : "";
+
+  // This is roughly the format that we want to convert to, therefore we can return it as is.
+  const customFormatRegex = /^\d{2}\/\d{2}\/\d{4} \d\d?:\d{2} [AP]M \w{3}$/;
+  const isoDateTimeRegex =
+    /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2})?)?/;
+  if (customFormatRegex.test(dateTimeString)) {
+    return dateTimeString;
+  } else if (isoDateTimeRegex.test(dateTimeString)) {
+    // Split the datetime string into date and time parts
+    const [datePart, timePart] = dateTimeString.split("T");
+
+    // Further split the date part into YYYY, MM, DD
+    const [year, month, day] = datePart.split("-");
+
+    if (timePart) {
+      // Split the time part into HH:MM:SS and timezone (±HH:MM)
+      const [time, timeZone] = timePart.split(/(?=[+-])/);
+
+      // We only need HH:MM from the time
+      const [hours, minutes] = time.split(":");
+
+      // Convert 24-hour time to 12-hour time
+      const hoursInt = parseInt(hours, 10);
+      const suffix = hoursInt >= 12 ? "PM" : "AM";
+      const hours12 = ((hoursInt + 11) % 12) + 1; // Convert 24h to 12h format
+
+      const formattedDateTime = `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${timeZone || "UTC"}`;
+      return formattedDateTime;
+    }
+
+    // Reformat the string as needed
+    const formattedDate = `${month}/${day}/${year}`;
+    return formattedDate;
+  }
+
+  // If the input string is not in the expected format, return it as is
+  return dateTimeString;
 };
 
 /**
@@ -109,7 +147,6 @@ export const formatDateTime = (dateTime: string) => {
  * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
  * @returns - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
  */
-
 export const formatDate = (dateString?: string): string | undefined => {
   if (dateString) {
     let date = new Date(dateString);
@@ -132,6 +169,11 @@ export const formatDate = (dateString?: string): string | undefined => {
   }
 };
 
+/**
+ * Formats a phone number into a standard format of XXX-XXX-XXXX.
+ * @param phoneNumber - The phone number to format.
+ * @returns The formatted phone number or undefined if the input is invalid.
+ */
 export const formatPhoneNumber = (phoneNumber: string) => {
   try {
     return phoneNumber
@@ -170,11 +212,20 @@ export const formatStartEndDateTime = (
   return textArray.join("\n");
 };
 
+/**
+ * Formats vital signs information into a single line string with proper units .
+ * @param heightAmount - The amount of height.
+ * @param heightUnit - The measurement type of height (e.g., "[in_i]" for inches, "cm" for centimeters).
+ * @param weightAmount - The amount of weight.
+ * @param weightUnit - The measurement type of weight (e.g., "[lb_av]" for pounds, "kg" for kilograms).
+ * @param bmi - The Body Mass Index (BMI).
+ * @returns The formatted vital signs information.
+ */
 export const formatVitals = (
   heightAmount: string,
-  heightMeasurementType: string,
+  heightUnit: string,
   weightAmount: string,
-  weightMeasurementType: string,
+  weightUnit: string,
   bmi: string,
 ) => {
   let heightString = "";
@@ -183,19 +234,19 @@ export const formatVitals = (
 
   let heightType = "";
   let weightType = "";
-  if (heightAmount && heightMeasurementType) {
-    if (heightMeasurementType === "[in_i]") {
+  if (heightAmount && heightUnit) {
+    if (heightUnit === "[in_i]") {
       heightType = "inches";
-    } else if (heightMeasurementType === "cm") {
+    } else if (heightUnit === "cm") {
       heightType = "cm";
     }
     heightString = `Height: ${heightAmount} ${heightType}\n\n`;
   }
 
-  if (weightAmount && weightMeasurementType) {
-    if (weightMeasurementType === "[lb_av]") {
+  if (weightAmount && weightUnit) {
+    if (weightUnit === "[lb_av]") {
       weightType = "Lbs";
-    } else if (weightMeasurementType === "kg") {
+    } else if (weightUnit === "kg") {
       weightType = "kg";
     }
     weightString = `Weight: ${weightAmount} ${weightType}\n\n`;
@@ -209,6 +260,11 @@ export const formatVitals = (
   return combinedString.trim();
 };
 
+/**
+ * Formats a string by converting it to lowercase, replacing spaces with underscores, and removing special characters except underscores.
+ * @param input - The input string to be formatted.
+ * @returns The formatted string.
+ */
 export const formatString = (input: string): string => {
   // Convert to lowercase
   let result = input.toLowerCase();
