@@ -86,7 +86,7 @@ const ECRViewerPage: React.FC = () => {
                   fhirPathMappings={mappings}
                   fhirBundle={fhirBundle}
                 />
-                <div className="margin-top-6">
+                <div className="margin-top-10">
                   <GridContainer className={"padding-0 margin-bottom-3"}>
                     <Grid row>
                       <Grid>
