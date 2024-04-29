@@ -13,12 +13,11 @@ const s3Client = new S3Client({ region: process.env.AWS_REGION });
  * Saves a FHIR bundle to a postgres database.
  * @async
  * @function saveToS3
- * @param {Bundle} fhirBundle - The FHIR bundle to be saved.
- * @param {string} ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
- * @returns {Promise<void>} A promise that resolves when the FHIR bundle is successfully saved to postgres.
+ * @param fhirBundle - The FHIR bundle to be saved.
+ * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
+ * @returns A promise that resolves when the FHIR bundle is successfully saved to postgres.
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to postgress.
  */
-
 export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
   const db_url = process.env.DATABASE_URL || "";
   const db = pgPromise();
@@ -50,12 +49,11 @@ export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
  * Saves a FHIR bundle to an AWS S3 bucket.
  * @async
  * @function saveToS3
- * @param {Bundle} fhirBundle - The FHIR bundle to be saved.
- * @param {string} ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
- * @returns {Promise<void>} A promise that resolves when the FHIR bundle is successfully saved to the S3 bucket.
+ * @param fhirBundle - The FHIR bundle to be saved.
+ * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
+ * @returns A promise that resolves when the FHIR bundle is successfully saved to the S3 bucket.
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to the S3 bucket.
  */
-
 export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
   const bucketName = process.env.ECR_BUCKET_NAME;
   const objectKey = `${ecrId}.json`;

@@ -38,6 +38,10 @@ async def refine_ecr(
     """
     data = await refiner_input.body()
 
+    validated_message, error_message = validate_message(data)
+    if error_message != "":
+        return Response(content=error_message, status_code=400)
+
     if sections_to_include:
         sections_to_include, error_message = validate_sections_to_include(
             sections_to_include
@@ -46,7 +50,7 @@ async def refine_ecr(
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
-        data = refine(data, sections_to_include)
+        data = refine(validated_message, sections_to_include)
 
     return Response(content=data, media_type="application/xml")
 
@@ -92,16 +96,15 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     return (section_loincs, error_message) if section_loincs else (None, error_message)
 
 
-def refine(raw_message: bytes, sections_to_include: str) -> str:
+def refine(validated_message: bytes, sections_to_include: str) -> str:
     """
     Refines an incoming XML message based on the sections to include.
 
-    :param raw_message: The XML input.
+    :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
     :return: The refined message.
     """
-
-    raw_message = ET.fromstring(raw_message)
+    header = select_message_header(validated_message)
 
     # Set up XPath expression
     namespaces = {"hl7": "urn:hl7-org:v3"}
@@ -113,10 +116,12 @@ def refine(raw_message: bytes, sections_to_include: str) -> str:
     )
 
     # Use XPath to find elements matching the expression
-    elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
+    elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
 
     # Create & set up a new root element for the refined XML
-    refined_message_root = ET.Element(raw_message.tag)
+    refined_message_root = ET.Element(validated_message.tag)
+    for h in header:
+        refined_message_root.append(h)
     component = ET.Element("component")
     structuredBody = ET.Element("structuredBody")
 
@@ -131,3 +136,62 @@ def refine(raw_message: bytes, sections_to_include: str) -> str:
     # Create a new ElementTree with the result root
     refined_message = ET.ElementTree(refined_message_root)
     return ET.tostring(refined_message, encoding="unicode")
+
+
+def select_message_header(raw_message: bytes) -> bytes:
+    """
+    Selects the header of an incoming message.
+
+    :param raw_message: The XML input.
+    :return: The header section of the XML.
+    """
+    HEADER_SECTIONS = [
+        "realmCode",
+        "typeId",
+        "templateId",
+        "id",
+        "code",
+        "title",
+        "effectiveTime",
+        "confidentialityCode",
+        "languageCode",
+        "setId",
+        "versionNumber",
+        "recordTarget",
+        "author",
+        "custodian",
+        "componentOf",
+    ]
+
+    # Set up XPath expression
+    namespaces = {"hl7": "urn:hl7-org:v3"}
+    xpath_expression = " | ".join(
+        [f"//hl7:ClinicalDocument/hl7:{section}" for section in HEADER_SECTIONS]
+    )
+    # Use XPath to find elements matching the expression
+    elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
+
+    # Create & set up a new root element for the refined XML
+    header = ET.Element(raw_message.tag)
+
+    # Append the filtered elements to the new root
+    for element in elements:
+        header.append(element)
+
+    return header
+
+
+def validate_message(raw_message: str) -> tuple[bytes | None, str]:
+    """
+    Validates that an incoming XML message can be parsed by lxml's etree .
+
+    :param raw_message: The XML input.
+    :return: The validation result as a string.
+    """
+    error_message = ""
+    try:
+        validated_message = ET.fromstring(raw_message)
+        return (validated_message, error_message)
+    except ET.XMLSyntaxError as e:
+        error_message = f"XMLSyntaxError: {e}"
+        return (None, str(error_message))
