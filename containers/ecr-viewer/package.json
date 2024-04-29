@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "local-dev": "npm run setup-local-env && docker compose up db seed-db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
+    "local-dev": "npm run setup-local-env && docker compose up db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
     "setup-local-env": "./setup-env.sh",
     "build": "next build",
     "start": "next start",
@@ -14,7 +14,7 @@
     "test:unit": "TZ=America/New_York jest",
     "test:unit:watch": "TZ=America/New_York jest --watch",
     "test:integration": "mocha --timeout 600000 tests/integration/test_ecr-viewer.js",
-    "convert-seed-data": "sh ./seed-scripts/convert.sh",
+    "convert-seed-data": "docker compose -f ./seed-scripts/docker-compose.yml up --abort-on-container-exit",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
