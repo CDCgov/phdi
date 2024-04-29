@@ -1,5 +1,5 @@
 typing_extensions>=4.8.0
-pydantic==1.10.9
+pydantic==1.10.13
 fastapi>=0.109.1
 phdi @ git+https://github.com/CDCgov/phdi@main
 uvicorn
