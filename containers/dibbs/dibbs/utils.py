@@ -45,12 +45,7 @@ def read_file_from_test_assets(filename: str) -> str:
     :return: A string containing the contents of the file.
     """
     with open(
-        (
-            pathlib.Path(__file__).parent.parent.parent.parent.parent
-            / "tests"
-            / "assets"
-            / filename
-        ),
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename),
         "r",
     ) as file:
         return file.read()

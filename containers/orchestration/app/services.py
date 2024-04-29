@@ -5,6 +5,8 @@ import requests
 from fastapi import HTTPException
 from fastapi import Response
 from fastapi import WebSocket
+from opentelemetry import trace
+from opentelemetry.trace.status import StatusCode
 
 from app.handlers import build_fhir_converter_request
 from app.handlers import build_geocoding_request
@@ -24,6 +26,9 @@ from app.handlers import unpack_save_fhir_data_response
 from app.handlers import unpack_validation_response
 from app.models import OrchestrationRequest
 from app.utils import format_service_url
+
+# Integrate services tracer with automatic instrumentation context
+tracer = trace.get_tracer("orchestration_services.py_tracer")
 
 # Locations of the various services the service will delegate
 SERVICE_URLS = {
@@ -93,21 +98,38 @@ async def _send_websocket_dump(
     :param websocket: The websocket to stream the data to.
     :return: The updated progress dictionary.
     """
-    status = (
-        "success"
-        if (service_response.status_code == 200 and service_response.should_continue)
-        else "error"
-    )
+    with tracer.start_as_current_span(
+        "send_websocket_dump_to_progress_dict",
+        kind=trace.SpanKind(0),
+        attributes={
+            "endpoint_name": endpoint_name,
+            "socket_client_status": websocket.client_state,
+            "socket_server_status": websocket.application_state,
+        },
+    ) as dump_span:
+        status = (
+            "success"
+            if (
+                service_response.status_code == 200 and service_response.should_continue
+            )
+            else "error"
+        )
 
-    # Write service responses into websocket message
-    progress_dict[endpoint_name] = {
-        "status": status,
-        "status_code": base_response.status_code,
-        "response": base_response.json(),
-    }
+        dump_span.add_event(
+            "determining success logic, preparing to write to progress dict",
+            attributes={"status": status, "status_code": base_response.status_code},
+        )
 
-    await websocket.send_text(json.dumps(progress_dict))
-    return progress_dict
+        # Write service responses into websocket message
+        progress_dict[endpoint_name] = {
+            "status": status,
+            "status_code": base_response.status_code,
+            "response": base_response.json(),
+        }
+
+        dump_span.add_event("dumping JSON to socket's text receiver")
+        await websocket.send_text(json.dumps(progress_dict))
+        return progress_dict
 
 
 async def call_apis(
@@ -128,50 +150,99 @@ async def call_apis(
     :return: A tuple holding the concluding status code of the orchestration
       service, as well as each step's response along the way.
     """
-    workflow = config.get("workflow", [])
-    current_message = input.get("message")
-    response = current_message
-    responses = {}
-    # For websocket json dumps
-    progress_dict = {}
-    for step in workflow:
-        service = step["service"]
-        endpoint = step["endpoint"]
-        endpoint_name = endpoint.split("/")[-1]
-        params = step.get("params", None)
-
-        service_url = format_service_url(SERVICE_URLS[service], endpoint)
-
-        request_body_func = ENDPOINT_TO_REQUEST_BODY[endpoint_name]
-        response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
-        request_body = request_body_func(current_message, input, params)
-        response = post_request(service_url, request_body)
-        service_response = response_func(response)
-
-        if websocket:
-            progress_dict = await _send_websocket_dump(
-                endpoint_name,
-                response,
-                service_response,
-                progress_dict,
-                websocket,
+    with tracer.start_as_current_span(
+        "call-apis",
+        kind=trace.SpanKind(0),
+        attributes={
+            "config": config,
+            "message_type": input.get("message_type"),
+            "data_type": input.get("data_type"),
+        },
+    ) as call_span:
+        call_span.add_event("unpacking input parameters")
+        workflow = config.get("workflow", [])
+        current_message = input.get("message")
+        response = current_message
+        responses = {}
+        # For websocket json dumps
+        progress_dict = {}
+        for step in workflow:
+            service = step["service"]
+            endpoint = step["endpoint"]
+            endpoint_name = endpoint.split("/")[-1]
+            params = step.get("params", None)
+            call_span.add_event(
+                "formatting parameters for service " + service,
+                attributes={
+                    "service": service,
+                    "endpoint": endpoint,
+                    "endpoint_name": endpoint_name,
+                    "config_params": [f"{k}: {v}" for k, v in params.items()]
+                    if params is not None
+                    else "",
+                },
             )
 
-        if service_response.status_code != 200:
-            raise HTTPException(
-                status_code=service_response.status_code,
-                detail=f"Service {service} failed with error {service_response.msg_content}",  # noqa
-            )
+            service_url = format_service_url(SERVICE_URLS[service], endpoint)
 
-        if not service_response.should_continue:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Service {service} completed, but orchestration cannot continue: "  # noqa
-                + f"{service_response.msg_content}",
+            request_body_func = ENDPOINT_TO_REQUEST_BODY[endpoint_name]
+            response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
+            call_span.add_event(
+                "packaging data to building block handler",
+                attributes={
+                    "request_body_handler": request_body_func.__str__(),
+                    "response_extraction_handler": response_func.__str__(),
+                },
             )
+            request_body = request_body_func(current_message, input, params)
+            call_span.add_event("posting to `service_url` " + service_url)
+            response = post_request(service_url, request_body)
+            call_span.add_event("response received from building block")
+            service_response = response_func(response)
 
-        # Validation and save_bundle do not contain any updates to the data
-        if service not in ["validation", "save_bundle"]:
-            current_message = service_response.msg_content
-        responses[service] = response
-    return (response, responses)
+            if websocket:
+                progress_dict = await _send_websocket_dump(
+                    endpoint_name,
+                    response,
+                    service_response,
+                    progress_dict,
+                    websocket,
+                )
+
+            if service_response.status_code != 200:
+                call_span.record_exception(
+                    HTTPException(
+                        status_code=service_response.status_code,
+                        detail="Received non-200 from unpacked building block response",
+                    ),
+                    attributes={"status_code": service_response.status_code},
+                )
+                error_detail = f"Service {service} failed with error {service_response.msg_content}"
+                call_span.set_status(StatusCode(2), error_detail)
+                raise HTTPException(
+                    status_code=service_response.status_code, detail=error_detail
+                )
+
+            if not service_response.should_continue:
+                call_span.record_exception(
+                    HTTPException, attributes={"status_code": 400}
+                )
+                error_detail = (
+                    f"Service {service} completed, but orchestration cannot continue "
+                )
+                +f"{service_response.msg_content}"
+                call_span.set_status(StatusCode(2), error_detail)
+                raise HTTPException(
+                    status_code=400,
+                    detail=error_detail,
+                )
+
+            # Validation and save_bundle do not contain any updates to the data
+            if service not in ["validation", "save_bundle"]:
+                call_span.add_event(
+                    "updating input data with building block modifications"
+                )
+                current_message = service_response.msg_content
+            responses[service] = response
+        call_span.set_status(StatusCode(1))
+        return (response, responses)

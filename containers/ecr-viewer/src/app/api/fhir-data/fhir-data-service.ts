@@ -6,6 +6,11 @@ import { database } from "@/app/api/fhir-data/db";
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
+/**
+ * Retrieves FHIR data from PostgreSQL database based on eCR ID.
+ * @param request - The NextRequest object containing the request information.
+ * @returns A promise resolving to a NextResponse object.
+ */
 export const get_postgres = async (request: NextRequest) => {
   const params = request.nextUrl.searchParams;
   const ecr_id = params.get("id") ? params.get("id") : null;
@@ -36,6 +41,11 @@ export const get_postgres = async (request: NextRequest) => {
   }
 };
 
+/**
+ * Retrieves FHIR data from S3 based on eCR ID.
+ * @param request - The NextRequest object containing the request information.
+ * @returns A promise resolving to a NextResponse object.
+ */
 export const get_s3 = async (request: NextRequest) => {
   const params = request.nextUrl.searchParams;
   const ecr_id = params.get("id");
