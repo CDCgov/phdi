@@ -289,11 +289,14 @@ export const evaluateSocialData = (
   return evaluateData(socialData);
 };
 
-// add a tooltip to the Patient IDs
 /**
- *
- * @param fhirBundle
- * @param fhirPathMappings
+ * Evaluates and formats patient identifiers from a given FHIR bundle using specified path mappings.
+ * Each patient ID is formatted as a React component (span element) with a tooltip for displaying additional information.
+ * The tooltips can help users understand the significance of the identifiers displayed.
+ * @param fhirBundle - The FHIR bundle containing patient data, which is expected to conform to the FHIR standard.
+ * @param fhirPathMappings - An object specifying paths to extract patient identifiers from the FHIR bundle.
+ * @returns An array of span elements each containing a patient ID. These elements are enhanced with a tooltip
+ *  feature provided by a `className` of "usa-tooltip". Each tooltip displays the patient identifier and a description.
  */
 export const evaluatePatientIds = (
   fhirBundle: Bundle,
@@ -322,12 +325,6 @@ export const evaluatePatientIds = (
  * @param fhirBundle - The FHIR bundle containing demographic data.
  * @param mappings - The object containing the fhir paths.
  * @returns An array of evaluated and formatted demographic data.
- */
-
-/**
- *
- * @param fhirBundle
- * @param mappings
  */
 export const evaluateDemographicsData = (
   fhirBundle: Bundle,
