@@ -80,4 +80,3 @@ build/
 
 ## ECR Viewer Seed data
 /containers/ecr-viewer/seed-scripts/fhir_data/
-/containers/ecr-viewer/seed-scripts/sql/data.sql
