@@ -13,6 +13,8 @@ from fastapi import UploadFile
 from fastapi import WebSocket
 from fastapi import WebSocketDisconnect
 from opentelemetry import metrics
+from opentelemetry import trace
+from opentelemetry.trace.status import StatusCode
 
 from app.config import get_settings
 from app.constants import process_message_response_examples
@@ -34,8 +36,11 @@ from app.utils import unzip_http
 from app.utils import unzip_ws
 from phdi.containers.base_service import BaseService
 
+# Integrate main app tracer with automatic instrumentation context
+tracer = trace.get_tracer("orchestration_main_tracer")
+
 logger = logging.getLogger(__name__)
-meter = metrics.get_meter("orchestration.main.meter")
+meter = metrics.get_meter("orchestration_main_meter")
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -203,17 +208,42 @@ async def process_message_endpoint(
       successful as well as the results of the workflow.
     """
     process_request = dict(request)
-    building_block_response = await apply_workflow_to_message(
-        process_request.get("message_type"),
-        process_request.get("data_type"),
-        process_request.get("config_file_name"),
-        process_request.get("message"),
-        process_request.get("rr_data"),
-    )
 
-    process_message_counter.add(1, {"status_code": building_block_response.status_code})
+    # Store params as K-V pairs at span creation, and log workflow event
+    # This is a `SERVER` span since it receives an inbound remote request
+    with tracer.start_as_current_span(
+        "process-message",
+        kind=trace.SpanKind(1),
+        attributes={
+            "message_type": process_request.get("message_type"),
+            "data_type": process_request.get("data_type"),
+            "config_file_chosen": process_request.get("config_file_name"),
+        },
+    ) as pm_span:
+        pm_span.add_event("sending data to apply workflow")
 
-    return building_block_response
+        building_block_response = await apply_workflow_to_message(
+            process_request.get("message_type"),
+            process_request.get("data_type"),
+            process_request.get("config_file_name"),
+            process_request.get("message"),
+            process_request.get("rr_data"),
+        )
+
+        workflow_status = building_block_response.status_code
+        pm_span.add_event(
+            "building blocks responded",
+            attributes={"workflow_status_code": workflow_status},
+        )
+
+        # Only override `UNSET` if return is fully successful
+        # OpenTelemetry's `OK` value should be dev-finalized only
+        if workflow_status == 200:
+            pm_span.set_status(StatusCode(1))
+
+        process_message_counter.add(1, {"status_code": workflow_status})
+
+        return building_block_response
 
 
 async def apply_workflow_to_message(
@@ -240,61 +270,91 @@ async def apply_workflow_to_message(
     :return: Response of whether the workflow succeeded and what its outputs
       were.
     """
-    # Load the config file and fail fast if we can't find it
-    try:
-        processing_config = load_processing_config(config_file_name)
-    except FileNotFoundError as error:
-        response = Response(
-            content=json.dumps(
-                {
-                    "message": error.__str__(),
-                    "processed_values": {},
-                }
-            ),
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
-        return response
 
-    # Compile the input to the other service endpoints and call them
-    api_input = {
-        "message_type": message_type,
-        "data_type": data_type,
-        "message": message,
-        "rr_data": rr_content,
-    }
-    response, responses = await call_apis(config=processing_config, input=api_input)
+    with tracer.start_as_current_span(
+        "apply-workflow-to-message",
+        kind=trace.SpanKind(0),
+        attributes={
+            "message_type": message_type,
+            "data_type": data_type,
+            "config_file_chosen": config_file_name,
+        },
+    ) as wf_span:
+        wf_span.add_event("attempting to load workflow config")
 
-    # if not 200, return status code and any error messaging
-    if response.status_code != 200:
-        return Response(
-            content=json.dumps(
-                {
-                    "message": "Request failed with status code "
-                    + f"{response.status_code}",
-                    "responses": _filter_failed_responses(responses),
-                    "processed_values": "",
-                }
-            ),
-            media_type="application/json",
-            status_code=response.status_code,
-        )
-
-    # determine how to process/return 200 data for json and xml
-    content_type = response.headers.get("content-type", "")
-    match content_type:
-        case "application/xml" | "text/xml":
-            workflow_content = response.content
-        case "application/json":
-            workflow_content = json.dumps(
-                {
-                    "message": "Processing succeeded!",
-                    "processed_values": response.json(),
-                }
+        # Load the config file and fail fast if we can't find it
+        try:
+            processing_config = load_processing_config(config_file_name)
+            wf_span.add_event("config loaded successfully")
+        except FileNotFoundError as error:
+            response = Response(
+                content=json.dumps(
+                    {
+                        "message": error.__str__(),
+                        "processed_values": {},
+                    }
+                ),
+                status_code=status.HTTP_400_BAD_REQUEST,
             )
-        case _:
-            workflow_content = response.text
+            wf_span.record_exception(FileNotFoundError)
+            wf_span.set_status(
+                StatusCode(2), "Could not load config: " + error.__str__()
+            )
+            return response
 
-    return Response(content=workflow_content, media_type=content_type)
+        # Compile the input to the other service endpoints and call them
+        api_input = {
+            "message_type": message_type,
+            "data_type": data_type,
+            "message": message,
+            "rr_data": rr_content,
+        }
+        wf_span.add_event("sending params to `call_apis`")
+        response, responses = await call_apis(config=processing_config, input=api_input)
+        wf_span.add_event(
+            "`call_apis` responded with computed result",
+            attributes={"return_code": response.status_code},
+        )
+
+        # if not 200, return status code and any error messaging
+        if response.status_code != 200:
+            wf_span.add_event(
+                "`call_apis` response not 200",
+                attributes={"status_code": response.status_code},
+            )
+            return Response(
+                content=json.dumps(
+                    {
+                        "message": "Request failed with status code "
+                        + f"{response.status_code}",
+                        "responses": _filter_failed_responses(responses),
+                        "processed_values": "",
+                    }
+                ),
+                media_type="application/json",
+                status_code=response.status_code,
+            )
+
+        # determine how to process/return 200 data for json and xml
+        content_type = response.headers.get("content-type", "")
+        wf_span.add_event(
+            "parsing content type", attributes={"content_type": content_type}
+        )
+        match content_type:
+            case "application/xml" | "text/xml":
+                workflow_content = response.content
+            case "application/json":
+                workflow_content = json.dumps(
+                    {
+                        "message": "Processing succeeded!",
+                        "processed_values": response.json(),
+                    }
+                )
+            case _:
+                workflow_content = response.text
+
+        wf_span.set_status(StatusCode(1))
+        return Response(content=workflow_content, media_type=content_type)
 
 
 def _filter_failed_responses(responses):

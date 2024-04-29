@@ -1,6 +1,20 @@
 # Monitoring Systems Overview
 
-This document outlines the components, concepts, and scope of the alerting and monitoring technologies used to track the DIBBs Orchestration Service. While it's not intended to be comprehensive, it should provide a high-level contextual overview of how and why various monitoring pieces are working together. For clarity of organization, explanations of all technical words have been collected into a single section so as to not clutter other paragraphs.
+This document outlines the components, concepts, and scope of the alerting and monitoring technologies used to track the DIBBs Orchestration Service. While it's not intended to be comprehensive, it should provide a high-level contextual overview of how and why various monitoring pieces are working together.
+
+## Contents
+* [Packages](#packages)
+* [What Are The Pieces](#what-are-the-pieces-concepts-components-and-terms)
+* [Types of Telemetry](#types-of-telemetry)
+* [OpenTelemetry Basics and Configuration](#opentelemetry-basics-and-configuration)
+* [The OTel Collector](#the-otel-collector)
+* [The OTel Collector and Jaeger](#the-otel-collector-and-jaeger)
+* [The OTel Collector and Prometheus](#the-otel-collector-and-prometheus)
+* [How We've Set Things Up](#how-weve-set-things-up)
+* [The Monitoring Flow](#the-monitoring-flow-this-creates)
+* [Where This Happens In The Code](#where-this-happens-in-the-code)
+* [Manual Tracing Instrumentation: Notes and Practices](#manual-tracing-instrumentation-notes-and-practices)
+
 
 ## Packages
 
@@ -50,7 +64,7 @@ Prometheus, on the other hand, doesn't play quite so nicely. Confusingly, OpenTe
 ## How We've Set Things Up
 
 * We start by using OpenTelemetry's automatic instrumentation to create all of the Provider-level instrumentation contexts for the Orchestration Service. This is executed in the project's `Dockerfile`.
-* We supplement the automatic instrumentation with manual instrumentation around specific status code formatting for message processing endpoints. This is instrumented in `main.py`.
+* We supplement the automatic instrumentation with manual instrumentation for both metrics and traces/spans for the `process-message` endpoint. This is instrumented in `main.py`.
 * We spin up local instances of the OTel Collector, Jaeger, Prometheus, and Grafana, making sure to expose specific relative ports and endpoints. This is executed in the project's `docker-compose.yml`.
 * We configure the OTel Collector with the listening/transmitting mechanisms we want to use, and then activate the Collector with a service pipeline. This is set up in `otel-collector-config.yaml`.
 * We configure the Jaeger UI with a few visual options to customize how we want our menus laid out when data reaches the backend. This is set up in `jaeger-ui.json`.
@@ -85,7 +99,7 @@ When an API request hits the `process-message` endpoint of the Orchestration Ser
 * Grafana's UI can be accessed by navigating to `localhost:4000` (the endpoint specified in `docker-compose.yml` and `grafana.ini`) to create and view dashboards.
 * In addition to dashboards, Grafana offers an Explore mode to query any data exposed by Prometheus to directly investigate metrics or issues.
 
-## Where This All Happens In The Files
+## Where This Happens In The Code
 
 ### `Dockerfile`
 
@@ -135,10 +149,21 @@ The primary configuration file for Grafana specifices various settings to custom
 * `security` settings is where the admin_user and admin_password can be specified.
 * `users` are user-specific settings. Right now, we allow users to sign-in and create accounts, but we may want to revisit if we want to create a user hierarchy (admin, read-only user, etc.).
 
-#### `grafana/dashboards/dashboard.yml`
+### `grafana/dashboards/dashboard.yml`
 
 This is a simple yaml file that specifies that dashboards saved here should be pulled in and loaded to the Grafana UI. New dashboards can be created in the UI then downloaded and saved here as JSON.
 
-#### `grafana/datasource/datasource.yml`
+### `grafana/datasource/datasource.yml`
 
 This is a simple yaml file that specifies the default data source for Grafana, which for our purposes is `prometheus:9090`.
+
+## Manual Tracing Instrumentation: Notes and Practices
+
+Automatic tracing instrumentation provides an out-of-the-box, halfway there solution to capturing what happens inside the Orchestration Service. However, the spans it produces as part of tracing a request capture information only at the edges of a system--incoming/outgoing HTTP requests, service boundary changes, etc. These spans don't provide any insight into what's happening inside a particular part of the service, nor do they sufficiently capture stateful attributes or logging events. To improve visibility for both logging and debugging, the Orchestration Service augments the bootstrapped automatic distribution with manual tracing instrumentation. Manual tracers relate to automatic tracers in the same way that manual metrics relate to automatic metrics: an instrumentation provider exists globally to oversee the application's lifecycle, and this provider generates agents that monitor various parts of the system.
+
+In practice, we want to balance between richenss of logging information, granularity of control, and the risk of debugging clutter, all while avoiding duplication of tracing already provided by the automatic agent. OpenTelemetry suggests the following best practices when supplementing trace data:
+
+* Let the automatic instrumentation manage the global tracer context and tracer requests, and instead focus manual instrumentation on creating and enriching spans. OpenTelemetry will automatically aggregate and order these spans into a coherent trace when the telemetry data is exported.
+* Spans represent a single unit or "chunk" of work within the system, which means their most common scope should be a block of code with a defined start and end time. This almost always means spans should be scoped to functions (i.e. a one function, one span pattern).
+* Use key-value attribute pairs within spans to record properties, request context, user information, or other metadata for which the timestamp of that metada isn't important. When setting attributes, prefer initializing them at span creation so that they can be fetched by OpenTelemetry's sampling processor (a subprocess used in several back-end SDK functions and OTel API calls).
+* Use span events (rather than attributes) to record single moments in time at which a "significant" task is completed inside of a span's function--for example, recording a primitive log statement and timestamp to mark when a webpage becomes interactive.

@@ -7,6 +7,13 @@ type AccordianSectionProps = {
   id?: string;
 };
 
+/**
+ * Functional component for an accordion section.
+ * @param props - Props containing children and optional className.
+ * @param props.children - The content of the accordion section.
+ * @param [props.className] - Optional additional class name for styling.
+ * @returns The JSX element representing the accordion section.
+ */
 export const AccordianSection: React.FC<AccordianSectionProps> = ({
   children,
   className,
@@ -48,6 +55,13 @@ export const AccordianH4: React.FC<AccordianSectionProps> = ({
   );
 };
 
+/**
+ * Functional component for an accordion div.
+ * @param props - Props containing children and optional className.
+ * @param props.children - The content of the accordion div.
+ * @param [props.className] - Optional additional class name for styling.
+ * @returns The JSX element representing the accordion div.
+ */
 export const AccordianDiv: React.FC<AccordianSectionProps> = ({
   children,
   className,

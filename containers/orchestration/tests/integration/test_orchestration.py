@@ -137,6 +137,7 @@ def test_failed_save_to_ecr_viewer(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
+            "data_type": "zip",
             "config_file_name": "sample-orchestration-s3-config.json",
         }
         files = {"upload_file": ("file.zip", file)}
