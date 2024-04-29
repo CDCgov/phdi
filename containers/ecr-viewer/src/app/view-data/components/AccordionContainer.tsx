@@ -14,7 +14,7 @@ import UnavailableInfo from "./UnavailableInfo";
 import EcrMetadata from "./EcrMetadata";
 import EncounterDetails from "./Encounter";
 import ClinicalInfo from "./ClinicalInfo";
-import { Bundle, FhirResource } from "fhir/r4";
+import { Bundle } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import LabInfo from "@/app/view-data/components/LabInfo";
@@ -22,10 +22,17 @@ import { formatString } from "@/app/format-service";
 
 type AccordionContainerProps = {
   children?: ReactNode;
-  fhirBundle: Bundle<FhirResource>;
+  fhirBundle: Bundle;
   fhirPathMappings: PathMappings;
 };
 
+/**
+ * Functional component for an accordion container displaying various sections of eCR information.
+ * @param props - Props containing FHIR bundle and path mappings.
+ * @param props.fhirBundle - The FHIR bundle containing patient information.
+ * @param props.fhirPathMappings - The path mappings used to extract information from the FHIR bundle.
+ * @returns The JSX element representing the accordion container.
+ */
 const AccordianContainer: React.FC<AccordionContainerProps> = ({
   fhirBundle,
   fhirPathMappings,
