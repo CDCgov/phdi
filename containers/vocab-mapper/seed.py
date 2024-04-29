@@ -32,7 +32,7 @@ value_set_type_table = """CREATE TABLE IF NOT EXISTS value_set_type (
                        """
 
 value_sets_table = """CREATE TABLE IF NOT EXISTS value_sets (
-                      id TEXT PRIMARY KEY,
+                      id TEXT,
                       condition_code TEXT,
                       condition_code_system TEXT,
                       value_set_name TEXT,
@@ -41,7 +41,7 @@ value_sets_table = """CREATE TABLE IF NOT EXISTS value_sets (
                       )
                       """
 clinical_services_table = """CREATE TABLE IF NOT EXISTS clinical_services (
-                             id TEXT PRIMARY KEY,
+                             id TEXT,
                              value_set_id TEXT,
                              code TEXT,
                              code_system TEXT,
@@ -247,6 +247,7 @@ def build_clinical_services_table(data: dict) -> List[List[str]]:
                 result = [id, value_set_id, code, version, display, system]
                 clinical_services_list.append(result)
         # expansion codes to extend clinical_services
+        # right now, expansion is purely duplicative, and lacks display.
         for expansion_code in expansion_codes:
             system = expansion_code.get("system", "")
             code = expansion_code.get("code", "")
