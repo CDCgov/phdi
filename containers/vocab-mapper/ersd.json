@@ -16,7 +16,7 @@
       }
     }
   },
-  "clincal_services": {
+  "clinical_services": {
     "fhir_path": "entry.resource.where(resourceType='ValueSet' and url.contains('http://cts.nlm.nih.gov/fhir/ValueSet/')",
     "data_type": "string",
     "nullable": false,
