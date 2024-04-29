@@ -2,7 +2,9 @@
 
 exports[`ECR Metadata should match snapshot 1`] = `
 <div>
-  <div>
+  <div
+    class="margin-top-0"
+  >
     <div
       class="padding-bottom-3"
     >
@@ -31,13 +33,17 @@ exports[`ECR Metadata should match snapshot 1`] = `
             </caption>
             <thead>
               <tr>
-                <th>
+                <th
+                  class="reportability_summary_header"
+                >
                   Reportable Condition
                 </th>
                 <th>
                   RCKMS Rule Summary
                 </th>
-                <th>
+                <th
+                  class="reportability_summary_header"
+                >
                   Jurisdiction Sent eCR
                 </th>
               </tr>

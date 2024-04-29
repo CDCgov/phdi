@@ -87,9 +87,13 @@ const EcrMetadata = ({
         <Table bordered caption="Reportibility Summary" className="rrTable">
           <thead>
             <tr>
-              <th>Reportable Condition</th>
+              <th className="reportability_summary_header">
+                Reportable Condition
+              </th>
               <th>RCKMS Rule Summary</th>
-              <th>Jurisdiction Sent eCR</th>
+              <th className="reportability_summary_header">
+                Jurisdiction Sent eCR
+              </th>
             </tr>
           </thead>
           <tbody>{convertDictionaryToRows(rrDetails)}</tbody>

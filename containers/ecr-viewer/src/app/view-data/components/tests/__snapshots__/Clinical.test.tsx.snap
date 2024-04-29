@@ -2,7 +2,9 @@
 
 exports[`Snapshot test for Clinical Notes should match snapshot for non table notes 1`] = `
 <div>
-  <div>
+  <div
+    class="margin-top-0"
+  >
     <div
       class="padding-bottom-3"
     >
@@ -52,7 +54,9 @@ exports[`Snapshot test for Clinical Notes should match snapshot for non table no
 
 exports[`Snapshot test for Clinical Notes should match snapshot for table notes 1`] = `
 <div>
-  <div>
+  <div
+    class="margin-top-0"
+  >
     <div
       class="padding-bottom-3"
     >
@@ -125,7 +129,9 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
 
 exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should match snapshot 1`] = `
 <div>
-  <div>
+  <div
+    class="margin-top-0"
+  >
     <div
       class="padding-bottom-3"
     >
