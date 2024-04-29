@@ -17,6 +17,13 @@ export const encounterConfig: SectionConfig = new SectionConfig(
   ["Encounter Details", "Provider Details"],
 );
 
+/**
+ * Functional component for displaying encounter details.
+ * @param props - Props containing encounter details.
+ * @param props.encounterData - The encounter data to be displayed.
+ * @param props.providerData - The provider details to be displayed.
+ * @returns The JSX element representing the encounter details.
+ */
 const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const renderEncounterDetails = () => {
     return (
