@@ -75,7 +75,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         className="usa-summary-box padding-3"
         aria-labelledby="summary-box-key-information"
       >
-        <div className="usa-summary-box__body">
+        <div className="usa-summary-box__body margin-bottom-05">
           <h3
             className="summary-box-key-information side-nav-ignore"
             id={ecrSummaryConfig.subNavItems?.[0].id}
@@ -165,7 +165,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
               classNames="grid-col-fill text-pre-line"
             />
             <div className={"grid-row"}>
-              <div className={"text-bold"}>
+              <div className={"text-bold width-full"}>
                 Clinical sections relevant to reportable condition
               </div>
               <div className={"padding-top-05"}>
