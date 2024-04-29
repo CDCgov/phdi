@@ -1,30 +1,67 @@
 import { render } from "@testing-library/react";
-import fs from "fs";
-import { Bundle } from "fhir/r4";
-import YAML from "yaml";
 import { axe } from "jest-axe";
 import EcrSummary from "@/app/view-data/components/EcrSummary";
 
 describe("EcrSummary", () => {
   let container: HTMLElement;
-  beforeAll(() => {
-    const fhirPathFile = fs
-      .readFileSync("./src/app/api/fhirPath.yml", "utf8")
-      .toString();
-    const fhirPathMappings = YAML.parse(fhirPathFile);
-    const fhirBundle: Bundle = JSON.parse(
-      fs
-        .readFileSync(
-          "./seed-scripts/fhir_data/1dd10047-2207-4eac-a993-0f706c88be5d.json",
-          "utf8",
-        )
-        .toString(),
-    );
 
+  const patientDetails = [
+    {
+      title: "Patient Name",
+      value: "ABEL CASTILLO",
+    },
+    {
+      title: "DOB",
+      value: "04/15/2015",
+    },
+    {
+      title: "Patient Address",
+      value: "1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US",
+    },
+    {
+      title: "Patient Contact",
+      value: "Home (818)419-5968\nMELLY.C.A.16@GMAIL.COM",
+    },
+  ];
+  const encounterDetails = [
+    {
+      title: "Facility Name",
+      value: "PRM- Palmdale Regional Medical Center",
+    },
+    {
+      title: "Facility Address",
+      value: "38600 Medical Center Drive\nPalmdale, CA\n93551, USA",
+    },
+    {
+      title: "Facility Contact",
+      value: "(661)382-5000",
+    },
+    {
+      title: "Encounter Date/Time",
+      value: "Start: 05/13/2022 3:25 AM EDT\nEnd: 05/13/2022 5:57 AM EDT",
+    },
+    {
+      title: "Encounter Type",
+      value: "Emergency",
+    },
+  ];
+  const aboutTheCondition = [
+    {
+      title: "Reportable Condition",
+      value: "Influenza caused by Influenza A virus subtype H5N1 (disorder)",
+    },
+    {
+      title: "RCKMS Rule Summary",
+      value: "Cough",
+    },
+  ];
+
+  beforeAll(() => {
     container = render(
       <EcrSummary
-        fhirPathMappings={fhirPathMappings}
-        fhirBundle={fhirBundle}
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        aboutTheCondition={aboutTheCondition}
       />,
     ).container;
   });

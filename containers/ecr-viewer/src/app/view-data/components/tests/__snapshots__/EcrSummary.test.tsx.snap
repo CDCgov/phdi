@@ -30,7 +30,7 @@ exports[`EcrSummary should match snapshot 1`] = `
               Patient Name
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               ABEL CASTILLO
             </div>
@@ -115,7 +115,7 @@ MELLY.C.A.16@GMAIL.COM
               Facility Name
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               PRM- Palmdale Regional Medical Center
             </div>
@@ -151,7 +151,7 @@ Palmdale, CA
               Facility Contact
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               (661)382-5000
             </div>
@@ -186,7 +186,7 @@ End: 05/13/2022 5:57 AM EDT
               Encounter Type
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               Emergency
             </div>
@@ -217,7 +217,7 @@ End: 05/13/2022 5:57 AM EDT
               Reportable Condition
             </div>
             <div
-              class="grid-col-fill"
+              class="grid-col-auto text-pre-line"
             >
               Influenza caused by Influenza A virus subtype H5N1 (disorder)
             </div>
@@ -234,7 +234,7 @@ End: 05/13/2022 5:57 AM EDT
               RCKMS Rule Summary
             </div>
             <div
-              class="grid-col-fill text-pre-line"
+              class="grid-col-auto text-pre-line"
             >
               Cough
             </div>
