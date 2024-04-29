@@ -4,6 +4,7 @@ import pytest
 from app.main import app
 from app.main import refine
 from app.main import select_message_header
+from app.main import validate_message
 from app.main import validate_sections_to_include
 from fastapi.testclient import TestClient
 from lxml import etree as ET
@@ -103,6 +104,14 @@ def test_ecr_refiner():
     assert actual_response.status_code == 422
     assert actual_response.content.decode() == expected_response
 
+    # Test case: raw_message is invalid XML
+    content = "invalid XML"
+    sections_to_include = None
+    endpoint = "/ecr/"
+    actual_response = client.post(endpoint, content=content)
+    assert actual_response.status_code == 400
+    assert "XMLSyntaxError" in actual_response.content.decode()
+
 
 @pytest.mark.parametrize(
     "test_data, expected_result",
@@ -148,7 +157,7 @@ def test_validate_sections_to_include(test_data, expected_result):
 
 
 def test_refine():
-    raw_message = test_eICR_xml
+    raw_message = ET.fromstring(test_eICR_xml)
     # Test case: Refine for only social history
     expected_message = refined_test_eICR_social_history_only
     sections_to_include = ["29762-2"]
@@ -161,7 +170,7 @@ def test_refine():
     # Test case: Refine for labs/diagnostics and reason for visit
     expected_message = refined_test_eICR_labs_reason
     sections_to_include = ["30954-2", "29299-5"]
-    raw_message = test_eICR_xml
+    raw_message = ET.fromstring(test_eICR_xml)
     refined_message = refine(raw_message, sections_to_include)
 
     actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
@@ -170,9 +179,25 @@ def test_refine():
 
 
 def test_select_header():
-    raw_message = test_eICR_xml
+    raw_message = ET.fromstring(test_eICR_xml)
     actual_header = select_message_header(raw_message)
     expected_header = test_header
     actual_flattened = [i.tag for i in actual_header.iter()]
     expected_flattened = [i.tag for i in expected_header.iter()]
     assert actual_flattened == expected_flattened
+
+
+def test_validate_message():
+    # Test case: valid XML
+    raw_message = test_eICR_xml
+    actual_response, error_message = validate_message(raw_message)
+    actual_flattened = [i.tag for i in actual_response.iter()]
+    expected_flattened = [i.tag for i in ET.fromstring(raw_message).iter()]
+    assert actual_flattened == expected_flattened
+    assert error_message == ""
+
+    # Test case: invalid XML
+    raw_message = "this is not a valid XML"
+    actual_response, error_message = validate_message(raw_message)
+    assert actual_response is None
+    assert "XMLSyntaxError" in error_message
