@@ -41,7 +41,7 @@ function set_auth_cookie(req: NextRequest) {
 
 /**
  * Authorizes API requests based on an authentication token provided in the request's cookies.
- *   The function checks for the presence of an "auth-token" cookie and attempts to verify it
+ *   The  function checks for the presence of an "auth-token" cookie and attempts to verify it
  *   using JWT verification with a public key. If the token is missing or invalid, the function
  *   returns a JSON response indicating that authentication is required with a 401 status code.
  * @param req - The incoming Next.js request object, which includes the request cookies
