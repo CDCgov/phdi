@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { UseCaseQueryResponse, use_case_query } from "../query-service";
-import { PatientView } from "./components/PatientView";
+import QueryView from "./components/QueryView";
 import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
 
 export function PatientSearch() {
@@ -228,7 +228,7 @@ export function PatientSearch() {
         <button className="usa-button" onClick={() => setMode("search")}>Search for a new patient</button>
         <LoadingView loading={loading} />
         {/* TODO: add error view if loading is done and there's no useCaseQueryResponse */}
-        {useCaseQueryResponse && <PatientView useCaseQueryResponse={useCaseQueryResponse} />}
+        {useCaseQueryResponse && <QueryView useCaseQueryResponse={useCaseQueryResponse} />}
       </>)}
     </div>
   );
