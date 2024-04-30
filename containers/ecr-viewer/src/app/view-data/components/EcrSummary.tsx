@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
 
@@ -10,6 +11,33 @@ interface EcrSummaryProps {
   fhirPathMappings: PathMappings;
   fhirBundle: Bundle;
 >>>>>>> dea9cbd5 (Enforce JSDocs on arrow functions (#1698))
+=======
+<<<<<<< HEAD
+import { evaluate } from "fhirpath";
+import { Bundle } from "fhir/r4";
+import {
+  extractFacilityAddress,
+  extractPatientAddress,
+  evaluatePatientName,
+  PathMappings,
+  evaluateEncounterDate,
+  evaluatePatientContactInfo,
+  TooltipDiv,
+} from "../../utils";
+import { SectionConfig } from "./SideNav";
+import React, { FC } from "react";
+import { formatDate } from "@/app/format-service";
+import { Tooltip } from '@trussworks/react-uswds'
+=======
+import { SectionConfig } from "./SideNav";
+import React, { FC } from "react";
+>>>>>>> 11f4d9ad (create service for ecr summary data (#1702))
+
+interface EcrSummaryProps {
+  patientDetails: DisplayProps[];
+  encounterDetails: DisplayProps[];
+  aboutTheCondition: DisplayProps[];
+>>>>>>> bcf5965b (merge in tooltip)
 }
 
 export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
@@ -21,9 +49,15 @@ export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
 interface DisplayProps {
   title: string;
   value: any[] | string;
+<<<<<<< HEAD
   classNames: string;
   toolTip?: string | null;
+<<<<<<< HEAD
 
+=======
+=======
+>>>>>>> 11f4d9ad (create service for ecr summary data (#1702))
+>>>>>>> bcf5965b (merge in tooltip)
 }
 
 /**
@@ -33,18 +67,41 @@ interface DisplayProps {
  * @param props - The props object.
  * @param props.title - Title of the display section.
  * @param props.value - Value to be displayed.
+<<<<<<< HEAD
  * @returns The JSX element representing the provided value or null if the value is empty.
  */
 const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
+=======
+<<<<<<< HEAD
+ * @param [props.classNames] - Class names to be applied to the value.
+ * @param [props.toolTip] - Tooltip of element
+ * @returns The JSX element representing the provided value or null if the value is empty.
+ */
+const Display: FC<DisplayProps> = ({
+  title,
+  value,
+  classNames,
+  toolTip=null,
+}: DisplayProps) => {
+=======
+ * @returns The JSX element representing the provided value or null if the value is empty.
+ */
+const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
+>>>>>>> 11f4d9ad (create service for ecr summary data (#1702))
+>>>>>>> bcf5965b (merge in tooltip)
   if (!value || (Array.isArray(value) && value.length === 0)) {
     return null;
   }
   return (
     <>
       <div className="grid-row">
+<<<<<<< HEAD
         <div className="data-title">{title}</div>
         <div className={"grid-col-auto maxw7 text-pre-line"}>{value}</div>
 
+=======
+<<<<<<< HEAD
+>>>>>>> bcf5965b (merge in tooltip)
         { toolTip
           ? (
             <Tooltip label={toolTip} asCustom={TooltipDiv} className="data-title usa-tooltip">
@@ -55,6 +112,10 @@ const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
           )
         }
         <div className={classNames}>{value}</div>
+=======
+        <div className="data-title">{title}</div>
+        <div className={"grid-col-auto maxw7 text-pre-line"}>{value}</div>
+>>>>>>> 11f4d9ad (create service for ecr summary data (#1702))
       </div>
       <div className={"section__line"} />
     </>
@@ -63,12 +124,16 @@ const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
 
 /**
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bcf5965b (merge in tooltip)
  * Generates a JSX element to display eCR viewer summary
  * @param props - Properties for the eCR Viewer Summary section
  * @param props.patientDetails - Array of title and values to be displayed in patient details section
  * @param props.encounterDetails - Array of title and values to be displayed in encounter details section
  * @param props.aboutTheCondition - Array of title and values to be displayed in about the condition section
  * @returns a react element for ECR Summary
+<<<<<<< HEAD
  */
 const EcrSummary: React.FC<EcrSummaryProps> = ({
   patientDetails,
@@ -85,6 +150,13 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
   fhirPathMappings,
   fhirBundle,
 >>>>>>> dea9cbd5 (Enforce JSDocs on arrow functions (#1698))
+=======
+ */
+const EcrSummary: React.FC<EcrSummaryProps> = ({
+  patientDetails,
+  encounterDetails,
+  aboutTheCondition,
+>>>>>>> bcf5965b (merge in tooltip)
 }) => {
   return (
     <div className={"info-container"}>
@@ -126,9 +198,32 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
+<<<<<<< HEAD
             {aboutTheCondition.map(({ title, value }) => (
               <Display title={title} value={value} />
             ))}
+=======
+<<<<<<< HEAD
+            <Display
+              title="Reportable Condition"
+              value={evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0]}
+              classNames="grid-col-fill"
+              toolTip="List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR."
+            />
+            <Display
+              title="RCKMS Rule Summary"
+              value={
+                evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0]
+              }
+              classNames="grid-col-fill text-pre-line"
+              toolTip="Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System)."
+            />
+=======
+            {aboutTheCondition.map(({ title, value }) => (
+              <Display title={title} value={value} />
+            ))}
+>>>>>>> 11f4d9ad (create service for ecr summary data (#1702))
+>>>>>>> bcf5965b (merge in tooltip)
             <div className={"grid-row"}>
               <div className={"text-bold width-full"}>
                 Clinical sections relevant to reportable condition
