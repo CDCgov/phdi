@@ -8,12 +8,14 @@ FHIR_TO_PHDC = PARSER_URL + "/fhir_to_phdc"
 
 @pytest.fixture
 def fhir_bundle(read_json_from_test_assets):
-    return read_json_from_test_assets("sample_fhir_bundle_for_phdc_conversion.json")
+    return read_json_from_test_assets("single_patient_bundle.json")
 
 
 @pytest.fixture
 def test_schema(read_schema_from_default_schemas):
-    return read_schema_from_default_schemas("phdc_case_report_schema.json")
+    return read_schema_from_default_schemas(
+        "example_eicr_with_rr_data_with_person.json"
+    )
 
 
 @pytest.mark.integration
