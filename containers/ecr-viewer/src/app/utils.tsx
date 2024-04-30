@@ -544,9 +544,12 @@ export const evaluateEcrMetadata = (
       ),
     },
     {
-      title: (<span title="EHR system used by the sending provider."
+      title: (
+        <span
+          title="EHR system used by the sending provider."
           className="usa-tooltip"
-          data-position="bottom">
+          data-position="bottom"
+        >
           Sender Software
         </span>
       ),
@@ -1292,28 +1295,29 @@ export const evaluateEmergencyContact = (
     return formattedContact;
   }
 };
-ivProps = React.PropsWithChildren<{
-  className?: string;
-}> & JSX.IntrinsicElements['div'] & React.RefAttributes<HTMLDivElement>;
-
+ivProps =
+  React.PropsWithChildren<{
+    className?: string;
+  }> &
+  JSX.IntrinsicElements["div"] &
+  React.RefAttributes<HTMLDivElement>;
 
 /**
-* `CustomDivForwardRef` is a React forward reference component that renders a div element
-*  with extended capabilities. This component supports all standard div properties along with
-*  additional features provided by `tooltipProps`.
-* @component
-* @param props - The props for the CustomDiv component.
-* @param props.className - CSS class to apply to the div element.
-* @param props.children - Child elements or content to be rendered within the div.
-* @param props.tooltipProps - Additional props to be spread into the div element, typically used for tooltip logic or styling.
-* @param ref - Ref forwarded to the div element.
-* @returns A React element representing a customizable div.
-*/
-export const CustomDivForwardRef: React.ForwardRefRenderFunction<HTMLDivElement, CustomDivProps> = ({
-  className,
-  children,
-  ...tooltipProps
-}: CustomDivProps, ref) => (
+ * `CustomDivForwardRef` is a React forward reference component that renders a div element
+ *  with extended capabilities. This component supports all standard div properties along with
+ *  additional features provided by `tooltipProps`.
+ * @component
+ * @param props - The props for the CustomDiv component.
+ * @param props.className - CSS class to apply to the div element.
+ * @param props.children - Child elements or content to be rendered within the div.
+ * @param props.tooltipProps - Additional props to be spread into the div element, typically used for tooltip logic or styling.
+ * @param ref - Ref forwarded to the div element.
+ * @returns A React element representing a customizable div.
+ */
+export const CustomDivForwardRef: React.ForwardRefRenderFunction<
+  HTMLDivElement,
+  CustomDivProps
+> = ({ className, children, ...tooltipProps }: CustomDivProps, ref) => (
   <div ref={ref} className={className} {...tooltipProps}>
     {children}
   </div>
