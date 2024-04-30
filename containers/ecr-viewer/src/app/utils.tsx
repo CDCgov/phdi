@@ -1234,9 +1234,12 @@ const trimField = (
   remainingLength: number,
   setHidden: (val: boolean) => void,
 ): { value: React.ReactNode; remainingLength: number } => {
+  if (remainingLength < 1) {
+    return { value: null, remainingLength };
+  }
   if (typeof value === "string") {
     const cutString = value.substring(0, remainingLength);
-    if (remainingLength > 0 && remainingLength - cutString.length === 0) {
+    if (remainingLength - cutString.length === 0) {
       return {
         value: (
           <>
@@ -1260,35 +1263,29 @@ const trimField = (
   } else if (Array.isArray(value)) {
     let newValArr = [];
     for (let i = 0; i < value.length; i++) {
-      if (remainingLength > 0) {
-        let splitVal = trimField(value[i], remainingLength, setHidden);
-        remainingLength = splitVal.remainingLength;
-        newValArr.push(
-          <React.Fragment key={`arr-${i}-${splitVal.value}`}>
-            {splitVal.value}
-          </React.Fragment>,
-        );
-      }
+      let splitVal = trimField(value[i], remainingLength, setHidden);
+      remainingLength = splitVal.remainingLength;
+      newValArr.push(
+        <React.Fragment key={`arr-${i}-${splitVal.value}`}>
+          {splitVal.value}
+        </React.Fragment>,
+      );
     }
     return { value: newValArr, remainingLength: remainingLength };
   } else if (React.isValidElement(value) && value.props.children) {
-    if (remainingLength > 0) {
-      let childrenCopy: ReactNode;
-      if (Array.isArray(value.props.children)) {
-        childrenCopy = [...value.props.children];
-      } else {
-        childrenCopy = value.props.children;
-      }
-      let split = trimField(childrenCopy, remainingLength, setHidden);
-      const newElement = React.cloneElement(
-        value,
-        { ...value.props },
-        split.value,
-      );
-      return { value: newElement, remainingLength: split.remainingLength };
+    let childrenCopy: ReactNode;
+    if (Array.isArray(value.props.children)) {
+      childrenCopy = [...value.props.children];
     } else {
-      return { value: null, remainingLength: remainingLength };
+      childrenCopy = value.props.children;
     }
+    let split = trimField(childrenCopy, remainingLength, setHidden);
+    const newElement = React.cloneElement(
+      value,
+      { ...value.props },
+      split.value,
+    );
+    return { value: newElement, remainingLength: split.remainingLength };
   }
   return { value, remainingLength: remainingLength };
 };
