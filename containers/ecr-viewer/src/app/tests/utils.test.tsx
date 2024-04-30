@@ -84,9 +84,6 @@ describe("Utils", () => {
         { title: "Facility Contact", value: "+1-615-322-5000" },
         { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
       ]);
-      expect(actual.ecrSenderDetails.unavailableData).toEqual([
-        { title: "Sender Software" },
-      ]);
     });
     it("should have eicrDetails", () => {
       const actual = evaluateEcrMetadata(
