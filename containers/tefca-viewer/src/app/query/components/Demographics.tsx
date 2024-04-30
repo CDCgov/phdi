@@ -4,11 +4,38 @@ import { DataDisplay } from '@/app/utils';
 import * as dateFns from "date-fns";
 import {evaluate} from "fhirpath";
 
+
+/**
+ * Displays the demographic information of a patient.
+ * @param patient - The patient to display demographic information for.
+ * @returns The Demographics component.
+ */
 export interface DemographicsProps {
-    patient: Patient;
+  patient: Patient;
 }
 
-function formatDemographics(patient: Patient) {
+const Demographics: React.FC<DemographicsProps> = ({ patient }) => {
+  
+  const demographicData = formatDemographics(patient);
+
+  return (
+      <div>
+          {demographicData.map((item, index) => (
+              <DataDisplay item={item} key={index} />
+          ))}
+      </div>
+  );
+
+}
+
+export default Demographics;
+
+/**
+ * Formats the demographic information of a patient.
+ * @param patient - The patient to format demographic information for.
+ * @returns The formatted demographic information as an array of DisplayData objects.
+ */
+function formatDemographics(patient: Patient): DisplayData[]{
 
     const demographicData: DisplayData[] = [
         {
@@ -60,7 +87,12 @@ function formatDemographics(patient: Patient) {
     return demographicData;
 }
 
-function formatName(names: HumanName[]) {
+/**
+ * Formats the name of a FHIR HumanName object.
+ * @param names - The HumanName object to format.
+ * @returns The formatted name.
+ */
+function formatName(names: HumanName[]): string {
     let name = "";
     if (names.length > 0) {
         name = names[0].given?.join(" ") + " " + names[0].family;
@@ -68,7 +100,12 @@ function formatName(names: HumanName[]) {
     return name;
 }
 
-function formatAddress(address: Address[]) {
+/**
+ * Formats the address of a FHIR Address object.
+ * @param address - The Address object to format.
+ * @returns The formatted address.
+ */
+function formatAddress(address: Address[]): string {
     let formattedAddress = "";
     if (address.length > 0) {
         formattedAddress = address[0]?.line?.join("\n") + "\n" + address[0].city + ", " + address[0].state + " " + address[0].postalCode;
@@ -76,7 +113,12 @@ function formatAddress(address: Address[]) {
     return formattedAddress;
 }
 
-function formatContact(contacts: ContactPoint[]) {
+/**
+ * Formats the contact information of a FHIR ContactPoint object.
+ * @param contacts - The ContactPoint object to format.
+ * @returns The formatted contact information.
+ */
+function formatContact(contacts: ContactPoint[]): string{
     return (
         contacts.map((contact) => {
             if (contact.system === "phone") {
@@ -90,7 +132,12 @@ function formatContact(contacts: ContactPoint[]) {
     )
 }
 
-function formatIdentifier(identifier: Identifier[]) {
+/**
+ * Formats the identifiers of a FHIR Identifier object.
+ * @param identifier - The Identifier object to format.
+ * @returns The formatted identifiers.
+ */
+function formatIdentifier(identifier: Identifier[]): string{
     return (
         identifier.map((id) => {
             let idType = id.type?.coding?.[0].display ?? "";
@@ -104,25 +151,15 @@ function formatIdentifier(identifier: Identifier[]) {
     )
 }
 
-export const calculatePatientAge = (patient: Patient) => {
-
+/**
+ * Calculates the age of a patient based on their birth date.
+ * @param patient - The patient to calculate the age for.
+ * @returns The age of the patient.
+ */
+export function calculatePatientAge(patient: Patient) {
     if (patient.birthDate) {
       const patientDOB = new Date(patient.birthDate);
       const today = new Date();
       return dateFns.differenceInYears(today, patientDOB);
     }
   };
-
-export default function Demographics(props: DemographicsProps) {
-
-    const demographicData = formatDemographics(props.patient);
-
-    return (
-        <div>
-            {demographicData.map((item, index) => (
-                <DataDisplay item={item} key={index} />
-            ))}
-        </div>
-    );
-
-}
