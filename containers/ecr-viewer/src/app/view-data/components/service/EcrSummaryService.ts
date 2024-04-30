@@ -31,11 +31,6 @@ export const evaluateEcrSummaryPatientDetails = (
         formatDate(evaluate(fhirBundle, fhirPathMappings.patientDOB)[0]) || "",
     },
     {
-      title: "DOB",
-      value:
-        formatDate(evaluate(fhirBundle, fhirPathMappings.patientDOB)[0]) || "",
-    },
-    {
       title: "Patient Address",
       value: extractPatientAddress(fhirBundle, fhirPathMappings),
     },
