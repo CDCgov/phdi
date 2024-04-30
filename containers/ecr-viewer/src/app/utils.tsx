@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import * as dateFns from "date-fns";
 import {
   Bundle,
@@ -24,10 +24,11 @@ import {
   formatTablesToJSON,
   TableRow,
   removeHtmlElements,
+  toSentenceCase,
 } from "@/app/format-service";
 import { evaluateTable, evaluateReference } from "./evaluate-service";
-import { Table } from "@trussworks/react-uswds";
-import { CareTeamParticipant } from "fhir/r4b";
+import { Button, Table } from "@trussworks/react-uswds";
+import { CareTeamParticipant, CarePlanActivity } from "fhir/r4b";
 
 export interface DisplayData {
   title?: string;
@@ -50,8 +51,9 @@ export interface ColumnInfoInput {
   columnName: string;
   infoPath?: string;
   value?: string;
-  sentenceCase?: boolean;
+  className?: string;
   hiddenBaseText?: string;
+  applyToValue?: (value: any) => any;
 }
 
 export interface CompleteData {
@@ -63,31 +65,37 @@ export const noData = (
   <span className="no-data text-italic text-base">No data</span>
 );
 
+/**
+ * Evaluates patient name from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing patient contact info.
+ * @param mappings - The object containing the fhir paths.
+ * @returns The formatted patient name
+ */
 export const evaluatePatientName = (
   fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
+  mappings: PathMappings,
 ) => {
-  const givenNames = evaluate(
-    fhirBundle,
-    fhirPathMappings.patientGivenName,
-  ).join(" ");
-  const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
+  const givenNames = evaluate(fhirBundle, mappings.patientGivenName).join(" ");
+  const familyName = evaluate(fhirBundle, mappings.patientFamilyName);
 
   return `${givenNames} ${familyName}`;
 };
 
+/**
+ * Evaluates patient address from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing patient contact info.
+ * @param mappings - The object containing the fhir paths.
+ * @returns The formatted patient address
+ */
 export const extractPatientAddress = (
   fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
+  mappings: PathMappings,
 ) => {
-  const streetAddresses = evaluate(
-    fhirBundle,
-    fhirPathMappings.patientStreetAddress,
-  );
-  const city = evaluate(fhirBundle, fhirPathMappings.patientCity)[0];
-  const state = evaluate(fhirBundle, fhirPathMappings.patientState)[0];
-  const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode)[0];
-  const country = evaluate(fhirBundle, fhirPathMappings.patientCountry)[0];
+  const streetAddresses = evaluate(fhirBundle, mappings.patientStreetAddress);
+  const city = evaluate(fhirBundle, mappings.patientCity)[0];
+  const state = evaluate(fhirBundle, mappings.patientState)[0];
+  const zipCode = evaluate(fhirBundle, mappings.patientZipCode)[0];
+  const country = evaluate(fhirBundle, mappings.patientCountry)[0];
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
@@ -112,14 +120,17 @@ function extractLocationResource(
   return evaluate(fhirBundle, locationExpression)[0];
 }
 
+/**
+ * Evaluates facility address from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing patient contact info.
+ * @param mappings - The object containing the fhir paths.
+ * @returns The formatted facility address
+ */
 export const extractFacilityAddress = (
   fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
+  mappings: PathMappings,
 ) => {
-  const locationResource = extractLocationResource(
-    fhirBundle,
-    fhirPathMappings,
-  );
+  const locationResource = extractLocationResource(fhirBundle, mappings);
 
   const streetAddresses = locationResource?.address?.line;
   const city = locationResource?.address?.city;
@@ -130,28 +141,17 @@ export const extractFacilityAddress = (
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
-export const extractFacilityContactInfo = (
-  fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
-) => {
-  const locationResource = extractLocationResource(
-    fhirBundle,
-    fhirPathMappings,
-  );
-  const phoneNumbers = locationResource.telecom?.filter(
-    (contact: any) => contact.system === "phone",
-  );
-  return phoneNumbers?.[0].value;
-};
-
+/**
+ * Evaluates patient contact info from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing patient contact info.
+ * @param mappings - The object containing the fhir paths.
+ * @returns All phone numbers and emails seperated by new lines
+ */
 export const evaluatePatientContactInfo = (
   fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
+  mappings: PathMappings,
 ) => {
-  const phoneNumbers = evaluate(
-    fhirBundle,
-    fhirPathMappings.patientPhoneNumbers,
-  )
+  const phoneNumbers = evaluate(fhirBundle, mappings.patientPhoneNumbers)
     .map(
       (phoneNumber) =>
         `${
@@ -160,20 +160,26 @@ export const evaluatePatientContactInfo = (
         } ${phoneNumber.value}`,
     )
     .join("\n");
-  const emails = evaluate(fhirBundle, fhirPathMappings.patientEmails)
+  const emails = evaluate(fhirBundle, mappings.patientEmails)
     .map((email) => `${email.value}`)
     .join("\n");
 
   return `${phoneNumbers}\n${emails}`;
 };
 
+/**
+ * Evaluates encounter date from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing encounter date.
+ * @param mappings - The object containing the fhir paths.
+ * @returns A string of start date - end date.
+ */
 export const evaluateEncounterDate = (
   fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
+  mappings: PathMappings,
 ) => {
   return formatStartEndDateTime(
-    evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
-    evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
+    evaluate(fhirBundle, mappings.encounterStartDate).join(""),
+    evaluate(fhirBundle, mappings.encounterEndDate).join(""),
   );
 };
 
@@ -231,6 +237,12 @@ export const calculatePatientAge = (
   }
 };
 
+/**
+ * Evaluates social data from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing social data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns An array of evaluated and formatted social data.
+ */
 export const evaluateSocialData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -276,6 +288,12 @@ export const evaluateSocialData = (
   return evaluateData(socialData);
 };
 
+/**
+ * Evaluates demographic data from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing demographic data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns An array of evaluated and formatted demographic data.
+ */
 export const evaluateDemographicsData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -334,6 +352,12 @@ export const evaluateDemographicsData = (
   return evaluateData(demographicsData);
 };
 
+/**
+ * Evaluates encounter data from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing encounter data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns An array of evaluated and formatted encounter data.
+ */
 export const evaluateEncounterData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -382,6 +406,12 @@ export const evaluateEncounterData = (
   return evaluateData(encounterData);
 };
 
+/**
+ * Evaluates provider data from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing provider data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns An array of evaluated and formatted provider data.
+ */
 export const evaluateProviderData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -404,6 +434,12 @@ export const evaluateProviderData = (
   return evaluateData(providerData);
 };
 
+/**
+ * Evaluates eCR metadata from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing eCR metadata.
+ * @param mappings - The object containing the fhir paths.
+ * @returns An object containing evaluated and formatted eCR metadata.
+ */
 export const evaluateEcrMetadata = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -499,7 +535,11 @@ export const returnProblemsTable = (
   }
 
   const columnInfo: ColumnInfoInput[] = [
-    { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
+    {
+      columnName: "Active Problem",
+      infoPath: "activeProblemsDisplay",
+      className: "width-mobile-lg",
+    },
     { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
     { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
   ];
@@ -530,6 +570,12 @@ export const returnProblemsTable = (
   );
 };
 
+/**
+ * Returns a table displaying pending results information.
+ * @param fhirBundle - The FHIR bundle containing care team data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns The JSX element representing the table, or undefined if no pending results are found.
+ */
 export const returnPendingResultsTable = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -589,6 +635,12 @@ export const returnPendingResultsTable = (
   }
 };
 
+/**
+ * Returns a table displaying scheduled order information.
+ * @param fhirBundle - The FHIR bundle containing care team data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns The JSX element representing the table, or undefined if no scheduled orders are found.
+ */
 export const returnScheduledOrdersTable = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -648,6 +700,12 @@ export const returnScheduledOrdersTable = (
   }
 };
 
+/**
+ * Returns a table displaying administered medication information.
+ * @param fhirBundle - The FHIR bundle containing care team data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns The JSX element representing the table, or undefined if no administed medications are found.
+ */
 export const returnAdminMedTable = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -752,6 +810,12 @@ export const returnImmunizations = (
   );
 };
 
+/**
+ * Returns a table displaying care team information.
+ * @param bundle - The FHIR bundle containing care team data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns The JSX element representing the care team table, or undefined if no care team participants are found.
+ */
 export const returnCareTeamTable = (
   bundle: Bundle,
   mappings: PathMappings,
@@ -770,7 +834,7 @@ export const returnCareTeamTable = (
     {
       columnName: "Status",
       infoPath: "careTeamParticipantStatus",
-      sentenceCase: true,
+      applyToValue: toSentenceCase,
     },
     { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
   ];
@@ -856,6 +920,57 @@ export const returnProceduresTable = (
   return evaluateTable(proceduresArray, mappings, columnInfo, "Procedures");
 };
 
+/**
+ * Generates a formatted table representing the list of planned procedures
+ * @param carePlanActivities - An array containing the list of procedures.
+ * @param mappings - An object containing FHIR path mappings for procedure attributes.
+ * @returns - A formatted table React element representing the list of planned procedures, or undefined if the procedures array is empty.
+ */
+export const returnPlannedProceduresTable = (
+  carePlanActivities: CarePlanActivity[],
+  mappings: PathMappings,
+): React.JSX.Element | undefined => {
+  carePlanActivities = carePlanActivities.filter(
+    (entry) => entry.detail?.code?.coding?.[0]?.display,
+  );
+  if (carePlanActivities.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Procedure Name", infoPath: "plannedProcedureName" },
+    {
+      columnName: "Ordered Date",
+      infoPath: "plannedProcedureOrderedDate",
+      applyToValue: formatDate,
+    },
+    {
+      columnName: "Scheduled Date",
+      infoPath: "plannedProcedureScheduledDate",
+      applyToValue: formatDate,
+    },
+  ];
+
+  return evaluateTable(
+    carePlanActivities,
+    mappings,
+    columnInfo,
+    "Planned Procedures",
+  );
+};
+
+/**
+ * Evaluates clinical data from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing clinical data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns An object containing evaluated and formatted clinical data.
+ * @property {DisplayData[]} clinicalNotes - Clinical notes data.
+ * @property {DisplayData[]} reasonForVisitDetails - Reason for visit details.
+ * @property {DisplayData[]} activeProblemsDetails - Active problems details.
+ * @property {DisplayData[]} treatmentData - Treatment-related data.
+ * @property {DisplayData[]} vitalData - Vital signs data.
+ * @property {DisplayData[]} immunizationsDetails - Immunization details.
+ */
 export const evaluateClinicalData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -910,6 +1025,13 @@ export const evaluateClinicalData = (
       title: "Procedures",
       value: returnProceduresTable(
         evaluate(fhirBundle, mappings["procedures"]),
+        mappings,
+      ),
+    },
+    {
+      title: "Planned Procedures",
+      value: returnPlannedProceduresTable(
+        evaluate(fhirBundle, mappings["plannedProcedures"]),
         mappings,
       ),
     },
@@ -1035,7 +1157,7 @@ export const DataDisplay: React.FC<{
             item.className ? item.className : "",
           )}
         >
-          {item.value}
+          <FieldValue>{item.value}</FieldValue>
         </div>
       </div>
       {item.dividerLine ? <div className={"section__line_gray"} /> : ""}
@@ -1043,6 +1165,137 @@ export const DataDisplay: React.FC<{
   );
 };
 
+/**
+ * Functional component for displaying a value. If the value has a length greater than 500 characters, it will be split after 300 characters with a view more button to view the entire value.
+ * @param value - props for the component
+ * @param value.children - the value to be displayed in the value
+ * @returns - A React element representing the display of the value
+ */
+const FieldValue: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
+  const maxLength = 500;
+  const cutLength = 300;
+  const [hidden, setHidden] = useState(true);
+  const [fieldValue, setFieldValue] = useState(children);
+  const valueLength = getReactNodeLength(children);
+  const cutField = trimField(children, cutLength, setHidden).value;
+  useEffect(() => {
+    if (valueLength > maxLength) {
+      if (hidden) {
+        setFieldValue(cutField);
+      } else {
+        setFieldValue(
+          <>
+            {children}&nbsp;
+            <Button
+              type={"button"}
+              unstyled={true}
+              onClick={() => setHidden(true)}
+            >
+              View less
+            </Button>
+          </>,
+        );
+      }
+    }
+  }, [hidden]);
+
+  return fieldValue;
+};
+
+/**
+ * Recursively determine the character length of a ReactNode
+ * @param value - react node to be measured
+ * @returns - the number of characters in the ReactNode
+ */
+const getReactNodeLength = (value: React.ReactNode): number => {
+  if (typeof value === "string") {
+    return value.length;
+  } else if (Array.isArray(value)) {
+    let count = 0;
+    value.forEach((val) => (count += getReactNodeLength(val)));
+    return count;
+  } else if (React.isValidElement(value) && value.props.children) {
+    return getReactNodeLength(value.props.children);
+  }
+  return 0;
+};
+
+/**
+ * Create an element with `remainingLength` length followed by a view more button
+ * @param value - the value that will be cut
+ * @param remainingLength - the length of how long the returned element will be
+ * @param setHidden - a function used to signify that the view more button has been clicked.
+ * @returns - an object with the shortened value and the length left over.
+ */
+const trimField = (
+  value: React.ReactNode,
+  remainingLength: number,
+  setHidden: (val: boolean) => void,
+): { value: React.ReactNode; remainingLength: number } => {
+  if (remainingLength < 1) {
+    return { value: null, remainingLength };
+  }
+  if (typeof value === "string") {
+    const cutString = value.substring(0, remainingLength);
+    if (remainingLength - cutString.length === 0) {
+      return {
+        value: (
+          <>
+            {cutString}...&nbsp;
+            <Button
+              type={"button"}
+              unstyled={true}
+              onClick={() => setHidden(false)}
+            >
+              View more
+            </Button>
+          </>
+        ),
+        remainingLength: 0,
+      };
+    }
+    return {
+      value: cutString,
+      remainingLength: remainingLength - cutString.length,
+    };
+  } else if (Array.isArray(value)) {
+    let newValArr = [];
+    for (let i = 0; i < value.length; i++) {
+      let splitVal = trimField(value[i], remainingLength, setHidden);
+      remainingLength = splitVal.remainingLength;
+      newValArr.push(
+        <React.Fragment key={`arr-${i}-${splitVal.value}`}>
+          {splitVal.value}
+        </React.Fragment>,
+      );
+    }
+    return { value: newValArr, remainingLength: remainingLength };
+  } else if (React.isValidElement(value) && value.props.children) {
+    let childrenCopy: ReactNode;
+    if (Array.isArray(value.props.children)) {
+      childrenCopy = [...value.props.children];
+    } else {
+      childrenCopy = value.props.children;
+    }
+    let split = trimField(childrenCopy, remainingLength, setHidden);
+    const newElement = React.cloneElement(
+      value,
+      { ...value.props },
+      split.value,
+    );
+    return { value: newElement, remainingLength: split.remainingLength };
+  }
+  return { value, remainingLength: remainingLength };
+};
+
+/**
+ * Functional component for displaying data in a data table.
+ * @param props - Props containing the item to be displayed.
+ * @param props.item - The data item to be displayed.
+ * @returns The JSX element representing the data table display.
+ */
 export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
   item,
 }): React.JSX.Element => {
@@ -1054,6 +1307,12 @@ export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
   );
 };
 
+/**
+ * Evaluates emergency contact information from the FHIR bundle and formats it into a readable string.
+ * @param fhirBundle - The FHIR bundle containing patient information.
+ * @param mappings - The object containing the fhir paths.
+ * @returns The formatted emergency contact information.
+ */
 export const evaluateEmergencyContact = (
   fhirBundle: Bundle,
   mappings: PathMappings,
