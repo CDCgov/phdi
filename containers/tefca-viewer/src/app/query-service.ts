@@ -68,9 +68,9 @@ type QueryResponse = {
 const useCaseQueryMap: {
   [key in USE_CASES]: (input: UseCaseQueryRequest, queryResponse: QueryResponse) => Promise<void>;
 } = {
-  "social-determinants": social_determinants_query,
-  "newborn-screening": newborn_screening_query,
-  "syphilis": syphilis_query,
+  "social-determinants": socialDeterminantsQuery,
+  "newborn-screening": newbornScreeningQuery,
+  "syphilis": syphilisQuery,
   "cancer": async () => {
     throw new Error("Not implemented");
   },
@@ -82,10 +82,10 @@ export type UseCaseQueryResponse = Awaited<ReturnType<typeof use_case_query>>;
 /**
  * Given a UseCaseQueryRequest object, set the appropriate FHIR server connection
  * configurations.
- * @param request
- * @returns void 
+ * @param {UseCaseQueryRequest} request - The request object to configure.
+ * @returns {void}
  */
-function configureFHIRServerConnection(request: UseCaseQueryRequest): void{
+function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
     request.fhir_host = FHIR_SERVERS[request.fhir_server].hostname;
     request.headers = FHIR_SERVERS[request.fhir_server].headers || {};
 
@@ -112,9 +112,9 @@ function configureFHIRServerConnection(request: UseCaseQueryRequest): void{
 /**
  * Query a FHIR server for a patient based on demographics provided in the request. If 
  * a patient is found, store in the queryResponse object.
- * @param request
- * @param queryResponse
- * @returns Promise<{ responseBody: any }>
+ * @param {UseCaseQueryRequest} request - The request object containing the patient demographics.
+ * @param {QueryResponse} queryResponse - The response object to store the patient.
+ * @returns {Promise<{ responseBody: any }>} - The response body from the FHIR server.
  */
 async function patientQuery(request: UseCaseQueryRequest, queryResponse: QueryResponse): Promise<{ responseBody: any }> {
 
@@ -144,7 +144,13 @@ async function patientQuery(request: UseCaseQueryRequest, queryResponse: QueryRe
   return { responseBody };
 }
 
-export async function use_case_query(input: UseCaseQueryRequest) {
+/**
+ * Query a FHIR API for a public health use case based on patient demographics provided 
+ * in the request. If data is found, return in a queryResponse object.
+ * @param {UseCaseQueryRequest} request - The request object containing the patient demographics.
+ * @returns {Promise<QueryResponse>} - The response object containing the query results.
+ */
+export async function useCaseQuery(input: UseCaseQueryRequest): Promise<QueryResponse> {
   console.log("input:", input);
 
   configureFHIRServerConnection(input);
@@ -156,10 +162,16 @@ export async function use_case_query(input: UseCaseQueryRequest) {
  await useCaseQueryMap[input.use_case](input, queryResponse);
 
 
-  return queryResponse;
+return queryResponse;
 }
 
-async function social_determinants_query(
+/**
+ * Social Determinant of Health use case query.
+ * @param {UseCaseQueryRequest} request - The request object containing the patient ID.
+ * @param {QueryResponse} queryResponse - The response object to store the results
+ * @returns {Promise<void>}
+ */
+async function socialDeterminantsQuery(
   input: UseCaseQueryRequest,
   queryResponse: QueryResponse
 ): Promise<void>{
@@ -174,7 +186,13 @@ async function social_determinants_query(
   queryResponse.observations = (await response.json()).entry.map((entry: any) => entry.resource);
 }
 
-async function newborn_screening_query(
+/**
+ * Newborn Screening use case query.
+ * @param {UseCaseQueryRequest} request - The request object containing the patient ID.
+ * @param {QueryResponse} queryResponse - The response object to store the results
+ * @returns {Promise<void>}
+ */
+async function newbornScreeningQuery(
   input: UseCaseQueryRequest,
   queryResponse: QueryResponse
 ): Promise<void> {
@@ -203,7 +221,13 @@ async function newborn_screening_query(
   queryResponse.observations =(await response.json()).entry.map((entry: any) => entry.resource);
 }
 
-async function syphilis_query(
+/**
+ * Syphilis use case query.
+ * @param {UseCaseQueryRequest} request - The request object containing the patient ID.
+ * @param {QueryResponse} queryResponse - The response object to store the results
+ * @returns {Promise<void>}
+ */
+async function syphilisQuery(
   input: UseCaseQueryRequest,
   queryResponse: QueryResponse
 ): Promise<void> {

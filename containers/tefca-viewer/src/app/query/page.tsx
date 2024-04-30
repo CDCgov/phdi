@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { UseCaseQueryResponse, use_case_query } from "../query-service";
+import { UseCaseQueryResponse, useCaseQuery } from "../query-service";
 import QueryView from "./components/QueryView";
 import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
 
@@ -29,7 +29,7 @@ export function PatientSearch() {
     event.preventDefault();
     setLoading(true);
     console.log("Event:", event)
-    const use_case_query_response = await use_case_query({ use_case: useCase, fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
+    const use_case_query_response = await useCaseQuery({ use_case: useCase, fhir_server: fhirServer, first_name: firstName, last_name: lastName, dob: dob });
     console.log("Patient ID:", use_case_query_response)
     setUseCaseQueryResponse(use_case_query_response);
     setMode("view");
