@@ -8,7 +8,7 @@ import {
   AccordianH4,
   AccordianDiv,
 } from "../component-utils";
-import { UseCaseQueryResponse } from "@/app/patient-search/patient_search";
+import { UseCaseQueryResponse } from "@/app/query-service";
 
 
 type AccordionContainerProps = {

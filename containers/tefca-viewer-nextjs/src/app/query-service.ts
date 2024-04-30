@@ -120,7 +120,7 @@ async function patientQuery(request: UseCaseQueryRequest, queryResponse: QueryRe
 
   const responseBody = await response.json();
   queryResponse.patients = responseBody.entry.map((entry: any) => entry.resource);
-  console.log(queryResponse.patients)
+
   if (responseBody.total === 0) {
     throw new Error("No patient found.");
   }
@@ -235,24 +235,3 @@ async function syphilis_query(
     }
   }
 }
-
-// async function add_loinc_filter(input: Array<string>): Promise<string> {
-//   const loincFilter: string = "code=" + input.join(",");
-
-//   return loincFilter;
-// }
-
-// async function use_case_sub_query() {
-//   let
-//   // use input.use_case to determine if there are LOINCS
-//   // if there are LOINCS, join them together and query for the appropriate resources
-//   // Check for errors
-//   if (response.status !== 200) {
-//     console.log("response:", response);
-//     throw new Error(`Patient search failed. Status: ${response.status}`);
-//   }
-
-//   if (response.total === 0) {
-//     throw new Error("No patient found.");
-//   }
-// }

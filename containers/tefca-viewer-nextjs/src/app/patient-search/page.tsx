@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { UseCaseQueryResponse, use_case_query } from "./patient_search";
+import { UseCaseQueryResponse, use_case_query } from "../query-service";
 import { PatientView } from "./components/PatientView";
 import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
 

@@ -1,4 +1,4 @@
-import { UseCaseQueryResponse } from "../patient_search";
+import { UseCaseQueryResponse } from "../../query-service";
 import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
 import React from "react";
