@@ -20,7 +20,6 @@ ERSD_URL = f"https://ersd.aimsplatform.org/api/ersd/v2specification?format=json&
 
 # python constants to start message-parser service
 dockerfile_path = Path(__file__).parent.parent.parent / "message-parser"
-print(str(dockerfile_path))
 tag = "message-parser:latest"
 ports = {"8080": 8080}
 
@@ -88,13 +87,9 @@ def start_docker_service(dockerfile_path: str, tag: str, ports: dict) -> Contain
     container = None
     try:
         # connect and start
-        print(f"Building Docker image with tag '{tag}'...")
         client.images.build(path=str(dockerfile_path), tag=tag)
-        print("Image built successfully.")
-        print("Running container...")
         container = client.containers.run(tag, ports=ports, detach=True)
         time.sleep(3)  # TODO: find better way to make sure service waits
-        print(f"Container started successfully: {container.id}")
     except (BuildError, APIError) as e:
         print(f"An error occurred while starting the Docker service: {str(e)}")
     return container
@@ -182,6 +177,21 @@ def build_clinical_services_dict(data: dict) -> dict:
     return clinical_services_dict
 
 
+def check_id_uniqueness(list_of_lists: List[List[str]]) -> bool:
+    """This is a helper function that confirms that the first item
+    in each list of the lists of lists is unique. This is needed to
+    confirm that the assumptions we have about tables with a unique primary
+    key (value_sets, value_set_types, clinical_services) are all in fact
+    unique (i.e., the number  of unique ids matches number of rows).
+    If not, then the function will exit to prevent overwriting.
+
+    :param list_of_lists: eRSD table data to be transformed into table.
+    :return: True or False.
+    """
+    unique_ids = {sublist[0] for sublist in list_of_lists if sublist}
+    return len(unique_ids) == len(list_of_lists)
+
+
 def build_value_set_type_table(data: dict) -> List[List[str]]:
     """
     Loop through parsed json bundle in order to build a small table of
@@ -192,12 +202,15 @@ def build_value_set_type_table(data: dict) -> List[List[str]]:
     :return: a list of lists of the id and type of each of the service types
              to load to a database
     """
-    value_set_type_table = []
+    value_set_type_list = []
     for value_set_type in data.get("value_set_type"):
         id = value_set_type.get("id")
         type = value_set_type.get("clinical_service_type")
-        value_set_type_table.append([id, type])
-    return value_set_type_table
+        value_set_type_list.append([id, type])
+    if check_id_uniqueness(value_set_type_list):
+        return value_set_type_list
+    else:
+        return print("Non-unique IDs in value_set_type")
 
 
 def build_value_sets_table(data: dict, clinical_services_dict: dict) -> List[List[str]]:
@@ -228,7 +241,10 @@ def build_value_sets_table(data: dict, clinical_services_dict: dict) -> List[Lis
             service_info.get("clinical_service_type"),
         ]
         value_sets_list.append(result)
-    return value_sets_list
+    if check_id_uniqueness(value_sets_list):
+        return value_sets_list
+    else:
+        return print("Non-unique IDs in value_sets")
 
 
 def build_conditions_table(data: dict) -> List[List[str]]:
@@ -281,7 +297,10 @@ def build_clinical_services_table(data: dict) -> List[List[str]]:
                 id = f"{value_set_id}_{code}"
                 result = [id, value_set_id, code, system, display, version]
                 clinical_services_list.append(result)
-    return clinical_services_list
+    if check_id_uniqueness(clinical_services_list):
+        return clinical_services_list
+    else:
+        return print("Non-unique IDs in clinical_services")
 
 
 def create_table(
@@ -321,33 +340,44 @@ def create_table(
         connection.commit()
 
 
-# extract and transform eRSD data
-ersd_data = load_ersd(ERSD_URL)
+def main():
+    """
+    Runs all the functions to:
+    1. Load eRSD data json from APHL API.
+    2. Start up message-parser.
+    3. Post ersd.json message-parser parsing schema (WIP).
+    4. Post eRSD data json to message-parser to get parsed data.
+    5. Spin down message-parser.
+    6. Use parsed data to create list of lists for each table.
+    7. Load each table to sqlite3 database.
+    """
+    # extract and transform eRSD data
+    ersd_data = load_ersd(ERSD_URL)
 
-# use message-parser to parse eRSD data, then spin down service
-container = start_docker_service(dockerfile_path, tag, ports)
-load_ersd_schema(ports)
-parsed_data = parse_ersd(ports, ersd_data)
-print("Tasks completed inside Docker.")
-if container:  # stop and remove once work complete
-    container.stop()
-    container.remove()
-    print(f"Container {container.id} stopped and removed.")
+    # use message-parser to parse eRSD data, then spin down service
+    container = start_docker_service(dockerfile_path, tag, ports)
+    load_ersd_schema(ports)
+    parsed_data = parse_ersd(ports, ersd_data)
+    if container:
+        container.stop()
+        container.remove()
+
+    # used parsed data to create needed tables as list of lists
+    value_set_type_list = build_value_set_type_table(parsed_data)
+    clinical_services_dict = build_clinical_services_dict(parsed_data)
+    value_sets_list = build_value_sets_table(parsed_data, clinical_services_dict)
+    conditions_list = build_conditions_table(parsed_data)
+    clinical_services_list = build_clinical_services_table(parsed_data)
+
+    # Create tables in eRSD database
+    with sqlite3.connect("seed-scripts/ersd.db") as conn:
+        create_table(conn, "value_set_type", value_set_type_table, value_set_type_list)
+        create_table(conn, "value_sets", value_sets_table, value_sets_list)
+        create_table(conn, "conditions", conditions_table, conditions_list)
+        create_table(
+            conn, "clinical_services", clinical_services_table, clinical_services_list
+        )
 
 
-# TODO: We will need to still add functions that clean/check each of the
-# list of lists before loading
-# used parsed data to create needed tables
-value_set_type_list = build_value_set_type_table(parsed_data)
-clinical_services_dict = build_clinical_services_dict(parsed_data)
-value_sets_list = build_value_sets_table(parsed_data, clinical_services_dict)
-conditions_list = build_conditions_table(parsed_data)
-clinical_services_list = build_clinical_services_table(parsed_data)
-
-# Create tables in eRSD database
-conn = sqlite3.connect("seed-scripts/ersd.db")
-create_table(conn, "value_set_type", value_set_type_table, value_set_type_list)
-create_table(conn, "value_sets", value_sets_table, value_sets_list)
-create_table(conn, "conditions", conditions_table, conditions_list)
-create_table(conn, "clinical_services", clinical_services_table, clinical_services_list)
-conn.close()
+if __name__ == "__main__":
+    main()
