@@ -1,3 +1,7 @@
+/**
+ * Produces the header.
+ * @returns {React.FC} The HeaderComponent component.
+ */
 export default function HeaderComponent() {
     return (
       <header className="usa-header usa-header--basic bg-primary-darker">
