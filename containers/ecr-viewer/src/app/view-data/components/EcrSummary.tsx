@@ -35,7 +35,7 @@ const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
     <>
       <div className="grid-row">
         <div className="data-title">{title}</div>
-        <div className={"grid-col-auto text-pre-line"}>{value}</div>
+        <div className={"grid-col-auto maxw7 text-pre-line"}>{value}</div>
       </div>
       <div className={"section__line"} />
     </>
