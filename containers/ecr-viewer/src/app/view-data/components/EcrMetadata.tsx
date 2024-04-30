@@ -132,10 +132,8 @@ const EcrMetadata = ({
           </span>
         </AccordianH4>
         {eicrDetails.map(({ title, value }) => {
-
-        const titleString = title?.toString();  
-        return (
-          
+          const titleString = title?.toString();
+          return (
             <Fragment key={titleString}>
               <div className="grid-row">
                 <div className="data-title">{title}</div>
@@ -152,7 +150,7 @@ const EcrMetadata = ({
           </span>
         </AccordianH4>
         {eCRSenderDetails.map(({ title, value }) => {
-          const titleString = title?.toString(); 
+          const titleString = title?.toString();
           return (
             <Fragment key={titleString}>
               <div className="grid-row">
