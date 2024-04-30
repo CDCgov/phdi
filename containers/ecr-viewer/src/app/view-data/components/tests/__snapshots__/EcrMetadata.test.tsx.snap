@@ -2,7 +2,9 @@
 
 exports[`ECR Metadata should match snapshot 1`] = `
 <div>
-  <div>
+  <div
+    class="margin-top-0"
+  >
     <div
       class="padding-bottom-3"
     >
@@ -22,57 +24,73 @@ exports[`ECR Metadata should match snapshot 1`] = `
         <div
           class="usa-summary-box__text"
         >
-          <div
-            class="grid-row"
+          <table
+            class="usa-table rrTable"
+            data-testid="table"
           >
-            <div
-              class="data-title"
-            >
-              Reportable Condition(s)
-            </div>
-            <div
-              class="grid-col-fill text-pre-line"
-            >
-              Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              RCKMS Trigger Summary
-            </div>
-            <div
-              class="grid-col-fill text-pre-line"
-            >
-              COVID-19 (as a diagnosis or active problem)
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              Jurisdiction(s) Sent eCR
-            </div>
-            <div
-              class="grid-col-fill text-pre-line"
-            >
-              California Department of Public Health
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
+            <caption>
+              Reportibility Summary
+            </caption>
+            <thead>
+              <tr>
+                <th
+                  class="reportability_summary_header"
+                >
+                  Reportable Condition
+                </th>
+                <th>
+                  RCKMS Rule Summary
+                </th>
+                <th
+                  class="reportability_summary_header"
+                >
+                  Jurisdiction Sent eCR
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  rowspan="4"
+                >
+                  Disease caused by severe acute respiratory syndrome coronavirus 2(disorder)
+                </td>
+                <td
+                  rowspan="2"
+                >
+                  Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method
+                </td>
+                <td>
+                  California Department of Public Health
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Los Angeles County Department of Public Health
+                </td>
+              </tr>
+              <tr>
+                <td
+                  rowspan="1"
+                >
+                  Close contact in the 14 days prior to onset of symptoms with a confirmed or probable case of COVID-19 (Partially implemented as exposure with no timeframe parameters)
+                </td>
+                <td>
+                  Los Angeles County Department of Public Health
+                </td>
+              </tr>
+              <tr>
+                <td
+                  rowspan="1"
+                >
+                  COVID-19 (as a diagnosis or active problem)
+                </td>
+                <td>
+                  Los Angeles County Department of Public Health
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <div
             class="padding-bottom-1"
           />

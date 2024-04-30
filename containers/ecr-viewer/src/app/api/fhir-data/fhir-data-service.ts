@@ -2,15 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import pgPromise from "pg-promise";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { loadYamlConfig, streamToJson } from "../utils";
+import { database } from "@/app/api/fhir-data/db";
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
+/**
+ * Retrieves FHIR data from PostgreSQL database based on eCR ID.
+ * @param request - The NextRequest object containing the request information.
+ * @returns A promise resolving to a NextResponse object.
+ */
 export const get_postgres = async (request: NextRequest) => {
   const params = request.nextUrl.searchParams;
   const ecr_id = params.get("id") ? params.get("id") : null;
-  const db_url = process.env.DATABASE_URL || "";
-  const db = pgPromise();
-  const database = db(db_url);
   const mappings = loadYamlConfig();
 
   const { ParameterizedQuery: PQ } = pgPromise;
@@ -27,10 +30,22 @@ export const get_postgres = async (request: NextRequest) => {
     );
   } catch (error: any) {
     console.error("Error fetching data:", error);
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    if (error.message == "No data returned from the query.") {
+      return NextResponse.json(
+        { message: "eCR ID not found" },
+        { status: 404 },
+      );
+    } else {
+      return NextResponse.json({ message: error.message }, { status: 500 });
+    }
   }
 };
 
+/**
+ * Retrieves FHIR data from S3 based on eCR ID.
+ * @param request - The NextRequest object containing the request information.
+ * @returns A promise resolving to a NextResponse object.
+ */
 export const get_s3 = async (request: NextRequest) => {
   const params = request.nextUrl.searchParams;
   const ecr_id = params.get("id");

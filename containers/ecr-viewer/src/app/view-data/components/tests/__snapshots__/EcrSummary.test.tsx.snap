@@ -10,7 +10,7 @@ exports[`EcrSummary should match snapshot 1`] = `
       class="usa-summary-box padding-3"
     >
       <div
-        class="usa-summary-box__body"
+        class="usa-summary-box__body margin-bottom-05"
       >
         <h3
           class="summary-box-key-information side-nav-ignore"
@@ -30,7 +30,7 @@ exports[`EcrSummary should match snapshot 1`] = `
               Patient Name
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto maxw7 text-pre-line"
             >
               ABEL CASTILLO
             </div>
@@ -47,9 +47,9 @@ exports[`EcrSummary should match snapshot 1`] = `
               DOB
             </div>
             <div
-              class="grid-col-auto text-pre-line"
+              class="grid-col-auto maxw7 text-pre-line"
             >
-              2015-04-15
+              04/15/2015
             </div>
           </div>
           <div
@@ -64,7 +64,7 @@ exports[`EcrSummary should match snapshot 1`] = `
               Patient Address
             </div>
             <div
-              class="grid-col-auto text-pre-line"
+              class="grid-col-auto maxw7 text-pre-line"
             >
               1050 CARPENTER ST
 EDWARDS, CA
@@ -83,7 +83,7 @@ EDWARDS, CA
               Patient Contact
             </div>
             <div
-              class="grid-col-auto text-pre-line"
+              class="grid-col-auto maxw7 text-pre-line"
             >
               Home (818)419-5968
 MELLY.C.A.16@GMAIL.COM
@@ -115,7 +115,7 @@ MELLY.C.A.16@GMAIL.COM
               Facility Name
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto maxw7 text-pre-line"
             >
               PRM- Palmdale Regional Medical Center
             </div>
@@ -132,7 +132,7 @@ MELLY.C.A.16@GMAIL.COM
               Facility Address
             </div>
             <div
-              class="grid-col-auto text-pre-line"
+              class="grid-col-auto maxw7 text-pre-line"
             >
               38600 Medical Center Drive
 Palmdale, CA
@@ -151,7 +151,7 @@ Palmdale, CA
               Facility Contact
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto maxw7 text-pre-line"
             >
               (661)382-5000
             </div>
@@ -168,10 +168,10 @@ Palmdale, CA
               Encounter Date/Time
             </div>
             <div
-              class="grid-col-auto text-pre-line"
+              class="grid-col-auto maxw7 text-pre-line"
             >
-              Start: 05/13/2022 3:25 AM
-    End: 05/13/2022 5:57 AM
+              Start: 05/13/2022 7:25 AM UTC
+End: 05/13/2022 9:57 AM UTC
             </div>
           </div>
           <div
@@ -186,21 +186,21 @@ Palmdale, CA
               Encounter Type
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto maxw7 text-pre-line"
             >
               Emergency
             </div>
           </div>
+          <div
+            class="section__line"
+          />
         </div>
-        <div
-          class="section__line"
-        />
       </div>
       <div
         class="usa-summary-box__body"
       >
         <h3
-          class="margin-bottom-105 margin-top-205 side-nav-ignore"
+          class="summary-box-key-information side-nav-ignore"
           id="about-the-condition"
         >
           About the Condition
@@ -217,7 +217,7 @@ Palmdale, CA
               Reportable Condition
             </div>
             <div
-              class="grid-col-fill"
+              class="grid-col-auto maxw7 text-pre-line"
             >
               Influenza caused by Influenza A virus subtype H5N1 (disorder)
             </div>
@@ -231,12 +231,29 @@ Palmdale, CA
             <div
               class="data-title"
             >
-              RCKMS Trigger Summary
+              RCKMS Rule Summary
             </div>
             <div
-              class="grid-col-fill text-pre-line"
+              class="grid-col-auto maxw7 text-pre-line"
             >
               Cough
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="text-bold width-full"
+            >
+              Clinical sections relevant to reportable condition
+            </div>
+            <div
+              class="padding-top-05"
+            >
+              No matching clinical data found in this eCR (temp)
             </div>
           </div>
           <div
@@ -388,19 +405,6 @@ Palmdale, CA
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div
-            class="section__line"
-          />
-          <div
-            class="grid-row"
-          >
-            Clinical sections relevant to reportable condition
-            <div
-              class="padding-top-05"
-            >
-              No matching clinical data found in this eCR (temp)
             </div>
           </div>
         </div>

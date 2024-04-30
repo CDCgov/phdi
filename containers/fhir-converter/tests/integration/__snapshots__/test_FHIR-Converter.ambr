@@ -91,6 +91,11 @@
                     }),
                   ]),
                 }),
+                'entry': list([
+                  dict({
+                    'reference': str,
+                  }),
+                ]),
                 'id': str,
                 'mode': 'snapshot',
                 'text': dict({
@@ -619,6 +624,7 @@
                 'preferred': True,
               }),
             ]),
+            'deceasedBoolean': False,
             'extension': list([
               dict({
                 'extension': list([
@@ -707,6 +713,41 @@
                 'value': '(816)276-6909',
               }),
             ]),
+          }),
+        }),
+        dict({
+          'fullUrl': str,
+          'resource': dict({
+            'meta': dict({
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'CareTeam',
+            'subject': dict({
+              'reference': str,
+            }),
+          }),
+        }),
+        dict({
+          'fullUrl': str,
+          'request': dict({
+            'method': 'PUT',
+            'url': str,
+          }),
+          'resource': dict({
+            'id': str,
+            'intent': 'proposal',
+            'meta': dict({
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'CarePlan',
+            'status': 'unknown',
+            'subject': dict({
+              'reference': str,
+            }),
           }),
         }),
         dict({
@@ -1003,6 +1044,23 @@
               }),
             ]),
             'status': 'final',
+          }),
+        }),
+        dict({
+          'fullUrl': str,
+          'request': dict({
+            'method': 'PUT',
+            'url': str,
+          }),
+          'resource': dict({
+            'intent': 'proposal',
+            'meta': dict({
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'CarePlan',
+            'status': 'unknown',
           }),
         }),
         dict({

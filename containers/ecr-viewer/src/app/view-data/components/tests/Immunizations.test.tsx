@@ -3,7 +3,8 @@ import { axe } from "jest-axe";
 import fs from "fs";
 import YAML from "yaml";
 import { returnImmunizations } from "@/app/utils";
-import { Immunization } from "fhir/r4";
+import { Bundle, Immunization } from "fhir/r4";
+import BundleClinicalInfo from "@/app/tests/assets/BundleClinicalInfo.json";
 
 describe("Immunizations Table", () => {
   let container: HTMLElement;
@@ -62,6 +63,15 @@ describe("Immunizations Table", () => {
         resourceType: "Immunization",
         primarySource: true,
         occurrenceDateTime: "11/10/2020",
+        lotNumber: "369258741",
+        manufacturer: {
+          reference: "Organization/b5c77b86-2764-79f9-10bf-5da5e63eb7c1",
+        },
+        protocolApplied: [
+          {
+            doseNumberPositiveInt: "1",
+          },
+        ],
       },
       {
         id: "cffb2ab8-483c-a93e-56c3-5cc3d11e9168",
@@ -134,7 +144,11 @@ describe("Immunizations Table", () => {
     ] as unknown as Immunization[];
 
     container = render(
-      returnImmunizations(immunizationsData, fhirPathMappings)!,
+      returnImmunizations(
+        BundleClinicalInfo as unknown as Bundle,
+        immunizationsData,
+        fhirPathMappings,
+      )!,
     ).container;
   });
   it("should match snapshot", () => {

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "phdi"
-version = "v1.2.11"
+version = "v1.3.0"
 description = "Public health data infrastructure Building Blocks is a library to help public health departments work with their data"
 authors = [
   "Kenneth Chow <kenneth@skylight.digital>",
@@ -17,6 +17,8 @@ authors = [
   "Robert Beaty Mitchell V<rmitchell@skylight.digital>",
   "Robert Andre Mitchell<robert.a.mitchell@skylight.digital>",
   "Zedd Shmais<zedd@skylight.digital>",
+  "Angela The<angela.the@skylight.digital>",
+  "Lina Roth<lina@skylight.digital>",
 ]
 homepage = "https://github.com/CDCgov/phdi"
 repository = "https://github.com/CDCgov/phdi"
@@ -51,14 +53,16 @@ sqlalchemy = "^2.0.0"
 matplotlib = "^3.7.1"
 azure-keyvault-secrets = "^4.7.0"
 faker = "^18.4.0"
+pillow = "^10.3.0"
 
 [tool.poetry.dev-dependencies]
 pdoc = "^13.0.0"
-black = "^24.2.0"
 pytest = "^7.1.0"
-flake8 = "^4.0.1"
 pytest-cov = "^3.0.0"
 toml = "^0.10.2"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -67,3 +71,25 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 minversion = 6.0
 addopts = "--doctest-modules"
+
+[tool.ruff]
+exclude = [".git", ".pytest_cache", "__pycahce__", "docs"]
+line-length = 88
+indent-width = 4
+target-version = "py310"
+show-fixes = true
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "D102", "D103", "D104", "D105", "D106"] # Defaults
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/*" = ["D"]
+"**/__init__.py" = ["D"]
+"**/phdi/**/*" = ["D"]
+"**/utils/zip-search/**/*" = ["D"]
+
+[tool.ruff.lint.isort]
+# The following settings reduce the number of changes from reorder-python-imports
+force-single-line = true
+# lines-after-imports = 1
+order-by-type = false

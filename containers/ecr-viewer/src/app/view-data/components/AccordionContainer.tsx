@@ -6,15 +6,15 @@ import {
   evaluateDemographicsData,
   evaluateEcrMetadata,
   PathMappings,
-  evaluateLabInfoData,
 } from "../../utils";
+import { evaluateLabInfoData } from "@/app/labs/utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
 import UnavailableInfo from "./UnavailableInfo";
 import EcrMetadata from "./EcrMetadata";
 import EncounterDetails from "./Encounter";
 import ClinicalInfo from "./ClinicalInfo";
-import { Bundle, FhirResource } from "fhir/r4";
+import { Bundle } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import LabInfo from "@/app/view-data/components/LabInfo";
@@ -22,10 +22,17 @@ import { formatString } from "@/app/format-service";
 
 type AccordionContainerProps = {
   children?: ReactNode;
-  fhirBundle: Bundle<FhirResource>;
+  fhirBundle: Bundle;
   fhirPathMappings: PathMappings;
 };
 
+/**
+ * Functional component for an accordion container displaying various sections of eCR information.
+ * @param props - Props containing FHIR bundle and path mappings.
+ * @param props.fhirBundle - The FHIR bundle containing patient information.
+ * @param props.fhirPathMappings - The path mappings used to extract information from the FHIR bundle.
+ * @returns The JSX element representing the accordion container.
+ */
 const AccordianContainer: React.FC<AccordionContainerProps> = ({
   fhirBundle,
   fhirPathMappings,
@@ -57,12 +64,10 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "Encounter Info",
       content: (
-        <div>
-          <EncounterDetails
-            encounterData={encounterData.availableData}
-            providerData={providerData.availableData}
-          />
-        </div>
+        <EncounterDetails
+          encounterData={encounterData.availableData}
+          providerData={providerData.availableData}
+        />
       ),
       expanded: true,
       headingLevel: "h3",
@@ -70,47 +75,36 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "Clinical Info",
       content: (
-        <>
-          <ClinicalInfo
-            clinicalNotes={clinicalData.clinicalNotes.availableData}
-            reasonForVisitDetails={
-              clinicalData.reasonForVisitDetails.availableData
-            }
-            activeProblemsDetails={
-              clinicalData.activeProblemsDetails.availableData
-            }
-            vitalData={clinicalData.vitalData.availableData}
-            immunizationsDetails={
-              clinicalData.immunizationsDetails.availableData
-            }
-            treatmentData={clinicalData.treatmentData.availableData}
-          />
-        </>
-      ),
-      expanded: true,
-      headingLevel: "h3",
-    },
-    {
-      title: "Lab Info",
-      content: (
-        <LabInfo
-          labInfo={labInfoData.labInfo.availableData}
-          labResults={labInfoData.labResults}
+        <ClinicalInfo
+          clinicalNotes={clinicalData.clinicalNotes.availableData}
+          reasonForVisitDetails={
+            clinicalData.reasonForVisitDetails.availableData
+          }
+          activeProblemsDetails={
+            clinicalData.activeProblemsDetails.availableData
+          }
+          vitalData={clinicalData.vitalData.availableData}
+          immunizationsDetails={clinicalData.immunizationsDetails.availableData}
+          treatmentData={clinicalData.treatmentData.availableData}
         />
       ),
       expanded: true,
       headingLevel: "h3",
     },
     {
+      title: "Lab Info",
+      content: <LabInfo labResults={labInfoData} />,
+      expanded: true,
+      headingLevel: "h3",
+    },
+    {
       title: "eCR Metadata",
       content: (
-        <>
-          <EcrMetadata
-            eicrDetails={ecrMetadata.eicrDetails.availableData}
-            eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
-            rrDetails={ecrMetadata.rrDetails.availableData}
-          />
-        </>
+        <EcrMetadata
+          eicrDetails={ecrMetadata.eicrDetails.availableData}
+          eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
+          rrDetails={ecrMetadata.rrDetails}
+        />
       ),
       expanded: true,
       headingLevel: "h3",

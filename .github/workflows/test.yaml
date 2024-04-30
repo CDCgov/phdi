@@ -42,9 +42,9 @@ jobs:
           - 5432:5432
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
@@ -76,9 +76,9 @@ jobs:
           - 5432:5432
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
@@ -99,7 +99,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Check notebook cleanliness
         uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
 
@@ -131,9 +131,9 @@ jobs:
         container-to-test: ${{fromJson(needs.list-containers.outputs.python-containers)}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
@@ -142,7 +142,9 @@ jobs:
       - name: Install dependencies
         working-directory: ./containers/${{matrix.container-to-test}}
         run: |
-          if [[ $GITHUB_REF != "refs/heads/main" ]]; then
+          if [[ ${{matrix.container-to-test}} == "dibbs" ]]; then
+            pip install .
+          elif [[ $GITHUB_REF != "refs/heads/main" ]]; then
                commit_hash=$(git rev-parse HEAD)
                find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
           fi
@@ -166,14 +168,15 @@ jobs:
   integration-test-python-containers:
     needs: list-containers
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
@@ -203,7 +206,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -219,7 +222,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
@@ -232,7 +235,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -240,9 +243,18 @@ jobs:
       - name: Install dependencies
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm install
-      - name: Build
-        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-        run: npm run build
-      - name: Spin up app and test
-        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-        run: npm run start & npm run cypress:run
+
+      - name: Start ecr-viewer
+        working-directory: ./containers/ecr-viewer
+        run: docker compose up -d
+
+      - name: Wait for server to be ready
+        run: |
+          until $(curl --output /dev/null --silent --head --fail http://localhost:3000); do
+            echo "Waiting for server to be ready..."
+            sleep 5
+          done
+
+      - name: Run cypress tests
+        working-directory: ./containers/ecr-viewer
+        run: npm run cypress:run

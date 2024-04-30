@@ -29,6 +29,7 @@ def test_health_check(setup):
         "FHIR_CONVERTER_PORT_NUMBER",
         "INGESTION_PORT_NUMBER",
         "MESSAGE_PARSER_PORT_NUMBER",
+        "ECR_VIEWER_PORT_NUMBER",
     ]
 
     for port_number in port_number_strings:
@@ -136,13 +137,39 @@ def test_failed_save_to_ecr_viewer(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
+            "data_type": "zip",
             "config_file_name": "sample-orchestration-s3-config.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
-            PROCESS_ENDPOINT, data=form_data, files=files
+            PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
         )
-        assert orchestration_response.status_code == 500
+        assert orchestration_response.status_code == 400
+
+
+@pytest.mark.integration
+def test_success_save_to_ecr_viewer(setup):
+    """
+    Full orchestration test of a zip file containing both an eICR and the
+    associated RR data.
+    """
+    with open(
+        Path(__file__).parent.parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "orchestration"
+        / "test_zip.zip",
+        "rb",
+    ) as file:
+        form_data = {
+            "message_type": "ecr",
+            "config_file_name": "sample-orchestration-config.json",
+        }
+        files = {"upload_file": ("file.zip", file)}
+        orchestration_response = httpx.post(
+            PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
+        )
+        assert orchestration_response.status_code == 200
 
 
 @pytest.mark.integration

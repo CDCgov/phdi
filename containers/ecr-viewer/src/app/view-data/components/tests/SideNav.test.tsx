@@ -1,6 +1,7 @@
 import SideNav, {
   SectionConfig,
   sortHeadings,
+  countObjects,
 } from "@/app/view-data/components/SideNav";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
@@ -101,5 +102,17 @@ describe("SectionConfig", () => {
       </>,
     );
     expect(container.innerHTML).toContain('<a href="#section-1" class="">');
+  });
+});
+
+describe("countObjects", () => {
+  it("should count all section config objects within a given array, including those within subnav items", () => {
+    const section1 = new SectionConfig("Parent 1", ["Child 1", "Child 2"]);
+    const section2 = new SectionConfig("Parent 2", ["Child 1"]);
+    const expected = 5;
+
+    const result = countObjects([section1, section2]);
+
+    expect(result).toEqual(expected);
   });
 });

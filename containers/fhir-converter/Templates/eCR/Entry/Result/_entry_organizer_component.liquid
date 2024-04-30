@@ -1,8 +1,8 @@
 {% if component.observation -%}
-  {% if component.observation.code.nullFlavor -%}
+  {% if component.observation.code.nullFlavor and component.observation.code.nullFlavor != 'UNK' -%}
     {% else -%}
       {% assign observationId = component.observation | to_json_string | generate_uuid -%}
-      {% include 'Resource/Observation' observationCategory: 'laboratory', observationEntry: component.observation, ID: observationId, specimenValue: specValue, collectTime: collectTime -%}
+      {% include 'Resource/Observation' observationCategory: 'laboratory', observationEntry: component.observation, ID: observationId, specimenValue: specValue, collectTime: collectTime, receiveTime: receiveTime -%}
       {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
       {% include 'Reference/DiagnosticReport/Result' ID: diagnosticId, REF: fullObservationId -%}
       {% include 'Reference/Observation/Subject' ID: observationId, REF: fullPatientId -%}

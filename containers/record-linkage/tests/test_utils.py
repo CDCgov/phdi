@@ -7,7 +7,6 @@ import pytest
 from app.utils import run_migrations
 from app.utils import run_pyway
 
-
 MOCK_SETTINGS = {
     "mpi_db_type": "postgres",
     "mpi_host": "localhost",
@@ -19,7 +18,7 @@ MOCK_SETTINGS = {
 
 
 def make_pyway_command(
-    pyway_command: Literal["info", "validate", "migrate", "import"]
+    pyway_command: Literal["info", "validate", "migrate", "import"],
 ) -> str:
     """
     Helper function for tests that require a pyway command.

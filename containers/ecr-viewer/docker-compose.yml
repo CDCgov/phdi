@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # PostgreSQL database
   db:
@@ -35,7 +33,7 @@ services:
         condition: service_healthy
 
   # Next.js app
-  nextjs-app:
+  ecr-viewer:
     build:
       context: .
       dockerfile: ./Dockerfile.dev

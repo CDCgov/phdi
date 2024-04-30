@@ -1,10 +1,10 @@
-typing_extensions==4.8.0
-uvicorn
-pydantic==1.10.9
-fastapi>=0.109.1
-phdi @ git+https://github.com/CDCgov/phdi@main
-httpx
+../dibbs
 pathlib
-pyway
-psycopg2-binary==2.9.7
+pyway==0.3.24
+psycopg2-binary==2.9.9
 tabulate
+fhirpathpy
+pandas>2.0.0
+sqlalchemy
+rapidfuzz
+pyarrow>=14.0.1

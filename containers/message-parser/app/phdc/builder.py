@@ -5,6 +5,8 @@ from typing import List
 from typing import Literal
 from typing import Optional
 
+from lxml import etree as ET
+
 from app import utils
 from app.phdc.models import Address
 from app.phdc.models import CodedElement
@@ -14,8 +16,6 @@ from app.phdc.models import Organization
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
-from lxml import etree as ET
-
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"

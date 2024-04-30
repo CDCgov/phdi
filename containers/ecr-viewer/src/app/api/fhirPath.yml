@@ -11,6 +11,7 @@ patientCounty: "Bundle.entry.resource.where(resourceType = 'Patient').address.fi
 
 patientId: "Bundle.entry.resource.where(resourceType = 'Patient').id"
 patientDOB: "Bundle.entry.resource.where(resourceType = 'Patient').birthDate"
+patientVitalStatus: "Bundle.entry.resource.where(resourceType = 'Patient').deceasedBoolean"
 patientGender: "Bundle.entry.resource.where(resourceType = 'Patient').gender"
 patientRace: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.first().valueCoding.display"
 patientEthnicity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.first().valueCoding.display"
@@ -56,6 +57,7 @@ providerFamilyName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[
 providerGivenName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].given"
 providerName: "idk"
 
+rrDetails: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation')"
 rrDisplayNames: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').valueCodeableConcept.coding.display"
 rckmsTriggerSummaries: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
 rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').performer.reference"
@@ -63,6 +65,7 @@ rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/u
 
 # Clinical Data
 clinicalReasonForVisit: "Bundle.entry.resource.section.where(title = 'Reason for Visit')[0].extension[0].valueString"
+
 #vitals
 patientHeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='8302-2').first().valueQuantity.value"
 patientHeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='8302-2').first().valueQuantity.unit"
@@ -76,14 +79,33 @@ resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %
 activeProblems: "Bundle.entry.resource.where(resourceType='Condition').where(category.coding.code='problem-item-list')"
 activeProblemsDisplay: "Condition.code.coding[0].display"
 activeProblemsOnsetDate: "Condition.onsetDateTime"
-activeProblemsOnsetAge: "idk"
+activeProblemsOnsetAge: "Condition.onsetAge.value"
 historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(code.coding.code = '10164-2').text"
+
+# Treatment Details
+planOfTreatment: "Bundle.entry.resource.section.where(title = 'Plan of Treatment').text"
+plannedProcedures: "Bundle.entry.resource.where(resourceType = 'CarePlan').activity"
+plannedProcedureName: "detail.code.coding[0].display"
+plannedProcedureOrderedDate: "extension.where(url = 'dibbs.orderedDate').valueString"
+plannedProcedureScheduledDate: "detail.scheduledString"
+
+# Adminstered Medications
+administeredMedications: "Bundle.entry.resource.section.where(code.coding[0].code = '29549-3').text"
+
+## Care Team
+careTeamParticipants: "Bundle.entry.resource.where(resourceType='CareTeam').participant"
+careTeamParticipantMemberName: "member.name"
+careTeamParticipantRole: "role.text"
+careTeamParticipantStatus: "modifierExtension.where(url='participant.status').valueString"
+careTeamParticipantPeriod: "period.text"
 
 # Immunization Info
 immunizations: "Bundle.entry.resource.where(resourceType = 'Immunization')"
 immunizationsName: "Immunization.note.text"
 immunizationsAdminDate: "Immunization.occurrenceDateTime"
-immunizationsNextDue: "idk"
+immunizationsDoseNumber: "Immunization.protocolApplied.where(doseNumberPositiveInt.exists()).doseNumberPositiveInt"
+immunizationsManufacturerName: "Immunization.manufacturer.name"
+immunizationsLotNumber: "Immunization.lotNumber"
 
 # Procedure
 procedures: "Bundle.entry.resource.where(resourceType='Procedure')"
@@ -93,7 +115,16 @@ procedureReason: "Procedure.reason.display"
 
 # Lab Info
 diagnosticReports: "Bundle.entry.resource.where(resourceType = 'DiagnosticReport')"
+labResultDiv: "Bundle.entry.resource.section.where(code.coding[0].code = '30954-2').text"
+specimenCollectionTime: "Observation.extension[0].extension.where(url = 'specimen collection time').valueDateTime"
+specimenReceivedTime: "Observation.extension[0].extension.where(url = 'specimen receive time').valueDateTime"
+specimenSource: "Observation.extension[0].extension.where(url = 'specimen source').valueString"
+observationReferenceValue: "Observation.extension[0].extension.where(url = 'observation entry reference value').valueString"
 observationComponent: "code.coding.display"
 observationValue: "value"
 observationReferenceRange: "referenceRange.text"
+observationNote: "note.text"
 observationMethod: "method"
+
+# Organization
+organizations: "Bundle.entry.resource.where(resourceType = 'Organization')"

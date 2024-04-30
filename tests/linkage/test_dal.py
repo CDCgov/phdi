@@ -51,6 +51,7 @@ def _clean_up(dal):
         pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway CASCADE;"""))
         pg_connection.commit()
         pg_connection.close()
 
@@ -281,10 +282,13 @@ def test_select_results():
     records_to_add = [pt1, pt2]
     pks = dal.bulk_insert_list(dal.PATIENT_TABLE, records_to_add, True)
     mpi = DIBBsMPIConnectorClient()
-    blocked_data_query = mpi._generate_block_query(
+    blocked_data_query, blocked_data_query_params = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )
-    results = dal.select_results(select_statement=blocked_data_query)
+
+    results = dal.select_results(
+        select_statement=blocked_data_query, query_params=blocked_data_query_params
+    )
     # ensure blocked data has two rows, headers and data
     assert len(results) == 2
     assert results[0][0] == "patient_id"
@@ -296,7 +300,9 @@ def test_select_results():
     assert results[1][3] == "male"
 
     results2 = dal.select_results(
-        select_statement=blocked_data_query, include_col_header=False
+        select_statement=blocked_data_query,
+        query_params=blocked_data_query_params,
+        include_col_header=False,
     )
 
     # ensure blocked data has one row, just the data

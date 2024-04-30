@@ -58,7 +58,7 @@
             "title": "Miscellaneous Notes",
             "text": {
               "status": "generated",
-              "div": "<ul><li>Addendum Note - Gregory, Lindsey - Wed Sep 28, 2022 12:00 PM PDT <br>Modules accepted: Orders Addended by: GREGORY, LINDSEY on: 9/28/2022 08:36 PM Electronically signed by Gregory, Lindsey at 09/28/2022 8:36 PM PDT <br></li><li>Addendum Note - Cshs, Hybrid Physician W Mycslink, MD - Wed Sep 28, 2022 12:00 PM PDT <br>Modules accepted: Orders Addended by: CSHS, HYBRID PHYSICIAN W/ MYCHART TEST USER on: 9/28/2022 08:37 PM Electronically signed by Cshs, Hybrid Physician W Mycslink, MD at 09/28/2022 8:37 PM PDT <br></li></ul>documented in this encounter"
+              "div": "<ul><li><caption>Addendum Note - Gregory, Lindsey - Wed Sep 28, 2022 12:00 PM PDT</caption><br>Modules accepted: Orders Addended by: GREGORY, LINDSEY on: 9/28/2022 08:36 PM Electronically signed by Gregory, Lindsey at 09/28/2022 8:36 PM PDT <br></li><li><caption>Addendum Note - Cshs, Hybrid Physician W Mycslink, MD - Wed Sep 28, 2022 12:00 PM PDT</caption><br>Modules accepted: Orders Addended by: CSHS, HYBRID PHYSICIAN W/ MYCHART TEST USER on: 9/28/2022 08:37 PM Electronically signed by Cshs, Hybrid Physician W Mycslink, MD at 09/28/2022 8:37 PM PDT <br></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -94,7 +94,7 @@
             "title": "Administered Medications",
             "text": {
               "status": "generated",
-              "div": "<table>Inactive Administered Medications - up to 3 most recent administrations <thead><tr><th>Medication Order</th><th>MAR Action</th><th>Action Date</th><th>Dose</th><th>Rate</th><th>Site</th></tr></thead><tbody><tr><td>alum-mag hydroxide-simeth (MAALOX) 200-200-20 mg/5 mL oral suspension 15 mL 15 mL, Oral, ONCE (IN CLINIC), On Wed 9/28/22 at 2100, For 1 dose, Order WILL be automatically substituted with P&T Approved equivalent per protocol. SHAKE WELL prior to use.</td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>15 mL</td><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td>aspirin tablet 325 mg 325 mg, Oral, ONCE, On Wed 9/28/22 at 2100, For 1 dose</td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>325 mg</td><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td>lidocaine (XYLOCAINE) 2% viscous oral solution 5 mL, Swish and Spit, ONCE (IN CLINIC), On Wed 9/28/22 at 2100, For 1 dose</td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>5 mL</td><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>documented in this encounter"
+              "div": "<table data-id='admMedTable11'><caption>Inactive Administered Medications - up to 3 most recent administrations</caption> <thead><tr><th>Medication Order</th><th>MAR Action</th><th>Action Date</th><th>Dose</th><th>Rate</th><th>Site</th></tr></thead><tbody><tr><td><paragraph data-id='med9'>alum-mag hydroxide-simeth (MAALOX) 200-200-20 mg/5 mL oral suspension 15 mL</paragraph><paragraph>15 mL, Oral, ONCE (IN CLINIC), On Wed 9/28/22 at 2100, For 1 dose, Order WILL be automatically substituted with P&T Approved equivalent per protocol. SHAKE WELL prior to use.</paragraph></td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>15 mL</td><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td><paragraph data-id='med7'>aspirin tablet 325 mg</paragraph><paragraph>325 mg, Oral, ONCE, On Wed 9/28/22 at 2100, For 1 dose</paragraph></td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>325 mg</td><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td><paragraph data-id='med8'>lidocaine (XYLOCAINE) 2% viscous oral solution</paragraph><paragraph>5 mL, Swish and Spit, ONCE (IN CLINIC), On Wed 9/28/22 at 2100, For 1 dose</paragraph></td><td>Given</td><td>09/28/2022 8:37 PM PDT</td><td>5 mL</td><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -112,7 +112,7 @@
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "Not on file documented as of this encounter"
+              "div": "<paragraph>Not on file</paragraph>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -123,14 +123,19 @@
                 }
               ]
             },
-            "mode": "snapshot"
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "CarePlan/5ddcb7d6-d32c-e91c-f715-cf239eb4aee6"
+              }
+            ]
           },
           {
             "id": "4D3C57C8-4441-11ED-B2C1-005056A7FB21",
             "title": "Problems",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr><td>Coronavirus infection</td><td>9/28/22</td></tr><tr><td>Close exposure to COVID-19 virus</td><td>9/28/22</td></tr><tr><td>Seasonal allergies</td><td>9/24/22</td></tr></tbody></table><table><thead><tr><th>Pregnant</th><th>Estimated Date of Delivery</th><th>Comments</th></tr></thead><tbody><tr><td>Yes</td><td>5/6/23</td><td>Based on Est. Date of Conception</td></tr></tbody></table>documented as of this encounter (statuses as of 10/04/2022)"
+              "div": "<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr data-id='problem16'><td data-id='problem16name'>Coronavirus infection</td><td>9/28/22</td></tr><tr data-id='problem17'><td data-id='problem17name'>Close exposure to COVID-19 virus</td><td>9/28/22</td></tr><tr data-id='problem15'><td data-id='problem15name'>Seasonal allergies</td><td>9/24/22</td></tr></tbody></table><table><thead><tr><th>Pregnant</th><th>Estimated Date of Delivery</th><th>Comments</th></tr></thead><tbody><tr><td>Yes</td><td>5/6/23</td><td>Based on Est. Date of Conception</td></tr></tbody></table>documented as of this encounter (statuses as of 10/04/2022)"
             },
             "code": {
               "coding": [
@@ -186,7 +191,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul><li>(ABNORMAL) CORONAVIRUS (COVID-19), PCR (09/29/2002 8:01 AM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>SARS-CoV-2, RNA</td><td>Detected (A)</td><td>Not Detected</td><td></td><td></td><td>LABCORP</td><td></td></tr><tr><td>Comment: <br>revoked sooner.U.S.C. 360bbb-3(b)(1), unless the authorization is terminated ordiagnosis of COVID-19 infection under section 564(b)(1) of the Act, 21of in vitro diagnostic tests for detection of SARS-CoV-2 virus and/orcircumstances exist justifying the authorization of the emergency useonly authorized for the duration of time the declaration thatFDA independent review of this validation is pending. This test isduring the Public Health Emergency) issued on February 29th, 2020.prior to Emergency Use Authorization for Coronavirus Disease-2019Laboratories Certified to Perform High Complexity Testing under CLIAthe FDA's Guidance Document (Policy for Diagnostics Testing inAuthorization (EUA). This test has been validated in accordance withapproved. This test has been authorized by FDA under an Emergency Useby LabCorp Laboratories. This test has not been FDA cleared orThis test was developed and its performance characteristics determined <br></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Nasopharyngeal (NASOPHARYNGEAL)</td><td></td><td></td><td>09/29/2002 8:01 AM PDT</td><td>09/29/2022</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td>LABCORP - 09/29/2022 2:13 PM PDT Performed at:  01 - Labcorp Burlington 1447 York Court, Burlington, NC  272153361 Lab Director: Sanjai Nagendra MD, Phone:  8007624344 <br></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Hybrid Physician W Mycslink Cshs MD</td><td>MICRO (NON-CULT) ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>LABCORP</td><td>13112 Evening Creek Dr, Ste 200</td><td>San Diego, CA 92128</td><td>858-668-3700</td></tr></tbody></table></li></ul>documented in this encounter"
+              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944'><caption data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Procedure'>(ABNORMAL) CORONAVIRUS (COVID-19), PCR (09/29/2002 8:01 AM PDT)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1'><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1Name'>SARS-CoV-2, RNA</td><td>Detected (A)</td><td>Not Detected</td><td></td><td></td><td>LABCORP</td><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1Signature'></td></tr><tr><td>Comment: <br>revoked sooner.U.S.C. 360bbb-3(b)(1), unless the authorization is terminated ordiagnosis of COVID-19 infection under section 564(b)(1) of the Act, 21of in vitro diagnostic tests for detection of SARS-CoV-2 virus and/orcircumstances exist justifying the authorization of the emergency useonly authorized for the duration of time the declaration thatFDA independent review of this validation is pending. This test isduring the Public Health Emergency) issued on February 29th, 2020.prior to Emergency Use Authorization for Coronavirus Disease-2019Laboratories Certified to Perform High Complexity Testing under CLIAthe FDA's Guidance Document (Policy for Diagnostics Testing inAuthorization (EUA). This test has been validated in accordance withapproved. This test has been authorized by FDA under an Emergency Useby LabCorp Laboratories. This test has not been FDA cleared orThis test was developed and its performance characteristics determined <br></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Specimen'>Nasopharyngeal (NASOPHARYNGEAL)</td><td></td><td></td><td>09/29/2002 8:01 AM PDT</td><td>09/29/2022</td></tr></tbody></table><table><thead><tr><th>Narrative</th></tr></thead><tbody><tr><td><paragraph>LABCORP - 09/29/2022 2:13 PM PDT</paragraph><paragraph data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Narrative'>Performed at:  01 - Labcorp Burlington 1447 York Court, Burlington, NC  272153361 Lab Director: Sanjai Nagendra MD, Phone:  8007624344 <br></paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Hybrid Physician W Mycslink Cshs MD</td><td>MICRO (NON-CULT) ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.PerformingLab'><paragraph>LABCORP</paragraph></td><td><paragraph>13112 Evening Creek Dr, Ste 200</paragraph></td><td><paragraph>San Diego, CA 92128</paragraph></td><td><paragraph>858-668-3700</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -214,7 +219,7 @@
             "title": "Social History",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Smoking Tobacco: Never</td><td></td><td></td><td></td><td></td></tr><tr><td>Smokeless Tobacco: Never</td><td></td><td></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Alcohol Use</th><th>Standard Drinks/Week</th><th>Comments</th></tr></thead><tbody><tr><td>Never</td><td>0 (1 standard drink = 0.6 oz pure alcohol)</td><td></td></tr></tbody></table><table><thead><tr><th>Education</th><th>Answer</th><th>Date Recorded</th></tr></thead><tbody><tr><td>What is the highest level of school you have completed or the highest degree you have received?</td><td>Bachelor's degree (e.g., BA, AB, BS)</td><td>09/24/2022</td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr><td>Female</td><td>09/24/2022 12:34 PM PDT</td></tr></tbody></table>documented as of this encounter"
+              "div": "<table data-id='sochist21'><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Smoking Tobacco: Never</td><td></td><td data-id='sochist21packsperday'></td><td></td><td></td></tr><tr data-id='sochist21smokeless'><td>Smokeless Tobacco: Never</td><td></td><td></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Alcohol Use</th><th>Standard Drinks/Week</th><th>Comments</th></tr></thead><tbody><tr><td data-id='alcoholStatus'>Never</td><td>0 (1 standard drink = 0.6 oz pure alcohol)</td><td></td></tr></tbody></table><table><thead><tr><th>Education</th><th>Answer</th><th>Date Recorded</th></tr></thead><tbody><tr><td>What is the highest level of school you have completed or the highest degree you have received?</td><td>Bachelor's degree (e.g., BA, AB, BS)</td><td>09/24/2022</td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr data-id='BirthSex22'><td data-id='BirthSex22Value'>Female</td><td>09/24/2022 12:34 PM PDT</td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -232,7 +237,7 @@
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr><td>9/28/22</td><td>Office Visit</td><td>CSMG Internal Medicine 8767 Wilshire Blvd 2nd Floor BEVERLY HILLS, CA 90211 310-385-6031</td><td>Canavan, Allison H, MD 8631 W. THIRD STREET STE 510E LOS ANGELES, CA 90048 310-385-3380 (Work) 310-385-3224 (Fax) allison.canavan@cshs.org</td><td><br>Close exposure to COVID-19 virusCoronavirus infection (Primary Dx);</td></tr></tbody></table>"
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter23'><td>9/28/22</td><td data-id='encounter23type'>Office Visit</td><td><paragraph>CSMG Internal Medicine</paragraph><paragraph>8767 Wilshire Blvd</paragraph><paragraph>2nd Floor</paragraph><paragraph>BEVERLY HILLS, CA 90211</paragraph><paragraph>310-385-6031</paragraph></td><td><paragraph>Canavan, Allison H, MD</paragraph><paragraph>8631 W. THIRD STREET</paragraph><paragraph>STE 510E</paragraph><paragraph>LOS ANGELES, CA 90048</paragraph><paragraph>310-385-3380 (Work)</paragraph><paragraph>310-385-3224 (Fax)</paragraph><paragraph>allison.canavan@cshs.org</paragraph></td><td data-id='encounter23desc'><br>Close exposure to COVID-19 virusCoronavirus infection (Primary Dx);</td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -304,7 +309,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         },
         "relatesTo": [
           {
@@ -362,7 +367,7 @@
           "end": "2022-09-28T12:30:00-07:00"
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         },
         "location": [
           {
@@ -853,10 +858,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:418cd41d-2b69-4c7a-9f84-e528c6f97549",
+      "fullUrl": "urn:uuid:a072b0d0-7c19-46ee-890e-9c099cef75f8",
       "resource": {
         "resourceType": "Patient",
-        "id": "418cd41d-2b69-4c7a-9f84-e528c6f97549",
+        "id": "a072b0d0-7c19-46ee-890e-9c099cef75f8",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -888,6 +893,7 @@
           }
         ],
         "birthDate": "1980-01-01",
+        "deceasedBoolean": false,
         "gender": "female",
         "extension": [
           {
@@ -990,7 +996,42 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+        "url": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "CareTeam",
+        "subject": {
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5ddcb7d6-d32c-e91c-f715-cf239eb4aee6",
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "5ddcb7d6-d32c-e91c-f715-cf239eb4aee6",
+        "status": "unknown",
+        "intent": "proposal",
+        "subject": {
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "CarePlan/5ddcb7d6-d32c-e91c-f715-cf239eb4aee6"
       }
     },
     {
@@ -1035,7 +1076,7 @@
         },
         "onsetDateTime": "2022-09-24",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         },
         "meta": {
           "source": [
@@ -1090,7 +1131,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         },
         "meta": {
           "source": [
@@ -1145,7 +1186,7 @@
         },
         "onsetDateTime": "2022-09-28",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         },
         "meta": {
           "source": [
@@ -1184,7 +1225,7 @@
           "end": "2002-09-29T15:01:00Z"
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         },
         "performer": [
           {
@@ -1196,7 +1237,13 @@
             "reference": "Observation/3a45daf2-6872-fd2a-6ede-606810d52bb2"
           },
           {
+            "reference": "Observation/31568b13-cf9d-3d66-9d07-513e6d3fad9b"
+          },
+          {
             "reference": "Observation/e9c8e4b3-3fec-4f29-a5c5-e45f96680a4c"
+          },
+          {
+            "reference": "Observation/bcac2d24-eb7d-0ead-70db-f17f34e2ac92"
           }
         ],
         "meta": {
@@ -1279,6 +1326,11 @@
         },
         "effectiveDateTime": "2022-09-29T21:13:00Z",
         "valueString": "Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -1290,6 +1342,11 @@
             ]
           }
         ],
+        "note": [
+          {
+            "text": "This test was developed and its performance characteristics determined by LabCorp Laboratories. This test has not been FDA cleared or approved. This test has been authorized by FDA under an Emergency Use Authorization (EUA). This test has been validated in accordance with the FDA's Guidance Document (Policy for Diagnostics Testing in Laboratories Certified to Perform High Complexity Testing under CLIA prior to Emergency Use Authorization for Coronavirus Disease-2019 during the Public Health Emergency) issued on February 29th, 2020. FDA independent review of this validation is pending. This test is only authorized for the duration of time the declaration that circumstances exist justifying the authorization of the emergency use of in vitro diagnostic tests for detection of SARS-CoV-2 virus and/or diagnosis of COVID-19 infection under section 564(b)(1) of the Act, 21 U.S.C. 360bbb-3(b)(1), unless the authorization is terminated or revoked sooner."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1297,12 +1354,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2002-09-29T15:01:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-29T07:00:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         },
         "performer": [
           {
@@ -1347,6 +1412,79 @@
       "request": {
         "method": "PUT",
         "url": "Organization/cdcee673-8d7c-d7f5-79f8-09ecfc30200c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:31568b13-cf9d-3d66-9d07-513e6d3fad9b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "31568b13-cf9d-3d66-9d07-513e6d3fad9b",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.202.3.7.7.798268.1000",
+            "value": "476858944"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "NAR",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-09-29T21:13:00Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2002-09-29T15:01:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-29T07:00:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.202.3.7.2.798268.476858944.Narrative"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
+        },
+        "performer": [
+          {
+            "display": "LABCORP",
+            "reference": "Organization/cdcee673-8d7c-d7f5-79f8-09ecfc30200c"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/31568b13-cf9d-3d66-9d07-513e6d3fad9b"
       }
     },
     {
@@ -1397,17 +1535,84 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2002-09-29T15:01:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-29T07:00:00Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/e9c8e4b3-3fec-4f29-a5c5-e45f96680a4c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:bcac2d24-eb7d-0ead-70db-f17f34e2ac92",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "bcac2d24-eb7d-0ead-70db-f17f34e2ac92",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.202.3.7.2.798268",
+            "value": "476858944"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-09-29T21:13:00Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "16",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5007"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2002-09-29T15:01:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-09-29T07:00:00Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/bcac2d24-eb7d-0ead-70db-f17f34e2ac92"
       }
     },
     {
@@ -1460,7 +1665,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         }
       },
       "request": {
@@ -1518,7 +1723,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         }
       },
       "request": {
@@ -1576,7 +1781,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         }
       },
       "request": {
@@ -1618,6 +1823,7 @@
           "coding": [
             {
               "code": "63504-5",
+              "display": "What is the highest grade or level of school you have completed or the highest degree you have received [NHANES]",
               "system": "http://loinc.org"
             }
           ]
@@ -1625,7 +1831,7 @@
         "effectiveDateTime": "2022-09-24",
         "valueString": "17",
         "subject": {
-          "reference": "Patient/418cd41d-2b69-4c7a-9f84-e528c6f97549"
+          "reference": "Patient/a072b0d0-7c19-46ee-890e-9c099cef75f8"
         }
       },
       "request": {

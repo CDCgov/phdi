@@ -13,7 +13,6 @@ from sqlalchemy import text
 from phdi.linkage.dal import DataAccessLayer
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
-
 patient_resource = json.load(
     open(
         pathlib.Path(__file__).parent.parent.parent
@@ -119,7 +118,7 @@ def test_get_blocked_data():
     assert blocked_data[0][1] == "person_id"
     assert blocked_data[1][2].strftime("%Y-%m-%d") == "1977-11-11"
     assert blocked_data[0][2] == "birthdate"
-    assert len(blocked_data[0]) == 13
+    assert len(blocked_data[0]) == 11
 
 
 def test_block_data_failures():
@@ -172,7 +171,7 @@ def test_block_data_failures():
     assert blocked_data[0][1] == "person_id"
     assert blocked_data[1][2].strftime("%Y-%m-%d") == "1977-11-11"
     assert blocked_data[0][2] == "birthdate"
-    assert len(blocked_data[0]) == 13
+    assert len(blocked_data[0]) == 11
 
 
 def test_get_base_query():
@@ -180,24 +179,28 @@ def test_get_base_query():
     base_query = MPI._get_base_query()
     expected_query = """
         SELECT
-          patient.patient_id, patient.person_id, patient.dob AS birthdate,
-          patient.sex, ident_subq.mrn, name.last_name, given_name.given_name,
-          given_name.given_name_index, given_name.name_id, address.line_1 AS address,
-          address.zip_code AS zip, address.city, address.state
-        FROM
-          patient
-          LEFT OUTER JOIN (
+            patient.patient_id, patient.person_id, patient.dob AS birthdate,
+            patient.sex, ident_subq.mrn, name.last_name,
+            array_agg(
+                given_name.given_name ORDER BY given_name.given_name_index ASC
+            ) AS given_name,
+            address.line_1 AS address, address.zip_code AS zip, address.city,
+            address.state
+        FROM patient
+        LEFT OUTER JOIN (
             SELECT
-              identifier.patient_identifier AS mrn,
-              identifier.patient_id AS patient_id
-        FROM
-          identifier
-        WHERE
-          identifier.type_code = :type_code_1) AS ident_subq
-          ON patient.patient_id = ident_subq.patient_id
-          LEFT OUTER JOIN name ON patient.patient_id = name.patient_id
-          LEFT OUTER JOIN given_name ON name.name_id = given_name.name_id
-          LEFT OUTER JOIN address ON patient.patient_id = address.patient_id
+                identifier.patient_identifier AS mrn,
+                identifier.patient_id AS patient_id
+            FROM identifier
+            WHERE identifier.type_code = :type_code_1
+        ) AS ident_subq ON patient.patient_id = ident_subq.patient_id
+        LEFT OUTER JOIN name ON patient.patient_id = name.patient_id
+        LEFT OUTER JOIN given_name ON name.name_id = given_name.name_id
+        LEFT OUTER JOIN address ON patient.patient_id = address.patient_id
+        GROUP BY
+            patient.patient_id, patient.person_id, birthdate, patient.sex,
+            ident_subq.mrn, name.last_name, name.name_id, address, zip,
+            address.city, address.state
         """
     assert base_query is not None
     assert isinstance(base_query, Select)
@@ -248,19 +251,27 @@ def test_organize_block_criteria():
     assert result_block == expected_block_data
 
 
-def test_generate_where_criteria():
+def test_generate_where_clause():
     MPI = _init_db()
     block_data = {
         "dob": {"value": "1977-11-11"},
         "sex": {"value": "M"},
     }
 
-    where_crit = MPI._generate_where_criteria(
+    where_clause, where_params = MPI._generate_where_clause(
         block_criteria=block_data, table_name="patient"
     )
-    expected_result = ["patient.dob = '1977-11-11'", "patient.sex = 'M'"]
 
-    assert where_crit == expected_result
+    expected_where_clause = (
+        "patient.dob = :criterion_patient_dob AND patient.sex = :criterion_patient_sex"
+    )
+    expected_where_params = {
+        "criterion_patient_dob": "1977-11-11",
+        "criterion_patient_sex": "M",
+    }
+
+    assert expected_where_clause == where_clause
+    assert expected_where_params == where_params
 
 
 def test_generate_block_query():
@@ -276,20 +287,29 @@ def test_generate_block_query():
     }
 
     base_query = select(MPI.dal.PATIENT_TABLE)
-    my_query = MPI._generate_block_query(block_data, base_query)
+    my_query, my_query_params = MPI._generate_block_query(block_data, base_query)
 
-    expected_result = (
+    expected_query_result = (
         "WITH patient_cte AS"
-        + "(SELECT patient.patient_id AS patient_id"
+        + "(SELECT DISTINCT patient.patient_id AS patient_id"
         + "FROM patient"
-        + "WHERE patient.dob = '1977-11-11' AND patient.sex = 'M')"
+        + "WHERE patient.dob = :criterion_patient_dob AND patient.sex = "
+        + ":criterion_patient_sex)"
         + "SELECT patient.patient_id, patient.person_id, patient.dob,"
         + "patient.sex, patient.race, patient.ethnicity"
         + "FROM patient JOIN patient_cte ON "
         + "patient_cte.patient_id = patient.patient_id"
     )
+    expected_query_params = {
+        "criterion_patient_dob": "1977-11-11",
+        "criterion_patient_sex": "M",
+    }
+
     # ensure query has the proper where clause added
-    assert re.sub(r"\s+", "", str(my_query)) == re.sub(r"\s+", "", expected_result)
+    assert re.sub(r"\s+", "", str(my_query)) == re.sub(
+        r"\s+", "", expected_query_result
+    )
+    assert my_query_params == expected_query_params
 
     block_data2 = {
         "given_name": {
@@ -302,25 +322,33 @@ def test_generate_block_query():
         },
     }
 
-    expected_result2 = (
+    expected_query_result2 = (
         "WITH given_name_cte AS "
-        "(SELECT name.patient_id AS patient_id FROM name JOIN "
+        "(SELECT DISTINCT name.patient_id AS patient_id FROM name JOIN "
         "(SELECT given_name.given_name_id AS given_name_id, "
         "given_name.name_id AS name_id, given_name.given_name AS given_name, "
         "given_name.given_name_index AS given_name_index FROM given_name "
-        "WHERE given_name.given_name = 'Homer') AS given_name_cte_subq "
+        "WHERE given_name.given_name = :criterion_given_name_given_name) AS "
+        "given_name_cte_subq "
         "ON name.name_id = given_name_cte_subq.name_id), name_cte AS "
-        "(SELECT name.patient_id AS patient_id FROM name WHERE "
-        "name.last_name = 'Simpson') SELECT patient.patient_id, patient.person_id, "
+        "(SELECT DISTINCT name.patient_id AS patient_id FROM name WHERE "
+        "name.last_name = :criterion_name_last_name) SELECT patient.patient_id, "
+        "patient.person_id, "
         "patient.dob, patient.sex, patient.race, patient.ethnicity FROM patient JOIN "
         "given_name_cte ON given_name_cte.patient_id = patient.patient_id JOIN "
         "name_cte ON name_cte.patient_id = patient.patient_id"
     )
+    expected_query_params2 = {
+        "criterion_given_name_given_name": "Homer",
+        "criterion_name_last_name": "Simpson",
+    }
     base_query2 = select(MPI.dal.PATIENT_TABLE)
-    my_query2 = MPI._generate_block_query(block_data2, base_query2)
-
+    my_query2, my_query2_params = MPI._generate_block_query(block_data2, base_query2)
     _clean_up(MPI.dal)
-    assert re.sub(r"\s+", "", str(my_query2)) == re.sub(r"\s+", "", expected_result2)
+    assert re.sub(r"\s+", "", str(my_query2)) == re.sub(
+        r"\s+", "", expected_query_result2
+    )
+    assert my_query2_params == expected_query_params2
 
 
 def test_init():
@@ -467,15 +495,17 @@ def test_block_data_with_transform():
 
     _clean_up(MPI.dal)
 
-    # ensure blocked data has two rows, headers and data
-    assert len(blocked_data) == 3
+    # ensure blocked data has two rows, header and data
+    assert len(blocked_data) == 2
     assert blocked_data[1][1] is None
     assert blocked_data[1][0] == pks_pt[0]
     assert blocked_data[1][0] != pks_pt2[0]
     assert blocked_data[1][2] == datetime.date(1983, 2, 1)
     assert blocked_data[1][3] == "male"
-    assert blocked_data[2][9] == add1[0].get("line_1")
-    assert blocked_data[2][10] == add1[0].get("zip_code")
+    assert blocked_data[1][5] == "Shepard"
+    assert blocked_data[1][6] == ["Johnathon", "Maurice"]
+    assert blocked_data[1][7] == add1[0].get("line_1")
+    assert blocked_data[1][8] == add1[0].get("zip_code")
 
 
 def test_generate_dict_record_from_results():

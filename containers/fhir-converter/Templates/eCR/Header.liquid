@@ -54,12 +54,12 @@
                 {% if participant.participantRole and participant.participantRole.code.codeSystem == "2.16.840.1.114222.4.5.232" and participant.participantRole.code.code == "RR7" %}
                   {% assign organizationRoutingEntityId = participant | to_json_string | generate_uuid %}
                   {% assign organizationRoutingEntityName = participant.participantRole.playingEntity.name._ %}
-                  {% include'Resource/OrganizationRRRoutingEntity' organization: participant.participantRole, ID: organizationRoutingEntityId  %}
+                  {% include "Resource/OrganizationRRRoutingEntity" organization: participant.participantRole, ID: organizationRoutingEntityId  %}
                 {% endif %}
               {% endfor %}
             {% endif -%}
 
-            {% include 'Resource/ObservationRRCondition' observationEntry: ob, ID: observationId, RoutingEntityId: organizationRoutingEntityId, RoutingEntityName: organizationRoutingEntityName-%}
+            {% include "Resource/ObservationRRCondition" observationEntry: ob, ID: observationId, RoutingEntityId: organizationRoutingEntityId, RoutingEntityName: organizationRoutingEntityName-%}
 
           {% endif -%}
         {% endfor -%}
@@ -113,9 +113,23 @@
   {% assign patientSectionObservations = true -%}
   {% include 'Section/SocialHistory' SOCIALOBS: socialObs -%}
   {% include 'Resource/Patient' patientRole: msg.ClinicalDocument.recordTarget.patientRole ID: patientId SOCIALOBS: socialObs contact: msg.ClinicalDocument.participant.associatedEntity -%}
+  {% assign careTeam = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.500' %} 
+  {% if careTeam %}
+    {% assign careTeamId = careTeam.2_16_840_1_113883_10_20_22_2_500 | to_json_string | generate_uuid -%}
+    {% assign fullPatientId = patientId | prepend: 'Patient/' -%}
+    {% include 'Resource/CareTeam' careTeamEntry: careTeam.2_16_840_1_113883_10_20_22_2_500.entry.organizer ID: careTeamId patientId: fullPatientId%}
+    {% for member in careTeam.2_16_840_1_113883_10_20_22_2_500.entry.organizer.component %}
+      {% assign practitionerId = member.act.performer.assignedEntity | to_json_string | generate_uuid -%}
+      {% include 'Resource/Practitioner' practitioner: member.act.performer.assignedEntity ID: practitionerId %}
+    {% endfor  %}
+  {% endif %}
 {% endif -%}
 {% assign patientSectionObservations = false -%}
 
+{% assign carePlan = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.10' %}
+{% assign carePlanResource = carePlan.2_16_840_1_113883_10_20_22_2_10 %}
+{% assign carePlanId = carePlanResource | to_json_string | generate_uuid %}
+{% include 'Resource/CarePlan' carePlan: carePlanResource ID: carePlanId patientReference: fullPatientId  %}
 
 {% if msg.ClinicalDocument.recordTarget.patientRole.patient.guardian -%}
   {% assign relatedPersonId = msg.ClinicalDocument.recordTarget.patientRole.patient.guardian | to_json_string | generate_uuid -%}

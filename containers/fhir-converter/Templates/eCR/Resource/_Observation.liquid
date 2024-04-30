@@ -66,7 +66,9 @@
             "valueQuantity":
             {
                 "value":{{ observationEntry.value.value }},
+                {% if observationEntry.value.unit and  observationEntry.value.unit != "null" -%}
                 "unit":"{{ observationEntry.value.unit }}",
+                {% endif -%}
             },
         {% else -%}
             "valueString":"{{ observationEntry.value._ }}",
@@ -74,11 +76,23 @@
         "referenceRange":
         [
             {
+                {% if observationEntry.referenceRange.observationRange.value.low.value and observationEntry.referenceRange.observationRange.value.high.value -%}
+                    "text":"{{ observationEntry.referenceRange.observationRange.value.low.value }} {{ observationEntry.referenceRange.observationRange.value.low.unit }} - {{ observationEntry.referenceRange.observationRange.value.high.value }} {{ observationEntry.referenceRange.observationRange.value.high.unit }}",
+                {% elsif observationEntry.referenceRange.observationRange.value.low.translation.value and observationEntry.referenceRange.observationRange.value.high.translation.value %}
+                    "text":"{{ observationEntry.referenceRange.observationRange.value.low.translation.value }} {{ observationEntry.referenceRange.observationRange.value.low.translation.originalText._ }} - {{ observationEntry.referenceRange.observationRange.value.high.translation.value }} {{ observationEntry.referenceRange.observationRange.value.high.translation.originalText._ }}",
+                {% else %}
+                    "text":"{{  observationEntry.referenceRange.observationRange.text._ }}",
+                {% endif %}
                 {% if observationEntry.referenceRange.observationRange.value.low.value -%}
                     "low":
                     {
                         "value":{{ observationEntry.referenceRange.observationRange.value.low.value }},
                         "unit":"{{ observationEntry.referenceRange.observationRange.value.low.unit }}",
+                    },
+                {% elsif observationEntry.referenceRange.observationRange.value.low.translation.value %}
+                    "low": {
+                        "value":"{{ observationEntry.referenceRange.observationRange.value.low.translation.value }}",
+                        "unit":"{{ observationEntry.referenceRange.observationRange.value.low.translation.originalText._ }}",
                     },
                 {% endif -%}
                 {% if observationEntry.referenceRange.observationRange.value.high.value -%}
@@ -87,6 +101,11 @@
                         "value":{{ observationEntry.referenceRange.observationRange.value.high.value }},
                         "unit":"{{ observationEntry.referenceRange.observationRange.value.high.unit }}",
                     },
+                {% elsif observationEntry.referenceRange.observationRange.value.high.translation.value %}
+                    "high": {
+                        "value":"{{ observationEntry.referenceRange.observationRange.value.high.translation.value }}",
+                        "unit":"{{ observationEntry.referenceRange.observationRange.value.high.translation.originalText._ }}",
+                    },
                 {% endif -%}
             },
         ],
@@ -94,9 +113,24 @@
         [
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
+        {% if observationEntry.entryRelationship %}
+            {% assign entryRelationships = observationEntry.entryRelationship | to_array %}
+            {% for entry in entryRelationships %}
+                {% if entry.act.templateId.root == "2.16.840.1.113883.10.20.22.4.64" and entry.act.text.reference._%}
+                    "note":
+                    [
+                        {
+                            "text": "{{ entry.act.text.reference._ }}",
+                        }
+                    ],
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% assign observationTextReferenceValue = observationEntry.text.reference.value -%}
+        {% assign observationValueReferenceValue = observationEntry.value.reference.value -%}
         "extension":
             [ {
-                {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None"  -%}
+                {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None" or observationTextReferenceValue != "None" or observationValueReferenceValue != "None" -%}
 
                     "url" : "http://hl7.org/fhir/R4/specimen.html",
                     "extension": [
@@ -106,10 +140,27 @@
                             "valueString" : "{{ specimenValue }}",
                         },
                     {% endif -%}
-                    {% if collectTime and collectTime != None -%}
+                    {% if collectTime and collectTime != "None" -%}
                         {
                             "url" : "specimen collection time",
                             "valueDateTime" : "{{ collectTime | format_as_date_time }}",
+                        },
+                    {% endif -%}
+                    {% if receiveTime and receiveTime != "None" -%}
+                        {
+                            "url" : "specimen receive time",
+                            "valueDateTime" : "{{ receiveTime | format_as_date_time }}",
+                        },
+                    {% endif -%}
+                    {% if observationTextReferenceValue -%}
+                        {
+                            "url":"observation entry reference value",
+                            "valueString":"{{ observationTextReferenceValue }}",
+                        },
+                    {% elsif observationValueReferenceValue -%}
+                        {
+                            "url":"observation entry reference value",
+                            "valueString":"{{ observationValueReferenceValue }}",
                         },
                     {% endif -%}
                     ],

@@ -5,7 +5,6 @@ from unittest import mock
 from app.main import app
 from fastapi.testclient import TestClient
 
-
 client = TestClient(app)
 
 test_bundle = json.load(

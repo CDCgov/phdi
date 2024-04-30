@@ -7,12 +7,19 @@ type AccordianSectionProps = {
   id?: string;
 };
 
+/**
+ * Functional component for an accordion section.
+ * @param props - Props containing children and optional className.
+ * @param props.children - The content of the accordion section.
+ * @param [props.className] - Optional additional class name for styling.
+ * @returns The JSX element representing the accordion section.
+ */
 export const AccordianSection: React.FC<AccordianSectionProps> = ({
   children,
   className,
 }) => {
   return (
-    <div>
+    <div className="margin-top-0">
       <div className="padding-bottom-3">
         <div className={classNames("usa-summary-box__body", className)}>
           {children}
@@ -24,11 +31,11 @@ export const AccordianSection: React.FC<AccordianSectionProps> = ({
 
 /**
  * Accordion heading component for level 4 headings.
- * @param {Object} props - The props object.
- * @param {React.ReactNode} props.children - The children elements.
- * @param {string} [props.className] - Additional CSS classes for customization.
- * @param {string} [props.id] - The ID attribute of the heading.
- * @returns {React.JSX.Element} React element representing the AccordionH4 component.
+ * @param props - The props object.
+ * @param props.children - The children elements.
+ * @param [props.className] - Additional CSS classes for customization.
+ * @param [props.id] - The ID attribute of the heading.
+ * @returns React element representing the AccordionH4 component.
  */
 export const AccordianH4: React.FC<AccordianSectionProps> = ({
   children,
@@ -48,6 +55,13 @@ export const AccordianH4: React.FC<AccordianSectionProps> = ({
   );
 };
 
+/**
+ * Functional component for an accordion div.
+ * @param props - Props containing children and optional className.
+ * @param props.children - The content of the accordion div.
+ * @param [props.className] - Optional additional class name for styling.
+ * @returns The JSX element representing the accordion div.
+ */
 export const AccordianDiv: React.FC<AccordianSectionProps> = ({
   children,
   className,

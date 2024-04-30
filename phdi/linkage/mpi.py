@@ -1,4 +1,3 @@
-import copy
 import datetime
 import logging
 import uuid
@@ -11,6 +10,8 @@ from sqlalchemy import and_
 from sqlalchemy import Select
 from sqlalchemy import select
 from sqlalchemy import text
+from sqlalchemy.dialects.postgresql import aggregate_order_by
+from sqlalchemy.dialects.postgresql import array_agg
 
 from phdi.fhir.utils import extract_value_with_resource_path
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -161,7 +162,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         logging.info(
             f"Starting _generate_block_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
         )
-        query_w_ctes = self._generate_block_query(
+        query_w_ctes, query_params = self._generate_block_query(
             organized_block_criteria=organized_block_vals, query=query
         )
         logging.info(
@@ -171,7 +172,9 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             f"Starting dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
         )
         blocked_data = self.dal.select_results(
-            select_statement=query_w_ctes, include_col_header=True
+            select_statement=query_w_ctes,
+            query_params=query_params,
+            include_col_header=True,
         )
         logging.info(
             f"Done with dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
@@ -245,37 +248,47 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
 
         return person_id
 
-    def _generate_where_criteria(self, block_criteria: dict, table_name: str) -> list:
+    def _generate_where_clause(
+        self, block_criteria: dict, table_name: str
+    ) -> tuple[str, list]:
         """
         Generates a list of where criteria leveraging the blocking criteria,
         including transformations such as 'first 4' or 'last 4'.  This
         function leverages the ORM to determine the table and columns.
 
         :param block_criteria: a dictionary that contains the blocking criteria.
-        :return: A list of where criteria used to append to the end of a query.
+        :return: A tuple containing the query's where clause as a string and a list of
+        the appropriate params to pass into the where clause.
 
         """
-        where_criteria = []
+        where_placeholders = []
+        where_params = {}
+
         for key, value in block_criteria.items():
+            placeholder = f"criterion_{table_name}_{key}"
             criteria_value = value["value"]
             criteria_transform = value.get("transformation", None)
 
             if criteria_transform is None:
-                where_criteria.append(f"{table_name}.{key} = '{criteria_value}'")
+                where_placeholders.append(f"{table_name}.{key} = :{placeholder}")
             else:
                 if criteria_transform == "first4":
-                    where_criteria.append(
-                        f"LEFT({table_name}.{key},4) = '{criteria_value}'"
+                    where_placeholders.append(
+                        f"LEFT({table_name}.{key},4) = :{placeholder}"
                     )
                 elif criteria_transform == "last4":
-                    where_criteria.append(
-                        f"RIGHT({table_name}.{key},4) = '{criteria_value}'"
+                    where_placeholders.append(
+                        f"RIGHT({table_name}.{key},4) = :{placeholder}"
                     )
-        return where_criteria
+            where_params[placeholder] = criteria_value
+
+        where_clause = " AND ".join(where_placeholders)
+
+        return where_clause, where_params
 
     def _generate_block_query(
         self, organized_block_criteria: dict, query: Select
-    ) -> Select:
+    ) -> tuple[Select, dict]:
         """
         Generates a query for selecting a block of data from the MPI tables per the
         block field criteria.  The block field criteria should be a dictionary
@@ -284,41 +297,45 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
 
         :param organized_block_vals: a dictionary organized by MPI table name,
             with the ORM table object, and the blocking criteria.
-        :return: A 'Select' statement built by the sqlalchemy ORM utilizing
-            the blocking criteria.
+        :return: A tuple of a 'Select' statement built by the sqlalchemy ORM utilizing
+            the blocking criteria and a dictionary of the query parameters.
 
         """
         new_query = query
+        new_query_params = {}
 
         for table_key, table_info in organized_block_criteria.items():
-            query_criteria = None
+            where_params = None
             cte_query = None
             sub_query = None
 
             cte_query_table = table_info["table"]
-            query_criteria = self._generate_where_criteria(
+            where_clause, where_params = self._generate_where_clause(
                 table_info["criteria"], table_key
             )
+            new_query_params = {**new_query_params, **where_params}
 
-            if query_criteria is not None and len(query_criteria) > 0:
+            if where_clause != "" and len(where_params) > 0:
                 if self.dal.does_table_have_column(cte_query_table, "patient_id"):
                     cte_query = (
                         select(cte_query_table.c.patient_id.label("patient_id"))
-                        .where(text(" AND ".join(query_criteria)))
+                        .distinct()
+                        .where(text(where_clause))
                         .cte(f"{table_key}_cte")
                     )
                 else:
-                    fk_query_table = copy.deepcopy(cte_query_table)
-                    fk_info = fk_query_table.foreign_keys.pop()
+                    fk_info = next(iter(cte_query_table.foreign_keys))
                     fk_column = fk_info.column
                     fk_table = fk_info.column.table
                     sub_query = (
                         select(cte_query_table)
-                        .where(text(" AND ".join(query_criteria)))
+                        .where(text(where_clause))
                         .subquery(f"{cte_query_table.name}_cte_subq")
                     )
                     cte_query = (
-                        select(fk_table.c.patient_id).join(
+                        select(fk_table.c.patient_id)
+                        .distinct()
+                        .join(
                             sub_query,
                             text(
                                 f"{fk_table.name}.{fk_column.name} = "
@@ -332,7 +349,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                     and_(cte_query.c.patient_id == self.dal.PATIENT_TABLE.c.patient_id),
                 )
 
-        return new_query
+        return new_query, new_query_params
 
     def _organize_block_criteria(self, block_fields: dict) -> dict:
         """
@@ -432,9 +449,13 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                 self.dal.PATIENT_TABLE.c.sex,
                 id_sub_query.c.mrn,
                 self.dal.NAME_TABLE.c.last_name,
-                self.dal.GIVEN_NAME_TABLE.c.given_name,
-                self.dal.GIVEN_NAME_TABLE.c.given_name_index,
-                self.dal.GIVEN_NAME_TABLE.c.name_id,
+                # Aggregate the given names into an array ordered by the name index
+                array_agg(
+                    aggregate_order_by(
+                        self.dal.GIVEN_NAME_TABLE.c.given_name,
+                        self.dal.GIVEN_NAME_TABLE.c.given_name_index.asc(),
+                    )
+                ).label("given_name"),
                 # TODO: keeping this here for the time
                 # when we decide to add phone numbers into
                 # the blocking data
@@ -457,6 +478,19 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             #
             # .outerjoin(phone_sub_query)
             .outerjoin(self.dal.ADDRESS_TABLE)
+            .group_by(
+                self.dal.PATIENT_TABLE.c.patient_id,
+                self.dal.PATIENT_TABLE.c.person_id,
+                "birthdate",
+                self.dal.PATIENT_TABLE.c.sex,
+                id_sub_query.c.mrn,
+                self.dal.NAME_TABLE.c.last_name,
+                self.dal.NAME_TABLE.c.name_id,
+                "address",
+                "zip",
+                self.dal.ADDRESS_TABLE.c.city,
+                self.dal.ADDRESS_TABLE.c.state,
+            )
         )
         return query
 

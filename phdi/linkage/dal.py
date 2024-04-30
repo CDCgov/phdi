@@ -302,7 +302,10 @@ class DataAccessLayer(object):
         return return_results
 
     def select_results(
-        self, select_statement: select, include_col_header: bool = True
+        self,
+        select_statement: select,
+        include_col_header: bool = True,
+        query_params: dict = None,
     ) -> List[list]:
         """
         Perform a select query and add the results to a
@@ -324,7 +327,8 @@ class DataAccessLayer(object):
             logging.info(
                 f"Starting to execute statement to return results at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
             )
-            results = session.execute(select_statement)
+            results = session.execute(select_statement, query_params)
+
             logging.info(
                 f"Done executing statement to return results at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
             )
@@ -356,8 +360,6 @@ class DataAccessLayer(object):
         :return: SqlAlchemy ORM Table Object.
         """
 
-        self.initialize_schema()
-
         if table_name is not None and table_name != "":
             # TODO: I am sure there is an easier way to do this
             for table in self.TABLE_LIST:
@@ -375,8 +377,6 @@ class DataAccessLayer(object):
             table it belongs to.
         :return: SqlAlchemy ORM Table Object.
         """
-
-        self.initialize_schema()
 
         if column_name is not None and column_name != "":
             # TODO: I am sure there is an easier way to do this

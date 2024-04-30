@@ -1,0 +1,68 @@
+{
+  "algorithm": [
+    {
+      "funcs": {
+        "first_name": "feature_match_fuzzy_string",
+        "last_name": "feature_match_exact"
+      },
+      "blocks": [
+        {
+          "value": "birthdate"
+        },
+        {
+          "value": "mrn",
+          "transformation": "last4"
+        },
+        {
+          "value": "sex"
+        }
+      ],
+      "matching_rule": "eval_perfect_match",
+      "cluster_ratio": 0.9,
+      "kwargs": {
+        "thresholds": {
+          "first_name": 0.9,
+          "last_name": 0.9,
+          "birthdate": 0.95,
+          "address": 0.9,
+          "city": 0.92,
+          "zip": 0.95
+        }
+      }
+    },
+    {
+      "funcs": {
+        "address": "feature_match_fuzzy_string",
+        "birthdate": "feature_match_exact"
+      },
+      "blocks": [
+        {
+          "value": "zip"
+        },
+        {
+          "value": "first_name",
+          "transformation": "first4"
+        },
+        {
+          "value": "last_name",
+          "transformation": "first4"
+        },
+        {
+          "value": "sex"
+        }
+      ],
+      "matching_rule": "eval_perfect_match",
+      "cluster_ratio": 0.9,
+      "kwargs": {
+        "thresholds": {
+          "first_name": 0.9,
+          "last_name": 0.9,
+          "birthdate": 0.95,
+          "address": 0.9,
+          "city": 0.92,
+          "zip": 0.95
+        }
+      }
+    }
+  ]
+}

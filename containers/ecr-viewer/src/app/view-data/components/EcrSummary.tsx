@@ -1,18 +1,10 @@
-import { evaluate } from "fhirpath";
-import { Bundle } from "fhir/r4";
-import {
-  extractFacilityAddress,
-  extractPatientAddress,
-  evaluatePatientName,
-  PathMappings,
-  evaluateEncounterDate,
-  evaluatePatientContactInfo,
-} from "../../utils";
 import { SectionConfig } from "./SideNav";
+import React, { FC } from "react";
 
-interface EcrViewerProps {
-  fhirPathMappings: PathMappings;
-  fhirBundle: Bundle;
+interface EcrSummaryProps {
+  patientDetails: DisplayProps[];
+  encounterDetails: DisplayProps[];
+  aboutTheCondition: DisplayProps[];
 }
 
 export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
@@ -21,14 +13,55 @@ export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
   "About the Condition",
 ]);
 
-const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
+interface DisplayProps {
+  title: string;
+  value: any[] | string;
+}
+
+/**
+ * Generates a JSX element to display the provided value.
+ * If the value is null, undefined, an empty array, or an empty string,
+ * it returns null. Otherwise, it renders the provided value as JSX.
+ * @param props - The props object.
+ * @param props.title - Title of the display section.
+ * @param props.value - Value to be displayed.
+ * @returns The JSX element representing the provided value or null if the value is empty.
+ */
+const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
+  if (!value || (Array.isArray(value) && value.length === 0)) {
+    return null;
+  }
+  return (
+    <>
+      <div className="grid-row">
+        <div className="data-title">{title}</div>
+        <div className={"grid-col-auto maxw7 text-pre-line"}>{value}</div>
+      </div>
+      <div className={"section__line"} />
+    </>
+  );
+};
+
+/**
+ * Generates a JSX element to display eCR viewer summary
+ * @param props - Properties for the eCR Viewer Summary section
+ * @param props.patientDetails - Array of title and values to be displayed in patient details section
+ * @param props.encounterDetails - Array of title and values to be displayed in encounter details section
+ * @param props.aboutTheCondition - Array of title and values to be displayed in about the condition section
+ * @returns a react element for ECR Summary
+ */
+const EcrSummary: React.FC<EcrSummaryProps> = ({
+  patientDetails,
+  encounterDetails,
+  aboutTheCondition,
+}) => {
   return (
     <div className={"info-container"}>
       <div
         className="usa-summary-box padding-3"
         aria-labelledby="summary-box-key-information"
       >
-        <div className="usa-summary-box__body">
+        <div className="usa-summary-box__body margin-bottom-05">
           <h3
             className="summary-box-key-information side-nav-ignore"
             id={ecrSummaryConfig.subNavItems?.[0].id}
@@ -36,34 +69,9 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             {ecrSummaryConfig.subNavItems?.[0].title}
           </h3>
           <div className="usa-summary-box__text">
-            <div className="grid-row">
-              <div className="data-title">Patient Name</div>
-              <div className="grid-col-auto">
-                {evaluatePatientName(fhirBundle, fhirPathMappings)}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">DOB</div>
-              <div className="grid-col-auto text-pre-line">
-                {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Patient Address</div>
-              <div className="grid-col-auto text-pre-line">
-                {extractPatientAddress(fhirBundle, fhirPathMappings)}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Patient Contact</div>
-              <div className="grid-col-auto text-pre-line">
-                {evaluatePatientContactInfo(fhirBundle, fhirPathMappings)}
-              </div>
-            </div>
-            <div className={"section__line"} />
+            {patientDetails.map(({ title, value }) => (
+              <Display title={title} value={value} />
+            ))}
           </div>
         </div>
         <div className="usa-summary-box__body">
@@ -74,67 +82,28 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             {ecrSummaryConfig.subNavItems?.[1].title}
           </h3>
           <div className="usa-summary-box__text">
-            <div className="grid-row">
-              <div className="data-title">Facility Name</div>
-              <div className="grid-col-auto">
-                {evaluate(fhirBundle, fhirPathMappings.facilityName)}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Facility Address</div>
-              <div className="grid-col-auto text-pre-line">
-                {extractFacilityAddress(fhirBundle, fhirPathMappings)}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Facility Contact</div>
-              <div className="grid-col-auto">
-                {evaluate(fhirBundle, fhirPathMappings.facilityContact)}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Encounter Date/Time</div>
-              <div className="grid-col-auto text-pre-line">
-                {evaluateEncounterDate(fhirBundle, fhirPathMappings)}
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">Encounter Type</div>
-              <div className="grid-col-auto">
-                {evaluate(fhirBundle, fhirPathMappings.encounterType)}
-              </div>
-            </div>
+            {encounterDetails.map(({ title, value }) => (
+              <Display title={title} value={value} />
+            ))}
           </div>
-          <div className={"section__line"} />
         </div>
         <div className="usa-summary-box__body">
           <h3
-            className={"margin-bottom-105 margin-top-205 side-nav-ignore"}
+            className={"summary-box-key-information side-nav-ignore"}
             id={ecrSummaryConfig.subNavItems?.[2].id}
           >
             {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
-            <div className="grid-row">
-              <div className="data-title">Reportable Condition</div>
-              <div className="grid-col-fill">
-                {evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0]}
+            {aboutTheCondition.map(({ title, value }) => (
+              <Display title={title} value={value} />
+            ))}
+            <div className={"grid-row"}>
+              <div className={"text-bold width-full"}>
+                Clinical sections relevant to reportable condition
               </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              <div className="data-title">RCKMS Trigger Summary</div>
-              <div className="grid-col-fill text-pre-line">
-                {
-                  evaluate(
-                    fhirBundle,
-                    fhirPathMappings.rckmsTriggerSummaries,
-                  )[0]
-                }
+              <div className={"padding-top-05"}>
+                No matching clinical data found in this eCR (temp)
               </div>
             </div>
             <div className={"section__line"} />
@@ -213,13 +182,6 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className="grid-row">
-              Clinical sections relevant to reportable condition
-              <div className={"padding-top-05"}>
-                No matching clinical data found in this eCR (temp)
               </div>
             </div>
           </div>

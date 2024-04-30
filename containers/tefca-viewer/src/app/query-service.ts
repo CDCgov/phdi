@@ -77,7 +77,7 @@ const useCaseQueryMap: {
 };
 
 // Expected responses from the FHIR server
-export type UseCaseQueryResponse = Awaited<ReturnType<typeof use_case_query>>;
+export type UseCaseQueryResponse = Awaited<ReturnType<typeof useCaseQuery>>;
 
 /**
  * Given a UseCaseQueryRequest object, set the appropriate FHIR server connection

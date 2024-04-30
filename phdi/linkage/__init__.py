@@ -2,7 +2,6 @@ from phdi.linkage.algorithms import DIBBS_BASIC
 from phdi.linkage.algorithms import DIBBS_ENHANCED
 from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.link import add_person_resource
-from phdi.linkage.link import aggregate_given_names_for_linkage
 from phdi.linkage.link import block_data
 from phdi.linkage.link import calculate_log_odds
 from phdi.linkage.link import calculate_m_probs
@@ -28,7 +27,6 @@ from phdi.linkage.link import write_linkage_config
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.seed import convert_to_patient_fhir_resources
 from phdi.linkage.utils import datetime_to_str
-
 
 __all__ = [
     "DIBBS_BASIC",
@@ -62,5 +60,4 @@ __all__ = [
     "convert_to_patient_fhir_resources",
     "DIBBsMPIConnectorClient",
     "datetime_to_str",
-    "aggregate_given_names_for_linkage",
 ]

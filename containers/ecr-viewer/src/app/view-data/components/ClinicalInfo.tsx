@@ -6,6 +6,7 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
+import { addCaptionToTable } from "@/app/format-service";
 
 interface ClinicalProps {
   reasonForVisitDetails: DisplayData[];
@@ -27,6 +28,17 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   ],
 );
 
+/**
+ * Functional component for displaying clinical information.
+ * @param props - Props containing clinical information.
+ * @param props.reasonForVisitDetails - The details of the reason for visit.
+ * @param props.activeProblemsDetails - The details of active problems.
+ * @param props.immunizationsDetails - The details of immunizations.
+ * @param props.vitalData - The vital signs data.
+ * @param props.treatmentData - The details of treatments.
+ * @param props.clinicalNotes - The clinical notes data.
+ * @returns The JSX element representing the clinical information.
+ */
 export const ClinicalInfo = ({
   reasonForVisitDetails,
   activeProblemsDetails,
@@ -58,16 +70,21 @@ export const ClinicalInfo = ({
         </AccordianH4>
         <AccordianDiv className={"clinical_info_container"}>
           {clinicalNotes.map((item, index) => {
-            let className = "";
             if (
               React.isValidElement(item.value) &&
               item.value.type == "table"
             ) {
-              className = "maxw-full grid-col-12 margin-top-1";
+              const modItem = {
+                ...item,
+                value: addCaptionToTable(item.value, "Miscellaneous Notes"),
+              };
+              return (
+                <React.Fragment key={index}>
+                  {renderTableDetails([modItem])}
+                </React.Fragment>
+              );
             }
-            return (
-              <DataDisplay item={item} key={index} className={className} />
-            );
+            return <DataDisplay item={item} key={index} />;
           })}
         </AccordianDiv>
       </>
@@ -105,7 +122,10 @@ export const ClinicalInfo = ({
           </span>
         </AccordianH4>
         <AccordianDiv>
-          <div data-testid="immunization-history">
+          <div
+            className="immunization_table"
+            data-testid="immunization-history"
+          >
             {renderTableDetails(immunizationsDetails)}
           </div>
         </AccordianDiv>

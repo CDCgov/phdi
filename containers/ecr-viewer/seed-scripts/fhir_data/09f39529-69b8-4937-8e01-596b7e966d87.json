@@ -76,7 +76,7 @@
             "title": "Immunizations",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Name</th><th>Administration Dates</th><th>Next Due</th></tr></thead><tbody><tr><td>DTaP, 5 pertussis antigens vaccine (DAPTACEL)</td><td>06/15/2021</td><td></td></tr><tr><td>Hep B, adult vaccine (Engerix/Recombivax)</td><td>09/08/2020</td><td></td></tr><tr><td>SARS-COV-2 (COVID-19) RED CAP +BLUE LABEL VACCINE, MODERNA 12+YO</td><td>01/22/2021</td><td></td></tr></tbody></table>documented as of this encounter"
+              "div": "<table><thead><tr><th>Name</th><th>Administration Dates</th><th>Next Due</th></tr></thead><tbody><tr data-id='immunization6'><td data-id='immunization6Name'>DTaP, 5 pertussis antigens vaccine (DAPTACEL)</td><td>06/15/2021</td><td></td></tr><tr data-id='immunization5'><td data-id='immunization5Name'>Hep B, adult vaccine (Engerix/Recombivax)</td><td>09/08/2020</td><td></td></tr><tr data-id='immunization4'><td data-id='immunization4Name'>SARS-COV-2 (COVID-19) RED CAP +BLUE LABEL VACCINE, MODERNA 12+YO</td><td>01/22/2021</td><td></td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -112,7 +112,7 @@
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "<table>Pending Results <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Date/Time</th></tr></thead><tbody><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr></tbody></table>documented as of this encounter"
+              "div": "<table><caption>Pending Results</caption> <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Date/Time</th></tr></thead><tbody><tr data-id='procedure11'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure12'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure13'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure14'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure15'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure16'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure17'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure18'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure19'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure20'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure21'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure22'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure23'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -123,14 +123,19 @@
                 }
               ]
             },
-            "mode": "snapshot"
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "CarePlan/581a29d4-5295-5382-5460-cf0582ee5bca"
+              }
+            ]
           },
           {
             "id": "656AD662-8ABE-11ED-8CA0-0050561597B4",
             "title": "Problems",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr><td>COVID toes</td><td>7/13/22</td></tr><tr><td>Chest pain on breathing</td><td>5/26/22</td></tr><tr><td>Type 1 diabetes</td><td>2/28/22</td></tr><tr><td>Overview: Formatting of this note might be different from the original. <br>08/30/21 28.69 kg/m²BMI Readings from Last 1 Encounters: <br></td></tr><tr><td>Plague pneumonia</td><td>6/16/21</td></tr><tr><td>Absence of menstruation</td><td>6/12/18</td></tr><tr><td>Foot callus</td><td>8/11/17</td></tr><tr><td>Overview: Formatting of this note might be different from the original. <br>Ouch. <br></td></tr></tbody></table>documented as of this encounter (statuses as of 01/02/2023)"
+              "div": "<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr data-id='problem30'><td data-id='problem30name'>COVID toes</td><td>7/13/22</td></tr><tr data-id='problem29'><td data-id='problem29name'>Chest pain on breathing</td><td>5/26/22</td></tr><tr data-id='problem28'><td data-id='problem28name'>Type 1 diabetes</td><td>2/28/22</td></tr><tr><td data-id='problem28comment'><paragraph>Overview:</paragraph>Formatting of this note might be different from the original. <br>08/30/21 28.69 kg/m²BMI Readings from Last 1 Encounters: <br></td></tr><tr data-id='problem27'><td data-id='problem27name'>Plague pneumonia</td><td>6/16/21</td></tr><tr data-id='problem26'><td data-id='problem26name'>Absence of menstruation</td><td>6/12/18</td></tr><tr data-id='problem25'><td data-id='problem25name'>Foot callus</td><td>8/11/17</td></tr><tr><td data-id='problem25comment'><paragraph>Overview:</paragraph>Formatting of this note might be different from the original. <br>Ouch. <br></td></tr></tbody></table>documented as of this encounter (statuses as of 01/02/2023)"
             },
             "code": {
               "coding": [
@@ -198,7 +203,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul><li>(ABNORMAL) CBC (04/11/2022 10:23 AM CDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>White Blood Cells</td><td>10.9 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Red Blood Cells</td><td>4.91</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Hemoglobin</td><td>14.9</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Hematocrit</td><td>46 (H)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Cell Volume</td><td>93</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Cell Hemoglobin</td><td>30.3</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Cell Hemoglobin Concentration</td><td>32.7</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>RDW SD</td><td>51.0</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>RDW CV</td><td>15.0 (H)</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Platelet</td><td>88 (L)</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Platelet Volume</td><td>10.4</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Nucleated RBC Abs</td><td>0.00</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Blood</td><td></td><td></td><td>04/11/2022 10:23 AM CDT</td><td>04/11/2022 10:24 AM CDT</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td>Ordered by DR. TEST ZTEST SR</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>VUMC CERNER LAB</td><td>4605 TVC VUMC 1301 Medical Center Drive</td><td>NASHVILLE, TN 37232-5310</td><td>615-875-5227</td></tr></tbody></table></li><li>(ABNORMAL) CBC (01/27/2022 2:39 PM CST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>White Blood Cells</td><td>18.7 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Red Blood Cells</td><td>2.81 (L)</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Hemoglobin</td><td>9.2 (L)</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Hematocrit</td><td>30 (L)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Cell Volume</td><td>106 (H)</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Cell Hemoglobin</td><td>32.7 (H)</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Cell Hemoglobin Concentration</td><td>30.9 (L)</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>RDW SD</td><td>57.2 (H)</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>RDW CV</td><td>14.6 (H)</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Platelet</td><td>123 (L)</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Platelet Volume</td><td>10.8</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Nucleated RBC Abs</td><td>0.05 (H)</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Blood</td><td></td><td></td><td>01/27/2022 2:39 PM CST</td><td>01/27/2022 2:41 PM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td>Ordered by DR. TEST ZTEST SR</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>VUMC CERNER LAB</td><td>4605 TVC VUMC 1301 Medical Center Drive</td><td>NASHVILLE, TN 37232-5310</td><td>615-875-5227</td></tr></tbody></table></li><li>(ABNORMAL) CBC (12/08/2021 9:55 AM CST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>White Blood Cells</td><td>19.3 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Red Blood Cells</td><td>2.28 (L)</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Hemoglobin</td><td>7.1 (L)</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Hematocrit</td><td>22 (L)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Cell Volume</td><td>97</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Cell Hemoglobin</td><td>31.1</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Cell Hemoglobin Concentration</td><td>32.0</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>RDW SD</td><td>47.8</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>RDW CV</td><td>13.4</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Platelet</td><td>209</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Mean Platelet Volume</td><td>10.2</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Nucleated RBC Abs</td><td>0.00</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Blood</td><td></td><td></td><td>12/08/2021 9:55 AM CST</td><td>12/08/2021 9:56 AM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td>Ordered by DR. TEST ZTEST SR</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>VUMC CERNER LAB</td><td>4605 TVC VUMC 1301 Medical Center Drive</td><td>NASHVILLE, TN 37232-5310</td><td>615-875-5227</td></tr></tbody></table></li><li>(ABNORMAL) PCR SARS-CoV-2 and Influenza A/B (12/07/2021 4:16 PM CST) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>SARS-CoV-2 Nucleic Acid (Result)</td><td>Not Detected</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Comment: <br>Results are generated using nucleic acid amplification tests that are labeled Emergency Use Only by the U.S FDA.A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. <br></td></tr><tr><td>Influenza A PCR (Result)</td><td>Not Detected</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Influenza B PCR (Result)</td><td>Detected (A)</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr><tr><td>Influenza SARS-CoV-2 (Specimen Type)</td><td>Nasopharynx</td><td></td><td></td><td></td><td>VUMC CERNER LAB</td><td></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Nasopharynx</td><td></td><td></td><td>12/07/2021 4:16 PM CST</td><td>12/07/2021 4:17 PM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td>Ordered by MD, JONATHAN E SCHMITZ MD,</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BODY FLUIDS AND STOOLS ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>VUMC CERNER LAB</td><td>4605 TVC VUMC 1301 Medical Center Drive</td><td>NASHVILLE, TN 37232-5310</td><td>615-875-5227</td></tr></tbody></table></li></ul>documented in this encounter"
+              "div": "<ul><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354'><caption data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Procedure'>(ABNORMAL) CBC (04/11/2022 10:23 AM CDT)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1Name'>White Blood Cells</td><td>10.9 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2Name'>Red Blood Cells</td><td>4.91</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3Name'>Hemoglobin</td><td>14.9</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4Name'>Hematocrit</td><td>46 (H)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5Name'>Mean Cell Volume</td><td>93</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6Name'>Mean Cell Hemoglobin</td><td>30.3</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7Name'>Mean Cell Hemoglobin Concentration</td><td>32.7</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8Name'>RDW SD</td><td>51.0</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9Name'>RDW CV</td><td>15.0 (H)</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10Name'>Platelet</td><td>88 (L)</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11Name'>Mean Platelet Volume</td><td>10.4</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12Name'>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13Name'>Nucleated RBC Abs</td><td>0.00</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13Signature'></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Specimen'>Blood</td><td></td><td></td><td>04/11/2022 10:23 AM CDT</td><td>04/11/2022 10:24 AM CDT</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td><paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.ResultingAgencyComment'>Ordered by DR. TEST ZTEST SR</paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.PerformingLab'><paragraph>VUMC CERNER LAB</paragraph></td><td><paragraph>4605 TVC VUMC</paragraph><paragraph>1301 Medical Center Drive</paragraph></td><td><paragraph>NASHVILLE, TN 37232-5310</paragraph></td><td><paragraph>615-875-5227</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488'><caption data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Procedure'>(ABNORMAL) CBC (01/27/2022 2:39 PM CST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1Name'>White Blood Cells</td><td>18.7 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2Name'>Red Blood Cells</td><td>2.81 (L)</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3Name'>Hemoglobin</td><td>9.2 (L)</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4Name'>Hematocrit</td><td>30 (L)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5Name'>Mean Cell Volume</td><td>106 (H)</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6Name'>Mean Cell Hemoglobin</td><td>32.7 (H)</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7Name'>Mean Cell Hemoglobin Concentration</td><td>30.9 (L)</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8Name'>RDW SD</td><td>57.2 (H)</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9Name'>RDW CV</td><td>14.6 (H)</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10Name'>Platelet</td><td>123 (L)</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11Name'>Mean Platelet Volume</td><td>10.8</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12Name'>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13Name'>Nucleated RBC Abs</td><td>0.05 (H)</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13Signature'></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Specimen'>Blood</td><td></td><td></td><td>01/27/2022 2:39 PM CST</td><td>01/27/2022 2:41 PM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td><paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.ResultingAgencyComment'>Ordered by DR. TEST ZTEST SR</paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.PerformingLab'><paragraph>VUMC CERNER LAB</paragraph></td><td><paragraph>4605 TVC VUMC</paragraph><paragraph>1301 Medical Center Drive</paragraph></td><td><paragraph>NASHVILLE, TN 37232-5310</paragraph></td><td><paragraph>615-875-5227</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342'><caption data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Procedure'>(ABNORMAL) CBC (12/08/2021 9:55 AM CST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1Name'>White Blood Cells</td><td>19.3 (H)</td><td>3.9 - 10.7 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2Name'>Red Blood Cells</td><td>2.28 (L)</td><td>4.00 - 5.50 x10(6)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3Name'>Hemoglobin</td><td>7.1 (L)</td><td>11.8 - 16.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4Name'>Hematocrit</td><td>22 (L)</td><td>36 - 43 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5Name'>Mean Cell Volume</td><td>97</td><td>81 - 98 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6Name'>Mean Cell Hemoglobin</td><td>31.1</td><td>27.0 - 32.0 pg</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7Name'>Mean Cell Hemoglobin Concentration</td><td>32.0</td><td>31.0 - 35.0 gm/dL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8Name'>RDW SD</td><td>47.8</td><td>37.4 - 52.4 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9Name'>RDW CV</td><td>13.4</td><td>11.1 - 14.3 %</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10Name'>Platelet</td><td>209</td><td>135 - 371 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11Name'>Mean Platelet Volume</td><td>10.2</td><td>9.3 - 12.8 fL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12Name'>Nucleated RBC</td><td>0</td><td>0 - 0 /100 WBC</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13Name'>Nucleated RBC Abs</td><td>0.00</td><td>0.00 - 0.00 x10(3)/mcL</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13Signature'></td></tr><tr><td>Comment: This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Specimen'>Blood</td><td></td><td></td><td>12/08/2021 9:55 AM CST</td><td>12/08/2021 9:56 AM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td><paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.ResultingAgencyComment'>Ordered by DR. TEST ZTEST SR</paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BLOOD ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.PerformingLab'><paragraph>VUMC CERNER LAB</paragraph></td><td><paragraph>4605 TVC VUMC</paragraph><paragraph>1301 Medical Center Drive</paragraph></td><td><paragraph>NASHVILLE, TN 37232-5310</paragraph></td><td><paragraph>615-875-5227</paragraph></td></tr></tbody></table></li><li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330'><caption data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Procedure'>(ABNORMAL) PCR SARS-CoV-2 and Influenza A/B (12/07/2021 4:16 PM CST)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1Name'>SARS-CoV-2 Nucleic Acid (Result)</td><td>Not Detected</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1Signature'></td></tr><tr><td>Comment: <br>Results are generated using nucleic acid amplification tests that are labeled Emergency Use Only by the U.S FDA.A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. <br></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2Name'>Influenza A PCR (Result)</td><td>Not Detected</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3Name'>Influenza B PCR (Result)</td><td>Detected (A)</td><td>Not Detected</td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3Signature'></td></tr><tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4'><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4Name'>Influenza SARS-CoV-2 (Specimen Type)</td><td>Nasopharynx</td><td></td><td></td><td></td><td>VUMC CERNER LAB</td><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4Signature'></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Specimen'>Nasopharynx</td><td></td><td></td><td>12/07/2021 4:16 PM CST</td><td>12/07/2021 4:17 PM CST</td></tr></tbody></table><table><thead><tr><th>Resulting Agency Comment</th></tr></thead><tbody><tr><td><paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.ResultingAgencyComment'>Ordered by MD, JONATHAN E SCHMITZ MD,</paragraph></td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>No Pcp</td><td>LAB BODY FLUIDS AND STOOLS ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.PerformingLab'><paragraph>VUMC CERNER LAB</paragraph></td><td><paragraph>4605 TVC VUMC</paragraph><paragraph>1301 Medical Center Drive</paragraph></td><td><paragraph>NASHVILLE, TN 37232-5310</paragraph></td><td><paragraph>615-875-5227</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -402,7 +407,7 @@
             "title": "Social History",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Smoking Tobacco: Never Assessed</td><td></td><td></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr><td>Not on file</td><td></td></tr></tbody></table>documented as of this encounter"
+              "div": "<table data-id='sochist34'><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Smoking Tobacco: Never Assessed</td><td></td><td data-id='sochist34packsperday'></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr data-id='BirthSex35'><td data-id='BirthSex35Value'>Not on file</td><td></td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -420,7 +425,7 @@
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr><td>10/27/21</td><td>Orders Only</td><td>Vanderbilt University Adult Hospital 1211 Medical Center Dr 6 Critical Care Tower Nashville, TN 37232 615-322-5000</td><td>Inpatient, Nurse, RN</td><td></td></tr></tbody></table>"
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id='encounter36'><td>10/27/21</td><td data-id='encounter36type'>Orders Only</td><td><paragraph>Vanderbilt University Adult Hospital</paragraph><paragraph>1211 Medical Center Dr</paragraph><paragraph>6 Critical Care Tower</paragraph><paragraph>Nashville, TN 37232</paragraph><paragraph>615-322-5000</paragraph></td><td><paragraph>Inpatient, Nurse, RN</paragraph></td><td></td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -492,7 +497,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "encounter": {
           "reference": "Encounter/685ebb48-a4d7-22a7-5a07-a8e42ac8f78b"
@@ -536,7 +541,7 @@
           "end": "2021-10-27"
         },
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "location": [
           {
@@ -971,10 +976,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:27768ed0-ddd9-40de-a909-a149df89176e",
+      "fullUrl": "urn:uuid:c2af984f-4fb1-4308-8734-ca956164f566",
       "resource": {
         "resourceType": "Patient",
-        "id": "27768ed0-ddd9-40de-a909-a149df89176e",
+        "id": "c2af984f-4fb1-4308-8734-ca956164f566",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1013,6 +1018,7 @@
           }
         ],
         "birthDate": "1965-10-05",
+        "deceasedBoolean": false,
         "gender": "female",
         "extension": [
           {
@@ -1142,7 +1148,42 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+        "url": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "CareTeam",
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:581a29d4-5295-5382-5460-cf0582ee5bca",
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "581a29d4-5295-5382-5460-cf0582ee5bca",
+        "status": "unknown",
+        "intent": "proposal",
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "CarePlan/581a29d4-5295-5382-5460-cf0582ee5bca"
       }
     },
     {
@@ -1187,7 +1228,7 @@
         },
         "onsetDateTime": "2017-08-11",
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "meta": {
           "source": [
@@ -1242,7 +1283,7 @@
         },
         "onsetDateTime": "2018-06-12",
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "meta": {
           "source": [
@@ -1297,7 +1338,7 @@
         },
         "onsetDateTime": "2021-06-16",
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "meta": {
           "source": [
@@ -1352,7 +1393,7 @@
         },
         "onsetDateTime": "2022-02-28",
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "meta": {
           "source": [
@@ -1407,7 +1448,7 @@
         },
         "onsetDateTime": "2022-05-26",
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "meta": {
           "source": [
@@ -1462,7 +1503,7 @@
         },
         "onsetDateTime": "2022-07-13",
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "meta": {
           "source": [
@@ -1501,7 +1542,7 @@
           "end": "2021-12-07T22:16:00Z"
         },
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -1519,7 +1560,16 @@
             "reference": "Observation/da885e41-73e5-98af-f3b1-14e924129a02"
           },
           {
+            "reference": "Observation/9e92ce2c-61ca-0bbb-1d63-3bec38af64ff"
+          },
+          {
+            "reference": "Observation/2169240e-4fae-a347-20fb-bbd893b025c5"
+          },
+          {
             "reference": "Observation/64124534-e4cf-5bb7-9eaa-8842e50daac3"
+          },
+          {
+            "reference": "Observation/0248212a-4710-9cac-6fd7-2b56477b7f83"
           }
         ],
         "meta": {
@@ -1605,6 +1655,16 @@
         },
         "effectiveDateTime": "2023-01-02T16:56:09Z",
         "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "note": [
+          {
+            "text": "A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. Results are generated using nucleic acid amplification tests that are labeled Emergency Use Only by the U.S FDA."
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1616,12 +1676,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-07T22:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-07T22:17:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -1710,6 +1778,11 @@
         },
         "effectiveDateTime": "2023-01-02T16:56:09Z",
         "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -1721,12 +1794,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-07T22:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-07T22:17:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -1781,6 +1862,11 @@
         },
         "effectiveDateTime": "2023-01-02T16:56:09Z",
         "valueString": "Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -1803,12 +1889,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-07T22:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-07T22:17:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -1820,6 +1914,156 @@
       "request": {
         "method": "PUT",
         "url": "Observation/da885e41-73e5-98af-f3b1-14e924129a02"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9e92ce2c-61ca-0bbb-1d63-3bec38af64ff",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9e92ce2c-61ca-0bbb-1d63-3bec38af64ff",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.6.798268.2000",
+            "value": "2032330.4"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "17702",
+              "display": "Influenza SARS-CoV-2 (Specimen Type)",
+              "system": "urn:oid:1.2.840.114350.1.13.478.3.7.2.768282"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-02T16:56:09Z",
+        "valueString": "Nasopharynx",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Nasopharynx"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2021-12-07T22:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-07T22:17:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.Comp4"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        },
+        "performer": [
+          {
+            "display": "VUMC CERNER LAB",
+            "reference": "Organization/e3ece69c-0968-59c9-47dd-f16db731621a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/9e92ce2c-61ca-0bbb-1d63-3bec38af64ff"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2169240e-4fae-a347-20fb-bbd893b025c5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2169240e-4fae-a347-20fb-bbd893b025c5",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.7.798268.71",
+            "value": "2032330"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "RAC",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-02T16:56:09Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Nasopharynx"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2021-12-07T22:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-07T22:17:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032330.ResultingAgencyComment"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/2169240e-4fae-a347-20fb-bbd893b025c5"
       }
     },
     {
@@ -1874,17 +2118,88 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-07T22:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-07T22:17:00Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/64124534-e4cf-5bb7-9eaa-8842e50daac3"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0248212a-4710-9cac-6fd7-2b56477b7f83",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0248212a-4710-9cac-6fd7-2b56477b7f83",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.2.798268",
+            "value": "2032330"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2023-01-02T16:56:09Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "16",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5007"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Nasopharynx"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2021-12-07T22:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-07T22:17:00Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0248212a-4710-9cac-6fd7-2b56477b7f83"
       }
     },
     {
@@ -1913,7 +2228,7 @@
           "end": "2021-12-08T15:55:00Z"
         },
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -1961,7 +2276,13 @@
             "reference": "Observation/37196d63-2634-d19e-4406-dcdd35542713"
           },
           {
+            "reference": "Observation/b101816e-b2de-a902-92fd-f2b1e7cb8b4b"
+          },
+          {
             "reference": "Observation/057167fd-1ba9-b13c-7ef7-49c0ac6d11bd"
+          },
+          {
+            "reference": "Observation/97118a43-d4ef-5709-b47e-c2b5935cdd65"
           }
         ],
         "meta": {
@@ -2018,6 +2339,19 @@
         "valueQuantity": {
           "value": 19.3
         },
+        "referenceRange": [
+          {
+            "text": "3.9 x10(3)/mcL - 10.7 x10(3)/mcL",
+            "low": {
+              "value": "3.9",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "10.7",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -2040,12 +2374,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2102,6 +2444,19 @@
         "valueQuantity": {
           "value": 2.28
         },
+        "referenceRange": [
+          {
+            "text": "4.00 x10(6)/mcL - 5.50 x10(6)/mcL",
+            "low": {
+              "value": "4.00",
+              "unit": "x10(6)/mcL"
+            },
+            "high": {
+              "value": "5.50",
+              "unit": "x10(6)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -2124,12 +2479,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2186,6 +2549,19 @@
         "valueQuantity": {
           "value": 7.1
         },
+        "referenceRange": [
+          {
+            "text": "11.8 gm/dL - 16.0 gm/dL",
+            "low": {
+              "value": "11.8",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "16.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -2208,12 +2584,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2273,6 +2657,7 @@
         },
         "referenceRange": [
           {
+            "text": "36 % - 43 %",
             "low": {
               "value": 36,
               "unit": "%"
@@ -2305,12 +2690,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2370,6 +2763,7 @@
         },
         "referenceRange": [
           {
+            "text": "81 fL - 98 fL",
             "low": {
               "value": 81,
               "unit": "fL"
@@ -2391,12 +2785,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2456,6 +2858,7 @@
         },
         "referenceRange": [
           {
+            "text": "27.0 pg - 32.0 pg",
             "low": {
               "value": 27.0,
               "unit": "pg"
@@ -2477,12 +2880,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2539,6 +2950,19 @@
         "valueQuantity": {
           "value": 32.0
         },
+        "referenceRange": [
+          {
+            "text": "31.0 gm/dL - 35.0 gm/dL",
+            "low": {
+              "value": "31.0",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "35.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2550,12 +2974,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2615,6 +3047,7 @@
         },
         "referenceRange": [
           {
+            "text": "37.4 fL - 52.4 fL",
             "low": {
               "value": 37.4,
               "unit": "fL"
@@ -2636,12 +3069,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2701,6 +3142,7 @@
         },
         "referenceRange": [
           {
+            "text": "11.1 % - 14.3 %",
             "low": {
               "value": 11.1,
               "unit": "%"
@@ -2722,12 +3164,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2784,6 +3234,19 @@
         "valueQuantity": {
           "value": 209
         },
+        "referenceRange": [
+          {
+            "text": "135 x10(3)/mcL - 371 x10(3)/mcL",
+            "low": {
+              "value": "135",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "371",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2795,12 +3258,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2860,6 +3331,7 @@
         },
         "referenceRange": [
           {
+            "text": "9.3 fL - 12.8 fL",
             "low": {
               "value": 9.3,
               "unit": "fL"
@@ -2881,12 +3353,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp11"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -2943,6 +3423,19 @@
         "valueQuantity": {
           "value": 0
         },
+        "referenceRange": [
+          {
+            "text": "0 /100 WBC - 0 /100 WBC",
+            "low": {
+              "value": "0",
+              "unit": "/100 WBC"
+            },
+            "high": {
+              "value": "0",
+              "unit": "/100 WBC"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -2954,12 +3447,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp12"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3016,6 +3517,24 @@
         "valueQuantity": {
           "value": 0.0
         },
+        "referenceRange": [
+          {
+            "text": "0.00 x10(3)/mcL - 0.00 x10(3)/mcL",
+            "low": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -3027,12 +3546,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.Comp13"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3044,6 +3571,77 @@
       "request": {
         "method": "PUT",
         "url": "Observation/37196d63-2634-d19e-4406-dcdd35542713"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b101816e-b2de-a902-92fd-f2b1e7cb8b4b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "b101816e-b2de-a902-92fd-f2b1e7cb8b4b",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.7.798268.71",
+            "value": "2032342"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "RAC",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2021-12-08T16:20:30Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2032342.ResultingAgencyComment"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/b101816e-b2de-a902-92fd-f2b1e7cb8b4b"
       }
     },
     {
@@ -3098,17 +3696,88 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/057167fd-1ba9-b13c-7ef7-49c0ac6d11bd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:97118a43-d4ef-5709-b47e-c2b5935cdd65",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "97118a43-d4ef-5709-b47e-c2b5935cdd65",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.2.798268",
+            "value": "2032342"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2021-12-08T16:20:30Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "16",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5007"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2021-12-08T15:55:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2021-12-08T15:56:00Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/97118a43-d4ef-5709-b47e-c2b5935cdd65"
       }
     },
     {
@@ -3137,7 +3806,7 @@
           "end": "2022-01-27T20:39:00Z"
         },
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3185,7 +3854,13 @@
             "reference": "Observation/57c990a8-2417-9e93-7b38-55c92b5996f2"
           },
           {
+            "reference": "Observation/c0eb4333-9306-ced6-d42a-d80ec79c87e7"
+          },
+          {
             "reference": "Observation/7fc6dad0-95d5-2383-9c4d-506d2a74cdf5"
+          },
+          {
+            "reference": "Observation/54b3b0e5-1765-4b36-cd57-3eac99692b7d"
           }
         ],
         "meta": {
@@ -3242,6 +3917,19 @@
         "valueQuantity": {
           "value": 18.7
         },
+        "referenceRange": [
+          {
+            "text": "3.9 x10(3)/mcL - 10.7 x10(3)/mcL",
+            "low": {
+              "value": "3.9",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "10.7",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3264,12 +3952,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3326,6 +4022,19 @@
         "valueQuantity": {
           "value": 2.81
         },
+        "referenceRange": [
+          {
+            "text": "4.00 x10(6)/mcL - 5.50 x10(6)/mcL",
+            "low": {
+              "value": "4.00",
+              "unit": "x10(6)/mcL"
+            },
+            "high": {
+              "value": "5.50",
+              "unit": "x10(6)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3348,12 +4057,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3410,6 +4127,19 @@
         "valueQuantity": {
           "value": 9.2
         },
+        "referenceRange": [
+          {
+            "text": "11.8 gm/dL - 16.0 gm/dL",
+            "low": {
+              "value": "11.8",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "16.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3432,12 +4162,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3497,6 +4235,7 @@
         },
         "referenceRange": [
           {
+            "text": "36 % - 43 %",
             "low": {
               "value": 36,
               "unit": "%"
@@ -3529,12 +4268,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3594,6 +4341,7 @@
         },
         "referenceRange": [
           {
+            "text": "81 fL - 98 fL",
             "low": {
               "value": 81,
               "unit": "fL"
@@ -3626,12 +4374,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3691,6 +4447,7 @@
         },
         "referenceRange": [
           {
+            "text": "27.0 pg - 32.0 pg",
             "low": {
               "value": 27.0,
               "unit": "pg"
@@ -3723,12 +4480,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3785,6 +4550,19 @@
         "valueQuantity": {
           "value": 30.9
         },
+        "referenceRange": [
+          {
+            "text": "31.0 gm/dL - 35.0 gm/dL",
+            "low": {
+              "value": "31.0",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "35.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -3807,12 +4585,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3872,6 +4658,7 @@
         },
         "referenceRange": [
           {
+            "text": "37.4 fL - 52.4 fL",
             "low": {
               "value": 37.4,
               "unit": "fL"
@@ -3904,12 +4691,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -3969,6 +4764,7 @@
         },
         "referenceRange": [
           {
+            "text": "11.1 % - 14.3 %",
             "low": {
               "value": 11.1,
               "unit": "%"
@@ -4001,12 +4797,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4063,6 +4867,19 @@
         "valueQuantity": {
           "value": 123
         },
+        "referenceRange": [
+          {
+            "text": "135 x10(3)/mcL - 371 x10(3)/mcL",
+            "low": {
+              "value": "135",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "371",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -4085,12 +4902,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4150,6 +4975,7 @@
         },
         "referenceRange": [
           {
+            "text": "9.3 fL - 12.8 fL",
             "low": {
               "value": 9.3,
               "unit": "fL"
@@ -4171,12 +4997,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp11"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4233,6 +5067,19 @@
         "valueQuantity": {
           "value": 0
         },
+        "referenceRange": [
+          {
+            "text": "0 /100 WBC - 0 /100 WBC",
+            "low": {
+              "value": "0",
+              "unit": "/100 WBC"
+            },
+            "high": {
+              "value": "0",
+              "unit": "/100 WBC"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4244,12 +5091,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp12"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4306,6 +5161,19 @@
         "valueQuantity": {
           "value": 0.05
         },
+        "referenceRange": [
+          {
+            "text": "0.00 x10(3)/mcL - 0.00 x10(3)/mcL",
+            "low": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -4315,6 +5183,11 @@
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
               }
             ]
+          }
+        ],
+        "note": [
+          {
+            "text": "This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA"
           }
         ],
         "extension": [
@@ -4328,12 +5201,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.Comp13"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4345,6 +5226,77 @@
       "request": {
         "method": "PUT",
         "url": "Observation/57c990a8-2417-9e93-7b38-55c92b5996f2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c0eb4333-9306-ced6-d42a-d80ec79c87e7",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c0eb4333-9306-ced6-d42a-d80ec79c87e7",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.7.798268.71",
+            "value": "2048488"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "RAC",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-01-27T21:17:49Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2048488.ResultingAgencyComment"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c0eb4333-9306-ced6-d42a-d80ec79c87e7"
       }
     },
     {
@@ -4399,17 +5351,88 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/7fc6dad0-95d5-2383-9c4d-506d2a74cdf5"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:54b3b0e5-1765-4b36-cd57-3eac99692b7d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "54b3b0e5-1765-4b36-cd57-3eac99692b7d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.2.798268",
+            "value": "2048488"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-01-27T21:17:49Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "16",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5007"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-01-27T20:39:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-01-27T20:41:00Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/54b3b0e5-1765-4b36-cd57-3eac99692b7d"
       }
     },
     {
@@ -4438,7 +5461,7 @@
           "end": "2022-04-11T15:23:00Z"
         },
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4486,7 +5509,13 @@
             "reference": "Observation/eaf12bb3-c230-343c-ab8c-0a0c4348c8ff"
           },
           {
+            "reference": "Observation/47b0edfd-ab72-0e80-1e68-111ff5897c19"
+          },
+          {
             "reference": "Observation/cb9681f4-ec4b-b7f9-974f-d3872cafa9c4"
+          },
+          {
+            "reference": "Observation/478d2814-00d3-0f2f-617d-f1651f8fa7bd"
           }
         ],
         "meta": {
@@ -4543,6 +5572,19 @@
         "valueQuantity": {
           "value": 10.9
         },
+        "referenceRange": [
+          {
+            "text": "3.9 x10(3)/mcL - 10.7 x10(3)/mcL",
+            "low": {
+              "value": "3.9",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "10.7",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -4565,12 +5607,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp1"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4627,6 +5677,19 @@
         "valueQuantity": {
           "value": 4.91
         },
+        "referenceRange": [
+          {
+            "text": "4.00 x10(6)/mcL - 5.50 x10(6)/mcL",
+            "low": {
+              "value": "4.00",
+              "unit": "x10(6)/mcL"
+            },
+            "high": {
+              "value": "5.50",
+              "unit": "x10(6)/mcL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4638,12 +5701,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp2"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4700,6 +5771,19 @@
         "valueQuantity": {
           "value": 14.9
         },
+        "referenceRange": [
+          {
+            "text": "11.8 gm/dL - 16.0 gm/dL",
+            "low": {
+              "value": "11.8",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "16.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -4711,12 +5795,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp3"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4776,6 +5868,7 @@
         },
         "referenceRange": [
           {
+            "text": "36 % - 43 %",
             "low": {
               "value": 36,
               "unit": "%"
@@ -4808,12 +5901,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp4"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4873,6 +5974,7 @@
         },
         "referenceRange": [
           {
+            "text": "81 fL - 98 fL",
             "low": {
               "value": 81,
               "unit": "fL"
@@ -4894,12 +5996,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp5"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -4959,6 +6069,7 @@
         },
         "referenceRange": [
           {
+            "text": "27.0 pg - 32.0 pg",
             "low": {
               "value": 27.0,
               "unit": "pg"
@@ -4980,12 +6091,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp6"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -5042,6 +6161,19 @@
         "valueQuantity": {
           "value": 32.7
         },
+        "referenceRange": [
+          {
+            "text": "31.0 gm/dL - 35.0 gm/dL",
+            "low": {
+              "value": "31.0",
+              "unit": "gm/dL"
+            },
+            "high": {
+              "value": "35.0",
+              "unit": "gm/dL"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5053,12 +6185,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp7"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -5118,6 +6258,7 @@
         },
         "referenceRange": [
           {
+            "text": "37.4 fL - 52.4 fL",
             "low": {
               "value": 37.4,
               "unit": "fL"
@@ -5139,12 +6280,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp8"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -5204,6 +6353,7 @@
         },
         "referenceRange": [
           {
+            "text": "11.1 % - 14.3 %",
             "low": {
               "value": 11.1,
               "unit": "%"
@@ -5236,12 +6386,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp9"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -5298,6 +6456,19 @@
         "valueQuantity": {
           "value": 88
         },
+        "referenceRange": [
+          {
+            "text": "135 x10(3)/mcL - 371 x10(3)/mcL",
+            "low": {
+              "value": "135",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "371",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
         "interpretation": [
           {
             "coding": [
@@ -5320,12 +6491,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp10"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -5385,6 +6564,7 @@
         },
         "referenceRange": [
           {
+            "text": "9.3 fL - 12.8 fL",
             "low": {
               "value": 9.3,
               "unit": "fL"
@@ -5406,12 +6586,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp11"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -5468,6 +6656,19 @@
         "valueQuantity": {
           "value": 0
         },
+        "referenceRange": [
+          {
+            "text": "0 /100 WBC - 0 /100 WBC",
+            "low": {
+              "value": "0",
+              "unit": "/100 WBC"
+            },
+            "high": {
+              "value": "0",
+              "unit": "/100 WBC"
+            }
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5479,12 +6680,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp12"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -5541,6 +6750,24 @@
         "valueQuantity": {
           "value": 0.0
         },
+        "referenceRange": [
+          {
+            "text": "0.00 x10(3)/mcL - 0.00 x10(3)/mcL",
+            "low": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            },
+            "high": {
+              "value": "0.00",
+              "unit": "x10(3)/mcL"
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "This test was performed at: Vanderbilt Tullahoma-Harton Laboratory,CLIA# 44D0309812,Donald E. Trummel, MD, Medical Director,1805 N Jackson St,Tullahoma,TN,37388,USA"
+          }
+        ],
         "extension": [
           {
             "url": "http://hl7.org/fhir/R4/specimen.html",
@@ -5552,12 +6779,20 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.Comp13"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "performer": [
           {
@@ -5569,6 +6804,77 @@
       "request": {
         "method": "PUT",
         "url": "Observation/eaf12bb3-c230-343c-ab8c-0a0c4348c8ff"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:47b0edfd-ab72-0e80-1e68-111ff5897c19",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "47b0edfd-ab72-0e80-1e68-111ff5897c19",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.7.798268.71",
+            "value": "2061354"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "RAC",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-11T20:16:30Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061354.ResultingAgencyComment"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/47b0edfd-ab72-0e80-1e68-111ff5897c19"
       }
     },
     {
@@ -5623,17 +6929,88 @@
               {
                 "url": "specimen collection time",
                 "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
               }
             ]
           }
         ],
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/cb9681f4-ec4b-b7f9-974f-d3872cafa9c4"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:478d2814-00d3-0f2f-617d-f1651f8fa7bd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "478d2814-00d3-0f2f-617d-f1651f8fa7bd",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.2.798268",
+            "value": "2061354"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-04-11T20:16:30Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "16",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5007"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-04-11T15:23:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-04-11T15:24:00Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/478d2814-00d3-0f2f-617d-f1651f8fa7bd"
       }
     },
     {
@@ -5685,7 +7062,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         }
       },
       "request": {
@@ -5734,10 +7111,14 @@
             }
           ]
         },
+        "lotNumber": "LLSFJK",
+        "manufacturer": {
+          "reference": "Organization/57fcc148-b440-3a80-749b-780325e9680d"
+        },
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/27768ed0-ddd9-40de-a909-a149df89176e"
+          "reference": "Patient/c2af984f-4fb1-4308-8734-ca956164f566"
         },
         "meta": {
           "source": [
@@ -5748,6 +7129,23 @@
       "request": {
         "method": "PUT",
         "url": "Immunization/f5e25af7-945a-cf66-d2d0-8942935165a2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:57fcc148-b440-3a80-749b-780325e9680d",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "57fcc148-b440-3a80-749b-780325e9680d",
+        "name": "Moderna US, Inc.",
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/57fcc148-b440-3a80-749b-780325e9680d"
       }
     },
     {

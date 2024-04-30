@@ -27,6 +27,14 @@ machine-readable JSON files. See the Description markdown for more details.
 
 
 def convert_rctc_to_json(input_file, output_file_grouping, output_file_expansion):
+    """
+    Converts RCTC data from an Excel file to JSON, separating into 'grouping'
+    and 'expansion'.
+
+    :param input_file: Path to the input Excel file containing RCTC data.
+    :param output_file_grouping: Path for the output JSON file with grouping data.
+    :param output_file_expansion: Path for the output JSON file with expansion data.
+    """
     wb = openpyxl.load_workbook(input_file)
     jsonData_grouping = {}
     jsonData_expansion = {}
@@ -77,15 +85,19 @@ def convert_rctc_to_json(input_file, output_file_grouping, output_file_expansion
                     "Remap Info": val[6],
                 }
 
-    with open(output_file_grouping, "w") as outfile1, open(
-        output_file_expansion, "w"
-    ) as outfile2:
+    with (
+        open(output_file_grouping, "w") as outfile1,
+        open(output_file_expansion, "w") as outfile2,
+    ):
         json.dump(jsonData_grouping, outfile1)
 
         json.dump(jsonData_expansion, outfile2)
 
 
 def main():
+    """
+    Parses command line arguments and triggers RCTC spreadsheet conversion to JSON.
+    """
     parser = argparse.ArgumentParser(
         description="Convert RCTC spreadsheet to JSON format."
     )

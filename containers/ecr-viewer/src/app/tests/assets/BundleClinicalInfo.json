@@ -191,7 +191,7 @@
             "title": "Medications Administered",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Medications Administered</div>"
+              "div": "<table><thead><tr><th>Medication Name</th><th>Medication Start Date</th></tr></thead><tbody><tr><td>docusate (Colace)</td><td>20220413132200+0000</td></tr><tr><td>acetaminophen (Tylenol)</td><td>20220413132200+0000</td></tr><tr><td>hydrocodone-acetaminophen (Norco 5 mg-325 mg oral tablet)</td><td>20220413132200+0000</td></tr><tr><td>ipratropium-albuterol (DuoNeb)</td><td>20220413132200+0000</td></tr><tr><td>hydrALAZINE</td><td>20220413132200+0000</td></tr><tr><td>labetalol</td><td>20220413132200+0000</td></tr><tr><td>levETIRAcetam (Keppra)</td><td>Unknown</td></tr><tr><td>meclizine</td><td>20220413113800+0000</td></tr><tr><td>melatonin (melatonin 3 mg oral tablet)</td><td>20220413132200+0000</td></tr><tr><td>morphine</td><td>20220413132200+0000</td></tr><tr><td>ondansetron (Zofran)</td><td>20220413132200+0000</td></tr><tr><td>simethicone (Mylicon)</td><td>20220413132200+0000</td></tr><tr><td>heparin</td><td>20220413170000+0000</td></tr><tr><td>famotidine (Pepcid)</td><td>Unknown</td></tr><tr><td>Sodium Chloride 0.9% intravenous solution 1,000 mL</td><td>20220413110600+0000</td></tr><tr><td>acetaminophen (Tylenol)</td><td>20220413110600+0000</td></tr><tr><td>heparin</td><td>20220413130000+0000</td></tr><tr><td>morphine</td><td>20220413113700+0000</td></tr><tr><td>ondansetron (Zofran)</td><td>20220413110600+0000</td></tr><tr><td>morphine</td><td>20220413105900+0000</td></tr><tr><td>prochlorperazine (Compazine)</td><td>20220413120000+0000</td></tr><tr><td>diphenhydrAMINE (Benadryl)</td><td>20220413105900+0000</td></tr><tr><td>ketorolac (Toradol)</td><td>20220413105900+0000</td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -249,17 +249,17 @@
             ]
           },
           {
-            "id": "7dbd51e8-1c15-8cfa-cbce-f6f4b9a1ed5d",
+            "id": "eb08daad-1e00-4280-4846-4276acb00888",
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Plan of Treatment</div>"
+              "div": "<table><caption>Pending Results</caption> <thead><tr><th>Name</th><th>Type</th><th>Priority</th><th>Associated Diagnoses</th><th>Date/Time</th></tr></thead><tbody><tr data-id='procedure11'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure12'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure13'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure14'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure15'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure16'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure17'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure18'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure19'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure20'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure21'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure22'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr><tr data-id='procedure23'><td>PCR SARS-CoV-2 and Influenza A/B</td><td>Lab</td><td>Routine</td><td></td><td>12/07/2021 4:16 PM CST</td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
                 {
                   "code": "18776-5",
-                  "display": "Treatment Plan",
+                  "display": "Plan of care note",
                   "system": "http://loinc.org"
                 }
               ]
@@ -383,6 +383,23 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:b5c77b86-2764-79f9-10bf-5da5e63eb7c1",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "b5c77b86-2764-79f9-10bf-5da5e63eb7c1",
+        "name": "Sanofi Pasteur",
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/b5c77b86-2764-79f9-10bf-5da5e63eb7c1"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:7a4b0e4b-ca8a-a39b-1b44-19efe2c9ee5c",
       "resource": {
         "resourceType": "Immunization",
@@ -433,6 +450,15 @@
             }
           ]
         },
+        "lotNumber": "369258741",
+        "manufacturer": {
+          "reference": "Organization/b5c77b86-2764-79f9-10bf-5da5e63eb7c1"
+        },
+        "protocolApplied": [
+          {
+            "doseNumberPositiveInt": "1"
+          }
+        ],
         "status": "completed",
         "primarySource": true,
         "patient": {
@@ -962,6 +988,62 @@
       "request": {
         "method": "PUT",
         "url": "Procedure/b40f0081-4052-4971-3f3b-e3d9f5e1e44d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:360f0f52-0434-58ee-1e51-e093e4cf4847",
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "360f0f52-0434-58ee-1e51-e093e4cf4847",
+        "status": "unknown",
+        "intent": "proposal",
+        "subject": {
+          "reference": "Patient/1317daf3-8ee2-4583-8e95-7e327a87e1f1"
+        },
+        "activity": [
+          {
+            "detail": {
+              "status": "scheduled",
+              "scheduledString": "202103141708-0400"
+            },
+            "extension": [
+              {
+                "url": "dibbs.orderedDate",
+                "valueString": "20210414160302-0400"
+              }
+            ]
+          },
+          {
+            "detail": {
+              "code": {
+                "coding": [
+                  {
+                    "code": "313952006",
+                    "display": "Ammonia plas",
+                    "system": "http://snomed.info/sct"
+                  }
+                ]
+              },
+              "status": "scheduled",
+              "scheduledString": "202101250938-0400"
+            },
+            "extension": [
+              {
+                "url": "dibbs.orderedDate",
+                "valueString": "20210314170826-0400"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "CarePlan/360f0f52-0434-58ee-1e51-e093e4cf4847"
       }
     }
   ]

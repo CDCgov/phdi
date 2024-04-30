@@ -2,7 +2,9 @@
 
 exports[`Demographics should match snapshot 1`] = `
 <div>
-  <div>
+  <div
+    class="margin-top-0"
+  >
     <div
       class="padding-bottom-3"
     >
@@ -54,6 +56,44 @@ exports[`Demographics should match snapshot 1`] = `
                 class="grid-col-auto maxw7 text-pre-line"
               >
                 06/01/1996
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                Current Age
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                27
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                Vital Status
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                Alive
               </div>
             </div>
             <div
