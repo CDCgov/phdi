@@ -1,17 +1,12 @@
 import { UseCaseQueryResponse } from "../patient_search";
 import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
-// import { PathMappings } from "@/app/utils";
 import React from "react";
-import mappings from "@/app/api/fhirPath.json" assert { type: "json" };
 
 type PatientViewProps = {
     useCaseQueryResponse: UseCaseQueryResponse;
 }
 export function PatientView({ useCaseQueryResponse }: PatientViewProps) {
-
-    console.log("useCaseQueryResponse", useCaseQueryResponse);
-    console.log("mappings", mappings);
 
     return (<div>
         <div>
