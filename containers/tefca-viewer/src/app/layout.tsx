@@ -6,9 +6,13 @@ import { DataProvider } from "./utils"
 
 export const metadata = {
   title: "TEFCA Viewer",
-  description: "Try out the TEFCA Viewer.",
+  description: "Try out TEFCA with queries for public health use cases.",
 };
 
+/**
+ * Establishes the layout for the application.
+ * @param {object} props - Props for the component.
+ */
 export default function RootLayout({
   children,
 }: {
