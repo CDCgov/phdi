@@ -1,22 +1,14 @@
-import { evaluate } from "fhirpath";
-import { Bundle } from "fhir/r4";
 import {
-  extractFacilityAddress,
-  extractPatientAddress,
-  evaluatePatientName,
-  PathMappings,
-  evaluateEncounterDate,
-  evaluatePatientContactInfo,
   TooltipDiv,
 } from "../../utils";
 import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
-import { formatDate } from "@/app/format-service";
 import { Tooltip } from '@trussworks/react-uswds'
 
 interface EcrSummaryProps {
-  fhirPathMappings: PathMappings;
-  fhirBundle: Bundle;
+  patientDetails: DisplayProps[];
+  encounterDetails: DisplayProps[];
+  aboutTheCondition: DisplayProps[];
 }
 
 export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
@@ -28,7 +20,7 @@ export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
 interface DisplayProps {
   title: string;
   value: any[] | string;
-  classNames: string;
+  classNames?: string;
   toolTip?: string | null;
 }
 
@@ -72,15 +64,17 @@ const Display: FC<DisplayProps> = ({
 };
 
 /**
- * Functional component for rendering the eCR summary.
- * @param props - Properties for the ecrSummary.
- * @param props.fhirPathMappings - The fhir path mappings.
- * @param props.fhirBundle - The fhir bundle.
- * @returns The JSX element for eCR summary information.
+ * Generates a JSX element to display eCR viewer summary
+ * @param props - Properties for the eCR Viewer Summary section
+ * @param props.patientDetails - Array of title and values to be displayed in patient details section
+ * @param props.encounterDetails - Array of title and values to be displayed in encounter details section
+ * @param props.aboutTheCondition - Array of title and values to be displayed in about the condition section
+ * @returns a react element for ECR Summary
  */
 const EcrSummary: React.FC<EcrSummaryProps> = ({
-  fhirPathMappings,
-  fhirBundle,
+  patientDetails,
+  encounterDetails,
+  aboutTheCondition,
 }) => {
   return (
     <div className={"info-container"}>
@@ -96,30 +90,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[0].title}
           </h3>
           <div className="usa-summary-box__text">
-            <Display
-              title="Patient Name"
-              value={evaluatePatientName(fhirBundle, fhirPathMappings)}
-              classNames="grid-col-auto"
-            />
-            <Display
-              title="DOB"
-              value={
-                formatDate(
-                  evaluate(fhirBundle, fhirPathMappings.patientDOB)[0],
-                ) || ""
-              }
-              classNames="grid-col-auto text-pre-line"
-            />
-            <Display
-              title="Patient Address"
-              value={extractPatientAddress(fhirBundle, fhirPathMappings)}
-              classNames="grid-col-auto text-pre-line"
-            />
-            <Display
-              title="Patient Contact"
-              value={evaluatePatientContactInfo(fhirBundle, fhirPathMappings)}
-              classNames="grid-col-auto text-pre-line"
-            />
+            {patientDetails.map(({ title, value }) => (
+              <Display title={title} value={value} />
+            ))}
           </div>
         </div>
         <div className="usa-summary-box__body">
@@ -130,31 +103,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[1].title}
           </h3>
           <div className="usa-summary-box__text">
-            <Display
-              title="Facility Name"
-              value={evaluate(fhirBundle, fhirPathMappings.facilityName)}
-              classNames="grid-col-auto"
-            />
-            <Display
-              title="Facility Address"
-              value={extractFacilityAddress(fhirBundle, fhirPathMappings)}
-              classNames="grid-col-auto text-pre-line"
-            />
-            <Display
-              title="Facility Contact"
-              value={evaluate(fhirBundle, fhirPathMappings.facilityContact)}
-              classNames="grid-col-auto"
-            />
-            <Display
-              title="Encounter Date/Time"
-              value={evaluateEncounterDate(fhirBundle, fhirPathMappings)}
-              classNames="grid-col-auto text-pre-line"
-            />
-            <Display
-              title="Encounter Type"
-              value={evaluate(fhirBundle, fhirPathMappings.encounterType)}
-              classNames="grid-col-auto"
-            />
+            {encounterDetails.map(({ title, value }) => (
+              <Display title={title} value={value} />
+            ))}
           </div>
         </div>
         <div className="usa-summary-box__body">
@@ -165,20 +116,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
-            <Display
-              title="Reportable Condition"
-              value={evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0]}
-              classNames="grid-col-fill"
-              toolTip="List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR."
-            />
-            <Display
-              title="RCKMS Rule Summary"
-              value={
-                evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0]
-              }
-              classNames="grid-col-fill text-pre-line"
-              toolTip="Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System)."
-            />
+            {aboutTheCondition.map(({ title, value }) => (
+              <Display title={title} value={value} />
+            ))}
             <div className={"grid-row"}>
               <div className={"text-bold width-full"}>
                 Clinical sections relevant to reportable condition
