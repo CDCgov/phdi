@@ -38,7 +38,7 @@ describe("EcrSummary", () => {
     },
     {
       title: "Encounter Date/Time",
-      value: "Start: 05/13/2022 3:25 AM EDT\nEnd: 05/13/2022 5:57 AM EDT",
+      value: "Start: 05/13/2022 7:25 AM UTC\nEnd: 05/13/2022 9:57 AM UTC",
     },
     {
       title: "Encounter Type",
