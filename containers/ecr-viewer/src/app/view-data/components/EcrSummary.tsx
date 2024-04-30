@@ -2,9 +2,14 @@ import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
 
 interface EcrSummaryProps {
+<<<<<<< HEAD
   patientDetails: DisplayProps[];
   encounterDetails: DisplayProps[];
   aboutTheCondition: DisplayProps[];
+=======
+  fhirPathMappings: PathMappings;
+  fhirBundle: Bundle;
+>>>>>>> dea9cbd5 (Enforce JSDocs on arrow functions (#1698))
 }
 
 export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
@@ -57,6 +62,7 @@ const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
 };
 
 /**
+<<<<<<< HEAD
  * Generates a JSX element to display eCR viewer summary
  * @param props - Properties for the eCR Viewer Summary section
  * @param props.patientDetails - Array of title and values to be displayed in patient details section
@@ -68,6 +74,17 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
   patientDetails,
   encounterDetails,
   aboutTheCondition,
+=======
+ * Functional component for rendering the eCR summary.
+ * @param props - Properties for the ecrSummary.
+ * @param props.fhirPathMappings - The fhir path mappings.
+ * @param props.fhirBundle - The fhir bundle.
+ * @returns The JSX element for eCR summary information.
+ */
+const EcrSummary: React.FC<EcrSummaryProps> = ({
+  fhirPathMappings,
+  fhirBundle,
+>>>>>>> dea9cbd5 (Enforce JSDocs on arrow functions (#1698))
 }) => {
   return (
     <div className={"info-container"}>

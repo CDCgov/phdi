@@ -287,6 +287,7 @@ export const evaluateSocialData = (
   ];
   return evaluateData(socialData);
 };
+<<<<<<< HEAD
 /**
  * Evaluates and formats patient identifiers from a given FHIR bundle using specified path mappings.
  * Each patient ID is formatted as a React component (span element) with a tooltip for displaying additional information.
@@ -317,6 +318,9 @@ export const evaluatePatientIds = (
   });
   return patientIdsFormatted;
 };
+=======
+
+>>>>>>> dea9cbd5 (Enforce JSDocs on arrow functions (#1698))
 /**
  * Evaluates demographic data from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing demographic data.
@@ -1229,6 +1233,7 @@ export const DataDisplay: React.FC<{
 };
 
 /**
+<<<<<<< HEAD
  * Functional component for displaying a value. If the value has a length greater than 500 characters, it will be split after 300 characters with a view more button to view the entire value.
  * @param value - props for the component
  * @param value.children - the value to be displayed in the value
@@ -1354,6 +1359,8 @@ const trimField = (
 };
 
 /**
+=======
+>>>>>>> dea9cbd5 (Enforce JSDocs on arrow functions (#1698))
  * Functional component for displaying data in a data table.
  * @param props - Props containing the item to be displayed.
  * @param props.item - The data item to be displayed.
