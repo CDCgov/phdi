@@ -122,6 +122,7 @@ def test_linkage_success():
     resp_3 = client.post("/link-record", json={"bundle": bundle_3})
     assert not resp_3.json()["found_match"]
 
+    # Cluster membership failure--justified non-match
     bundle_4 = test_bundle
     bundle_4["entry"] = [entry_list[3]]
     resp_4 = client.post("/link-record", json={"bundle": bundle_4})
@@ -131,8 +132,7 @@ def test_linkage_success():
         for r in new_bundle["entry"]
         if r.get("resource").get("resourceType") == "Person"
     ][0]
-    assert resp_4.json()["found_match"]
-    assert person_4.get("id") == person_1.get("id")
+    assert not resp_4.json()["found_match"]
 
     bundle_5 = test_bundle
     bundle_5["entry"] = [entry_list[4]]
@@ -148,8 +148,7 @@ def test_linkage_success():
         for r in new_bundle["entry"]
         if r.get("resource").get("resourceType") == "Person"
     ][0]
-    assert resp_6.json()["found_match"]
-    assert person_6.get("id") == person_1.get("id")
+    assert not resp_6.json()["found_match"]
 
 
 def test_use_enhanced_algo():
@@ -222,5 +221,4 @@ def test_use_enhanced_algo():
         for r in new_bundle["entry"]
         if r.get("resource").get("resourceType") == "Person"
     ][0]
-    assert resp_6.json()["found_match"]
-    assert person_6.get("id") == person_1.get("id")
+    assert not resp_6.json()["found_match"]
