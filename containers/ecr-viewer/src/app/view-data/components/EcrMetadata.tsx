@@ -8,6 +8,10 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import { Table } from "@trussworks/react-uswds";
+import {
+  TooltipDiv,
+} from "../../utils";
+import { Tooltip } from '@trussworks/react-uswds'
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;

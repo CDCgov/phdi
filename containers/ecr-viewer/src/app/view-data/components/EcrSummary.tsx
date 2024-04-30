@@ -16,6 +16,11 @@ export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
 interface DisplayProps {
   title: string;
   value: any[] | string;
+<<<<<<< HEAD
+=======
+  classNames: string;
+  toolTip?: string | null;
+>>>>>>> d2e7a468 (cut off tooltip)
 }
 
 /**
@@ -25,17 +30,43 @@ interface DisplayProps {
  * @param props - The props object.
  * @param props.title - Title of the display section.
  * @param props.value - Value to be displayed.
+<<<<<<< HEAD
  * @returns The JSX element representing the provided value or null if the value is empty.
  */
 const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
+=======
+ * @param [props.classNames] - Class names to be applied to the value.
+ * @param [props.toolTip] - Tooltip of element
+ * @returns The JSX element representing the provided value or null if the value is empty.
+ */
+const Display: FC<DisplayProps> = ({
+  title,
+  value,
+  classNames,
+  toolTip=null,
+}: DisplayProps) => {
+>>>>>>> d2e7a468 (cut off tooltip)
   if (!value || (Array.isArray(value) && value.length === 0)) {
     return null;
   }
   return (
     <>
       <div className="grid-row">
+<<<<<<< HEAD
         <div className="data-title">{title}</div>
         <div className={"grid-col-auto maxw7 text-pre-line"}>{value}</div>
+=======
+        { toolTip
+          ? (
+            <Tooltip label={toolTip} asCustom={TooltipDiv} className="data-title usa-tooltip">
+              {title}
+            </Tooltip>
+          ) : (
+            <div className="data-title">{title}</div>
+          )
+        }
+        <div className={classNames}>{value}</div>
+>>>>>>> d2e7a468 (cut off tooltip)
       </div>
       <div className={"section__line"} />
     </>
@@ -95,9 +126,26 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
+<<<<<<< HEAD
             {aboutTheCondition.map(({ title, value }) => (
               <Display title={title} value={value} />
             ))}
+=======
+            <Display
+              title="Reportable Condition"
+              value={evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0]}
+              classNames="grid-col-fill"
+              toolTip="List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR."
+            />
+            <Display
+              title="RCKMS Rule Summary"
+              value={
+                evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0]
+              }
+              classNames="grid-col-fill text-pre-line"
+              toolTip="Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System)."
+            />
+>>>>>>> d2e7a468 (cut off tooltip)
             <div className={"grid-row"}>
               <div className={"text-bold width-full"}>
                 Clinical sections relevant to reportable condition
