@@ -9,11 +9,20 @@ import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
 import { Grid, GridContainer } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
+import {
+  evaluateEcrSummaryAboutTheConditionDetails,
+  evaluateEcrSummaryEncounterDetails,
+  evaluateEcrSummaryPatientDetails,
+} from "@/app/view-data/components/service/EcrSummaryService";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
 
-const ECRViewerPage = () => {
+/**
+ * Functional component for rendering the eCR Viewer page.
+ * @returns The main eCR Viewer JSX component.
+ */
+const ECRViewerPage: React.FC = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
   const [mappings, setMappings] = useState<PathMappings>({});
   const [errors, setErrors] = useState<Error>();
@@ -79,10 +88,20 @@ const ECRViewerPage = () => {
                   eCR Summary
                 </h2>
                 <EcrSummary
-                  fhirPathMappings={mappings}
-                  fhirBundle={fhirBundle}
+                  patientDetails={evaluateEcrSummaryPatientDetails(
+                    fhirBundle,
+                    mappings,
+                  )}
+                  encounterDetails={evaluateEcrSummaryEncounterDetails(
+                    fhirBundle,
+                    mappings,
+                  )}
+                  aboutTheCondition={evaluateEcrSummaryAboutTheConditionDetails(
+                    fhirBundle,
+                    mappings,
+                  )}
                 />
-                <div className="margin-top-6">
+                <div className="margin-top-10">
                   <GridContainer className={"padding-0 margin-bottom-3"}>
                     <Grid row>
                       <Grid>
