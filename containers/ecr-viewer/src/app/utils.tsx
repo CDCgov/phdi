@@ -51,6 +51,10 @@ export interface ColumnInfoInput {
   columnName: string;
   infoPath?: string;
   value?: string;
+<<<<<<< HEAD
+=======
+  sentenceCase?: boolean;
+>>>>>>> 131f1b22 (merge in tooltip)
   className?: string;
   hiddenBaseText?: string;
   applyToValue?: (value: any) => any;
