@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.13.0a6-slim
 
 # Set the working directory in the container
 WORKDIR /code
