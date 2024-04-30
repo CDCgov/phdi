@@ -79,7 +79,13 @@ const useCaseQueryMap: {
 // Expected responses from the FHIR server
 export type UseCaseQueryResponse = Awaited<ReturnType<typeof use_case_query>>;
 
-function configureFHIRServerConnection(request: UseCaseQueryRequest){
+/**
+ * Given a UseCaseQueryRequest object, set the appropriate FHIR server connection
+ * configurations.
+ * @param request
+ * @returns void 
+ */
+function configureFHIRServerConnection(request: UseCaseQueryRequest): void{
     request.fhir_host = FHIR_SERVERS[request.fhir_server].hostname;
     request.headers = FHIR_SERVERS[request.fhir_server].headers || {};
 
@@ -103,7 +109,14 @@ function configureFHIRServerConnection(request: UseCaseQueryRequest){
     }
 }
 
-async function patientQuery(request: UseCaseQueryRequest, queryResponse: QueryResponse) {
+/**
+ * Query a FHIR server for a patient based on demographics provided in the request. If 
+ * a patient is found, store in the queryResponse object.
+ * @param request
+ * @param queryResponse
+ * @returns Promise<{ responseBody: any }>
+ */
+async function patientQuery(request: UseCaseQueryRequest, queryResponse: QueryResponse): Promise<{ responseBody: any }> {
 
   // Query for patient
   const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
