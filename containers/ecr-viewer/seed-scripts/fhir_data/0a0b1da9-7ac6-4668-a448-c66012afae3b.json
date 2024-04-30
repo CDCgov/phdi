@@ -604,7 +604,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "relatesTo": [
           {
@@ -661,7 +661,7 @@
           "start": "2022-10-11"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "location": [
           {
@@ -1040,10 +1040,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:9d80fd4f-9e65-4ad4-8363-0374914daa77",
+      "fullUrl": "urn:uuid:6615b258-dced-4f4c-abdc-c48bb7bdb848",
       "resource": {
         "resourceType": "Patient",
-        "id": "9d80fd4f-9e65-4ad4-8363-0374914daa77",
+        "id": "6615b258-dced-4f4c-abdc-c48bb7bdb848",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1153,7 +1153,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+        "url": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
       }
     },
     {
@@ -1161,7 +1161,7 @@
       "resource": {
         "resourceType": "CareTeam",
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "meta": {
           "source": [
@@ -1178,7 +1178,7 @@
         "status": "unknown",
         "intent": "proposal",
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "meta": {
           "source": [
@@ -1217,7 +1217,7 @@
         },
         "onsetDateTime": "2018-03-08T13:56:36-08:00",
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "meta": {
           "source": [
@@ -1256,7 +1256,7 @@
           "end": "2022-10-11T19:29:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -1310,7 +1310,16 @@
             "reference": "Observation/577e78fe-c7f3-c9bf-96d5-39155be2c312"
           },
           {
+            "reference": "Observation/c5106d12-5251-7946-7ba4-996a79789b96"
+          },
+          {
+            "reference": "Observation/ca818bf4-a6d4-a6f8-e0b1-b1e76f8546d2"
+          },
+          {
             "reference": "Observation/ef3c8b1d-8a4b-62ef-fbed-1b396a0b7a84"
+          },
+          {
+            "reference": "Observation/bf380dda-6b02-02a4-8dd8-db209a89c82d"
           }
         ],
         "meta": {
@@ -1428,7 +1437,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -1561,7 +1570,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -1650,7 +1659,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -1750,7 +1759,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -1850,7 +1859,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -1950,7 +1959,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2039,7 +2048,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2128,7 +2137,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2217,7 +2226,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2306,7 +2315,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2395,7 +2404,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2484,7 +2493,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2573,7 +2582,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2665,7 +2674,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2752,7 +2761,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2764,6 +2773,172 @@
       "request": {
         "method": "PUT",
         "url": "Observation/577e78fe-c7f3-c9bf-96d5-39155be2c312"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c5106d12-5251-7946-7ba4-996a79789b96",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c5106d12-5251-7946-7ba4-996a79789b96",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "386313.16"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "12162",
+              "display": "Mitragynine (Kratom), Urine",
+              "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768282"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-10-19T17:00:43Z",
+        "valueString": "Negative",
+        "referenceRange": [
+          {
+            "text": "Negative"
+          }
+        ],
+        "note": [
+          {
+            "text": "Mitragynine: Cut-off conc 50 ng/mL"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Comp16"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        },
+        "performer": [
+          {
+            "display": "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+            "reference": "Organization/ac8b5158-e7f2-f163-e69c-eaddb22dad8a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c5106d12-5251-7946-7ba4-996a79789b96"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ca818bf4-a6d4-a6f8-e0b1-b1e76f8546d2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "ca818bf4-a6d4-a6f8-e0b1-b1e76f8546d2",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.7.798268.1000",
+            "value": "386313"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "NAR",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-10-19T17:00:43Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386313.Narrative"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        },
+        "performer": [
+          {
+            "display": "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+            "reference": "Organization/ac8b5158-e7f2-f163-e69c-eaddb22dad8a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/ca818bf4-a6d4-a6f8-e0b1-b1e76f8546d2"
       }
     },
     {
@@ -2827,12 +3002,71 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/ef3c8b1d-8a4b-62ef-fbed-1b396a0b7a84"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:bf380dda-6b02-02a4-8dd8-db209a89c82d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "bf380dda-6b02-02a4-8dd8-db209a89c82d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "386313"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-10-19T17:00:43Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-10-11T19:29:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-11T19:30:02Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/bf380dda-6b02-02a4-8dd8-db209a89c82d"
       }
     },
     {
@@ -2861,7 +3095,7 @@
           "end": "2022-10-19T15:31:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -2913,6 +3147,15 @@
           },
           {
             "reference": "Observation/d0ea1768-09e0-99a9-e398-70b1a6eed9e9"
+          },
+          {
+            "reference": "Observation/1d8cff14-dc26-9bae-6947-be0ad1fffbea"
+          },
+          {
+            "reference": "Observation/0f620ed2-61d7-f161-19ab-38187625cfaa"
+          },
+          {
+            "reference": "Observation/fc073cc6-d40f-67c7-a3ef-94ff8fad4c37"
           }
         ],
         "meta": {
@@ -3001,7 +3244,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3090,7 +3333,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3179,7 +3422,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3268,7 +3511,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3357,7 +3600,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3446,7 +3689,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3535,7 +3778,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3624,7 +3867,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3713,7 +3956,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3802,7 +4045,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3891,7 +4134,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -3980,7 +4223,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4069,7 +4312,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4161,7 +4404,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4248,7 +4491,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4260,6 +4503,231 @@
       "request": {
         "method": "PUT",
         "url": "Observation/d0ea1768-09e0-99a9-e398-70b1a6eed9e9"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1d8cff14-dc26-9bae-6947-be0ad1fffbea",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1d8cff14-dc26-9bae-6947-be0ad1fffbea",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "386315.16"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "12162",
+              "display": "Mitragynine (Kratom), Urine",
+              "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768282"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-10-19T17:04:35Z",
+        "valueString": "Negative",
+        "referenceRange": [
+          {
+            "text": "Negative"
+          }
+        ],
+        "note": [
+          {
+            "text": "Mitragynine: Cut-off conc 50 ng/mL"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Comp16"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        },
+        "performer": [
+          {
+            "display": "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+            "reference": "Organization/ac8b5158-e7f2-f163-e69c-eaddb22dad8a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/1d8cff14-dc26-9bae-6947-be0ad1fffbea"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0f620ed2-61d7-f161-19ab-38187625cfaa",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0f620ed2-61d7-f161-19ab-38187625cfaa",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.7.798268.1000",
+            "value": "386315"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "NAR",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-10-19T17:04:35Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386315.Narrative"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        },
+        "performer": [
+          {
+            "display": "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+            "reference": "Organization/ac8b5158-e7f2-f163-e69c-eaddb22dad8a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0f620ed2-61d7-f161-19ab-38187625cfaa"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:fc073cc6-d40f-67c7-a3ef-94ff8fad4c37",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "fc073cc6-d40f-67c7-a3ef-94ff8fad4c37",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "386315"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-10-19T17:04:35Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-10-19T15:31:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T15:31:44Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/fc073cc6-d40f-67c7-a3ef-94ff8fad4c37"
       }
     },
     {
@@ -4288,7 +4756,7 @@
           "end": "2022-10-19T17:17:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4342,7 +4810,16 @@
             "reference": "Observation/20cded99-d027-d853-58a3-8190bf5ef470"
           },
           {
+            "reference": "Observation/c14c4a0b-890d-fb57-d273-a75280b5b633"
+          },
+          {
+            "reference": "Observation/98600aca-1ae9-c322-868d-7012a50dfedf"
+          },
+          {
             "reference": "Observation/b999e4f0-4673-ba41-6358-79caf221a048"
+          },
+          {
+            "reference": "Observation/7e85b9ac-fe63-8ed3-e10e-255c87bbdfa6"
           }
         ],
         "meta": {
@@ -4431,7 +4908,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4520,7 +4997,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4609,7 +5086,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4698,7 +5175,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4787,7 +5264,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4876,7 +5353,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -4965,7 +5442,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5054,7 +5531,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5143,7 +5620,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5232,7 +5709,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5332,7 +5809,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5421,7 +5898,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5510,7 +5987,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5602,7 +6079,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5689,7 +6166,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5701,6 +6178,172 @@
       "request": {
         "method": "PUT",
         "url": "Observation/20cded99-d027-d853-58a3-8190bf5ef470"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c14c4a0b-890d-fb57-d273-a75280b5b633",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c14c4a0b-890d-fb57-d273-a75280b5b633",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "386317.16"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "12162",
+              "display": "Mitragynine (Kratom), Urine",
+              "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768282"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-10-19T18:29:07Z",
+        "valueString": "Negative",
+        "referenceRange": [
+          {
+            "text": "Negative"
+          }
+        ],
+        "note": [
+          {
+            "text": "Mitragynine: Cut-off conc 50 ng/mL"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Comp16"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        },
+        "performer": [
+          {
+            "display": "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+            "reference": "Organization/ac8b5158-e7f2-f163-e69c-eaddb22dad8a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c14c4a0b-890d-fb57-d273-a75280b5b633"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:98600aca-1ae9-c322-868d-7012a50dfedf",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "98600aca-1ae9-c322-868d-7012a50dfedf",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.7.798268.1000",
+            "value": "386317"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "NAR",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-10-19T18:29:07Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.386317.Narrative"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        },
+        "performer": [
+          {
+            "display": "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+            "reference": "Organization/ac8b5158-e7f2-f163-e69c-eaddb22dad8a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/98600aca-1ae9-c322-868d-7012a50dfedf"
       }
     },
     {
@@ -5764,12 +6407,71 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/b999e4f0-4673-ba41-6358-79caf221a048"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7e85b9ac-fe63-8ed3-e10e-255c87bbdfa6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7e85b9ac-fe63-8ed3-e10e-255c87bbdfa6",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "386317"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-10-19T18:29:07Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-10-19T17:17:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-10-19T17:17:51Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/7e85b9ac-fe63-8ed3-e10e-255c87bbdfa6"
       }
     },
     {
@@ -5798,7 +6500,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5811,6 +6513,9 @@
           },
           {
             "reference": "Observation/1769e8f6-d5f1-960f-45cb-30c97a6c3ad0"
+          },
+          {
+            "reference": "Observation/05007cd3-6358-d221-783a-951ea05dff70"
           }
         ],
         "meta": {
@@ -5910,7 +6615,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -5985,12 +6690,71 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/1769e8f6-d5f1-960f-45cb-30c97a6c3ad0"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:05007cd3-6358-d221-783a-951ea05dff70",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "05007cd3-6358-d221-783a-951ea05dff70",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1703069"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-11-23T17:17:42Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/05007cd3-6358-d221-783a-951ea05dff70"
       }
     },
     {
@@ -6019,7 +6783,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -6032,6 +6796,9 @@
           },
           {
             "reference": "Observation/b7c6d278-c258-0873-de17-7b0a982106a6"
+          },
+          {
+            "reference": "Observation/d045de9a-7ec4-41a2-1a8f-98f1b536fb70"
           }
         ],
         "meta": {
@@ -6142,7 +6909,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -6217,12 +6984,71 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/b7c6d278-c258-0873-de17-7b0a982106a6"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d045de9a-7ec4-41a2-1a8f-98f1b536fb70",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d045de9a-7ec4-41a2-1a8f-98f1b536fb70",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1703070"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-11-23T17:17:43Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/d045de9a-7ec4-41a2-1a8f-98f1b536fb70"
       }
     },
     {
@@ -6251,7 +7077,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -6264,6 +7090,9 @@
           },
           {
             "reference": "Observation/8adcd7b9-dae7-dcef-389d-916fcfaf52ec"
+          },
+          {
+            "reference": "Observation/854885c8-07d7-59a3-818b-1be041e84f87"
           }
         ],
         "meta": {
@@ -6374,7 +7203,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -6449,12 +7278,71 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/8adcd7b9-dae7-dcef-389d-916fcfaf52ec"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:854885c8-07d7-59a3-818b-1be041e84f87",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "854885c8-07d7-59a3-818b-1be041e84f87",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1703071"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-11-23T17:17:44Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/854885c8-07d7-59a3-818b-1be041e84f87"
       }
     },
     {
@@ -6483,7 +7371,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -6496,6 +7384,9 @@
           },
           {
             "reference": "Observation/a87dfc70-c841-c213-3a3e-3d3604e60acf"
+          },
+          {
+            "reference": "Observation/59dc6338-ea2c-6ebc-817b-176afeb266dd"
           }
         ],
         "meta": {
@@ -6606,7 +7497,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -6681,12 +7572,71 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/a87dfc70-c841-c213-3a3e-3d3604e60acf"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:59dc6338-ea2c-6ebc-817b-176afeb266dd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "59dc6338-ea2c-6ebc-817b-176afeb266dd",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1703072"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-11-23T17:17:44Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/59dc6338-ea2c-6ebc-817b-176afeb266dd"
       }
     },
     {
@@ -6715,7 +7665,7 @@
           "end": "2022-11-23T17:16:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -6728,6 +7678,9 @@
           },
           {
             "reference": "Observation/e8952447-cea0-50f7-4f57-a034ad13f56a"
+          },
+          {
+            "reference": "Observation/1c26ff30-c4f6-346d-86f6-a533f121f33c"
           }
         ],
         "meta": {
@@ -6838,7 +7791,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -6913,12 +7866,71 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/e8952447-cea0-50f7-4f57-a034ad13f56a"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1c26ff30-c4f6-346d-86f6-a533f121f33c",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1c26ff30-c4f6-346d-86f6-a533f121f33c",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1703074"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-11-23T17:17:45Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Blood"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-11-23T17:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-11-23T17:16:19Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/1c26ff30-c4f6-346d-86f6-a533f121f33c"
       }
     },
     {
@@ -6947,7 +7959,7 @@
           "end": "2022-12-23T19:16:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -6986,7 +7998,13 @@
             "reference": "Observation/99239151-6783-a49a-d594-9ee1c6c0653b"
           },
           {
+            "reference": "Observation/dd2ed267-123c-d30f-d466-8242aacefa91"
+          },
+          {
             "reference": "Observation/9527a6c3-386c-c494-0066-59b59b576680"
+          },
+          {
+            "reference": "Observation/8068d414-d39a-7341-e142-6bfa3ff45678"
           }
         ],
         "meta": {
@@ -7075,7 +8093,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7164,7 +8182,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7253,7 +8271,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7342,7 +8360,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7431,7 +8449,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7520,7 +8538,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7609,7 +8627,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7692,7 +8710,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7779,7 +8797,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7879,7 +8897,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -7891,6 +8909,83 @@
       "request": {
         "method": "PUT",
         "url": "Observation/99239151-6783-a49a-d594-9ee1c6c0653b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dd2ed267-123c-d30f-d466-8242aacefa91",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "dd2ed267-123c-d30f-d466-8242aacefa91",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.7.798268.1000",
+            "value": "1703078"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "NAR",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-12-23T19:35:26Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703078.Narrative"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        },
+        "performer": [
+          {
+            "display": "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+            "reference": "Organization/ac8b5158-e7f2-f163-e69c-eaddb22dad8a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/dd2ed267-123c-d30f-d466-8242aacefa91"
       }
     },
     {
@@ -7954,12 +9049,71 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/9527a6c3-386c-c494-0066-59b59b576680"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8068d414-d39a-7341-e142-6bfa3ff45678",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8068d414-d39a-7341-e142-6bfa3ff45678",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1703078"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-12-23T19:35:26Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-12-23T19:16:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T19:16:37Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/8068d414-d39a-7341-e142-6bfa3ff45678"
       }
     },
     {
@@ -7988,7 +9142,7 @@
           "end": "2022-12-23T20:56:00Z"
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8027,7 +9181,13 @@
             "reference": "Observation/06f95f44-06a0-cc1e-61f7-352d1e0eb687"
           },
           {
+            "reference": "Observation/c48e08c9-4349-f624-92d6-27f30cf86a36"
+          },
+          {
             "reference": "Observation/33bab113-a8fd-b54b-b1bb-44283d94ca69"
+          },
+          {
+            "reference": "Observation/87bd3f74-a9b2-0a1d-2766-bfc1d20820c9"
           }
         ],
         "meta": {
@@ -8116,7 +9276,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8205,7 +9365,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8294,7 +9454,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8383,7 +9543,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8472,7 +9632,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8561,7 +9721,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8650,7 +9810,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8733,7 +9893,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8820,7 +9980,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8920,7 +10080,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         },
         "performer": [
           {
@@ -8932,6 +10092,83 @@
       "request": {
         "method": "PUT",
         "url": "Observation/06f95f44-06a0-cc1e-61f7-352d1e0eb687"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c48e08c9-4349-f624-92d6-27f30cf86a36",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c48e08c9-4349-f624-92d6-27f30cf86a36",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.7.798268.1000",
+            "value": "1703080"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "NAR",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5220"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-12-23T22:59:31Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1703080.Narrative"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        },
+        "performer": [
+          {
+            "display": "HOAG MEMORIAL HOSPITAL NEWPORT BEACH LABORATORY (CLIA 05D0578635)",
+            "reference": "Organization/ac8b5158-e7f2-f163-e69c-eaddb22dad8a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c48e08c9-4349-f624-92d6-27f30cf86a36"
       }
     },
     {
@@ -8995,12 +10232,71 @@
           }
         ],
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/33bab113-a8fd-b54b-b1bb-44283d94ca69"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:87bd3f74-a9b2-0a1d-2766-bfc1d20820c9",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "87bd3f74-a9b2-0a1d-2766-bfc1d20820c9",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1703080"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2022-12-23T22:59:31Z",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Urine"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2022-12-23T20:56:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2022-12-23T20:56:20Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/87bd3f74-a9b2-0a1d-2766-bfc1d20820c9"
       }
     },
     {
@@ -9052,7 +10348,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/9d80fd4f-9e65-4ad4-8363-0374914daa77"
+          "reference": "Patient/6615b258-dced-4f4c-abdc-c48bb7bdb848"
         }
       },
       "request": {

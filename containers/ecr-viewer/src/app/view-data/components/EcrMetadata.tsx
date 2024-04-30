@@ -8,6 +8,8 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import { Table } from "@trussworks/react-uswds";
+import { TooltipDiv } from "../../utils";
+import { Tooltip } from "@trussworks/react-uswds";
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
@@ -88,38 +90,20 @@ const EcrMetadata = ({
           <thead>
             <tr>
               <th className="reportability_summary_header">
-                <span
-                  title="List of conditions that caused this eCR to be sent to your 
-                jurisdiction based on the rules set up for routing eCRs by your jurisdiction 
-                in RCKMS (Reportable Condition Knowledge Management System). 
-                Can include multiple Reportable Conditions for one eCR."
-                  className="usa-tooltip"
-                  data-position="bottom"
-                >
-                  Reportable Condition
-                </span>
+                Reportable Condition
               </th>
-              <th className="reportability_summary_header">
-                <span
-                  title="List of jurisdictions this eCR was sent to. Can 
-                include multiple jurisdictions depending on provider location, 
-                patient address, and jurisdictions onboarded to eCR."
-                  className="usa-tooltip"
-                  data-position="bottom"
+              <th>RCKMS Rule Summary</th>
+              <th>
+                <Tooltip
+                  label={
+                    "List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR."
+                  }
+                  asCustom={TooltipDiv}
+                  className="data-title usa-tooltip"
+                  position="left"
                 >
-                  RCKMS Rule Summary
-                </span>
-              </th>
-              <th className="reportability_summary_header">
-                <span
-                  title="List of jurisdictions this eCR was sent to. Can 
-                include multiple jurisdictions depending on provider location, 
-                patient address, and jurisdictions onboarded to eCR."
-                  className="usa-tooltip"
-                  data-position="bottom"
-                >
-                  Jurisdiction Sent eCR{" "}
-                </span>
+                  {`Jurisdiction Sent eCR`}
+                </Tooltip>
               </th>
             </tr>
           </thead>

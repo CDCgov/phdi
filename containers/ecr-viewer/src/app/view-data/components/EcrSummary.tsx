@@ -1,5 +1,7 @@
+import { TooltipDiv } from "../../utils";
 import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
+import { Tooltip } from "@trussworks/react-uswds";
 
 interface EcrSummaryProps {
   patientDetails: DisplayProps[];
@@ -16,6 +18,8 @@ export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
 interface DisplayProps {
   title: string;
   value: any[] | string;
+  classNames?: string;
+  toolTip?: string | null;
 }
 
 /**
@@ -25,17 +29,34 @@ interface DisplayProps {
  * @param props - The props object.
  * @param props.title - Title of the display section.
  * @param props.value - Value to be displayed.
+ * @param [props.classNames] - Class names to be applied to the value.
+ * @param [props.toolTip] - Tooltip of element
  * @returns The JSX element representing the provided value or null if the value is empty.
  */
-const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
+const Display: FC<DisplayProps> = ({
+  title,
+  value,
+  classNames,
+  toolTip = null,
+}: DisplayProps) => {
   if (!value || (Array.isArray(value) && value.length === 0)) {
     return null;
   }
   return (
     <>
       <div className="grid-row">
-        <div className="data-title">{title}</div>
-        <div className={"grid-col-auto maxw7 text-pre-line"}>{value}</div>
+        {toolTip ? (
+          <Tooltip
+            label={toolTip}
+            asCustom={TooltipDiv}
+            className="data-title usa-tooltip"
+          >
+            {title}
+          </Tooltip>
+        ) : (
+          <div className="data-title">{title}</div>
+        )}
+        <div className={classNames}>{value}</div>
       </div>
       <div className={"section__line"} />
     </>
