@@ -91,6 +91,7 @@ const EcrMetadata = ({
         <Table bordered caption="Reportibility Summary" className="rrTable">
           <thead>
             <tr>
+<<<<<<< HEAD
               <th className="reportability_summary_header">
                 <span
                   title="List of conditions that caused this eCR to be sent to your 
@@ -124,6 +125,19 @@ const EcrMetadata = ({
                 >
                   Jurisdiction Sent eCR{" "}
                 </span>
+=======
+              <th>Reportable Condition</th>
+              <th>RCKMS Rule Summary</th>
+              <th>
+                <Tooltip
+                  label={"List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR."}
+                  asCustom={TooltipDiv}
+                  className="data-title usa-tooltip"
+                  position="left"
+                >
+                  {`Jurisdiction Sent eCR`}
+                </Tooltip>
+>>>>>>> 30ba96a4 (cut off tooltip)
               </th>
             </tr>
           </thead>
