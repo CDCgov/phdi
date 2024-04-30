@@ -50,7 +50,7 @@ The eCR Viewer requires a Postgres database with FHIR bundles to render properly
 
 ### Updating Seed Data
 
-Occasionally, the FHIR Converter will be updated requiring new seed data to be regenerated. This can be done by running `npm run convert-seed-data`.
+Occasionally, the FHIR Converter will be updated requiring new seed data to be regenerated. This can be done by running `npm run convert-seed-data`. To load the new data you will have to delete the current volume used by your DB.
 
 ### Potential Issues
 
