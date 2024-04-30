@@ -1179,15 +1179,15 @@ const FieldValue: React.FC<{
   const [hidden, setHidden] = useState(true);
   const [fieldValue, setFieldValue] = useState(children);
   const valueLength = getReactNodeLength(children);
-  const hiddenValue = viewMoreElement(children, cutLength, setHidden).value;
+  const cutField = trimField(children, cutLength, setHidden).value;
   useEffect(() => {
     if (valueLength > maxLength) {
       if (hidden) {
-        setFieldValue(hiddenValue);
+        setFieldValue(cutField);
       } else {
         setFieldValue(
           <>
-            {children}{" "}
+            {children}&nbsp;
             <Button
               type={"button"}
               unstyled={true}
@@ -1229,7 +1229,7 @@ const getReactNodeLength = (value: React.ReactNode): number => {
  * @param setHidden - a function used to signify that the view more button has been clicked.
  * @returns - an object with the shortened value and the length left over.
  */
-const viewMoreElement = (
+const trimField = (
   value: React.ReactNode,
   remainingLength: number,
   setHidden: (val: boolean) => void,
@@ -1240,7 +1240,7 @@ const viewMoreElement = (
       return {
         value: (
           <>
-            {cutString}...{" "}
+            {cutString}...&nbsp;
             <Button
               type={"button"}
               unstyled={true}
@@ -1261,7 +1261,7 @@ const viewMoreElement = (
     let newValArr = [];
     for (let i = 0; i < value.length; i++) {
       if (remainingLength > 0) {
-        let splitVal = viewMoreElement(value[i], remainingLength, setHidden);
+        let splitVal = trimField(value[i], remainingLength, setHidden);
         remainingLength = splitVal.remainingLength;
         newValArr.push(
           <React.Fragment key={`arr-${i}-${splitVal.value}`}>
@@ -1279,7 +1279,7 @@ const viewMoreElement = (
       } else {
         childrenCopy = value.props.children;
       }
-      let split = viewMoreElement(childrenCopy, remainingLength, setHidden);
+      let split = trimField(childrenCopy, remainingLength, setHidden);
       const newElement = React.cloneElement(
         value,
         { ...value.props },
