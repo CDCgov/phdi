@@ -3,17 +3,49 @@ import { Table } from '@trussworks/react-uswds';
 import { Observation, CodeableConcept } from 'fhir/r4';
 
 
+/**
+ * Displays a table of data from array of Observations resources.
+ * @param observations - The observations to display.
+ * @returns The ObservationTable component.
+ */
 export interface ObservationTableProps {
     observations: Observation[];
 }
 
+const ObservationTable: React.FC<ObservationTableProps> = ({ observations }) => {
+    return (
+        <Table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Interpretation</th>
+                    <th>Value</th>
+                    <th>Reference Range</th>
+                </tr>
+            </thead>
+            <tbody>
+                {observations.map((obs) => (
+                    <tr key={obs.id}>
+                        <td>{obs?.effectiveDateTime}</td>
+                        <td>{formatCodeableConcept(obs.code)}</td>
+                        <td>{obs?.interpretation && obs.interpretation.length > 0 ? formatCodeableConcept(obs.interpretation[0]) : ""}</td>
+                        <td>{formatValue(obs)}</td>
+                        <td>{formatReferenceRange(obs)}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </Table>
+    );
+}
+export default ObservationTable;
 
 /**
-    * Formats a CodeableConcept object for display. If the object has a coding array, 
-    * the first coding object is used.
-    * @param {CodeableConcept} concept - The CodeableConcept object.
-    * @returns {React.JSX.Element || string} The CodeableConcept data formatted for 
-    * display.
+ * Formats a CodeableConcept object for display. If the object has a coding array, 
+ * the first coding object is used.
+ * @param {CodeableConcept} concept - The CodeableConcept object.
+ * @returns {React.JSX.Element || string} The CodeableConcept data formatted for 
+ * display.
  */
 function formatCodeableConcept(concept: CodeableConcept){
     if(!concept.coding || concept.coding.length === 0){
@@ -23,6 +55,11 @@ function formatCodeableConcept(concept: CodeableConcept){
     return <> {coding.display} <br /> {coding.code} <br /> {coding.system} </>;
 }
 
+/**
+ * Formats the value of an Observation object for display.
+ * @param {Observation} obs - The Observation object.
+ * @returns {string} The value of the Observation object formatted for display.
+ */
 function formatValue(obs: Observation){
     if(obs.valueCodeableConcept){
         return formatCodeableConcept(obs.valueCodeableConcept);
@@ -36,7 +73,11 @@ function formatValue(obs: Observation){
     return "";
 }
 
-
+/**
+ * Formats the reference range of an Observation object for display.
+ * @param {Observation} obs - The Observation object.
+ * @returns {string} The reference range of the Observation object formatted for display.
+ */
 function formatReferenceRange(obs: Observation){
     if(!obs.referenceRange || obs.referenceRange.length === 0){
         return "";
@@ -50,32 +91,4 @@ function formatReferenceRange(obs: Observation){
         return range.text;
     }
     return "";
-
-}
-
-export default function ObservationTable(props: ObservationTableProps) {
-    return (
-        <Table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Interpretation</th>
-                    <th>Value</th>
-                    <th>Reference Range</th>
-                </tr>
-            </thead>
-            <tbody>
-                {props.observations.map((obs) => (
-                    <tr key={obs.id}>
-                        <td>{obs?.effectiveDateTime}</td>
-                        <td>{formatCodeableConcept(obs.code)}</td>
-                        <td>{obs?.interpretation && obs.interpretation.length > 0 ? formatCodeableConcept(obs.interpretation[0]) : ""}</td>
-                        <td>{formatValue(obs)}</td>
-                        <td>{formatReferenceRange(obs)}</td>
-                    </tr>
-                ))}
-            </tbody>
-        </Table>
-    );
 }
