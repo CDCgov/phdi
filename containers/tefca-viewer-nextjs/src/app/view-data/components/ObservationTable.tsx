@@ -20,7 +20,7 @@ function formatCodeableConcept(concept: CodeableConcept){
         return concept.text || "";
     }
     const coding = concept.coding[0];
-    return <> {concept.text} <br /> {coding.code} <br /> {coding.system} </>;
+    return <> {coding.display} <br /> {coding.code} <br /> {coding.system} </>;
 }
 
 function formatValue(obs: Observation){

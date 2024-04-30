@@ -5,9 +5,8 @@ import {
 } from "../../utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
-import ObservationTable, {ObservationTableProps} from "./Observations";
-import { Bundle, FhirResource, Observation } from "fhir/r4";
-import React, { ReactNode } from "react";
+import ObservationTable, {ObservationTableProps} from "./ObservationTable";
+import React from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import { formatString } from "@/app/format-service";
 import {
@@ -15,94 +14,43 @@ import {
   AccordianH4,
   AccordianDiv,
 } from "../component-utils";
+import { UseCaseQueryResponse } from "@/app/patient-search/patient_search";
 
-
-const fakeObservations: Observation[] = [
-  {
-    "resourceType": "Observation",
-    "id": "1",
-    "status": "final",
-    "code": {
-      "coding": [
-        {
-          "system": "http://loinc.org",
-          "code": "8302-2",
-          "display": "Body Height"
-        }
-      ],
-      "text": "Body Height",
-    },
-    "valueQuantity": {
-      "value": 180,
-      "unit": "cm",
-      "system": "http://unitsofmeasure.org",
-      "code": "cm"
-    },
-    "interpretation": [
-      {
-      "coding": [
-        {
-          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-          "code": "N",
-          "display": "Normal"
-        }
-      ],
-      "text": "Normal"
-    }
-  ],
-    "effectiveDateTime": "2021-01-01",
-    "referenceRange": [
-      {
-        "low": {
-          "value": 160,
-          "unit": "cm",
-          "system": "http://unitsofmeasure.org",
-          "code": "cm"
-        },
-        "high": {
-          "value": 200,
-          "unit": "cm",
-          "system": "http://unitsofmeasure.org",
-          "code": "cm"
-        }
-      }
-    ]
-  }
-]
-const fakeObservationTableProps: ObservationTableProps = {
-  observations: fakeObservations,
-};
 
 type AccordionContainerProps = {
-  children?: ReactNode;
-  fhirBundle: Bundle<FhirResource>;
-  fhirPathMappings: PathMappings;
+  queryResponse: UseCaseQueryResponse
 };
 
 const AccordianContainer: React.FC<AccordionContainerProps> = ({
-  fhirBundle,
-  fhirPathMappings,
+  queryResponse
 }) => {
-  const demographicsData = evaluateDemographicsData(
-    fhirBundle,
-    fhirPathMappings,
-  );
-  const social_data = evaluateSocialData(fhirBundle, fhirPathMappings);
-  const accordionItems: any[] = [
-    {
+  const accordionItems: any[] = [];
+
+  const patient = queryResponse.patients && queryResponse.patients.length===1? queryResponse.patients[0] : null;
+  const observations = queryResponse.observations ? queryResponse.observations : null;
+
+  if (patient) {
+    accordionItems.push({
       title: "Patient Info",
       content: (
         <>
-          <Demographics demographicsData={demographicsData.availableData} />
-          {social_data.availableData.length > 0 && (
-            <SocialHistory socialData={social_data.availableData} />
-          )}
+          <AccordianSection>
+            <AccordianH4>
+              <span id="patient">Demographics</span>
+            </AccordianH4>
+            <AccordianDiv>
+              <Demographics patient={patient} />
+            </AccordianDiv>
+          </AccordianSection>
         </>
       ),
       expanded: true,
       headingLevel: "h3",
-    },
-    {
+    });
+  }
+
+  if (observations) {
+    accordionItems.push({
       title: "Observations",
       content: (
         <>
@@ -111,17 +59,16 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
               <span id="observations">Observations</span>
             </AccordianH4>
             <AccordianDiv>
-              <ObservationTable {...fakeObservationTableProps} />
-            </AccordianDiv>   
+              <ObservationTable observations={observations} />
+            </AccordianDiv>
           </AccordianSection>
         </>
       ),
       expanded: true,
       headingLevel: "h3",
-
-    }
-  ];
-
+    });
+  }
+  
   //Add id, adjust title
   accordionItems.forEach((item, index) => {
     let formattedTitle = formatString(item["title"]);

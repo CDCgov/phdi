@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import Demographics from "../Demographics";
+import Demographics from "../Demographics-old";
 
 describe("Demographics", () => {
   let container: HTMLElement;

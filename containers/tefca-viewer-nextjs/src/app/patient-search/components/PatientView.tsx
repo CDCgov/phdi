@@ -25,12 +25,11 @@ export function PatientView({ useCaseQueryResponse }: PatientViewProps) {
                     <div className={"ecr-viewer-container"}>
               <div className="ecr-content">
                 <h2 className="margin-bottom-3" id="ecr-summary">
-                  Patient Record
+                  Query Results
                 </h2>
                 <div className="margin-top-6">
                   <AccordionContainer
-                    fhirPathMappings={mappings}
-                    fhirBundle={useCaseQueryResponse.use_case_query_response}
+                    queryResponse={useCaseQueryResponse}
                   />
                 </div>
               </div>

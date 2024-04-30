@@ -1,8 +1,9 @@
 "use server";
-import { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
 import https from "https";
 import fetch, { RequestInit } from "node-fetch";
+import {Patient, Observation, DiagnosticReport, Condition, Encounter} from "fhir/r4";
+import { log } from "console";
 
 type FHIR_SERVERS = "meld" | "ehealthexchange";
 
@@ -45,157 +46,126 @@ const FHIR_SERVERS: {
   },
 };
 
-// Expected requests to the FHIR server
-type PatientIdQueryRequest = {
+type UseCaseQueryRequest = {
+  use_case: USE_CASES;
   fhir_server: FHIR_SERVERS;
   first_name: string;
   last_name: string;
   dob: string;
-};
-type UseCaseQueryRequest = {
-  use_case: USE_CASES;
-} & PatientIdQueryRequest;
+  fhir_host?: string;
+  init?: RequestInit;
+  headers?: { [key: string]: string };
+  patientId?: string;
+}
 
-type PatientResourceRequest = {
-  fhir_host: string;
-  init: RequestInit;
-  patient_id: string;
+type QueryResponse = {
+  patients?: Patient[];
+  observations?: Observation[];
+  diagnosticReports?: DiagnosticReport[];
+  conditions?: Condition[];
+  encounters?: Encounter[];
 };
 
-type PatientResourceQueryResponse = {
-  entry: Record<string, unknown>[];
-} & Record<string, unknown>;
+const useCaseQueryMap: {
+  [key in USE_CASES]: (input: UseCaseQueryRequest, queryResponse: QueryResponse) => Promise<void>;
+} = {
+  "social-determinants": social_determinants_query,
+  "newborn-screening": newborn_screening_query,
+  "syphilis": syphilis_query,
+  "cancer": async () => {
+    throw new Error("Not implemented");
+  },
+};
 
 // Expected responses from the FHIR server
 export type UseCaseQueryResponse = Awaited<ReturnType<typeof use_case_query>>;
 
-async function patient_id_query(input: PatientIdQueryRequest) {
-  // Set up and logging
-  const fhir_host = FHIR_SERVERS[input.fhir_server].hostname;
-  const patient_id_query = `Patient?given=${input.first_name}&family=${input.last_name}&birthdate=${input.dob}`;
-  const headers = FHIR_SERVERS[input.fhir_server].headers || {};
-  // Set up init object for eHealth Exchange
-  const init: RequestInit = {};
+function configureFHIRServerConnection(request: UseCaseQueryRequest){
+    request.fhir_host = FHIR_SERVERS[request.fhir_server].hostname;
+    request.headers = FHIR_SERVERS[request.fhir_server].headers || {};
 
-  // Add username to headers if it exists in input.fhir_server
-  if (
-    FHIR_SERVERS[input.fhir_server].username &&
-    FHIR_SERVERS[input.fhir_server].password
-  ) {
-    const credentials = btoa(
-      `${FHIR_SERVERS[input.fhir_server].username}:${
-        FHIR_SERVERS[input.fhir_server].password || ""
-      }`
-    );
-    headers.Authorization = `Basic ${credentials}`;
-    init.agent = new https.Agent({
-      rejectUnauthorized: false,
-    });
-  }
+    // Set up init object for eHealth Exchange
+    request.init = {};
+  
+    // Add username to headers if it exists in input.fhir_server
+    if (
+      FHIR_SERVERS[request.fhir_server].username &&
+      FHIR_SERVERS[request.fhir_server].password
+    ) {
+      const credentials = btoa(
+        `${FHIR_SERVERS[request.fhir_server].username}:${
+          FHIR_SERVERS[request.fhir_server].password || ""
+        }`
+      );
+      request.headers.Authorization = `Basic ${credentials}`;
+      request.init.agent = new https.Agent({
+        rejectUnauthorized: false,
+      });
+    }
+}
 
-  // Query for Patient resource and ID
-  const response = await fetch(fhir_host + patient_id_query, {
-    headers: headers,
-    ...init,
+async function patientQuery(request: UseCaseQueryRequest, queryResponse: QueryResponse) {
+
+  // Query for patient
+  const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
+  const response = await fetch(request.fhir_host + query, {
+    headers: request.headers,
+    ...request.init,
   });
-  const use_case_query_response = await response.json();
-
+  
   // Check for errors
   if (response.status !== 200) {
     console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
-  if (use_case_query_response.total === 0) {
+  const responseBody = await response.json();
+  queryResponse.patients = responseBody.entry.map((entry: any) => entry.resource);
+  console.log(queryResponse.patients)
+  if (responseBody.total === 0) {
     throw new Error("No patient found.");
   }
+  else if (responseBody.total > 1) {
+    throw new Error("Multiple patients found. Please refine your search.");
+  }
 
-  const patient_id = use_case_query_response.entry[0].resource.id;
-
-  return { patient_id, fhir_host, init, use_case_query_response };
+  return { responseBody };
 }
 
 export async function use_case_query(input: UseCaseQueryRequest) {
   console.log("input:", input);
-  // Get patient ID and patient resource
-  const patient_resource_query_response = await patient_id_query({
-    fhir_server: input.fhir_server,
-    first_name: input.first_name,
-    last_name: input.last_name,
-    dob: input.dob,
-  });
-  const { patient_id, fhir_host, init, use_case_query_response } =
-    patient_resource_query_response;
 
-  if (input.use_case === "social-determinants") {
-    // Query for social determinants
-    const social_determinants_query_response = await social_determinants_query({
-      fhir_host: fhir_host,
-      init: init,
-      patient_id: patient_id,
-    });
-    // Collect results
-    use_case_query_response["entry"] = [
-      ...use_case_query_response["entry"],
-      ...social_determinants_query_response["entry"],
-    ];
-  } else if (input.use_case === "newborn-screening") {
-    // Query for newborn screening
-    const newborn_screening_query_response = await newborn_screening_query({
-      fhir_host: fhir_host,
-      init: init,
-      patient_id: patient_id,
-    });
+  configureFHIRServerConnection(input);
 
-    // Collect results
-    use_case_query_response["entry"] = [
-      ...use_case_query_response["entry"],
-      ...newborn_screening_query_response["entry"],
-    ];
-  } else if (input.use_case === "syphilis") {
-    // Query for syphilis
-    const syphilis_query_response = await syphilis_query({
-      fhir_host: fhir_host,
-      init: init,
-      patient_id: patient_id,
-    });
+  const queryResponse : QueryResponse = {};
+  const  { responseBody } = await patientQuery(input, queryResponse);
+  input.patientId = responseBody.entry[0].resource.id;
 
-    // Collect results
-    use_case_query_response["entry"] = [
-      ...use_case_query_response["entry"],
-      ...syphilis_query_response["entry"],
-    ];
-  }
+ await useCaseQueryMap[input.use_case](input, queryResponse);
 
-  return {
-    patient_id: patient_id,
-    use_case_query_response,
-  };
+
+  return queryResponse;
 }
 
 async function social_determinants_query(
-  input: PatientResourceRequest
-): Promise<PatientResourceQueryResponse> {
-  const query = `/Observation?subject=${input.patient_id}&category=social-history`;
-  const query_response = await fetch(input.fhir_host + query, input.init);
-  const response = await query_response.json();
+  input: UseCaseQueryRequest,
+  queryResponse: QueryResponse
+): Promise<void>{
+  const query = `/Observation?subject=${input.patientId}&category=social-history`;
+  const response = await fetch(input.fhir_host + query, input.init);
 
   // Check for errors
   if (response.status !== 200) {
     console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
-
-  if (response.total === 0) {
-    throw new Error("No patient found.");
-  }
-
-  return response;
+  queryResponse.observations = (await response.json()).entry.map((entry: any) => entry.resource);
 }
 
 async function newborn_screening_query(
-  input: PatientResourceRequest
-): Promise<PatientResourceQueryResponse> {
+  input: UseCaseQueryRequest,
+  queryResponse: QueryResponse
+): Promise<void> {
   const loincs: Array<string> = [
     "73700-7",
     "73698-3",
@@ -210,76 +180,61 @@ async function newborn_screening_query(
   ];
   const loincFilter: string = "code=" + loincs.join(",");
 
-  const query = `/Observation?subject=${input.patient_id}&code=${loincFilter}`;
-  const query_response = await fetch(input.fhir_host + query, input.init);
-  const response = await query_response.json();
-  // Check for errors
+  const query = `/Observation?subject=${input.patientId}&code=${loincFilter}`;
+  const response = await fetch(input.fhir_host + query, input.init);
+
   if (response.status !== 200) {
     console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
-  if (response.total === 0) {
-    throw new Error("No patient found.");
-  }
-
-  return response;
+  queryResponse.observations =(await response.json()).entry.map((entry: any) => entry.resource);
 }
 
 async function syphilis_query(
-  input: PatientResourceRequest
-): Promise<PatientResourceQueryResponse> {
+  input: UseCaseQueryRequest,
+  queryResponse: QueryResponse
+): Promise<void> {
   const loincs: Array<string> = ["LP70657-9", "98212-4"];
   const snomed: Array<string> = ["76272004"];
   const loincFilter: string = loincs.join(",");
   const snomedFilter: string = snomed.join(",");
 
-  const query = `/Observation?subject=${input.patient_id}&code=${loincFilter}`;
-  const query_response = await fetch(input.fhir_host + query, input.init);
-  const response = await query_response.json();
+  const observationQuery = `/Observation?subject=${input.patientId}&code=${loincFilter}`;
+  const observationResponse = await fetch(input.fhir_host + observationQuery, input.init);
+  if (observationResponse.status === 200) {
+    queryResponse.observations = (await observationResponse.json()).entry.map((entry: any) => entry.resource);
+  }
 
-  const diagnositic_report_query = `/DiagnosticReport?subject=${input.patient_id}&code=${loincFilter}`;
-  const diagnositic_report_query_response = await fetch(
-    input.fhir_host + diagnositic_report_query,
+  const diagnositicReportQuery = `/DiagnosticReport?subject=${input.patientId}&code=${loincFilter}`;
+  const diagnositicReportResponse = await fetch(
+    input.fhir_host + diagnositicReportQuery,
     input.init
   );
-  const diagnostic_response = await diagnositic_report_query_response.json();
+  if (diagnositicReportResponse.status === 200) {
+    queryResponse.diagnosticReports = (await diagnositicReportResponse.json()).entry.map((entry: any) => entry.resource);
+  }
 
-  const condition_query = `/Condition?subject=${input.patient_id}&code=${snomedFilter}`;
-  const condition_query_response = await fetch(
-    input.fhir_host + condition_query,
+  const conditionQuery = `/Condition?subject=${input.patientId}&code=${snomedFilter}`;
+  const conditionResponse = await fetch(
+    input.fhir_host + conditionQuery,
     input.init
   );
-  const condition_response = await condition_query_response.json();
-  const condition_id = condition_response.entry[0].resource.id;
+  if (conditionResponse.status === 200) {
+    queryResponse.conditions = (await conditionResponse.json()).entry.map((entry: any) => entry.resource);
+  }
 
-  const encounter_query = `/Encounter?subject=${input.patient_id}&reason-reference=${condition_id}`;
-  const encounter_query_response = await fetch(
-    input.fhir_host + encounter_query,
-    input.init
-  );
-  const encounter_response = await encounter_query_response.json();
-
-  // // Check for errors
-  // if (response.status !== 200) {
-  //   console.log("response:", response);
-  //   throw new Error(`Patient search failed. Status: ${response.status}`);
-  // }
-
-  // if (response.total === 0) {
-  //   throw new Error("No patient found.");
-  // }
-
-  // Collect results
-  console.log("response:", response);
-  response["entry"] = [
-    ...response["entry"],
-    ...diagnostic_response["entry"],
-    // ...condition_response["entry"],
-    ...encounter_response["entry"],
-  ];
-
-  return response;
+  if (queryResponse.conditions && queryResponse.conditions.length === 0) {
+    const conditionId = queryResponse.conditions[0].id;
+    const encounterQuery = `/Encounter?subject=${input.patientId}&reason-reference=${conditionId}`;
+    const encounterResponse = await fetch(
+      input.fhir_host + encounterQuery,
+      input.init
+    );
+    if (encounterResponse.status === 200) {
+      queryResponse.encounters = (await encounterResponse.json()).entry.map((entry: any) => entry.resource);
+    }
+  }
 }
 
 // async function add_loinc_filter(input: Array<string>): Promise<string> {
