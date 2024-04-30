@@ -42,18 +42,26 @@ const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
   );
 };
 
-const EcrSummary = ({
+/**
+ * Generates a JSX element to display eCR viewer summary
+ * @param props - Properties for the eCR Viewer Summary section
+ * @param props.patientDetails - Array of title and values to be displayed in patient details section
+ * @param props.encounterDetails - Array of title and values to be displayed in encounter details section
+ * @param props.aboutTheCondition - Array of title and values to be displayed in about the condition section
+ * @returns a react element for ECR Summary
+ */
+const EcrSummary: React.FC<EcrViewerProps> = ({
   patientDetails,
   encounterDetails,
   aboutTheCondition,
-}: EcrViewerProps) => {
+}) => {
   return (
     <div className={"info-container"}>
       <div
         className="usa-summary-box padding-3"
         aria-labelledby="summary-box-key-information"
       >
-        <div className="usa-summary-box__body">
+        <div className="usa-summary-box__body margin-bottom-05">
           <h3
             className="summary-box-key-information side-nav-ignore"
             id={ecrSummaryConfig.subNavItems?.[0].id}
@@ -91,7 +99,7 @@ const EcrSummary = ({
               <Display title={title} value={value} />
             ))}
             <div className={"grid-row"}>
-              <div className={"text-bold"}>
+              <div className={"text-bold width-full"}>
                 Clinical sections relevant to reportable condition
               </div>
               <div className={"padding-top-05"}>
