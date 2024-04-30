@@ -380,7 +380,8 @@ export const evaluateDemographicsData = (
           title="Unique patient identifier(s) from their medical record. 
       For example, a patient's social security number or medical record number"
           className="usa-tooltip"
-          data-position="bottom">
+          data-position="bottom"
+        >
           Patient IDs
         </span>
       ),
@@ -514,18 +515,22 @@ export const evaluateEcrMetadata = (
   const eicrDetails: DisplayData[] = [
     {
       title: (
-        <span title="Unique document ID for the eICR that originates from the medical record. 
+        <span
+          title="Unique document ID for the eICR that originates from the medical record. 
       Different from the Document ID that NBS creates for all incoming records"
           className="usa-tooltip"
-          data-position="bottom">
+          data-position="bottom"
+        >
           eICR ID
         </span>
       ),
       value: (
-        <span title="Unique document ID for the eICR that originates from the medical record. 
+        <span
+          title="Unique document ID for the eICR that originates from the medical record. 
         Different from the Document ID that NBS creates for all incoming records."
           className="usa-tooltip"
-          data-position="bottom">
+          data-position="bottom"
+        >
           {evaluate(fhirBundle, mappings.eicrIdentifier)[0]}
         </span>
       ),
@@ -540,11 +545,15 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Sender Software",
-      title: (<span title="EHR system used by the sending provider."
+      title: (
+        <span
+          title="EHR system used by the sending provider."
           className="usa-tooltip"
-          data-position="bottom">
+          data-position="bottom"
+        >
           Sender Software
-        </span>),
+        </span>
+      ),
     },
     {
       title: "Sender Facility Name",

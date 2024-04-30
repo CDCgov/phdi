@@ -88,27 +88,38 @@ const EcrMetadata = ({
           <thead>
             <tr>
               <th className="reportability_summary_header">
-                <span title="List of conditions that caused this eCR to be sent to your 
+                <span
+                  title="List of conditions that caused this eCR to be sent to your 
                 jurisdiction based on the rules set up for routing eCRs by your jurisdiction 
                 in RCKMS (Reportable Condition Knowledge Management System). 
-                Can include multiple Reportable Conditions for one eCR." 
-                className="usa-tooltip" data-position="bottom" >
-                Reportable Condition
+                Can include multiple Reportable Conditions for one eCR."
+                  className="usa-tooltip"
+                  data-position="bottom"
+                >
+                  Reportable Condition
                 </span>
               </th>
               <th className="reportability_summary_header">
-                <span title="List of jurisdictions this eCR was sent to. Can 
+                <span
+                  title="List of jurisdictions this eCR was sent to. Can 
                 include multiple jurisdictions depending on provider location, 
                 patient address, and jurisdictions onboarded to eCR."
-                className="usa-tooltip" data-position="bottom">
-                RCKMS Rule Summary</span>
+                  className="usa-tooltip"
+                  data-position="bottom"
+                >
+                  RCKMS Rule Summary
+                </span>
               </th>
               <th className="reportability_summary_header">
-                <span title="List of jurisdictions this eCR was sent to. Can 
+                <span
+                  title="List of jurisdictions this eCR was sent to. Can 
                 include multiple jurisdictions depending on provider location, 
                 patient address, and jurisdictions onboarded to eCR."
-                className="usa-tooltip" data-position="bottom">
-                Jurisdiction Sent eCR </span>
+                  className="usa-tooltip"
+                  data-position="bottom"
+                >
+                  Jurisdiction Sent eCR{" "}
+                </span>
               </th>
             </tr>
           </thead>
