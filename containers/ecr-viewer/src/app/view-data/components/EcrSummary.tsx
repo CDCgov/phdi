@@ -1,7 +1,7 @@
 import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
 
-interface EcrViewerProps {
+interface EcrSummaryProps {
   patientDetails: DisplayProps[];
   encounterDetails: DisplayProps[];
   aboutTheCondition: DisplayProps[];
@@ -35,7 +35,7 @@ const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
     <>
       <div className="grid-row">
         <div className="data-title">{title}</div>
-        <div className={"grid-col-auto text-pre-line"}>{value}</div>
+        <div className={"grid-col-auto maxw7 text-pre-line"}>{value}</div>
       </div>
       <div className={"section__line"} />
     </>
@@ -50,7 +50,7 @@ const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
  * @param props.aboutTheCondition - Array of title and values to be displayed in about the condition section
  * @returns a react element for ECR Summary
  */
-const EcrSummary: React.FC<EcrViewerProps> = ({
+const EcrSummary: React.FC<EcrSummaryProps> = ({
   patientDetails,
   encounterDetails,
   aboutTheCondition,
