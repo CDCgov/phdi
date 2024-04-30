@@ -1,5 +1,5 @@
-'use client'
-import { createContext, ReactNode, useState } from 'react';
+"use client";
+import { createContext, ReactNode, useState } from "react";
 import React from "react";
 import classNames from "classnames";
 
@@ -8,13 +8,12 @@ export interface DisplayData {
   value?: string | React.JSX.Element | React.JSX.Element[];
 }
 
-
 /**
  * Functional component for displaying data.
- * @param {object} props - Props for the component.
- * @param {DisplayData} props.item - The display data item to be rendered.
- * @param {string} [props.className] - Additional class name for styling purposes.
- * @returns {React.JSX.Element} - A React element representing the display of data.
+ * @param props - Props for the component.
+ * @param props.item - The display data item to be rendered.
+ * @param [props.className] - Additional class name for styling purposes.
+ * @returns - A React element representing the display of data.
  */
 export const DataDisplay: React.FC<{
   item: DisplayData;
@@ -26,20 +25,20 @@ export const DataDisplay: React.FC<{
   item: DisplayData;
   className?: string;
 }): React.JSX.Element => {
-    return (
-      <div>
-        <div className="grid-row">
-          <div className="data-title">{item.title}</div>
-          <div
-            className={classNames("grid-col-auto maxw7 text-pre-line", className)}
-          >
-            {item.value}
-          </div>
+  return (
+    <div>
+      <div className="grid-row">
+        <div className="data-title">{item.title}</div>
+        <div
+          className={classNames("grid-col-auto maxw7 text-pre-line", className)}
+        >
+          {item.value}
         </div>
-        <div className={"section__line_gray"} />
       </div>
-    );
-  };
+      <div className={"section__line_gray"} />
+    </div>
+  );
+};
 
 interface DataContextValue {
   data: any; // You can define a specific data type here
@@ -48,6 +47,11 @@ interface DataContextValue {
 
 const DataContext = createContext<DataContextValue | undefined>(undefined);
 
+/**
+ *
+ * @param root0
+ * @param root0.children
+ */
 export function DataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<any | null>(null);
 

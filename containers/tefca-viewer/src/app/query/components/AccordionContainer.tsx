@@ -10,23 +10,28 @@ import {
 } from "../component-utils";
 import { UseCaseQueryResponse } from "@/app/query-service";
 
-
 type AccordionContainerProps = {
-  queryResponse: UseCaseQueryResponse
+  queryResponse: UseCaseQueryResponse;
 };
 
 /**
  * Returns the Accordion component to render all components of the query response.
- * @param { UseCaseQueryResponse } queryResponse - The response from the query service.
- * @returns { React.FC<AccordionContainerProps> } The AccordionContainer component.
+ * @param queryResponse.queryResponse
+ * @param queryResponse - The response from the query service.
+ * @returns The AccordionContainer component.
  */
 const AccordianContainer: React.FC<AccordionContainerProps> = ({
-  queryResponse
+  queryResponse,
 }) => {
   const accordionItems: any[] = [];
 
-  const patient = queryResponse.patients && queryResponse.patients.length===1? queryResponse.patients[0] : null;
-  const observations = queryResponse.observations ? queryResponse.observations : null;
+  const patient =
+    queryResponse.patients && queryResponse.patients.length === 1
+      ? queryResponse.patients[0]
+      : null;
+  const observations = queryResponse.observations
+    ? queryResponse.observations
+    : null;
 
   if (patient) {
     accordionItems.push({
@@ -67,7 +72,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       headingLevel: "h3",
     });
   }
-  
+
   //Add id, adjust title
   accordionItems.forEach((item, index) => {
     let formattedTitle = formatString(item["title"]);

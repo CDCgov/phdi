@@ -1,7 +1,7 @@
 /**
  * Formats a string.
- * @param {string} input - The string to format.
- * @returns {string} The formatted string.
+ * @param input - The string to format.
+ * @returns The formatted string.
  */
 export const formatString = (input: string): string => {
   // Convert to lowercase

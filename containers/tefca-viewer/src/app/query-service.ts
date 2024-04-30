@@ -2,7 +2,13 @@
 import { v4 as uuidv4 } from "uuid";
 import https from "https";
 import fetch, { RequestInit } from "node-fetch";
-import {Patient, Observation, DiagnosticReport, Condition, Encounter} from "fhir/r4";
+import {
+  Patient,
+  Observation,
+  DiagnosticReport,
+  Condition,
+  Encounter,
+} from "fhir/r4";
 
 type FHIR_SERVERS = "meld" | "ehealthexchange";
 
@@ -55,7 +61,7 @@ type UseCaseQueryRequest = {
   init?: RequestInit;
   headers?: { [key: string]: string };
   patientId?: string;
-}
+};
 
 type QueryResponse = {
   patients?: Patient[];
@@ -66,12 +72,15 @@ type QueryResponse = {
 };
 
 const useCaseQueryMap: {
-  [key in USE_CASES]: (input: UseCaseQueryRequest, queryResponse: QueryResponse) => Promise<void>;
+  [key in USE_CASES]: (
+    input: UseCaseQueryRequest,
+    queryResponse: QueryResponse,
+  ) => Promise<void>;
 } = {
   "social-determinants": socialDeterminantsQuery,
   "newborn-screening": newbornScreeningQuery,
-  "syphilis": syphilisQuery,
-  "cancer": async () => {
+  syphilis: syphilisQuery,
+  cancer: async () => {
     throw new Error("Not implemented");
   },
 };
@@ -82,49 +91,51 @@ export type UseCaseQueryResponse = Awaited<ReturnType<typeof useCaseQuery>>;
 /**
  * Given a UseCaseQueryRequest object, set the appropriate FHIR server connection
  * configurations.
- * @param {UseCaseQueryRequest} request - The request object to configure.
- * @returns {void}
+ * @param request - The request object to configure.
+ * @returns
  */
 function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
-    request.fhir_host = FHIR_SERVERS[request.fhir_server].hostname;
-    request.headers = FHIR_SERVERS[request.fhir_server].headers || {};
+  request.fhir_host = FHIR_SERVERS[request.fhir_server].hostname;
+  request.headers = FHIR_SERVERS[request.fhir_server].headers || {};
 
-    // Set up init object for eHealth Exchange
-    request.init = {};
-  
-    // Add username to headers if it exists in input.fhir_server
-    if (
-      FHIR_SERVERS[request.fhir_server].username &&
-      FHIR_SERVERS[request.fhir_server].password
-    ) {
-      const credentials = btoa(
-        `${FHIR_SERVERS[request.fhir_server].username}:${
-          FHIR_SERVERS[request.fhir_server].password || ""
-        }`
-      );
-      request.headers.Authorization = `Basic ${credentials}`;
-      request.init.agent = new https.Agent({
-        rejectUnauthorized: false,
-      });
-    }
+  // Set up init object for eHealth Exchange
+  request.init = {};
+
+  // Add username to headers if it exists in input.fhir_server
+  if (
+    FHIR_SERVERS[request.fhir_server].username &&
+    FHIR_SERVERS[request.fhir_server].password
+  ) {
+    const credentials = btoa(
+      `${FHIR_SERVERS[request.fhir_server].username}:${
+        FHIR_SERVERS[request.fhir_server].password || ""
+      }`,
+    );
+    request.headers.Authorization = `Basic ${credentials}`;
+    request.init.agent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+  }
 }
 
 /**
- * Query a FHIR server for a patient based on demographics provided in the request. If 
+ * Query a FHIR server for a patient based on demographics provided in the request. If
  * a patient is found, store in the queryResponse object.
- * @param {UseCaseQueryRequest} request - The request object containing the patient demographics.
- * @param {QueryResponse} queryResponse - The response object to store the patient.
- * @returns {Promise<{ responseBody: any }>} - The response body from the FHIR server.
+ * @param request - The request object containing the patient demographics.
+ * @param queryResponse - The response object to store the patient.
+ * @returns - The response body from the FHIR server.
  */
-async function patientQuery(request: UseCaseQueryRequest, queryResponse: QueryResponse): Promise<{ responseBody: any }> {
-
+async function patientQuery(
+  request: UseCaseQueryRequest,
+  queryResponse: QueryResponse,
+): Promise<{ responseBody: any }> {
   // Query for patient
   const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
   const response = await fetch(request.fhir_host + query, {
     headers: request.headers,
     ...request.init,
   });
-  
+
   // Check for errors
   if (response.status !== 200) {
     console.log("response:", response);
@@ -132,12 +143,13 @@ async function patientQuery(request: UseCaseQueryRequest, queryResponse: QueryRe
   }
 
   const responseBody = await response.json();
-  queryResponse.patients = responseBody.entry.map((entry: any) => entry.resource);
+  queryResponse.patients = responseBody.entry.map(
+    (entry: any) => entry.resource,
+  );
 
   if (responseBody.total === 0) {
     throw new Error("No patient found.");
-  }
-  else if (responseBody.total > 1) {
+  } else if (responseBody.total > 1) {
     throw new Error("Multiple patients found. Please refine your search.");
   }
 
@@ -145,36 +157,39 @@ async function patientQuery(request: UseCaseQueryRequest, queryResponse: QueryRe
 }
 
 /**
- * Query a FHIR API for a public health use case based on patient demographics provided 
+ * Query a FHIR API for a public health use case based on patient demographics provided
  * in the request. If data is found, return in a queryResponse object.
- * @param {UseCaseQueryRequest} request - The request object containing the patient demographics.
- * @returns {Promise<QueryResponse>} - The response object containing the query results.
+ * @param request - The request object containing the patient demographics.
+ * @param input
+ * @returns - The response object containing the query results.
  */
-export async function useCaseQuery(input: UseCaseQueryRequest): Promise<QueryResponse> {
+export async function useCaseQuery(
+  input: UseCaseQueryRequest,
+): Promise<QueryResponse> {
   console.log("input:", input);
 
   configureFHIRServerConnection(input);
 
-  const queryResponse : QueryResponse = {};
-  const  { responseBody } = await patientQuery(input, queryResponse);
+  const queryResponse: QueryResponse = {};
+  const { responseBody } = await patientQuery(input, queryResponse);
   input.patientId = responseBody.entry[0].resource.id;
 
- await useCaseQueryMap[input.use_case](input, queryResponse);
+  await useCaseQueryMap[input.use_case](input, queryResponse);
 
-
-return queryResponse;
+  return queryResponse;
 }
 
 /**
  * Social Determinant of Health use case query.
- * @param {UseCaseQueryRequest} request - The request object containing the patient ID.
- * @param {QueryResponse} queryResponse - The response object to store the results
- * @returns {Promise<void>}
+ * @param request - The request object containing the patient ID.
+ * @param input
+ * @param queryResponse - The response object to store the results
+ * @returns
  */
 async function socialDeterminantsQuery(
   input: UseCaseQueryRequest,
-  queryResponse: QueryResponse
-): Promise<void>{
+  queryResponse: QueryResponse,
+): Promise<void> {
   const query = `/Observation?subject=${input.patientId}&category=social-history`;
   const response = await fetch(input.fhir_host + query, input.init);
 
@@ -183,18 +198,21 @@ async function socialDeterminantsQuery(
     console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
-  queryResponse.observations = (await response.json()).entry.map((entry: any) => entry.resource);
+  queryResponse.observations = (await response.json()).entry.map(
+    (entry: any) => entry.resource,
+  );
 }
 
 /**
  * Newborn Screening use case query.
- * @param {UseCaseQueryRequest} request - The request object containing the patient ID.
- * @param {QueryResponse} queryResponse - The response object to store the results
- * @returns {Promise<void>}
+ * @param request - The request object containing the patient ID.
+ * @param input
+ * @param queryResponse - The response object to store the results
+ * @returns
  */
 async function newbornScreeningQuery(
   input: UseCaseQueryRequest,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<void> {
   const loincs: Array<string> = [
     "73700-7",
@@ -218,18 +236,21 @@ async function newbornScreeningQuery(
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
-  queryResponse.observations =(await response.json()).entry.map((entry: any) => entry.resource);
+  queryResponse.observations = (await response.json()).entry.map(
+    (entry: any) => entry.resource,
+  );
 }
 
 /**
  * Syphilis use case query.
- * @param {UseCaseQueryRequest} request - The request object containing the patient ID.
- * @param {QueryResponse} queryResponse - The response object to store the results
- * @returns {Promise<void>}
+ * @param request - The request object containing the patient ID.
+ * @param input
+ * @param queryResponse - The response object to store the results
+ * @returns
  */
 async function syphilisQuery(
   input: UseCaseQueryRequest,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<void> {
   const loincs: Array<string> = ["LP70657-9", "98212-4"];
   const snomed: Array<string> = ["76272004"];
@@ -237,27 +258,36 @@ async function syphilisQuery(
   const snomedFilter: string = snomed.join(",");
 
   const observationQuery = `/Observation?subject=${input.patientId}&code=${loincFilter}`;
-  const observationResponse = await fetch(input.fhir_host + observationQuery, input.init);
+  const observationResponse = await fetch(
+    input.fhir_host + observationQuery,
+    input.init,
+  );
   if (observationResponse.status === 200) {
-    queryResponse.observations = (await observationResponse.json()).entry.map((entry: any) => entry.resource);
+    queryResponse.observations = (await observationResponse.json()).entry.map(
+      (entry: any) => entry.resource,
+    );
   }
 
   const diagnositicReportQuery = `/DiagnosticReport?subject=${input.patientId}&code=${loincFilter}`;
   const diagnositicReportResponse = await fetch(
     input.fhir_host + diagnositicReportQuery,
-    input.init
+    input.init,
   );
   if (diagnositicReportResponse.status === 200) {
-    queryResponse.diagnosticReports = (await diagnositicReportResponse.json()).entry.map((entry: any) => entry.resource);
+    queryResponse.diagnosticReports = (
+      await diagnositicReportResponse.json()
+    ).entry.map((entry: any) => entry.resource);
   }
 
   const conditionQuery = `/Condition?subject=${input.patientId}&code=${snomedFilter}`;
   const conditionResponse = await fetch(
     input.fhir_host + conditionQuery,
-    input.init
+    input.init,
   );
   if (conditionResponse.status === 200) {
-    queryResponse.conditions = (await conditionResponse.json()).entry.map((entry: any) => entry.resource);
+    queryResponse.conditions = (await conditionResponse.json()).entry.map(
+      (entry: any) => entry.resource,
+    );
   }
 
   if (queryResponse.conditions && queryResponse.conditions.length === 0) {
@@ -265,10 +295,12 @@ async function syphilisQuery(
     const encounterQuery = `/Encounter?subject=${input.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
       input.fhir_host + encounterQuery,
-      input.init
+      input.init,
     );
     if (encounterResponse.status === 200) {
-      queryResponse.encounters = (await encounterResponse.json()).entry.map((entry: any) => entry.resource);
+      queryResponse.encounters = (await encounterResponse.json()).entry.map(
+        (entry: any) => entry.resource,
+      );
     }
   }
 }

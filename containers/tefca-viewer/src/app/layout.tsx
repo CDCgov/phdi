@@ -1,8 +1,7 @@
 import "../styles/styles.scss";
-import Header from "./header"
-import Footer from "./footer"
-import { DataProvider } from "./utils"
-
+import Header from "./header";
+import Footer from "./footer";
+import { DataProvider } from "./utils";
 
 export const metadata = {
   title: "TEFCA Viewer",
@@ -11,24 +10,23 @@ export const metadata = {
 
 /**
  * Establishes the layout for the application.
- * @param {object} props - Props for the component.
+ * @param props - Props for the component.
+ * @param props.children
  */
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <body>
         <Header />
         <div className="main-body">
-         <DataProvider>
-           {children}
-         </DataProvider>
+          <DataProvider>{children}</DataProvider>
         </div>
         <Footer />
-        </body>
+      </body>
     </html>
-  )
+  );
 }
