@@ -126,6 +126,7 @@ const EcrMetadata = ({
                 </span>
               <th className="reportability_summary_header">
                 Reportable Condition
+              </span>
               </th>
               <th>RCKMS Rule Summary</th>
               <th>
@@ -137,6 +138,14 @@ const EcrMetadata = ({
                   {`Jurisdiction Sent eCR`}
                 </Tooltip>
               </th>
+              <th>
+                <span title="List of jurisdictions this eCR was sent to. Can 
+                include multiple jurisdictions depending on provider location, 
+                patient address, and jurisdictions onboarded to eCR."
+                className="usa-tooltip" data-position="bottom">
+                  Jurisdiction Sent eCR
+                  </span>
+  
             </tr>
           </thead>
           <tbody>{convertDictionaryToRows(rrDetails)}</tbody>

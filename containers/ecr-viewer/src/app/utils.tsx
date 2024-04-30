@@ -292,6 +292,9 @@ export const evaluateSocialData = (
   return evaluateData(socialData);
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 874bded2 (merge in tooltip)
 /**
  * Evaluates and formats patient identifiers from a given FHIR bundle using specified path mappings.
  * Each patient ID is formatted as a React component (span element) with a tooltip for displaying additional information.
@@ -322,9 +325,12 @@ export const evaluatePatientIds = (
   });
   return patientIdsFormatted;
 };
+<<<<<<< HEAD
 =======
 
 >>>>>>> dea9cbd5 (Enforce JSDocs on arrow functions (#1698))
+=======
+>>>>>>> 874bded2 (merge in tooltip)
 /**
  * Evaluates demographic data from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing demographic data.
@@ -387,8 +393,12 @@ export const evaluateDemographicsData = (
           title="Unique patient identifier(s) from their medical record. 
       For example, a patient's social security number or medical record number"
           className="usa-tooltip"
+<<<<<<< HEAD
           data-position="bottom"
         >
+=======
+          data-position="bottom">
+>>>>>>> 874bded2 (merge in tooltip)
           Patient IDs
         </span>
       ),
@@ -522,22 +532,36 @@ export const evaluateEcrMetadata = (
   const eicrDetails: DisplayData[] = [
     {
       title: (
+<<<<<<< HEAD
         <span
           title="Unique document ID for the eICR that originates from the medical record. 
       Different from the Document ID that NBS creates for all incoming records"
           className="usa-tooltip"
           data-position="bottom"
         >
+=======
+        <span title="Unique document ID for the eICR that originates from the medical record. 
+      Different from the Document ID that NBS creates for all incoming records"
+          className="usa-tooltip"
+          data-position="bottom">
+>>>>>>> 874bded2 (merge in tooltip)
           eICR ID
         </span>
       ),
       value: (
+<<<<<<< HEAD
         <span
           title="Unique document ID for the eICR that originates from the medical record. 
         Different from the Document ID that NBS creates for all incoming records."
           className="usa-tooltip"
           data-position="bottom"
         >
+=======
+        <span title="Unique document ID for the eICR that originates from the medical record. 
+        Different from the Document ID that NBS creates for all incoming records."
+          className="usa-tooltip"
+          data-position="bottom">
+>>>>>>> 874bded2 (merge in tooltip)
           {evaluate(fhirBundle, mappings.eicrIdentifier)[0]}
         </span>
       ),
@@ -551,6 +575,7 @@ export const evaluateEcrMetadata = (
       ),
     },
     {
+<<<<<<< HEAD
       title: (
         <span
           title="EHR system used by the sending provider."
@@ -560,6 +585,14 @@ export const evaluateEcrMetadata = (
           Sender Software
         </span>
       ),
+=======
+      title: "Sender Software",
+      title: (<span title="EHR system used by the sending provider."
+          className="usa-tooltip"
+          data-position="bottom">
+          Sender Software
+        </span>),
+>>>>>>> 874bded2 (merge in tooltip)
     },
     {
       title: "Sender Facility Name",
