@@ -544,9 +544,12 @@ export const evaluateEcrMetadata = (
       ),
     },
     {
-      title: (<span title="EHR system used by the sending provider."
+      title: (
+        <span
+          title="EHR system used by the sending provider."
           className="usa-tooltip"
-          data-position="bottom">
+          data-position="bottom"
+        >
           Sender Software
         </span>
       ),
