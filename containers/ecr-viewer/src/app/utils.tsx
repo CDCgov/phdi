@@ -31,7 +31,7 @@ import { Table } from "@trussworks/react-uswds";
 import { CareTeamParticipant, CarePlanActivity } from "fhir/r4b";
 
 export interface DisplayData {
-  title?: string;
+  title?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
   className?: string;
   value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
   dividerLine?: boolean;
@@ -288,7 +288,36 @@ export const evaluateSocialData = (
   ];
   return evaluateData(socialData);
 };
-
+/**
+ * Evaluates and formats patient identifiers from a given FHIR bundle using specified path mappings.
+ * Each patient ID is formatted as a React component (span element) with a tooltip for displaying additional information.
+ * The tooltips can help users understand the significance of the identifiers displayed.
+ * @param fhirBundle - The FHIR bundle containing patient data, which is expected to conform to the FHIR standard.
+ * @param fhirPathMappings - An object specifying paths to extract patient identifiers from the FHIR bundle.
+ * @returns An array of span elements each containing a patient ID. These elements are enhanced with a tooltip
+ *  feature provided by a `className` of "usa-tooltip". Each tooltip displays the patient identifier and a description.
+ */
+export const evaluatePatientIds = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+) => {
+  const patientIds = evaluate(fhirBundle, fhirPathMappings.patientId);
+  const patientIdsFormatted = patientIds.map((id) => {
+    return (
+      <span
+        key={id}
+        className="usa-tooltip"
+        data-position="bottom"
+        data-text={id}
+        title="Unique patient identifier(s) from their medical record. 
+      For example, a patient's social security number or medical record number"
+      >
+        {id}
+      </span>
+    );
+  });
+  return patientIdsFormatted;
+};
 /**
  * Evaluates demographic data from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing demographic data.
@@ -346,8 +375,16 @@ export const evaluateDemographicsData = (
       value: evaluateEmergencyContact(fhirBundle, mappings),
     },
     {
-      title: "Patient IDs",
-      value: evaluate(fhirBundle, mappings.patientId)[0],
+      title: (
+        <span
+          title="Unique patient identifier(s) from their medical record. 
+      For example, a patient's social security number or medical record number"
+          className="usa-tooltip"
+          data-position="bottom">
+          Patient IDs
+        </span>
+      ),
+      value: evaluatePatientIds(fhirBundle, mappings),
     },
   ];
   return evaluateData(demographicsData);
@@ -476,8 +513,22 @@ export const evaluateEcrMetadata = (
 
   const eicrDetails: DisplayData[] = [
     {
-      title: "eICR Identifier",
-      value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
+      title: (
+        <span title="Unique document ID for the eICR that originates from the medical record. 
+      Different from the Document ID that NBS creates for all incoming records"
+          className="usa-tooltip"
+          data-position="bottom">
+          eICR ID
+        </span>
+      ),
+      value: (
+        <span title="Unique document ID for the eICR that originates from the medical record. 
+        Different from the Document ID that NBS creates for all incoming records."
+          className="usa-tooltip"
+          data-position="bottom">
+          {evaluate(fhirBundle, mappings.eicrIdentifier)[0]}
+        </span>
+      ),
     },
   ];
   const ecrSenderDetails: DisplayData[] = [
@@ -489,7 +540,11 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Sender Software",
-      value: evaluate(fhirBundle, mappings.senderSoftware)[0],
+      title: (<span title="EHR system used by the sending provider."
+          className="usa-tooltip"
+          data-position="bottom">
+          Sender Software
+        </span>),
     },
     {
       title: "Sender Facility Name",
