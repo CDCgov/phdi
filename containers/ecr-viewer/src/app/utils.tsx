@@ -394,11 +394,16 @@ export const evaluateDemographicsData = (
       For example, a patient's social security number or medical record number"
           className="usa-tooltip"
 <<<<<<< HEAD
+<<<<<<< HEAD
           data-position="bottom"
         >
 =======
           data-position="bottom">
 >>>>>>> 874bded2 (merge in tooltip)
+=======
+          data-position="bottom"
+        >
+>>>>>>> f65536da ([pre-commit.ci] auto fixes from pre-commit hooks)
           Patient IDs
         </span>
       ),
@@ -533,6 +538,7 @@ export const evaluateEcrMetadata = (
     {
       title: (
 <<<<<<< HEAD
+<<<<<<< HEAD
         <span
           title="Unique document ID for the eICR that originates from the medical record. 
       Different from the Document ID that NBS creates for all incoming records"
@@ -545,10 +551,19 @@ export const evaluateEcrMetadata = (
           className="usa-tooltip"
           data-position="bottom">
 >>>>>>> 874bded2 (merge in tooltip)
+=======
+        <span
+          title="Unique document ID for the eICR that originates from the medical record. 
+      Different from the Document ID that NBS creates for all incoming records"
+          className="usa-tooltip"
+          data-position="bottom"
+        >
+>>>>>>> f65536da ([pre-commit.ci] auto fixes from pre-commit hooks)
           eICR ID
         </span>
       ),
       value: (
+<<<<<<< HEAD
 <<<<<<< HEAD
         <span
           title="Unique document ID for the eICR that originates from the medical record. 
@@ -562,6 +577,14 @@ export const evaluateEcrMetadata = (
           className="usa-tooltip"
           data-position="bottom">
 >>>>>>> 874bded2 (merge in tooltip)
+=======
+        <span
+          title="Unique document ID for the eICR that originates from the medical record. 
+        Different from the Document ID that NBS creates for all incoming records."
+          className="usa-tooltip"
+          data-position="bottom"
+        >
+>>>>>>> f65536da ([pre-commit.ci] auto fixes from pre-commit hooks)
           {evaluate(fhirBundle, mappings.eicrIdentifier)[0]}
         </span>
       ),
@@ -587,12 +610,20 @@ export const evaluateEcrMetadata = (
       ),
 =======
       title: "Sender Software",
-      title: (<span title="EHR system used by the sending provider."
+      title: (
+        <span
+          title="EHR system used by the sending provider."
           className="usa-tooltip"
-          data-position="bottom">
+          data-position="bottom"
+        >
           Sender Software
+<<<<<<< HEAD
         </span>),
 >>>>>>> 874bded2 (merge in tooltip)
+=======
+        </span>
+      ),
+>>>>>>> f65536da ([pre-commit.ci] auto fixes from pre-commit hooks)
     },
     {
       title: "Sender Facility Name",
