@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import https from "https";
 import fetch, { RequestInit } from "node-fetch";
 import {Patient, Observation, DiagnosticReport, Condition, Encounter} from "fhir/r4";
-import { log } from "console";
 
 type FHIR_SERVERS = "meld" | "ehealthexchange";
 

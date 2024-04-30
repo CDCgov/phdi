@@ -1,6 +1,6 @@
 import { UseCaseQueryResponse } from "../patient_search";
-import AccordionContainer from "@/app/view-data/components/AccordionContainer";
-import SideNav from "@/app/view-data/components/SideNav";
+import AccordionContainer from "./AccordionContainer";
+import SideNav from "./SideNav";
 // import { PathMappings } from "@/app/utils";
 import React from "react";
 import mappings from "@/app/api/fhirPath.json" assert { type: "json" };

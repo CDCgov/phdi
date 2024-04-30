@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { UseCaseQueryResponse, use_case_query } from "./patient_search";
 import { PatientView } from "./components/PatientView";
-import { Fieldset, Label, TextInput, DatePicker, Select } from "@trussworks/react-uswds";
+import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
 
 export function PatientSearch() {
   const [firstName, setFirstName] = useState<string>("");

@@ -1,11 +1,5 @@
-import {
-  evaluateSocialData,
-  evaluateDemographicsData,
-  PathMappings,
-} from "../../utils";
 import Demographics from "./Demographics";
-import SocialHistory from "./SocialHistory";
-import ObservationTable, {ObservationTableProps} from "./ObservationTable";
+import ObservationTable from "./ObservationTable";
 import React from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import { formatString } from "@/app/format-service";
