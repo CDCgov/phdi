@@ -7,8 +7,8 @@ import {evaluate} from "fhirpath";
 
 /**
  * Displays the demographic information of a patient.
- * @param patient - The patient to display demographic information for.
- * @returns The Demographics component.
+ * @param {Patient} patient - The patient to display demographic information for.
+ * @returns {React.FC} The Demographics component.
  */
 export interface DemographicsProps {
   patient: Patient;
@@ -32,8 +32,8 @@ export default Demographics;
 
 /**
  * Formats the demographic information of a patient.
- * @param patient - The patient to format demographic information for.
- * @returns The formatted demographic information as an array of DisplayData objects.
+ * @param { Patient } patient - The patient to format demographic information for.
+ * @returns { DisplayData } The formatted demographic information as an array of DisplayData objects.
  */
 function formatDemographics(patient: Patient): DisplayData[]{
 
@@ -89,8 +89,8 @@ function formatDemographics(patient: Patient): DisplayData[]{
 
 /**
  * Formats the name of a FHIR HumanName object.
- * @param names - The HumanName object to format.
- * @returns The formatted name.
+ * @param { HumanName } names - The HumanName object to format.
+ * @returns { string } The formatted name.
  */
 function formatName(names: HumanName[]): string {
     let name = "";
@@ -102,8 +102,8 @@ function formatName(names: HumanName[]): string {
 
 /**
  * Formats the address of a FHIR Address object.
- * @param address - The Address object to format.
- * @returns The formatted address.
+ * @param { Address } address - The Address object to format.
+ * @returns { string } The formatted address.
  */
 function formatAddress(address: Address[]): string {
     let formattedAddress = "";
@@ -115,8 +115,8 @@ function formatAddress(address: Address[]): string {
 
 /**
  * Formats the contact information of a FHIR ContactPoint object.
- * @param contacts - The ContactPoint object to format.
- * @returns The formatted contact information.
+ * @param { ContactPoint }contacts - The ContactPoint object to format.
+ * @returns { string } The formatted contact information.
  */
 function formatContact(contacts: ContactPoint[]): string{
     return (
@@ -134,8 +134,8 @@ function formatContact(contacts: ContactPoint[]): string{
 
 /**
  * Formats the identifiers of a FHIR Identifier object.
- * @param identifier - The Identifier object to format.
- * @returns The formatted identifiers.
+ * @param { Identifier } identifier - The Identifier object to format.
+ * @returns { string } The formatted identifiers.
  */
 function formatIdentifier(identifier: Identifier[]): string{
     return (
@@ -153,10 +153,10 @@ function formatIdentifier(identifier: Identifier[]): string{
 
 /**
  * Calculates the age of a patient based on their birth date.
- * @param patient - The patient to calculate the age for.
- * @returns The age of the patient.
+ * @param { Patient } patient - The patient to calculate the age for.
+ * @returns { number | undefined } The age of the patient.
  */
-export function calculatePatientAge(patient: Patient) {
+export function calculatePatientAge(patient: Patient): number | undefined{
     if (patient.birthDate) {
       const patientDOB = new Date(patient.birthDate);
       const today = new Date();

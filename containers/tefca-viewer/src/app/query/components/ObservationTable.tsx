@@ -5,8 +5,8 @@ import { Observation, CodeableConcept } from 'fhir/r4';
 
 /**
  * Displays a table of data from array of Observations resources.
- * @param observations - The observations to display.
- * @returns The ObservationTable component.
+ * @param { Observation[] } observations - The observations to display.
+ * @returns { React.FC } The ObservationTable component.
  */
 export interface ObservationTableProps {
     observations: Observation[];

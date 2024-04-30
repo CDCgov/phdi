@@ -6,8 +6,8 @@ import React from "react";
 
 /**
  * Displays query results.
- * @param useCaseQueryResponse - The query results to display.
- * @returns The QueryView component.
+ * @param {UseCaseQueryResponse} useCaseQueryResponse - The query results to display.
+ * @returns {React.FC} The QueryView component.
  */
 type QueryViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;

@@ -15,11 +15,10 @@ type AccordionContainerProps = {
   queryResponse: UseCaseQueryResponse
 };
 
-
 /**
  * Returns the Accordion component to render all components of the query response.
- * @param queryResponse - The response from the query service.
- * @returns The Accordion component.
+ * @param { UseCaseQueryResponse } queryResponse - The response from the query service.
+ * @returns { React.FC<AccordionContainerProps> } The AccordionContainer component.
  */
 const AccordianContainer: React.FC<AccordionContainerProps> = ({
   queryResponse
