@@ -4,6 +4,11 @@ import { UseCaseQueryResponse, use_case_query } from "../query-service";
 import QueryView from "./components/QueryView";
 import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
 
+
+/**
+ * Displays the patient search form and results.
+ * @returns {React.FC} The PatientSearch component.
+ */
 export function PatientSearch() {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
