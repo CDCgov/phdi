@@ -126,6 +126,31 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
+        {% if observationEntry.organizer and observationEntry.organizer.classCode == "BATTERY" %}
+            {% assign batteryComponents = observationEntry.organizer.component | to_array %}
+            "component":
+            [
+                {% for component in batteryComponents %}
+                {
+                    "code":
+                        {
+                            {% if component.observation.code -%}
+                                {% include 'DataType/CodeableConcept' CodeableConcept: component.observation.code -%}
+                            {% endif -%}
+                        },
+                    "valueString": "{{ component.observation.value._ }}",
+                    "extension": [
+                        {% if component.observation.methodCode.originalText._ %}
+                        {
+                            "url": "methodCode originalText",
+                            "valueString": "{{ component.observation.methodCode.originalText._ }}",
+                        },
+                        {% endif %}
+                    ],
+                },
+                {% endfor %}
+            ],
+        {% endif %}
         {% assign observationTextReferenceValue = observationEntry.text.reference.value -%}
         {% assign observationValueReferenceValue = observationEntry.value.reference.value -%}
         "extension":

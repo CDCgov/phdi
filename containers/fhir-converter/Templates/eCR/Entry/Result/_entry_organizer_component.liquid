@@ -20,3 +20,13 @@
       {% endif -%}
   {% endif -%}
 {% endif -%}
+{% if component.organizer and component.organizer.classCode == "BATTERY" %}
+  {% if component.organizer.code.nullFlavor and component.observation.code.nullFlavor != 'UNK' -%}
+    {% else -%}
+      {% assign observationId = component | to_json_string | generate_uuid -%}
+      {% include 'Resource/Observation' observationCategory: 'laboratory', observationEntry: component, ID: observationId -%}
+      {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
+      {% include 'Reference/DiagnosticReport/Result' ID: diagnosticId, REF: fullObservationId -%}
+      {% include 'Reference/Observation/Subject' ID: observationId, REF: fullPatientId -%}
+  {% endif -%}    
+{% endif -%}
