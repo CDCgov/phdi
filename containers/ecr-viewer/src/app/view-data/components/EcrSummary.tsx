@@ -1,7 +1,7 @@
 import { SectionConfig } from "./SideNav";
 import React, { FC } from "react";
 
-interface EcrViewerProps {
+interface EcrSummaryProps {
   patientDetails: DisplayProps[];
   encounterDetails: DisplayProps[];
   aboutTheCondition: DisplayProps[];
@@ -42,11 +42,19 @@ const Display: FC<DisplayProps> = ({ title, value }: DisplayProps) => {
   );
 };
 
-const EcrSummary = ({
+/**
+ * Generates a JSX element to display eCR viewer summary
+ * @param props - Properties for the eCR Viewer Summary section
+ * @param props.patientDetails - Array of title and values to be displayed in patient details section
+ * @param props.encounterDetails - Array of title and values to be displayed in encounter details section
+ * @param props.aboutTheCondition - Array of title and values to be displayed in about the condition section
+ * @returns a react element for ECR Summary
+ */
+const EcrSummary: React.FC<EcrSummaryProps> = ({
   patientDetails,
   encounterDetails,
   aboutTheCondition,
-}: EcrViewerProps) => {
+}) => {
   return (
     <div className={"info-container"}>
       <div
