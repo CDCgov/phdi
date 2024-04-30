@@ -1,4 +1,9 @@
 import Image from 'next/image'
+
+/**
+ * Produces the footer.
+ * @returns { React.FC } The footer component.
+ */
 export default function FooterComponent() {
   return (
     <footer className="usa-footer">
@@ -41,7 +46,5 @@ export default function FooterComponent() {
         </div>
       </div>
     </footer>
-
-
   )
 }
