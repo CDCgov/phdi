@@ -3,12 +3,15 @@ import {
   ProcessList,
   ProcessListItem,
   ProcessListHeading,
-  Link,
   Button,
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
 
-export default function UploadTutorial() {
+/**
+ * The landing page for the TEFCA Viewer.
+ * @returns {React.FC} The LandingPage component.
+ */
+export default function LandingPage() {
   const router = useRouter();
 
   const handleClick = () => {
