@@ -18,7 +18,7 @@ load_dotenv()
 ERSD_API_KEY = os.getenv("ERSD_API_KEY")
 ERSD_URL = f"https://ersd.aimsplatform.org/api/ersd/v2specification?format=json&api-key={ERSD_API_KEY}"
 
-# python constants to start message-parser service
+# docker constants to start message-parser service
 dockerfile_path = Path(__file__).parent.parent.parent / "message-parser"
 tag = "message-parser:latest"
 ports = {"8080": 8080}
@@ -74,7 +74,7 @@ def load_ersd(URL: str) -> dict:
     if response.status_code == 200:
         data = response.json()
     else:
-        print("Failed to retrieve data:", response.status_code)
+        print("Failed to retrieve data:", response.status_code, response.text)
     return data
 
 
