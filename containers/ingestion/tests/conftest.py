@@ -1,7 +1,21 @@
+import json
 import os
+from pathlib import Path
 
 import pytest
 from testcontainers.compose import DockerCompose
+
+
+@pytest.fixture(scope="session")
+def read_json_from_test_assets():
+    def _read_json(filename: str) -> dict:
+        """
+        Reads a JSON file from the test assets directory.
+        """
+        with open((Path(__file__).parent / "assets" / filename), "r") as file:
+            return json.load(file)
+
+    return _read_json
 
 
 @pytest.fixture(scope="session")
