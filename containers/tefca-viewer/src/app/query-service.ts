@@ -179,7 +179,7 @@ export async function useCaseQuery(
 
 /**
  * Social Determinant of Health use case query.
- * @param request
+ * @param request - The request object containing the patient ID.
  * @param queryResponse - The response object to store the results
  */
 async function socialDeterminantsQuery(

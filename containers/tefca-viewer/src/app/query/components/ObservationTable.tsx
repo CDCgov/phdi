@@ -3,18 +3,16 @@ import { Table } from "@trussworks/react-uswds";
 import { Observation, CodeableConcept } from "fhir/r4";
 
 /**
- * Displays a table of data from array of Observations resources.
- * @param { Observation[] } observations - The observations to display.
- * @returns { React.FC } The ObservationTable component.
+ * The props for the ObservationTable component.
  */
 export interface ObservationTableProps {
   observations: Observation[];
 }
 
 /**
- *
- * @param root0
- * @param root0.observations
+ * Displays a table of data from array of Observations resources.
+ * @param observations - The observations to display.
+ * @returns - The ObservationTable component.
  */
 const ObservationTable: React.FC<ObservationTableProps> = ({
   observations,
