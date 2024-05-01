@@ -361,6 +361,24 @@ def get_datetime_now() -> datetime.datetime:
     return datetime.datetime.now()
 
 
+def clean_schema(schema: dict):
+    """
+    Recursively remove any 'secondary_schema' fields that are None or empty.
+    :param schema: the parsing schema dictionary to clean out
+    """
+    keys_to_delete = []
+    for key, value in schema.items():
+        if isinstance(value, dict):
+            clean_schema(value)  # Recursively clean nested dictionaries
+            if "secondary_schema" in value and not value["secondary_schema"]:
+                keys_to_delete.append("secondary_schema")
+        elif value is None:
+            keys_to_delete.append(key)
+
+    for key in keys_to_delete:
+        del schema[key]
+
+
 def extract_and_apply_parsers(parsing_schema, message, response):
     """
     Helper function used to pull parsing methods for each field out of the
