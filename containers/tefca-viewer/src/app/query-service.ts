@@ -92,7 +92,6 @@ export type UseCaseQueryResponse = Awaited<ReturnType<typeof useCaseQuery>>;
  * Given a UseCaseQueryRequest object, set the appropriate FHIR server connection
  * configurations.
  * @param request - The request object to configure.
- * @returns void - The function does not return anything, but modifies the request object.
  */
 function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
   request.fhir_host = FHIR_SERVERS[request.fhir_server].hostname;
@@ -159,38 +158,36 @@ async function patientQuery(
 /**
  * Query a FHIR API for a public health use case based on patient demographics provided
  * in the request. If data is found, return in a queryResponse object.
- * @param input - UseCaseQueryRequest object containing the patient demographics and use case.
+ * @param request - UseCaseQueryRequest object containing the patient demographics and use case.
  * @returns - The response object containing the query results.
  */
 export async function useCaseQuery(
-  input: UseCaseQueryRequest,
+  request: UseCaseQueryRequest,
 ): Promise<QueryResponse> {
-  console.log("input:", input);
+  console.log("input:", request);
 
-  configureFHIRServerConnection(input);
+  configureFHIRServerConnection(request);
 
   const queryResponse: QueryResponse = {};
-  const { responseBody } = await patientQuery(input, queryResponse);
-  input.patientId = responseBody.entry[0].resource.id;
+  const { responseBody } = await patientQuery(request, queryResponse);
+  request.patientId = responseBody.entry[0].resource.id;
 
-  await useCaseQueryMap[input.use_case](input, queryResponse);
+  await useCaseQueryMap[request.use_case](request, queryResponse);
 
   return queryResponse;
 }
 
 /**
  * Social Determinant of Health use case query.
- * @param request - The request object containing the patient ID.
- * @param input
+ * @param request
  * @param queryResponse - The response object to store the results
- * @returns
  */
 async function socialDeterminantsQuery(
-  input: UseCaseQueryRequest,
+  request: UseCaseQueryRequest,
   queryResponse: QueryResponse,
 ): Promise<void> {
-  const query = `/Observation?subject=${input.patientId}&category=social-history`;
-  const response = await fetch(input.fhir_host + query, input.init);
+  const query = `/Observation?subject=${request.patientId}&category=social-history`;
+  const response = await fetch(request.fhir_host + query, request.init);
 
   // Check for errors
   if (response.status !== 200) {
@@ -205,12 +202,10 @@ async function socialDeterminantsQuery(
 /**
  * Newborn Screening use case query.
  * @param request - The request object containing the patient ID.
- * @param input
  * @param queryResponse - The response object to store the results
- * @returns
  */
 async function newbornScreeningQuery(
-  input: UseCaseQueryRequest,
+  request: UseCaseQueryRequest,
   queryResponse: QueryResponse,
 ): Promise<void> {
   const loincs: Array<string> = [
@@ -227,8 +222,8 @@ async function newbornScreeningQuery(
   ];
   const loincFilter: string = "code=" + loincs.join(",");
 
-  const query = `/Observation?subject=${input.patientId}&code=${loincFilter}`;
-  const response = await fetch(input.fhir_host + query, input.init);
+  const query = `/Observation?subject=${request.patientId}&code=${loincFilter}`;
+  const response = await fetch(request.fhir_host + query, request.init);
 
   if (response.status !== 200) {
     console.log("response:", response);
@@ -243,12 +238,10 @@ async function newbornScreeningQuery(
 /**
  * Syphilis use case query.
  * @param request - The request object containing the patient ID.
- * @param input
  * @param queryResponse - The response object to store the results
- * @returns
  */
 async function syphilisQuery(
-  input: UseCaseQueryRequest,
+  request: UseCaseQueryRequest,
   queryResponse: QueryResponse,
 ): Promise<void> {
   const loincs: Array<string> = ["LP70657-9", "98212-4"];
@@ -256,10 +249,10 @@ async function syphilisQuery(
   const loincFilter: string = loincs.join(",");
   const snomedFilter: string = snomed.join(",");
 
-  const observationQuery = `/Observation?subject=${input.patientId}&code=${loincFilter}`;
+  const observationQuery = `/Observation?subject=${request.patientId}&code=${loincFilter}`;
   const observationResponse = await fetch(
-    input.fhir_host + observationQuery,
-    input.init,
+    request.fhir_host + observationQuery,
+    request.init,
   );
   if (observationResponse.status === 200) {
     queryResponse.observations = (await observationResponse.json()).entry.map(
@@ -267,10 +260,10 @@ async function syphilisQuery(
     );
   }
 
-  const diagnositicReportQuery = `/DiagnosticReport?subject=${input.patientId}&code=${loincFilter}`;
+  const diagnositicReportQuery = `/DiagnosticReport?subject=${request.patientId}&code=${loincFilter}`;
   const diagnositicReportResponse = await fetch(
-    input.fhir_host + diagnositicReportQuery,
-    input.init,
+    request.fhir_host + diagnositicReportQuery,
+    request.init,
   );
   if (diagnositicReportResponse.status === 200) {
     queryResponse.diagnosticReports = (
@@ -278,10 +271,10 @@ async function syphilisQuery(
     ).entry.map((entry: any) => entry.resource);
   }
 
-  const conditionQuery = `/Condition?subject=${input.patientId}&code=${snomedFilter}`;
+  const conditionQuery = `/Condition?subject=${request.patientId}&code=${snomedFilter}`;
   const conditionResponse = await fetch(
-    input.fhir_host + conditionQuery,
-    input.init,
+    request.fhir_host + conditionQuery,
+    request.init,
   );
   if (conditionResponse.status === 200) {
     queryResponse.conditions = (await conditionResponse.json()).entry.map(
@@ -291,10 +284,10 @@ async function syphilisQuery(
 
   if (queryResponse.conditions && queryResponse.conditions.length === 0) {
     const conditionId = queryResponse.conditions[0].id;
-    const encounterQuery = `/Encounter?subject=${input.patientId}&reason-reference=${conditionId}`;
+    const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
-      input.fhir_host + encounterQuery,
-      input.init,
+      request.fhir_host + encounterQuery,
+      request.init,
     );
     if (encounterResponse.status === 200) {
       queryResponse.encounters = (await encounterResponse.json()).entry.map(
