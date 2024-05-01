@@ -55,7 +55,7 @@ services:
       - "./jaeger-ui.json:/etc/jaeger/jaeger-ui.json"
     command: --query.ui-config /etc/jaeger/jaeger-ui.json
     ports:
-      - "16686:16686" # serves frontend and queries
+      - "16687:16687" # serves frontend and queries
   prometheus:
     image: prom/prometheus:latest
     ports:
