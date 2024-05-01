@@ -23,7 +23,7 @@ dockerfile_path = Path(__file__).parent.parent.parent / "message-parser"
 tag = "message-parser:latest"
 ports = {"8080": 8080}
 
-# SQL queries to initialize each table we need
+# SQL queries to initialize each table we need with pkeys and fkeys
 value_set_type_table = """CREATE TABLE IF NOT EXISTS value_set_type (
                           id TEXT PRIMARY KEY,
                           clinical_service_type TEXT
@@ -35,7 +35,9 @@ value_sets_table = """CREATE TABLE IF NOT EXISTS value_sets (
                       version TEXT,
                       value_set_name TEXT,
                       author TEXT,
-                      clinical_service_type_id
+                      clinical_service_type_id TEXT,
+                      FOREIGN KEY (clinical_service_type_id)
+                      REFERENCES value_set_type(id)
                       )
                       """
 
@@ -43,7 +45,8 @@ conditions_table = """CREATE TABLE IF NOT EXISTS conditions (
                       id TEXT,
                       value_set_id TEXT,
                       system TEXT,
-                      name TEXT
+                      name TEXT,
+                      FOREIGN KEY (value_set_id) REFERENCES value_sets(id)
                       )
                       """
 
@@ -53,7 +56,9 @@ clinical_services_table = """CREATE TABLE IF NOT EXISTS clinical_services (
                              code TEXT,
                              code_system TEXT,
                              display TEXT,
-                             version TEXT
+                             version TEXT,
+                             FOREIGN KEY (value_set_id)
+                             REFERENCES value_sets(id)
                              )
                              """
 
