@@ -28,6 +28,10 @@ export default function PatientSearch() {
     useState<UseCaseQueryResponse>();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    if (!useCase || !fhirServer) {
+      console.error("Use case and FHIR server are required.");
+      return;
+    }
     event.preventDefault();
     setLoading(true);
     console.log("Event:", event);
