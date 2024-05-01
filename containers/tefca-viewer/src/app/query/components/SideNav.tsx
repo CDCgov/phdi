@@ -48,6 +48,10 @@ function countObjects(array: SectionConfig[]): number {
 }
 
 //Creates a SectionConfig list. Nests headings in each section config
+/**
+ *
+ * @param headings
+ */
 export const sortHeadings = (headings: HeadingObject[]): SectionConfig[] => {
   const result: SectionConfig[] = [];
   let headingIndex = 0;
@@ -82,6 +86,9 @@ export const sortHeadings = (headings: HeadingObject[]): SectionConfig[] => {
   return result;
 };
 
+/**
+ *
+ */
 const SideNav: React.FC = () => {
   const [sectionConfigs, setSectionConfigs] = useState<SectionConfig[]>([]);
   const [activeSection, setActiveSection] = useState<string>("");

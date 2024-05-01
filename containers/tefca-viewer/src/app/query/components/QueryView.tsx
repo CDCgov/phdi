@@ -3,7 +3,6 @@ import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
 import React from "react";
 
-
 /**
  * Displays query results.
  * @param {UseCaseQueryResponse} useCaseQueryResponse - The query results to display.
@@ -11,8 +10,13 @@ import React from "react";
  */
 type QueryViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
-}
+};
 
+/**
+ *
+ * @param root0
+ * @param root0.useCaseQueryResponse
+ */
 const QueryView: React.FC<QueryViewProps> = ({ useCaseQueryResponse }) => {
   return (
     <div>
@@ -30,9 +34,7 @@ const QueryView: React.FC<QueryViewProps> = ({ useCaseQueryResponse }) => {
                   Query Results
                 </h2>
                 <div className="margin-top-6">
-                  <AccordionContainer
-                    queryResponse={useCaseQueryResponse}
-                  />
+                  <AccordionContainer queryResponse={useCaseQueryResponse} />
                 </div>
               </div>
             </div>
@@ -41,5 +43,5 @@ const QueryView: React.FC<QueryViewProps> = ({ useCaseQueryResponse }) => {
       </div>
     </div>
   );
-}
+};
 export default QueryView;

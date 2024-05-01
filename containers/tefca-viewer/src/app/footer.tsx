@@ -2,7 +2,7 @@
 
 /**
  * Produces the footer.
- * @returns { React.FC } The footer component.
+ * @returns The footer component.
  */
 export default function FooterComponent() {
   return (
@@ -27,7 +27,9 @@ export default function FooterComponent() {
                 /> */}
               </div>
               <div className="mobile-lg:grid-col-auto">
-                <p className=" text-base-lightest usa-footer__logo-heading">Centers for Disease Control and Prevention</p>
+                <p className=" text-base-lightest usa-footer__logo-heading">
+                  Centers for Disease Control and Prevention
+                </p>
               </div>
             </div>
             <div
@@ -39,12 +41,14 @@ export default function FooterComponent() {
               "
             >
               <div className="mobile-lg:grid-col-auto right-justified-text">
-                <p className="text-base-lightest usa_footer-trademark right-justified-text">© 2024 CDC. All rights reserved.</p>
+                <p className="text-base-lightest usa_footer-trademark right-justified-text">
+                  © 2024 CDC. All rights reserved.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }

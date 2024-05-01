@@ -1,7 +1,6 @@
-import React from 'react';
-import { Table } from '@trussworks/react-uswds';
-import { Observation, CodeableConcept } from 'fhir/r4';
-
+import React from "react";
+import { Table } from "@trussworks/react-uswds";
+import { Observation, CodeableConcept } from "fhir/r4";
 
 /**
  * Displays a table of data from array of Observations resources.
@@ -9,86 +8,104 @@ import { Observation, CodeableConcept } from 'fhir/r4';
  * @returns { React.FC } The ObservationTable component.
  */
 export interface ObservationTableProps {
-    observations: Observation[];
+  observations: Observation[];
 }
 
-const ObservationTable: React.FC<ObservationTableProps> = ({ observations }) => {
-    return (
-        <Table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Interpretation</th>
-                    <th>Value</th>
-                    <th>Reference Range</th>
-                </tr>
-            </thead>
-            <tbody>
-                {observations.map((obs) => (
-                    <tr key={obs.id}>
-                        <td>{obs?.effectiveDateTime}</td>
-                        <td>{formatCodeableConcept(obs.code)}</td>
-                        <td>{obs?.interpretation && obs.interpretation.length > 0 ? formatCodeableConcept(obs.interpretation[0]) : ""}</td>
-                        <td>{formatValue(obs)}</td>
-                        <td>{formatReferenceRange(obs)}</td>
-                    </tr>
-                ))}
-            </tbody>
-        </Table>
-    );
-}
+/**
+ *
+ * @param root0
+ * @param root0.observations
+ */
+const ObservationTable: React.FC<ObservationTableProps> = ({
+  observations,
+}) => {
+  return (
+    <Table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Interpretation</th>
+          <th>Value</th>
+          <th>Reference Range</th>
+        </tr>
+      </thead>
+      <tbody>
+        {observations.map((obs) => (
+          <tr key={obs.id}>
+            <td>{obs?.effectiveDateTime}</td>
+            <td>{formatCodeableConcept(obs.code)}</td>
+            <td>
+              {obs?.interpretation && obs.interpretation.length > 0
+                ? formatCodeableConcept(obs.interpretation[0])
+                : ""}
+            </td>
+            <td>{formatValue(obs)}</td>
+            <td>{formatReferenceRange(obs)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  );
+};
 export default ObservationTable;
 
 /**
- * Formats a CodeableConcept object for display. If the object has a coding array, 
+ * Formats a CodeableConcept object for display. If the object has a coding array,
  * the first coding object is used.
- * @param {CodeableConcept} concept - The CodeableConcept object.
- * @returns {React.JSX.Element || string} The CodeableConcept data formatted for 
+ * @param concept - The CodeableConcept object.
+ * @returns The CodeableConcept data formatted for
  * display.
  */
-function formatCodeableConcept(concept: CodeableConcept){
-    if(!concept.coding || concept.coding.length === 0){
-        return concept.text || "";
-    }
-    const coding = concept.coding[0];
-    return <> {coding.display} <br /> {coding.code} <br /> {coding.system} </>;
+function formatCodeableConcept(concept: CodeableConcept) {
+  if (!concept.coding || concept.coding.length === 0) {
+    return concept.text || "";
+  }
+  const coding = concept.coding[0];
+  return (
+    <>
+      {" "}
+      {coding.display} <br /> {coding.code} <br /> {coding.system}{" "}
+    </>
+  );
 }
 
 /**
  * Formats the value of an Observation object for display.
- * @param {Observation} obs - The Observation object.
- * @returns {string} The value of the Observation object formatted for display.
+ * @param obs - The Observation object.
+ * @returns The value of the Observation object formatted for display.
  */
-function formatValue(obs: Observation){
-    if(obs.valueCodeableConcept){
-        return formatCodeableConcept(obs.valueCodeableConcept);
-    }
-    else if(obs.valueQuantity){
-        return [obs.valueQuantity.value, obs.valueQuantity.unit].join(" ");
-    }
-    else if(obs.valueString){
-        return obs.valueString;
-    }
-    return "";
+function formatValue(obs: Observation) {
+  if (obs.valueCodeableConcept) {
+    return formatCodeableConcept(obs.valueCodeableConcept);
+  } else if (obs.valueQuantity) {
+    return [obs.valueQuantity.value, obs.valueQuantity.unit].join(" ");
+  } else if (obs.valueString) {
+    return obs.valueString;
+  }
+  return "";
 }
 
 /**
  * Formats the reference range of an Observation object for display.
- * @param {Observation} obs - The Observation object.
- * @returns {string} The reference range of the Observation object formatted for display.
+ * @param obs - The Observation object.
+ * @returns The reference range of the Observation object formatted for display.
  */
-function formatReferenceRange(obs: Observation){
-    if(!obs.referenceRange || obs.referenceRange.length === 0){
-        return "";
-    }
-    const range = obs.referenceRange[0];
-
-    if(range.high || range.low){
-        return <>{["HIGH:", range.high?.value, range.high?.unit].join(" ")} <br /> {["LOW:", range.low?.value, range.low?.unit].join(" ")}</>;
-    }
-    else if(range.text){
-        return range.text;
-    }
+function formatReferenceRange(obs: Observation) {
+  if (!obs.referenceRange || obs.referenceRange.length === 0) {
     return "";
+  }
+  const range = obs.referenceRange[0];
+
+  if (range.high || range.low) {
+    return (
+      <>
+        {["HIGH:", range.high?.value, range.high?.unit].join(" ")} <br />{" "}
+        {["LOW:", range.low?.value, range.low?.unit].join(" ")}
+      </>
+    );
+  } else if (range.text) {
+    return range.text;
+  }
+  return "";
 }

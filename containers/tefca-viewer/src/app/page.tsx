@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 /**
  * The landing page for the TEFCA Viewer.
- * @returns {React.FC} The LandingPage component.
+ * @returns The LandingPage component.
  */
 export default function LandingPage() {
   const router = useRouter();
@@ -21,7 +21,9 @@ export default function LandingPage() {
   return (
     <div className="display-flex flex-justify-center margin-top-5">
       <div className="home">
-        <h1 className="font-sans-2xl text-bold">Case investigation made easier</h1>
+        <h1 className="font-sans-2xl text-bold">
+          Case investigation made easier
+        </h1>
         <h2 className="font-sans-lg text-light">
           The TryTEFCA Viewer provides a low-effort and zero-cost method for you
           to see the benefit from joining a TEFCA QHIN. This demo viewer is an
@@ -46,7 +48,11 @@ export default function LandingPage() {
             </p>
           </ProcessListItem>
         </ProcessList>
-        <Button className="get-started-button" type="button" onClick={handleClick}>
+        <Button
+          className="get-started-button"
+          type="button"
+          onClick={handleClick}
+        >
           Get started
         </Button>
       </div>

@@ -7,13 +7,12 @@ type AccordianSectionProps = {
   id?: string;
 };
 
-
 /**
  * Accordion section component for the content of the accordion.
- * @param {Object} props - The props object.
- * @param {React.ReactNode} props.children - The children elements.
- * @param {string} [props.className] - Additional CSS classes for customization.
- * @returns {React.JSX.Element} React element representing the AccordionSection component.
+ * @param props - The props object.
+ * @param props.children - The children elements.
+ * @param [props.className] - Additional CSS classes for customization.
+ * @returns React element representing the AccordionSection component.
  */
 export const AccordianSection: React.FC<AccordianSectionProps> = ({
   children,
@@ -32,11 +31,11 @@ export const AccordianSection: React.FC<AccordianSectionProps> = ({
 
 /**
  * Accordion heading component for level 4 headings.
- * @param {Object} props - The props object.
- * @param {React.ReactNode} props.children - The children elements.
- * @param {string} [props.className] - Additional CSS classes for customization.
- * @param {string} [props.id] - The ID attribute of the heading.
- * @returns {React.JSX.Element} React element representing the AccordionH4 component.
+ * @param props - The props object.
+ * @param props.children - The children elements.
+ * @param [props.className] - Additional CSS classes for customization.
+ * @param [props.id] - The ID attribute of the heading.
+ * @returns React element representing the AccordionH4 component.
  */
 export const AccordianH4: React.FC<AccordianSectionProps> = ({
   children,
@@ -56,13 +55,12 @@ export const AccordianH4: React.FC<AccordianSectionProps> = ({
   );
 };
 
-
 /**
  * Accordion div component for the content of the accordion section.
- * @param {Object} props - The props object.
- * @param {React.ReactNode} props.children - The children elements.
- * @param {string} [props.className] - Additional CSS classes for customization.
- * @returns {React.JSX.Element} React element representing the AccordionDiv component.
+ * @param props - The props object.
+ * @param props.children - The children elements.
+ * @param [props.className] - Additional CSS classes for customization.
+ * @returns React element representing the AccordionDiv component.
  */
 export const AccordianDiv: React.FC<AccordianSectionProps> = ({
   children,
