@@ -92,7 +92,7 @@ export type UseCaseQueryResponse = Awaited<ReturnType<typeof useCaseQuery>>;
  * Given a UseCaseQueryRequest object, set the appropriate FHIR server connection
  * configurations.
  * @param request - The request object to configure.
- * @returns
+ * @returns void - The function does not return anything, but modifies the request object.
  */
 function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
   request.fhir_host = FHIR_SERVERS[request.fhir_server].hostname;
@@ -159,8 +159,7 @@ async function patientQuery(
 /**
  * Query a FHIR API for a public health use case based on patient demographics provided
  * in the request. If data is found, return in a queryResponse object.
- * @param request - The request object containing the patient demographics.
- * @param input
+ * @param input - UseCaseQueryRequest object containing the patient demographics and use case.
  * @returns - The response object containing the query results.
  */
 export async function useCaseQuery(
