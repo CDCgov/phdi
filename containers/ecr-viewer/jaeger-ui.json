@@ -21,7 +21,7 @@
     },
     {
       "label": "To Prometheus Server",
-      "url": "http://localhost:9090/graph"
+      "url": "http://localhost:9091/graph"
     },
     {
       "label": "To Grafana Dashboards",
