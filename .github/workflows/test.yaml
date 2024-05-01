@@ -258,3 +258,30 @@ jobs:
       - name: Run cypress tests
         working-directory: ./containers/ecr-viewer
         run: npm run cypress:run
+
+  build_frontend_lighthouse_image:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: ${{ inputs.platform }}
+    outputs:
+      version: ${{ steps.set_frontend_lighthouse_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Frontend Lighthouse Image
+        id: set_frontend_lighthouse_version
+        uses: ./.github/actions/docker-buildx
+        with:
+          file: ./containers/ecr-viewer/Dockerfile
+          gh_username: ${{ github.actor }}
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          image_name: frontend-lighthouse
+          platform: ${{ matrix.platform }}
+          build_args: |
+            "REACT_APP_BASE_URL=https://localhost.simplereport.gov"
+            "REACT_APP_BACKEND_URL=https://localhost.simplereport.gov/api"
+            "PUBLIC_URL=/app/"
+            "REACT_APP_OKTA_ENABLED=false"
+            "REACT_APP_DISABLE_MAINTENANCE_BANNER=true"

@@ -1,0 +1,44 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14" # Specify your Node.js version
+
+      - name: Change to the correct directory
+        run: cd containers/ecr-viewer
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Setup containers and database
+        run: npm run lighthouse-build
+
+      - name: Wait for application to be ready
+        run: |
+          until $(curl --output /dev/null --silent --head --fail http://localhost:8080); do
+            printf '.'
+            sleep 5
+          done
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v8
+        with:
+          urls: "http://localhost:8080"
+          uploadArtifacts: true
