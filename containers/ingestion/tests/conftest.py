@@ -23,17 +23,17 @@ def setup(request):
     print("Setting up tests...")
     compose_path = os.path.join(os.path.dirname(__file__), "./integration/")
     compose_file_name = "docker-compose.yaml"
-    message_parser = DockerCompose(compose_path, compose_file_name=compose_file_name)
-    parser_url = "http://0.0.0.0:8080"
+    ingestion = DockerCompose(compose_path, compose_file_name=compose_file_name)
+    ingestion_url = "http://0.0.0.0:8080"
 
-    message_parser.start()
-    message_parser.wait_for(parser_url)
+    ingestion.start()
+    ingestion.wait_for(ingestion_url)
     print("Ingestion ready to test!")
 
     def teardown():
         print("Service logs...\n")
-        print(message_parser.get_logs())
+        print(ingestion.get_logs())
         print("Tests finished! Tearing down.")
-        message_parser.stop()
+        ingestion.stop()
 
     request.addfinalizer(teardown)

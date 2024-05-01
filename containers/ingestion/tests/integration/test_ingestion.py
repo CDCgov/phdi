@@ -1,10 +1,11 @@
 import httpx
 import pytest
 
-INGESTION_URL = "http://0.0.0.0:8080/fhir/harmonization/standardization"
-NAMES_URL = INGESTION_URL + "/standardize_names"
-PHONE_URL = INGESTION_URL + "/standardize_phones"
-DOB_URL = INGESTION_URL + "/standardize_dob"
+INGESTION_URL = "http://0.0.0.0:8080"
+INGESTION_EXTENSION = "/fhir/harmonization/standardization"
+NAMES_URL = INGESTION_URL + INGESTION_EXTENSION + "/standardize_names"
+PHONE_URL = INGESTION_URL + INGESTION_EXTENSION + "/standardize_phones"
+DOB_URL = INGESTION_URL + INGESTION_EXTENSION + "/standardize_dob"
 
 
 @pytest.fixture
