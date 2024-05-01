@@ -112,7 +112,10 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
             ].items():
                 # Base case: secondary field is located on this resource
                 if not secondary_field_definition["fhir_path"].startswith("Bundle"):
-                    if "secondary_schema" in secondary_field_definition:
+                    if (
+                        "secondary_schema" in secondary_field_definition
+                        and secondary_field_definition["secondary_schema"] is not None
+                    ):
                         tertiary_parser = {}
                         tertiary_parsers = {}
                         tertiary_parser["primary_parser"] = fhirpathpy.compile(
