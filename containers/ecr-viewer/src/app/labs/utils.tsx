@@ -18,6 +18,7 @@ import {
   formatPhoneNumber,
   TableJson,
 } from "@/app/format-service";
+import { ObservationComponent } from "fhir/r4b";
 
 export interface LabReport {
   result: Array<Reference>;
@@ -348,6 +349,54 @@ export const evaluateDiagnosticReportData = (
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
 };
 
+// TODO: Add JSDoc
+// TODO: Add test
+export const evaluateOrganismsReportData = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): React.JSX.Element | undefined => {
+  let components: ObservationComponent[] = [];
+  let observation: Observation | undefined;
+
+  report.result?.forEach((obsRef: Reference) => {
+    const obs: Observation = evaluateReference(
+      fhirBundle,
+      mappings,
+      obsRef.reference ?? "",
+    );
+    if (obs.component) {
+      observation = obs;
+    }
+  });
+
+  // If observation is undefined, return undefined
+  if (observation === undefined) {
+    return undefined;
+  }
+
+  // Assign components
+  components = observation.component!;
+  console.log("Components: ", components);
+
+  // Define columnInfo
+  const columnInfo: ColumnInfoInput[] = [
+    //   // { columnName: "Organism", infoPath: "observationOrganism" },
+    { columnName: "Antibiotic", infoPath: "observationAntibiotic" },
+    { columnName: "Method", infoPath: "observationOrganismMethod" },
+    { columnName: "Susceptibility", infoPath: "observationSusceptibility" },
+    {
+      columnName: "Lab Comment",
+      infoPath: "observationNote",
+      hiddenBaseText: "comment",
+    },
+  ];
+
+  // Return evaluated table
+  // return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
+  return evaluateTable(components, mappings, columnInfo, "", true, false);
+};
+
 /**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
  * @param fhirBundle - The FHIR bundle containing lab and RR data.
@@ -364,6 +413,8 @@ export const evaluateLabInfoData = (
 
   labReports.map((report) => {
     const labTable = evaluateDiagnosticReportData(report, fhirBundle, mappings);
+    // TODO: Rename labTable2
+    const labTable2 = evaluateOrganismsReportData(report, fhirBundle, mappings);
     const rrInfo: DisplayData[] = [
       {
         title: "Analysis Time",
@@ -456,6 +507,11 @@ export const evaluateLabInfoData = (
       content.push(
         <React.Fragment key={"lab-table"}>{labTable}</React.Fragment>,
       );
+    if (labTable2) {
+      content.push(
+        <React.Fragment key={"lab-table-2"}>{labTable2}</React.Fragment>,
+      );
+    }
     content.push(
       ...rrInfo.map((item) => {
         return <DataDisplay key={`${item.title}-${item.value}`} item={item} />;

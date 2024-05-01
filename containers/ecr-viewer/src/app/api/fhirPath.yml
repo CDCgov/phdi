@@ -125,6 +125,10 @@ observationValue: "value"
 observationReferenceRange: "referenceRange.text"
 observationNote: "note.text"
 observationMethod: "method"
+observationOrganism: "idk"
+observationAntibiotic: "code.coding.display"
+observationOrganismMethod: "extension.where(url = 'methodCode originalText').valueString"
+observationSusceptibility: "valueString"
 
 # Organization
 organizations: "Bundle.entry.resource.where(resourceType = 'Organization')"
