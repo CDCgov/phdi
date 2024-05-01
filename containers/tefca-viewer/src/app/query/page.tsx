@@ -343,5 +343,3 @@ function LoadingView({ loading }: { loading: boolean }) {
     return null;
   }
 }
-
-//export default PatientSearch;
