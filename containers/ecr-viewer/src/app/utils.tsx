@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState, FC } from "react";
 import * as dateFns from "date-fns";
 import {
   Bundle,
@@ -29,10 +29,12 @@ import {
 import { evaluateTable, evaluateReference } from "./evaluate-service";
 import { Button, Table } from "@trussworks/react-uswds";
 import { CareTeamParticipant, CarePlanActivity } from "fhir/r4b";
+import { Tooltip } from "@trussworks/react-uswds";
 
 export interface DisplayData {
   title?: string;
   className?: string;
+  toolTip?: string;
   value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
   dividerLine?: boolean;
 }
@@ -476,6 +478,8 @@ export const evaluateEcrMetadata = (
   const eicrDetails: DisplayData[] = [
     {
       title: "eICR Identifier",
+      toolTip:
+        "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
       value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
     },
   ];
@@ -488,6 +492,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Sender Software",
+      toolTip: "EHR system used by the sending provider.",
       value: evaluate(fhirBundle, mappings.senderSoftware)[0],
     },
     {
@@ -1358,9 +1363,10 @@ export const evaluateEmergencyContact = (
 };
 
 type CustomDivProps = React.PropsWithChildren<{
-    className?: string;
-  }> & JSX.IntrinsicElements['div'] & React.RefAttributes<HTMLDivElement>;
-
+  className?: string;
+}> &
+  JSX.IntrinsicElements["div"] &
+  React.RefAttributes<HTMLDivElement>;
 
 /**
  * `CustomDivForwardRef` is a React forward reference component that renders a div element
@@ -1374,15 +1380,60 @@ type CustomDivProps = React.PropsWithChildren<{
  * @param ref - Ref forwarded to the div element.
  * @returns A React element representing a customizable div.
  */
-export const CustomDivForwardRef: React.ForwardRefRenderFunction<HTMLDivElement, CustomDivProps> = ({
-    className,
-    children,
-    ...tooltipProps
-  }: CustomDivProps, ref) => (
-    <div ref={ref} className={className} {...tooltipProps}>
-      {children}
-    </div>
-  );
+export const CustomDivForwardRef: React.ForwardRefRenderFunction<
+  HTMLDivElement,
+  CustomDivProps
+> = ({ className, children, ...tooltipProps }: CustomDivProps, ref) => (
+  <div ref={ref} className={className} {...tooltipProps}>
+    {children}
+  </div>
+);
 
 export const TooltipDiv = React.forwardRef(CustomDivForwardRef);
 
+export interface DisplayProps {
+  title: string;
+  value: string | ReactNode | JSX.Element | JSX.Element[];
+  classNames?: string;
+  toolTip?: string | null;
+}
+/**
+ * Generates a JSX element to display the provided value.
+ * If the value is null, undefined, an empty array, or an empty string,
+ * it returns null. Otherwise, it renders the provided value as JSX.
+ * @param props - The props object.
+ * @param props.title - Title of the display section.
+ * @param props.value - Value to be displayed.
+ * @param [props.classNames] - Class names to be applied to the value.
+ * @param [props.toolTip] - Tooltip of element
+ * @returns The JSX element representing the provided value or null if the value is empty.
+ */
+export const Display: FC<DisplayProps> = ({
+  title,
+  value,
+  classNames,
+  toolTip = null,
+}: DisplayProps) => {
+  if (!value || (Array.isArray(value) && value.length === 0)) {
+    return null;
+  }
+  return (
+    <>
+      <div className="grid-row">
+        {toolTip ? (
+          <Tooltip
+            label={toolTip}
+            asCustom={TooltipDiv}
+            className="data-title usa-tooltip"
+          >
+            {title}
+          </Tooltip>
+        ) : (
+          <div className="data-title">{title}</div>
+        )}
+        <div className={classNames}>{value}</div>
+      </div>
+      <div className={"section__line_gray"} />
+    </>
+  );
+};

@@ -1,9 +1,6 @@
-import {
-  TooltipDiv,
-} from "../../utils";
+import { Display, DisplayProps } from "../../utils";
 import { SectionConfig } from "./SideNav";
-import React, { FC } from "react";
-import { Tooltip } from '@trussworks/react-uswds'
+import React from "react";
 
 interface EcrSummaryProps {
   patientDetails: DisplayProps[];
@@ -16,52 +13,6 @@ export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
   "About the Encounter",
   "About the Condition",
 ]);
-
-interface DisplayProps {
-  title: string;
-  value: any[] | string;
-  classNames?: string;
-  toolTip?: string | null;
-}
-
-/**
- * Generates a JSX element to display the provided value.
- * If the value is null, undefined, an empty array, or an empty string,
- * it returns null. Otherwise, it renders the provided value as JSX.
- * @param props - The props object.
- * @param props.title - Title of the display section.
- * @param props.value - Value to be displayed.
- * @param [props.classNames] - Class names to be applied to the value.
- * @param [props.toolTip] - Tooltip of element
- * @returns The JSX element representing the provided value or null if the value is empty.
- */
-const Display: FC<DisplayProps> = ({
-  title,
-  value,
-  classNames,
-  toolTip=null,
-}: DisplayProps) => {
-  if (!value || (Array.isArray(value) && value.length === 0)) {
-    return null;
-  }
-  return (
-    <>
-      <div className="grid-row">
-        { toolTip
-          ? (
-            <Tooltip label={toolTip} asCustom={TooltipDiv} className="data-title usa-tooltip">
-              {title}
-            </Tooltip>
-          ) : (
-            <div className="data-title">{title}</div>
-          )
-        }
-        <div className={classNames}>{value}</div>
-      </div>
-      <div className={"section__line"} />
-    </>
-  );
-};
 
 /**
  * Generates a JSX element to display eCR viewer summary
@@ -90,8 +41,8 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[0].title}
           </h3>
           <div className="usa-summary-box__text">
-            {patientDetails.map(({ title, value }) => (
-              <Display title={title} value={value} />
+            {patientDetails.map(({ title, value, toolTip }) => (
+              <Display title={title} value={value} toolTip={toolTip} />
             ))}
           </div>
         </div>
@@ -103,8 +54,8 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[1].title}
           </h3>
           <div className="usa-summary-box__text">
-            {encounterDetails.map(({ title, value }) => (
-              <Display title={title} value={value} />
+            {encounterDetails.map(({ title, value, toolTip }) => (
+              <Display title={title} value={value} toolTip={toolTip} />
             ))}
           </div>
         </div>
@@ -116,8 +67,8 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
-            {aboutTheCondition.map(({ title, value }) => (
-              <Display title={title} value={value} />
+            {aboutTheCondition.map(({ title, value, toolTip }) => (
+              <Display title={title} value={value} toolTip={toolTip} />
             ))}
             <div className={"grid-row"}>
               <div className={"text-bold width-full"}>

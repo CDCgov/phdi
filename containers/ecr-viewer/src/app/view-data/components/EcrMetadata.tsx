@@ -1,6 +1,4 @@
-import { DisplayData, ReportableConditions } from "../../utils";
-import { Fragment } from "react";
-
+import { Display, DisplayData, ReportableConditions } from "../../utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -8,10 +6,8 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import { Table } from "@trussworks/react-uswds";
-import {
-  TooltipDiv,
-} from "../../utils";
-import { Tooltip } from '@trussworks/react-uswds'
+import { TooltipDiv } from "../../utils";
+import { Tooltip } from "@trussworks/react-uswds";
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
@@ -92,15 +88,38 @@ const EcrMetadata = ({
           <thead>
             <tr>
               <th className="reportability_summary_header">
-                Reportable Condition
-              </th>
-              <th>RCKMS Rule Summary</th>
-              <th>
                 <Tooltip
-                  label={"List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR."}
+                  label={
+                    "List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR."
+                  }
                   asCustom={TooltipDiv}
                   className="data-title usa-tooltip"
-                  position="left"
+                  position="bottom"
+                >
+                  Reportable Condition
+                </Tooltip>
+              </th>
+              <th>
+                <Tooltip
+                  label={
+                    "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System)."
+                  }
+                  asCustom={TooltipDiv}
+                  className="data-title usa-tooltip"
+                  position="bottom"
+                >
+                  RCKMS Rule Summary
+                </Tooltip>
+              </th>
+              <th>
+                <Tooltip
+                  label={
+                    "List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR."
+                  }
+                  asCustom={TooltipDiv}
+                  className="data-title usa-tooltip"
+                  position="bottom"
+                  id="FOOBAR"
                 >
                   {`Jurisdiction Sent eCR`}
                 </Tooltip>
@@ -115,15 +134,14 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[1].title}
           </span>
         </AccordianH4>
-        {eicrDetails.map(({ title, value }) => {
+        {eicrDetails.map(({ title, value, toolTip }) => {
           return (
-            <Fragment key={title}>
-              <div className="grid-row">
-                <div className="data-title">{title}</div>
-                <div className="grid-col-auto text-pre-line">{value}</div>
-              </div>
-              <div className={"section__line_gray"} />
-            </Fragment>
+            <Display
+              title={title ?? ""}
+              value={value}
+              toolTip={toolTip}
+              classNames="grid-col-auto text-pre-line"
+            />
           );
         })}
         <div className={"padding-bottom-1"} />
@@ -132,15 +150,14 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[2].title}
           </span>
         </AccordianH4>
-        {eCRSenderDetails.map(({ title, value }) => {
+        {eCRSenderDetails.map(({ title, value, toolTip }) => {
           return (
-            <Fragment key={title}>
-              <div className="grid-row">
-                <div className="data-title">{title}</div>
-                <div className="grid-col-auto text-pre-line">{value}</div>
-              </div>
-              <div className={"section__line_gray"} />
-            </Fragment>
+            <Display
+              title={title ?? ""}
+              value={value}
+              toolTip={toolTip}
+              classNames="grid-col-auto text-pre-line"
+            />
           );
         })}
       </AccordianDiv>
