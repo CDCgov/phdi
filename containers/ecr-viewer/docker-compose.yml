@@ -55,7 +55,7 @@ services:
       - "./jaeger-ui.json:/etc/jaeger/jaeger-ui.json"
     command: --query.ui-config /etc/jaeger/jaeger-ui.json
     ports:
-      - "16687:16687" # serves frontend and queries
+      - "16686:16686" # serves frontend and queries
   prometheus:
     image: prom/prometheus:latest
     ports:
@@ -72,8 +72,8 @@ services:
     ports:
       - "8898:8898" # Prometheus metrics exposed by collector
       - "8899:8899" # Endpoint prometheus will scrape
-      - "4318:4318" # gRPC OTLP receiver
-      - "4319:4319" # HTTP OTLP receiver
+      - "4327:4327" # gRPC OTLP receiver
+      - "4328:4328" # HTTP OTLP receiver
     depends_on:
       - jaeger
       - prometheus
