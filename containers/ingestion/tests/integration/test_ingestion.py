@@ -1,9 +1,10 @@
 import httpx
 import pytest
 
-PARSER_URL = "http://0.0.0.0:8080"
-PARSE_MESSAGE = PARSER_URL + "/parse_message"
-FHIR_TO_PHDC = PARSER_URL + "/fhir_to_phdc"
+INGESTION_URL = "http://0.0.0.0:8080/fhir/harmonization/standardization"
+NAMES_URL = INGESTION_URL + "/standardize_names"
+PHONE_URL = INGESTION_URL + "/standardize_phones"
+DOB_URL = INGESTION_URL + "/standardize_dob"
 
 
 @pytest.fixture
@@ -13,7 +14,7 @@ def fhir_bundle(read_json_from_test_assets):
 
 @pytest.mark.integration
 def test_health_check(setup):
-    health_check_response = httpx.get(PARSER_URL)
+    health_check_response = httpx.get(INGESTION_URL)
     assert health_check_response.status_code == 200
 
 
@@ -54,7 +55,7 @@ def test_standardize_names(setup, fhir_bundle):
     }
 
     request = {"data": fhir_bundle}
-    parsing_response = httpx.post(PARSE_MESSAGE, json=request)
+    parsing_response = httpx.post(NAMES_URL, json=request)
 
     assert parsing_response.status_code == 200
     assert parsing_response.json() == expected_reference_response
