@@ -40,6 +40,9 @@
             {% if observationEntry.code.translation.code == null -%}
             {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.code -%}
             {% endif -%}
+            {% if observationEntry.organizer.code.code -%}
+                {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.organizer.code -%}
+            {% endif %}
         },
         "effectivePeriod":
         {

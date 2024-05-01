@@ -7,7 +7,11 @@ import {
   ColumnInfoInput,
   noData,
 } from "@/app/utils";
-import { evaluateReference, evaluateTable } from "@/app/evaluate-service";
+import {
+  evaluateReference,
+  evaluateTable,
+  evaluateValue,
+} from "@/app/evaluate-service";
 import { evaluate } from "fhirpath";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
@@ -349,8 +353,14 @@ export const evaluateDiagnosticReportData = (
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
 };
 
-// TODO: Add JSDoc
 // TODO: Add test
+/**
+ * Evaluates lab organisms data and generates a lab table for each report.
+ * @param report - An object containing an array of lab result references. If it exists, one of the Observations in the report will contain all the lab organisms table data.
+ * @param fhirBundle - The FHIR bundle containing diagnostic report data.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns - An array of React elements representing the lab organisms table.
+ */
 export const evaluateOrganismsReportData = (
   report: LabReport,
   fhirBundle: Bundle,
@@ -370,18 +380,15 @@ export const evaluateOrganismsReportData = (
     }
   });
 
-  // If observation is undefined, return undefined
   if (observation === undefined) {
     return undefined;
   }
-
-  // Assign components
   components = observation.component!;
-  console.log("Components: ", components);
-
-  // Define columnInfo
   const columnInfo: ColumnInfoInput[] = [
-    //   // { columnName: "Organism", infoPath: "observationOrganism" },
+    {
+      columnName: "Organism",
+      value: evaluateValue(observation, mappings["observationOrganism"]),
+    },
     { columnName: "Antibiotic", infoPath: "observationAntibiotic" },
     { columnName: "Method", infoPath: "observationOrganismMethod" },
     { columnName: "Susceptibility", infoPath: "observationSusceptibility" },
@@ -392,8 +399,6 @@ export const evaluateOrganismsReportData = (
     },
   ];
 
-  // Return evaluated table
-  // return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
   return evaluateTable(components, mappings, columnInfo, "", true, false);
 };
 
@@ -412,9 +417,16 @@ export const evaluateLabInfoData = (
   let organizationElements: ResultObject = {};
 
   labReports.map((report) => {
-    const labTable = evaluateDiagnosticReportData(report, fhirBundle, mappings);
-    // TODO: Rename labTable2
-    const labTable2 = evaluateOrganismsReportData(report, fhirBundle, mappings);
+    const labTableDiagnostic = evaluateDiagnosticReportData(
+      report,
+      fhirBundle,
+      mappings,
+    );
+    const labTableOrganisms = evaluateOrganismsReportData(
+      report,
+      fhirBundle,
+      mappings,
+    );
     const rrInfo: DisplayData[] = [
       {
         title: "Analysis Time",
@@ -503,13 +515,17 @@ export const evaluateLabInfoData = (
       },
     ];
     const content: Array<React.JSX.Element> = [];
-    if (labTable)
+    if (labTableDiagnostic)
       content.push(
-        <React.Fragment key={"lab-table"}>{labTable}</React.Fragment>,
+        <React.Fragment key={"lab-table-diagnostic"}>
+          {labTableDiagnostic}
+        </React.Fragment>,
       );
-    if (labTable2) {
+    if (labTableOrganisms) {
       content.push(
-        <React.Fragment key={"lab-table-2"}>{labTable2}</React.Fragment>,
+        <React.Fragment key={"lab-table-oragnisms"}>
+          {labTableOrganisms}
+        </React.Fragment>,
       );
     }
     content.push(
