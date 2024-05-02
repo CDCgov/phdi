@@ -49,8 +49,9 @@ const DataContext = createContext<DataContextValue | undefined>(undefined);
 
 /**
  *
- * @param root0
- * @param root0.children
+ * @param root0 - Children
+ * @param root0.children - Children
+ * @returns - The data provider component.
  */
 export function DataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<any | null>(null);

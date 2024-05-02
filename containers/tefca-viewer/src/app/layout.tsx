@@ -11,7 +11,8 @@ export const metadata = {
 /**
  * Establishes the layout for the application.
  * @param props - Props for the component.
- * @param props.children
+ * @param props.children - The children to render.
+ * @returns - The root layout component.
  */
 export default function RootLayout({
   children,

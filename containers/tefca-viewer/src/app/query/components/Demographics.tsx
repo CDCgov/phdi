@@ -14,9 +14,10 @@ export interface DemographicsProps {
 }
 
 /**
- *
- * @param root0
- * @param root0.patient
+ * Displays the demographic information of a patient.
+ * @param props - The props for the Demographics component.
+ * @param props.patient - The patient resource to display demographic information for.
+ * @returns The Demographics component.
  */
 const Demographics: React.FC<DemographicsProps> = ({ patient }) => {
   const demographicData = formatDemographics(patient);
@@ -135,9 +136,8 @@ function formatAddress(address: Address[]): string {
 
 /**
  * Formats the contact information of a FHIR ContactPoint object.
- * @param contacts
- * @paramcontacts - The ContactPoint object to format.
- * @returns The formatted contact information.
+ * @param contacts - The ContactPoint object to format.
+ * @returns - The formatted contact information.
  */
 function formatContact(contacts: ContactPoint[]): string {
   return contacts

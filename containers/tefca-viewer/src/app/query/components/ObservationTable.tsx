@@ -11,7 +11,8 @@ export interface ObservationTableProps {
 
 /**
  * Displays a table of data from array of Observations resources.
- * @param observations - The observations to display.
+ * @param root0 - Observation table props.
+ * @param root0.observations - The array of Observation resources.
  * @returns - The ObservationTable component.
  */
 const ObservationTable: React.FC<ObservationTableProps> = ({

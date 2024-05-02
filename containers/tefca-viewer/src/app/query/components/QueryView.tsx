@@ -3,19 +3,15 @@ import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
 import React from "react";
 
-/**
- * Displays query results.
- * @param {UseCaseQueryResponse} useCaseQueryResponse - The query results to display.
- * @returns {React.FC} The QueryView component.
- */
 type QueryViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
 };
 
 /**
- *
- * @param root0
- * @param root0.useCaseQueryResponse
+ * The QueryView component to render the query results.
+ * @param props - The props for the QueryView component.
+ * @param props.useCaseQueryResponse - The response from the query service.
+ * @returns The QueryView component.
  */
 const QueryView: React.FC<QueryViewProps> = ({ useCaseQueryResponse }) => {
   return (
