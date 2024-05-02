@@ -94,7 +94,7 @@ def start_docker_service(dockerfile_path: str, tag: str, ports: dict) -> Contain
         # connect and start
         client.images.build(path=str(dockerfile_path), tag=tag)
         container = client.containers.run(tag, ports=ports, detach=True)
-        time.sleep(3)  # TODO: find better way to make sure service waits
+        time.sleep(1.5)  # TODO: find better way to make sure service waits
     except (BuildError, APIError) as e:
         print(f"An error occurred while starting the Docker service: {str(e)}")
     return container
@@ -104,10 +104,6 @@ def load_ersd_schema(ports: dict):
     """
     Loads the ersd.json to the message-parser endpoint to use to parse eRSD
     :param ports: port for the message-parser endpoint URL
-
-    TODO: This does not currently seem to work; I can see the config loaded
-    but I cannot seem to get parse-message to work with it.
-    Issue to be resolved in future message-parser ticket fix.
     """
     with open("seed-scripts/config/ersd.json", "r") as json_file:
         ersd_schema = json.load(json_file)
@@ -134,15 +130,17 @@ def parse_ersd(ports: dict, data: dict) -> dict:
     :param data: eRSD json bundle
     :return: parsed message.
     """
-    with open("seed-scripts/config/ersd.json", "r") as json_file:
-        ersd_schema = json.load(json_file)
+
+    # load the ersd.json schema to message-parser first
+    load_ersd_schema(ports)
+
+    # make post-message call3
     url = f"http://localhost:{list(ports.values())[0]}/parse_message"
     headers = {"Content-Type": "application/json"}
     payload = {
         "message_format": "fhir",
         "message": data,
-        "parsing_schema": ersd_schema,  # see load_ersd_schema, need to debug
-        # "parsing_schema_name": "ersd.json"
+        "parsing_schema_name": "ersd.json",
     }
     try:
         parsed_message = requests.post(url=url, headers=headers, json=payload)
@@ -361,7 +359,6 @@ def main():
 
     # use message-parser to parse eRSD data, then spin down service
     container = start_docker_service(dockerfile_path, tag, ports)
-    load_ersd_schema(ports)
     parsed_data = parse_ersd(ports, ersd_data)
     if container:
         container.stop()
