@@ -84,9 +84,7 @@ const useCaseQueryMap: {
   "social-determinants": socialDeterminantsQuery,
   "newborn-screening": newbornScreeningQuery,
   syphilis: syphilisQuery,
-  cancer: async () => {
-    throw new Error("Not implemented");
-  },
+  cancer: cancerQuery,
 };
 
 // Expected responses from the FHIR server
@@ -354,12 +352,13 @@ async function cancerQuery(
     request.fhir_host + medicationsQuery,
     request.init,
   );
-  if (medicationResponse.status === 200) {
-    queryResponse.medications = (await medicationResponse.json()).entry.map(
-      (entry: any) => entry.resource,
+  if (medicationResponse.status >= 400) {
+    throw new Error(
+      `Error querying medications. Status: ${medicationResponse.status}`,
     );
   }
   const m = await medicationResponse.json();
+  queryResponse.medications = m.entry.map((entry: any) => entry.resource);
 
   // Query for medication administrations
   const medicationsAdministered: Array<string> = m.entry.map(
