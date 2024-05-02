@@ -87,7 +87,10 @@ describe("Utils", () => {
         { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
       ]);
       expect(actual.ecrSenderDetails.unavailableData).toEqual([
-        { title: "Sender Software" },
+        {
+          title: "Sender Software",
+          toolTip: "EHR system used by the sending provider.",
+        },
       ]);
     });
     it("should have eicrDetails", () => {
@@ -99,6 +102,8 @@ describe("Utils", () => {
       expect(actual.eicrDetails.availableData).toEqual([
         {
           title: "eICR Identifier",
+          toolTip:
+            "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
           value: "1.2.840.114350.1.13.478.3.7.8.688883.230886",
         },
       ]);
