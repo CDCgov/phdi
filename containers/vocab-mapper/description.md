@@ -10,7 +10,7 @@ The vocab mapper can be run using Docker (or any other OCI container runtime e.g
 
 #### Running with Docker (Recommended)
 
-To run the voca mapper with Docker, follow these steps.
+To run the vocab mapper with Docker, follow these steps.
 
 1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar to what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
 

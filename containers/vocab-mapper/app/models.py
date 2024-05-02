@@ -13,11 +13,11 @@ class InsertConditionInput(BaseModel):
     bundle: dict = Field(
         description="The FHIR bundle to modify. Each resource in the bundle related "
         "to one or more of the conditions in the other supplied parameter will have "
-        "an extension added to the resource noting the snowmed code relating to the "
+        "an extension added to the resource noting the SNOMED code relating to the "
         "associated condition(s)."
     )
     conditions: List[str] = Field(
-        description="The list of snowmed codes to insert as extensions into any "
+        description="The list of SNOMED codes to insert as extensions into any "
         "associated resources in the supplied FHIR bundle."
     )
 
@@ -36,18 +36,7 @@ class InsertConditionInput(BaseModel):
         """
         if len(values.get("conditions")) == 0:
             raise ValueError(
-                "Supplied list of snowmed conditions must contain "
+                "Supplied list of SNOMED conditions must contain "
                 "one or more elements; given list was empty."
             )
         return values
-
-
-class ValueSetForConditionInput(BaseModel):
-    """
-    The schema for requests to the /get-value-sets endpoint.
-    """
-
-    condition: str = Field(
-        description="The snowmed code for a condition of interest, whose value "
-        "sets will be retrieved from the service."
-    )
