@@ -70,7 +70,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </h3>
           <div className="usa-summary-box__text">
             {patientDetails.map(({ title, value }) => (
-              <Display title={title} value={value} />
+              <Display title={title} value={value} key={title} />
             ))}
           </div>
         </div>
