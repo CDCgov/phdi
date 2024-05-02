@@ -104,12 +104,9 @@ class ParseMessageInput(BaseModel):
           message_type has been included with API call
 
         :param cls: the ParseMessageInput class
-
         :param values: the message_format provided by the user
-
         :raises ValueError: errors when message_type is None
           when message_format is not "fhir"
-
         :return values: the message_format provided by the user
         """
         if (
@@ -130,12 +127,9 @@ class ParseMessageInput(BaseModel):
           only one should be provided for message_parser to work correctly.
 
         :param cls: the ParseMessageInput class
-
         :param values: the parsing_schema and parsing_schema_name provided by the user
-
         :raises ValueError: error when both parsing_schema and
           parsing_schema_name are provided in API call.
-
         :return values: the parsing_schema and parsing_schema_name provided by the user
         """
         if (
@@ -156,12 +150,9 @@ class ParseMessageInput(BaseModel):
           one (and only one!) should be provided for message_parser to work correctly.
 
         :param cls: the ParseMessageInput class
-
         :param values: the parsing_schema and parsing_schema_name provided by the user
-
         :raises ValueError: error when both pasing_schema and parsing_schema_name
           are missing from API call.
-
         :return values: the parsing_schema and parsing_schema_name provided by the user
         """
         if (
