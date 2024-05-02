@@ -354,7 +354,6 @@ export const evaluateDiagnosticReportData = (
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);
 };
 
-// TODO: Add test
 /**
  * Evaluates lab organisms data and generates a lab table for each report.
  * @param report - An object containing an array of lab result references. If it exists, one of the Observations in the report will contain all the lab organisms table data.

@@ -941,16 +941,12 @@ NASHVILLE, TN
                       <td
                         class="text-top"
                       >
-                        Observation display
+                        Organism ID
                       </td>
                       <td
                         class="text-top"
                       >
-                        <span
-                          class="text-italic text-base"
-                        >
-                          No data
-                        </span>
+                        Acinetobacter baumannii
                       </td>
                       <td
                         class="text-top"
@@ -995,6 +991,107 @@ NASHVILLE, TN
                         colspan="5"
                       >
                         Lab comment
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table
+                  class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W table-caption-margin margin-y-0"
+                  data-testid="table"
+                >
+                  <thead>
+                    <tr>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Organism
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Antibiotic
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Method
+                      </th>
+                      <th
+                        class="tableHeader"
+                        scope="col"
+                      >
+                        Susceptibility
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Acinetobacter baumannii
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Amikacin
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        MIC
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        0.25: Susceptible
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Acinetobacter baumannii
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Avycaz (Ceftazidime/Avibactam)
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        MIC
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        0.05: Intermediate
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-top"
+                      >
+                        Acinetobacter baumannii
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Levofloxacin
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        MIC
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        0.75: Resistant
                       </td>
                     </tr>
                   </tbody>
