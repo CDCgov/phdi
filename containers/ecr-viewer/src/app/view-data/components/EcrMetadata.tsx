@@ -1,4 +1,8 @@
-import { Display, DisplayData, ReportableConditions } from "../../utils";
+import {
+  DataDisplay,
+  DisplayDataProps,
+  ReportableConditions,
+} from "../../utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -6,13 +10,13 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import { Table } from "@trussworks/react-uswds";
-import { TooltipDiv } from "../../utils";
+import { TooltipDiv } from "@/app/utils";
 import { Tooltip } from "@trussworks/react-uswds";
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
-  eicrDetails: DisplayData[];
-  eCRSenderDetails: DisplayData[];
+  eicrDetails: DisplayDataProps[];
+  eCRSenderDetails: DisplayDataProps[];
 }
 
 export const ecrMetadataConfig: SectionConfig = new SectionConfig(
@@ -132,15 +136,8 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[1].title}
           </span>
         </AccordianH4>
-        {eicrDetails.map(({ title, value, toolTip }) => {
-          return (
-            <Display
-              title={title ?? ""}
-              value={value}
-              toolTip={toolTip}
-              classNames="grid-col-auto text-pre-line"
-            />
-          );
+        {eicrDetails.map((item) => {
+          return <DataDisplay item={item} />;
         })}
         <div className={"padding-bottom-1"} />
         <AccordianH4>
@@ -148,15 +145,8 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[2].title}
           </span>
         </AccordianH4>
-        {eCRSenderDetails.map(({ title, value, toolTip }) => {
-          return (
-            <Display
-              title={title ?? ""}
-              value={value}
-              toolTip={toolTip}
-              classNames="grid-col-auto text-pre-line"
-            />
-          );
+        {eCRSenderDetails.map((item) => {
+          return <DataDisplay item={item} />;
         })}
       </AccordianDiv>
     </AccordianSection>

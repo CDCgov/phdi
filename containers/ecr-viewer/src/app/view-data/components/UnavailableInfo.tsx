@@ -1,18 +1,18 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import { AccordianSection } from "../component-utils";
 import React from "react";
 
 interface UnavailableInfoProps {
-  demographicsUnavailableData: DisplayData[];
-  socialUnavailableData: DisplayData[];
-  encounterUnavailableData: DisplayData[];
-  providerUnavailableData: DisplayData[];
-  reasonForVisitUnavailableData: DisplayData[];
-  activeProblemsUnavailableData: DisplayData[];
-  vitalUnavailableData: DisplayData[];
-  treatmentData: DisplayData[];
-  clinicalNotesData: DisplayData[];
-  immunizationsUnavailableData: DisplayData[];
+  demographicsUnavailableData: DisplayDataProps[];
+  socialUnavailableData: DisplayDataProps[];
+  encounterUnavailableData: DisplayDataProps[];
+  providerUnavailableData: DisplayDataProps[];
+  reasonForVisitUnavailableData: DisplayDataProps[];
+  activeProblemsUnavailableData: DisplayDataProps[];
+  vitalUnavailableData: DisplayDataProps[];
+  treatmentData: DisplayDataProps[];
+  clinicalNotesData: DisplayDataProps[];
+  immunizationsUnavailableData: DisplayDataProps[];
 }
 
 /**
@@ -42,7 +42,7 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
   treatmentData,
   clinicalNotesData,
 }) => {
-  const renderSection = (sectionTitle: string, data: DisplayData[]) => {
+  const renderSection = (sectionTitle: string, data: DisplayDataProps[]) => {
     return (
       <div className="margin-bottom-4">
         <h3 className="usa-summary-box__heading padding-bottom-205 unavailable-info">

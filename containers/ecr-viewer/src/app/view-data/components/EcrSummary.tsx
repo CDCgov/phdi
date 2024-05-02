@@ -1,11 +1,11 @@
-import { Display, DisplayProps } from "../../utils";
+import { DataDisplay, DisplayDataProps } from "../../utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
 
 interface EcrSummaryProps {
-  patientDetails: DisplayProps[];
-  encounterDetails: DisplayProps[];
-  aboutTheCondition: DisplayProps[];
+  patientDetails: DisplayDataProps[];
+  encounterDetails: DisplayDataProps[];
+  aboutTheCondition: DisplayDataProps[];
 }
 
 export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
@@ -41,8 +41,8 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[0].title}
           </h3>
           <div className="usa-summary-box__text">
-            {patientDetails.map(({ title, value, toolTip }) => (
-              <Display title={title} value={value} toolTip={toolTip} />
+            {patientDetails.map((item) => (
+              <DataDisplay item={item} />
             ))}
           </div>
         </div>
@@ -54,8 +54,8 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[1].title}
           </h3>
           <div className="usa-summary-box__text">
-            {encounterDetails.map(({ title, value, toolTip }) => (
-              <Display title={title} value={value} toolTip={toolTip} />
+            {encounterDetails.map((item) => (
+              <DataDisplay item={item} />
             ))}
           </div>
         </div>
@@ -67,8 +67,8 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
-            {aboutTheCondition.map(({ title, value, toolTip }) => (
-              <Display title={title} value={value} toolTip={toolTip} />
+            {aboutTheCondition.map((item) => (
+              <DataDisplay item={item} />
             ))}
             <div className={"grid-row"}>
               <div className={"text-bold width-full"}>
