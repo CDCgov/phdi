@@ -83,7 +83,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </h3>
           <div className="usa-summary-box__text">
             {encounterDetails.map(({ title, value }) => (
-              <Display title={title} value={value} />
+              <Display title={title} value={value} key={title} />
             ))}
           </div>
         </div>
@@ -96,7 +96,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </h3>
           <div className="usa-summary-box__text">
             {aboutTheCondition.map(({ title, value }) => (
-              <Display title={title} value={value} />
+              <Display title={title} value={value} key={title} />
             ))}
             <div className={"grid-row"}>
               <div className={"text-bold width-full"}>
