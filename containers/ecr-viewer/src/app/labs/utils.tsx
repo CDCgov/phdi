@@ -392,11 +392,6 @@ export const evaluateOrganismsReportData = (
     { columnName: "Antibiotic", infoPath: "observationAntibiotic" },
     { columnName: "Method", infoPath: "observationOrganismMethod" },
     { columnName: "Susceptibility", infoPath: "observationSusceptibility" },
-    {
-      columnName: "Lab Comment",
-      infoPath: "observationNote",
-      hiddenBaseText: "comment",
-    },
   ];
 
   return evaluateTable(components, mappings, columnInfo, "", true, false);
