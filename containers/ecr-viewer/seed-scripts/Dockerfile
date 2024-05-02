@@ -10,8 +10,9 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the script into the container
-COPY seed-database.py /code/seed-database.py
-COPY ./fhir_data /code/fhir_data
+COPY create-seed-data.py /code/create-seed-data.py
+COPY ./baseECR /code/baseECR
+COPY sql /code/sql
 
 # Command to run the script
-CMD ["python", "./seed-database.py"]
+CMD ["python", "./create-seed-data.py"]
