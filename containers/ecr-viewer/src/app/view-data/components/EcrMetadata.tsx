@@ -111,11 +111,9 @@ const EcrMetadata = ({
                   RCKMS Rule Summary
                 </Tooltip>
               </th>
-              <th>
+              <th className="reportability_summary_header">
                 <Tooltip
-                  label={
-                    "List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR."
-                  }
+                  label={`List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR.`}
                   asCustom={TooltipDiv}
                   className="data-title usa-tooltip"
                   position="bottom"
