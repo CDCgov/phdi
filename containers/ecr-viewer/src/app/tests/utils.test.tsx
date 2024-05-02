@@ -1,5 +1,5 @@
 import {
-  DisplayData,
+  DisplayDataProps,
   evaluateEcrMetadata,
   evaluateSocialData,
   extractPatientAddress,
@@ -275,26 +275,26 @@ describe("Utils", () => {
 
   describe("isDataAvailable", () => {
     it("given an item with no value, it should return false", () => {
-      const input: DisplayData = {};
+      const input: DisplayDataProps = {};
       const result = isDataAvailable(input);
       expect(result).toEqual(false);
     });
     it("given an item with no length in its value array, it should return false", () => {
-      const input: DisplayData = {
+      const input: DisplayDataProps = {
         value: [],
       };
       const result = isDataAvailable(input);
       expect(result).toEqual(false);
     });
     it("given an item whose value matches one of the unavailable terms, it should return false", () => {
-      const input: DisplayData = {
+      const input: DisplayDataProps = {
         value: "Not on file documented in this encounter",
       };
       const result = isDataAvailable(input);
       expect(result).toEqual(false);
     });
     it("given an item with available info, it should return true", () => {
-      const input: DisplayData = {
+      const input: DisplayDataProps = {
         value: "01/01/1970",
       };
       const result = isDataAvailable(input);
