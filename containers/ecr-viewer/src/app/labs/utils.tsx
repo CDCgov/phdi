@@ -382,8 +382,6 @@ export const evaluateOrganismsReportData = (
     return false;
   });
 
-  console.log(observation);
-
   if (observation === undefined) {
     return undefined;
   }

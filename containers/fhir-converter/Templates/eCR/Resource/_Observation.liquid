@@ -40,8 +40,8 @@
             {% if observationEntry.code.translation.code == null -%}
             {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.code -%}
             {% endif -%}
-            {% if observationEntry.organizer.code.code -%}
-                {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.organizer.code -%}
+            {% if observationEntry.code.code -%}
+                {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.code -%}
             {% endif %}
         },
         "effectivePeriod":
@@ -129,8 +129,8 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
-        {% if observationEntry.organizer and observationEntry.organizer.classCode == "BATTERY" %}
-            {% assign batteryComponents = observationEntry.organizer.component | to_array %}
+        {% if classCode == "BATTERY" %}
+            {% assign batteryComponents = observationEntry.component | to_array %}
             "component":
             [
                 {% for component in batteryComponents %}
