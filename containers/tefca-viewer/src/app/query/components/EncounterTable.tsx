@@ -22,25 +22,31 @@ const EncounterTable: React.FC<EncounterTableProps> = ({
     <Table>
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Interpretation</th>
-          <th>Value</th>
-          <th>Reference Range</th>
+          <th>Visit Reason</th>
+          <th>Clinic Type</th>
+          <th>Service Provider</th>
+          <th>Encounter Status</th>
+          <th>Encounter Start</th>
+          <th>Encounter End</th>
         </tr>
       </thead>
       <tbody>
         {encounters.map((encounter) => (
           <tr key={encounter.id}>
-            <td>{encounter?.effectiveDateTime}</td>
-            <td>{formatCodeableConcept(encounter.code)}</td>
+            <td>{encounter?.reasonCode}</td>
             <td>
-              {encounter?.interpretation && encounter.interpretation.length > 0
-                ? formatCodeableConcept(encounter.interpretation[0])
+              {encounter?.class && encounter.class.length > 0
+                ? formatCodeableConcept(encounter.class[0])
+                : ""}{" "}
+              <br></br>
+              {encounter?.serviceType && encounter.serviceType.length > 0
+                ? formatCodeableConcept(encounter.serviceType[0])
                 : ""}
             </td>
-            <td>{formatValue(encounter)}</td>
-            <td>{formatReferenceRange(encounter)}</td>
+            <td>{encounter?.serviceProvider?.display}</td>
+            <td>{encounter?.status}</td>
+            <td>{encounter?.period?.start}</td>
+            <td>{encounter?.period?.end}</td>
           </tr>
         ))}
       </tbody>
@@ -68,4 +74,3 @@ function formatCodeableConcept(concept: CodeableConcept) {
     </>
   );
 }
-

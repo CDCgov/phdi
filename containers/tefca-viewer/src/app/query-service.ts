@@ -283,8 +283,7 @@ async function syphilisQuery(
       (entry: any) => entry.resource,
     );
   }
-
-  if (queryResponse.conditions && queryResponse.conditions.length === 0) {
+  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
@@ -295,6 +294,7 @@ async function syphilisQuery(
       queryResponse.encounters = (await encounterResponse.json()).entry.map(
         (entry: any) => entry.resource,
       );
+      console.log(queryResponse.encounters);
     }
   }
 }
@@ -326,9 +326,10 @@ async function cancerQuery(
       (entry: any) => entry.resource,
     );
   }
+  console.log("conditionResponse.status:", conditionResponse.status);
 
   // Query for encounters
-  if (queryResponse.conditions && queryResponse.conditions.length === 0) {
+  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
