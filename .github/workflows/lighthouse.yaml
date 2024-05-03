@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -28,9 +28,17 @@ jobs:
         run: npm install
         working-directory: ./containers/ecr-viewer
 
-      - name: Setup containers and database
-        run: npm run lighthouse-build
-        working-directory: ./containers/ecr-viewer
+      - name: Build Backend
+        uses: ./.github/actions/docker-buildx
+        with:
+          file: ./containers/ecr-viewer/seed-scripts/Dockerfile
+          tags: ecr-viewer-backend
+
+      - name: Build Frontend
+        uses: ./.github/actions/docker-buildx
+        with:
+          file: ./containers/ecr-viewer/Dockerfile
+          tags: ecr-viewer-frontend
 
       - name: Wait for application to be ready
         run: |
