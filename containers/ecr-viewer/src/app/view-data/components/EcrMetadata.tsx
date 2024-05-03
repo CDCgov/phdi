@@ -98,7 +98,6 @@ const EcrMetadata = ({
                   }
                   asCustom={TooltipDiv}
                   className="data-title usa-tooltip"
-                  position="bottom"
                 >
                   Reportable Condition
                 </Tooltip>
@@ -110,7 +109,6 @@ const EcrMetadata = ({
                   }
                   asCustom={TooltipDiv}
                   className="data-title usa-tooltip"
-                  position="bottom"
                 >
                   RCKMS Rule Summary
                 </Tooltip>
@@ -120,8 +118,6 @@ const EcrMetadata = ({
                   label={`List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR.`}
                   asCustom={TooltipDiv}
                   className="data-title usa-tooltip"
-                  position="bottom"
-                  id="FOOBAR"
                 >
                   {`Jurisdiction Sent eCR`}
                 </Tooltip>

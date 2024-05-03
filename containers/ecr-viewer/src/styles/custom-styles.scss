@@ -297,5 +297,8 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   max-width: 700px !important;
   min-width: 450px !important;
   white-space: normal !important;
-  text-align: center !important;
+  text-align: left !important;
+  font-weight: normal !important;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }

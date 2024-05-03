@@ -1156,17 +1156,19 @@ export const DataDisplay: React.FC<{
   return (
     <div>
       <div className="grid-row">
-        {item.toolTip ? (
-          <Tooltip
-            label={item.toolTip}
-            asCustom={TooltipDiv}
-            className="data-title usa-tooltip"
-          >
-            {item.title ?? ""}
-          </Tooltip>
-        ) : (
-          <div className="data-title">{item.title ?? ""}</div>
-        )}
+        <div className="data-title">
+          {item.toolTip ? (
+            <Tooltip
+              label={item.toolTip}
+              asCustom={TooltipDiv}
+              className="usa-tooltip"
+            >
+              {item.title ?? ""}
+            </Tooltip>
+          ) : (
+            item.title ?? ""
+          )}
+        </div>
         <div
           className={classNames(
             "grid-col-auto maxw7 text-pre-line",
