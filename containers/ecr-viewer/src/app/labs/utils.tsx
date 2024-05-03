@@ -424,7 +424,7 @@ export const evaluateLabInfoData = (
       fhirBundle,
       mappings,
     );
-    const rrInfo: DisplayData[] = [
+    const rrInfo: DisplayDataProps[] = [
       {
         title: "Analysis Time",
         value: returnAnalysisTime(
