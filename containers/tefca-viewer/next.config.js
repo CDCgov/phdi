@@ -11,13 +11,13 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/ecr-viewer/:slug*",
+        source: "/tefca-viewer/:slug*",
         destination: "/:slug*",
       },
     ];
   },
   output: "standalone",
-  basePath: process.env.NODE_ENV === "production" ? "/ecr-viewer" : "",
+  basePath: process.env.NODE_ENV === "production" ? "/tefca-viewer" : "",
 };
 
 module.exports = nextConfig;
