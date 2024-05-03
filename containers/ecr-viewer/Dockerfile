@@ -9,6 +9,8 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
 RUN npm ci
+RUN opentelemetry-bootstrap -a install
+
 
 
 # Rebuild the source code only when needed
@@ -52,7 +54,10 @@ EXPOSE 3000
 
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
+ENV OTEL_TRACES_EXPORTER=otlp
+ENV OTEL_METRICS_EXPORTER=otlp
+ENV OTEL_LOGS_EXPORTER=none
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD opentelemetry-instrument --service_name ecr-viewer ["node", "server.js"]
+CMD opentelemetry-instrument --service_name dibbs-ecr-viewer ["node", "server.js"]

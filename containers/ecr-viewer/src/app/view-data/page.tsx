@@ -30,6 +30,12 @@ const ECRViewerPage: React.FC = () => {
   const fhirId = searchParams.get("id") ?? "";
   const snomedCode = searchParams.get("snomed-code") ?? "";
 
+  console.log(
+    "Jaeger Config:",
+    process.env.JAEGER_AGENT_HOST,
+    process.env.JAEGER_AGENT_PORT,
+  );
+
   type ApiResponse = {
     fhirBundle: Bundle;
     fhirPathMappings: PathMappings;
