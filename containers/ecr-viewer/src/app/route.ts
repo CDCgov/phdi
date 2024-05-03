@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 /**
- * Health check for ECR Viwer
+ * Health check for ECR Viewer
  * @returns Response with status OK.
  */
 export async function GET() {
