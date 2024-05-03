@@ -1,0 +1,75 @@
+---
+name: Deploy
+run-name: Deploy ${{github.event.inputs.branch }} to ${{ github.event.inputs.environment }} by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to deploy
+        required: true
+        type: string
+        default: main
+      environment:
+        description: Environment to deploy
+        required: true
+        type: choice
+        options:
+          - Development
+          - Staging
+          - Production
+
+env:
+  OCTOPUS_SPACE: Default
+  OCTOPUS_PROJECT: Data Ingestion Building Blocks
+
+concurrency:
+  group: ${{ github.event.inputs.environment }}-deployment
+  cancel-in-progress: false
+
+jobs:
+  environment-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check environment
+        run: |
+          echo "Checking environment..."
+          echo "Environment: ${{ github.event.inputs.environment }}"
+          echo "Branch: ${{ github.event.inputs.branch }}"
+          if [ ${{ github.event.inputs.environment }} != "Development" ]; then
+            echo "Cannot deploy to ${{ github.event.inputs.environment }} environment"
+            exit 1
+          fi
+
+  checkout:
+    needs: environment-check
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.get_version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: "0"
+          ref: ${{ github.event.inputs.branch }}
+      - name: Get version
+        id: get_version
+        run: |
+          TAG=$(git describe --tags)
+          echo "$TAG"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+  build-containers:
+    needs: [environment-check, checkout]
+    uses: ./.github/workflows/buildReleaseContainers.yaml
+    with:
+      container-tag: ${{ needs.checkout.outputs.tag }}
+
+  deploy:
+    needs: [environment-check, checkout, build-containers]
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      tag: ${{ needs.checkout.outputs.tag }}
+    secrets:
+      OCTOPUS_URL: ${{ secrets.OCTOPUS_URL }}
+      OCTOPUS_SERVICE_ACCOUNT_ID: ${{ secrets.OCTOPUS_SERVICE_ACCOUNT_ID }}
+    uses: ./.github/workflows/octopus.yaml

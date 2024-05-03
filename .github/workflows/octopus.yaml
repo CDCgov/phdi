@@ -1,0 +1,99 @@
+---
+name: Octopus Workflow
+run-name: Octopus ${{ inputs.tag }} to ${{ inputs.environment }} by @${{ github.actor }}
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: Octopus environment
+        required: true
+        type: string
+        default: Development
+      tag:
+        description: Tag to deploy
+        required: true
+        type: string
+    secrets:
+      OCTOPUS_URL:
+        description: Octopus Deploy URL
+        required: true
+      OCTOPUS_SERVICE_ACCOUNT_ID:
+        description: Octopus Deploy Service Account ID
+        required: true
+
+env:
+  OCTOPUS_SPACE: Default
+  OCTOPUS_PROJECT: Data Ingestion Building Blocks
+
+concurrency:
+  group: ${{ github.event.inputs.environment }}-octopus-deployment
+  cancel-in-progress: false
+
+jobs:
+  octopus-release:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for authentication
+    outputs:
+      release_number: ${{ steps.create_release.outputs.release_number }}
+    steps:
+      - name: Login to Octopus 🐙
+        uses: OctopusDeploy/login@v1
+        with:
+          server: ${{ secrets.OCTOPUS_URL }}
+          service_account_id: ${{ secrets.OCTOPUS_SERVICE_ACCOUNT_ID }}
+
+      - name: Create a release in Octopus 🐙
+        uses: OctopusDeploy/create-release-action@v3
+        id: create_release
+        with:
+          project: ${{ env.OCTOPUS_PROJECT }}
+          channel: "Default"
+          release_number: ${{ inputs.tag }}
+          package_version: ${{ inputs.tag }}
+          packages: "*:${{ inputs.tag }}"
+
+  octopus-deployments:
+    runs-on: ubuntu-latest
+    needs: octopus-release
+    permissions:
+      id-token: write # Required for authentication
+    outputs:
+      server_tasks: ${{ steps.deployments.outputs.server_tasks }}
+    steps:
+      - name: Login to Octopus 🐙
+        uses: OctopusDeploy/login@v1
+        with:
+          server: ${{ secrets.OCTOPUS_URL }}
+          service_account_id: ${{ secrets.OCTOPUS_SERVICE_ACCOUNT_ID }}
+
+      - name: Deploy a release in Octopus Deploy 🐙
+        uses: OctopusDeploy/deploy-release-tenanted-action@v3
+        id: deployments
+        with:
+          project: ${{ env.OCTOPUS_PROJECT }}
+          release_number: ${{ needs.octopus-release.outputs.release_number }}
+          tenants: CDC EXT
+          environment: ${{ inputs.environment }}
+
+  octopus-wait:
+    runs-on: ubuntu-latest
+    needs: octopus-deployments
+    permissions:
+      id-token: write # Required for authentication
+    strategy:
+      matrix:
+        deployment: ${{ fromJson(needs.octopus-deployments.outputs.server_tasks) }}
+
+    steps:
+      - name: Login to Octopus 🐙
+        uses: OctopusDeploy/login@v1
+        with:
+          server: ${{ secrets.OCTOPUS_URL }}
+          service_account_id: ${{ secrets.OCTOPUS_SERVICE_ACCOUNT_ID }}
+
+      - name: Waiting for deployment in Octopus Deploy 🐙
+        uses: OctopusDeploy/await-task-action@v3
+        with:
+          server_task_id: ${{ matrix.deployment.serverTaskId }}
