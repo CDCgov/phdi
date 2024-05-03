@@ -4,11 +4,13 @@ import {
   returnFieldValueFromLabHtmlString,
   getLabJsonObject,
   checkAbnormalTag,
+  evaluateOrganismsReportData,
 } from "@/app/labs/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import BundleLab from "../../tests/assets/BundleLab.json";
 import { Bundle, Observation } from "fhir/r4";
 import { evaluate } from "fhirpath";
+import { render, screen } from "@testing-library/react";
 
 const pathLabReportAbnormal =
   "Bundle.entry.resource.where(resourceType = 'DiagnosticReport').where(id = '68477c03-5689-f9e5-c267-a3c7bdff6fe0')";
@@ -139,6 +141,13 @@ const labReportNormalJsonObject = {
     ],
   ],
 };
+
+const pathLabOrganismsTableAndNarr =
+  "Bundle.entry.resource.where(resourceType = 'DiagnosticReport').where(id = 'b0f590a6-4bf5-7add-9716-2bd3ba6defb2')";
+const labOrganismsTableAndNarr = evaluate(
+  BundleLab,
+  pathLabOrganismsTableAndNarr,
+)[0];
 
 describe("Labs Utils", () => {
   const mappings = loadYamlConfig();
@@ -271,6 +280,32 @@ describe("Labs Utils", () => {
       );
 
       expect(result).toStrictEqual(expectedNoData);
+    });
+  });
+
+  describe("evaluateOrganismsReportData", () => {
+    it("should return the correct organisms table when the data exists for a lab report", () => {
+      const result = evaluateOrganismsReportData(
+        labOrganismsTableAndNarr,
+        BundleLab as unknown as Bundle,
+        mappings,
+      )!;
+      render(result);
+
+      expect(
+        screen.getByText("Avycaz (Ceftazidime/Avibactam)"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("0.25: Susceptible")).toBeInTheDocument();
+      expect(screen.getAllByText("MIC")).toHaveLength(3);
+    });
+    it("should return undefined if lab organisms data does not exist for a lab report", () => {
+      const result = evaluateOrganismsReportData(
+        labReportNormal,
+        BundleLab as unknown as Bundle,
+        mappings,
+      );
+
+      expect(result).toBeUndefined();
     });
   });
 });

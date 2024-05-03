@@ -24,7 +24,10 @@ export const formatString = (input: string): string => {
  * @returns The CodeableConcept data formatted for
  * display.
  */
-export function formatCodeableConcept(concept: CodeableConcept) {
+export function formatCodeableConcept(concept: CodeableConcept | undefined) {
+  if (!concept) {
+    return "";
+  }
   if (!concept.coding || concept.coding.length === 0) {
     return concept.text || "";
   }
