@@ -32,13 +32,13 @@ jobs:
         working-directory: ./containers/ecr-viewer
 
       - name: Build Backend
-        uses: ./.github/actions/docker-buildx
+        uses: docker/setup-buildx-action@v3
         with:
           file: ./containers/ecr-viewer/seed-scripts/Dockerfile
           tags: ecr-viewer-backend
 
       - name: Build Frontend
-        uses: ./.github/actions/docker-buildx
+        uses: docker/setup-buildx-action@v3
         with:
           file: ./containers/ecr-viewer/Dockerfile
           tags: ecr-viewer-frontend
