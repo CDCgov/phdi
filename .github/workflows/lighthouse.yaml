@@ -46,5 +46,5 @@ jobs:
       - name: Run Lighthouse
         uses: treosh/lighthouse-ci-action@v8
         with:
-          urls: "http://localhost:8080"
+          urls: "http://localhost:3000"
           uploadArtifacts: true
