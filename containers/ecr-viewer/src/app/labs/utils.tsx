@@ -369,7 +369,7 @@ export const evaluateOrganismsReportData = (
   let components: ObservationComponent[] = [];
   let observation: Observation | undefined;
 
-  report.result?.forEach((obsRef: Reference) => {
+  report.result?.find((obsRef: Reference) => {
     const obs: Observation = evaluateReference(
       fhirBundle,
       mappings,
@@ -377,8 +377,12 @@ export const evaluateOrganismsReportData = (
     );
     if (obs.component) {
       observation = obs;
+      return true;
     }
+    return false;
   });
+
+  console.log(observation);
 
   if (observation === undefined) {
     return undefined;
