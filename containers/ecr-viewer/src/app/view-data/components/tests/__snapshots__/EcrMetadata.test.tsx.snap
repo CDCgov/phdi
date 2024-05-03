@@ -42,7 +42,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                   >
                     <div
                       aria-describedby="[object Object]"
-                      class="usa-tooltip__trigger data-title usa-tooltip"
+                      class="usa-tooltip__trigger usa-tooltip"
                       data-testid="triggerElement"
                       position="top"
                       tabindex="0"
@@ -69,7 +69,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                   >
                     <div
                       aria-describedby="[object Object]"
-                      class="usa-tooltip__trigger data-title usa-tooltip"
+                      class="usa-tooltip__trigger usa-tooltip"
                       data-testid="triggerElement"
                       position="top"
                       tabindex="0"
@@ -98,7 +98,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                   >
                     <div
                       aria-describedby="[object Object]"
-                      class="usa-tooltip__trigger data-title usa-tooltip"
+                      class="usa-tooltip__trigger usa-tooltip"
                       data-testid="triggerElement"
                       position="top"
                       tabindex="0"

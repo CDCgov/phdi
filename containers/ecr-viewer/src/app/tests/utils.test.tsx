@@ -12,6 +12,7 @@ import {
   returnPlannedProceduresTable,
   DataDisplay,
   TooltipDiv,
+  toolTipElement,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
@@ -516,6 +517,19 @@ describe("Utils", () => {
       const tip = screen.getByTestId("triggerElement");
       expect(tip.className).toInclude("testClass");
       expect(tip.textContent).toInclude("Test child");
+    });
+    it("should make a tooltip", () => {
+      render(toolTipElement("Item Title", "Tooltip"));
+      const tip = screen.getByTestId("triggerElement");
+      expect(tip.className).toInclude("short-tooltip");
+      expect(tip.textContent).toInclude("Item Title");
+    });
+    it("should not make the tool tip short if the tip has more than 100 character", () => {
+      const toolTip =
+        "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+      render(toolTipElement("Item Title", toolTip));
+      const tip = screen.getByTestId("triggerElement");
+      expect(tip.className).not.toInclude("short-tooltip");
     });
   });
 });

@@ -303,3 +303,7 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+.short-tooltip + .usa-tooltip__body {
+  min-width: 350px !important;
+}

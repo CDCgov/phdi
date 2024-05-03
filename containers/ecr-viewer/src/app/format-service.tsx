@@ -1,6 +1,5 @@
 import React from "react";
-import { Tooltip } from "@trussworks/react-uswds";
-import { TooltipDiv } from "@/app/utils";
+import { toolTipElement } from "@/app/utils";
 
 interface Metadata {
   [key: string]: string;
@@ -426,23 +425,13 @@ export function toSentenceCase(str: string) {
  */
 export const addCaptionToTable = (
   element: React.ReactNode,
-  caption: String,
+  caption: string,
   toolTip: string | null = null,
 ) => {
   if (React.isValidElement(element) && element.type === "table") {
     return React.cloneElement(element, {}, [
       <caption key="caption">
-        {toolTip ? (
-          <Tooltip
-            label={toolTip}
-            asCustom={TooltipDiv}
-            className="data-title usa-tooltip"
-          >
-            {caption}
-          </Tooltip>
-        ) : (
-          <>{caption}</>
-        )}
+        <div className="data-title">{toolTipElement(caption, toolTip)}</div>
       </caption>,
       ...React.Children.toArray(element.props.children),
     ]);

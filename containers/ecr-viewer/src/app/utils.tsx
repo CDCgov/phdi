@@ -1157,17 +1157,7 @@ export const DataDisplay: React.FC<{
     <div>
       <div className="grid-row">
         <div className="data-title">
-          {item.toolTip ? (
-            <Tooltip
-              label={item.toolTip}
-              asCustom={TooltipDiv}
-              className="usa-tooltip"
-            >
-              {item.title ?? ""}
-            </Tooltip>
-          ) : (
-            item.title ?? ""
-          )}
+          {toolTipElement(item.title, item.toolTip)}
         </div>
         <div
           className={classNames(
@@ -1404,3 +1394,28 @@ export const CustomDivForwardRef: React.ForwardRefRenderFunction<
 );
 
 export const TooltipDiv = React.forwardRef(CustomDivForwardRef);
+
+/**
+ * Creates a tooltip-wrapped element if a tooltip text is provided, or returns the content directly otherwise.
+ * The tooltip is only applied when the `toolTip` parameter is not null or undefined. If the tooltip text
+ * is less than 100 characters, a specific class `short-tooltip` is added to style the tooltip differently.
+ * @param content - The content to be displayed, which can be any valid React node or text.
+ * @param toolTip - The text for the tooltip. If this is provided, the content will be wrapped in a tooltip.
+ * @returns A React JSX element containing either the plain content or content wrapped in a tooltip, depending on the tooltip parameter.
+ */
+export const toolTipElement = (
+  content: string | undefined | null,
+  toolTip: string | undefined | null,
+): React.JSX.Element => {
+  return toolTip ? (
+    <Tooltip
+      label={toolTip}
+      asCustom={TooltipDiv}
+      className={`usa-tooltip${toolTip.length < 100 ? " short-tooltip" : ""}`}
+    >
+      {content}
+    </Tooltip>
+  ) : (
+    <>{content}</>
+  );
+};

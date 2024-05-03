@@ -13,6 +13,7 @@ interface UnavailableInfoProps {
   treatmentData: DisplayDataProps[];
   clinicalNotesData: DisplayDataProps[];
   immunizationsUnavailableData: DisplayDataProps[];
+  ecrMetadataUnavailableData: DisplayDataProps[];
 }
 
 /**
@@ -28,6 +29,7 @@ interface UnavailableInfoProps {
  * @param props.vitalUnavailableData The unavailable vital data
  * @param props.treatmentData The unavailable treatment data
  * @param props.clinicalNotesData The unavailable clinical notes
+ * @param props.ecrMetadataUnavailableData The unavailable ecr meta data
  * @returns The JSX element representing all unavailable data.
  */
 const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
@@ -41,7 +43,9 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
   vitalUnavailableData,
   treatmentData,
   clinicalNotesData,
+  ecrMetadataUnavailableData,
 }) => {
+  console.log("ecrMetadataUnavailableData", ecrMetadataUnavailableData);
   const renderSection = (sectionTitle: string, data: DisplayDataProps[]) => {
     return (
       <div className="margin-bottom-4">
@@ -82,6 +86,8 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
         renderSection("Immunizations", immunizationsUnavailableData)}
       {treatmentData?.length > 0 &&
         renderSection("Treatment Details", treatmentData)}
+      {ecrMetadataUnavailableData?.length > 0 &&
+        renderSection("eCR Metadata", ecrMetadataUnavailableData)}
     </AccordianSection>
   );
 };

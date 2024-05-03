@@ -83,31 +83,35 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
               >
                 <table>
                   <caption>
-                    <span
-                      class="usa-tooltip"
-                      data-testid="tooltipWrapper"
+                    <div
+                      class="data-title"
                     >
-                      <div
-                        aria-describedby="[object Object]"
-                        class="usa-tooltip__trigger data-title usa-tooltip"
-                        data-testid="triggerElement"
-                        position="top"
-                        tabindex="0"
-                        title=""
-                      >
-                        Miscellaneous Notes
-                      </div>
                       <span
-                        aria-hidden="true"
-                        class="usa-tooltip__body"
-                        data-testid="tooltipBody"
-                        id="[object Object]"
-                        role="tooltip"
-                        title="Clinical notes from various parts of a medical record. Type of note found here depends on how the provider's EHR system onboarded to send eCR."
+                        class="usa-tooltip"
+                        data-testid="tooltipWrapper"
                       >
-                        Clinical notes from various parts of a medical record. Type of note found here depends on how the provider's EHR system onboarded to send eCR.
+                        <div
+                          aria-describedby="[object Object]"
+                          class="usa-tooltip__trigger usa-tooltip"
+                          data-testid="triggerElement"
+                          position="top"
+                          tabindex="0"
+                          title=""
+                        >
+                          Miscellaneous Notes
+                        </div>
+                        <span
+                          aria-hidden="true"
+                          class="usa-tooltip__body"
+                          data-testid="tooltipBody"
+                          id="[object Object]"
+                          role="tooltip"
+                          title="Clinical notes from various parts of a medical record. Type of note found here depends on how the provider's EHR system onboarded to send eCR."
+                        >
+                          Clinical notes from various parts of a medical record. Type of note found here depends on how the provider's EHR system onboarded to send eCR.
+                        </span>
                       </span>
-                    </span>
+                    </div>
                   </caption>
                   <thead>
                     <tr>
