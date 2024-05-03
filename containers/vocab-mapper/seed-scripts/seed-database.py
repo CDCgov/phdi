@@ -146,7 +146,7 @@ def check_id_uniqueness(list_of_lists: List[List[str]]) -> bool:
     in each list of the lists of lists is unique. This is needed to
     confirm that the assumptions we have about tables with a unique primary
     key (value_sets, value_set_types, clinical_services) are all in fact
-    unique (i.e., the number  of unique ids matches number of rows).
+    unique (i.e., the number of unique ids matches number of rows).
     If not, then the function will exit to prevent overwriting.
 
     :param list_of_lists: eRSD table data to be transformed into table.
@@ -315,15 +315,10 @@ def load_table(
     """
     cursor = connection.cursor()
     try:
-        # dynamically insert rows
         values = ", ".join("?" for _ in insert_rows[0])
-        for row in insert_rows:
-            cursor.execute(
-                f"""
-                        INSERT OR REPLACE into {table_name} VALUES ({values})
-                        """,
-                row,
-            )
+        sql_query = f"INSERT into {table_name} VALUES ({values})"
+        cursor.executemany(sql_query, insert_rows)
+        connection.commit()
     except sqlite3.Error as e:
         print(f"An error occurred: {e}")
         connection.rollback()
