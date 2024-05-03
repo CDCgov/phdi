@@ -327,7 +327,6 @@ async function cancerQuery(
       (entry: any) => entry.resource,
     );
   }
-  console.log("conditionResponse.status:", conditionResponse.status);
 
   // Query for encounters
   if (queryResponse.conditions && queryResponse.conditions.length > 0) {

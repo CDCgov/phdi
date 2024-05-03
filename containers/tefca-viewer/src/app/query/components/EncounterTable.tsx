@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "@trussworks/react-uswds";
-import { Encounter, CodeableConcept } from "fhir/r4";
+import { Encounter } from "fhir/r4";
+import { formatCodeableConcept } from "../../format-service";
 
 /**
  * The props for the EncounterTable component.
@@ -51,26 +52,3 @@ const EncounterTable: React.FC<EncounterTableProps> = ({
   );
 };
 export default EncounterTable;
-
-/**
- * Formats a CodeableConcept object for display. If the object has a coding array,
- * the first coding object is used.
- * @param concept - The CodeableConcept object.
- * @returns The CodeableConcept data formatted for
- * display.
- */
-function formatCodeableConcept(concept: CodeableConcept | undefined) {
-  if (!concept) {
-    return "";
-  }
-  if (!concept.coding || concept.coding.length === 0) {
-    return concept.text || "";
-  }
-  const coding = concept.coding[0];
-  return (
-    <>
-      {" "}
-      {coding.display} <br /> {coding.code} <br /> {coding.system}{" "}
-    </>
-  );
-}
