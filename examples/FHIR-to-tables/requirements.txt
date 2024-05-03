@@ -1,6 +1,6 @@
 azure-identity
 pyyaml
-pyarrow
+pyarrow>=14.0.1
 pandas
 numpy
 pandas
