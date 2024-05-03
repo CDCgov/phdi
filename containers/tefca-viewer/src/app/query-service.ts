@@ -8,6 +8,8 @@ import {
   DiagnosticReport,
   Condition,
   Encounter,
+  Medication,
+  MedicationAdministration,
 } from "fhir/r4";
 
 type FHIR_SERVERS = "meld" | "ehealthexchange";
@@ -30,14 +32,12 @@ const FHIR_SERVERS: {
   meld: { hostname: "https://gw.interop.community/HeliosConnectathonSa/open/" },
   ehealthexchange: {
     hostname: "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/",
-    username: "svc_eHxFHIRSandbox",
-    password: "willfulStrongStandurd7",
     headers: {
       Accept: "application/json, application/*+json, */*",
       "Accept-Encoding": "gzip, deflate, br",
       "Content-Type": "application/fhir+json; charset=UTF-8",
       "X-DESTINATION": "CernerHelios",
-      "X-POU": "TREATMENT",
+      "X-POU": "PUBHLTH",
       "X-Request-Id": uuidv4(),
       prefer: "return=representation",
       "Cache-Control": "no-cache",
@@ -69,6 +69,8 @@ type QueryResponse = {
   diagnosticReports?: DiagnosticReport[];
   conditions?: Condition[];
   encounters?: Encounter[];
+  medications?: Medication[];
+  medicationAdmins?: MedicationAdministration[];
 };
 
 const useCaseQueryMap: {
@@ -80,9 +82,7 @@ const useCaseQueryMap: {
   "social-determinants": socialDeterminantsQuery,
   "newborn-screening": newbornScreeningQuery,
   syphilis: syphilisQuery,
-  cancer: async () => {
-    throw new Error("Not implemented");
-  },
+  cancer: cancerQuery,
 };
 
 // Expected responses from the FHIR server
@@ -137,7 +137,6 @@ async function patientQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
@@ -191,7 +190,6 @@ async function socialDeterminantsQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
   queryResponse.observations = (await response.json()).entry.map(
@@ -222,11 +220,13 @@ async function newbornScreeningQuery(
   ];
   const loincFilter: string = "code=" + loincs.join(",");
 
-  const query = `/Observation?subject=${request.patientId}&code=${loincFilter}`;
-  const response = await fetch(request.fhir_host + query, request.init);
+  const query = `/Observation?subject=Patient/${request.patientId}&code=${loincFilter}`;
+  const response = await fetch(request.fhir_host + query, {
+    headers: request.headers,
+    ...request.init,
+  });
 
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
@@ -281,8 +281,7 @@ async function syphilisQuery(
       (entry: any) => entry.resource,
     );
   }
-
-  if (queryResponse.conditions && queryResponse.conditions.length === 0) {
+  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
@@ -294,5 +293,83 @@ async function syphilisQuery(
         (entry: any) => entry.resource,
       );
     }
+  }
+}
+
+/**
+ * Cancer use case query.
+ * @param request - The request object containing the patient ID.
+ * @param queryResponse - The response object to store the results
+ */
+async function cancerQuery(
+  request: UseCaseQueryRequest,
+  queryResponse: QueryResponse,
+): Promise<void> {
+  const snomed: Array<string> = ["92814006"];
+  const rxnorm: Array<string> = ["828265"]; // drug codes from NLM/NIH RxNorm
+  const cpt: Array<string> = ["15301000"]; // encounter codes from AMA CPT
+  const snomedFilter: string = snomed.join(",");
+  const rxnormFilter: string = rxnorm.join(",");
+  const cptFilter: string = cpt.join(",");
+
+  // Query for conditions
+  const conditionQuery = `/Condition?subject=${request.patientId}&code=${snomedFilter}`;
+  const conditionResponse = await fetch(
+    request.fhir_host + conditionQuery,
+    request.init,
+  );
+  if (conditionResponse.status === 200) {
+    queryResponse.conditions = (await conditionResponse.json()).entry.map(
+      (entry: any) => entry.resource,
+    );
+  }
+
+  // Query for encounters
+  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
+    const conditionId = queryResponse.conditions[0].id;
+    const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
+    const encounterResponse = await fetch(
+      request.fhir_host + encounterQuery,
+      request.init,
+    );
+    if (encounterResponse.status === 200) {
+      queryResponse.encounters = (await encounterResponse.json()).entry.map(
+        (entry: any) => entry.resource,
+      );
+    }
+  }
+
+  // Query for medications
+  // type medicationResponse = {
+  //   entry: Record<string, unknown>[];
+  // } & Record<string, unknown>;
+
+  const medicationsQuery = `/MedicationRequest?subject=Patient/${request.patientId}&code=${rxnormFilter}`;
+  const medicationResponse = await fetch(
+    request.fhir_host + medicationsQuery,
+    request.init,
+  );
+  if (medicationResponse.status >= 400) {
+    throw new Error(
+      `Error querying medications. Status: ${medicationResponse.status}`,
+    );
+  }
+  const m = await medicationResponse.json();
+  queryResponse.medications = m.entry.map((entry: any) => entry.resource);
+
+  // Query for medication administrations
+  const medicationsAdministered: Array<string> = m.entry.map(
+    (medication: { resource: { id: string } }) => medication.resource.id,
+  );
+  const medicationFilter: string = medicationsAdministered.join(",");
+  const medicationsAdminQuery = `/MedicationAdministration?subject=Patient/${request.patientId}&request=${medicationFilter}`;
+  const medicationAdminResponse = await fetch(
+    request.fhir_host + medicationsAdminQuery,
+    request.init,
+  );
+  if (medicationAdminResponse.status === 200) {
+    queryResponse.medicationAdmins = (
+      await medicationAdminResponse.json()
+    ).entry.map((entry: any) => entry.resource);
   }
 }
