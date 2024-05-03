@@ -23,45 +23,6 @@ dockerfile_path = Path(__file__).parent.parent.parent / "message-parser"
 tag = "message-parser:latest"
 ports = {"8080": 8080}
 
-# SQL queries to initialize each table we need with pkeys and fkeys
-value_set_type_table = """CREATE TABLE IF NOT EXISTS value_set_type (
-                          id TEXT PRIMARY KEY,
-                          clinical_service_type TEXT
-                       )
-                       """
-
-value_sets_table = """CREATE TABLE IF NOT EXISTS value_sets (
-                      id TEXT PRIMARY KEY,
-                      version TEXT,
-                      value_set_name TEXT,
-                      author TEXT,
-                      clinical_service_type_id TEXT,
-                      FOREIGN KEY (clinical_service_type_id)
-                      REFERENCES value_set_type(id)
-                      )
-                      """
-
-conditions_table = """CREATE TABLE IF NOT EXISTS conditions (
-                      id TEXT,
-                      value_set_id TEXT,
-                      system TEXT,
-                      name TEXT,
-                      FOREIGN KEY (value_set_id) REFERENCES value_sets(id)
-                      )
-                      """
-
-clinical_services_table = """CREATE TABLE IF NOT EXISTS clinical_services (
-                             id TEXT PRIMARY KEY,
-                             value_set_id TEXT,
-                             code TEXT,
-                             code_system TEXT,
-                             display TEXT,
-                             version TEXT,
-                             FOREIGN KEY (value_set_id)
-                             REFERENCES value_sets(id)
-                             )
-                             """
-
 
 def load_ersd(URL: str) -> dict:
     """
@@ -306,28 +267,55 @@ def build_clinical_services_table(data: dict) -> List[List[str]]:
         return print("Non-unique IDs in clinical_services")
 
 
-def create_table(
-    connection: sqlite3.Connection,
-    table_name: str,
-    sql_query: str,
-    insert_rows: List[List[str]],
-):
+def apply_migration(connection: sqlite3.Connection, migration_file: str):
     """
-    Takes the sqlite3 connection to delete existing table, initalize table,
-    then insert data created in other data steps into the table
+    This function reads in sql files and executes the .sql file specified to
+    the db path specified
+
+    :param connection: sqlite3 connection
+    :param migration_file: location of the .sql file to execute
+    """
+    with open(migration_file, "r") as file:
+        sql_script = file.read()
+    cursor = connection.cursor()
+    try:
+        cursor.executescript(sql_script)
+        connection.commit()
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        connection.rollback()
+
+
+def delete_table(connection: sqlite3.Connection, table_name: str):
+    """
+    Takes the sqlite3 connection to delete existing tables from database
 
     :param connection: sqlite3 connection
     :param table_name: name of the table
-    :param sql_query: sql query to create table, initalize columns
+    """
+    cursor = connection.cursor()
+    try:
+        cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        connection.rollback()
+
+
+def load_table(
+    connection: sqlite3.Connection,
+    table_name: str,
+    insert_rows: List[List[str]],
+):
+    """
+    Takes the sqlite3 connection to insert data created in other data steps
+
+    :param connection: sqlite3 connection
+    :param table_name: name of the table
     :param insert_rows: list of lists of values to insert into table
     """
     cursor = connection.cursor()
     try:
-        # drop existing table
-        cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
-        # create initial rows for table
-        cursor.execute(sql_query)
-        # insert rows into table by looping through list of lists
+        # dynamically insert rows
         values = ", ".join("?" for _ in insert_rows[0])
         for row in insert_rows:
             cursor.execute(
@@ -339,46 +327,58 @@ def create_table(
     except sqlite3.Error as e:
         print(f"An error occurred: {e}")
         connection.rollback()
-    finally:
-        connection.commit()
 
 
 def main():
     """
     Runs all the functions to:
     1. Load eRSD data json from APHL API.
-    2. Start up message-parser.
-    3. Post ersd.json message-parser parsing schema (WIP).
-    4. Post eRSD data json to message-parser to get parsed data.
-    5. Spin down message-parser.
-    6. Use parsed data to create list of lists for each table.
-    7. Load each table to sqlite3 database.
+    2. Post eRSD data json to message-parser to get parsed data.
+    3. Use parsed data to create list of lists for each table.
+    4. Delete existing tables in sqlite database.
+    5. Create tables.
+    6. Insert data into tables.
+    7. Add indexes to each table in sqlite database.
     """
-    # extract and transform eRSD data
+    # 1. extract and transform eRSD data
     ersd_data = load_ersd(ERSD_URL)
 
-    # use message-parser to parse eRSD data, then spin down service
+    # 2. use message-parser to parse eRSD data, then spin down service
     container = start_docker_service(dockerfile_path, tag, ports)
     parsed_data = parse_ersd(ports, ersd_data)
     if container:
         container.stop()
         container.remove()
 
-    # used parsed data to create needed tables as list of lists
+    # 3. used parsed data to create needed tables as list of lists
     value_set_type_list = build_value_set_type_table(parsed_data)
     clinical_services_dict = build_clinical_services_dict(parsed_data)
     value_sets_list = build_value_sets_table(parsed_data, clinical_services_dict)
     conditions_list = build_conditions_table(parsed_data)
     clinical_services_list = build_clinical_services_table(parsed_data)
 
-    # Create tables in eRSD database
+    # Create mini-dict to loop through for sqlite queries
+    table_dict = {
+        "value_set_type": value_set_type_list,
+        "value_sets": value_sets_list,
+        "conditions": conditions_list,
+        "clinical_services": clinical_services_list,
+    }
+
     with sqlite3.connect("seed-scripts/ersd.db") as conn:
-        create_table(conn, "value_set_type", value_set_type_table, value_set_type_list)
-        create_table(conn, "value_sets", value_sets_table, value_sets_list)
-        create_table(conn, "conditions", conditions_table, conditions_list)
-        create_table(
-            conn, "clinical_services", clinical_services_table, clinical_services_list
-        )
+        # 4. Delete existing tables in eRSD database
+        for table_name in table_dict.keys():
+            delete_table(conn, table_name)
+
+        # 5. Create tables in eRSD database
+        apply_migration(conn, "seed-scripts/migrations/V01_01__create_tables.sql")
+
+        # 6. Insert data into the tables
+        for table_name, table_rows in table_dict.items():
+            load_table(conn, table_name, table_rows)
+
+        # 7. Add indexes
+        apply_migration(conn, "seed-scripts/migrations/V01_02__indexes.sql")
 
 
 if __name__ == "__main__":
