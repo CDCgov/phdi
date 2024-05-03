@@ -21,11 +21,9 @@ jobs:
         with:
           node-version: "14" # Specify your Node.js version
 
-      - name: Change to the correct directory
-        run: cd containers/ecr-viewer
-
       - name: Install dependencies
         run: npm install
+        working-directory: ./containers/ecr-viewer
 
       - name: Setup containers and database
         run: npm run lighthouse-build
