@@ -1,0 +1,21 @@
+services:
+  fhir-converter-service:
+    build:
+      context: ../../fhir-converter/
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://fhir-converter-service:8080/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  convert-data:
+    build: .
+    depends_on:
+      fhir-converter-service:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./sql-init/:/code/sql-init
+      - ./baseECR/:/code/baseECR
