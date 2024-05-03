@@ -88,7 +88,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
                       data-testid="tooltipWrapper"
                     >
                       <div
-                        aria-describedby="tooltip-133767"
+                        aria-describedby="tooltip-868345"
                         class="usa-tooltip__trigger data-title usa-tooltip"
                         data-testid="triggerElement"
                         position="top"
@@ -101,7 +101,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
                         aria-hidden="true"
                         class="usa-tooltip__body"
                         data-testid="tooltipBody"
-                        id="tooltip-133767"
+                        id="tooltip-868345"
                         role="tooltip"
                         title="Clinical notes from various parts of a medical record. Type of note found here depends on how the provider's EHR system onboarded to send eCR."
                       >
