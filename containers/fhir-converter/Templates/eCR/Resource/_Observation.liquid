@@ -40,6 +40,9 @@
             {% if observationEntry.code.translation.code == null -%}
             {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.code -%}
             {% endif -%}
+            {% if observationEntry.code.code -%}
+                {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.code -%}
+            {% endif %}
         },
         "effectivePeriod":
         {
@@ -125,6 +128,31 @@
                     ],
                 {% endif %}
             {% endfor %}
+        {% endif %}
+        {% if classCode == "BATTERY" %}
+            {% assign batteryComponents = observationEntry.component | to_array %}
+            "component":
+            [
+                {% for component in batteryComponents %}
+                {
+                    "code":
+                        {
+                            {% if component.observation.code -%}
+                                {% include 'DataType/CodeableConcept' CodeableConcept: component.observation.code -%}
+                            {% endif -%}
+                        },
+                    "valueString": "{{ component.observation.value._ }}",
+                    "extension": [
+                        {% if component.observation.methodCode.originalText._ %}
+                        {
+                            "url": "methodCode originalText",
+                            "valueString": "{{ component.observation.methodCode.originalText._ }}",
+                        },
+                        {% endif %}
+                    ],
+                },
+                {% endfor %}
+            ],
         {% endif %}
         {% assign observationTextReferenceValue = observationEntry.text.reference.value -%}
         {% assign observationValueReferenceValue = observationEntry.value.reference.value -%}
