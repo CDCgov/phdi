@@ -112,7 +112,10 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
             ].items():
                 # Base case: secondary field is located on this resource
                 if not secondary_field_definition["fhir_path"].startswith("Bundle"):
-                    if "secondary_schema" in secondary_field_definition:
+                    if (
+                        "secondary_schema" in secondary_field_definition
+                        and secondary_field_definition["secondary_schema"] is not None
+                    ):
                         tertiary_parser = {}
                         tertiary_parsers = {}
                         tertiary_parser["primary_parser"] = fhirpathpy.compile(
@@ -356,6 +359,24 @@ def get_datetime_now() -> datetime.datetime:
     :return: A datetime object representing the current date and time.
     """
     return datetime.datetime.now()
+
+
+def clean_schema(schema: dict):
+    """
+    Recursively remove any 'secondary_schema' fields that are None or empty.
+    :param schema: the parsing schema dictionary to clean out
+    """
+    keys_to_delete = []
+    for key, value in schema.items():
+        if isinstance(value, dict):
+            clean_schema(value)  # Recursively clean nested dictionaries
+            if "secondary_schema" in value and not value["secondary_schema"]:
+                keys_to_delete.append("secondary_schema")
+        elif value is None:
+            keys_to_delete.append(key)
+
+    for key in keys_to_delete:
+        del schema[key]
 
 
 def extract_and_apply_parsers(parsing_schema, message, response):
