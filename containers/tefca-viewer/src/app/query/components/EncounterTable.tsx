@@ -33,14 +33,11 @@ const EncounterTable: React.FC<EncounterTableProps> = ({
       <tbody>
         {encounters.map((encounter) => (
           <tr key={encounter.id}>
-            <td>{encounter?.reasonCode}</td>
+            <td>{formatCodeableConcept(encounter?.reasonCode?.[0])} </td>
             <td>
-              {encounter?.class && encounter.class.length > 0
-                ? formatCodeableConcept(encounter.class[0])
-                : ""}{" "}
-              <br></br>
-              {encounter?.serviceType && encounter.serviceType.length > 0
-                ? formatCodeableConcept(encounter.serviceType[0])
+              {formatCodeableConcept(encounter?.class)} <br></br>
+              {encounter?.serviceType
+                ? formatCodeableConcept(encounter.serviceType)
                 : ""}
             </td>
             <td>{encounter?.serviceProvider?.display}</td>
@@ -62,7 +59,10 @@ export default EncounterTable;
  * @returns The CodeableConcept data formatted for
  * display.
  */
-function formatCodeableConcept(concept: CodeableConcept) {
+function formatCodeableConcept(concept: CodeableConcept | undefined) {
+  if (!concept) {
+    return "";
+  }
   if (!concept.coding || concept.coding.length === 0) {
     return concept.text || "";
   }
