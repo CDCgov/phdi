@@ -17,6 +17,7 @@ from app.models import ParseMessageResponse
 from app.models import ParsingSchemaModel
 from app.models import PutSchemaResponse
 from app.phdc.builder import PHDCBuilder
+from app.utils import clean_schema
 from app.utils import convert_to_fhir
 from app.utils import extract_and_apply_parsers
 from app.utils import freeze_parsing_schema
@@ -238,14 +239,11 @@ async def upload_schema(
         }
 
     # Convert Pydantic models to dicts so they can be serialized to JSON.
-    for field in input.parsing_schema:
-        field_dict = input.parsing_schema[field].dict()
-        if "secondary_schema" in field_dict and field_dict["secondary_schema"] is None:
-            del field_dict["secondary_schema"]
-        input.parsing_schema[field] = field_dict
+    schema_dict = input.dict()
+    clean_schema(schema_dict["parsing_schema"])  # remove secondary_schemas
 
     with open(file_path, "w") as file:
-        json.dump(input.parsing_schema, file, indent=4)
+        json.dump(schema_dict["parsing_schema"], file, indent=4)
 
     if schema_exists:
         return {"message": "Schema updated successfully!"}
