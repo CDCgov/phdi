@@ -29,6 +29,7 @@ jobs:
 
       - name: Setup containers and database
         run: npm run lighthouse-build
+        working-directory: ./containers/ecr-viewer
 
       - name: Wait for application to be ready
         run: |
