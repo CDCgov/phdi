@@ -9,6 +9,7 @@ import {
   AccordianDiv,
 } from "../component-utils";
 import { UseCaseQueryResponse } from "@/app/query-service";
+import ConditionsTable from "./ConditionsTable";
 
 type AccordionContainerProps = {
   queryResponse: UseCaseQueryResponse;
@@ -23,6 +24,7 @@ type AccordionContainerProps = {
 const AccordianContainer: React.FC<AccordionContainerProps> = ({
   queryResponse,
 }) => {
+  console.log("queryResponse:", queryResponse);
   const accordionItems: any[] = [];
 
   const patient =
@@ -32,6 +34,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const observations = queryResponse.observations
     ? queryResponse.observations
     : null;
+  const conditions = queryResponse.conditions ? queryResponse.conditions : null;
 
   if (patient) {
     accordionItems.push({
@@ -64,6 +67,26 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             </AccordianH4>
             <AccordianDiv>
               <ObservationTable observations={observations} />
+            </AccordianDiv>
+          </AccordianSection>
+        </>
+      ),
+      expanded: true,
+      headingLevel: "h3",
+    });
+  }
+
+  if (conditions) {
+    accordionItems.push({
+      title: "Conditions",
+      content: (
+        <>
+          <AccordianSection>
+            <AccordianH4>
+              <span id="conditions">Conditions</span>
+            </AccordianH4>
+            <AccordianDiv>
+              <ConditionsTable conditions={conditions} />
             </AccordianDiv>
           </AccordianSection>
         </>
