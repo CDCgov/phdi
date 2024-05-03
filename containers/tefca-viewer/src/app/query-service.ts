@@ -137,7 +137,6 @@ async function patientQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
@@ -191,7 +190,6 @@ async function socialDeterminantsQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
   queryResponse.observations = (await response.json()).entry.map(
@@ -229,7 +227,6 @@ async function newbornScreeningQuery(
   });
 
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
@@ -295,7 +292,6 @@ async function syphilisQuery(
       queryResponse.encounters = (await encounterResponse.json()).entry.map(
         (entry: any) => entry.resource,
       );
-      console.log(queryResponse.encounters);
     }
   }
 }
