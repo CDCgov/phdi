@@ -11,6 +11,7 @@ import {
   isDataAvailable,
   returnPlannedProceduresTable,
   DataDisplay,
+  TooltipDiv,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
@@ -26,6 +27,7 @@ import { render, screen } from "@testing-library/react";
 import { CarePlanActivity } from "fhir/r4b";
 import { evaluate } from "fhirpath";
 import userEvent from "@testing-library/user-event";
+import { Tooltip } from "@trussworks/react-uswds";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -497,6 +499,23 @@ describe("Utils", () => {
           screen.queryByText(OneHundredTwentyFiveCharStrings[4]),
         ).not.toBeInTheDocument();
       });
+    });
+  });
+
+  describe("ToolTips", () => {
+    it("should return the tool tip with the custom jsx", () => {
+      render(
+        <Tooltip
+          label={"test label"}
+          asCustom={TooltipDiv}
+          className="testClass"
+        >
+          Test child
+        </Tooltip>,
+      );
+      const tip = screen.getByTestId("triggerElement");
+      expect(tip.className).toInclude("testClass");
+      expect(tip.textContent).toInclude("Test child");
     });
   });
 });

@@ -41,7 +41,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                     data-testid="tooltipWrapper"
                   >
                     <div
-                      aria-describedby="tooltip-780307"
+                      aria-describedby="[object Object]"
                       class="usa-tooltip__trigger data-title usa-tooltip"
                       data-testid="triggerElement"
                       position="bottom"
@@ -54,7 +54,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                       aria-hidden="true"
                       class="usa-tooltip__body"
                       data-testid="tooltipBody"
-                      id="tooltip-780307"
+                      id="[object Object]"
                       role="tooltip"
                       title="List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR."
                     >
@@ -68,7 +68,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                     data-testid="tooltipWrapper"
                   >
                     <div
-                      aria-describedby="tooltip-802773"
+                      aria-describedby="[object Object]"
                       class="usa-tooltip__trigger data-title usa-tooltip"
                       data-testid="triggerElement"
                       position="bottom"
@@ -81,7 +81,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                       aria-hidden="true"
                       class="usa-tooltip__body"
                       data-testid="tooltipBody"
-                      id="tooltip-802773"
+                      id="[object Object]"
                       role="tooltip"
                       title="Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System)."
                     >
@@ -97,7 +97,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                     data-testid="tooltipWrapper"
                   >
                     <div
-                      aria-describedby="tooltip-787055"
+                      aria-describedby="[object Object]"
                       class="usa-tooltip__trigger data-title usa-tooltip"
                       data-testid="triggerElement"
                       id="FOOBAR"
@@ -111,7 +111,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                       aria-hidden="true"
                       class="usa-tooltip__body"
                       data-testid="tooltipBody"
-                      id="tooltip-787055"
+                      id="[object Object]"
                       role="tooltip"
                       title="List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR."
                     >

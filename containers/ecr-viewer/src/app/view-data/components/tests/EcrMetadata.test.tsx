@@ -2,10 +2,17 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import EcrMetadata from "../EcrMetadata";
 import { DisplayDataProps, ReportableConditions } from "@/app/utils";
+import React from "react";
 
 describe("ECR Metadata", () => {
   let container: HTMLElement;
   beforeAll(() => {
+    const mockChildMethod = jest.fn();
+    jest.spyOn(React, "useRef").mockReturnValue({
+      current: {
+        childMethod: mockChildMethod,
+      },
+    });
     const rrConditionsList: ReportableConditions = {
       "Disease caused by severe acute respiratory syndrome coronavirus 2(disorder)":
         {
