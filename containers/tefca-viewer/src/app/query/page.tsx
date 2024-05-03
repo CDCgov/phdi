@@ -60,7 +60,7 @@ export default function PatientSearch() {
               </h2>
               <div className="grid-row grid-gap">
                 <div className="tablet:grid-col-6">
-                  <Label htmlFor="first_name">First Name</Label>
+                  <Label htmlFor="firstName">First Name</Label>
                   <TextInput
                     id="firstName"
                     name="first_name"
@@ -73,7 +73,7 @@ export default function PatientSearch() {
                   />
                 </div>
                 <div className="tablet:grid-col-6">
-                  <Label htmlFor="last_name">Last Name</Label>
+                  <Label htmlFor="lastName">Last Name</Label>
                   <TextInput
                     id="lastName"
                     name="last_name"
@@ -155,8 +155,10 @@ export default function PatientSearch() {
                 </div>
                 <div className="tablet:grid-col-3">
                   <Label htmlFor="state">State</Label>
-                  <Select id="state" name="state">
-                    <option value="" disabled selected></option>
+                  <Select id="state" name="state" defaultValue="">
+                    <option value="" disabled>
+                      Select a state
+                    </option>
                     <option value="AL">AL - Alabama</option>
                     <option value="AK">AK - Alaska</option>
                     <option value="AS">AS - American Samoa</option>
@@ -180,48 +182,6 @@ export default function PatientSearch() {
                     <option value="LA">LA - Louisiana</option>
                     <option value="ME">ME - Maine</option>
                     <option value="MD">MD - Maryland</option>
-                    <option value="MA">MA - Massachusetts</option>
-                    <option value="MI">MI - Michigan</option>
-                    <option value="MN">MN - Minnesota</option>
-                    <option value="MS">MS - Mississippi</option>
-                    <option value="MO">MO - Missouri</option>
-                    <option value="MT">MT - Montana</option>
-                    <option value="NE">NE - Nebraska</option>
-                    <option value="NV">NV - Nevada</option>
-                    <option value="NH">NH - New Hampshire</option>
-                    <option value="NJ">NJ - New Jersey</option>
-                    <option value="NM">NM - New Mexico</option>
-                    <option value="NY">NY - New York</option>
-                    <option value="NC">NC - North Carolina</option>
-                    <option value="ND">ND - North Dakota</option>
-                    <option value="MP">MP - Northern Mariana Islands</option>
-                    <option value="OH">OH - Ohio</option>
-                    <option value="OK">OK - Oklahoma</option>
-                    <option value="OR">OR - Oregon</option>
-                    <option value="PA">PA - Pennsylvania</option>
-                    <option value="PR">PR - Puerto Rico</option>
-                    <option value="RI">RI - Rhode Island</option>
-                    <option value="SC">SC - South Carolina</option>
-                    <option value="SD">SD - South Dakota</option>
-                    <option value="TN">TN - Tennessee</option>
-                    <option value="TX">TX - Texas</option>
-                    <option value="UM">
-                      UM - United States Minor Outlying Islands
-                    </option>
-                    <option value="UT">UT - Utah</option>
-                    <option value="VT">VT - Vermont</option>
-                    <option value="VI">VI - Virgin Islands</option>
-                    <option value="VA">VA - Virginia</option>
-                    <option value="WA">WA - Washington</option>
-                    <option value="WV">WV - West Virginia</option>
-                    <option value="WI">WI - Wisconsin</option>
-                    <option value="WY">WY - Wyoming</option>
-                    <option value="AA">AA - Armed Forces Americas</option>
-                    <option value="AE">AE - Armed Forces Africa</option>
-                    <option value="AE">AE - Armed Forces Canada</option>
-                    <option value="AE">AE - Armed Forces Europe</option>
-                    <option value="AE">AE - Armed Forces Middle East</option>
-                    <option value="AP">AP - Armed Forces Pacific</option>
                   </Select>
                 </div>
                 <div className="tablet:grid-col-4">
@@ -273,8 +233,11 @@ export default function PatientSearch() {
                       );
                     }}
                     required
+                    defaultValue=""
                   >
-                    <option value="" disabled selected></option>
+                    <option value="" disabled>
+                      Select Use Case
+                    </option>
                     <option value="newborn-screening">Newborn Screening</option>
                     <option value="syphilis">Syphilis</option>
                     <option value="cancer">Cancer</option>
@@ -300,8 +263,11 @@ export default function PatientSearch() {
                       );
                     }}
                     required
+                    defaultValue=""
                   >
-                    <option value="" disabled selected></option>
+                    <option value="" disabled>
+                      Select FHIR Server
+                    </option>
                     <option value="meld">Meld</option>
                     <option value="ehealthexchange">eHealth Exchange</option>
                   </Select>
