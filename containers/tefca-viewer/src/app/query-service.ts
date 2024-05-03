@@ -137,7 +137,6 @@ async function patientQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
@@ -191,7 +190,6 @@ async function socialDeterminantsQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
   queryResponse.observations = (await response.json()).entry.map(
@@ -229,7 +227,6 @@ async function newbornScreeningQuery(
   });
 
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
@@ -284,8 +281,7 @@ async function syphilisQuery(
       (entry: any) => entry.resource,
     );
   }
-
-  if (queryResponse.conditions && queryResponse.conditions.length === 0) {
+  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
@@ -329,7 +325,7 @@ async function cancerQuery(
   }
 
   // Query for encounters
-  if (queryResponse.conditions && queryResponse.conditions.length === 0) {
+  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
