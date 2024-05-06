@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.11-slim
 
 # Set the working directory in the container
 WORKDIR /code
@@ -12,7 +12,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the script into the container
 COPY create-seed-data.py /code/create-seed-data.py
 COPY ./baseECR /code/baseECR
-COPY sql /code/sql
 
 # Command to run the script
 CMD ["python", "./create-seed-data.py"]

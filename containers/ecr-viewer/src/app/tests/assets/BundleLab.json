@@ -47,7 +47,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<ul> <li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845'> <caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Procedure'>Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT)</caption> <table> <thead> <tr> <th>Component</th> <th>Value</th> <th>Ref Range</th> <th>Test Method</th> <th>Analysis Time</th> <th>Performed At</th> <th>Pathologist Signature</th> </tr> </thead> <tbody> <tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1'> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Name'>Campylobacter, NAAT</td> <td>Not Detected</td> <td>Not Detected</td> <td> <paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1TestMethodName1'>LAB DEVICE: BIOFIRE\u00ae FILMARRAY\u00ae 2.0 SYSTEM</paragraph> </td> <td>09/28/2022 1:59 PM PDT</td> <td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Signature'></td> </tr> <tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2'> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Name'>Plesiomonas shigelloides, NAAT</td> <td>Not Detected</td> <td>Not Detected</td> <td> <paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2TestMethodName1'>LAB DEVICE: BIOFIRE\u00ae FILMARRAY\u00ae 2.0 SYSTEM</paragraph> </td> <td>09/28/2022 1:59 PM PDT</td> <td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Signature'></td> </tr> </tbody> </table> <table> <thead> <tr> <th>Specimen (Source)</th> <th>Anatomical Location / Laterality</th> <th>Collection Method / Volume</th> <th>Collection Time</th> <th>Received Time</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Specimen'>Stool</td> <td>STOOL SPECIMEN / Unknown</td> <td></td> <td>09/28/2022 1:51 PM PDT</td> <td>09/28/2022 1:51 PM PDT</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Authorizing Provider</th> <th>Result Type</th> </tr> </thead> <tbody> <tr> <td>Ambhp1 Test MD</td> <td>MICROBIOLOGY - GENERAL ORDERABLES</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Performing Organization</th> <th>Address</th> <th>City/State/ZIP Code</th> <th>Phone Number</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.PerformingLab'> <paragraph>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</paragraph> </td> <td> <paragraph>501 S. Buena Vista Street</paragraph> </td> <td> <paragraph>Burbank, CA 91505</paragraph> </td> <td> <paragraph>818-847-6000</paragraph> </td> </tr> </tbody> </table> </li> <li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844'> <caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Procedure'>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT)</caption> <table> <thead> <tr> <th>Component</th> <th>Value</th> <th>Ref Range</th> <th>Test Method</th> <th>Analysis Time</th> <th>Performed At</th> <th>Pathologist Signature</th> </tr> </thead> <tbody> <tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1'> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Name'>Campylobacter, NAAT</td> <td>Not Detected</td> <td>Not Detected</td> <td> <paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1TestMethodName1'>LAB DEVICE: BIOFIRE\u00ae FILMARRAY\u00ae 2.0 SYSTEM</paragraph> </td> <td>09/28/2022 2:00 PM PDT</td> <td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Signature'></td> </tr> <tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2'> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Name'>Plesiomonas shigelloides, NAAT</td> <td>Not Detected</td> <td>Not Detected</td> <td> <paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2TestMethodName1'>LAB DEVICE: BIOFIRE\u00ae FILMARRAY\u00ae 2.0 SYSTEM</paragraph> </td> <td>09/28/2022 2:00 PM PDT</td> <td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Signature'></td> </tr> </tbody> </table> <table> <thead> <tr> <th>Specimen (Source)</th> <th>Anatomical Location / Laterality</th> <th>Collection Method / Volume</th> <th>Collection Time</th> <th>Received Time</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Specimen'>Stool</td> <td>STOOL SPECIMEN / Unknown</td> <td></td> <td>09/28/2022 1:51 PM PDT</td> <td>09/28/2022 1:51 PM PDT</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Authorizing Provider</th> <th>Result Type</th> </tr> </thead> <tbody> <tr> <td>Ambhp1 Test MD</td> <td>MICROBIOLOGY - GENERAL ORDERABLES</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Performing Organization</th> <th>Address</th> <th>City/State/ZIP Code</th> <th>Phone Number</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.PerformingLab'> <paragraph>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</paragraph> </td> <td> <paragraph>501 S. Buena Vista Street</paragraph> </td> <td> <paragraph>Burbank, CA 91505</paragraph> </td> <td> <paragraph>818-847-6000</paragraph> </td> </tr> </tbody> </table> </li> <li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347'> <caption data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Procedure'>Cytogenomic SNP microarray (04/04/2022 11:55 AM CDT)</caption> <table> <thead> <tr> <th>Component</th> <th>Value</th> <th>Ref Range</th> <th>Test Method</th> <th>Analysis Time</th> <th>Performed At</th> <th>Pathologist Signature</th> </tr> </thead> <tbody> <tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Comp1'> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Comp1Name'>Observation display</td> <td>Not Detected</td> <td>Not Detected</td> <td></td> <td></td> <td>VUMC CERNER LAB</td> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Comp1Signature'></td> </tr> <tr> <td>Comment: <br>Lab comment<br></td> </tr> </tbody> </table> <table> <thead> <tr> <th>Specimen (Source)</th> <th>Anatomical Location / Laterality</th> <th>Collection Method / Volume</th> <th>Collection Time</th> <th>Received Time</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Specimen'>Blood</td> <td></td> <td>Collection / Unknown</td> <td>04/04/2022 11:55 AM CDT</td> <td>04/18/2022 2:46 PM CDT</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Narrative</th> </tr> </thead> <tbody> <tr> <td> <paragraph>VUMC CERNER LAB - 04/18/2022 2:57 PM CDT</paragraph> <paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Narrative'> MICROARRAY REPORT NARRATIVE</paragraph> </td> </tr> </tbody> </table> <table> <thead> <tr> <th>Resulting Agency Comment</th> </tr> </thead> <tbody> <tr> <td> <paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.ResultingAgencyComment'>testing comment</paragraph> </td> </tr> </tbody> </table> <table> <thead> <tr> <th>Authorizing Provider</th> <th>Result Type</th> </tr> </thead> <tbody> <tr> <td>Carda Testprovqa MD</td> <td>LAB GENETIC TESTING</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Performing Organization</th> <th>Address</th> <th>City/State/ZIP Code</th> <th>Phone Number</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.PerformingLab'> <paragraph>VUMC CERNER LAB</paragraph> </td> <td> <paragraph>4605 TVC VUMC</paragraph> <paragraph>1301 Medical Center Drive</paragraph> </td> <td> <paragraph>NASHVILLE, TN 37232-5310</paragraph> </td> <td> <paragraph>615-875-5227</paragraph> </td> </tr> </tbody> </table> </li> </ul> documented in this encounter"
+              "div": "<ul> <li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845'> <caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Procedure'>Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT)</caption> <table> <thead> <tr> <th>Component</th> <th>Value</th> <th>Ref Range</th> <th>Test Method</th> <th>Analysis Time</th> <th>Performed At</th> <th>Pathologist Signature</th> </tr> </thead> <tbody> <tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1'> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Name'>Campylobacter, NAAT</td> <td>Not Detected</td> <td>Not Detected</td> <td> <paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1TestMethodName1'>LAB DEVICE: BIOFIRE\u00ae FILMARRAY\u00ae 2.0 SYSTEM</paragraph> </td> <td>09/28/2022 1:59 PM PDT</td> <td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp1Signature'></td> </tr> <tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2'> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Name'>Plesiomonas shigelloides, NAAT</td> <td>Not Detected</td> <td>Not Detected</td> <td> <paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2TestMethodName1'>LAB DEVICE: BIOFIRE\u00ae FILMARRAY\u00ae 2.0 SYSTEM</paragraph> </td> <td>09/28/2022 1:59 PM PDT</td> <td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Comp2Signature'></td> </tr> </tbody> </table> <table> <thead> <tr> <th>Specimen (Source)</th> <th>Anatomical Location / Laterality</th> <th>Collection Method / Volume</th> <th>Collection Time</th> <th>Received Time</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.Specimen'>Stool</td> <td>STOOL SPECIMEN / Unknown</td> <td></td> <td>09/28/2022 1:51 PM PDT</td> <td>09/28/2022 1:51 PM PDT</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Authorizing Provider</th> <th>Result Type</th> </tr> </thead> <tbody> <tr> <td>Ambhp1 Test MD</td> <td>MICROBIOLOGY - GENERAL ORDERABLES</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Performing Organization</th> <th>Address</th> <th>City/State/ZIP Code</th> <th>Phone Number</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670845.PerformingLab'> <paragraph>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</paragraph> </td> <td> <paragraph>501 S. Buena Vista Street</paragraph> </td> <td> <paragraph>Burbank, CA 91505</paragraph> </td> <td> <paragraph>818-847-6000</paragraph> </td> </tr> </tbody> </table> </li> <li data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844'> <caption data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Procedure'>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT)</caption> <table> <thead> <tr> <th>Component</th> <th>Value</th> <th>Ref Range</th> <th>Test Method</th> <th>Analysis Time</th> <th>Performed At</th> <th>Pathologist Signature</th> </tr> </thead> <tbody> <tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1'> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Name'>Campylobacter, NAAT</td> <td>Not Detected</td> <td>Not Detected</td> <td> <paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1TestMethodName1'>LAB DEVICE: BIOFIRE\u00ae FILMARRAY\u00ae 2.0 SYSTEM</paragraph> </td> <td>09/28/2022 2:00 PM PDT</td> <td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1Signature'></td> </tr> <tr data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2'> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Name'>Plesiomonas shigelloides, NAAT</td> <td>Not Detected</td> <td>Not Detected</td> <td> <paragraph data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2TestMethodName1'>LAB DEVICE: BIOFIRE\u00ae FILMARRAY\u00ae 2.0 SYSTEM</paragraph> </td> <td>09/28/2022 2:00 PM PDT</td> <td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp2Signature'></td> </tr> </tbody> </table> <table> <thead> <tr> <th>Specimen (Source)</th> <th>Anatomical Location / Laterality</th> <th>Collection Method / Volume</th> <th>Collection Time</th> <th>Received Time</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Specimen'>Stool</td> <td>STOOL SPECIMEN / Unknown</td> <td></td> <td>09/28/2022 1:51 PM PDT</td> <td>09/28/2022 1:51 PM PDT</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Authorizing Provider</th> <th>Result Type</th> </tr> </thead> <tbody> <tr> <td>Ambhp1 Test MD</td> <td>MICROBIOLOGY - GENERAL ORDERABLES</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Performing Organization</th> <th>Address</th> <th>City/State/ZIP Code</th> <th>Phone Number</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.PerformingLab'> <paragraph>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</paragraph> </td> <td> <paragraph>501 S. Buena Vista Street</paragraph> </td> <td> <paragraph>Burbank, CA 91505</paragraph> </td> <td> <paragraph>818-847-6000</paragraph> </td> </tr> </tbody> </table> </li> <li data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347'> <caption data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Procedure'>Cytogenomic SNP microarray (04/04/2022 11:55 AM CDT)</caption> <table> <thead> <tr> <th>Component</th> <th>Value</th> <th>Ref Range</th> <th>Test Method</th> <th>Analysis Time</th> <th>Performed At</th> <th>Pathologist Signature</th> </tr> </thead> <tbody> <tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Comp1'> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Comp1Name'>Organism ID</td> <td>Acinetobacter baumannii</td> <td></td> <td></td> <td></td> <td>VUMC CERNER LAB</td> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Comp1Signature'></td> </tr> <tr> <td>Comment: <br>Lab comment<br></td> </tr> </tbody> </table> <table> <thead> <tr> <th>Organism</th> <th>Antibiotic</th> <th>Method</th> <th>Susceptibility</th> </tr> </thead> <tbody data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Cluster1'> <tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Cluster1Antibiotic1'> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Cluster1Name'>Acinetobacter baumannii</td> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Cluster1Antibiotic1Name'>Amikacin</td> <td>MIC</td> <td> <paragraph>0.25: Susceptible</paragraph> </td> </tr> <tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Cluster1Antibiotic2'> <td>Acinetobacter baumannii</td> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Cluster1Antibiotic2Name'>Avycaz (Ceftazidime/Avibactam)</td> <td>MIC</td> <td> <paragraph>0.05: Intermediate</paragraph> </td> </tr> <tr data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Cluster1Antibiotic3'> <td>Acinetobacter baumannii</td> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Cluster1Antibiotic3Name'>Levofloxacin</td> <td>MIC</td> <td> <paragraph>0.75: Resistant</paragraph> </td> </tr> </tbody> </table> <table> <thead> <tr> <th>Specimen (Source)</th> <th>Anatomical Location / Laterality</th> <th>Collection Method / Volume</th> <th>Collection Time</th> <th>Received Time</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Specimen'>Blood</td> <td></td> <td>Collection / Unknown</td> <td>04/04/2022 11:55 AM CDT</td> <td>04/18/2022 2:46 PM CDT</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Narrative</th> </tr> </thead> <tbody> <tr> <td> <paragraph>VUMC CERNER LAB - 04/18/2022 2:57 PM CDT</paragraph> <paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Narrative'> MICROARRAY REPORT NARRATIVE</paragraph> </td> </tr> </tbody> </table> <table> <thead> <tr> <th>Resulting Agency Comment</th> </tr> </thead> <tbody> <tr> <td> <paragraph data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.ResultingAgencyComment'>testing comment</paragraph> </td> </tr> </tbody> </table> <table> <thead> <tr> <th>Authorizing Provider</th> <th>Result Type</th> </tr> </thead> <tbody> <tr> <td>Carda Testprovqa MD</td> <td>LAB GENETIC TESTING</td> </tr> </tbody> </table> <table> <thead> <tr> <th>Performing Organization</th> <th>Address</th> <th>City/State/ZIP Code</th> <th>Phone Number</th> </tr> </thead> <tbody> <tr> <td data-id='Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.PerformingLab'> <paragraph>VUMC CERNER LAB</paragraph> </td> <td> <paragraph>4605 TVC VUMC</paragraph> <paragraph>1301 Medical Center Drive</paragraph> </td> <td> <paragraph>NASHVILLE, TN 37232-5310</paragraph> </td> <td> <paragraph>615-875-5227</paragraph> </td> </tr> </tbody> </table> </li> </ul> documented in this encounter"
             },
             "code": {
               "coding": [
@@ -77,7 +77,7 @@
                 "reference": "Observation/75bf8f82-8b28-b1bd-e366-cf55b2de0ad9"
               },
               {
-                "display": "Observation display",
+                "display": "Organism ID",
                 "reference": "Observation/2a4f8fb5-f957-3c30-1353-a30aa441a12b"
               }
             ]
@@ -364,6 +364,9 @@
         "result": [
           {
             "reference": "Observation/2a4f8fb5-f957-3c30-1353-a30aa441a12b"
+          },
+          {
+            "reference": "Observation/e2c3a705-9129-e79b-a79f-61281fa74db6"
           }
         ],
         "meta": {
@@ -747,11 +750,12 @@
           "coding": [
             {
               "code": "NAR",
-              "display": "Observation display",
+              "display": "Organism ID",
               "system": "urn:oid:1.2.840.114350.1.72.1.5220"
             }
           ]
         },
+        "valueString": "Acinetobacter baumannii",
         "note": [
           {
             "text": "Lab comment"
@@ -794,6 +798,101 @@
       "request": {
         "method": "PUT",
         "url": "Observation/2a4f8fb5-f957-3c30-1353-a30aa441a12b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e2c3a705-9129-e79b-a79f-61281fa74db6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "e2c3a705-9129-e79b-a79f-61281fa74db6",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "91288006",
+              "display": "Acinetobacter baumannii",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "12-5",
+                  "display": "Amikacin",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueString": "0.25: Susceptible",
+            "extension": [
+              {
+                "url": "methodCode originalText",
+                "valueString": "MIC"
+              }
+            ]
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "display": "Avycaz (Ceftazidime/Avibactam)"
+                }
+              ]
+            },
+            "valueString": "0.05: Intermediate",
+            "extension": [
+              {
+                "url": "methodCode originalText",
+                "valueString": "MIC"
+              }
+            ]
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "20396-8",
+                  "display": "Levofloxacin",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueString": "0.75: Resistant",
+            "extension": [
+              {
+                "url": "methodCode originalText",
+                "valueString": "MIC"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/1586f68b-1a17-4188-ac0b-82c3cbdbfbda"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/e2c3a705-9129-e79b-a79f-61281fa74db6"
       }
     },
     {
