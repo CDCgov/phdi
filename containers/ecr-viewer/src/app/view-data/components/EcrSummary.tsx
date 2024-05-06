@@ -107,8 +107,8 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
               </div>
             </div>
             <div className={"section__line"} />
-            <div className="grid-row">
-              <div className={"text-bold"}>
+            <div className={"grid-row"}>
+              <div className={"text-bold width-full"}>
                 Lab results relevant to reportable condition
               </div>
               <div className={"padding-top-05"}>
