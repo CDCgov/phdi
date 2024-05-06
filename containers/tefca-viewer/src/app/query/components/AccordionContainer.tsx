@@ -41,6 +41,9 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const diagnosticReports = queryResponse.diagnosticReports
     ? queryResponse.diagnosticReports
     : null;
+  // const medicationRequests = queryResponse.medicationRequests
+  //   ? queryResponse.medicationRequests
+  //   : null;
 
   if (patient) {
     accordionItems.push({
@@ -141,6 +144,26 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       headingLevel: "h3",
     });
   }
+
+  // if (medicationRequests) {
+  //   accordionItems.push({
+  //     title: "Medication Requests",
+  //     content: (
+  //       <>
+  //         <AccordianSection>
+  //           <AccordianH4>
+  //             <span id="medicationRequests">Medication Requests</span>
+  //           </AccordianH4>
+  //           <AccordianDiv>
+  //             <DiagnosticReportsTable medicationRequests={medicationRequests} />
+  //           </AccordianDiv>
+  //         </AccordianSection>
+  //       </>
+  //     ),
+  //     expanded: true,
+  //     headingLevel: "h3",
+  //   });
+  // }
 
   //Add id, adjust title
   accordionItems.forEach((item, index) => {

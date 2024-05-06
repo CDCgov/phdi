@@ -10,6 +10,7 @@ import {
   Encounter,
   Medication,
   MedicationAdministration,
+  MedicationRequest,
 } from "fhir/r4";
 
 type FHIR_SERVERS = "meld" | "ehealthexchange";
@@ -71,6 +72,7 @@ type QueryResponse = {
   encounters?: Encounter[];
   medications?: Medication[];
   medicationAdmins?: MedicationAdministration[];
+  medicationRequests?: MedicationRequest[];
 };
 
 const useCaseQueryMap: {
@@ -246,8 +248,10 @@ async function syphilisQuery(
 ): Promise<void> {
   const loincs: Array<string> = ["LP70657-9", "98212-4"];
   const snomed: Array<string> = ["76272004"];
+  const rxnorm: Array<string> = ["2671695"]; // drug codes from NLM/NIH RxNorm
   const loincFilter: string = loincs.join(",");
   const snomedFilter: string = snomed.join(",");
+  const rxnormFilter: string = rxnorm.join(",");
 
   const observationQuery = `/Observation?subject=${request.patientId}&code=${loincFilter}`;
   const observationResponse = await fetch(
@@ -294,6 +298,22 @@ async function syphilisQuery(
       );
     }
   }
+
+  // Query for medicationRequests
+  const medicationsQuery = `/MedicationRequest?subject=Patient/${request.patientId}&code=${rxnormFilter}`;
+  const medicationResponse = await fetch(
+    request.fhir_host + medicationsQuery,
+    request.init,
+  );
+  if (medicationResponse.status >= 400) {
+    throw new Error(
+      `Error querying medications. Status: ${medicationResponse.status}`,
+    );
+  }
+  const m = await medicationResponse.json();
+  queryResponse.medicationRequests = m.entry.map(
+    (entry: any) => entry.resource,
+  );
 }
 
 /**
@@ -340,10 +360,6 @@ async function cancerQuery(
   }
 
   // Query for medications
-  // type medicationResponse = {
-  //   entry: Record<string, unknown>[];
-  // } & Record<string, unknown>;
-
   const medicationsQuery = `/MedicationRequest?subject=Patient/${request.patientId}&code=${rxnormFilter}`;
   const medicationResponse = await fetch(
     request.fhir_host + medicationsQuery,
