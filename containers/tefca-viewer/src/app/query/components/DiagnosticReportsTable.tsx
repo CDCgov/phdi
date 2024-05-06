@@ -1,39 +1,37 @@
 import React from "react";
 import { Table } from "@trussworks/react-uswds";
-import { Condition } from "fhir/r4";
+import { DiagnosticReport } from "fhir/r4";
 import { formatCodeableConcept } from "../../format-service";
 
 /**
- * The props for the ConditionTable component.
+ * The props for the DiagnosticReportTable component.
  */
-export interface ConditionTableProps {
-  conditions: Condition[];
+export interface DiagnosticReportTableProps {
+  diagnosticReports: DiagnosticReport[];
 }
 
 /**
- * Displays a table of data from array of Condition resources.
- * @param props - Condition table props.
- * @param props.conditions - The array of Condition resources.
- * @returns - The ConditionTable component.
+ * Displays a table of data from array of DiagnosticReport resources.
+ * @param props - DiagnosticReport table props.
+ * @param props.diagnosticReports - The array of DiagnosticReport resources.
+ * @returns - The DiagnosticReportTable component.
  */
-const ConditionsTable: React.FC<ConditionTableProps> = ({ conditions }) => {
+const DiagnosticReportsTable: React.FC<DiagnosticReportTableProps> = ({
+  diagnosticReports,
+}) => {
   return (
     <Table>
       <thead>
         <tr>
-          <th>Condition</th>
-          <th>Status</th>
-          <th>Onset</th>
-          <th>Resolution</th>
+          <th>Date</th>
+          <th>Code</th>
         </tr>
       </thead>
       <tbody>
-        {conditions.map((condition) => (
-          <tr key={condition.id}>
-            <td>{formatCodeableConcept(condition.code ?? {})}</td>
-            <td>{formatCodeableConcept(condition.clinicalStatus ?? {})}</td>
-            <td>{condition.onsetDateTime}</td>
-            <td>{condition.abatementDateTime}</td>
+        {diagnosticReports.map((diagnosticReport) => (
+          <tr key={diagnosticReport.id}>
+            <td>{diagnosticReport?.effectiveDateTime}</td>
+            <td>{formatCodeableConcept(diagnosticReport.code)}</td>
           </tr>
         ))}
       </tbody>
@@ -41,4 +39,4 @@ const ConditionsTable: React.FC<ConditionTableProps> = ({ conditions }) => {
   );
 };
 
-export default ConditionsTable;
+export default DiagnosticReportsTable;

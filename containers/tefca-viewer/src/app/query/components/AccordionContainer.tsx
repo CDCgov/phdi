@@ -1,5 +1,6 @@
 import Demographics from "./Demographics";
 import ObservationTable from "./ObservationTable";
+import DiagnosticReportsTable from "./DiagnosticReportsTable";
 import React from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import { formatString } from "@/app/format-service";
@@ -35,6 +36,9 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     ? queryResponse.observations
     : null;
   const conditions = queryResponse.conditions ? queryResponse.conditions : null;
+  const diagnosticReports = queryResponse.diagnosticReports
+    ? queryResponse.diagnosticReports
+    : null;
 
   if (patient) {
     accordionItems.push({
@@ -87,6 +91,26 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             </AccordianH4>
             <AccordianDiv>
               <ConditionsTable conditions={conditions} />
+            </AccordianDiv>
+          </AccordianSection>
+        </>
+      ),
+      expanded: true,
+      headingLevel: "h3",
+    });
+  }
+
+  if (diagnosticReports) {
+    accordionItems.push({
+      title: "Diagnostic Reports",
+      content: (
+        <>
+          <AccordianSection>
+            <AccordianH4>
+              <span id="diagnosticReports">Diagnostic Reports</span>
+            </AccordianH4>
+            <AccordianDiv>
+              <DiagnosticReportsTable diagnosticReports={diagnosticReports} />
             </AccordianDiv>
           </AccordianSection>
         </>
