@@ -24,15 +24,7 @@ jobs:
       - name: Change to the correct directory
         run: cd containers/ecr-viewer
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./containers/ecr-viewer
-
-      - name: Build backend
-        run: docker-compose up -d
-        working-directory: ./containers/ecr-viewer/seed-scripts
-
-      - name: Build frontend
+      - name: Build app
         run: docker-compose up -d
         working-directory: ./containers/ecr-viewer
 
@@ -46,5 +38,4 @@ jobs:
       - name: Run Lighthouse
         uses: treosh/lighthouse-ci-action@v11
         with:
-          # no urls needed, since it uses local folder to scan .html files
           configPath: "./lighthouserc.yaml"
