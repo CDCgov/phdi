@@ -2,7 +2,7 @@ ci:
   collect:
     numberOfRuns: 1
     url:
-      - http://localhost:3000
+      - http://localhost:3000/view-data?id=cf9e1db8-fcc5-4cbc-96cd-043d3fd65bac
     settings:
       chromeFlags:
         - "--ignore-certificate-errors"
