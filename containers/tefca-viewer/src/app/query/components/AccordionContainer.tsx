@@ -1,5 +1,6 @@
 import Demographics from "./Demographics";
 import ObservationTable from "./ObservationTable";
+import EncounterTable from "./EncounterTable";
 import DiagnosticReportsTable from "./DiagnosticReportsTable";
 import React from "react";
 import { Accordion } from "@trussworks/react-uswds";
@@ -35,6 +36,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const observations = queryResponse.observations
     ? queryResponse.observations
     : null;
+  const encounters = queryResponse.encounters ? queryResponse.encounters : null;
   const conditions = queryResponse.conditions ? queryResponse.conditions : null;
   const diagnosticReports = queryResponse.diagnosticReports
     ? queryResponse.diagnosticReports
@@ -71,6 +73,26 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             </AccordianH4>
             <AccordianDiv>
               <ObservationTable observations={observations} />
+            </AccordianDiv>
+          </AccordianSection>
+        </>
+      ),
+      expanded: true,
+      headingLevel: "h3",
+    });
+  }
+
+  if (encounters) {
+    accordionItems.push({
+      title: "Encounters",
+      content: (
+        <>
+          <AccordianSection>
+            <AccordianH4>
+              <span id="encounters">Encounters</span>
+            </AccordianH4>
+            <AccordianDiv>
+              <EncounterTable encounters={encounters} />
             </AccordianDiv>
           </AccordianSection>
         </>

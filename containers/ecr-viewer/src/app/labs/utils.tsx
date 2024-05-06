@@ -7,7 +7,11 @@ import {
   ColumnInfoInput,
   noData,
 } from "@/app/utils";
-import { evaluateReference, evaluateTable } from "@/app/evaluate-service";
+import {
+  evaluateReference,
+  evaluateTable,
+  evaluateValue,
+} from "@/app/evaluate-service";
 import { evaluate } from "fhirpath";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
@@ -18,6 +22,7 @@ import {
   formatPhoneNumber,
   TableJson,
 } from "@/app/format-service";
+import { ObservationComponent } from "fhir/r4b";
 
 export interface LabReport {
   result: Array<Reference>;
@@ -296,10 +301,11 @@ export function evaluateObservationTable(
   mappings: PathMappings,
   columnInfo: ColumnInfoInput[],
 ): React.JSX.Element | undefined {
-  const observations: Observation[] =
+  const observations: Observation[] = (
     report.result?.map((obsRef: Reference) =>
       evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
-    ) ?? [];
+    ) ?? []
+  ).filter((observation) => !observation.component);
   let obsTable;
   if (observations?.length > 0) {
     obsTable = evaluateTable(
@@ -349,6 +355,51 @@ export const evaluateDiagnosticReportData = (
 };
 
 /**
+ * Evaluates lab organisms data and generates a lab table for each report.
+ * @param report - An object containing an array of lab result references. If it exists, one of the Observations in the report will contain all the lab organisms table data.
+ * @param fhirBundle - The FHIR bundle containing diagnostic report data.
+ * @param mappings - An object containing the FHIR path mappings.
+ * @returns - An array of React elements representing the lab organisms table.
+ */
+export const evaluateOrganismsReportData = (
+  report: LabReport,
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): React.JSX.Element | undefined => {
+  let components: ObservationComponent[] = [];
+  let observation: Observation | undefined;
+
+  report.result?.find((obsRef: Reference) => {
+    const obs: Observation = evaluateReference(
+      fhirBundle,
+      mappings,
+      obsRef.reference ?? "",
+    );
+    if (obs.component) {
+      observation = obs;
+      return true;
+    }
+    return false;
+  });
+
+  if (observation === undefined) {
+    return undefined;
+  }
+  components = observation.component!;
+  const columnInfo: ColumnInfoInput[] = [
+    {
+      columnName: "Organism",
+      value: evaluateValue(observation, mappings["observationOrganism"]),
+    },
+    { columnName: "Antibiotic", infoPath: "observationAntibiotic" },
+    { columnName: "Method", infoPath: "observationOrganismMethod" },
+    { columnName: "Susceptibility", infoPath: "observationSusceptibility" },
+  ];
+
+  return evaluateTable(components, mappings, columnInfo, "", true, false);
+};
+
+/**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
  * @param fhirBundle - The FHIR bundle containing lab and RR data.
  * @param mappings - An object containing the FHIR path mappings.
@@ -363,7 +414,16 @@ export const evaluateLabInfoData = (
   let organizationElements: ResultObject = {};
 
   labReports.map((report) => {
-    const labTable = evaluateDiagnosticReportData(report, fhirBundle, mappings);
+    const labTableDiagnostic = evaluateDiagnosticReportData(
+      report,
+      fhirBundle,
+      mappings,
+    );
+    const labTableOrganisms = evaluateOrganismsReportData(
+      report,
+      fhirBundle,
+      mappings,
+    );
     const rrInfo: DisplayData[] = [
       {
         title: "Analysis Time",
@@ -452,10 +512,19 @@ export const evaluateLabInfoData = (
       },
     ];
     const content: Array<React.JSX.Element> = [];
-    if (labTable)
+    if (labTableDiagnostic)
       content.push(
-        <React.Fragment key={"lab-table"}>{labTable}</React.Fragment>,
+        <React.Fragment key={"lab-table-diagnostic"}>
+          {labTableDiagnostic}
+        </React.Fragment>,
       );
+    if (labTableOrganisms) {
+      content.push(
+        <React.Fragment key={"lab-table-oragnisms"}>
+          {labTableOrganisms}
+        </React.Fragment>,
+      );
+    }
     content.push(
       ...rrInfo.map((item) => {
         return <DataDisplay key={`${item.title}-${item.value}`} item={item} />;
