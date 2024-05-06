@@ -1,7 +1,7 @@
 import Demographics from "./Demographics";
 import ObservationTable from "./ObservationTable";
 import EncounterTable from "./EncounterTable";
-import DiagnosticReportsTable from "./DiagnosticReportsTable";
+import DiagnosticReportTable from "./DiagnosticReportTable";
 import React from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import { formatString } from "@/app/format-service";
@@ -12,6 +12,7 @@ import {
 } from "../component-utils";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import ConditionsTable from "./ConditionsTable";
+import MedicationRequestTable from "./MedicationRequestTable";
 
 type AccordionContainerProps = {
   queryResponse: UseCaseQueryResponse;
@@ -41,9 +42,9 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const diagnosticReports = queryResponse.diagnosticReports
     ? queryResponse.diagnosticReports
     : null;
-  // const medicationRequests = queryResponse.medicationRequests
-  //   ? queryResponse.medicationRequests
-  //   : null;
+  const medicationRequests = queryResponse.medicationRequests
+    ? queryResponse.medicationRequests
+    : null;
 
   if (patient) {
     accordionItems.push({
@@ -135,7 +136,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
               <span id="diagnosticReports">Diagnostic Reports</span>
             </AccordianH4>
             <AccordianDiv>
-              <DiagnosticReportsTable diagnosticReports={diagnosticReports} />
+              <DiagnosticReportTable diagnosticReports={diagnosticReports} />
             </AccordianDiv>
           </AccordianSection>
         </>
@@ -145,25 +146,25 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     });
   }
 
-  // if (medicationRequests) {
-  //   accordionItems.push({
-  //     title: "Medication Requests",
-  //     content: (
-  //       <>
-  //         <AccordianSection>
-  //           <AccordianH4>
-  //             <span id="medicationRequests">Medication Requests</span>
-  //           </AccordianH4>
-  //           <AccordianDiv>
-  //             <DiagnosticReportsTable medicationRequests={medicationRequests} />
-  //           </AccordianDiv>
-  //         </AccordianSection>
-  //       </>
-  //     ),
-  //     expanded: true,
-  //     headingLevel: "h3",
-  //   });
-  // }
+  if (medicationRequests) {
+    accordionItems.push({
+      title: "Medication Requests",
+      content: (
+        <>
+          <AccordianSection>
+            <AccordianH4>
+              <span id="medicationRequests">Medication Requests</span>
+            </AccordianH4>
+            <AccordianDiv>
+              <MedicationRequestTable medicationRequests={medicationRequests} />
+            </AccordianDiv>
+          </AccordianSection>
+        </>
+      ),
+      expanded: true,
+      headingLevel: "h3",
+    });
+  }
 
   //Add id, adjust title
   accordionItems.forEach((item, index) => {
