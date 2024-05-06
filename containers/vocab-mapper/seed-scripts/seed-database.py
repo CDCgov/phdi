@@ -95,7 +95,7 @@ def parse_ersd(ports: dict, data: dict) -> dict:
     # load the ersd.json schema to message-parser first
     load_ersd_schema(ports)
 
-    # make post-message call3
+    # make post-message call
     url = f"http://localhost:{list(ports.values())[0]}/parse_message"
     headers = {"Content-Type": "application/json"}
     payload = {
@@ -331,9 +331,8 @@ def main():
     2. Post eRSD data json to message-parser to get parsed data.
     3. Use parsed data to create list of lists for each table.
     4. Delete existing tables in sqlite database.
-    5. Create tables.
+    5. Create tables and add indexes.
     6. Insert data into tables.
-    7. Add indexes to each table in sqlite database.
     """
     # 1. extract and transform eRSD data
     ersd_data = load_ersd(ERSD_URL)
@@ -366,14 +365,13 @@ def main():
             delete_table(conn, table_name)
 
         # 5. Create tables in eRSD database
-        apply_migration(conn, "seed-scripts/migrations/V01_01__create_tables.sql")
+        apply_migration(
+            conn, "seed-scripts/migrations/V01_01__create_tables_add_indexes.sql"
+        )
 
         # 6. Insert data into the tables
         for table_name, table_rows in table_dict.items():
             load_table(conn, table_name, table_rows)
-
-        # 7. Add indexes
-        apply_migration(conn, "seed-scripts/migrations/V01_02__indexes.sql")
 
 
 if __name__ == "__main__":
