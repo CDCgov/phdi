@@ -21,9 +21,6 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Change to the correct directory
         run: cd containers/ecr-viewer
 
@@ -31,17 +28,13 @@ jobs:
         run: npm install
         working-directory: ./containers/ecr-viewer
 
-      - name: Build Backend
-        uses: docker/setup-buildx-action@v3
-        with:
-          file: ./containers/ecr-viewer/seed-scripts/Dockerfile
-          tags: ecr-viewer-backend
+      - name: Build backend
+        run: docker-compose up -d
+        working-directory: ./containers/ecr-viewer/seed-scripts
 
-      - name: Build Frontend
-        uses: docker/setup-buildx-action@v3
-        with:
-          file: ./containers/ecr-viewer/Dockerfile
-          tags: ecr-viewer-frontend
+      - name: Build frontend
+        run: docker-compose up -d
+        working-directory: ./containers/ecr-viewer
 
       - name: Wait for Application to be ready
         run: |
