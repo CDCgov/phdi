@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "containers/ecr-viewer/**"
   pull_request:
     branches:
       - main
+    paths:
+      - "containers/ecr-viewer/**"
 
 jobs:
   lighthouse:
