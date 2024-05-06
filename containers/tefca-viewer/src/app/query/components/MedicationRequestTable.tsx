@@ -24,7 +24,7 @@ const MedicationRequestTable: React.FC<MedicationRequestTableProps> = ({
       <thead>
         <tr>
           <th>Medication</th>
-          {/* <th>Reason Code</th> */}
+          <th>Reason Code</th>
         </tr>
       </thead>
       <tbody>
@@ -35,7 +35,7 @@ const MedicationRequestTable: React.FC<MedicationRequestTableProps> = ({
                 medicationRequest.medicationCodeableConcept,
               )}
             </td>
-            {/* <td>{formatCodeableConcept(medicationRequest?.reasonCode)}</td> */}
+            <td>{formatCodeableConcept(medicationRequest?.reasonCode?.[0])}</td>
           </tr>
         ))}
       </tbody>
