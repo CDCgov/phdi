@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
     "setup-local-env": "./setup-env.sh",
-    "build": "cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
-    "start": "node .next/standalone/server.js",
+    "build": "next build && cp -r .next/static .next/standalone/.next && cp -r public .next/standalone/",
+    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 node .next/standalone/server.js",
     "lint": "next lint",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "TZ=America/New_York jest",
