@@ -44,8 +44,7 @@ jobs:
           done
 
       - name: Run Lighthouse
-        uses: treosh/lighthouse-ci-action@v8
+        uses: treosh/lighthouse-ci-action@v11
         with:
-          urls: "http://localhost:3000"
-          uploadArtifacts: true
-          debug: true
+          # no urls needed, since it uses local folder to scan .html files
+          configPath: "./lighthouserc.json"
