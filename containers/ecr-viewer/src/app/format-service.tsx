@@ -426,7 +426,7 @@ export function toSentenceCase(str: string) {
 export const addCaptionToTable = (
   element: React.ReactNode,
   caption: string,
-  toolTip: string | null = null,
+  toolTip?: string,
 ) => {
   if (React.isValidElement(element) && element.type === "table") {
     return React.cloneElement(element, {}, [

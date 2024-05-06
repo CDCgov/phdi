@@ -45,7 +45,6 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
   clinicalNotesData,
   ecrMetadataUnavailableData,
 }) => {
-  console.log("ecrMetadataUnavailableData", ecrMetadataUnavailableData);
   const renderSection = (sectionTitle: string, data: DisplayDataProps[]) => {
     return (
       <div className="margin-bottom-4">

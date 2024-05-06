@@ -295,15 +295,15 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
 
 
 .usa-tooltip__body {
-  max-width: 700px !important;
-  min-width: 450px !important;
-  white-space: normal !important;
-  text-align: left !important;
-  font-weight: normal !important;
+  max-width: 700px;
+  min-width: 450px;
+  white-space: normal;
+  text-align: left;
+  font-weight: normal;
   padding-left: 1rem;
   padding-right: 1rem;
 }
 
 .short-tooltip + .usa-tooltip__body {
-  min-width: 350px !important;
+  min-width: 350px;
 }
