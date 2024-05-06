@@ -32,14 +32,12 @@ const FHIR_SERVERS: {
   meld: { hostname: "https://gw.interop.community/HeliosConnectathonSa/open/" },
   ehealthexchange: {
     hostname: "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/",
-    username: "svc_eHxFHIRSandbox",
-    password: "willfulStrongStandurd7",
     headers: {
       Accept: "application/json, application/*+json, */*",
       "Accept-Encoding": "gzip, deflate, br",
       "Content-Type": "application/fhir+json; charset=UTF-8",
       "X-DESTINATION": "CernerHelios",
-      "X-POU": "TREATMENT",
+      "X-POU": "PUBHLTH",
       "X-Request-Id": uuidv4(),
       prefer: "return=representation",
       "Cache-Control": "no-cache",
@@ -139,7 +137,6 @@ async function patientQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
@@ -193,7 +190,6 @@ async function socialDeterminantsQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
   queryResponse.observations = (await response.json()).entry.map(
@@ -224,11 +220,13 @@ async function newbornScreeningQuery(
   ];
   const loincFilter: string = "code=" + loincs.join(",");
 
-  const query = `/Observation?subject=${request.patientId}&code=${loincFilter}`;
-  const response = await fetch(request.fhir_host + query, request.init);
+  const query = `/Observation?subject=Patient/${request.patientId}&code=${loincFilter}`;
+  const response = await fetch(request.fhir_host + query, {
+    headers: request.headers,
+    ...request.init,
+  });
 
   if (response.status !== 200) {
-    console.log("response:", response);
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
@@ -283,8 +281,7 @@ async function syphilisQuery(
       (entry: any) => entry.resource,
     );
   }
-
-  if (queryResponse.conditions && queryResponse.conditions.length === 0) {
+  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
@@ -328,7 +325,7 @@ async function cancerQuery(
   }
 
   // Query for encounters
-  if (queryResponse.conditions && queryResponse.conditions.length === 0) {
+  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(

@@ -1,3 +1,4 @@
+import { CodeableConcept } from "fhir/r4";
 /**
  * Formats a string.
  * @param input - The string to format.
@@ -15,3 +16,26 @@ export const formatString = (input: string): string => {
 
   return result;
 };
+
+/**
+ * Formats a CodeableConcept object for display. If the object has a coding array,
+ * the first coding object is used.
+ * @param concept - The CodeableConcept object.
+ * @returns The CodeableConcept data formatted for
+ * display.
+ */
+export function formatCodeableConcept(concept: CodeableConcept | undefined) {
+  if (!concept) {
+    return "";
+  }
+  if (!concept.coding || concept.coding.length === 0) {
+    return concept.text || "";
+  }
+  const coding = concept.coding[0];
+  return (
+    <>
+      {" "}
+      {coding.display} <br /> {coding.code} <br /> {coding.system}{" "}
+    </>
+  );
+}
