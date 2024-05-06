@@ -39,3 +39,4 @@ jobs:
         uses: treosh/lighthouse-ci-action@v11
         with:
           configPath: "./lighthouserc.yaml"
+          uploadArtifacts: true
