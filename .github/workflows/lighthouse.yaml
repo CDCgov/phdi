@@ -48,3 +48,4 @@ jobs:
         with:
           urls: "http://localhost:3000"
           uploadArtifacts: true
+          debug: true
