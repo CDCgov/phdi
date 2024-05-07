@@ -1,4 +1,4 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -8,8 +8,8 @@ import { SectionConfig } from "./SideNav";
 import React from "react";
 
 interface EncounterProps {
-  encounterData: DisplayData[];
-  providerData: DisplayData[];
+  encounterData: DisplayDataProps[];
+  providerData: DisplayDataProps[];
 }
 
 export const encounterConfig: SectionConfig = new SectionConfig(
