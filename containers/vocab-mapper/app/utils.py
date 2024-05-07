@@ -25,7 +25,9 @@ def sanitize_inputs_to_list(value: Union[list, str, int, float]) -> list:
     return [str(val).strip() for val in value if str(val) != " "]
 
 
-def get_clinical_service_dict(snomed_ids: list, clinical_services: list = None) -> dict:
+def get_clinical_service_dict(
+    snomed_id: Union[str, int], clinical_services: list = None
+) -> dict:
     """
     This will take a list (or list-like) of SNOMED ids and sanitize them,
     runs a SQL query that takes those condition codes, joins them to value
@@ -37,7 +39,7 @@ def get_clinical_service_dict(snomed_ids: list, clinical_services: list = None) 
 
     There is an optional parameter to return select clinical service type(s).
 
-    :param snomed_ids: List of SNOMED codes to check
+    :param snomed_id: SNOMED code to check
     :param clinical_services: List of clinical service types to keep
     :return: A nested dictionary with clinical service type as the key with
     the relevant codes and code systems as objects within.
@@ -46,8 +48,8 @@ def get_clinical_service_dict(snomed_ids: list, clinical_services: list = None) 
     conn = sqlite3.connect("seed-scripts/ersd.db")
     cursor = conn.cursor()
 
-    # sanitize snomeds
-    snomed_ids = sanitize_inputs_to_list(snomed_ids)
+    # sanitize snomeds - still doing list in event we do want 2+ snomeds
+    snomed_id = sanitize_inputs_to_list(snomed_id)
 
     # SQL query with placeholders
     sql_query = """
@@ -63,10 +65,10 @@ def get_clinical_service_dict(snomed_ids: list, clinical_services: list = None) 
         clinical_services cs ON cs.value_set_id = vs.id
     WHERE
         c.id IN ({})
-    """.format(", ".join("?" for _ in snomed_ids))
+    """.format(", ".join("?" for _ in snomed_id))
 
     # Execute the query with parameters, then close
-    cursor.execute(sql_query, snomed_ids)
+    cursor.execute(sql_query, snomed_id)
     results = cursor.fetchall()
     conn.close()
 
@@ -80,11 +82,11 @@ def get_clinical_service_dict(snomed_ids: list, clinical_services: list = None) 
         organized_data[clinical_service_type][system].append(code)
 
     # Convert to the final structured format
-    final_structure = {}
+    clinical_service_dict = {}
     for clinical_service_type, systems in organized_data.items():
-        final_structure[clinical_service_type] = []
+        clinical_service_dict[clinical_service_type] = []
         for system, codes in systems.items():
-            final_structure[clinical_service_type].append(
+            clinical_service_dict[clinical_service_type].append(
                 {"codes": codes, "system": system}
             )
 
@@ -93,9 +95,11 @@ def get_clinical_service_dict(snomed_ids: list, clinical_services: list = None) 
         clinical_services = sanitize_inputs_to_list(clinical_services)
         # Create a list of types to remove
         remove_list = [
-            type for type in final_structure.keys() if type not in clinical_services
+            type
+            for type in clinical_service_dict.keys()
+            if type not in clinical_services
         ]
         # Remove the types
         for type in remove_list:
-            final_structure.pop(type, None)
-    return final_structure
+            clinical_service_dict.pop(type, None)
+    return clinical_service_dict
