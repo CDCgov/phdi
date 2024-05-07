@@ -1,4 +1,4 @@
-import { DataDisplay, DisplayData, DataTableDisplay } from "@/app/utils";
+import { DataDisplay, DisplayDataProps, DataTableDisplay } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -9,12 +9,12 @@ import React from "react";
 import { addCaptionToTable } from "@/app/format-service";
 
 interface ClinicalProps {
-  reasonForVisitDetails: DisplayData[];
-  activeProblemsDetails: DisplayData[];
-  vitalData: DisplayData[];
-  immunizationsDetails: DisplayData[];
-  treatmentData: DisplayData[];
-  clinicalNotes: DisplayData[];
+  reasonForVisitDetails: DisplayDataProps[];
+  activeProblemsDetails: DisplayDataProps[];
+  vitalData: DisplayDataProps[];
+  immunizationsDetails: DisplayDataProps[];
+  treatmentData: DisplayDataProps[];
+  clinicalNotes: DisplayDataProps[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -47,7 +47,7 @@ export const ClinicalInfo = ({
   treatmentData,
   clinicalNotes,
 }: ClinicalProps) => {
-  const renderTableDetails = (tableDetails: DisplayData[]) => {
+  const renderTableDetails = (tableDetails: DisplayDataProps[]) => {
     return (
       <div>
         {tableDetails.map((item, index) => (
@@ -76,7 +76,11 @@ export const ClinicalInfo = ({
             ) {
               const modItem = {
                 ...item,
-                value: addCaptionToTable(item.value, "Miscellaneous Notes"),
+                value: addCaptionToTable(
+                  item.value,
+                  "Miscellaneous Notes",
+                  "Clinical notes from various parts of a medical record. Type of note found here depends on how the provider's EHR system onboarded to send eCR.",
+                ),
               };
               return (
                 <React.Fragment key={index}>

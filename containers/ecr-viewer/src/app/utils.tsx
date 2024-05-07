@@ -29,10 +29,12 @@ import {
 import { evaluateTable, evaluateReference } from "./evaluate-service";
 import { Button, Table } from "@trussworks/react-uswds";
 import { CareTeamParticipant, CarePlanActivity } from "fhir/r4b";
+import { Tooltip } from "@trussworks/react-uswds";
 
-export interface DisplayData {
+export interface DisplayDataProps {
   title?: string;
   className?: string;
+  toolTip?: string;
   value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
   dividerLine?: boolean;
 }
@@ -57,8 +59,8 @@ export interface ColumnInfoInput {
 }
 
 export interface CompleteData {
-  availableData: DisplayData[];
-  unavailableData: DisplayData[];
+  availableData: DisplayDataProps[];
+  unavailableData: DisplayDataProps[];
 }
 
 export const noData = (
@@ -247,7 +249,7 @@ export const evaluateSocialData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const socialData: DisplayData[] = [
+  const socialData: DisplayDataProps[] = [
     {
       title: "Occupation",
       value: evaluate(fhirBundle, mappings["patientCurrentJobTitle"])[0],
@@ -298,7 +300,7 @@ export const evaluateDemographicsData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const demographicsData: DisplayData[] = [
+  const demographicsData: DisplayDataProps[] = [
     {
       title: "Patient Name",
       value: evaluatePatientName(fhirBundle, mappings),
@@ -346,6 +348,8 @@ export const evaluateDemographicsData = (
     },
     {
       title: "Patient IDs",
+      toolTip:
+        "Unique patient identifier(s) from their medical record. For example, a patient's social security number or medical record number.",
       value: evaluate(fhirBundle, mappings.patientId)[0],
     },
   ];
@@ -473,13 +477,15 @@ export const evaluateEcrMetadata = (
     }
   }
 
-  const eicrDetails: DisplayData[] = [
+  const eicrDetails: DisplayDataProps[] = [
     {
       title: "eICR Identifier",
+      toolTip:
+        "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
       value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
     },
   ];
-  const ecrSenderDetails: DisplayData[] = [
+  const ecrSenderDetails: DisplayDataProps[] = [
     {
       title: "Date/Time eCR Created",
       value: formatDateTime(
@@ -488,6 +494,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Sender Software",
+      toolTip: "EHR system used by the sending provider.",
       value: evaluate(fhirBundle, mappings.senderSoftware)[0],
     },
     {
@@ -964,18 +971,18 @@ export const returnPlannedProceduresTable = (
  * @param fhirBundle - The FHIR bundle containing clinical data.
  * @param mappings - The object containing the fhir paths.
  * @returns An object containing evaluated and formatted clinical data.
- * @property {DisplayData[]} clinicalNotes - Clinical notes data.
- * @property {DisplayData[]} reasonForVisitDetails - Reason for visit details.
- * @property {DisplayData[]} activeProblemsDetails - Active problems details.
- * @property {DisplayData[]} treatmentData - Treatment-related data.
- * @property {DisplayData[]} vitalData - Vital signs data.
- * @property {DisplayData[]} immunizationsDetails - Immunization details.
+ * @property {DisplayDataProps[]} clinicalNotes - Clinical notes data.
+ * @property {DisplayDataProps[]} reasonForVisitDetails - Reason for visit details.
+ * @property {DisplayDataProps[]} activeProblemsDetails - Active problems details.
+ * @property {DisplayDataProps[]} treatmentData - Treatment-related data.
+ * @property {DisplayDataProps[]} vitalData - Vital signs data.
+ * @property {DisplayDataProps[]} immunizationsDetails - Immunization details.
  */
 export const evaluateClinicalData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const clinicalNotes: DisplayData[] = [
+  const clinicalNotes: DisplayDataProps[] = [
     {
       title: "Miscellaneous Notes",
       value: parse(
@@ -984,14 +991,14 @@ export const evaluateClinicalData = (
     },
   ];
 
-  const reasonForVisitData: DisplayData[] = [
+  const reasonForVisitData: DisplayDataProps[] = [
     {
       title: "Reason for Visit",
       value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
     },
   ];
 
-  const activeProblemsTableData: DisplayData[] = [
+  const activeProblemsTableData: DisplayDataProps[] = [
     {
       title: "Problems List",
       value: returnProblemsTable(
@@ -1020,7 +1027,7 @@ export const evaluateClinicalData = (
     <>{adminMedResults}</>
   ) : undefined;
 
-  const treatmentData: DisplayData[] = [
+  const treatmentData: DisplayDataProps[] = [
     {
       title: "Procedures",
       value: returnProceduresTable(
@@ -1062,7 +1069,7 @@ export const evaluateClinicalData = (
     },
   ];
 
-  const immunizationsData: DisplayData[] = [
+  const immunizationsData: DisplayDataProps[] = [
     {
       title: "Immunization History",
       value: returnImmunizations(
@@ -1087,9 +1094,9 @@ export const evaluateClinicalData = (
  * @param data - An array of display data items to be evaluated.
  * @returns - An object containing arrays of available and unavailable display data items.
  */
-export const evaluateData = (data: DisplayData[]): CompleteData => {
-  let availableData: DisplayData[] = [];
-  let unavailableData: DisplayData[] = [];
+export const evaluateData = (data: DisplayDataProps[]): CompleteData => {
+  let availableData: DisplayDataProps[] = [];
+  let unavailableData: DisplayDataProps[] = [];
   data.forEach((item) => {
     if (!isDataAvailable(item)) {
       unavailableData.push(item);
@@ -1101,11 +1108,11 @@ export const evaluateData = (data: DisplayData[]): CompleteData => {
 };
 
 /**
- * Checks if data is available based on DisplayData value. Also filters out terms that indicate info is unavailable.
- * @param item - The DisplayData object to check for availability.
+ * Checks if data is available based on DisplayDataProps value. Also filters out terms that indicate info is unavailable.
+ * @param item - The DisplayDataProps object to check for availability.
  * @returns - Returns true if data is available, false otherwise.
  */
-export const isDataAvailable = (item: DisplayData): Boolean => {
+export const isDataAvailable = (item: DisplayDataProps): Boolean => {
   if (!item.value || (Array.isArray(item.value) && item.value.length === 0))
     return false;
   const unavailableTerms = [
@@ -1133,13 +1140,13 @@ export const isDataAvailable = (item: DisplayData): Boolean => {
  * @returns - A React element representing the display of data.
  */
 export const DataDisplay: React.FC<{
-  item: DisplayData;
+  item: DisplayDataProps;
   className?: string;
 }> = ({
   item,
   className,
 }: {
-  item: DisplayData;
+  item: DisplayDataProps;
   className?: string;
 }): React.JSX.Element => {
   item.dividerLine =
@@ -1149,7 +1156,9 @@ export const DataDisplay: React.FC<{
   return (
     <div>
       <div className="grid-row">
-        {item.title ? <div className="data-title">{item.title}</div> : ""}
+        <div className="data-title">
+          {toolTipElement(item.title, item.toolTip)}
+        </div>
         <div
           className={classNames(
             "grid-col-auto maxw7 text-pre-line",
@@ -1296,7 +1305,7 @@ const trimField = (
  * @param props.item - The data item to be displayed.
  * @returns The JSX element representing the data table display.
  */
-export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
+export const DataTableDisplay: React.FC<{ item: DisplayDataProps }> = ({
   item,
 }): React.JSX.Element => {
   return (
@@ -1355,4 +1364,58 @@ export const evaluateEmergencyContact = (
 
     return formattedContact;
   }
+};
+
+type CustomDivProps = React.PropsWithChildren<{
+  className?: string;
+}> &
+  JSX.IntrinsicElements["div"] &
+  React.RefAttributes<HTMLDivElement>;
+
+/**
+ * `CustomDivForwardRef` is a React forward reference component that renders a div element
+ *  with extended capabilities. This component supports all standard div properties along with
+ *  additional features provided by `tooltipProps`.
+ * @component
+ * @param props - The props for the CustomDiv component.
+ * @param props.className - CSS class to apply to the div element.
+ * @param props.children - Child elements or content to be rendered within the div.
+ * @param props.tooltipProps - Additional props to be spread into the div element, typically used for tooltip logic or styling.
+ * @param ref - Ref forwarded to the div element.
+ * @returns A React element representing a customizable div.
+ */
+export const CustomDivForwardRef: React.ForwardRefRenderFunction<
+  HTMLDivElement,
+  CustomDivProps
+> = ({ className, children, ...tooltipProps }: CustomDivProps, ref) => (
+  <div ref={ref} className={className} {...tooltipProps}>
+    {children}
+  </div>
+);
+
+export const TooltipDiv = React.forwardRef(CustomDivForwardRef);
+
+/**
+ * Creates a tooltip-wrapped element if a tooltip text is provided, or returns the content directly otherwise.
+ * The tooltip is only applied when the `toolTip` parameter is not null or undefined. If the tooltip text
+ * is less than 100 characters, a specific class `short-tooltip` is added to style the tooltip differently.
+ * @param content - The content to be displayed, which can be any valid React node or text.
+ * @param toolTip - The text for the tooltip. If this is provided, the content will be wrapped in a tooltip.
+ * @returns A React JSX element containing either the plain content or content wrapped in a tooltip, depending on the tooltip parameter.
+ */
+export const toolTipElement = (
+  content: string | undefined | null,
+  toolTip: string | undefined | null,
+): React.JSX.Element => {
+  return toolTip ? (
+    <Tooltip
+      label={toolTip}
+      asCustom={TooltipDiv}
+      className={`usa-tooltip${toolTip.length < 100 ? " short-tooltip" : ""}`}
+    >
+      {content}
+    </Tooltip>
+  ) : (
+    <>{content}</>
+  );
 };
