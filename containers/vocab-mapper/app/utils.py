@@ -1,3 +1,4 @@
+import pprint
 import sqlite3
 from typing import Union
 
@@ -12,17 +13,18 @@ def sanitize_inputs_to_list(value: Union[list, str, int, float]) -> list:
     :param value: String, int, float, list to check
     :return: A list free of excess whitespace
     """
-    common_delimiters = [" ", ",", "|", ";"]
     if isinstance(value, (int, float)):
-        value = [str(value)]
+        return [str(value)]
     elif isinstance(value, str):
+        common_delimiters = [",", "|", ";"]
         for delimiter in common_delimiters:
             if delimiter in value:
-                value = value.split(delimiter)
-            else:
-                value = [value]  # else one-item list
-    # remove any whitespace, treat each item as string
-    return [str(val).strip() for val in value if str(val) != " "]
+                return [val.strip() for val in value.split(delimiter) if val.strip()]
+        return [value.strip()]  # No delimiter found, return the single value
+    elif isinstance(value, list):
+        return [str(val).strip() for val in value if str(val).strip()]
+    else:
+        raise ValueError("Unsupported input type for sanitation.")
 
 
 def get_clinical_service_dict(
@@ -104,3 +106,6 @@ def get_clinical_service_dict(
         for type in remove_list:
             clinical_service_dict.pop(type, None)
     return clinical_service_dict
+
+
+pprint.pprint(get_clinical_service_dict("276197005, junk"))
