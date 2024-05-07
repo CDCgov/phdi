@@ -46,14 +46,14 @@ def get_clinical_service_dict(
     """
     # sanitize snomeds - confirm only 1 snomed provided
     snomed_id = sanitize_inputs_to_list(snomed_id)
-    if len(snomed_id) > 1:
-        return print("Provide only only one SNOMED code.")
+    if len(snomed_id) != 1:
+        return {"error": "Provide only one SNOMED code."}
 
     # SQL query with placeholders
     sql_query = """
     SELECT
         vs.clinical_service_type_id AS clinical_service_type,
-        cs.code AS code,
+        GROUP_CONCAT(cs.code, '|') AS codes,
         cs.code_system AS system
     FROM
         conditions c
@@ -62,36 +62,33 @@ def get_clinical_service_dict(
     JOIN
         clinical_services cs ON cs.value_set_id = vs.id
     WHERE
-        c.id IN ({})
-    """.format(", ".join("?" for _ in snomed_id))
+        c.id = ?
+    GROUP BY vs.clinical_service_type_id, cs.code_system
+    """
 
     # Connect to the SQLite database, execute sql query, then close
     conn = sqlite3.connect("seed-scripts/ersd.db")
     cursor = conn.cursor()
     try:
-        cursor.execute(sql_query, snomed_id)
+        cursor.execute(sql_query, (snomed_id[0],))
         results = cursor.fetchall()
-        conn.close()
+        if not results:
+            return {"error": "No data found for the provided SNOMED code."}
     except sqlite3.Error as e:
-        print(f"An error occurred: {e}")
-
-    # Organize results by clinical service type and system
-    organized_data = {}
-    for clinical_service_type, code, system in results:
-        if clinical_service_type not in organized_data:
-            organized_data[clinical_service_type] = {}
-        if system not in organized_data[clinical_service_type]:
-            organized_data[clinical_service_type][system] = []
-        organized_data[clinical_service_type][system].append(code)
+        return {"error": f"An SQL error occurred: {str(e)}"}
+    finally:
+        conn.close()
 
     # Convert to the final structured format
     clinical_service_dict = {}
-    for clinical_service_type, systems in organized_data.items():
-        clinical_service_dict[clinical_service_type] = []
-        for system, codes in systems.items():
-            clinical_service_dict[clinical_service_type].append(
-                {"codes": codes, "system": system}
-            )
+    for clinical_service_type, codes_string, system in results:
+        # If clinical_service_type is not yet in the dictionary, initialize
+        if clinical_service_type not in clinical_service_dict:
+            clinical_service_dict[clinical_service_type] = []
+        # Append a new entry with the codes and their system
+        clinical_service_dict[clinical_service_type].append(
+            {"codes": codes_string.split("|"), "system": system}
+        )
 
     # Optional: Remove clinical service types not in specified list if provided
     if clinical_services:
