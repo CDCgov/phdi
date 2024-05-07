@@ -1,5 +1,5 @@
 import {
-  DisplayData,
+  DisplayDataProps,
   evaluateEcrMetadata,
   evaluateSocialData,
   extractPatientAddress,
@@ -11,6 +11,8 @@ import {
   isDataAvailable,
   returnPlannedProceduresTable,
   DataDisplay,
+  TooltipDiv,
+  toolTipElement,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
@@ -26,6 +28,7 @@ import { render, screen } from "@testing-library/react";
 import { CarePlanActivity } from "fhir/r4b";
 import { evaluate } from "fhirpath";
 import userEvent from "@testing-library/user-event";
+import { Tooltip } from "@trussworks/react-uswds";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -87,7 +90,10 @@ describe("Utils", () => {
         { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
       ]);
       expect(actual.ecrSenderDetails.unavailableData).toEqual([
-        { title: "Sender Software" },
+        {
+          title: "Sender Software",
+          toolTip: "EHR system used by the sending provider.",
+        },
       ]);
     });
     it("should have eicrDetails", () => {
@@ -99,6 +105,8 @@ describe("Utils", () => {
       expect(actual.eicrDetails.availableData).toEqual([
         {
           title: "eICR Identifier",
+          toolTip:
+            "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
           value: "1.2.840.114350.1.13.478.3.7.8.688883.230886",
         },
       ]);
@@ -270,26 +278,26 @@ describe("Utils", () => {
 
   describe("isDataAvailable", () => {
     it("given an item with no value, it should return false", () => {
-      const input: DisplayData = {};
+      const input: DisplayDataProps = {};
       const result = isDataAvailable(input);
       expect(result).toEqual(false);
     });
     it("given an item with no length in its value array, it should return false", () => {
-      const input: DisplayData = {
+      const input: DisplayDataProps = {
         value: [],
       };
       const result = isDataAvailable(input);
       expect(result).toEqual(false);
     });
     it("given an item whose value matches one of the unavailable terms, it should return false", () => {
-      const input: DisplayData = {
+      const input: DisplayDataProps = {
         value: "Not on file documented in this encounter",
       };
       const result = isDataAvailable(input);
       expect(result).toEqual(false);
     });
     it("given an item with available info, it should return true", () => {
-      const input: DisplayData = {
+      const input: DisplayDataProps = {
         value: "01/01/1970",
       };
       const result = isDataAvailable(input);
@@ -492,6 +500,36 @@ describe("Utils", () => {
           screen.queryByText(OneHundredTwentyFiveCharStrings[4]),
         ).not.toBeInTheDocument();
       });
+    });
+  });
+
+  describe("ToolTips", () => {
+    it("should return the tool tip with the custom jsx", () => {
+      render(
+        <Tooltip
+          label={"test label"}
+          asCustom={TooltipDiv}
+          className="testClass"
+        >
+          Test child
+        </Tooltip>,
+      );
+      const tip = screen.getByTestId("triggerElement");
+      expect(tip.className).toInclude("testClass");
+      expect(tip.textContent).toInclude("Test child");
+    });
+    it("should make a tooltip", () => {
+      render(toolTipElement("Item Title", "Tooltip"));
+      const tip = screen.getByTestId("triggerElement");
+      expect(tip.className).toInclude("short-tooltip");
+      expect(tip.textContent).toInclude("Item Title");
+    });
+    it("should not make the tool tip short if the tip has more than 100 character", () => {
+      const toolTip =
+        "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+      render(toolTipElement("Item Title", toolTip));
+      const tip = screen.getByTestId("triggerElement");
+      expect(tip.className).not.toInclude("short-tooltip");
     });
   });
 });
