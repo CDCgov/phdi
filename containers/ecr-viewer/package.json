@@ -21,7 +21,6 @@
     "@aws-sdk/client-s3": "^3.515.0",
     "@testing-library/user-event": "^14.5.2",
     "@trussworks/react-uswds": "^6.1.0",
-    "@types/sinonjs__fake-timers": "^8.1.1",
     "@uswds/uswds": "3.7.0",
     "classnames": "^2.5.1",
     "date-fns": "^3.4.0",
