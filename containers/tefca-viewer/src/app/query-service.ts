@@ -312,7 +312,7 @@ async function cancerQuery(
   const rxnormFilter: string = rxnorm.join(",");
   const cptFilter: string = cpt.join(",");
 
-  // Query for conditions
+  // Query for conditions and encounters
   const conditionQuery = `/Condition?subject=${request.patientId}&code=${snomedFilter}`;
   const conditionResponse = await fetch(
     request.fhir_host + conditionQuery,
