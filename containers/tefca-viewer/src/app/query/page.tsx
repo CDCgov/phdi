@@ -60,7 +60,7 @@ export default function PatientSearch() {
               </h2>
               <div className="grid-row grid-gap">
                 <div className="tablet:grid-col-6">
-                  <Label htmlFor="first_name">First Name</Label>
+                  <Label htmlFor="firstName">First Name</Label>
                   <TextInput
                     id="firstName"
                     name="first_name"
@@ -73,7 +73,7 @@ export default function PatientSearch() {
                   />
                 </div>
                 <div className="tablet:grid-col-6">
-                  <Label htmlFor="last_name">Last Name</Label>
+                  <Label htmlFor="lastName">Last Name</Label>
                   <TextInput
                     id="lastName"
                     name="last_name"
@@ -155,8 +155,10 @@ export default function PatientSearch() {
                 </div>
                 <div className="tablet:grid-col-3">
                   <Label htmlFor="state">State</Label>
-                  <Select id="state" name="state">
-                    <option value="" disabled selected></option>
+                  <Select id="state" name="state" defaultValue="">
+                    <option value="" disabled>
+                      Select a state
+                    </option>
                     <option value="AL">AL - Alabama</option>
                     <option value="AK">AK - Alaska</option>
                     <option value="AS">AS - American Samoa</option>
@@ -273,8 +275,11 @@ export default function PatientSearch() {
                       );
                     }}
                     required
+                    defaultValue=""
                   >
-                    <option value="" disabled selected></option>
+                    <option value="" disabled>
+                      Select Use Case
+                    </option>
                     <option value="newborn-screening">Newborn Screening</option>
                     <option value="syphilis">Syphilis</option>
                     <option value="cancer">Cancer</option>
@@ -300,8 +305,11 @@ export default function PatientSearch() {
                       );
                     }}
                     required
+                    defaultValue=""
                   >
-                    <option value="" disabled selected></option>
+                    <option value="" disabled>
+                      Select FHIR Server
+                    </option>
                     <option value="meld">Meld</option>
                     <option value="ehealthexchange">eHealth Exchange</option>
                   </Select>

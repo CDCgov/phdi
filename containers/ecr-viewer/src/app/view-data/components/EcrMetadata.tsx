@@ -1,6 +1,8 @@
-import { DisplayData, ReportableConditions } from "../../utils";
-import { Fragment } from "react";
-
+import {
+  DataDisplay,
+  DisplayDataProps,
+  ReportableConditions,
+} from "../../utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -8,11 +10,12 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import { Table } from "@trussworks/react-uswds";
+import { toolTipElement } from "@/app/utils";
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
-  eicrDetails: DisplayData[];
-  eCRSenderDetails: DisplayData[];
+  eicrDetails: DisplayDataProps[];
+  eCRSenderDetails: DisplayDataProps[];
 }
 
 export const ecrMetadataConfig: SectionConfig = new SectionConfig(
@@ -88,11 +91,22 @@ const EcrMetadata = ({
           <thead>
             <tr>
               <th className="reportability_summary_header">
-                Reportable Condition
+                {toolTipElement(
+                  "Reportable Condition",
+                  "List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR.",
+                )}
               </th>
-              <th>RCKMS Rule Summary</th>
+              <th>
+                {toolTipElement(
+                  "RCKMS Rule Summary",
+                  "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
+                )}
+              </th>
               <th className="reportability_summary_header">
-                Jurisdiction Sent eCR
+                {toolTipElement(
+                  "Jurisdiction Sent eCR",
+                  "List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR.",
+                )}
               </th>
             </tr>
           </thead>
@@ -104,16 +118,8 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[1].title}
           </span>
         </AccordianH4>
-        {eicrDetails.map(({ title, value }) => {
-          return (
-            <Fragment key={title}>
-              <div className="grid-row">
-                <div className="data-title">{title}</div>
-                <div className="grid-col-auto text-pre-line">{value}</div>
-              </div>
-              <div className={"section__line_gray"} />
-            </Fragment>
-          );
+        {eicrDetails.map((item) => {
+          return <DataDisplay item={item} />;
         })}
         <div className={"padding-bottom-1"} />
         <AccordianH4>
@@ -121,16 +127,8 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[2].title}
           </span>
         </AccordianH4>
-        {eCRSenderDetails.map(({ title, value }) => {
-          return (
-            <Fragment key={title}>
-              <div className="grid-row">
-                <div className="data-title">{title}</div>
-                <div className="grid-col-auto text-pre-line">{value}</div>
-              </div>
-              <div className={"section__line_gray"} />
-            </Fragment>
-          );
+        {eCRSenderDetails.map((item) => {
+          return <DataDisplay item={item} />;
         })}
       </AccordianDiv>
     </AccordianSection>

@@ -88,10 +88,14 @@ export const evaluateEcrSummaryAboutTheConditionDetails = (
   return [
     {
       title: "Reportable Condition",
+      toolTip:
+        "Condition that caused this eCR to be sent to your jurisdiction.",
       value: evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0],
     },
     {
       title: "RCKMS Rule Summary",
+      toolTip:
+        "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
       value: evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0],
     },
   ];
