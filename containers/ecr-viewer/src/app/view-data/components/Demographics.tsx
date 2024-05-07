@@ -1,4 +1,4 @@
-import { DataDisplay, DisplayData } from "../../utils";
+import { DataDisplay, DisplayDataProps } from "../../utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -8,7 +8,7 @@ import { SectionConfig } from "./SideNav";
 import React from "react";
 
 interface DemographicsProps {
-  demographicsData: DisplayData[];
+  demographicsData: DisplayDataProps[];
 }
 
 export const demographicsConfig = new SectionConfig("Demographics");
