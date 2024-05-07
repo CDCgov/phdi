@@ -29,7 +29,7 @@ def get_clinical_service_dict(
     snomed_id: Union[str, int, float], clinical_services: list = None
 ) -> dict:
     """
-    This will take a SNOMED ID (str, int, float) and sanitize them.
+    This will take a SNOMED ID (str, int, float) and sanitize it.
     Then it runs a SQL query to takes that condition code, joins it to value
     sets, then uses the value set ids to get the clinical service type,
     clinical service code, and clinical service system from the eRSD database.
@@ -68,9 +68,12 @@ def get_clinical_service_dict(
     # Connect to the SQLite database, execute sql query, then close
     conn = sqlite3.connect("seed-scripts/ersd.db")
     cursor = conn.cursor()
-    cursor.execute(sql_query, snomed_id)
-    results = cursor.fetchall()
-    conn.close()
+    try:
+        cursor.execute(sql_query, snomed_id)
+        results = cursor.fetchall()
+        conn.close()
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
 
     # Organize results by clinical service type and system
     organized_data = {}
