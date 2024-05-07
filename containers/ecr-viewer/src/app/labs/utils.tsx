@@ -96,21 +96,14 @@ export const getLabJsonObject = (
 
 /**
  * Checks whether the result name of a lab report includes the term "abnormal"
- * @param report - The LabReport object containing information about the lab report.
- * @param fhirBundle - The FHIR Bundle object containing relevant FHIR resources.
- * @param mappings - The PathMappings object containing mappings for extracting data.
+ * @param labReportJson - A JSON object representing the lab report HTML string
  * @returns True if the result name includes "abnormal" (case insensitive), otherwise false. Will also return false if lab does not have JSON object.
  */
-export const checkAbnormalTag = (
-  report: LabReport,
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-): boolean => {
-  const labResult = getLabJsonObject(report, fhirBundle, mappings);
-  if (!labResult) {
+export const checkAbnormalTag = (labReportJson: TableJson): boolean => {
+  if (!labReportJson) {
     return false;
   }
-  const labResultName = labResult.resultName;
+  const labResultName = labReportJson.resultName;
 
   return labResultName?.toLowerCase().includes("abnormal") ?? false;
 };
@@ -226,19 +219,14 @@ const returnReceivedTime = (
 
 /**
  * Extracts and formats a field value from within a lab report (sourced from HTML string).
- * @param report - The lab report containing the results to be processed.
- * @param fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @param labReportJson - A JSON object representing the lab report HTML string
  * @param fieldName - A string containing the field name for which the value is being searched.
  * @returns A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 export const returnFieldValueFromLabHtmlString = (
-  report: LabReport,
-  fhirBundle: Bundle,
-  mappings: PathMappings,
+  labReportJson: TableJson,
   fieldName: string,
 ): React.ReactNode => {
-  const labReportJson = getLabJsonObject(report, fhirBundle, mappings);
   if (!labReportJson) {
     return noData;
   }
@@ -254,24 +242,15 @@ export const returnFieldValueFromLabHtmlString = (
 
 /**
  * Extracts and formats the analysis date/time(s) from within a lab report (sourced from HTML string).
- * @param report - The lab report containing the analysis times to be processed.
- * @param fhirBundle - The FHIR bundle containing related resources for the lab report.
- * @param mappings - An object containing paths to relevant fields within the FHIR resources.
+ * @param labReportJson - A JSON object representing the lab report HTML string
  * @param fieldName - A string containing the field name for Analysis Time
  * @returns A comma-separated string of unique collection times, or a 'No data' JSX element if none are found.
  */
 const returnAnalysisTime = (
-  report: LabReport,
-  fhirBundle: Bundle,
-  mappings: PathMappings,
+  labReportJson: TableJson,
   fieldName: string,
 ): React.ReactNode => {
-  const fieldVals = returnFieldValueFromLabHtmlString(
-    report,
-    fhirBundle,
-    mappings,
-    fieldName,
-  );
+  const fieldVals = returnFieldValueFromLabHtmlString(labReportJson, fieldName);
 
   if (fieldVals === noData) {
     return noData;
@@ -322,12 +301,14 @@ export function evaluateObservationTable(
 
 /**
  * Evaluates diagnostic report data and generates the lab observations for each report.
+ * @param labReportJson - A JSON object representing the lab report HTML string
  * @param report - An object containing an array of result references.
  * @param fhirBundle - The FHIR bundle containing diagnostic report data.
  * @param mappings - An object containing the FHIR path mappings.
  * @returns - An array of React elements representing the lab observations.
  */
 export const evaluateDiagnosticReportData = (
+  labReportJson: TableJson,
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -339,9 +320,7 @@ export const evaluateDiagnosticReportData = (
     {
       columnName: "Test Method",
       value: returnFieldValueFromLabHtmlString(
-        report,
-        fhirBundle,
-        mappings,
+        labReportJson,
         "Test Method",
       ) as string,
     },
@@ -414,7 +393,9 @@ export const evaluateLabInfoData = (
   let organizationElements: ResultObject = {};
 
   labReports.map((report) => {
+    const labReportJson = getLabJsonObject(report, fhirBundle, mappings);
     const labTableDiagnostic = evaluateDiagnosticReportData(
+      labReportJson,
       report,
       fhirBundle,
       mappings,
@@ -427,12 +408,7 @@ export const evaluateLabInfoData = (
     const rrInfo: DisplayDataProps[] = [
       {
         title: "Analysis Time",
-        value: returnAnalysisTime(
-          report,
-          fhirBundle,
-          mappings,
-          "Analysis Time",
-        ),
+        value: returnAnalysisTime(labReportJson, "Analysis Time"),
         className: "lab-text-content",
       },
       {
@@ -453,9 +429,7 @@ export const evaluateLabInfoData = (
       {
         title: "Anatomical Location/Laterality",
         value: returnFieldValueFromLabHtmlString(
-          report,
-          fhirBundle,
-          mappings,
+          labReportJson,
           "Anatomical Location / Laterality",
         ),
         className: "lab-text-content",
@@ -463,9 +437,7 @@ export const evaluateLabInfoData = (
       {
         title: "Collection Method/Volume",
         value: returnFieldValueFromLabHtmlString(
-          report,
-          fhirBundle,
-          mappings,
+          labReportJson,
           "Collection Method / Volume",
         ),
         className: "lab-text-content",
@@ -473,9 +445,7 @@ export const evaluateLabInfoData = (
       {
         title: "Resulting Agency Comment",
         value: returnFieldValueFromLabHtmlString(
-          report,
-          fhirBundle,
-          mappings,
+          labReportJson,
           "Resulting Agency Comment",
         ),
         className: "lab-text-content",
@@ -483,31 +453,19 @@ export const evaluateLabInfoData = (
       {
         title: "Authorizing Provider",
         value: returnFieldValueFromLabHtmlString(
-          report,
-          fhirBundle,
-          mappings,
+          labReportJson,
           "Authorizing Provider",
         ),
         className: "lab-text-content",
       },
       {
         title: "Result Type",
-        value: returnFieldValueFromLabHtmlString(
-          report,
-          fhirBundle,
-          mappings,
-          "Result Type",
-        ),
+        value: returnFieldValueFromLabHtmlString(labReportJson, "Result Type"),
         className: "lab-text-content",
       },
       {
         title: "Narrative",
-        value: returnFieldValueFromLabHtmlString(
-          report,
-          fhirBundle,
-          mappings,
-          "Narrative",
-        ),
+        value: returnFieldValueFromLabHtmlString(labReportJson, "Narrative"),
         className: "lab-text-content",
       },
     ];
@@ -538,7 +496,7 @@ export const evaluateLabInfoData = (
       <AccordionLabResults
         key={report.id}
         title={report.code.coding[0].display}
-        abnormalTag={checkAbnormalTag(report, fhirBundle, mappings)}
+        abnormalTag={checkAbnormalTag(labReportJson)}
         content={content}
         organizationId={organizationId}
       />
