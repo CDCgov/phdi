@@ -19,36 +19,35 @@ def sanitize_inputs_to_list(value: Union[list, str, int, float]) -> list:
         for delimiter in common_delimiters:
             if delimiter in value:
                 value = value.split(delimiter)
-        else:
-            value = [value]  # else one-item list
+            else:
+                value = [value]  # else one-item list
     # remove any whitespace, treat each item as string
-    return [str(val).strip() for val in value]
+    return [str(val).strip() for val in value if str(val) != " "]
 
 
-def get_clinical_service_dict(
-    snomed_ids: list, clinical_service_types: list = []
-) -> dict:
+def get_clinical_service_dict(snomed_ids: list, clinical_services: list = None) -> dict:
     """
-    This will take a list (or list-like) SNOMED ids and sanitize them, then
-    run a SQL query that takes those condition codes, joins them to value
+    This will take a list (or list-like) of SNOMED ids and sanitize them,
+    runs a SQL query that takes those condition codes, joins them to value
     sets, then uses the value set ids to get the clinical service type,
     clinical service code, and clinical service system from the eRSD database.
 
     It will then parse that information into a dictionary for use in the
-    API endpoint.
+    /get-value-sets API endpoint.
 
     There is an optional parameter to return select clinical service type(s).
 
     :param snomed_ids: List of SNOMED codes to check
-    :param clinical_service_types: List of clinical service types to keep
+    :param clinical_services: List of clinical service types to keep
     :return: A nested dictionary with clinical service type as the key with
     the relevant codes and code systems as objects within.
-    """  # Connect to the SQLite database
+    """
+    # Connect to the SQLite database
     conn = sqlite3.connect("seed-scripts/ersd.db")
     cursor = conn.cursor()
 
     # sanitize snomeds
-    snomed_codes = sanitize_inputs_to_list(snomed_ids)
+    snomed_ids = sanitize_inputs_to_list(snomed_ids)
 
     # SQL query with placeholders
     sql_query = """
@@ -62,14 +61,12 @@ def get_clinical_service_dict(
         value_sets vs ON c.value_set_id = vs.id
     JOIN
         clinical_services cs ON cs.value_set_id = vs.id
-    LEFT JOIN
-        value_set_type vst ON vs.clinical_service_type_id = vst.id
     WHERE
         c.id IN ({})
-    """.format(", ".join("?" for _ in snomed_codes))
+    """.format(", ".join("?" for _ in snomed_ids))
 
     # Execute the query with parameters, then close
-    cursor.execute(sql_query, snomed_codes)
+    cursor.execute(sql_query, snomed_ids)
     results = cursor.fetchall()
     conn.close()
 
@@ -92,8 +89,8 @@ def get_clinical_service_dict(
             )
 
     # Optional: Remove clinical service types not in specified list if provided
-    if clinical_service_types:
-        clinical_services = sanitize_inputs_to_list(clinical_service_types)
+    if clinical_services:
+        clinical_services = sanitize_inputs_to_list(clinical_services)
         # Create a list of types to remove
         remove_list = [
             type for type in final_structure.keys() if type not in clinical_services
@@ -102,11 +99,3 @@ def get_clinical_service_dict(
         for type in remove_list:
             final_structure.pop(type, None)
     return final_structure
-
-
-# a couple tests to confirm
-snomed_codes = ["276197005", "805002"]
-test0 = get_clinical_service_dict(276197005)
-test1 = get_clinical_service_dict(snomed_codes)
-test2 = get_clinical_service_dict(snomed_codes, "dxtc")
-test3 = get_clinical_service_dict(snomed_codes, ["dxtc", "sdtc"])
