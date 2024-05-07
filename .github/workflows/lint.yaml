@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip
-          pip install ruff==0.4.1
+          pip install ruff==0.4.3
       - name: Run linter (ruff)
         run: |
           ruff check --output-format=github .
