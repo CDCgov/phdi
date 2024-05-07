@@ -14,6 +14,11 @@
       "endpoint": "/convert-to-fhir"
     },
     {
+      "service": "vocab_mapper",
+      "url": "${VOCAB_MAPPER_URL}",
+      "endpoint": "/insert-condition-extensions"
+    },
+    {
       "service": "ingestion",
       "url": "${INGESTION_URL}",
       "endpoint": "/fhir/harmonization/standardization/standardize_names"
