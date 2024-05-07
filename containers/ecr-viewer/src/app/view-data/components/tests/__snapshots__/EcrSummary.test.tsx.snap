@@ -242,37 +242,6 @@ End: 05/13/2022 9:57 AM UTC
           <div
             class="section__line"
           />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="text-bold width-full"
-            >
-              Clinical sections relevant to reportable condition
-            </div>
-            <div
-              class="padding-top-05"
-            >
-              No matching clinical data found in this eCR (temp)
-            </div>
-          </div>
-          <div
-            class="section__line"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="text-bold width-full"
-            >
-              Lab results relevant to reportable condition
-            </div>
-            <div
-              class="padding-top-05"
-            >
-              No matching lab results found in this eCR (temp)
-            </div>
-          </div>
         </div>
       </div>
     </div>
