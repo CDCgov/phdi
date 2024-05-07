@@ -12,9 +12,7 @@ import { Bundle, Observation } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { render, screen } from "@testing-library/react";
 
-const pathLabReportAbnormal =
-  "Bundle.entry.resource.where(resourceType = 'DiagnosticReport').where(id = '68477c03-5689-f9e5-c267-a3c7bdff6fe0')";
-const labReportAbnormal = evaluate(BundleLab, pathLabReportAbnormal)[0];
+const mappings = loadYamlConfig();
 
 const pathLabReportNormal =
   "Bundle.entry.resource.where(resourceType = 'DiagnosticReport').where(id = 'c090d379-9aea-f26e-4ddc-378223841e3b')";
@@ -142,6 +140,15 @@ const labReportNormalJsonObject = {
   ],
 };
 
+const pathLabReportAbnormal =
+  "Bundle.entry.resource.where(resourceType = 'DiagnosticReport').where(id = '68477c03-5689-f9e5-c267-a3c7bdff6fe0')";
+const labReportAbnormal = evaluate(BundleLab, pathLabReportAbnormal)[0];
+const labReportAbnormalJsonObject = getLabJsonObject(
+  labReportAbnormal,
+  BundleLab as unknown as Bundle,
+  mappings,
+);
+
 const pathLabOrganismsTableAndNarr =
   "Bundle.entry.resource.where(resourceType = 'DiagnosticReport').where(id = 'b0f590a6-4bf5-7add-9716-2bd3ba6defb2')";
 const labOrganismsTableAndNarr = evaluate(
@@ -150,8 +157,6 @@ const labOrganismsTableAndNarr = evaluate(
 )[0];
 
 describe("Labs Utils", () => {
-  const mappings = loadYamlConfig();
-
   describe("getObservations", () => {
     it("extracts an array of observation resources", () => {
       const result = getObservations(
@@ -208,22 +213,14 @@ describe("Labs Utils", () => {
   describe("checkAbnormalTag", () => {
     it("should return true if lab report has abnormal tag", () => {
       const expectedResult = true;
-      const result = checkAbnormalTag(
-        labReportAbnormal,
-        BundleLab as unknown as Bundle,
-        mappings,
-      );
+      const result = checkAbnormalTag(labReportAbnormalJsonObject);
 
       expect(result).toStrictEqual(expectedResult);
     });
 
     it("should return false if lab report does not have abnormal tag", () => {
       const expectedResult = false;
-      const result = checkAbnormalTag(
-        labReportNormal,
-        BundleLab as unknown as Bundle,
-        mappings,
-      );
+      const result = checkAbnormalTag(labReportNormalJsonObject);
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -257,9 +254,7 @@ describe("Labs Utils", () => {
       const expectedResult = "09/28/2022 1:59 PM PDT";
 
       const result = returnFieldValueFromLabHtmlString(
-        labReportNormal,
-        BundleLab as unknown as Bundle,
-        mappings,
+        labReportNormalJsonObject,
         fieldName,
       );
 
@@ -273,9 +268,7 @@ describe("Labs Utils", () => {
       );
 
       const result = returnFieldValueFromLabHtmlString(
-        labReportNormal,
-        BundleLab as unknown as Bundle,
-        mappings,
+        labReportNormalJsonObject,
         invalidFieldName,
       );
 
