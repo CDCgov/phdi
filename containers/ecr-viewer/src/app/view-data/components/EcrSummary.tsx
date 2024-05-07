@@ -42,7 +42,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </h3>
           <div className="usa-summary-box__text">
             {patientDetails.map((item) => (
-              <DataDisplay item={item} />
+              <DataDisplay item={item} key={item.title} />
             ))}
           </div>
         </div>
@@ -55,7 +55,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </h3>
           <div className="usa-summary-box__text">
             {encounterDetails.map((item) => (
-              <DataDisplay item={item} />
+              <DataDisplay item={item} key={item.title} />
             ))}
           </div>
         </div>
@@ -68,7 +68,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </h3>
           <div className="usa-summary-box__text">
             {aboutTheCondition.map((item) => (
-              <DataDisplay item={item} />
+              <DataDisplay item={item} key={item.title} />
             ))}
             <div className={"grid-row"}>
               <div className={"text-bold width-full"}>
