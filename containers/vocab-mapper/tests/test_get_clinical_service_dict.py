@@ -31,8 +31,8 @@ def test_get_clinical_service_dict_normal(mock_db):
     assert result == expected_result
 
 
-# Test normal behavior with a valid SNOMED ID
-def test_get_clinical_service_dict_with_clinical_trimming(mock_db):
+# Test normal behavior with a valid SNOMED ID, trimming to just sdtc
+def test_get_clinical_service_dict_with_clinical_service_paramater(mock_db):
     snomed_id = 276197005
     expected_result = {
         "sdtc": [{"codes": ["772150003"], "system": "http://snomed.info/sct"}]
