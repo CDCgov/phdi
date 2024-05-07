@@ -189,7 +189,7 @@ describe("Evaluate Organization with ID", () => {
       BundleLab as unknown as Bundle,
       mappings,
     );
-    expect(result[0].organizationDisplayData).toBeArray();
+    expect(result[0].organizationDisplayDataProps).toBeArray();
   });
 });
 
@@ -200,17 +200,17 @@ describe("Evaluate the lab info section", () => {
       mappings,
     );
     expect(result[0]).toHaveProperty("diagnosticReportDataElements");
-    expect(result[0]).toHaveProperty("organizationDisplayData");
+    expect(result[0]).toHaveProperty("organizationDisplayDataProps");
   });
   it("should properly count the number of labs", () => {
     const result = evaluateLabInfoData(
       BundleLab as unknown as Bundle,
       mappings,
     );
-    expect(result[0].organizationDisplayData[3].title).toEqual(
+    expect(result[0].organizationDisplayDataProps[3].title).toEqual(
       "Number of Results",
     );
-    expect(result[0].organizationDisplayData[3].value).toEqual(2);
+    expect(result[0].organizationDisplayDataProps[3].value).toEqual(2);
   });
 });
 

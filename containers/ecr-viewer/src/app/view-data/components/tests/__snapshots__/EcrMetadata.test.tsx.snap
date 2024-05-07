@@ -36,15 +36,87 @@ exports[`ECR Metadata should match snapshot 1`] = `
                 <th
                   class="reportability_summary_header"
                 >
-                  Reportable Condition
+                  <span
+                    class="usa-tooltip"
+                    data-testid="tooltipWrapper"
+                  >
+                    <div
+                      aria-describedby="[object Object]"
+                      class="usa-tooltip__trigger usa-tooltip"
+                      data-testid="triggerElement"
+                      position="top"
+                      tabindex="0"
+                      title=""
+                    >
+                      Reportable Condition
+                    </div>
+                    <span
+                      aria-hidden="true"
+                      class="usa-tooltip__body"
+                      data-testid="tooltipBody"
+                      id="[object Object]"
+                      role="tooltip"
+                      title="List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR."
+                    >
+                      List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR.
+                    </span>
+                  </span>
                 </th>
                 <th>
-                  RCKMS Rule Summary
+                  <span
+                    class="usa-tooltip"
+                    data-testid="tooltipWrapper"
+                  >
+                    <div
+                      aria-describedby="[object Object]"
+                      class="usa-tooltip__trigger usa-tooltip"
+                      data-testid="triggerElement"
+                      position="top"
+                      tabindex="0"
+                      title=""
+                    >
+                      RCKMS Rule Summary
+                    </div>
+                    <span
+                      aria-hidden="true"
+                      class="usa-tooltip__body"
+                      data-testid="tooltipBody"
+                      id="[object Object]"
+                      role="tooltip"
+                      title="Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System)."
+                    >
+                      Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).
+                    </span>
+                  </span>
                 </th>
                 <th
                   class="reportability_summary_header"
                 >
-                  Jurisdiction Sent eCR
+                  <span
+                    class="usa-tooltip"
+                    data-testid="tooltipWrapper"
+                  >
+                    <div
+                      aria-describedby="[object Object]"
+                      class="usa-tooltip__trigger usa-tooltip"
+                      data-testid="triggerElement"
+                      position="top"
+                      tabindex="0"
+                      title=""
+                    >
+                      Jurisdiction Sent eCR
+                    </div>
+                    <span
+                      aria-hidden="true"
+                      class="usa-tooltip__body"
+                      data-testid="tooltipBody"
+                      id="[object Object]"
+                      role="tooltip"
+                      title="List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR."
+                    >
+                      List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR.
+                    </span>
+                  </span>
                 </th>
               </tr>
             </thead>
@@ -104,23 +176,25 @@ exports[`ECR Metadata should match snapshot 1`] = `
               eICR Details
             </span>
           </h4>
-          <div
-            class="grid-row"
-          >
+          <div>
             <div
-              class="data-title"
+              class="grid-row"
             >
-              eICR Identifier
+              <div
+                class="data-title"
+              >
+                eICR Identifier
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                1dd10047-2207-4eac-a993-0f706c88be5d
+              </div>
             </div>
             <div
-              class="grid-col-auto text-pre-line"
-            >
-              1dd10047-2207-4eac-a993-0f706c88be5d
-            </div>
+              class="section__line_gray"
+            />
           </div>
-          <div
-            class="section__line_gray"
-          />
           <div
             class="padding-bottom-1"
           />
@@ -134,108 +208,120 @@ exports[`ECR Metadata should match snapshot 1`] = `
               eCR Sender Details
             </span>
           </h4>
-          <div
-            class="grid-row"
-          >
+          <div>
             <div
-              class="data-title"
+              class="grid-row"
             >
-              Date/Time eCR Created
+              <div
+                class="data-title"
+              >
+                Date/Time eCR Created
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                2022-05-14T12:56:38Z
+              </div>
             </div>
             <div
-              class="grid-col-auto text-pre-line"
-            >
-              2022-05-14T12:56:38Z
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              Sender Software
-            </div>
-            <div
-              class="grid-col-auto text-pre-line"
+              class="section__line_gray"
             />
           </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
+          <div>
             <div
-              class="data-title"
+              class="grid-row"
             >
-              Sender Facility Name
+              <div
+                class="data-title"
+              >
+                Sender Software
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              />
             </div>
             <div
-              class="grid-col-auto text-pre-line"
-            >
-              PRM- Palmdale Regional Medical Center
-            </div>
+              class="section__line_gray"
+            />
           </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
+          <div>
             <div
-              class="data-title"
+              class="grid-row"
             >
-              Facility Address
+              <div
+                class="data-title"
+              >
+                Sender Facility Name
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                PRM- Palmdale Regional Medical Center
+              </div>
             </div>
             <div
-              class="grid-col-auto text-pre-line"
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
             >
-              38600 Medical Center Drive
+              <div
+                class="data-title"
+              >
+                Facility Address
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                38600 Medical Center Drive
 Palmdale, CA
 93551, USA
+              </div>
             </div>
+            <div
+              class="section__line_gray"
+            />
           </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
+          <div>
             <div
-              class="data-title"
+              class="grid-row"
             >
-              Facility Contact
+              <div
+                class="data-title"
+              >
+                Facility Contact
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                (661)382-5000
+              </div>
             </div>
             <div
-              class="grid-col-auto text-pre-line"
-            >
-              (661)382-5000
-            </div>
+              class="section__line_gray"
+            />
           </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
+          <div>
             <div
-              class="data-title"
+              class="grid-row"
             >
-              Facility ID
+              <div
+                class="data-title"
+              >
+                Facility ID
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                2.16.840.1.113883.4.6
+              </div>
             </div>
             <div
-              class="grid-col-auto text-pre-line"
-            >
-              2.16.840.1.113883.4.6
-            </div>
+              class="section__line_gray"
+            />
           </div>
-          <div
-            class="section__line_gray"
-          />
         </div>
       </div>
     </div>

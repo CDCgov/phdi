@@ -1,11 +1,18 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import EcrMetadata from "../EcrMetadata";
-import { DisplayData, ReportableConditions } from "@/app/utils";
+import { DisplayDataProps, ReportableConditions } from "@/app/utils";
+import React from "react";
 
 describe("ECR Metadata", () => {
   let container: HTMLElement;
   beforeAll(() => {
+    const mockChildMethod = jest.fn();
+    jest.spyOn(React, "useRef").mockReturnValue({
+      current: {
+        childMethod: mockChildMethod,
+      },
+    });
     const rrConditionsList: ReportableConditions = {
       "Disease caused by severe acute respiratory syndrome coronavirus 2(disorder)":
         {
@@ -21,13 +28,13 @@ describe("ECR Metadata", () => {
           ]),
         },
     };
-    const eicrDetails: DisplayData[] = [
+    const eicrDetails: DisplayDataProps[] = [
       {
         title: "eICR Identifier",
         value: "1dd10047-2207-4eac-a993-0f706c88be5d",
       },
     ];
-    const ecrSenderDetails: DisplayData[] = [
+    const ecrSenderDetails: DisplayDataProps[] = [
       {
         title: "Date/Time eCR Created",
         value: "2022-05-14T12:56:38Z",
