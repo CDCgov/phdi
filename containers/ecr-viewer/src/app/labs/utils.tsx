@@ -2,7 +2,7 @@ import React from "react";
 import { Bundle, Observation, Organization, Reference } from "fhir/r4";
 import {
   PathMappings,
-  DisplayData,
+  DisplayDataProps,
   DataDisplay,
   ColumnInfoInput,
   noData,
@@ -35,7 +35,7 @@ export interface ResultObject {
 export interface LabReportElementData {
   organizationId: string;
   diagnosticReportDataElements: React.JSX.Element[];
-  organizationDisplayData: DisplayData[];
+  organizationDisplayDataProps: DisplayDataProps[];
 }
 
 /**
@@ -424,7 +424,7 @@ export const evaluateLabInfoData = (
       fhirBundle,
       mappings,
     );
-    const rrInfo: DisplayData[] = [
+    const rrInfo: DisplayDataProps[] = [
       {
         title: "Analysis Time",
         value: returnAnalysisTime(
@@ -575,13 +575,13 @@ export const combineOrgAndReportData = (
     return {
       organizationId: organizationId,
       diagnosticReportDataElements: organizationElements[key],
-      organizationDisplayData: orgData,
+      organizationDisplayDataProps: orgData,
     };
   });
 };
 
 /**
- * Finds the Orgnization that matches the id and creates a DisplayData array
+ * Finds the Orgnization that matches the id and creates a DisplayDataProps array
  * @param id - id of the organization
  * @param fhirBundle - The FHIR bundle containing lab and RR data.
  * @param mappings - An object containing the FHIR path mappings.
@@ -614,7 +614,7 @@ export const evaluateLabOrganizationData = (
 
   const contactInfo = formatPhoneNumber(matchingOrg?.telecom?.[0].value ?? "");
   const name = matchingOrg?.name ?? "";
-  const matchingOrgData: DisplayData[] = [
+  const matchingOrgData: DisplayDataProps[] = [
     { title: "Lab Performing Name", value: name },
     { title: "Lab Address", value: formattedAddress },
     { title: "Lab Contact", value: contactInfo },

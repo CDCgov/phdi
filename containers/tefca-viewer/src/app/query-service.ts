@@ -11,6 +11,7 @@ import {
   Medication,
   MedicationAdministration,
   MedicationRequest,
+  Resource,
 } from "fhir/r4";
 
 type FHIR_SERVERS = "meld" | "ehealthexchange";
@@ -129,7 +130,7 @@ function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
 async function patientQuery(
   request: UseCaseQueryRequest,
   queryResponse: QueryResponse,
-): Promise<{ responseBody: any }> {
+): Promise<void> {
   // Query for patient
   const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
   const response = await fetch(request.fhir_host + query, {
@@ -142,18 +143,13 @@ async function patientQuery(
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
 
-  const responseBody = await response.json();
-  queryResponse.patients = responseBody.entry.map(
-    (entry: any) => entry.resource,
-  );
+  queryResponse.patients = (await parseFhirSearch(response)) as Patient[];
 
-  if (responseBody.total === 0) {
+  if (queryResponse.patients.length === 0) {
     throw new Error("No patient found.");
-  } else if (responseBody.total > 1) {
+  } else if (queryResponse.patients.length > 1) {
     throw new Error("Multiple patients found. Please refine your search.");
   }
-
-  return { responseBody };
 }
 
 /**
@@ -170,8 +166,8 @@ export async function useCaseQuery(
   configureFHIRServerConnection(request);
 
   const queryResponse: QueryResponse = {};
-  const { responseBody } = await patientQuery(request, queryResponse);
-  request.patientId = responseBody.entry[0].resource.id;
+  await patientQuery(request, queryResponse);
+  request.patientId = queryResponse.patients?.[0]?.id ?? "";
 
   await useCaseQueryMap[request.use_case](request, queryResponse);
 
@@ -190,13 +186,9 @@ async function socialDeterminantsQuery(
   const query = `/Observation?subject=${request.patientId}&category=social-history`;
   const response = await fetch(request.fhir_host + query, request.init);
 
-  // Check for errors
-  if (response.status !== 200) {
-    throw new Error(`Patient search failed. Status: ${response.status}`);
-  }
-  queryResponse.observations = (await response.json()).entry.map(
-    (entry: any) => entry.resource,
-  );
+  queryResponse.observations = (await parseFhirSearch(
+    response,
+  )) as Observation[];
 }
 
 /**
@@ -227,14 +219,9 @@ async function newbornScreeningQuery(
     headers: request.headers,
     ...request.init,
   });
-
-  if (response.status !== 200) {
-    throw new Error(`Patient search failed. Status: ${response.status}`);
-  }
-
-  queryResponse.observations = (await response.json()).entry.map(
-    (entry: any) => entry.resource,
-  );
+  queryResponse.observations = (await parseFhirSearch(
+    response,
+  )) as Observation[];
 }
 
 /**
@@ -258,33 +245,28 @@ async function syphilisQuery(
     request.fhir_host + observationQuery,
     request.init,
   );
-  if (observationResponse.status === 200) {
-    queryResponse.observations = (await observationResponse.json()).entry.map(
-      (entry: any) => entry.resource,
-    );
-  }
+  queryResponse.observations = (await parseFhirSearch(
+    observationResponse,
+  )) as Observation[];
 
   const diagnositicReportQuery = `/DiagnosticReport?subject=${request.patientId}&code=${loincFilter}`;
   const diagnositicReportResponse = await fetch(
     request.fhir_host + diagnositicReportQuery,
     request.init,
   );
-  if (diagnositicReportResponse.status === 200) {
-    queryResponse.diagnosticReports = (
-      await diagnositicReportResponse.json()
-    ).entry.map((entry: any) => entry.resource);
-  }
+  queryResponse.diagnosticReports = (await parseFhirSearch(
+    diagnositicReportResponse,
+  )) as DiagnosticReport[];
 
   const conditionQuery = `/Condition?subject=${request.patientId}&code=${snomedFilter}`;
   const conditionResponse = await fetch(
     request.fhir_host + conditionQuery,
     request.init,
   );
-  if (conditionResponse.status === 200) {
-    queryResponse.conditions = (await conditionResponse.json()).entry.map(
-      (entry: any) => entry.resource,
-    );
-  }
+  queryResponse.conditions = (await parseFhirSearch(
+    conditionResponse,
+  )) as Condition[];
+
   if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
@@ -292,11 +274,9 @@ async function syphilisQuery(
       request.fhir_host + encounterQuery,
       request.init,
     );
-    if (encounterResponse.status === 200) {
-      queryResponse.encounters = (await encounterResponse.json()).entry.map(
-        (entry: any) => entry.resource,
-      );
-    }
+    queryResponse.encounters = (await parseFhirSearch(
+      encounterResponse,
+    )) as Encounter[];
   }
 
   // Query for medicationRequests
@@ -338,11 +318,9 @@ async function cancerQuery(
     request.fhir_host + conditionQuery,
     request.init,
   );
-  if (conditionResponse.status === 200) {
-    queryResponse.conditions = (await conditionResponse.json()).entry.map(
-      (entry: any) => entry.resource,
-    );
-  }
+  queryResponse.conditions = (await parseFhirSearch(
+    conditionResponse,
+  )) as Condition[];
 
   // Query for encounters
   if (queryResponse.conditions && queryResponse.conditions.length > 0) {
@@ -352,11 +330,9 @@ async function cancerQuery(
       request.fhir_host + encounterQuery,
       request.init,
     );
-    if (encounterResponse.status === 200) {
-      queryResponse.encounters = (await encounterResponse.json()).entry.map(
-        (entry: any) => entry.resource,
-      );
-    }
+    queryResponse.encounters = (await parseFhirSearch(
+      encounterResponse,
+    )) as Encounter[];
   }
 
   // Query for medications
@@ -365,17 +341,13 @@ async function cancerQuery(
     request.fhir_host + medicationsQuery,
     request.init,
   );
-  if (medicationResponse.status >= 400) {
-    throw new Error(
-      `Error querying medications. Status: ${medicationResponse.status}`,
-    );
-  }
-  const m = await medicationResponse.json();
-  queryResponse.medications = m.entry.map((entry: any) => entry.resource);
+  queryResponse.medications = (await parseFhirSearch(
+    medicationResponse,
+  )) as Medication[];
 
   // Query for medication administrations
-  const medicationsAdministered: Array<string> = m.entry.map(
-    (medication: { resource: { id: string } }) => medication.resource.id,
+  const medicationsAdministered = queryResponse.medications.map(
+    (medication) => medication.id,
   );
   const medicationFilter: string = medicationsAdministered.join(",");
   const medicationsAdminQuery = `/MedicationAdministration?subject=Patient/${request.patientId}&request=${medicationFilter}`;
@@ -383,9 +355,25 @@ async function cancerQuery(
     request.fhir_host + medicationsAdminQuery,
     request.init,
   );
-  if (medicationAdminResponse.status === 200) {
-    queryResponse.medicationAdmins = (
-      await medicationAdminResponse.json()
-    ).entry.map((entry: any) => entry.resource);
+  queryResponse.medicationAdmins = (await parseFhirSearch(
+    medicationAdminResponse,
+  )) as MedicationAdministration[];
+}
+
+/**
+ * Parse the response from a FHIR search query. If the response is successful and
+ * contains data, return an array of resources.
+ * @param response - The response from the FHIR server.
+ * @returns - The parsed response.
+ */
+async function parseFhirSearch(
+  response: fetch.Response,
+): Promise<Resource[] | []> {
+  if (response.status === 200) {
+    const body = await response.json();
+    if (body.entry) {
+      return body.entry.map((entry: any) => entry.resource);
+    }
   }
+  return [];
 }

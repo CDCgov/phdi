@@ -35,7 +35,7 @@ describe("Format Name", () => {
   });
 
   it("should return an empty string", () => {
-    const inputEmpty = [];
+    const inputEmpty: any[] = [];
     const expectedName = "";
 
     const result = formatName(inputEmpty, "", inputEmpty, inputEmpty);
