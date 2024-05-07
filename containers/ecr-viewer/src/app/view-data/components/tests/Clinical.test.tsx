@@ -158,6 +158,12 @@ describe("Snapshot test for Clinical Notes", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
   it("should match snapshot for table notes", async () => {
+    const mockChildMethod = jest.fn();
+    jest.spyOn(React, "useRef").mockReturnValue({
+      current: {
+        childMethod: mockChildMethod,
+      },
+    });
     const clinicalNotes = [
       {
         title: "Miscellaneous Notes",

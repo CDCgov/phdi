@@ -1,4 +1,4 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -36,14 +36,14 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
             : "h5";
           const labName = `Lab Results from 
                 ${truncateLabNameWholeWord(
-                  labResult.organizationDisplayData[0].value as string,
+                  labResult.organizationDisplayDataProps[0].value as string,
                 )}`;
           return (
             <div key={`${labResult.organizationId}${labIndex}`}>
               <AccordianH4 id={formatString(labName)}>{labName}</AccordianH4>
               <AccordianDiv>
-                {labResult?.organizationDisplayData?.map(
-                  (item: DisplayData, index: any) => {
+                {labResult?.organizationDisplayDataProps?.map(
+                  (item: DisplayDataProps, index: any) => {
                     if (item.value)
                       return <DataDisplay item={item} key={index} />;
                   },
