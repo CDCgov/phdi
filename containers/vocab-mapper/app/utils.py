@@ -44,12 +44,10 @@ def get_clinical_service_dict(
     :return: A nested dictionary with clinical service type as the key with
     the relevant codes and code systems as objects within.
     """
-    # Connect to the SQLite database
-    conn = sqlite3.connect("seed-scripts/ersd.db")
-    cursor = conn.cursor()
-
-    # sanitize snomeds - still doing list in event we do want 2+ snomeds
+    # sanitize snomeds - confirm only 1 snomed provided
     snomed_id = sanitize_inputs_to_list(snomed_id)
+    if len(snomed_id) > 1:
+        return print("Provide only only one SNOMED code.")
 
     # SQL query with placeholders
     sql_query = """
@@ -67,7 +65,9 @@ def get_clinical_service_dict(
         c.id IN ({})
     """.format(", ".join("?" for _ in snomed_id))
 
-    # Execute the query with parameters, then close
+    # Connect to the SQLite database, execute sql query, then close
+    conn = sqlite3.connect("seed-scripts/ersd.db")
+    cursor = conn.cursor()
     cursor.execute(sql_query, snomed_id)
     results = cursor.fetchall()
     conn.close()
