@@ -98,23 +98,6 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {aboutTheCondition.map(({ title, value }) => (
               <Display title={title} value={value} />
             ))}
-            <div className={"grid-row"}>
-              <div className={"text-bold width-full"}>
-                Clinical sections relevant to reportable condition
-              </div>
-              <div className={"padding-top-05"}>
-                No matching clinical data found in this eCR (temp)
-              </div>
-            </div>
-            <div className={"section__line"} />
-            <div className={"grid-row"}>
-              <div className={"text-bold width-full"}>
-                Lab results relevant to reportable condition
-              </div>
-              <div className={"padding-top-05"}>
-                No matching lab results found in this eCR (temp)
-              </div>
-            </div>
           </div>
         </div>
       </div>
