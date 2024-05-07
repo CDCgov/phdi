@@ -130,6 +130,10 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             }
             treatmentData={clinicalData.treatmentData.unavailableData}
             clinicalNotesData={clinicalData.clinicalNotes.unavailableData}
+            ecrMetadataUnavailableData={[
+              ...ecrMetadata.eicrDetails.unavailableData,
+              ...ecrMetadata.ecrSenderDetails.unavailableData,
+            ]}
           />
         </div>
       ),

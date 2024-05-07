@@ -1,4 +1,5 @@
 import React from "react";
+import { toolTipElement } from "@/app/utils";
 
 interface Metadata {
   [key: string]: string;
@@ -419,15 +420,19 @@ export function toSentenceCase(str: string) {
  * Adds a caption to a table element.
  * @param element - The React element representing the table.
  * @param caption - The caption text to be added.
+ * @param toolTip - Tooltip for caption
  * @returns A React element with the caption added as the first child of the table.
  */
 export const addCaptionToTable = (
   element: React.ReactNode,
-  caption: String,
+  caption: string,
+  toolTip?: string,
 ) => {
   if (React.isValidElement(element) && element.type === "table") {
     return React.cloneElement(element, {}, [
-      <caption key="caption">{caption}</caption>,
+      <caption key="caption">
+        <div className="data-title">{toolTipElement(caption, toolTip)}</div>
+      </caption>,
       ...React.Children.toArray(element.props.children),
     ]);
   }

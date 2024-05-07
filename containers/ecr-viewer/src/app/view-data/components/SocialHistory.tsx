@@ -1,4 +1,4 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -8,7 +8,7 @@ import { SectionConfig } from "./SideNav";
 import React from "react";
 
 interface SocialHistoryProps {
-  socialData: DisplayData[];
+  socialData: DisplayDataProps[];
 }
 
 export const socialHistoryConfig: SectionConfig = {
