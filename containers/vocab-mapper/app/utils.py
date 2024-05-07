@@ -26,11 +26,11 @@ def sanitize_inputs_to_list(value: Union[list, str, int, float]) -> list:
 
 
 def get_clinical_service_dict(
-    snomed_id: Union[str, int], clinical_services: list = None
+    snomed_id: Union[str, int, float], clinical_services: list = None
 ) -> dict:
     """
-    This will take a list (or list-like) of SNOMED ids and sanitize them,
-    runs a SQL query that takes those condition codes, joins them to value
+    This will take a SNOMED ID (str, int, float) and sanitize them.
+    Then it runs a SQL query to takes that condition code, joins it to value
     sets, then uses the value set ids to get the clinical service type,
     clinical service code, and clinical service system from the eRSD database.
 
