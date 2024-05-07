@@ -49,7 +49,7 @@ def get_clinical_service_dict(
     if len(snomed_id) != 1:
         return {"error": "Provide only one SNOMED code."}
 
-    # SQL query with placeholders
+    # SQL query with placeholder
     sql_query = """
     SELECT
         vs.clinical_service_type_id AS clinical_service_type,
@@ -63,7 +63,8 @@ def get_clinical_service_dict(
         clinical_services cs ON cs.value_set_id = vs.id
     WHERE
         c.id = ?
-    GROUP BY vs.clinical_service_type_id, cs.code_system
+    GROUP BY
+        vs.clinical_service_type_id, cs.code_system
     """
 
     # Connect to the SQLite database, execute sql query, then close
