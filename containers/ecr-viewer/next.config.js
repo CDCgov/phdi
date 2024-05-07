@@ -7,6 +7,9 @@ const nextConfig = {
       path.join(__dirname, "node_modules", "@uswds", "uswds", "packages"),
     ],
   },
+  experimental: {
+    instrumentationHook: true, // this needs to be here for opentelemetry
+  },
   transpilePackages: ["yaml"],
   async rewrites() {
     return [
