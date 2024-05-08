@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  vocab-mapper-service:
+  trigger-code-reference-service:
     build:
       context: ../..
     ports:
