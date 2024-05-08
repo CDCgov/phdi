@@ -179,6 +179,7 @@ export async function useCaseQuery(
  * Social Determinant of Health use case query.
  * @param request - The request object containing the patient ID.
  * @param queryResponse - The response object to store the results
+ * @returns - The response object containing the query results.
  */
 async function socialDeterminantsQuery(
   request: UseCaseQueryRequest,
@@ -196,6 +197,7 @@ async function socialDeterminantsQuery(
  * Newborn Screening use case query.
  * @param request - The request object containing the patient ID.
  * @param queryResponse - The response object to store the results
+ * @returns - The response object containing the query results.
  */
 async function newbornScreeningQuery(
   request: UseCaseQueryRequest,
@@ -231,6 +233,7 @@ async function newbornScreeningQuery(
  * Syphilis use case query.
  * @param request - The request object containing the patient ID.
  * @param queryResponse - The response object to store the results
+ * @returns - The response object containing the query results.
  */
 async function syphilisQuery(
   request: UseCaseQueryRequest,
@@ -309,6 +312,7 @@ async function syphilisQuery(
  * Cancer use case query.
  * @param request - The request object containing the patient ID.
  * @param queryResponse - The response object to store the results
+ * @returns - The response object containing the query results.
  */
 async function cancerQuery(
   request: UseCaseQueryRequest,
