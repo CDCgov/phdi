@@ -1,9 +1,5 @@
 import { evaluate as fhirPathEvaluate } from "fhirpath";
-import getUuidByString from "uuid-by-string";
 
-// let count = 0;
-// let totalTime = 0;
-// let countPath: {[key: string]: any} = {};
 let cache: { [key: string]: any } = {};
 
 /**
@@ -29,28 +25,15 @@ export const evaluate = (
     userInvocationTable?: UserInvocationTable;
   },
 ): any[] => {
-  let key = getUuidByString(
+  let key =
     JSON.stringify(fhirData) +
-      ",,,,," +
-      JSON.stringify(context) +
-      ",,,,," +
-      JSON.stringify(path),
-  );
+    ",,,,," +
+    JSON.stringify(context) +
+    ",,,,," +
+    JSON.stringify(path);
   if (cache.hasOwnProperty(key)) {
     return cache[key];
   }
-  // if(countPath[path as string]){
-  //   countPath[path as string].count++;
-  // }else{
-  //   countPath[path as string] = { count: 1, totalTime: 0 };
-  // }
-  // const start = performance.now();
   cache[key] = fhirPathEvaluate(fhirData, path, context, model, options);
-  // const evaluateTime = performance.now() - start;
-  // totalTime += evaluateTime;
-  // console.log(`path: ${path}, count: ${count++}, path time: ${evaluateTime}, totalTime: ${totalTime}` );
-  // countPath[path as string].totalTime += evaluateTime;
-  // console.log(countPath);
-  // console.log(cache);
   return cache[key];
 };
