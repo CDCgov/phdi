@@ -2,7 +2,7 @@
 
 ### Introduction
 
-The DIBBs  Trigger Code Reference (trigger-code-reference) service offers a REST API devoted to querying and enriching SNOMED condition code analysis. This service stores condition codes and their associated value sets so that they can be queried by users, as well as inserted into supplied FHIR bundles as tagged extensions for future path parsing.
+The DIBBs Trigger Code Reference (trigger-code-reference) service offers a REST API devoted to querying and enriching SNOMED condition code analysis. This service stores condition codes and their associated value sets so that they can be queried by users, as well as inserted into supplied FHIR bundles as tagged extensions for future path parsing.
 
 ### Running the Trigger Code Reference Service
 
