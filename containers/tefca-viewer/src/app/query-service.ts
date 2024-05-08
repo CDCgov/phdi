@@ -380,7 +380,6 @@ async function parseFhirSearch(
   if (response.status === 200) {
     const body = await response.json();
     if (body.entry) {
-      console.log("body.entry:", body.entry);
       for (const entry of body.entry) {
         if (resourceTypes.includes(entry.resource.resourceType)) {
           output[entry.resource.resourceType as string].push(entry.resource);
