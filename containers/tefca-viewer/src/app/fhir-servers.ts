@@ -1,4 +1,4 @@
-import { RequestInit, HeaderInit } from "node-fetch";
+import fetch, { RequestInit, HeaderInit, Response } from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
 
 /**
@@ -27,12 +27,12 @@ type FHIR_SERVER_CONFIG = {
 const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
   "HELIOS Meld: Direct": {
     hostname: "https://gw.interop.community/HeliosConnectathonSa/open/",
-    init: {},
+    init: {} as RequestInit,
   },
   "HELIOS Meld: eHealthExchange": configureEHX("Meld"),
   "JMC Meld: Direct": {
     hostname: "https://gw.interop.community/JMCHeliosSTISandbox/open/",
-    init: {},
+    init: {} as RequestInit,
   },
   "JMC Meld: eHealthExchange": configureEHX("JMCHelios"),
   "Public HAPI: eHealthExchange": configureEHX("PublicHAPI"),
@@ -68,4 +68,24 @@ function configureEHX(xdestination: string): FHIR_SERVER_CONFIG {
     hostname: "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/",
     init: init,
   };
+}
+
+/**
+ * A client for querying a FHIR server
+ * @param server The FHIR server to query
+ * @returns The client
+ */
+class FHIRClient {
+  private hostname: string;
+  private init;
+
+  constructor(server: FHIR_SERVERS) {
+    const config = fhirServers[server];
+    this.hostname = config.hostname;
+    this.init = config.init;
+  }
+
+  async get(path: string): Promise<Response> {
+    return fetch(this.hostname + path, this.init);
+  }
 }
