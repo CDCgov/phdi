@@ -97,7 +97,7 @@ export async function useCaseQuery(
   const fhirClient = new FHIRClient(request.fhir_server);
 
   const queryResponse: QueryResponse = {};
-  await patientQuery(request, queryResponse, fhirClient);
+  await patientQuery(request, fhirClient, queryResponse);
   const patientId = queryResponse.patients?.[0]?.id ?? "";
 
   await useCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
