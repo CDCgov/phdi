@@ -9,7 +9,6 @@ import {
   FhirResource,
   Organization,
 } from "fhir/r4";
-import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
 import classNames from "classnames";
 
@@ -30,6 +29,7 @@ import { evaluateTable, evaluateReference } from "./evaluate-service";
 import { Button, Table } from "@trussworks/react-uswds";
 import { CareTeamParticipant, CarePlanActivity } from "fhir/r4b";
 import { Tooltip } from "@trussworks/react-uswds";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 
 export interface DisplayDataProps {
   title?: string;

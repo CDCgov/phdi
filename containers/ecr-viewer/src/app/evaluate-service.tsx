@@ -1,10 +1,10 @@
-import { evaluate } from "fhirpath";
 import { Bundle, CodeableConcept, Element, Quantity } from "fhir/r4";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 
 interface BuildRowProps {
   mappings: PathMappings;

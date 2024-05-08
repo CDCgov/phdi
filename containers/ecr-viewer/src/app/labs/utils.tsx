@@ -12,7 +12,6 @@ import {
   evaluateTable,
   evaluateValue,
 } from "@/app/evaluate-service";
-import { evaluate } from "fhirpath";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
   formatDateTime,
@@ -23,6 +22,7 @@ import {
   TableJson,
 } from "@/app/format-service";
 import { ObservationComponent } from "fhir/r4b";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 
 export interface LabReport {
   result: Array<Reference>;

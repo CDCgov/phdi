@@ -8,7 +8,7 @@ import {
   PathMappings,
 } from "@/app/utils";
 import { formatDate } from "@/app/format-service";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 
 /**
  * Evaluates and retrieves patient details from the FHIR bundle using the provided path mappings.
