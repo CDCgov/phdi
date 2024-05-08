@@ -1,5 +1,4 @@
 "use client";
-import EcrSummary from "@/app/view-data/components/EcrSummary";
 import AccordionContainer from "@/app/view-data/components/AccordionContainer";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -9,11 +8,12 @@ import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
 import { Grid, GridContainer } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
+import EcrSummary from "./components/EcrSummary";
 import {
-  evaluateEcrSummaryAboutTheConditionDetails,
-  evaluateEcrSummaryEncounterDetails,
   evaluateEcrSummaryPatientDetails,
-} from "@/app/view-data/components/service/EcrSummaryService";
+  evaluateEcrSummaryEncounterDetails,
+  evaluateEcrSummaryAboutTheConditionDetails,
+} from "./components/services/EcrSummaryService";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";

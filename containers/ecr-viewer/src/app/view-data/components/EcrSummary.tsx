@@ -1,5 +1,5 @@
-import { DataDisplay, DisplayDataProps } from "../../../utils";
-import { SectionConfig } from "../SideNav";
+import { DataDisplay, DisplayDataProps } from "../../utils";
+import { SectionConfig } from "./SideNav";
 import React from "react";
 
 interface EcrSummaryProps {
