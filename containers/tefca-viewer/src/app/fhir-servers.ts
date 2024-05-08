@@ -1,0 +1,71 @@
+import { RequestInit, HeaderInit } from "node-fetch";
+import { v4 as uuidv4 } from "uuid";
+
+/**
+ * The FHIR servers that can be used in the app
+ */
+export type FHIR_SERVERS =
+  | "HELIOS Meld: Direct"
+  | "HELIOS Meld: eHealthExchange"
+  | "JMC Meld: Direct"
+  | "JMC Meld: eHealthExchange"
+  | "Public HAPI: eHealthExchange"
+  | "OpenEpic: eHealthExchange"
+  | "CernerHelios: eHealthExchange";
+
+/**
+ * Defines the model for a FHIR server configuration
+ */
+type FHIR_SERVER_CONFIG = {
+  hostname: string;
+  init: RequestInit;
+};
+
+/**
+ * The configurations for the FHIR servers currently supported.
+ */
+const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
+  "HELIOS Meld: Direct": {
+    hostname: "https://gw.interop.community/HeliosConnectathonSa/open/",
+    init: {},
+  },
+  "HELIOS Meld: eHealthExchange": configureEHX("Meld"),
+  "JMC Meld: Direct": {
+    hostname: "https://gw.interop.community/JMCHeliosSTISandbox/open/",
+    init: {},
+  },
+  "JMC Meld: eHealthExchange": configureEHX("JMCHelios"),
+  "Public HAPI: eHealthExchange": configureEHX("PublicHAPI"),
+  "OpenEpic: eHealthExchange": configureEHX("OpenEpic"),
+  "CernerHelios: eHealthExchange": configureEHX("CernerHelios"),
+};
+export default fhirServers;
+
+/**
+ * Configure eHealthExchange for a specific destination.
+ * @param xdestination The x-destination header value
+ * @returns The configuration for the server
+ */
+function configureEHX(xdestination: string): FHIR_SERVER_CONFIG {
+  let init: RequestInit = {
+    method: "GET",
+    headers: {
+      Accept: "application/json, application/*+json, */*",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Content-Type": "application/fhir+json; charset=UTF-8",
+      "X-DESTINATION": xdestination,
+      "X-POU": "PUBHLTH",
+      "X-Request-Id": uuidv4(),
+      prefer: "return=representation",
+      "Cache-Control": "no-cache",
+    } as HeaderInit,
+  };
+  if (xdestination === "CernerHelios" && init.headers) {
+    (init.headers as Record<string, string>)["OAUTHSCOPES"] =
+      "system/Condition.read system/Encounter.read system/Immunization.read system/MedicationRequest.read system/Observation.read system/Patient.read system/Procedure.read system/MedicationAdministration.read system/DiagnosticReport.read system/RelatedPerson.read";
+  }
+  return {
+    hostname: "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/",
+    init: init,
+  };
+}
