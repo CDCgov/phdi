@@ -1,4 +1,5 @@
 import sqlite3
+from typing import List
 from typing import Union
 
 
@@ -9,7 +10,7 @@ def sanitize_inputs_to_list(value: Union[list, str, int, float]) -> list:
     and will check if a string could potentially be a list.
     It will also remove any excess characters from the list.
 
-    :param value: String, int, float, list to check
+    :param value: string, int, float, list to check
     :return: A list free of excess whitespace
     """
     if isinstance(value, (int, float)):
@@ -26,35 +27,35 @@ def sanitize_inputs_to_list(value: Union[list, str, int, float]) -> list:
         raise ValueError("Unsupported input type for sanitation.")
 
 
-def get_clinical_service_dict(
-    snomed_id: Union[str, int, float, list], clinical_services: Union[str, list] = None
-) -> dict:
+def get_clean_snomed_code(snomed_code: Union[list, str, int, float]) -> list:
     """
-    This will take a SNOMED ID (str, int, float) and sanitize it.
-    Then it runs a SQL query to takes that condition code, joins it to value
-    sets, then uses the value set ids to get the clinical service type,
-    clinical service code, and clinical service system from the eRSD database.
+    This is a small helper function that takes a SNOMED code, sanitizes it,
+    then checks to confirm only one SNOMED code has been provided.
 
-    It will then parse that information into a dictionary for use in the
-    /get-value-sets API endpoint.
-
-    There is an optional parameter to return select clinical service type(s)
-    specified as either a string or a list.
-
-    :param snomed_id: SNOMED code to check
-    :param clinical_services: List of clinical service types to keep
-    :return: A nested dictionary with clinical service type as the key with
-    the relevant codes and code systems as objects within.
+    :param snomed_code: SNOMED code to check.
+    :return: A one-item list of a cleaned SNOMED code.
     """
-    # sanitize snomeds - confirm only 1 snomed provided
-    snomed_id = sanitize_inputs_to_list(snomed_id)
-    if len(snomed_id) != 1:
+    clean_snomed_code = sanitize_inputs_to_list(snomed_code)
+    if len(clean_snomed_code) != 1:
         return {
-            "error": f"{len(snomed_id)} SNOMED codes provided. "
+            "error": f"{len(clean_snomed_code)} SNOMED codes provided. "
             + "Provide only one SNOMED code."
         }
+    else:
+        return clean_snomed_code
 
-    # SQL query with placeholder
+
+def get_clinical_services_list(snomed_code: list) -> List[tuple]:
+    """
+    This will take a SNOMED code and runs a SQL query joins condition code,
+    joins it to value sets, then uses the value set ids to get the
+    clinical service type, clinical service codes, and clinical service system
+    from the eRSD database grouped by clinical service type and system.
+
+    :param snomed_code: SNOMED code to check
+    :return: A list of tuples with clinical service type, a delimited-string of
+    the relevant codes and code systems as objects within.
+    """
     sql_query = """
     SELECT
         vs.clinical_service_type_id AS clinical_service_type,
@@ -76,18 +77,37 @@ def get_clinical_service_dict(
     conn = sqlite3.connect("seed-scripts/ersd.db")
     cursor = conn.cursor()
     try:
-        cursor.execute(sql_query, snomed_id)
-        results = cursor.fetchall()
-        if not results:
-            return {"error": f"No data found for the SNOMED code: {snomed_id[0]}."}
+        code = get_clean_snomed_code(snomed_code)
+        cursor.execute(sql_query, code)
+        clinical_services_list = cursor.fetchall()
+        if not clinical_services_list:
+            return {"error": f"No data found for the SNOMED code: {code}."}
     except sqlite3.Error as e:
         return {"error": f"An SQL error occurred: {str(e)}"}
     finally:
         conn.close()
+    return clinical_services_list
 
+
+def get_clinical_services_dict(
+    clinical_services_list: List[tuple], clinical_services: Union[str, list] = None
+) -> dict:
+    """
+    This function parses a list of tuples containing data on clinical codes
+    into a dictionary for use in the /get-value-sets API endpoint.
+
+    There is an optional parameter to return select clinical service type(s)
+    specified as either a string or a list.
+
+    :param clinical_services_list: A list of tuples with clinical service type,
+    a delimited-string of relevant codes and code systems as objects within.
+    :param clinical_services: (Optional) List of clinical service types to keep
+    :return: A nested dictionary with clinical service type as the key, a list
+    of the relevant codes and code systems as objects within.
+    """
     # Convert to the final structured format
     clinical_service_dict = {}
-    for clinical_service_type, codes_string, system in results:
+    for clinical_service_type, codes_string, system in clinical_services_list:
         # If clinical_service_type is not yet in the dictionary, initialize
         if clinical_service_type not in clinical_service_dict:
             clinical_service_dict[clinical_service_type] = []
