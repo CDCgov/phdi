@@ -11,6 +11,7 @@ import {
 import { SectionConfig } from "./SideNav";
 import { Table } from "@trussworks/react-uswds";
 import { toolTipElement } from "@/app/utils";
+import React from "react";
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
@@ -31,7 +32,7 @@ interface ReportableConditionsList {
 
 const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
   if (!dictionary) return [];
-  const rows: JSX.Element[] = [];
+  const rows: React.JSX.Element[] = [];
   Object.entries(dictionary).forEach(([condition, triggers], _) => {
     Object.entries(triggers).forEach(([trigger, locations], triggerIndex) => {
       const locationsArray = Array.from(locations);
@@ -118,8 +119,8 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[1].title}
           </span>
         </AccordianH4>
-        {eicrDetails.map((item) => {
-          return <DataDisplay item={item} />;
+        {eicrDetails.map((item, index) => {
+          return <DataDisplay item={item} key={index} />;
         })}
         <div className={"padding-bottom-1"} />
         <AccordianH4>
@@ -127,8 +128,8 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[2].title}
           </span>
         </AccordianH4>
-        {eCRSenderDetails.map((item) => {
-          return <DataDisplay item={item} />;
+        {eCRSenderDetails.map((item, index) => {
+          return <DataDisplay item={item} key={index} />;
         })}
       </AccordianDiv>
     </AccordianSection>
