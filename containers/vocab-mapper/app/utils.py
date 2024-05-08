@@ -1,4 +1,3 @@
-import pprint
 import sqlite3
 from typing import Union
 
@@ -106,6 +105,3 @@ def get_clinical_service_dict(
         for type in remove_list:
             clinical_service_dict.pop(type, None)
     return clinical_service_dict
-
-
-pprint.pprint(get_clinical_service_dict("276197005, junk"))
