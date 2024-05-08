@@ -91,7 +91,7 @@ def get_clinical_services_list(snomed_code: list) -> List[tuple]:
 
 def get_clinical_services_dict(
     clinical_services_list: List[tuple],
-    select_clinical_services: Union[str, list] = None,
+    filter_clinical_services: Union[str, list] = None,
 ) -> dict:
     """
     This function parses a list of tuples containing data on clinical codes
@@ -102,7 +102,7 @@ def get_clinical_services_dict(
 
     :param clinical_services_list: A list of tuples with clinical service type,
     a delimited-string of relevant codes and code systems as objects within.
-    :param select_clinical_services: (Optional) List of clinical service types
+    :param filter_clinical_services: (Optional) List of clinical service types
     specified to keep. By default, all (currently) 6 clinical service types are
     returned; use this parameter to return only types of interest.
     :return: A nested dictionary with clinical service type as the key, a list
@@ -120,8 +120,8 @@ def get_clinical_services_dict(
         )
 
     # Optional: Remove clinical service types not in specified list if provided
-    if select_clinical_services:
-        clinical_services = sanitize_inputs_to_list(select_clinical_services)
+    if filter_clinical_services:
+        clinical_services = sanitize_inputs_to_list(filter_clinical_services)
         # Create a list of types to remove
         remove_list = [
             type
