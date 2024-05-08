@@ -4,7 +4,6 @@ import {
   evaluateProviderData,
   evaluateClinicalData,
   evaluateDemographicsData,
-  evaluateEcrMetadata,
   PathMappings,
 } from "../../utils";
 import { evaluateLabInfoData } from "@/app/labs/utils";
@@ -19,6 +18,7 @@ import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import LabInfo from "@/app/view-data/components/LabInfo";
 import { formatString } from "@/app/format-service";
+import { evaluateEcrMetadata } from "../services/EcrMetadataService";
 
 type AccordionContainerProps = {
   children?: ReactNode;
