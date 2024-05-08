@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { UseCaseQueryResponse, useCaseQuery } from "../query-service";
 import QueryView from "./components/QueryView";
 import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
+import { FHIR_SERVERS, fhirServers } from "../fhir-servers";
 
 /**
  * Displays the patient search form and results.
@@ -11,7 +12,7 @@ import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
 export default function PatientSearch() {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [fhirServer, setFhirServer] = useState<"meld" | "ehealthexchange">();
+  const [fhirServer, setFhirServer] = useState<FHIR_SERVERS>();
   const [phone, setPhone] = useState<string>("");
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
@@ -300,9 +301,7 @@ export default function PatientSearch() {
                     name="fhir_server"
                     value={fhirServer}
                     onChange={(event) => {
-                      setFhirServer(
-                        event.target.value as "meld" | "ehealthexchange",
-                      );
+                      setFhirServer(event.target.value as FHIR_SERVERS);
                     }}
                     required
                     defaultValue=""
@@ -310,8 +309,11 @@ export default function PatientSearch() {
                     <option value="" disabled>
                       Select FHIR Server
                     </option>
-                    <option value="meld">Meld</option>
-                    <option value="ehealthexchange">eHealth Exchange</option>
+                    {Object.keys(fhirServers).map((fhirServer: string) => (
+                      <option key={fhirServer} value={fhirServer}>
+                        {fhirServer}
+                      </option>
+                    ))}
                   </Select>
                 </div>
               </div>

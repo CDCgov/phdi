@@ -1,7 +1,5 @@
 "use server";
-import { v4 as uuidv4 } from "uuid";
-import https from "https";
-import fetch, { RequestInit } from "node-fetch";
+import fetch from "node-fetch";
 import {
   Patient,
   Observation,
@@ -12,8 +10,7 @@ import {
   MedicationAdministration,
   Resource,
 } from "fhir/r4";
-
-type FHIR_SERVERS = "meld" | "ehealthexchange";
+import FHIRClient, { FHIR_SERVERS } from "./fhir-servers";
 
 type USE_CASES =
   | "social-determinants"
@@ -21,47 +18,12 @@ type USE_CASES =
   | "syphilis"
   | "cancer";
 
-const FHIR_SERVERS: {
-  [key: string]: {
-    hostname: string;
-    username?: string;
-    password?: string;
-    headers?: { [key: string]: string };
-  };
-} = {
-  // https://gw.interop.community/skylightsandbox/open/
-  meld: { hostname: "https://gw.interop.community/HeliosConnectathonSa/open/" },
-  ehealthexchange: {
-    hostname: "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/",
-    headers: {
-      Accept: "application/json, application/*+json, */*",
-      "Accept-Encoding": "gzip, deflate, br",
-      "Content-Type": "application/fhir+json; charset=UTF-8",
-      "X-DESTINATION": "CernerHelios",
-      "X-POU": "PUBHLTH",
-      "X-Request-Id": uuidv4(),
-      prefer: "return=representation",
-      "Cache-Control": "no-cache",
-      OAUTHSCOPES:
-        "system/Condition.read system/Encounter.read system/" +
-        "Immunization.read system/MedicationRequest.read system/" +
-        "Observation.read system/Patient.read system/Procedure" +
-        ".read system/MedicationAdministration.read system/" +
-        "DiagnosticReport.read system/RelatedPerson.read",
-    },
-  },
-};
-
 type UseCaseQueryRequest = {
   use_case: USE_CASES;
   fhir_server: FHIR_SERVERS;
   first_name: string;
   last_name: string;
   dob: string;
-  fhir_host?: string;
-  init?: RequestInit;
-  headers?: { [key: string]: string };
-  patientId?: string;
 };
 
 type QueryResponse = {
@@ -76,7 +38,8 @@ type QueryResponse = {
 
 const useCaseQueryMap: {
   [key in USE_CASES]: (
-    input: UseCaseQueryRequest,
+    patientId: string,
+    fhirClient: FHIRClient,
     queryResponse: QueryResponse,
   ) => Promise<void>;
 } = {
@@ -90,55 +53,27 @@ const useCaseQueryMap: {
 export type UseCaseQueryResponse = Awaited<ReturnType<typeof useCaseQuery>>;
 
 /**
- * Given a UseCaseQueryRequest object, set the appropriate FHIR server connection
- * configurations.
- * @param request - The request object to configure.
- */
-function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
-  request.fhir_host = FHIR_SERVERS[request.fhir_server].hostname;
-  request.headers = FHIR_SERVERS[request.fhir_server].headers || {};
-
-  // Set up init object for eHealth Exchange
-  request.init = {};
-
-  // Add username to headers if it exists in input.fhir_server
-  if (
-    FHIR_SERVERS[request.fhir_server].username &&
-    FHIR_SERVERS[request.fhir_server].password
-  ) {
-    const credentials = btoa(
-      `${FHIR_SERVERS[request.fhir_server].username}:${
-        FHIR_SERVERS[request.fhir_server].password || ""
-      }`,
-    );
-    request.headers.Authorization = `Basic ${credentials}`;
-    request.init.agent = new https.Agent({
-      rejectUnauthorized: false,
-    });
-  }
-}
-
-/**
  * Query a FHIR server for a patient based on demographics provided in the request. If
  * a patient is found, store in the queryResponse object.
  * @param request - The request object containing the patient demographics.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the patient.
  * @returns - The response body from the FHIR server.
  */
 async function patientQuery(
   request: UseCaseQueryRequest,
+  fhirClient: FHIRClient,
   queryResponse: QueryResponse,
 ): Promise<void> {
   // Query for patient
   const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
-  const response = await fetch(request.fhir_host + query, {
-    headers: request.headers,
-    ...request.init,
-  });
+  const response = await fhirClient.get(query);
 
   // Check for errors
   if (response.status !== 200) {
-    throw new Error(`Patient search failed. Status: ${response.status}`);
+    throw new Error(
+      `Patient search failed. Status: ${response.status} \n ${await response.text()} \n Headers: ${JSON.stringify(response.headers.raw())}`,
+    );
   }
 
   queryResponse.patients = (await parseFhirSearch(response)) as Patient[];
@@ -159,30 +94,30 @@ async function patientQuery(
 export async function useCaseQuery(
   request: UseCaseQueryRequest,
 ): Promise<QueryResponse> {
-  console.log("input:", request);
-
-  configureFHIRServerConnection(request);
+  const fhirClient = new FHIRClient(request.fhir_server);
 
   const queryResponse: QueryResponse = {};
-  await patientQuery(request, queryResponse);
-  request.patientId = queryResponse.patients?.[0]?.id ?? "";
+  await patientQuery(request, fhirClient, queryResponse);
+  const patientId = queryResponse.patients?.[0]?.id ?? "";
 
-  await useCaseQueryMap[request.use_case](request, queryResponse);
+  await useCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
 
   return queryResponse;
 }
 
 /**
  * Social Determinant of Health use case query.
- * @param request - The request object containing the patient ID.
+ * @param patientId - The ID of the patient to query.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the results
  */
 async function socialDeterminantsQuery(
-  request: UseCaseQueryRequest,
+  patientId: string,
+  fhirClient: FHIRClient,
   queryResponse: QueryResponse,
 ): Promise<void> {
-  const query = `/Observation?subject=${request.patientId}&category=social-history`;
-  const response = await fetch(request.fhir_host + query, request.init);
+  const query = `/Observation?subject=${patientId}&category=social-history`;
+  const response = await fhirClient.get(query);
 
   queryResponse.observations = (await parseFhirSearch(
     response,
@@ -191,11 +126,13 @@ async function socialDeterminantsQuery(
 
 /**
  * Newborn Screening use case query.
- * @param request - The request object containing the patient ID.
+ * @param patientId - The ID of the patient to query.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the results
  */
 async function newbornScreeningQuery(
-  request: UseCaseQueryRequest,
+  patientId: string,
+  fhirClient: FHIRClient,
   queryResponse: QueryResponse,
 ): Promise<void> {
   const loincs: Array<string> = [
@@ -212,11 +149,8 @@ async function newbornScreeningQuery(
   ];
   const loincFilter: string = "code=" + loincs.join(",");
 
-  const query = `/Observation?subject=Patient/${request.patientId}&code=${loincFilter}`;
-  const response = await fetch(request.fhir_host + query, {
-    headers: request.headers,
-    ...request.init,
-  });
+  const query = `/Observation?subject=Patient/${patientId}&code=${loincFilter}`;
+  const response = await fhirClient.get(query);
   queryResponse.observations = (await parseFhirSearch(
     response,
   )) as Observation[];
@@ -224,11 +158,13 @@ async function newbornScreeningQuery(
 
 /**
  * Syphilis use case query.
- * @param request - The request object containing the patient ID.
+ * @param patientId - The ID of the patient to query.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the results
  */
 async function syphilisQuery(
-  request: UseCaseQueryRequest,
+  patientId: string,
+  fhirClient: FHIRClient,
   queryResponse: QueryResponse,
 ): Promise<void> {
   const loincs: Array<string> = ["LP70657-9", "98212-4"];
@@ -236,40 +172,30 @@ async function syphilisQuery(
   const loincFilter: string = loincs.join(",");
   const snomedFilter: string = snomed.join(",");
 
-  const observationQuery = `/Observation?subject=${request.patientId}&code=${loincFilter}`;
-  const observationResponse = await fetch(
-    request.fhir_host + observationQuery,
-    request.init,
-  );
+  const observationQuery = `/Observation?subject=${patientId}&code=${loincFilter}`;
+  const observationResponse = await fhirClient.get(observationQuery);
   queryResponse.observations = (await parseFhirSearch(
     observationResponse,
   )) as Observation[];
 
-  const diagnositicReportQuery = `/DiagnosticReport?subject=${request.patientId}&code=${loincFilter}`;
-  const diagnositicReportResponse = await fetch(
-    request.fhir_host + diagnositicReportQuery,
-    request.init,
+  const diagnositicReportQuery = `/DiagnosticReport?subject=${patientId}&code=${loincFilter}`;
+  const diagnositicReportResponse = await fhirClient.get(
+    diagnositicReportQuery,
   );
   queryResponse.diagnosticReports = (await parseFhirSearch(
     diagnositicReportResponse,
   )) as DiagnosticReport[];
 
-  const conditionQuery = `/Condition?subject=${request.patientId}&code=${snomedFilter}`;
-  const conditionResponse = await fetch(
-    request.fhir_host + conditionQuery,
-    request.init,
-  );
+  const conditionQuery = `/Condition?subject=${patientId}&code=${snomedFilter}`;
+  const conditionResponse = await fhirClient.get(conditionQuery);
   queryResponse.conditions = (await parseFhirSearch(
     conditionResponse,
   )) as Condition[];
 
   if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
-    const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
-    const encounterResponse = await fetch(
-      request.fhir_host + encounterQuery,
-      request.init,
-    );
+    const encounterQuery = `/Encounter?subject=${patientId}&reason-reference=${conditionId}`;
+    const encounterResponse = await fhirClient.get(encounterQuery);
     queryResponse.encounters = (await parseFhirSearch(
       encounterResponse,
     )) as Encounter[];
@@ -278,11 +204,13 @@ async function syphilisQuery(
 
 /**
  * Cancer use case query.
- * @param request - The request object containing the patient ID.
+ * @param patientId - The ID of the patient to query.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the results
  */
 async function cancerQuery(
-  request: UseCaseQueryRequest,
+  patientId: string,
+  fhirClient: FHIRClient,
   queryResponse: QueryResponse,
 ): Promise<void> {
   const snomed: Array<string> = ["92814006"];
@@ -293,11 +221,8 @@ async function cancerQuery(
   const cptFilter: string = cpt.join(",");
 
   // Query for conditions
-  const conditionQuery = `/Condition?subject=${request.patientId}&code=${snomedFilter}`;
-  const conditionResponse = await fetch(
-    request.fhir_host + conditionQuery,
-    request.init,
-  );
+  const conditionQuery = `/Condition?subject=${patientId}&code=${snomedFilter}`;
+  const conditionResponse = await fhirClient.get(conditionQuery);
   queryResponse.conditions = (await parseFhirSearch(
     conditionResponse,
   )) as Condition[];
@@ -305,11 +230,8 @@ async function cancerQuery(
   // Query for encounters
   if (queryResponse.conditions && queryResponse.conditions.length > 0) {
     const conditionId = queryResponse.conditions[0].id;
-    const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
-    const encounterResponse = await fetch(
-      request.fhir_host + encounterQuery,
-      request.init,
-    );
+    const encounterQuery = `/Encounter?subject=${patientId}&reason-reference=${conditionId}`;
+    const encounterResponse = await fhirClient.get(encounterQuery);
     queryResponse.encounters = (await parseFhirSearch(
       encounterResponse,
     )) as Encounter[];
@@ -320,11 +242,8 @@ async function cancerQuery(
   //   entry: Record<string, unknown>[];
   // } & Record<string, unknown>;
 
-  const medicationsQuery = `/MedicationRequest?subject=Patient/${request.patientId}&code=${rxnormFilter}`;
-  const medicationResponse = await fetch(
-    request.fhir_host + medicationsQuery,
-    request.init,
-  );
+  const medicationsQuery = `/MedicationRequest?subject=Patient/${patientId}&code=${rxnormFilter}`;
+  const medicationResponse = await fhirClient.get(medicationsQuery);
   queryResponse.medications = (await parseFhirSearch(
     medicationResponse,
   )) as Medication[];
@@ -334,11 +253,8 @@ async function cancerQuery(
     (medication) => medication.id,
   );
   const medicationFilter: string = medicationsAdministered.join(",");
-  const medicationsAdminQuery = `/MedicationAdministration?subject=Patient/${request.patientId}&request=${medicationFilter}`;
-  const medicationAdminResponse = await fetch(
-    request.fhir_host + medicationsAdminQuery,
-    request.init,
-  );
+  const medicationsAdminQuery = `/MedicationAdministration?subject=Patient/${patientId}&request=${medicationFilter}`;
+  const medicationAdminResponse = await fhirClient.get(medicationsAdminQuery);
   queryResponse.medicationAdmins = (await parseFhirSearch(
     medicationAdminResponse,
   )) as MedicationAdministration[];
