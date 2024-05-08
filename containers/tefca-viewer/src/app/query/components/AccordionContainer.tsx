@@ -31,19 +31,19 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const accordionItems: any[] = [];
 
   const patient =
-    queryResponse.patients && queryResponse.patients.length === 1
-      ? queryResponse.patients[0]
+    queryResponse.Patient && queryResponse.Patient.length === 1
+      ? queryResponse.Patient[0]
       : null;
-  const observations = queryResponse.observations
-    ? queryResponse.observations
+  const observations = queryResponse.Observation
+    ? queryResponse.Observation
     : null;
-  const encounters = queryResponse.encounters ? queryResponse.encounters : null;
-  const conditions = queryResponse.conditions ? queryResponse.conditions : null;
-  const diagnosticReports = queryResponse.diagnosticReports
-    ? queryResponse.diagnosticReports
+  const encounters = queryResponse.Encounter ? queryResponse.Encounter : null;
+  const conditions = queryResponse.Condition ? queryResponse.Condition : null;
+  const diagnosticReports = queryResponse.DiagnosticReport
+    ? queryResponse.DiagnosticReport
     : null;
-  const medicationRequests = queryResponse.medicationRequests
-    ? queryResponse.medicationRequests
+  const medicationRequests = queryResponse.MedicationRequest
+    ? queryResponse.MedicationRequest
     : null;
 
   if (patient) {

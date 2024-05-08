@@ -66,21 +66,21 @@ type UseCaseQueryRequest = {
 };
 
 type QueryResponse = {
-  patients?: Patient[];
-  observations?: Observation[];
-  diagnosticReports?: DiagnosticReport[];
-  conditions?: Condition[];
-  encounters?: Encounter[];
-  medications?: Medication[];
-  medicationAdmins?: MedicationAdministration[];
-  medicationRequests?: MedicationRequest[];
+  Patient?: Patient[];
+  Observation?: Observation[];
+  DiagnosticReport?: DiagnosticReport[];
+  Condition?: Condition[];
+  Encounter?: Encounter[];
+  Medication?: Medication[];
+  MedicationAdministration?: MedicationAdministration[];
+  MedicationRequest?: MedicationRequest[];
 };
 
 const useCaseQueryMap: {
   [key in USE_CASES]: (
     input: UseCaseQueryRequest,
     queryResponse: QueryResponse,
-  ) => Promise<void>;
+  ) => Promise<QueryResponse>;
 } = {
   "social-determinants": socialDeterminantsQuery,
   "newborn-screening": newbornScreeningQuery,
@@ -130,7 +130,7 @@ function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
 async function patientQuery(
   request: UseCaseQueryRequest,
   queryResponse: QueryResponse,
-): Promise<void> {
+): Promise<QueryResponse> {
   // Query for patient
   const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
   const response = await fetch(request.fhir_host + query, {
@@ -142,14 +142,18 @@ async function patientQuery(
   if (response.status !== 200) {
     throw new Error(`Patient search failed. Status: ${response.status}`);
   }
+  queryResponse = {
+    ...queryResponse,
+    ...(await parseFhirSearch(response, ["Patient"])),
+  };
 
-  queryResponse.patients = (await parseFhirSearch(response)) as Patient[];
-
-  if (queryResponse.patients.length === 0) {
+  if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
     throw new Error("No patient found.");
-  } else if (queryResponse.patients.length > 1) {
+  } else if (queryResponse.Patient.length > 1) {
     throw new Error("Multiple patients found. Please refine your search.");
   }
+
+  return queryResponse;
 }
 
 /**
@@ -165,13 +169,10 @@ export async function useCaseQuery(
 
   configureFHIRServerConnection(request);
 
-  const queryResponse: QueryResponse = {};
-  await patientQuery(request, queryResponse);
-  request.patientId = queryResponse.patients?.[0]?.id ?? "";
+  const queryResponse = await patientQuery(request, {});
+  request.patientId = queryResponse.Patient?.[0]?.id ?? "";
 
-  await useCaseQueryMap[request.use_case](request, queryResponse);
-
-  return queryResponse;
+  return await useCaseQueryMap[request.use_case](request, queryResponse);
 }
 
 /**
@@ -182,13 +183,13 @@ export async function useCaseQuery(
 async function socialDeterminantsQuery(
   request: UseCaseQueryRequest,
   queryResponse: QueryResponse,
-): Promise<void> {
+): Promise<QueryResponse> {
   const query = `/Observation?subject=${request.patientId}&category=social-history`;
   const response = await fetch(request.fhir_host + query, request.init);
-
-  queryResponse.observations = (await parseFhirSearch(
-    response,
-  )) as Observation[];
+  return {
+    ...queryResponse,
+    ...(await parseFhirSearch(response, ["Observation"])),
+  };
 }
 
 /**
@@ -199,7 +200,7 @@ async function socialDeterminantsQuery(
 async function newbornScreeningQuery(
   request: UseCaseQueryRequest,
   queryResponse: QueryResponse,
-): Promise<void> {
+): Promise<QueryResponse> {
   const loincs: Array<string> = [
     "73700-7",
     "73698-3",
@@ -219,9 +220,11 @@ async function newbornScreeningQuery(
     headers: request.headers,
     ...request.init,
   });
-  queryResponse.observations = (await parseFhirSearch(
-    response,
-  )) as Observation[];
+
+  return {
+    ...queryResponse,
+    ...(await parseFhirSearch(response, ["Observation"])),
+  };
 }
 
 /**
@@ -232,7 +235,7 @@ async function newbornScreeningQuery(
 async function syphilisQuery(
   request: UseCaseQueryRequest,
   queryResponse: QueryResponse,
-): Promise<void> {
+): Promise<QueryResponse> {
   const loincs: Array<string> = ["LP70657-9", "98212-4"];
   const snomed: Array<string> = ["76272004"];
   const rxnorm: Array<string> = ["2671695"]; // drug codes from NLM/NIH RxNorm
@@ -245,55 +248,46 @@ async function syphilisQuery(
     request.fhir_host + observationQuery,
     request.init,
   );
-  queryResponse.observations = (await parseFhirSearch(
-    observationResponse,
-  )) as Observation[];
+  queryResponse = {
+    ...queryResponse,
+    ...(await parseFhirSearch(observationResponse, ["Observation"])),
+  };
 
   const diagnositicReportQuery = `/DiagnosticReport?subject=${request.patientId}&code=${loincFilter}`;
   const diagnositicReportResponse = await fetch(
     request.fhir_host + diagnositicReportQuery,
     request.init,
   );
-  queryResponse.diagnosticReports = (await parseFhirSearch(
-    diagnositicReportResponse,
-  )) as DiagnosticReport[];
+  queryResponse = {
+    ...queryResponse,
+    ...(await parseFhirSearch(diagnositicReportResponse, ["DiagnosticReport"])),
+  };
 
+  // Query for conditions and encounters
   const conditionQuery = `/Condition?subject=${request.patientId}&code=${snomedFilter}`;
   const conditionResponse = await fetch(
     request.fhir_host + conditionQuery,
     request.init,
   );
-  queryResponse.conditions = (await parseFhirSearch(
-    conditionResponse,
-  )) as Condition[];
+  const conditions = await parseFhirSearch(conditionResponse, ["Condition"]);
+  return {
+    ...queryResponse,
+    ...conditions,
+  };
 
-  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
-    const conditionId = queryResponse.conditions[0].id;
-    const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
-    const encounterResponse = await fetch(
-      request.fhir_host + encounterQuery,
-      request.init,
-    );
-    queryResponse.encounters = (await parseFhirSearch(
-      encounterResponse,
-    )) as Encounter[];
-  }
-
-  // Query for medicationRequests
-  const medicationsQuery = `/MedicationRequest?subject=Patient/${request.patientId}&code=${rxnormFilter}`;
-  const medicationResponse = await fetch(
-    request.fhir_host + medicationsQuery,
-    request.init,
-  );
-  if (medicationResponse.status >= 400) {
-    throw new Error(
-      `Error querying medications. Status: ${medicationResponse.status}`,
-    );
-  }
-  const m = await medicationResponse.json();
-  queryResponse.medicationRequests = m.entry.map(
-    (entry: any) => entry.resource,
-  );
+  // // Query for medicationRequests
+  // const medicationsQuery = `/MedicationRequest?subject=Patient/${request.patientId}&code=${rxnormFilter}`;
+  // const medicationResponse = await fetch(
+  //   request.fhir_host + medicationsQuery,
+  //   request.init
+  // );
+  // if (medicationResponse.status >= 400) {
+  //   throw new Error(
+  //     `Error querying medications. Status: ${medicationResponse.status}`
+  //   );
+  // }
+  // const m = await medicationResponse.json();
+  // queryResponse.MedicationRequest = m.entry.map((entry: any) => entry.resource);
 }
 
 /**
@@ -304,7 +298,7 @@ async function syphilisQuery(
 async function cancerQuery(
   request: UseCaseQueryRequest,
   queryResponse: QueryResponse,
-): Promise<void> {
+): Promise<QueryResponse> {
   const snomed: Array<string> = ["92814006"];
   const rxnorm: Array<string> = ["828265"]; // drug codes from NLM/NIH RxNorm
   const cpt: Array<string> = ["15301000"]; // encounter codes from AMA CPT
@@ -318,62 +312,65 @@ async function cancerQuery(
     request.fhir_host + conditionQuery,
     request.init,
   );
-  queryResponse.conditions = (await parseFhirSearch(
-    conditionResponse,
-  )) as Condition[];
+  queryResponse = {
+    ...queryResponse,
+    ...(await parseFhirSearch(conditionResponse, ["Condition"])),
+  };
 
   // Query for encounters
-  if (queryResponse.conditions && queryResponse.conditions.length > 0) {
-    const conditionId = queryResponse.conditions[0].id;
+  if (queryResponse.Condition && queryResponse.Condition.length > 0) {
+    const conditionId = queryResponse.Condition[0].id;
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
       request.fhir_host + encounterQuery,
       request.init,
     );
-    queryResponse.encounters = (await parseFhirSearch(
-      encounterResponse,
-    )) as Encounter[];
+    queryResponse = {
+      ...queryResponse,
+      ...(await parseFhirSearch(encounterResponse, ["Encounter"])),
+    };
   }
 
-  // Query for medications
-  const medicationsQuery = `/MedicationRequest?subject=Patient/${request.patientId}&code=${rxnormFilter}`;
-  const medicationResponse = await fetch(
-    request.fhir_host + medicationsQuery,
+  const medicationRequestQuery = `/MedicationRequest?subject=${request.patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
+  const medicationRequestResponse = await fetch(
+    request.fhir_host + medicationRequestQuery,
     request.init,
   );
-  queryResponse.medications = (await parseFhirSearch(
-    medicationResponse,
-  )) as Medication[];
-
-  // Query for medication administrations
-  const medicationsAdministered = queryResponse.medications.map(
-    (medication) => medication.id,
-  );
-  const medicationFilter: string = medicationsAdministered.join(",");
-  const medicationsAdminQuery = `/MedicationAdministration?subject=Patient/${request.patientId}&request=${medicationFilter}`;
-  const medicationAdminResponse = await fetch(
-    request.fhir_host + medicationsAdminQuery,
-    request.init,
-  );
-  queryResponse.medicationAdmins = (await parseFhirSearch(
-    medicationAdminResponse,
-  )) as MedicationAdministration[];
+  return {
+    ...queryResponse,
+    ...(await parseFhirSearch(medicationRequestResponse, [
+      "MedicationRequest",
+      "Medication",
+      "MedicationAdministration",
+    ])),
+  };
 }
 
 /**
  * Parse the response from a FHIR search query. If the response is successful and
  * contains data, return an array of resources.
  * @param response - The response from the FHIR server.
+ * @param resourceTypes - The type of resource to parse.
  * @returns - The parsed response.
  */
 async function parseFhirSearch(
   response: fetch.Response,
-): Promise<Resource[] | []> {
+  resourceTypes: Array<string>,
+): Promise<Record<string, Resource[]>> {
+  const output: Record<string, Resource[]> = {};
+  for (const rt of resourceTypes) {
+    output[rt] = [];
+  }
   if (response.status === 200) {
     const body = await response.json();
     if (body.entry) {
-      return body.entry.map((entry: any) => entry.resource);
+      console.log("body.entry:", body.entry);
+      for (const entry of body.entry) {
+        if (resourceTypes.includes(entry.resource.resourceType)) {
+          output[entry.resource.resourceType as string].push(entry.resource);
+        }
+      }
     }
   }
-  return [];
+  return output;
 }
