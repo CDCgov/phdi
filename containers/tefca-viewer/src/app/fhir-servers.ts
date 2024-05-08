@@ -24,7 +24,7 @@ type FHIR_SERVER_CONFIG = {
 /**
  * The configurations for the FHIR servers currently supported.
  */
-const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
+export const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
   "HELIOS Meld: Direct": {
     hostname: "https://gw.interop.community/HeliosConnectathonSa/open/",
     init: {} as RequestInit,
@@ -39,7 +39,6 @@ const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
   "OpenEpic: eHealthExchange": configureEHX("OpenEpic"),
   "CernerHelios: eHealthExchange": configureEHX("CernerHelios"),
 };
-export default fhirServers;
 
 /**
  * Configure eHealthExchange for a specific destination.
@@ -89,3 +88,5 @@ class FHIRClient {
     return fetch(this.hostname + path, this.init);
   }
 }
+
+export default FHIRClient;

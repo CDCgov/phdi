@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { UseCaseQueryResponse, useCaseQuery } from "../query-service";
 import QueryView from "./components/QueryView";
 import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
-import fhirServers, { FHIR_SERVERS } from "../fhir-servers";
+import { FHIR_SERVERS, fhirServers } from "../fhir-servers";
 
 /**
  * Displays the patient search form and results.
