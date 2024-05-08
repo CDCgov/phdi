@@ -48,7 +48,10 @@ def get_clinical_service_dict(
     # sanitize snomeds - confirm only 1 snomed provided
     snomed_id = sanitize_inputs_to_list(snomed_id)
     if len(snomed_id) != 1:
-        return {"error": "Provide only one SNOMED code."}
+        return {
+            "error": f"{len(snomed_id)} SNOMED codes provided. "
+            + "Provide only one SNOMED code."
+        }
 
     # SQL query with placeholder
     sql_query = """
@@ -72,10 +75,10 @@ def get_clinical_service_dict(
     conn = sqlite3.connect("seed-scripts/ersd.db")
     cursor = conn.cursor()
     try:
-        cursor.execute(sql_query, (snomed_id[0],))
+        cursor.execute(sql_query, snomed_id)
         results = cursor.fetchall()
         if not results:
-            return {"error": "No data found for the provided SNOMED code."}
+            return {"error": f"No data found for the SNOMED code: {snomed_id[0]}."}
     except sqlite3.Error as e:
         return {"error": f"An SQL error occurred: {str(e)}"}
     finally:

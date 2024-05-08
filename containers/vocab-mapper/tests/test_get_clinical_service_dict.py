@@ -47,10 +47,10 @@ def test_get_clinical_service_dict_with_clinical_service_paramater(mock_db):
 
 # Test handling no results found for an invalid SNOMED ID
 def test_get_clinical_service_dict_no_results(mock_db):
-    snomed_id = "junk"
+    snomed_id = "junk_id"
     mock_db.fetchall.return_value = []
     result = get_clinical_service_dict(snomed_id)
-    assert result == {"error": "No data found for the provided SNOMED code."}
+    assert result == {"error": "No data found for the SNOMED code: junk_id."}
 
 
 # Test SQL error handling
@@ -66,4 +66,6 @@ def test_get_clinical_service_dict_sql_error(mock_db):
 def test_get_clinical_service_dict_invalid_input():
     snomed_id = "276197005, 789012"
     result = get_clinical_service_dict(snomed_id)
-    assert result == {"error": "Provide only one SNOMED code."}
+    assert result == {
+        "error": "2 SNOMED codes provided. " + "Provide only one SNOMED code."
+    }
