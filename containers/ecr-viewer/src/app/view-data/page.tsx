@@ -13,7 +13,7 @@ import {
   evaluateEcrSummaryPatientDetails,
   evaluateEcrSummaryEncounterDetails,
   evaluateEcrSummaryAboutTheConditionDetails,
-} from "./components/services/EcrSummaryService";
+} from "./services/EcrSummaryService";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
