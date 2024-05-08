@@ -27,7 +27,7 @@ def sanitize_inputs_to_list(value: Union[list, str, int, float]) -> list:
 
 
 def get_clinical_service_dict(
-    snomed_id: Union[str, int, float], clinical_services: list = None
+    snomed_id: Union[str, int, float, list], clinical_services: Union[str, list] = None
 ) -> dict:
     """
     This will take a SNOMED ID (str, int, float) and sanitize it.
@@ -38,7 +38,8 @@ def get_clinical_service_dict(
     It will then parse that information into a dictionary for use in the
     /get-value-sets API endpoint.
 
-    There is an optional parameter to return select clinical service type(s).
+    There is an optional parameter to return select clinical service type(s)
+    specified as either a string or a list.
 
     :param snomed_id: SNOMED code to check
     :param clinical_services: List of clinical service types to keep
