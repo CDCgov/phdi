@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import fs from "fs";
-import YAML from "yaml";
+import YAML from "yaml"; // Add this import statement
+
 import { returnProblemsTable } from "@/app/utils";
 import { Bundle, Condition } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";

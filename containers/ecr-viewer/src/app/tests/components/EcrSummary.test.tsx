@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import EcrSummary from "../EcrSummary";
+import EcrSummary from "../../view-data/components/EcrSummary";
 
 describe("EcrSummary", () => {
   let container: HTMLElement;
