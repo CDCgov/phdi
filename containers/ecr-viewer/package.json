@@ -32,8 +32,7 @@
     "next": "14.0.3",
     "pg-promise": "^11.6.0",
     "react": "^18",
-    "react-dom": "^18",
-    "uuid-by-string": "^4.0.0"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",
