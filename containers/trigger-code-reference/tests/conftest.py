@@ -56,17 +56,19 @@ def setup(request):
     print("Setting up tests...")
     compose_path = os.path.join(os.path.dirname(__file__), "./integration/")
     compose_file_name = "docker-compose.yaml"
-    vocab_mapper = DockerCompose(compose_path, compose_file_name=compose_file_name)
+    trigger_code_reference = DockerCompose(
+        compose_path, compose_file_name=compose_file_name
+    )
     parser_url = "http://0.0.0.0:8080"
 
-    vocab_mapper.start()
-    vocab_mapper.wait_for(parser_url)
-    print("Vocabulary Mapper ready to test!")
+    trigger_code_reference.start()
+    trigger_code_reference.wait_for(parser_url)
+    print("Trigger Code Reference ready to test!")
 
     def teardown():
         print("Service logs...\n")
-        print(vocab_mapper.get_logs())
+        print(trigger_code_reference.get_logs())
         print("Tests finished! Tearing down.")
-        vocab_mapper.stop()
+        trigger_code_reference.stop()
 
     request.addfinalizer(teardown)

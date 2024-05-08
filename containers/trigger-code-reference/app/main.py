@@ -7,8 +7,8 @@ from app.models import InsertConditionInput
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
-    service_name="Vocabulary Mapper",
-    service_path="/vocab-mapper",
+    service_name="Trigger Code Reference",
+    service_path="/trigger-code-reference",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
@@ -17,7 +17,7 @@ app = BaseService(
 async def health_check():
     """
     Check service status. If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the mapper service is available and running
+    '{"status": "OK"}' then the reference service is available and running
     properly.
     """
     return {"status": "OK"}
