@@ -79,7 +79,7 @@ type QueryResponse = {
 const useCaseQueryMap: {
   [key in USE_CASES]: (
     input: UseCaseQueryRequest,
-    queryResponse: QueryResponse
+    queryResponse: QueryResponse,
   ) => Promise<QueryResponse>;
 } = {
   "social-determinants": socialDeterminantsQuery,
@@ -111,7 +111,7 @@ function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
     const credentials = btoa(
       `${FHIR_SERVERS[request.fhir_server].username}:${
         FHIR_SERVERS[request.fhir_server].password || ""
-      }`
+      }`,
     );
     request.headers.Authorization = `Basic ${credentials}`;
     request.init.agent = new https.Agent({
@@ -129,7 +129,7 @@ function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
  */
 async function patientQuery(
   request: UseCaseQueryRequest,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
   // Query for patient
   const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
@@ -163,7 +163,7 @@ async function patientQuery(
  * @returns - The response object containing the query results.
  */
 export async function useCaseQuery(
-  request: UseCaseQueryRequest
+  request: UseCaseQueryRequest,
 ): Promise<QueryResponse> {
   console.log("input:", request);
 
@@ -182,7 +182,7 @@ export async function useCaseQuery(
  */
 async function socialDeterminantsQuery(
   request: UseCaseQueryRequest,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
   const query = `/Observation?subject=${request.patientId}&category=social-history`;
   const response = await fetch(request.fhir_host + query, request.init);
@@ -199,7 +199,7 @@ async function socialDeterminantsQuery(
  */
 async function newbornScreeningQuery(
   request: UseCaseQueryRequest,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
   const loincs: Array<string> = [
     "73700-7",
@@ -234,7 +234,7 @@ async function newbornScreeningQuery(
  */
 async function syphilisQuery(
   request: UseCaseQueryRequest,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
   const loincs: Array<string> = ["LP70657-9", "98212-4"];
   const snomed: Array<string> = ["76272004"];
@@ -246,7 +246,7 @@ async function syphilisQuery(
   const observationQuery = `/Observation?subject=${request.patientId}&code=${loincFilter}`;
   const observationResponse = await fetch(
     request.fhir_host + observationQuery,
-    request.init
+    request.init,
   );
   queryResponse = {
     ...queryResponse,
@@ -256,7 +256,7 @@ async function syphilisQuery(
   const diagnositicReportQuery = `/DiagnosticReport?subject=${request.patientId}&code=${loincFilter}`;
   const diagnositicReportResponse = await fetch(
     request.fhir_host + diagnositicReportQuery,
-    request.init
+    request.init,
   );
   queryResponse = {
     ...queryResponse,
@@ -267,7 +267,7 @@ async function syphilisQuery(
   const conditionQuery = `/Condition?subject=${request.patientId}&code=${snomedFilter}`;
   const conditionResponse = await fetch(
     request.fhir_host + conditionQuery,
-    request.init
+    request.init,
   );
   const conditions = await parseFhirSearch(conditionResponse, ["Condition"]);
   queryResponse = {
@@ -281,7 +281,7 @@ async function syphilisQuery(
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
       request.fhir_host + encounterQuery,
-      request.init
+      request.init,
     );
 
     queryResponse = {
@@ -293,7 +293,7 @@ async function syphilisQuery(
   const medicationRequestQuery = `/MedicationRequest?subject=${request.patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
   const medicationRequestResponse = await fetch(
     request.fhir_host + medicationRequestQuery,
-    request.init
+    request.init,
   );
   return {
     ...queryResponse,
@@ -312,7 +312,7 @@ async function syphilisQuery(
  */
 async function cancerQuery(
   request: UseCaseQueryRequest,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
   const snomed: Array<string> = ["92814006"];
   const rxnorm: Array<string> = ["828265"]; // drug codes from NLM/NIH RxNorm
@@ -325,7 +325,7 @@ async function cancerQuery(
   const conditionQuery = `/Condition?subject=${request.patientId}&code=${snomedFilter}`;
   const conditionResponse = await fetch(
     request.fhir_host + conditionQuery,
-    request.init
+    request.init,
   );
   queryResponse = {
     ...queryResponse,
@@ -338,7 +338,7 @@ async function cancerQuery(
     const encounterQuery = `/Encounter?subject=${request.patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fetch(
       request.fhir_host + encounterQuery,
-      request.init
+      request.init,
     );
     queryResponse = {
       ...queryResponse,
@@ -349,7 +349,7 @@ async function cancerQuery(
   const medicationRequestQuery = `/MedicationRequest?subject=${request.patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
   const medicationRequestResponse = await fetch(
     request.fhir_host + medicationRequestQuery,
-    request.init
+    request.init,
   );
   return {
     ...queryResponse,
@@ -370,7 +370,7 @@ async function cancerQuery(
  */
 async function parseFhirSearch(
   response: fetch.Response,
-  resourceTypes: Array<string>
+  resourceTypes: Array<string>,
 ): Promise<Record<string, Resource[]>> {
   const output: Record<string, Resource[]> = {};
   for (const rt of resourceTypes) {
