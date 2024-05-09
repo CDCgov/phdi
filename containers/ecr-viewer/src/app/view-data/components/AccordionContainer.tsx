@@ -6,7 +6,6 @@ import {
   evaluateDemographicsData,
   PathMappings,
 } from "../../utils";
-import { evaluateLabInfoData } from "@/app/labs/utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
 import UnavailableInfo from "./UnavailableInfo";
@@ -17,8 +16,9 @@ import { Bundle } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import LabInfo from "@/app/view-data/components/LabInfo";
-import { formatString } from "@/app/formatService";
-import { evaluateEcrMetadata } from "../services/ecrMetadataService";
+import { formatString } from "@/app/services/formatService";
+import { evaluateEcrMetadata } from "../../services/ecrMetadataService";
+import { evaluateLabInfoData } from "@/app/services/labsService";
 
 type AccordionContainerProps = {
   children?: ReactNode;

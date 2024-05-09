@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SideNav as UswdsSideNav } from "@trussworks/react-uswds";
-import { formatString } from "@/app/formatService";
+import { formatString } from "@/app/services/formatService";
 
 export class SectionConfig {
   title: string;

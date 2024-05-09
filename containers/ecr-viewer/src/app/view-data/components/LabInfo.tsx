@@ -7,7 +7,10 @@ import {
 import React from "react";
 import { LabReportElementData } from "@/app/labs/utils";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
-import { truncateLabNameWholeWord, formatString } from "@/app/formatService";
+import {
+  truncateLabNameWholeWord,
+  formatString,
+} from "@/app/services/formatService";
 
 interface LabInfoProps {
   labResults: LabReportElementData[];
