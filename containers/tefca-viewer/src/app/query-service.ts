@@ -115,7 +115,6 @@ export async function useCaseQuery(
  * Social Determinant of Health use case query.
  * @param patientId - The ID of the patient to query.
  * @param fhirClient - The client to query the FHIR server.
- * @param request - UseCaseQueryRequest object.
  * @param queryResponse - The response object to store the results.
  * @returns - The response object containing the query results.
  */
@@ -259,8 +258,7 @@ async function cancerQuery(
  * Parse the response from a FHIR search query. If the response is successful and
  * contains data, return an array of resources.
  * @param response - The response from the FHIR server.
- * @param resourceTypes - The type of resource to parse.
- * @param queryResponse
+ * @param queryResponse - The response object to store the results.
  * @returns - The parsed response.
  */
 async function parseFhirSearch(
