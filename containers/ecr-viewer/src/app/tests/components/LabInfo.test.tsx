@@ -2,10 +2,10 @@ import { render, screen } from "@testing-library/react";
 import LabInfo from "@/app/view-data/components/LabInfo";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import { evaluateLabInfoData } from "@/app/labs/utils";
 import BundleLab from "@/app/tests/assets/BundleLab.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
+import { evaluateLabInfoData } from "@/app/services/labsService";
 
 const mappings = loadYamlConfig();
 

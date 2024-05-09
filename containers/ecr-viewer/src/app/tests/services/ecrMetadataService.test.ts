@@ -1,4 +1,4 @@
-import { evaluateEcrMetadata } from "@/app/view-data/services/ecrMetadataService";
+import { evaluateEcrMetadata } from "@/app/services/ecrMetadataService";
 import { Bundle } from "fhir/r4";
 import BundleWithEcrMetadata from "../assets/BundleEcrMetadata.json";
 import { loadYamlConfig } from "@/app/api/utils";

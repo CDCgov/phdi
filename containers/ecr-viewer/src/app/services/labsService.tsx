@@ -7,11 +7,6 @@ import {
   ColumnInfoInput,
   noData,
 } from "@/app/utils";
-import {
-  evaluateReference,
-  evaluateTable,
-  evaluateValue,
-} from "@/app/evaluateService";
 import { evaluate } from "fhirpath";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
@@ -21,8 +16,13 @@ import {
   formatAddress,
   formatPhoneNumber,
   TableJson,
-} from "@/app/formatService";
+} from "@/app/services/formatService";
 import { ObservationComponent } from "fhir/r4b";
+import {
+  evaluateReference,
+  evaluateTable,
+  evaluateValue,
+} from "./evaluateService";
 
 export interface LabReport {
   result: Array<Reference>;
