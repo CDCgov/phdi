@@ -1,7 +1,5 @@
 "use server";
-import { v4 as uuidv4 } from "uuid";
-import https from "https";
-import fetch, { RequestInit } from "node-fetch";
+import fetch from "node-fetch";
 import {
   Patient,
   Observation,
@@ -13,8 +11,7 @@ import {
   MedicationRequest,
   Resource,
 } from "fhir/r4";
-
-type FHIR_SERVERS = "meld" | "ehealthexchange";
+import FHIRClient, { FHIR_SERVERS } from "./fhir-servers";
 
 type USE_CASES =
   | "social-determinants"
@@ -22,47 +19,12 @@ type USE_CASES =
   | "syphilis"
   | "cancer";
 
-const FHIR_SERVERS: {
-  [key: string]: {
-    hostname: string;
-    username?: string;
-    password?: string;
-    headers?: { [key: string]: string };
-  };
-} = {
-  // https://gw.interop.community/skylightsandbox/open/
-  meld: { hostname: "https://gw.interop.community/HeliosConnectathonSa/open/" },
-  ehealthexchange: {
-    hostname: "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/",
-    headers: {
-      Accept: "application/json, application/*+json, */*",
-      "Accept-Encoding": "gzip, deflate, br",
-      "Content-Type": "application/fhir+json; charset=UTF-8",
-      "X-DESTINATION": "CernerHelios",
-      "X-POU": "PUBHLTH",
-      "X-Request-Id": uuidv4(),
-      prefer: "return=representation",
-      "Cache-Control": "no-cache",
-      OAUTHSCOPES:
-        "system/Condition.read system/Encounter.read system/" +
-        "Immunization.read system/MedicationRequest.read system/" +
-        "Observation.read system/Patient.read system/Procedure" +
-        ".read system/MedicationAdministration.read system/" +
-        "DiagnosticReport.read system/RelatedPerson.read",
-    },
-  },
-};
-
 type UseCaseQueryRequest = {
   use_case: USE_CASES;
   fhir_server: FHIR_SERVERS;
   first_name: string;
   last_name: string;
   dob: string;
-  fhir_host?: string;
-  init?: RequestInit;
-  headers?: { [key: string]: string };
-  patientId?: string;
 };
 
 type QueryResponse = {
@@ -124,6 +86,7 @@ function configureFHIRServerConnection(request: UseCaseQueryRequest): void {
  * Query a FHIR server for a patient based on demographics provided in the request. If
  * a patient is found, store in the queryResponse object.
  * @param request - The request object containing the patient demographics.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the patient.
  * @returns - The response body from the FHIR server.
  */
@@ -133,14 +96,17 @@ async function patientQuery(
 ): Promise<QueryResponse> {
   // Query for patient
   const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
-  const response = await fetch(request.fhir_host + query, {
-    headers: request.headers,
-    ...request.init,
-  });
+  const response = await fhirClient.get(query);
 
   // Check for errors
   if (response.status !== 200) {
-    throw new Error(`Patient search failed. Status: ${response.status}`);
+    throw new Error(
+      `Patient search failed. Status: ${
+        response.status
+      } \n ${await response.text()} \n Headers: ${JSON.stringify(
+        response.headers.raw()
+      )}`
+    );
   }
   queryResponse = await parseFhirSearch(response, queryResponse);
 
@@ -162,9 +128,7 @@ async function patientQuery(
 export async function useCaseQuery(
   request: UseCaseQueryRequest
 ): Promise<QueryResponse> {
-  console.log("input:", request);
-
-  configureFHIRServerConnection(request);
+  const fhirClient = new FHIRClient(request.fhir_server);
 
   const queryResponse = await patientQuery(request, {});
   request.patientId = queryResponse.Patient?.[0]?.id ?? "";
@@ -174,7 +138,8 @@ export async function useCaseQuery(
 
 /**
  * Social Determinant of Health use case query.
- * @param request - The request object containing the patient ID.
+ * @param patientId - The ID of the patient to query.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the results
  * @returns - The response object containing the query results.
  */
@@ -189,7 +154,8 @@ async function socialDeterminantsQuery(
 
 /**
  * Newborn Screening use case query.
- * @param request - The request object containing the patient ID.
+ * @param patientId - The ID of the patient to query.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the results
  * @returns - The response object containing the query results.
  */
@@ -222,7 +188,8 @@ async function newbornScreeningQuery(
 
 /**
  * Syphilis use case query.
- * @param request - The request object containing the patient ID.
+ * @param patientId - The ID of the patient to query.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the results
  * @returns - The response object containing the query results.
  */
@@ -284,7 +251,8 @@ async function syphilisQuery(
 
 /**
  * Cancer use case query.
- * @param request - The request object containing the patient ID.
+ * @param patientId - The ID of the patient to query.
+ * @param fhirClient - The client to query the FHIR server.
  * @param queryResponse - The response object to store the results
  * @returns - The response object containing the query results.
  */

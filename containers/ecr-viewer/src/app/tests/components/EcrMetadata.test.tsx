@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import EcrMetadata from "../EcrMetadata";
+import EcrMetadata from "../../view-data/components/EcrMetadata";
 import { DisplayDataProps, ReportableConditions } from "@/app/utils";
 import React from "react";
 
