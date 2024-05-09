@@ -1,4 +1,4 @@
-import { DataDisplay, DisplayDataProps, DataTableDisplay } from "@/app/utils";
+import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -27,6 +27,23 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
     "Clinical Notes",
   ],
 );
+
+/**
+ * Functional component for displaying data in a data table.
+ * @param props - Props containing the item to be displayed.
+ * @param props.item - The data item to be displayed.
+ * @returns The JSX element representing the data table display.
+ */
+const DataTableDisplay: React.FC<{ item: DisplayDataProps }> = ({
+  item,
+}): React.JSX.Element => {
+  return (
+    <div className="grid-row">
+      <div className="grid-col-auto width-full text-pre-line">{item.value}</div>
+      <div className={"section__line_gray"} />
+    </div>
+  );
+};
 
 /**
  * Functional component for displaying clinical information.
