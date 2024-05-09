@@ -7,7 +7,7 @@ import {
   extractPatientAddress,
   PathMappings,
 } from "@/app/utils";
-import { formatDate } from "@/app/format-service";
+import { formatDate } from "@/app/formatService";
 import { evaluate } from "fhirpath";
 
 /**

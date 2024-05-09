@@ -6,7 +6,7 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
-import { addCaptionToTable } from "@/app/format-service";
+import { addCaptionToTable } from "@/app/formatService";
 
 interface ClinicalProps {
   reasonForVisitDetails: DisplayDataProps[];
