@@ -5,7 +5,6 @@ import {
   AccordianDiv,
 } from "../component-utils";
 import React from "react";
-import { LabReportElementData } from "@/app/labs/utils";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 import {
   truncateLabNameWholeWord,
