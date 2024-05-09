@@ -163,22 +163,6 @@ export const evaluatePatientContactInfo = (
 };
 
 /**
- * Evaluates encounter date from the FHIR bundle and formats it into structured data for display.
- * @param fhirBundle - The FHIR bundle containing encounter date.
- * @param mappings - The object containing the fhir paths.
- * @returns A string of start date - end date.
- */
-export const evaluateEncounterDate = (
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-) => {
-  return formatStartEndDateTime(
-    evaluate(fhirBundle, mappings.encounterStartDate).join(""),
-    evaluate(fhirBundle, mappings.encounterEndDate).join(""),
-  );
-};
-
-/**
  * Extracts travel history information from the provided FHIR bundle based on the FHIR path mappings.
  * @param fhirBundle - The FHIR bundle containing patient travel history data.
  * @param mappings - An object containing the FHIR path mappings.

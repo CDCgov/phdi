@@ -1,13 +1,12 @@
 import { Bundle } from "fhir/r4";
 import {
-  evaluateEncounterDate,
   evaluatePatientContactInfo,
   evaluatePatientName,
   extractFacilityAddress,
   extractPatientAddress,
   PathMappings,
 } from "@/app/utils";
-import { formatDate } from "@/app/formatService";
+import { formatDate, formatStartEndDateTime } from "@/app/formatService";
 import { evaluate } from "fhirpath";
 
 /**
@@ -99,4 +98,17 @@ export const evaluateEcrSummaryAboutTheConditionDetails = (
       value: evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0],
     },
   ];
+};
+
+/**
+ * Evaluates encounter date from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing encounter date.
+ * @param mappings - The object containing the fhir paths.
+ * @returns A string of start date - end date.
+ */
+const evaluateEncounterDate = (fhirBundle: Bundle, mappings: PathMappings) => {
+  return formatStartEndDateTime(
+    evaluate(fhirBundle, mappings.encounterStartDate).join(""),
+    evaluate(fhirBundle, mappings.encounterEndDate).join(""),
+  );
 };
