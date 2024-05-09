@@ -7,7 +7,7 @@ import {
   toSentenceCase,
   removeHtmlElements,
   formatDateTime,
-} from "@/app/format-service";
+} from "@/app/formatService";
 
 describe("Format Name", () => {
   const inputGiven = ["Gregory", "B"];

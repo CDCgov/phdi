@@ -11,7 +11,7 @@ import {
   evaluateReference,
   evaluateTable,
   evaluateValue,
-} from "@/app/evaluate-service";
+} from "@/app/evaluateService";
 import { evaluate } from "fhirpath";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
@@ -21,7 +21,7 @@ import {
   formatAddress,
   formatPhoneNumber,
   TableJson,
-} from "@/app/format-service";
+} from "@/app/formatService";
 import { ObservationComponent } from "fhir/r4b";
 
 export interface LabReport {

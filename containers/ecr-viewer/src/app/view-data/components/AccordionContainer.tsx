@@ -17,8 +17,8 @@ import { Bundle } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import LabInfo from "@/app/view-data/components/LabInfo";
-import { formatString } from "@/app/format-service";
-import { evaluateEcrMetadata } from "../services/EcrMetadataService";
+import { formatString } from "@/app/formatService";
+import { evaluateEcrMetadata } from "../services/ecrMetadataService";
 
 type AccordionContainerProps = {
   children?: ReactNode;

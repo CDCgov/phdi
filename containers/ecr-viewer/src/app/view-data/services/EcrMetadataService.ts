@@ -1,4 +1,4 @@
-import { formatDateTime } from "@/app/format-service";
+import { formatDateTime } from "@/app/formatService";
 import {
   DisplayDataProps,
   PathMappings,

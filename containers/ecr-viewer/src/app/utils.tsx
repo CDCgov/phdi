@@ -24,8 +24,8 @@ import {
   TableRow,
   removeHtmlElements,
   toSentenceCase,
-} from "@/app/format-service";
-import { evaluateTable, evaluateReference } from "./evaluate-service";
+} from "@/app/formatService";
+import { evaluateTable, evaluateReference } from "./evaluateService";
 import { Button, Table } from "@trussworks/react-uswds";
 import { CareTeamParticipant, CarePlanActivity } from "fhir/r4b";
 import { Tooltip } from "@trussworks/react-uswds";
