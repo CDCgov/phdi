@@ -82,7 +82,7 @@ def test_get_clinical_services_dict_normal():
     assert result == expected_result
 
 
-# Teswt clinical services dict limiting to just sdtc
+# Test clinical services dict limiting to just sdtc
 def test_get_clinical_services_dict_filter_services():
     clinical_services_list = [
         ("dxtc", "A36.3|A36", "http://hl7.org/fhir/sid/icd-10-cm"),
