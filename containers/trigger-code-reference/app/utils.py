@@ -73,19 +73,17 @@ def get_clinical_services_list(snomed_code: list) -> List[tuple]:
     """
 
     # Connect to the SQLite database, execute sql query, then close
-    conn = sqlite3.connect("seed-scripts/ersd.db")
-    cursor = conn.cursor()
     try:
-        code = get_clean_snomed_code(snomed_code)
-        cursor.execute(sql_query, code)
-        clinical_services_list = cursor.fetchall()
-        if not clinical_services_list:
-            return {"error": f"No data found for the SNOMED code: {code}."}
+        with sqlite3.connect("seed-scripts/ersd.db") as conn:
+            cursor = conn.cursor()
+            code = get_clean_snomed_code(snomed_code)
+            cursor.execute(sql_query, code)
+            clinical_services_list = cursor.fetchall()
+            if not clinical_services_list:
+                return {"error": f"No data found for the SNOMED code: {code}."}
+        return clinical_services_list
     except sqlite3.Error as e:
         return {"error": f"An SQL error occurred: {str(e)}"}
-    finally:
-        conn.close()
-    return clinical_services_list
 
 
 def get_clinical_services_dict(
