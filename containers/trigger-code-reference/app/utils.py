@@ -41,8 +41,7 @@ def get_clean_snomed_code(snomed_code: Union[list, str, int, float]) -> list:
             "error": f"{len(clean_snomed_code)} SNOMED codes provided. "
             + "Provide only one SNOMED code."
         }
-    else:
-        return clean_snomed_code
+    return clean_snomed_code
 
 
 def get_clinical_services_list(snomed_code: list) -> List[tuple]:

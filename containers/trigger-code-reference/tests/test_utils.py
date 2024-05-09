@@ -2,10 +2,10 @@ import sqlite3
 from unittest.mock import patch
 
 import pytest
+from app.utils import convert_inputs_to_list
 from app.utils import get_clean_snomed_code
 from app.utils import get_clinical_services_dict
 from app.utils import get_clinical_services_list
-from app.utils import sanitize_inputs_to_list
 
 
 @pytest.fixture
@@ -18,12 +18,12 @@ def mock_db():
 
 
 # tests to confirm sanitize inputs work
-def test_sanitize_inputs_to_list_single_value():
-    assert sanitize_inputs_to_list("12345") == ["12345"]
+def test_convert_inputs_to_list_single_value():
+    assert convert_inputs_to_list("12345") == ["12345"]
 
 
-def test_sanitize_inputs_to_list_multiple_values():
-    assert sanitize_inputs_to_list("12345,67890") == ["12345", "67890"]
+def test_convert_inputs_to_list_multiple_values():
+    assert convert_inputs_to_list("12345,67890") == ["12345", "67890"]
 
 
 # tests to confirm snomed checks work
