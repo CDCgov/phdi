@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import ClinicalInfo from "../ClinicalInfo";
+import ClinicalInfo from "../../view-data/components/ClinicalInfo";
 import { loadYamlConfig } from "@/app/api/utils";
 import { returnProceduresTable, evaluateClinicalData } from "@/app/utils";
 import { Procedure } from "fhir/r4";
@@ -205,7 +205,7 @@ describe("Snapshot test for Clinical Notes", () => {
 });
 
 describe("Check that Clinical Info components render given FHIR bundle", () => {
-  const fhirBundleClinicalInfo = require("../../../tests/assets/BundleClinicalInfo.json");
+  const fhirBundleClinicalInfo = require("../assets/BundleClinicalInfo.json");
   const mappings = loadYamlConfig();
   const testClinicalData = evaluateClinicalData(
     fhirBundleClinicalInfo,

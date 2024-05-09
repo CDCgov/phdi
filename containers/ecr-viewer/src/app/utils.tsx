@@ -20,13 +20,12 @@ import {
   formatPhoneNumber,
   formatStartEndDateTime,
   formatVitals,
-  formatDateTime,
   formatTablesToJSON,
   TableRow,
   removeHtmlElements,
   toSentenceCase,
-} from "@/app/format-service";
-import { evaluateTable, evaluateReference } from "./evaluate-service";
+} from "@/app/services/formatService";
+import { evaluateTable, evaluateReference } from "./services/evaluateService";
 import { Button, Table } from "@trussworks/react-uswds";
 import { CareTeamParticipant, CarePlanActivity } from "fhir/r4b";
 import { Tooltip } from "@trussworks/react-uswds";
@@ -37,12 +36,6 @@ export interface DisplayDataProps {
   toolTip?: string;
   value?: string | React.JSX.Element | React.JSX.Element[] | React.ReactNode;
   dividerLine?: boolean;
-}
-
-export interface ReportableConditions {
-  [condition: string]: {
-    [trigger: string]: Set<string>;
-  };
 }
 
 export interface PathMappings {
@@ -167,22 +160,6 @@ export const evaluatePatientContactInfo = (
     .join("\n");
 
   return `${phoneNumbers}\n${emails}`;
-};
-
-/**
- * Evaluates encounter date from the FHIR bundle and formats it into structured data for display.
- * @param fhirBundle - The FHIR bundle containing encounter date.
- * @param mappings - The object containing the fhir paths.
- * @returns A string of start date - end date.
- */
-export const evaluateEncounterDate = (
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-) => {
-  return formatStartEndDateTime(
-    evaluate(fhirBundle, mappings.encounterStartDate).join(""),
-    evaluate(fhirBundle, mappings.encounterEndDate).join(""),
-  );
 };
 
 /**
@@ -436,89 +413,6 @@ export const evaluateProviderData = (
     },
   ];
   return evaluateData(providerData);
-};
-
-/**
- * Evaluates eCR metadata from the FHIR bundle and formats it into structured data for display.
- * @param fhirBundle - The FHIR bundle containing eCR metadata.
- * @param mappings - The object containing the fhir paths.
- * @returns An object containing evaluated and formatted eCR metadata.
- */
-export const evaluateEcrMetadata = (
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-) => {
-  const rrDetails = evaluate(fhirBundle, mappings.rrDetails);
-
-  let reportableConditionsList: ReportableConditions = {};
-
-  for (const condition of rrDetails) {
-    let name = condition.valueCodeableConcept.coding[0].display;
-    const triggers = condition.extension
-      .filter(
-        (x: { url: string; valueString: string }) =>
-          x.url ===
-          "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
-      )
-      .map((x: { url: string; valueString: string }) => x.valueString);
-    if (!reportableConditionsList[name]) {
-      reportableConditionsList[name] = {};
-    }
-
-    for (let i in triggers) {
-      if (!reportableConditionsList[name][triggers[i]]) {
-        reportableConditionsList[name][triggers[i]] = new Set();
-      }
-      condition.performer
-        .map((x: { display: string }) => x.display)
-        .forEach((x: string) =>
-          reportableConditionsList[name][triggers[i]].add(x),
-        );
-    }
-  }
-
-  const eicrDetails: DisplayDataProps[] = [
-    {
-      title: "eICR Identifier",
-      toolTip:
-        "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
-      value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
-    },
-  ];
-  const ecrSenderDetails: DisplayDataProps[] = [
-    {
-      title: "Date/Time eCR Created",
-      value: formatDateTime(
-        evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0],
-      ),
-    },
-    {
-      title: "Sender Software",
-      toolTip: "EHR system used by the sending provider.",
-      value: evaluate(fhirBundle, mappings.senderSoftware)[0],
-    },
-    {
-      title: "Sender Facility Name",
-      value: evaluate(fhirBundle, mappings.senderFacilityName)[0],
-    },
-    {
-      title: "Facility Address",
-      value: extractFacilityAddress(fhirBundle, mappings),
-    },
-    {
-      title: "Facility Contact",
-      value: evaluate(fhirBundle, mappings.facilityContact)[0],
-    },
-    {
-      title: "Facility ID",
-      value: evaluate(fhirBundle, mappings.facilityID)[0],
-    },
-  ];
-  return {
-    eicrDetails: evaluateData(eicrDetails),
-    ecrSenderDetails: evaluateData(ecrSenderDetails),
-    rrDetails: reportableConditionsList,
-  };
 };
 
 /**
@@ -1297,23 +1191,6 @@ const trimField = (
     return { value: newElement, remainingLength: split.remainingLength };
   }
   return { value, remainingLength: remainingLength };
-};
-
-/**
- * Functional component for displaying data in a data table.
- * @param props - Props containing the item to be displayed.
- * @param props.item - The data item to be displayed.
- * @returns The JSX element representing the data table display.
- */
-export const DataTableDisplay: React.FC<{ item: DisplayDataProps }> = ({
-  item,
-}): React.JSX.Element => {
-  return (
-    <div className="grid-row">
-      <div className="grid-col-auto width-full text-pre-line">{item.value}</div>
-      <div className={"section__line_gray"} />
-    </div>
-  );
 };
 
 /**
