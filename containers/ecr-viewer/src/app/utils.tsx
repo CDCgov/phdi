@@ -1194,23 +1194,6 @@ const trimField = (
 };
 
 /**
- * Functional component for displaying data in a data table.
- * @param props - Props containing the item to be displayed.
- * @param props.item - The data item to be displayed.
- * @returns The JSX element representing the data table display.
- */
-export const DataTableDisplay: React.FC<{ item: DisplayDataProps }> = ({
-  item,
-}): React.JSX.Element => {
-  return (
-    <div className="grid-row">
-      <div className="grid-col-auto width-full text-pre-line">{item.value}</div>
-      <div className={"section__line_gray"} />
-    </div>
-  );
-};
-
-/**
  * Evaluates emergency contact information from the FHIR bundle and formats it into a readable string.
  * @param fhirBundle - The FHIR bundle containing patient information.
  * @param mappings - The object containing the fhir paths.
