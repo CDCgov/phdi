@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { UseCaseQueryResponse, useCaseQuery } from "../query-service";
 import QueryView from "./components/QueryView";
+import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
 import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
 
 /**
@@ -331,8 +332,14 @@ export default function PatientSearch() {
           </button>
           <LoadingView loading={loading} />
           {/* TODO: add error view if loading is done and there's no useCaseQueryResponse */}
-          {useCaseQueryResponse && (
-            <QueryView useCaseQueryResponse={useCaseQueryResponse} />
+          {useCaseQueryResponse &&
+          useCaseQueryResponse.patients &&
+          useCaseQueryResponse.patients.length > 1 ? (
+            <MultiplePatientSearchResults
+              patients={useCaseQueryResponse.patients}
+            />
+          ) : (
+            <QueryView useCaseQueryResponse={useCaseQueryResponse ?? {}} />
           )}
         </>
       )}
