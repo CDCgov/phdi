@@ -1,16 +1,16 @@
-import {
-  getObservations,
-  searchResultRecord,
-  returnFieldValueFromLabHtmlString,
-  getLabJsonObject,
-  checkAbnormalTag,
-  evaluateOrganismsReportData,
-} from "@/app/labs/utils";
 import { loadYamlConfig } from "@/app/api/utils";
-import BundleLab from "../../tests/assets/BundleLab.json";
+import BundleLab from "../assets/BundleLab.json";
 import { Bundle, Observation } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { render, screen } from "@testing-library/react";
+import {
+  getLabJsonObject,
+  getObservations,
+  checkAbnormalTag,
+  searchResultRecord,
+  returnFieldValueFromLabHtmlString,
+  evaluateOrganismsReportData,
+} from "@/app/services/labsService";
 
 const mappings = loadYamlConfig();
 
