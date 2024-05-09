@@ -10,6 +10,7 @@ import {
   truncateLabNameWholeWord,
   formatString,
 } from "@/app/services/formatService";
+import { LabReportElementData } from "@/app/services/labsService";
 
 interface LabInfoProps {
   labResults: LabReportElementData[];
