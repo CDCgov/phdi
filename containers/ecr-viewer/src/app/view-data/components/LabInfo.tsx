@@ -5,9 +5,12 @@ import {
   AccordianDiv,
 } from "../component-utils";
 import React from "react";
-import { LabReportElementData } from "@/app/labs/utils";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
-import { truncateLabNameWholeWord, formatString } from "@/app/format-service";
+import {
+  truncateLabNameWholeWord,
+  formatString,
+} from "@/app/services/formatService";
+import { LabReportElementData } from "@/app/services/labsService";
 
 interface LabInfoProps {
   labResults: LabReportElementData[];
