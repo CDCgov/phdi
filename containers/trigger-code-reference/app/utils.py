@@ -3,7 +3,7 @@ from typing import List
 from typing import Union
 
 
-def sanitize_inputs_to_list(value: Union[list, str, int, float]) -> list:
+def convert_inputs_to_list(value: Union[list, str, int, float]) -> list:
     """
     Small helper function that checks the type of the input.
     Our code wants items to be in a list and will transform int/float to list
@@ -35,7 +35,7 @@ def get_clean_snomed_code(snomed_code: Union[list, str, int, float]) -> list:
     :param snomed_code: SNOMED code to check.
     :return: A one-item list of a cleaned SNOMED code.
     """
-    clean_snomed_code = sanitize_inputs_to_list(snomed_code)
+    clean_snomed_code = convert_inputs_to_list(snomed_code)
     if len(clean_snomed_code) != 1:
         return {
             "error": f"{len(clean_snomed_code)} SNOMED codes provided. "
@@ -120,7 +120,7 @@ def get_clinical_services_dict(
 
     # Optional: Remove clinical service types not in specified list if provided
     if filter_clinical_services:
-        clinical_services = sanitize_inputs_to_list(filter_clinical_services)
+        clinical_services = convert_inputs_to_list(filter_clinical_services)
         # Create a list of types to remove
         remove_list = [
             type
