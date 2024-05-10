@@ -4,6 +4,8 @@ import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { database } from "@/app/api/fhir-data/db";
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
+const S3_SOURCE = "s3";
+const POSTGRES_SOURCE = "postgres";
 
 /**
  * Retrieves array of eCR IDs from PostgreSQL database.
@@ -20,7 +22,10 @@ export const list_postgres = async () => {
   });
   try {
     const entry = await database.manyOrNone(listFhir);
-    return NextResponse.json({ data: entry }, { status: 200 });
+    return NextResponse.json(
+      { data: entry, source: POSTGRES_SOURCE },
+      { status: 200 },
+    );
   } catch (error: any) {
     console.error("Error fetching data:", error);
     if (error.message == "No data returned from the query.") {
@@ -48,7 +53,10 @@ export const list_s3 = async () => {
 
     const response = await s3Client.send(command);
 
-    return NextResponse.json({ data: response }, { status: 200 });
+    return NextResponse.json(
+      { data: response, source: S3_SOURCE },
+      { status: 200 },
+    );
   } catch (error: any) {
     console.error("S3 GetObject error:", error);
     return NextResponse.json({ message: error.message }, { status: 500 });
