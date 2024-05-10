@@ -1,12 +1,8 @@
 import { formatDateTime } from "@/app/services/formatService";
-import {
-  DisplayDataProps,
-  PathMappings,
-  evaluateData,
-  extractFacilityAddress,
-} from "@/app/utils";
+import { DisplayDataProps, PathMappings, evaluateData } from "@/app/utils";
 import { Bundle } from "fhir/r4";
 import { evaluate } from "fhirpath";
+import { evaluateFacilityAddress } from "./evaluateFhirDataService";
 
 export interface ReportableConditions {
   [condition: string]: {
@@ -79,7 +75,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Facility Address",
-      value: extractFacilityAddress(fhirBundle, mappings),
+      value: evaluateFacilityAddress(fhirBundle, mappings),
     },
     {
       title: "Facility Contact",
