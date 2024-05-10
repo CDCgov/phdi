@@ -40,7 +40,6 @@ export function formatCodeableConcept(concept: CodeableConcept | undefined) {
   );
 }
 
-
 /**
  * Formats the provided date string into a formatted date string with year, month, and day.
  * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input.
@@ -64,8 +63,7 @@ export const formatDate = (dateString?: string): string | undefined => {
         day: "2-digit",
         timeZone: "UTC",
       }); // UTC, otherwise will have timezone issues
-    }
-    else {
+    } else {
       return "";
     }
   }
