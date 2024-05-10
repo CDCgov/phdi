@@ -2,6 +2,8 @@
 import { ListObjectsV2CommandOutput } from "@aws-sdk/client-s3";
 import React, { useEffect, useState } from "react";
 import { formatDateTime } from "./format-service";
+import { Table } from "@trussworks/react-uswds";
+import { noData } from "@/app/utils";
 
 // string constants to match with possible .env values
 const S3_SOURCE = "s3";
@@ -69,14 +71,39 @@ const HomePage: React.FC = () => {
 
 // TODO: Add JSDoc
 function renderListECRViewer(listFhirData: any[]): JSX.Element {
+  const header = ["eCR ID", "Stored Date"];
   return (
-    <div>
-      {"Rendering List ECR Viewer"}
-      {listFhirData.map((item) => (
-        <div key={item.ecr_id}>
-          {item.ecr_id}-------------{item.dateModified}
-        </div>
-      ))}
+    <div className="content-wrapper">
+      <Table
+        bordered={false}
+        fullWidth={true}
+        className={"table-homepage-list"}
+        data-testid="table"
+      >
+        <thead>
+          <tr>
+            {header.map((column) => (
+              <th key={`${column}`} scope="col">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {listFhirData.map((item, index) => {
+            return (
+              <tr key={`table-row-${index}`}>
+                <td>
+                  <a href={`${basePath}/view-data?id=${item.ecr_id}`}>
+                    {item.ecr_id ?? noData}
+                  </a>
+                </td>
+                <td>{item.dateModified ?? noData}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
     </div>
   );
 }
