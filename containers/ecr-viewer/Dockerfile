@@ -52,6 +52,18 @@ EXPOSE 3000
 
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
+ENV OTEL_TRACES_EXPORTER=otlp
+ENV OTEL_METRICS_EXPORTER=otlp
+ENV OTEL_LOGS_EXPORTER=none
+
+# Prometheus preferred transfer is via HTTP
+ENV OTEL_EXPORTER_OTLP_METRICS_PROTOCOL=http/protobuf
+ENV OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://otel-collector:4318/v1/metrics
+
+# Jaeger preferred routing is gRPC for native OTLP
+ENV OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
+ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4317/v1/traces
+
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
