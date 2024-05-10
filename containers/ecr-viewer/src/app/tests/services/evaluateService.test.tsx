@@ -18,11 +18,11 @@ import {
   combineOrgAndReportData,
   evaluateLabInfoData,
 } from "../../services/labsService";
+import { evaluateTable } from "@/app/services/evaluateService";
 import {
   evaluateReference,
   evaluateValue,
-  evaluateTable,
-} from "@/app/services/evaluateService";
+} from "@/app/services/evaluateFhirDataService";
 
 const mappings = loadYamlConfig();
 

@@ -18,11 +18,8 @@ import {
   TableJson,
 } from "@/app/services/formatService";
 import { ObservationComponent } from "fhir/r4b";
-import {
-  evaluateReference,
-  evaluateTable,
-  evaluateValue,
-} from "./evaluateService";
+import { evaluateTable } from "./evaluateService";
+import { evaluateReference, evaluateValue } from "./evaluateFhirDataService";
 
 export interface LabReport {
   result: Array<Reference>;

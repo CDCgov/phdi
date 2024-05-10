@@ -1,9 +1,6 @@
 import {
-  evaluateSocialData,
-  evaluateEncounterData,
   evaluateProviderData,
   evaluateClinicalData,
-  evaluateDemographicsData,
   PathMappings,
 } from "../../utils";
 import Demographics from "./Demographics";
@@ -19,6 +16,11 @@ import LabInfo from "@/app/view-data/components/LabInfo";
 import { formatString } from "@/app/services/formatService";
 import { evaluateEcrMetadata } from "../../services/ecrMetadataService";
 import { evaluateLabInfoData } from "@/app/services/labsService";
+import {
+  evaluateDemographicsData,
+  evaluateSocialData,
+  evaluateEncounterData,
+} from "@/app/services/evaluateFhirDataService";
 
 type AccordionContainerProps = {
   children?: ReactNode;
