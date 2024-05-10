@@ -1,8 +1,8 @@
 "use client";
 import { ListObjectsV2CommandOutput } from "@aws-sdk/client-s3";
 import React, { useEffect, useState } from "react";
-import { formatDateTime } from "./format-service";
 import { Table } from "@trussworks/react-uswds";
+import { formatDateTime } from "@/app/services/formatService";
 import { noData } from "@/app/utils";
 
 // string constants to match with possible .env values
