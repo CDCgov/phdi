@@ -129,3 +129,48 @@ def get_clinical_services_dict(
         for type in remove_list:
             clinical_service_dict.pop(type, None)
     return clinical_service_dict
+
+
+def _find_codes_by_resource_type(resource: dict) -> List[str]:
+    """
+    For a given resource, extracts the chief clinical codes within the
+    resource body. The FHIRpath location of this resource depends on the
+    type of resource passed to the function. A resource might have more
+    than one clinical code denoting what type of information it holds, such
+    as an Observation with a SNOMED code and a LOINC code both relating
+    to a COVID-19 diagnosis.
+
+    :param resource: The resource in which to locate the code.
+    :return: One or more clinical codes, as a list of strings. If the given
+      resource has no corresponding codes, an empty list is returned.
+    """
+    rtype = resource.get("resourceType")
+    codings = []
+
+    # Grab coding schemes based on resource type
+    if rtype == "Observation" or rtype == "Condition" or rtype == "DiagnosticReport":
+        codings = resource.get("code", {}).get("coding", [])
+    elif rtype == "Immunization":
+        codings = resource.get("vaccineCode", {}).get("coding", [])
+
+    # Then, isolate for the actual clinical codes
+    codes = [x.get("code", "") for x in codings]
+    return [x for x in codes if x != ""]
+
+
+def _stamp_resource_with_code_extension(resource: dict, code: str) -> dict:
+    """
+    Stamps a provided resource with an extension containing a passed-in
+    SNOMED code. The stamping procedure adds an extension to the resource
+    body without altering any other existing data.
+
+    :param resource: The resource to stamp.
+    :param code: The SNOMED code to insert an extension for.
+    :return: The resource with new extension added.
+    """
+    if "extension" not in resource:
+        resource["extension"] = []
+    resource["extension"].append(
+        {"url": "http://snomed.info/sct", "coding": [{"code": code}]}
+    )
+    return resource
