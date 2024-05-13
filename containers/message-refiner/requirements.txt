@@ -4,3 +4,4 @@ httpx
 requests
 lxml
 python-multipart
+testcontainers
