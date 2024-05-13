@@ -56,8 +56,7 @@ export const formatDate = (dateString?: string): string | undefined => {
         day: "2-digit",
         timeZone: "UTC",
       }); // UTC, otherwise will have timezone issues
-    } else {
-      return "";
-    }
+    } 
+  
   }
 };
