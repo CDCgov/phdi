@@ -21,6 +21,7 @@ export default function PatientSearch() {
     | "newborn-screening"
     | "syphilis"
     | "gonorrhea"
+    | "chlamydia"
     | "cancer"
   >();
 
@@ -277,6 +278,7 @@ export default function PatientSearch() {
                           | "newborn-screening"
                           | "syphilis"
                           | "gonorrhea"
+                          | "chlamydia"
                           | "cancer",
                       );
                     }}
@@ -288,11 +290,13 @@ export default function PatientSearch() {
                     </option>
                     <option value="newborn-screening">Newborn Screening</option>
                     <option value="syphilis">Syphilis</option>
+                    <option value="gonorrhea">Gonorrhea</option>
+                    <option value="chlamydia">Chlamydia</option>
                     <option value="cancer">Cancer</option>
                     <option value="social-determinants">
                       Social Determinants of Health
                     </option>
-                    <option value="gonorrhea">Gonorrhea</option>
+                    
                   </Select>
                 </div>
               </div>
