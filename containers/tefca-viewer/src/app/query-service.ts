@@ -12,22 +12,22 @@ import {
 } from "fhir/r4";
 import FHIRClient, { FHIR_SERVERS } from "./fhir-servers";
 
-type USE_CASES =
+export type USE_CASES =
   | "social-determinants"
   | "newborn-screening"
   | "syphilis"
   | "gonorrhea"
   | "cancer";
 
-type UseCaseQueryRequest = {
+export type UseCaseQueryRequest = {
   use_case: USE_CASES;
   fhir_server: FHIR_SERVERS;
-  first_name: string;
-  last_name: string;
-  dob: string;
+  first_name?: string;
+  last_name?: string;
+  dob?: string;
 };
 
-type QueryResponse = {
+export type QueryResponse = {
   Patient?: Patient[];
   Observation?: Observation[];
   DiagnosticReport?: DiagnosticReport[];
@@ -67,7 +67,7 @@ async function patientQuery(
   request: UseCaseQueryRequest,
   fhirClient: FHIRClient,
   queryResponse: QueryResponse,
-): Promise<QueryResponse> {
+): Promise<void> {
   // Query for patient
   const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
   const response = await fhirClient.get(query);
@@ -83,30 +83,34 @@ async function patientQuery(
     );
   }
   queryResponse = await parseFhirSearch(response, queryResponse);
-
-  if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
-    throw new Error("No patient found.");
-  } else if (queryResponse.Patient.length > 1) {
-    throw new Error("Multiple patients found. Please refine your search.");
-  }
-
-  return queryResponse;
 }
 
 /**
  * Query a FHIR API for a public health use case based on patient demographics provided
  * in the request. If data is found, return in a queryResponse object.
  * @param request - UseCaseQueryRequest object containing the patient demographics and use case.
+ * @param queryResponse - The response object to store the query results.
  * @returns - The response object containing the query results.
  */
 export async function useCaseQuery(
   request: UseCaseQueryRequest,
+  queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
   const fhirClient = new FHIRClient(request.fhir_server);
 
-  const queryResponse: QueryResponse = {};
-  await patientQuery(request, fhirClient, queryResponse);
-  const patientId = queryResponse.Patient?.[0]?.id ?? "";
+  if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
+    await patientQuery(request, fhirClient, queryResponse);
+  }
+
+  if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
+    console.log("No patients found.");
+    return queryResponse;
+  } else if (queryResponse.Patient.length > 1) {
+    console.log("Multiple patients found.");
+    return queryResponse;
+  }
+
+  const patientId = queryResponse.Patient[0].id ?? "";
 
   await useCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
 
@@ -331,7 +335,6 @@ async function cancerQuery(
   const cpt: Array<string> = ["15301000"]; // encounter codes from AMA CPT
   const snomedFilter: string = snomed.join(",");
   const rxnormFilter: string = rxnorm.join(",");
-  const cptFilter: string = cpt.join(",");
 
   // Query for conditions and encounters
   const conditionQuery = `/Condition?subject=${patientId}&code=${snomedFilter}`;
