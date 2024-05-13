@@ -94,6 +94,11 @@ const MultiplePatientSearchResults: React.FC<
 
 export default MultiplePatientSearchResults;
 
+/**
+ * Creates a note about which fields the search results match on.
+ * @param request - The request object.
+ * @returns - The JSX element for the note.
+ */
 function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
   let searchElements = Object.entries(request).map(([key, value]) => {
     if (value && value !== "" && key !== "use_case" && key !== "fhir_server") {
@@ -149,6 +154,15 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
   return <p className="font-sans-lg text-light">{noteParts}</p>;
 }
 
+/**
+ * When a user clicks on a record, this function queries the FHIR server for the record
+ * and sets the mode to "results" thereby displaying the query results for that patient.
+ * @param patients - The array of patients.
+ * @param index - The index of the patient to view.
+ * @param originalRequest - The original request object.
+ * @param setUseCaseQueryResponse - The function to set the use case query response.
+ * @param setMode - The function to set the mode.
+ */
 async function viewRecord(
   patients: Patient[],
   index: number,
