@@ -102,12 +102,9 @@ export async function useCaseQuery(
     await patientQuery(request, fhirClient, queryResponse);
   }
 
-  if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
-    return queryResponse;
-  } else if (queryResponse.Patient.length > 1) {
+  if (!queryResponse.Patient || queryResponse.Patient.length !== 1) {
     return queryResponse;
   }
-
   const patientId = queryResponse.Patient[0].id ?? "";
 
   await useCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
