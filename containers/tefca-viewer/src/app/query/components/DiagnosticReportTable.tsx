@@ -16,7 +16,7 @@ export interface DiagnosticReportTableProps {
  * @param props.diagnosticReports - The array of DiagnosticReport resources.
  * @returns - The DiagnosticReportTable component.
  */
-const DiagnosticReportsTable: React.FC<DiagnosticReportTableProps> = ({
+const DiagnosticReportTable: React.FC<DiagnosticReportTableProps> = ({
   diagnosticReports,
 }) => {
   return (
@@ -39,4 +39,4 @@ const DiagnosticReportsTable: React.FC<DiagnosticReportTableProps> = ({
   );
 };
 
-export default DiagnosticReportsTable;
+export default DiagnosticReportTable;

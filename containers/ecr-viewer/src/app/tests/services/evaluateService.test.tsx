@@ -1,19 +1,4 @@
 import { evaluate } from "fhirpath";
-import {
-  evaluateReference,
-  evaluateTable,
-  evaluateValue,
-} from "@/app/evaluate-service";
-import {
-  evaluateObservationTable,
-  evaluateDiagnosticReportData,
-  evaluateLabOrganizationData,
-  combineOrgAndReportData,
-  ResultObject,
-  evaluateLabInfoData,
-  LabReport,
-  getLabJsonObject,
-} from "@/app/labs/utils";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
@@ -23,6 +8,21 @@ import { render, screen } from "@testing-library/react";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import userEvent from "@testing-library/user-event";
+import {
+  getLabJsonObject,
+  evaluateDiagnosticReportData,
+  evaluateObservationTable,
+  LabReport,
+  evaluateLabOrganizationData,
+  ResultObject,
+  combineOrgAndReportData,
+  evaluateLabInfoData,
+} from "../../services/labsService";
+import {
+  evaluateReference,
+  evaluateValue,
+  evaluateTable,
+} from "@/app/services/evaluateService";
 
 const mappings = loadYamlConfig();
 

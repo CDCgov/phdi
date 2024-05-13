@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import UnavailableInfo from "../UnavailableInfo";
+import UnavailableInfo from "../../view-data/components/UnavailableInfo";
 
 describe("UnavailableInfo", () => {
   let container: HTMLElement;
