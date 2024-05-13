@@ -4,6 +4,7 @@ import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import QueryView from "./components/QueryView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
 import SearchForm from "./components/SearchForm";
+import NoPatientsFound from "./components/NoPatientsFound";
 export type Mode = "search" | "results" | "multiple-patients" | "no-patients";
 
 /**
@@ -54,6 +55,8 @@ const Query: React.FC = () => {
           />
         </>
       )}
+      {/* Show the no patients found view if there are no patients */}
+      {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
     </div>
   );
 };

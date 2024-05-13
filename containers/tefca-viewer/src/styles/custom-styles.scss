@@ -251,6 +251,13 @@ body {
   max-width: 1000px;
 }
 
+.no-patients-found {
+  display: grid;
+  grid-template-columns: 1fr; 
+  justify-content: center; 
+  margin: 0 auto; 
+  max-width: 1000px;
+}
 .usa-footer {
   margin-top: auto;
 }
