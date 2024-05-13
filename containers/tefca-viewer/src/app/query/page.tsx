@@ -296,7 +296,6 @@ export default function PatientSearch() {
                     <option value="social-determinants">
                       Social Determinants of Health
                     </option>
-                    
                   </Select>
                 </div>
               </div>
