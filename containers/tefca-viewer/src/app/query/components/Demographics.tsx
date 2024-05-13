@@ -3,6 +3,7 @@ import { DisplayData } from "@/app/utils";
 import { DataDisplay } from "@/app/utils";
 import * as dateFns from "date-fns";
 import { evaluate } from "fhirpath";
+import { formatDate } from "@/app/format-service";
 
 /**
  * Displays the demographic information of a patient.
@@ -46,7 +47,7 @@ function formatDemographics(patient: Patient): DisplayData[] {
     },
     {
       title: "DOB",
-      value: patient.birthDate ?? "",
+      value: formatDate(patient.birthDate),
     },
     {
       title: "Current Age",

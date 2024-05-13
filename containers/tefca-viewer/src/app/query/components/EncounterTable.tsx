@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "@trussworks/react-uswds";
 import { Encounter } from "fhir/r4";
-import { formatCodeableConcept } from "../../format-service";
+import { formatCodeableConcept, formatDate } from "../../format-service";
 
 /**
  * The props for the EncounterTable component.
@@ -43,8 +43,8 @@ const EncounterTable: React.FC<EncounterTableProps> = ({
             </td>
             <td>{encounter?.serviceProvider?.display}</td>
             <td>{encounter?.status}</td>
-            <td>{encounter?.period?.start}</td>
-            <td>{encounter?.period?.end}</td>
+            <td>{formatDate(encounter?.period?.start)}</td>
+            <td>{formatDate(encounter?.period?.end)}</td>
           </tr>
         ))}
       </tbody>
