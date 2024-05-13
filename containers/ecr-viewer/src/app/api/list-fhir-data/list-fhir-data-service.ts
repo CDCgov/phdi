@@ -12,10 +12,6 @@ const POSTGRES_SOURCE = "postgres";
  * @returns A promise resolving to a NextResponse object.
  */
 export const list_postgres = async () => {
-  // const params = request.nextUrl.searchParams;
-  // const ecr_id = params.get("id") ? params.get("id") : null;
-  // const mappings = loadYamlConfig();
-
   const { ParameterizedQuery: PQ } = pgPromise;
   const listFhir = new PQ({
     text: "SELECT ecr_id FROM fhir",

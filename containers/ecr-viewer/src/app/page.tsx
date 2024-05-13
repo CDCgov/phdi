@@ -5,7 +5,7 @@ import { Table } from "@trussworks/react-uswds";
 import { formatDateTime } from "@/app/services/formatService";
 import { noData } from "@/app/utils";
 
-// string constants to match with possible .env values
+// string constants to match with source values
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -14,8 +14,6 @@ type ListEcr = {
   ecr_id: string;
   dateModified: string;
 }[];
-
-// TODO: Should this call the health check API route?
 
 /**
  * Functional component for rendering the home page that lists all eCRs.
@@ -39,7 +37,6 @@ const HomePage: React.FC = () => {
           throw new Error(errorData || "Internal Server Error");
         } else {
           const response: ListApiResponse = await res.json();
-          console.log("REPSONSE", response);
           setListFhirData(processListECR(response.data, response.source));
         }
       } catch (error: any) {
@@ -69,8 +66,12 @@ const HomePage: React.FC = () => {
   }
 };
 
-// TODO: Add JSDoc
-function renderListECRViewer(listFhirData: any[]): JSX.Element {
+/**
+ * Renders a list of eCR data with viewer.
+ * @param listFhirData - The list of eCRs to render.
+ * @returns The JSX element (table) representing the rendered list of eCRs.
+ */
+function renderListECRViewer(listFhirData: ListEcr): JSX.Element {
   const header = ["eCR ID", "Stored Date"];
   return (
     <div className="content-wrapper">
@@ -108,27 +109,35 @@ function renderListECRViewer(listFhirData: any[]): JSX.Element {
   );
 }
 
-// TODO: Add JSDoc
-// TODO: Maybe refactor into different # functions / files?
+/**
+ * Directs processing a given list of eCRs from different sources based on the source.
+ * It supports fetching from S3 and Postgres. If the source is not `postgres` or `s3`,
+ * it throws an error stating invalid source.
+ * @param responseBody - Response body containing the list of eCRs from either source.
+ * @param source - Source of the eCR list (postgres or s3)
+ * @returns The array of objects representing the processed list of eCR data.
+ * @throws {Error} If the data source is invalid.
+ */
 const processListECR = (
   responseBody: any[] | ListObjectsV2CommandOutput,
   source: string,
 ): ListEcr => {
   let returnBody: ListEcr;
   if (source === S3_SOURCE) {
-    console.log("S3 SOURCE");
     returnBody = processListS3(responseBody as ListObjectsV2CommandOutput);
   } else if (source === POSTGRES_SOURCE) {
-    console.log("POSTGRES SOURCE");
     returnBody = processListPostgres(responseBody as any[]);
   } else {
-    console.log("ERROR Invalid data source");
     throw new Error("Invalid data source");
   }
   return returnBody;
 };
 
-// TODO: Add JSDoc
+/**
+ * Processes a list of eCR data retrieved from an S3 bucket.
+ * @param responseBody - The response body containing eCR data from S3.
+ * @returns - The processed list of eCR IDs and dates.
+ */
 const processListS3 = (responseBody: ListObjectsV2CommandOutput): ListEcr => {
   return (
     responseBody.Contents?.map((object) => {
@@ -142,7 +151,11 @@ const processListS3 = (responseBody: ListObjectsV2CommandOutput): ListEcr => {
   );
 };
 
-// TODO: Add JSDoc
+/**
+ * Processes a list of eCR data retrieved from Postgres.
+ * @param responseBody - The response body containing eCR data from Postgres.
+ * @returns - The processed list of eCR IDs and dates.
+ */
 const processListPostgres = (responseBody: any[]) => {
   return responseBody.map((object) => {
     return {

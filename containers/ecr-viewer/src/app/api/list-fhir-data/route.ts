@@ -10,7 +10,7 @@ const POSTGRES_SOURCE = "postgres";
  * a supported source, it returns a JSON response indicating an invalid source.
  * @returns A promise that resolves to a `NextResponse` object
  *   if the source is invalid, or the result of fetching from the specified source.
- *   The specific return type (e.g., the type returned by `get_s3` or `get_postgres`)
+ *   The specific return type (e.g., the type returned by `list_s3` or `list_postgres`)
  *   may vary based on the source and is thus marked as `unknown`.
  */
 export async function GET() {
