@@ -17,7 +17,11 @@ export default function PatientSearch() {
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
   const [useCase, setUseCase] = useState<
-    "social-determinants" | "newborn-screening" | "syphilis" | "gonorrhea" | "cancer"
+    | "social-determinants"
+    | "newborn-screening"
+    | "syphilis"
+    | "gonorrhea"
+    | "cancer"
   >();
 
   // Set a mode to switch between search and view
