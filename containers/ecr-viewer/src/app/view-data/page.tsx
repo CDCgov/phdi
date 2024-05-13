@@ -1,6 +1,5 @@
 "use client";
 import AccordionContainer from "@/app/view-data/components/AccordionContainer";
-import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
@@ -19,16 +18,19 @@ import {
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
 
 /**
- * Functional component for rendering the eCR Viewer page.
- * @returns The main eCR Viewer JSX component.
+ * Functional component for rendering a page based on provided search parameters.
+ * @param props - Component props.
+ * @param props.searchParams - Search parameters object.
+ * @returns - functional component for view-data
  */
-const ECRViewerPage: React.FC = () => {
+export default function Page({
+  searchParams,
+}: Readonly<{ searchParams: { [key: string]: string | undefined } }>) {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
   const [mappings, setMappings] = useState<PathMappings>({});
   const [errors, setErrors] = useState<Error>();
-  const searchParams = useSearchParams();
-  const fhirId = searchParams.get("id") ?? "";
-  const snomedCode = searchParams.get("snomed-code") ?? "";
+  const fhirId = searchParams["id"] ?? "";
+  const snomedCode = searchParams["snomed-code"] ?? "";
 
   type ApiResponse = {
     fhirBundle: Bundle;
@@ -142,6 +144,4 @@ const ECRViewerPage: React.FC = () => {
       </div>
     );
   }
-};
-
-export default ECRViewerPage;
+}
