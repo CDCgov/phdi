@@ -54,15 +54,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
       use_case: useCase,
     };
     setOriginalRequest(originalRequest);
-    const use_case_query_response = await useCaseQuery(originalRequest);
-    console.log("Patient ID:", use_case_query_response);
-    setUseCaseQueryResponse(use_case_query_response);
-    if (
-      !use_case_query_response.patients ||
-      use_case_query_response.patients.length === 0
-    ) {
+    const queryResponse = await useCaseQuery(originalRequest);
+    console.log("Patient ID:", queryResponse);
+    setUseCaseQueryResponse(queryResponse);
+    if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
       setMode("no-patients");
-    } else if (use_case_query_response.patients.length === 1) {
+    } else if (queryResponse.Patient.length === 1) {
       setMode("results");
     } else {
       setMode("multiple-patients");

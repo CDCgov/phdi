@@ -47,7 +47,7 @@ const Query: React.FC = () => {
       {mode === "multiple-patients" && originalRequest && (
         <>
           <MultiplePatientSearchResults
-            patients={useCaseQueryResponse?.patients ?? []}
+            patients={useCaseQueryResponse?.Patient ?? []}
             originalRequest={originalRequest}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setMode={setMode}

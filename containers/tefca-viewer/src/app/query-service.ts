@@ -81,8 +81,6 @@ async function patientQuery(
     );
   }
   queryResponse = await parseFhirSearch(response, queryResponse);
-
-  queryResponse.patients = (await parseFhirSearch(response)) as Patient[];
 }
 
 /**
@@ -98,19 +96,19 @@ export async function useCaseQuery(
 ): Promise<QueryResponse> {
   const fhirClient = new FHIRClient(request.fhir_server);
 
-  if (!queryResponse.patients || queryResponse.patients.length === 0) {
+  if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
     await patientQuery(request, fhirClient, queryResponse);
   }
 
-  if (!queryResponse.patients || queryResponse.patients.length === 0) {
+  if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
     console.log("No patients found.");
     return queryResponse;
-  } else if (queryResponse.patients.length > 1) {
+  } else if (queryResponse.Patient.length > 1) {
     console.log("Multiple patients found.");
     return queryResponse;
   }
 
-  const patientId = queryResponse.patients?.[0]?.id ?? "";
+  const patientId = queryResponse.Patient[0].id ?? "";
 
   await useCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
 

@@ -172,7 +172,7 @@ async function viewRecord(
 ): Promise<void> {
   console.log("Viewing record: ", index);
   const queryResponse = await useCaseQuery(originalRequest, {
-    patients: [patients[index]],
+    Patient: [patients[index]],
   });
   setUseCaseQueryResponse(queryResponse);
   setMode("results");
