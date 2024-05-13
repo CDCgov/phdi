@@ -12,7 +12,7 @@ import {
 } from "fhir/r4";
 import FHIRClient, { FHIR_SERVERS } from "./fhir-servers";
 
-type USE_CASES =
+export type USE_CASES =
   | "social-determinants"
   | "newborn-screening"
   | "syphilis"
