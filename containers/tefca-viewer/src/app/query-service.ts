@@ -103,10 +103,8 @@ export async function useCaseQuery(
   }
 
   if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
-    console.log("No patients found.");
     return queryResponse;
   } else if (queryResponse.Patient.length > 1) {
-    console.log("Multiple patients found.");
     return queryResponse;
   }
 
