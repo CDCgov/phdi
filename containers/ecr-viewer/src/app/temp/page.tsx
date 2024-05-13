@@ -5,7 +5,10 @@
 import { trace } from "@opentelemetry/api";
 
 function delayedTask() {
-  console.log("3 seconds have passed!");
+  console.log(
+    "OTEL Exporter URL:",
+    process.env.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT,
+  );
 }
 
 /**

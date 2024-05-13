@@ -4,6 +4,7 @@ WORKDIR /code
 COPY . .
 RUN npm install
 
+
 EXPOSE 3000
 
 ENV OTEL_TRACES_EXPORTER=otlp
@@ -16,6 +17,6 @@ ENV OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://otel-collector:4318/v1/metrics
 
 # Jaeger preferred routing is gRPC for native OTLP
 ENV OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
-ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4317/v1/traces
+ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4318/v1/traces
 
 CMD ["npm", "run", "dev"]

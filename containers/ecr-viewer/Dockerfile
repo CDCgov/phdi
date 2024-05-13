@@ -62,7 +62,7 @@ ENV OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://otel-collector:4318/v1/metrics
 
 # Jaeger preferred routing is gRPC for native OTLP
 ENV OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
-ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4317/v1/traces
+ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4318/v1/traces
 
 
 # server.js is created by next build from the standalone output
