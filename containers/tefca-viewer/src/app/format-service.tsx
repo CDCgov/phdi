@@ -164,3 +164,22 @@ export function formatMRN(identifier: Identifier[]): JSX.Element {
     </>
   );
 }
+
+ * Formats the provided date string into a formatted date string with year, month, and day.
+ * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input.
+ * @returns - The formatted date string, "" if input date was invalid, or undefined if the input date is falsy.
+ */
+export const formatDate = (dateString?: string): string | undefined => {
+  if (dateString) {
+    let date = new Date(dateString);
+
+    if (date.toString() != "Invalid Date") {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone: "UTC",
+      }); // UTC, otherwise will have timezone issues
+    }
+  }
+};

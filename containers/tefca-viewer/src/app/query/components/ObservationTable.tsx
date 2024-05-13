@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "@trussworks/react-uswds";
 import { Observation } from "fhir/r4";
-import { formatCodeableConcept } from "../../format-service";
+import { formatCodeableConcept, formatDate } from "../../format-service";
 /**
  * The props for the ObservationTable component.
  */
@@ -32,7 +32,8 @@ const ObservationTable: React.FC<ObservationTableProps> = ({
       <tbody>
         {observations.map((obs) => (
           <tr key={obs.id}>
-            <td>{obs?.issued}</td>
+            <td>{formatDate(obs?.issued)}</td>
+            {/* <td>{obs?.issued}</td> */}
             <td>{formatCodeableConcept(obs.code)}</td>
             <td>
               {obs?.interpretation && obs.interpretation.length > 0

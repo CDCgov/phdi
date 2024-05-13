@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "@trussworks/react-uswds";
 import { DiagnosticReport } from "fhir/r4";
-import { formatCodeableConcept } from "../../format-service";
+import { formatCodeableConcept, formatDate } from "../../format-service";
 
 /**
  * The props for the DiagnosticReportTable component.
@@ -16,7 +16,7 @@ export interface DiagnosticReportTableProps {
  * @param props.diagnosticReports - The array of DiagnosticReport resources.
  * @returns - The DiagnosticReportTable component.
  */
-const DiagnosticReportsTable: React.FC<DiagnosticReportTableProps> = ({
+const DiagnosticReportTable: React.FC<DiagnosticReportTableProps> = ({
   diagnosticReports,
 }) => {
   return (
@@ -30,7 +30,7 @@ const DiagnosticReportsTable: React.FC<DiagnosticReportTableProps> = ({
       <tbody>
         {diagnosticReports.map((diagnosticReport) => (
           <tr key={diagnosticReport.id}>
-            <td>{diagnosticReport?.effectiveDateTime}</td>
+            <td>{formatDate(diagnosticReport?.effectiveDateTime)}</td>
             <td>{formatCodeableConcept(diagnosticReport.code)}</td>
           </tr>
         ))}
@@ -39,4 +39,4 @@ const DiagnosticReportsTable: React.FC<DiagnosticReportTableProps> = ({
   );
 };
 
-export default DiagnosticReportsTable;
+export default DiagnosticReportTable;
