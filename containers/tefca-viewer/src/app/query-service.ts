@@ -35,7 +35,6 @@ export type QueryResponse = {
   Medication?: Medication[];
   MedicationAdministration?: MedicationAdministration[];
   MedicationRequest?: MedicationRequest[];
-
 };
 
 const useCaseQueryMap: {

@@ -9,9 +9,8 @@ import {
   formatAddress,
   formatContact,
   formatIdentifier,
-  formatDate
+  formatDate,
 } from "../../format-service";
-
 
 /**
  * Displays the demographic information of a patient.
