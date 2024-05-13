@@ -17,7 +17,11 @@ export default function PatientSearch() {
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
   const [useCase, setUseCase] = useState<
-    "social-determinants" | "newborn-screening" | "syphilis" | "cancer"
+    | "social-determinants"
+    | "newborn-screening"
+    | "syphilis"
+    | "gonorrhea"
+    | "cancer"
   >();
 
   // Set a mode to switch between search and view
@@ -272,6 +276,7 @@ export default function PatientSearch() {
                           | "social-determinants"
                           | "newborn-screening"
                           | "syphilis"
+                          | "gonorrhea"
                           | "cancer",
                       );
                     }}
@@ -287,6 +292,7 @@ export default function PatientSearch() {
                     <option value="social-determinants">
                       Social Determinants of Health
                     </option>
+                    <option value="gonorrhea">Gonorrhea</option>
                   </Select>
                 </div>
               </div>
