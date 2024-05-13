@@ -165,6 +165,7 @@ export function formatMRN(identifier: Identifier[]): JSX.Element {
   );
 }
 
+/**
  * Formats the provided date string into a formatted date string with year, month, and day.
  * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input.
  * @returns - The formatted date string, "" if input date was invalid, or undefined if the input date is falsy.
