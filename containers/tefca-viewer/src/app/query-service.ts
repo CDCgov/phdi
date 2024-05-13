@@ -18,15 +18,15 @@ type USE_CASES =
   | "syphilis"
   | "cancer";
 
-type UseCaseQueryRequest = {
+export type UseCaseQueryRequest = {
   use_case: USE_CASES;
   fhir_server: FHIR_SERVERS;
-  first_name: string;
-  last_name: string;
-  dob: string;
+  first_name?: string;
+  last_name?: string;
+  dob?: string;
 };
 
-type QueryResponse = {
+export type QueryResponse = {
   patients?: Patient[];
   observations?: Observation[];
   diagnosticReports?: DiagnosticReport[];
@@ -77,27 +77,33 @@ async function patientQuery(
   }
 
   queryResponse.patients = (await parseFhirSearch(response)) as Patient[];
-
-  if (queryResponse.patients.length === 0) {
-    throw new Error("No patient found.");
-  } else if (queryResponse.patients.length > 1) {
-    throw new Error("Multiple patients found. Please refine your search.");
-  }
 }
 
 /**
  * Query a FHIR API for a public health use case based on patient demographics provided
  * in the request. If data is found, return in a queryResponse object.
  * @param request - UseCaseQueryRequest object containing the patient demographics and use case.
+ * @param queryResponse - The response object to store the query results.
  * @returns - The response object containing the query results.
  */
 export async function useCaseQuery(
   request: UseCaseQueryRequest,
+  queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
   const fhirClient = new FHIRClient(request.fhir_server);
 
-  const queryResponse: QueryResponse = {};
-  await patientQuery(request, fhirClient, queryResponse);
+  if (!queryResponse.patients || queryResponse.patients.length === 0) {
+    await patientQuery(request, fhirClient, queryResponse);
+  }
+
+  if (!queryResponse.patients || queryResponse.patients.length === 0) {
+    console.log("No patients found.");
+    return queryResponse;
+  } else if (queryResponse.patients.length > 1) {
+    console.log("Multiple patients found.");
+    return queryResponse;
+  }
+
   const patientId = queryResponse.patients?.[0]?.id ?? "";
 
   await useCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
@@ -218,7 +224,6 @@ async function cancerQuery(
   const cpt: Array<string> = ["15301000"]; // encounter codes from AMA CPT
   const snomedFilter: string = snomed.join(",");
   const rxnormFilter: string = rxnorm.join(",");
-  const cptFilter: string = cpt.join(",");
 
   // Query for conditions
   const conditionQuery = `/Condition?subject=${patientId}&code=${snomedFilter}`;

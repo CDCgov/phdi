@@ -64,17 +64,19 @@ export function formatName(names: HumanName[]): string {
  * @param address - The Address object to format.
  * @returns The formatted address.
  */
-export function formatAddress(address: Address[]): string {
-  let formattedAddress = "";
+export function formatAddress(address: Address[]): JSX.Element {
+  let formattedAddress = <></>;
   if (address.length > 0) {
-    formattedAddress =
-      address[0]?.line?.join("\n") +
-      "\n" +
-      address[0].city +
-      ", " +
-      address[0].state +
-      " " +
-      address[0].postalCode;
+    formattedAddress = (
+      <>
+        {address[0].line?.map((line) => (
+          <>
+            {line} <br />
+          </>
+        ))}
+        {address[0].city}, {address[0].state} {address[0].postalCode}
+      </>
+    );
   }
   return formattedAddress;
 }
@@ -84,16 +86,27 @@ export function formatAddress(address: Address[]): string {
  * @param contacts - The ContactPoint object to format.
  * @returns - The formatted contact information.
  */
-export function formatContact(contacts: ContactPoint[]): string {
-  return contacts
-    .map((contact) => {
-      if (contact.system === "phone") {
-        return `${contact.use}: ${contact.value}`;
-      } else if (contact.system === "email") {
-        return contact.value;
-      }
-    })
-    .join("\n");
+export function formatContact(contacts: ContactPoint[]): JSX.Element {
+  return (
+    <>
+      {contacts.map((contact) => {
+        if (contact.system === "phone") {
+          return (
+            <>
+              {contact.use}: {contact.value} <br />
+            </>
+          );
+        } else if (contact.system === "email") {
+          return (
+            <>
+              {contact.value} <br />
+            </>
+          );
+        }
+        return null;
+      })}
+    </>
+  );
 }
 
 /**
@@ -101,15 +114,53 @@ export function formatContact(contacts: ContactPoint[]): string {
  * @param identifier - The Identifier object to format.
  * @returns The formatted identifiers.
  */
-export function formatIdentifier(identifier: Identifier[]): string {
-  return identifier
-    .map((id) => {
-      let idType = id.type?.coding?.[0].display ?? "";
-      if (idType === "") {
-        idType = id.type?.text ?? "";
-      }
+export function formatIdentifier(identifier: Identifier[]): JSX.Element {
+  return (
+    <>
+      {identifier.map((id) => {
+        let idType = id.type?.coding?.[0].display ?? "";
+        if (idType === "") {
+          idType = id.type?.text ?? "";
+        }
 
-      return `${idType}: ${id.value}`;
-    })
-    .join("\n");
+        return (
+          <>
+            {" "}
+            {idType}: {id.value} <br />{" "}
+          </>
+        );
+      })}
+    </>
+  );
+}
+
+/**
+ * Formats the MRN of a FHIR Identifier object.
+ * @param identifier - The Identifier object to format.
+ * @returns The formatted MRN.
+ */
+export function formatMRN(identifier: Identifier[]): JSX.Element {
+  return (
+    <>
+      {identifier.map((id) => {
+        console.log(id);
+        let mrnFlag = false;
+        id.type?.coding?.forEach((code) => {
+          if (code.code === "MR") {
+            mrnFlag = true;
+          }
+        });
+        if (mrnFlag) {
+          return (
+            <>
+              {" "}
+              {id.value} <br />{" "}
+            </>
+          );
+        }
+
+        return null;
+      })}
+    </>
+  );
 }

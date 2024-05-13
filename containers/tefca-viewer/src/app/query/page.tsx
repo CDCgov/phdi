@@ -1,11 +1,16 @@
 "use client";
 import React, { useState } from "react";
-import { UseCaseQueryResponse, useCaseQuery } from "../query-service";
+import {
+  UseCaseQueryResponse,
+  useCaseQuery,
+  UseCaseQueryRequest,
+} from "../query-service";
 import QueryView from "./components/QueryView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
 import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
 import { FHIR_SERVERS, fhirServers } from "../fhir-servers";
 
+export type Mode = "search" | "results" | "multiple-patients" | "no-patients";
 /**
  * Displays the patient search form and results.
  * @returns The PatientSearch component.
@@ -22,12 +27,15 @@ export default function PatientSearch() {
   >();
 
   // Set a mode to switch between search and view
-  const [mode, setMode] = useState<"search" | "view">("search");
+
+  const [mode, setMode] = useState<Mode>("search");
   // Set a loading state to show a loading message when loading
   const [loading, setLoading] = useState<boolean>(false);
   // Set a state to store the response from the use case query
   const [useCaseQueryResponse, setUseCaseQueryResponse] =
     useState<UseCaseQueryResponse>();
+  // Store the original request to pass to the multiple patients view
+  const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     if (!useCase || !fhirServer) {
@@ -37,16 +45,27 @@ export default function PatientSearch() {
     event.preventDefault();
     setLoading(true);
     console.log("Event:", event);
-    const use_case_query_response = await useCaseQuery({
-      use_case: useCase,
-      fhir_server: fhirServer,
+    const originalRequest = {
       first_name: firstName,
       last_name: lastName,
       dob: dob,
-    });
+      fhir_server: fhirServer,
+      use_case: useCase,
+    };
+    setOriginalRequest(originalRequest);
+    const use_case_query_response = await useCaseQuery(originalRequest);
     console.log("Patient ID:", use_case_query_response);
     setUseCaseQueryResponse(use_case_query_response);
-    setMode("view");
+    if (
+      !use_case_query_response.patients ||
+      use_case_query_response.patients.length === 0
+    ) {
+      setMode("no-patients");
+    } else if (use_case_query_response.patients.length === 1) {
+      setMode("results");
+    } else {
+      setMode("multiple-patients");
+    }
     setLoading(false);
   };
 
@@ -327,28 +346,33 @@ export default function PatientSearch() {
       )}
 
       {/* Switch the mode to view to show the results of the query */}
-      {mode === "view" && (
+      {mode === "results" && (
         <>
           <button className="usa-button" onClick={() => setMode("search")}>
             Search for a new patient
           </button>
           <LoadingView loading={loading} />
           {/* TODO: add error view if loading is done and there's no useCaseQueryResponse */}
-          {useCaseQueryResponse &&
-          useCaseQueryResponse.patients &&
-          useCaseQueryResponse.patients.length > 1 ? (
-            <MultiplePatientSearchResults
-              patients={useCaseQueryResponse.patients}
-            />
-          ) : (
-            <QueryView useCaseQueryResponse={useCaseQueryResponse ?? {}} />
+          {useCaseQueryResponse && (
+            <QueryView useCaseQueryResponse={useCaseQueryResponse} />
           )}
+        </>
+      )}
+
+      {/* Show the multiple patients view if there are multiple patients */}
+      {mode === "multiple-patients" && originalRequest && (
+        <>
+          <MultiplePatientSearchResults
+            patients={useCaseQueryResponse?.patients ?? []}
+            originalRequest={originalRequest}
+            setUseCaseQueryResponse={setUseCaseQueryResponse}
+            setMode={setMode}
+          />
         </>
       )}
     </div>
   );
 }
-
 function LoadingView({ loading }: { loading: boolean }) {
   if (loading) {
     return (
