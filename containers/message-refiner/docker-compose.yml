@@ -5,11 +5,9 @@ services:
     depends_on:
       - trigger-code-reference-service
     ports:
-      - ${MESSAGE_REFINER_PORT_NUMBER}:8080
+      - 8080:8080
     logging:
       driver: "json-file"
-    env_file:
-      - .env
     environment:
       - MESSAGE_REFINER_URL=http://message-refiner-service:8080
       - TRIGGER_CODE_REFERENCE_URL=http://trigger-code-reference-service:8080
@@ -17,6 +15,6 @@ services:
     build:
       context: ../trigger-code-reference
     ports:
-      - "${TRIGGER_CODE_REFERENCE_PORT_NUMBER}:8080"
+      - "8081:8080"
     logging:
       driver: "json-file"
