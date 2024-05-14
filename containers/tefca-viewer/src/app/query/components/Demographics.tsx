@@ -1,8 +1,16 @@
-import { Patient, HumanName, Address, ContactPoint, Identifier } from "fhir/r4";
+import { Patient } from "fhir/r4";
 import { DisplayData } from "@/app/utils";
 import { DataDisplay } from "@/app/utils";
 import * as dateFns from "date-fns";
 import { evaluate } from "fhirpath";
+
+import {
+  formatName,
+  formatAddress,
+  formatContact,
+  formatIdentifier,
+  formatDate,
+} from "../../format-service";
 
 /**
  * Displays the demographic information of a patient.
@@ -46,7 +54,7 @@ function formatDemographics(patient: Patient): DisplayData[] {
     },
     {
       title: "DOB",
-      value: patient.birthDate ?? "",
+      value: formatDate(patient.birthDate),
     },
     {
       title: "Current Age",
@@ -99,74 +107,6 @@ function formatDemographics(patient: Patient): DisplayData[] {
   ];
 
   return demographicData;
-}
-
-/**
- * Formats the name of a FHIR HumanName object.
- * @param names - The HumanName object to format.
- * @returns The formatted name.
- */
-function formatName(names: HumanName[]): string {
-  let name = "";
-  if (names.length > 0) {
-    name = names[0].given?.join(" ") + " " + names[0].family;
-  }
-  return name;
-}
-
-/**
- * Formats the address of a FHIR Address object.
- * @param address - The Address object to format.
- * @returns The formatted address.
- */
-function formatAddress(address: Address[]): string {
-  let formattedAddress = "";
-  if (address.length > 0) {
-    formattedAddress =
-      address[0]?.line?.join("\n") +
-      "\n" +
-      address[0].city +
-      ", " +
-      address[0].state +
-      " " +
-      address[0].postalCode;
-  }
-  return formattedAddress;
-}
-
-/**
- * Formats the contact information of a FHIR ContactPoint object.
- * @param contacts - The ContactPoint object to format.
- * @returns - The formatted contact information.
- */
-function formatContact(contacts: ContactPoint[]): string {
-  return contacts
-    .map((contact) => {
-      if (contact.system === "phone") {
-        return `${contact.use}: ${contact.value}`;
-      } else if (contact.system === "email") {
-        return contact.value;
-      }
-    })
-    .join("\n");
-}
-
-/**
- * Formats the identifiers of a FHIR Identifier object.
- * @param identifier - The Identifier object to format.
- * @returns The formatted identifiers.
- */
-function formatIdentifier(identifier: Identifier[]): string {
-  return identifier
-    .map((id) => {
-      let idType = id.type?.coding?.[0].display ?? "";
-      if (idType === "") {
-        idType = id.type?.text ?? "";
-      }
-
-      return `${idType}: ${id.value}`;
-    })
-    .join("\n");
 }
 
 /**
