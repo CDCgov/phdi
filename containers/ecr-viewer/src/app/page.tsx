@@ -66,38 +66,40 @@ const HomePage: React.FC = () => {
 function renderListECRViewer(listFhirData: ListEcr): JSX.Element {
   const header = ["eCR ID", "Stored Date"];
   return (
-    <div className="content-wrapper">
-      <Table
-        bordered={false}
-        fullWidth={true}
-        className={"table-homepage-list"}
-        data-testid="table"
-      >
-        <thead>
-          <tr>
-            {header.map((column) => (
-              <th key={`${column}`} scope="col">
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {listFhirData.map((item, index) => {
-            return (
-              <tr key={`table-row-${index}`}>
-                <td>
-                  <a href={`${basePath}/view-data?id=${item.ecr_id}`}>
-                    {item.ecr_id ?? noData}
-                  </a>
-                </td>
-                <td>{item.dateModified ?? noData}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-    </div>
+    <main>
+      <div className="content-wrapper">
+        <Table
+          bordered={false}
+          fullWidth={true}
+          className={"table-homepage-list"}
+          data-testid="table"
+        >
+          <thead>
+            <tr>
+              {header.map((column) => (
+                <th key={`${column}`} scope="col">
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {listFhirData.map((item, index) => {
+              return (
+                <tr key={`table-row-${index}`}>
+                  <td>
+                    <a href={`${basePath}/view-data?id=${item.ecr_id}`}>
+                      {item.ecr_id ?? noData}
+                    </a>
+                  </td>
+                  <td>{item.dateModified ?? noData}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </div>
+    </main>
   );
 }
 
