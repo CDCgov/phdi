@@ -25,10 +25,7 @@ export const list_postgres = async () => {
   } catch (error: any) {
     console.error("Error fetching data:", error);
     if (error.message == "No data returned from the query.") {
-      return NextResponse.json(
-        { message: "eCR ID not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ message: "No eCRs found" }, { status: 404 });
     } else {
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
