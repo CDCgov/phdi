@@ -293,3 +293,23 @@ body {
   }
   width: 100%;
 }
+.results-banner {
+  background-color: #DFE1E2;
+}
+.results-banner-content {
+  margin-bottom: 1rem;
+  max-width: 90rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  // padding-left: 10rem;
+}
+
+.header-footer-content {
+  max-width: 98rem !important;
+}
+
+.usa-logo {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
