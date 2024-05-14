@@ -1,10 +1,9 @@
-import { evaluate } from "fhirpath";
-import { Bundle, CodeableConcept, Element, Quantity } from "fhir/r4";
+import { Element } from "fhir/r4";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
-import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
+import { evaluateValue } from "./evaluateFhirDataService";
 
 interface BuildRowProps {
   mappings: PathMappings;
@@ -135,51 +134,4 @@ const BuildRow: React.FC<BuildRowProps> = ({
   } else {
     return <tr>{rowCells}</tr>;
   }
-};
-
-/**
- * Evaluates a reference in a FHIR bundle.
- * @param fhirBundle - The FHIR bundle containing resources.
- * @param mappings - Path mappings for resolving references.
- * @param ref - The reference string (e.g., "Patient/123").
- * @returns The FHIR Resource or undefined if not found.
- */
-export const evaluateReference = (
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-  ref: string,
-) => {
-  const [resourceType, id] = ref.split("/");
-  return evaluate(fhirBundle, mappings.resolve, {
-    resourceType,
-    id,
-  })[0];
-};
-
-/**
- * Evaluates the FHIR path and returns the appropriate string value. Supports choice elements
- * @param entry - The FHIR resource to evaluate.
- * @param path - The path within the resource to extract the value from.
- * @returns - The evaluated value as a string.
- */
-export const evaluateValue = (entry: Element, path: string): string => {
-  let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
-  let value = "";
-  if (typeof originalValue === "string" || typeof originalValue === "number") {
-    value = originalValue.toString();
-  } else if (originalValue?.__path__ === "Quantity") {
-    const data = originalValue as Quantity;
-    let unit = data.unit;
-    const firstLetterRegex = /^[a-z]/i;
-    if (unit?.match(firstLetterRegex)) {
-      unit = " " + unit;
-    }
-    value = `${data.value ?? ""}${unit ?? ""}`;
-  } else if (originalValue?.__path__ === "CodeableConcept") {
-    const data = originalValue as CodeableConcept;
-    value = data.coding?.[0].display || data.text || "";
-  } else if (typeof originalValue === "object") {
-    console.log(`Not implemented for ${originalValue.__path__}`);
-  }
-  return value.trim();
 };
