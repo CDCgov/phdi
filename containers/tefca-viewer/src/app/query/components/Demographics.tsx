@@ -2,7 +2,7 @@ import { Patient } from "fhir/r4";
 import { DisplayData } from "@/app/utils";
 import { DataDisplay } from "@/app/utils";
 import * as dateFns from "date-fns";
-import { evaluate } from "@/app/view-data/utils/evaluate";
+import { evaluate } from "fhirpath";
 
 import {
   formatName,
