@@ -4,6 +4,7 @@ from dibbs.base_service import BaseService
 from fastapi import Response
 
 from app.models import InsertConditionInput
+from app.utils import get_clean_snomed_code, get_clinical_services_list, get_clinical_services_dict
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -57,6 +58,8 @@ async def get_value_sets_for_condition(condition_code: str) -> Response:
             content="Supplied condition code must be a non-empty string",
             status_code=422,
         )
-
-    # TODO: This method is a stub.
-    return {"value_set": []}
+    else:
+        clean_snowmed_code = get_clean_snomed_code(condition_code)
+        clinical_services_list = get_clinical_services_list(clean_snowmed_code)
+        values = get_clinical_services_dict(clinical_services_list)
+    return {"value_set": values}
