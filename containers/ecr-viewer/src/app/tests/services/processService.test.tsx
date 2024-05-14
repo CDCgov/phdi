@@ -1,6 +1,9 @@
 import { ListObjectsV2CommandOutput } from "@aws-sdk/client-s3";
-import { ListEcr } from "@/app/page";
-import { processListS3, processListPostgres } from "@/app/page";
+import {
+  ListEcr,
+  processListS3,
+  processListPostgres,
+} from "@/app/services/processService";
 
 describe("Home Page", () => {
   describe("processListS3", () => {
