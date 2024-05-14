@@ -1,8 +1,4 @@
-import {
-  evaluateProviderData,
-  evaluateClinicalData,
-  PathMappings,
-} from "../../utils";
+import { PathMappings } from "../../utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
 import UnavailableInfo from "./UnavailableInfo";
@@ -20,7 +16,9 @@ import {
   evaluateDemographicsData,
   evaluateSocialData,
   evaluateEncounterData,
+  evaluateProviderData,
 } from "@/app/services/evaluateFhirDataService";
+import { evaluateClinicalData } from "./common";
 
 type AccordionContainerProps = {
   children?: ReactNode;
