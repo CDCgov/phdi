@@ -10,7 +10,7 @@ const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
 
-type ListEcr = {
+export type ListEcr = {
   ecr_id: string;
   dateModified: string;
 }[];
@@ -138,7 +138,9 @@ const processListECR = (
  * @param responseBody - The response body containing eCR data from S3.
  * @returns - The processed list of eCR IDs and dates.
  */
-const processListS3 = (responseBody: ListObjectsV2CommandOutput): ListEcr => {
+export const processListS3 = (
+  responseBody: ListObjectsV2CommandOutput,
+): ListEcr => {
   return (
     responseBody.Contents?.map((object) => {
       return {
@@ -156,7 +158,7 @@ const processListS3 = (responseBody: ListObjectsV2CommandOutput): ListEcr => {
  * @param responseBody - The response body containing eCR data from Postgres.
  * @returns - The processed list of eCR IDs and dates.
  */
-const processListPostgres = (responseBody: any[]) => {
+export const processListPostgres = (responseBody: any[]): ListEcr => {
   return responseBody.map((object) => {
     return {
       ecr_id: object.ecr_id || "",
