@@ -7,7 +7,7 @@ import {
   ColumnInfoInput,
   noData,
 } from "@/app/utils";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
   formatDateTime,

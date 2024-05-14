@@ -30,7 +30,7 @@ import {
   Practitioner,
   Procedure,
 } from "fhir/r4";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import parse from "html-react-parser";
 
 /**
