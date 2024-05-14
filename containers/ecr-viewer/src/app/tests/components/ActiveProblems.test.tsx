@@ -2,9 +2,9 @@ import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import fs from "fs";
 import YAML from "yaml";
-import { returnProblemsTable } from "@/app/utils";
 import { Bundle, Condition } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
+import { returnProblemsTable } from "@/app/view-data/components/common";
 
 describe("Active Problems Table", () => {
   let container: HTMLElement;
