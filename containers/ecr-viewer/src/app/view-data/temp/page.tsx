@@ -1,4 +1,4 @@
-import { EcrLoading } from "../components/loading/LoadingComponent";
+import { EcrLoading } from "../components/LoadingComponent";
 
 /**
  * temp
