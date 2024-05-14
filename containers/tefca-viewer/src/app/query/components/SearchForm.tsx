@@ -299,12 +299,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 <option value="" disabled>
                   Select Use Case
                 </option>
-                <option value="newborn-screening">Newborn Screening</option>
-                <option value="syphilis">Syphilis</option>
                 <option value="cancer">Cancer</option>
+                <option value="chlamydia">Chlamydia</option>
+                <option value="gonorrhea">Gonorrhea</option>
+                <option value="newborn-screening">Newborn Screening</option>
                 <option value="social-determinants">
                   Social Determinants of Health
                 </option>
+                <option value="syphilis">Syphilis</option>
               </Select>
             </div>
           </div>
