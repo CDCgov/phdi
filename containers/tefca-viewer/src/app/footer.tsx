@@ -8,7 +8,7 @@ export default function FooterComponent() {
   return (
     <footer className="usa-footer">
       <div className="usa-footer__secondary-section max-w-full bg-primary-darker">
-        <div className="grid-container usa-nav-container">
+        <div className="header-footer-content grid-container usa-nav-container">
           <div className="grid-row grid-gap">
             <div
               className="
