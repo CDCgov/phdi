@@ -33,7 +33,7 @@ type AccordionContainerProps = {
  * @param props.fhirPathMappings - The path mappings used to extract information from the FHIR bundle.
  * @returns The JSX element representing the accordion container.
  */
-const AccordianContainer: React.FC<AccordionContainerProps> = ({
+const AccordionContainer: React.FC<AccordionContainerProps> = ({
   fhirBundle,
   fhirPathMappings,
 }) => {
@@ -158,4 +158,4 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     />
   );
 };
-export default AccordianContainer;
+export default AccordionContainer;
