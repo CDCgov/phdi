@@ -1,4 +1,7 @@
-import { evaluateReference } from "@/app/services/evaluateFhirDataService";
+import {
+  calculatePatientAge,
+  evaluateReference,
+} from "@/app/services/evaluateFhirDataService";
 import { evaluateTable } from "@/app/services/evaluateService";
 import {
   TableRow,
@@ -18,11 +21,14 @@ import {
 import { Table } from "@trussworks/react-uswds";
 import {
   Bundle,
+  CarePlanActivity,
   CareTeamParticipant,
+  Condition,
   FhirResource,
   Immunization,
   Organization,
   Practitioner,
+  Procedure,
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";

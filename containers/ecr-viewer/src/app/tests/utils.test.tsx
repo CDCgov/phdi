@@ -1,10 +1,6 @@
 import {
   DisplayDataProps,
-  evaluateClinicalData,
-  returnProblemsTable,
-  returnCareTeamTable,
   isDataAvailable,
-  returnPlannedProceduresTable,
   DataDisplay,
   TooltipDiv,
   toolTipElement,
@@ -29,6 +25,12 @@ import {
   calculatePatientAge,
   evaluatePatientAddress,
 } from "../services/evaluateFhirDataService";
+import {
+  evaluateClinicalData,
+  returnCareTeamTable,
+  returnPlannedProceduresTable,
+  returnProblemsTable,
+} from "../view-data/components/common";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
