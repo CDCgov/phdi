@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "@trussworks/react-uswds";
 import { Condition } from "fhir/r4";
-import { formatCodeableConcept } from "../../format-service";
+import { formatCodeableConcept, formatDate } from "../../format-service";
 
 /**
  * The props for the ConditionTable component.
@@ -32,8 +32,8 @@ const ConditionsTable: React.FC<ConditionTableProps> = ({ conditions }) => {
           <tr key={condition.id}>
             <td>{formatCodeableConcept(condition.code ?? {})}</td>
             <td>{formatCodeableConcept(condition.clinicalStatus ?? {})}</td>
-            <td>{condition.onsetDateTime}</td>
-            <td>{condition.abatementDateTime}</td>
+            <td>{formatDate(condition.onsetDateTime)}</td>
+            <td>{formatDate(condition.abatementDateTime)}</td>
           </tr>
         ))}
       </tbody>

@@ -16,6 +16,10 @@
   border-top: 8px solid #EDEFF0;
 }
 
+h1 {
+  margin-bottom: 0.25rem;
+}
+
 h2 {
   font-size: 40px;
 }
@@ -45,11 +49,6 @@ h4 {
   margin-top: 0px;
 }
 
-
-
-.info-container {
-  // width: 687px;
-}
 
 .data-title {
   flex:0 1 auto;
@@ -172,9 +171,6 @@ h4 {
   margin-top: 48px;
 }
 
-.ecr-content {
-  // max-width: 1222px;
-}
 .ecr-content h2:first-of-type {
     margin-top: 0;
     padding-top: 0;
@@ -247,6 +243,21 @@ body {
   max-width: 480px;
 }
 
+.multiple-patient-search-results {
+  display: grid;
+  grid-template-columns: 1fr; 
+  justify-content: center; 
+  margin: 0 auto; 
+  max-width: 1000px;
+}
+
+.no-patients-found {
+  display: grid;
+  grid-template-columns: 1fr; 
+  justify-content: center; 
+  margin: 0 auto; 
+  max-width: 1000px;
+}
 .usa-footer {
   margin-top: auto;
 }
@@ -270,10 +281,35 @@ body {
   max-width: 11em;
 }
 
-.usa-table {
-  width: 100%;
-}
-
 .text-base-lightest {
   color: #f0f0f0!important;
+}
+
+
+.usa-table--borderless {
+  border: 1px solid black;
+  thead tr th {
+    background-color: #f0f0f0;
+  }
+  width: 100%;
+}
+.results-banner {
+  background-color: #DFE1E2;
+}
+.results-banner-content {
+  margin-bottom: 1rem;
+  max-width: 90rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  // padding-left: 10rem;
+}
+
+.header-footer-content {
+  max-width: 98rem !important;
+}
+
+.usa-logo {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
