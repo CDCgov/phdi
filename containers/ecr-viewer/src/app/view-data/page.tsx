@@ -31,5 +31,9 @@ export default async function Page({
   const fhirBundle = bundle.fhirBundle;
   const mappings = bundle.fhirPathMappings;
 
-  return <EcrViewer fhirBundle={fhirBundle} mappings={mappings} />;
+  return (
+    <main>
+      <EcrViewer fhirBundle={fhirBundle} mappings={mappings} />
+    </main>
+  );
 }
