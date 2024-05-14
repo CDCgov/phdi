@@ -124,8 +124,8 @@ def refine(validated_message: bytes, sections_to_include: str) -> str:
     # ensure that the default namespaces are set correctly
     namespace = "urn:hl7-org:v3"
     nsmap = {
-        None: "urn:hl7-org:v3",
-        "cda": "urn:hl7-org:v3",
+        None: namespace,
+        "cda": namespace,
         "sdtc": "urn:hl7-org:sdtc",
         "xsi": "http://www.w3.org/2001/XMLSchema-instance",
     }
@@ -135,18 +135,13 @@ def refine(validated_message: bytes, sections_to_include: str) -> str:
         refined_message_root.append(h)
     # creating the component element and structuredBody element with the same namespace
     # and adding them to the new root
-    component = ET.SubElement(refined_message_root, f"{{{namespace}}}component")
-    structuredBody = ET.SubElement(
-        refined_message_root, f"{{{namespace}}}structuredBody"
-    )
+    main_component = ET.SubElement(refined_message_root, f"{{{namespace}}}component")
+    structuredBody = ET.SubElement(main_component, f"{{{namespace}}}structuredBody")
 
     # Append the filtered elements to the new root and use the uri namespace
     for element in elements:
-        c = ET.Element(f"{{{namespace}}}component")
-        c.append(element)
-        structuredBody.append(c)
-    component.append(structuredBody)
-    refined_message_root.append(component)
+        section_component = ET.SubElement(structuredBody, f"{{{namespace}}}component")
+        section_component.append(element)
 
     # Create a new ElementTree with the result root
     refined_message = ET.ElementTree(refined_message_root)
