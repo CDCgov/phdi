@@ -11,7 +11,7 @@ export default function HeaderComponent() {
             <em className="usa-logo__text text-base-lightest">
               <a
                 className="text-base-lightest"
-                href="/"
+                href="/tefca-viewer"
                 title="TryTEFCA Viewer"
               >
                 TryTEFCA Viewer
