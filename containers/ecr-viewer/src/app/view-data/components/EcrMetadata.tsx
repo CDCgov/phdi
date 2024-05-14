@@ -115,8 +115,8 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[1].title}
           </span>
         </AccordianH4>
-        {eicrDetails.map((item) => {
-          return <DataDisplay item={item} />;
+        {eicrDetails.map((item, index) => {
+          return <DataDisplay item={item} key={index} />;
         })}
         <div className={"padding-bottom-1"} />
         <AccordianH4>
@@ -124,8 +124,8 @@ const EcrMetadata = ({
             {ecrMetadataConfig.subNavItems?.[2].title}
           </span>
         </AccordianH4>
-        {eCRSenderDetails.map((item) => {
-          return <DataDisplay item={item} />;
+        {eCRSenderDetails.map((item, index) => {
+          return <DataDisplay item={item} key={index} />;
         })}
       </AccordianDiv>
     </AccordianSection>
