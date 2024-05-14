@@ -19,9 +19,7 @@ interface SocialHistoryProps {
 const SocialHistory: React.FC<SocialHistoryProps> = ({ socialData }) => {
   return (
     <AccordianSection>
-      <AccordianH4>
-        <span id={"social-history"}>Social History</span>
-      </AccordianH4>
+      <AccordianH4 id={"social-history"}>Social History</AccordianH4>
       <AccordianDiv>
         {socialData.map((item, index) => (
           <DataDisplay item={item} key={index} />

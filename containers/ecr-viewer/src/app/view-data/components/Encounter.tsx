@@ -4,18 +4,12 @@ import {
   AccordianH4,
   AccordianDiv,
 } from "../component-utils";
-import { SectionConfig } from "./SideNav";
 import React from "react";
 
 interface EncounterProps {
   encounterData: DisplayDataProps[];
   providerData: DisplayDataProps[];
 }
-
-export const encounterConfig: SectionConfig = new SectionConfig(
-  "Encounter Details",
-  ["Encounter Details", "Provider Details"],
-);
 
 /**
  * Functional component for displaying encounter details.
@@ -28,11 +22,7 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const renderEncounterDetails = () => {
     return (
       <>
-        <AccordianH4>
-          <span id={encounterConfig.subNavItems?.[0].id}>
-            {encounterConfig.subNavItems?.[0].title}
-          </span>
-        </AccordianH4>
+        <AccordianH4 id={"encounter-details"}>Encounter Details</AccordianH4>
         <AccordianDiv>
           {encounterData.map((item, index) => (
             <DataDisplay item={item} key={index} />
@@ -45,11 +35,7 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const renderProviderDetails = () => {
     return (
       <>
-        <AccordianH4>
-          <span id={encounterConfig.subNavItems?.[1].id}>
-            {encounterConfig.subNavItems?.[1].title}
-          </span>
-        </AccordianH4>
+        <AccordianH4 id={"provider-details"}>Provider Details</AccordianH4>
         <AccordianDiv>
           {providerData.map((item, index) => (
             <DataDisplay item={item} key={index} />

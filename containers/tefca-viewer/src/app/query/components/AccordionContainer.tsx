@@ -52,7 +52,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       content: (
         <>
           <AccordianSection>
-            <AccordianH4>
+            <AccordianH4 id={"patient"}>
               <span id="patient">Demographics</span>
             </AccordianH4>
             <AccordianDiv>

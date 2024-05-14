@@ -19,9 +19,7 @@ interface DemographicsProps {
 const Demographics = ({ demographicsData }: DemographicsProps) => {
   return (
     <AccordianSection>
-      <AccordianH4>
-        <span id={"demographics"}>Demographics</span>
-      </AccordianH4>
+      <AccordianH4 id={"demographics"}>Demographics</AccordianH4>
       <AccordianDiv>
         {demographicsData.map((item, index) => (
           <DataDisplay item={item} key={index} />
