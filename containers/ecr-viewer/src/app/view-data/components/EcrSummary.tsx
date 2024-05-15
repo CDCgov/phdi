@@ -1,6 +1,6 @@
-import { DataDisplay, DisplayDataProps } from "../../utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
