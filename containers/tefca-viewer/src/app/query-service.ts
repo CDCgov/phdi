@@ -11,6 +11,7 @@ import {
   MedicationRequest,
 } from "fhir/r4";
 import FHIRClient, { FHIR_SERVERS } from "./fhir-servers";
+import { v4 as uuidv4 } from "uuid";
 
 export type USE_CASES =
   | "social-determinants"
@@ -159,6 +160,11 @@ async function newbornScreeningQuery(
 
   const query = `/Observation?subject=Patient/${patientId}&code=${loincFilter}`;
   const response = await fhirClient.get(query);
+  // const queryRequests: Array<string> = [query];
+  // const queryBundle = await generateQueryBundle(queryRequests);
+  // const bundleResponse = await fhirClient.post(queryBundle);
+  // queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
+  // return queryResponse;
 
   return await parseFhirSearch(response, queryResponse);
 }
@@ -178,28 +184,37 @@ async function syphilisQuery(
   const loincs: Array<string> = ["LP70657-9", "98212-4"];
   const snomed: Array<string> = ["76272004"];
   const rxnorm: Array<string> = ["2671695"]; // drug codes from NLM/NIH RxNorm
+  const classType: Array<string> = [
+    "54", // Family planning
+    "441", // Sexually transmitted
+  ];
+
   const loincFilter: string = loincs.join(",");
   const snomedFilter: string = snomed.join(",");
   const rxnormFilter: string = rxnorm.join(",");
+  const classTypeFilter: string = classType.join(",");
 
+  // Batch query for observations, diagnostic reports, conditions, some encounters, and medication requests
   const observationQuery = `/Observation?subject=${patientId}&code=${loincFilter}`;
-  const observationResponse = await fhirClient.get(observationQuery);
-
-  queryResponse = await parseFhirSearch(observationResponse, queryResponse);
-
   const diagnositicReportQuery = `/DiagnosticReport?subject=${patientId}&code=${loincFilter}`;
-  const diagnositicReportResponse = await fhirClient.get(
-    diagnositicReportQuery,
-  );
-  queryResponse = await parseFhirSearch(
-    diagnositicReportResponse,
-    queryResponse,
-  );
-
-  // Query for conditions
   const conditionQuery = `/Condition?subject=${patientId}&code=${snomedFilter}`;
-  const conditionResponse = await fhirClient.get(conditionQuery);
-  queryResponse = await parseFhirSearch(conditionResponse, queryResponse);
+  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
+  const socialHistoryQuery = `/Observation?subject=${patientId}&category=social-history`;
+  const encounterQuery = `/Encounter?subject=${patientId}&reason-code=${snomedFilter}`;
+  const encounterClassTypeQuery = `/Encounter?subject=${patientId}&class=${classTypeFilter}`;
+
+  const queryRequests: Array<string> = [
+    observationQuery,
+    diagnositicReportQuery,
+    conditionQuery,
+    medicationRequestQuery,
+    socialHistoryQuery,
+    encounterQuery,
+    encounterClassTypeQuery,
+  ];
+  const queryBundle = await generateQueryBundle(queryRequests);
+  const bundleResponse = await fhirClient.post(queryBundle);
+  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters. TODO: Add encounters as _include in condition query
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
@@ -209,12 +224,7 @@ async function syphilisQuery(
 
     queryResponse = await parseFhirSearch(encounterResponse, queryResponse);
   }
-  // Query for medicationRequests
-  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
-  const medicationRequestResponse = await fhirClient.get(
-    medicationRequestQuery,
-  );
-  return await parseFhirSearch(medicationRequestResponse, queryResponse);
+  return queryResponse;
 }
 
 /**
@@ -246,7 +256,7 @@ async function gonorrheaQuery(
     "1665005", // ceftriaxone 500 MG Injection
     "434692", // azithromycin 1000 MG
   ];
-  const serviceTypes = [
+  const classType = [
     "54", // Family planning
     "441", // Sexually transmitted
   ];
@@ -254,34 +264,29 @@ async function gonorrheaQuery(
   const loincFilter: string = loincs.join(",");
   const snomedFilter: string = snomed.join(",");
   const rxnormFilter: string = rxnorm.join(",");
-  const serviceTypeFilter: string = serviceTypes.join(",");
+  const classTypeFilter: string = classType.join(",");
 
-  // TODO: Batch the observation queries
-  //Observation queries based on LOINC codes
+  // Batch query for observations, diagnostic reports, conditions, some encounters, and medication requests
   const observationQuery = `/Observation?subject=${patientId}&code=${loincFilter}`;
-  const observationResponse = await fhirClient.get(observationQuery);
-
-  queryResponse = await parseFhirSearch(observationResponse, queryResponse);
-
-  // Observation queries for social history
-  const socialHistoryQuery = `/Observation?subject=${patientId}&category=social-history`;
-  const socialHistoryResponse = await fhirClient.get(socialHistoryQuery);
-
-  queryResponse = await parseFhirSearch(socialHistoryResponse, queryResponse);
-
   const diagnositicReportQuery = `/DiagnosticReport?subject=${patientId}&code=${loincFilter}`;
-  const diagnositicReportResponse = await fhirClient.get(
-    diagnositicReportQuery,
-  );
-  queryResponse = await parseFhirSearch(
-    diagnositicReportResponse,
-    queryResponse,
-  );
-
-  // Query for conditions
   const conditionQuery = `/Condition?subject=${patientId}&code=${snomedFilter}`;
-  const conditionResponse = await fhirClient.get(conditionQuery);
-  queryResponse = await parseFhirSearch(conditionResponse, queryResponse);
+  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
+  const socialHistoryQuery = `/Observation?subject=${patientId}&category=social-history`;
+  const encounterQuery = `/Encounter?subject=${patientId}&reason-code=${snomedFilter}`;
+  const encounterClassTypeQuery = `/Encounter?subject=${patientId}&class=${classTypeFilter}`;
+
+  const queryRequests: Array<string> = [
+    observationQuery,
+    diagnositicReportQuery,
+    conditionQuery,
+    medicationRequestQuery,
+    socialHistoryQuery,
+    encounterQuery,
+    encounterClassTypeQuery,
+  ];
+  const queryBundle = await generateQueryBundle(queryRequests);
+  const bundleResponse = await fhirClient.post(queryBundle);
+  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters. TODO: Add encounters as _include in condition query & batch encounter queries
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
@@ -292,27 +297,7 @@ async function gonorrheaQuery(
     queryResponse = await parseFhirSearch(encounterResponse, queryResponse);
   }
 
-  // Query for encounters based on reasonCode
-  const encounterQuery = `/Encounter?subject=${patientId}&reason-code=${snomedFilter}`;
-  const encounterResponse = await fhirClient.get(encounterQuery);
-  queryResponse = await parseFhirSearch(encounterResponse, queryResponse);
-
-  //Query for encounters based on serviceType
-  const encounterServiceTypeQuery = `/Encounter?subject=${patientId}&service-type=${serviceTypeFilter}`;
-  const encounterServiceTypeResponse = await fhirClient.get(
-    encounterServiceTypeQuery,
-  );
-  queryResponse = await parseFhirSearch(
-    encounterServiceTypeResponse,
-    queryResponse,
-  );
-
-  // Query for medicationRequests
-  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
-  const medicationRequestResponse = await fhirClient.get(
-    medicationRequestQuery,
-  );
-  return await parseFhirSearch(medicationRequestResponse, queryResponse);
+  return queryResponse;
 }
 
 /**
@@ -346,7 +331,7 @@ async function chlamydiaQuery(
     "1649987", // doxycycline hyclate 100 MG
     "1665005", // ceftriaxone 500 MG Injection
   ];
-  const serviceTypes = [
+  const classType = [
     "54", // Family planning
     "441", // Sexually transmitted
   ];
@@ -354,35 +339,29 @@ async function chlamydiaQuery(
   const loincFilter: string = loincs.join(",");
   const snomedFilter: string = snomed.join(",");
   const rxnormFilter: string = rxnorm.join(",");
-  const serviceTypeFilter: string = serviceTypes.join(",");
+  const classTypeFilter: string = classType.join(",");
 
-  // TODO: Batch the observation queries
-  //Observation queries based on LOINC codes
+  // Batch query for observations, diagnostic reports, conditions, some encounters, and medication requests
   const observationQuery = `/Observation?subject=${patientId}&code=${loincFilter}`;
-  const observationResponse = await fhirClient.get(observationQuery);
-
-  queryResponse = await parseFhirSearch(observationResponse, queryResponse);
-
-  // Observation queries for social history
-  const socialHistoryQuery = `/Observation?subject=${patientId}&category=social-history`;
-  const socialHistoryResponse = await fhirClient.get(socialHistoryQuery);
-
-  queryResponse = await parseFhirSearch(socialHistoryResponse, queryResponse);
-
   const diagnositicReportQuery = `/DiagnosticReport?subject=${patientId}&code=${loincFilter}`;
-  const diagnositicReportResponse = await fhirClient.get(
-    diagnositicReportQuery,
-  );
-  queryResponse = await parseFhirSearch(
-    diagnositicReportResponse,
-    queryResponse,
-  );
-
-  // Query for conditions
   const conditionQuery = `/Condition?subject=${patientId}&code=${snomedFilter}`;
-  const conditionResponse = await fhirClient.get(conditionQuery);
-  queryResponse = await parseFhirSearch(conditionResponse, queryResponse);
+  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
+  const socialHistoryQuery = `/Observation?subject=${patientId}&category=social-history`;
+  const encounterQuery = `/Encounter?subject=${patientId}&reason-code=${snomedFilter}`;
+  const encounterClassTypeQuery = `/Encounter?subject=${patientId}&class=${classTypeFilter}`;
 
+  const queryRequests: Array<string> = [
+    observationQuery,
+    diagnositicReportQuery,
+    conditionQuery,
+    medicationRequestQuery,
+    socialHistoryQuery,
+    encounterQuery,
+    encounterClassTypeQuery,
+  ];
+  const queryBundle = await generateQueryBundle(queryRequests);
+  const bundleResponse = await fhirClient.post(queryBundle);
+  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
   // Query for encounters. TODO: Add encounters as _include in condition query & batch encounter queries
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
     const conditionId = queryResponse.Condition[0].id;
@@ -392,27 +371,7 @@ async function chlamydiaQuery(
     queryResponse = await parseFhirSearch(encounterResponse, queryResponse);
   }
 
-  // Query for encounters based on reasonCode
-  const encounterQuery = `/Encounter?subject=${patientId}&reason-code=${snomedFilter}`;
-  const encounterResponse = await fhirClient.get(encounterQuery);
-  queryResponse = await parseFhirSearch(encounterResponse, queryResponse);
-
-  //Query for encounters based on serviceType
-  const encounterServiceTypeQuery = `/Encounter?subject=${patientId}&service-type=${serviceTypeFilter}`;
-  const encounterServiceTypeResponse = await fhirClient.get(
-    encounterServiceTypeQuery,
-  );
-  queryResponse = await parseFhirSearch(
-    encounterServiceTypeResponse,
-    queryResponse,
-  );
-
-  // Query for medicationRequests
-  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
-  const medicationRequestResponse = await fhirClient.get(
-    medicationRequestQuery,
-  );
-  return await parseFhirSearch(medicationRequestResponse, queryResponse);
+  return queryResponse;
 }
 
 /**
@@ -435,27 +394,49 @@ async function cancerQuery(
 
   // Query for conditions and encounters
   const conditionQuery = `/Condition?subject=${patientId}&code=${snomedFilter}`;
-  const conditionResponse = await fhirClient.get(conditionQuery);
-  queryResponse = await parseFhirSearch(conditionResponse, queryResponse);
-
-  // Query for medications & medication requests
   const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
-  const medicationRequestResponse = await fhirClient.get(
-    medicationRequestQuery,
-  );
-  queryResponse = await parseFhirSearch(
-    medicationRequestResponse,
-    queryResponse,
-  );
+
+  const queryRequests: Array<string> = [conditionQuery, medicationRequestQuery];
+  const queryBundle = await generateQueryBundle(queryRequests);
+  const bundleResponse = await fhirClient.post(queryBundle);
+  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
     const conditionId = queryResponse.Condition[0].id;
+    console.log("conditionId: ", conditionId);
     const encounterQuery = `/Encounter?subject=${patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fhirClient.get(encounterQuery);
     queryResponse = await parseFhirSearch(encounterResponse, queryResponse);
   }
 
+  return queryResponse;
+}
+
+/**
+ * Parse the response from a FHIR search query. If the response is successful and
+ * contains data, return an array of resources.
+ * @param response - The response from the FHIR server.
+ * @param queryResponse - The response object to store the results.
+ * @returns - The parsed response.
+ */
+async function parseFhirSearch_original(
+  response: fetch.Response,
+  queryResponse: QueryResponse = {},
+): Promise<QueryResponse> {
+  if (response.status === 200) {
+    const body = await response.json();
+    if (body.entry) {
+      for (const entry of body.entry) {
+        const resourceType = entry.resource.resourceType as keyof QueryResponse;
+        if (!queryResponse[resourceType]) {
+          queryResponse[resourceType] = [entry.resource];
+        } else {
+          queryResponse[resourceType]!.push(entry.resource);
+        }
+      }
+    }
+  }
   return queryResponse;
 }
 
@@ -474,14 +455,74 @@ async function parseFhirSearch(
     const body = await response.json();
     if (body.entry) {
       for (const entry of body.entry) {
-        const resourceType = entry.resource.resourceType as keyof QueryResponse;
-        if (!queryResponse[resourceType]) {
-          queryResponse[resourceType] = [entry.resource];
+        console.log(
+          "entry.resource.resourceType:",
+          entry.resource.resourceType,
+        );
+        // Create resource array to handle Bundle & non-Bundle entries
+        let resourceArray: any[];
+
+        if (entry.resource.resourceType === "Bundle") {
+          resourceArray = entry.resource.entry
+            ? entry.resource.entry.map(
+                (bundleEntry: any) => bundleEntry.resource,
+              )
+            : [];
         } else {
-          queryResponse[resourceType]!.push(entry.resource);
+          // Handle non-Bundle entry
+          resourceArray = [entry.resource];
+        }
+
+        for (const resource of resourceArray) {
+          const resourceType = resource.resourceType as keyof QueryResponse;
+          if (!queryResponse[resourceType]) {
+            queryResponse[resourceType] = [resource];
+          } else {
+            queryResponse[resourceType]!.push(resource);
+          }
         }
       }
     }
   }
   return queryResponse;
+}
+
+interface BundleRequest {
+  method: string;
+  url: string;
+}
+
+interface BundleEntry {
+  request: BundleRequest;
+}
+
+export type Bundle = {
+  resourceType: string;
+  id: string;
+  type: string;
+  entry: BundleEntry[];
+};
+
+/**
+ * Generate a request bundle for making batch requests from a list of URLs.
+ * @param urls - The list of URLs to include in the bundle.
+ * @returns - The generated bundle.
+ */
+
+async function generateQueryBundle(urls: Array<string>): Promise<Bundle> {
+  const entry: BundleEntry[] = urls.map((url) => ({
+    request: {
+      method: "GET",
+      url: url.trim(),
+    },
+  }));
+
+  const bundle: Bundle = {
+    resourceType: "Bundle",
+    id: uuidv4(),
+    type: "batch",
+    entry,
+  };
+
+  return bundle;
 }
