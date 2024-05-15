@@ -1,6 +1,6 @@
-import { DataDisplay, DisplayDataProps } from "../../utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
@@ -34,12 +34,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         aria-labelledby="summary-box-key-information"
       >
         <div className="usa-summary-box__body margin-bottom-05">
-          <h3
+          <h2
             className="summary-box-key-information side-nav-ignore"
             id={ecrSummaryConfig.subNavItems?.[0].id}
           >
             {ecrSummaryConfig.subNavItems?.[0].title}
-          </h3>
+          </h2>
           <div className="usa-summary-box__text">
             {patientDetails.map((item) => (
               <DataDisplay item={item} key={item.title} />
@@ -47,12 +47,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </div>
         </div>
         <div className="usa-summary-box__body">
-          <h3
+          <h2
             className="summary-box-key-information side-nav-ignore"
             id={ecrSummaryConfig.subNavItems?.[1].id}
           >
             {ecrSummaryConfig.subNavItems?.[1].title}
-          </h3>
+          </h2>
           <div className="usa-summary-box__text">
             {encounterDetails.map((item) => (
               <DataDisplay item={item} key={item.title} />
@@ -60,12 +60,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </div>
         </div>
         <div className="usa-summary-box__body">
-          <h3
+          <h2
             className={"summary-box-key-information side-nav-ignore"}
             id={ecrSummaryConfig.subNavItems?.[2].id}
           >
             {ecrSummaryConfig.subNavItems?.[2].title}
-          </h3>
+          </h2>
           <div className="usa-summary-box__text">
             {aboutTheCondition.map((item) => (
               <DataDisplay item={item} key={item.title} />

@@ -107,6 +107,7 @@ def refine(validated_message: bytes, sections_to_include: str) -> str:
     header = select_message_header(validated_message)
 
     # Set up XPath expression
+    # this namespace is only used for filtering
     namespaces = {"hl7": "urn:hl7-org:v3"}
     sections_xpath_expression = "or".join(
         [f"@code='{section}'" for section in sections_to_include]
@@ -119,19 +120,28 @@ def refine(validated_message: bytes, sections_to_include: str) -> str:
     elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
 
     # Create & set up a new root element for the refined XML
-    refined_message_root = ET.Element(validated_message.tag)
+    # we are using a combination of a direct namespace uri and nsmap so that we can
+    # ensure that the default namespaces are set correctly
+    namespace = "urn:hl7-org:v3"
+    nsmap = {
+        None: namespace,
+        "cda": namespace,
+        "sdtc": "urn:hl7-org:sdtc",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    }
+    # creating the root element with our uri namespace and nsmap
+    refined_message_root = ET.Element(f"{{{namespace}}}ClinicalDocument", nsmap=nsmap)
     for h in header:
         refined_message_root.append(h)
-    component = ET.Element("component")
-    structuredBody = ET.Element("structuredBody")
+    # creating the component element and structuredBody element with the same namespace
+    # and adding them to the new root
+    main_component = ET.SubElement(refined_message_root, f"{{{namespace}}}component")
+    structuredBody = ET.SubElement(main_component, f"{{{namespace}}}structuredBody")
 
-    # Append the filtered elements to the new root
+    # Append the filtered elements to the new root and use the uri namespace
     for element in elements:
-        c = ET.Element("component")
-        c.append(element)
-        structuredBody.append(c)
-    component.append(structuredBody)
-    refined_message_root.append(component)
+        section_component = ET.SubElement(structuredBody, f"{{{namespace}}}component")
+        section_component.append(element)
 
     # Create a new ElementTree with the result root
     refined_message = ET.ElementTree(refined_message_root)
