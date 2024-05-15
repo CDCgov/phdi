@@ -1,16 +1,16 @@
 import { Bundle } from "fhir/r4";
-import {
-  evaluatePatientContactInfo,
-  evaluatePatientName,
-  extractFacilityAddress,
-  extractPatientAddress,
-  PathMappings,
-} from "@/app/utils";
+import { PathMappings } from "@/app/utils";
 import {
   formatDate,
   formatStartEndDateTime,
 } from "@/app/services/formatService";
 import { evaluate } from "fhirpath";
+import {
+  evaluatePatientName,
+  evaluatePatientContactInfo,
+  evaluatePatientAddress,
+  evaluateFacilityAddress,
+} from "./evaluateFhirDataService";
 
 /**
  * Evaluates and retrieves patient details from the FHIR bundle using the provided path mappings.
@@ -34,7 +34,7 @@ export const evaluateEcrSummaryPatientDetails = (
     },
     {
       title: "Patient Address",
-      value: extractPatientAddress(fhirBundle, fhirPathMappings),
+      value: evaluatePatientAddress(fhirBundle, fhirPathMappings),
     },
     {
       title: "Patient Contact",
@@ -60,7 +60,7 @@ export const evaluateEcrSummaryEncounterDetails = (
     },
     {
       title: "Facility Address",
-      value: extractFacilityAddress(fhirBundle, fhirPathMappings),
+      value: evaluateFacilityAddress(fhirBundle, fhirPathMappings),
     },
     {
       title: "Facility Contact",
