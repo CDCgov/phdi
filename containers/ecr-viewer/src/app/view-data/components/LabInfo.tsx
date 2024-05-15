@@ -1,4 +1,3 @@
-import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -11,6 +10,7 @@ import {
   formatString,
 } from "@/app/services/formatService";
 import { LabReportElementData } from "@/app/services/labsService";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface LabInfoProps {
   labResults: LabReportElementData[];

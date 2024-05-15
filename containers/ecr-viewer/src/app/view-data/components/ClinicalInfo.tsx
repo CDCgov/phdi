@@ -1,4 +1,3 @@
-import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -7,6 +6,7 @@ import {
 import { SectionConfig } from "./SideNav";
 import React from "react";
 import { addCaptionToTable } from "@/app/services/formatService";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface ClinicalProps {
   reasonForVisitDetails: DisplayDataProps[];

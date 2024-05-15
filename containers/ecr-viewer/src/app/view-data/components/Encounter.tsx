@@ -1,4 +1,3 @@
-import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH4,
@@ -6,6 +5,7 @@ import {
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface EncounterProps {
   encounterData: DisplayDataProps[];
