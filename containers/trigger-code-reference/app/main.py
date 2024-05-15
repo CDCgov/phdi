@@ -46,7 +46,9 @@ async def insert_condition_extensions(input: InsertConditionInput) -> Response:
 
 
 @app.get("/get-value-sets/")
-async def get_value_sets_for_condition(condition_code: str) -> Response:
+async def get_value_sets_for_condition(
+    condition_code: str, filter_clinical_services: list = None
+) -> Response:
     """
     For a given condition, queries and returns the value set of clinical
     services associated with that condition.
@@ -64,6 +66,6 @@ async def get_value_sets_for_condition(condition_code: str) -> Response:
         clean_snomed_code = get_clean_snomed_code(condition_code)
         clinical_services_list = get_clinical_services_list(clean_snomed_code)
         values = get_clinical_services_dict(
-            clinical_services_list, filter_clinical_services=None
+            clinical_services_list, filter_clinical_services
         )
-    return {"value_set": values}
+    return values

@@ -37,7 +37,7 @@ def test_get_value_sets_for_condition(mock_db):
         ],
         "sdtc": [{"codes": ["772150003"], "system": "http://snomed.info/sct"}],
     }
-    assert response.json()["value_set"] == expected_result
+    assert response.json() == expected_result
 
 
 def test_insert_condition_extensions():
