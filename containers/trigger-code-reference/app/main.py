@@ -61,7 +61,9 @@ async def get_value_sets_for_condition(condition_code: str) -> Response:
             status_code=422,
         )
     else:
-        clean_snowmed_code = get_clean_snomed_code(condition_code)
-        clinical_services_list = get_clinical_services_list(clean_snowmed_code)
-        values = get_clinical_services_dict(clinical_services_list)
+        clean_snomed_code = get_clean_snomed_code(condition_code)
+        clinical_services_list = get_clinical_services_list(clean_snomed_code)
+        values = get_clinical_services_dict(
+            clinical_services_list, filter_clinical_services=None
+        )
     return {"value_set": values}
