@@ -1,10 +1,10 @@
-import { DataDisplay, DisplayDataProps } from "../../utils";
 import {
-  AccordianSection,
-  AccordianH4,
-  AccordianDiv,
+  AccordionSection,
+  AccordionH4,
+  AccordionDiv,
 } from "../component-utils";
 import React from "react";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface DemographicsProps {
   demographicsData: DisplayDataProps[];
@@ -18,14 +18,14 @@ interface DemographicsProps {
  */
 const Demographics = ({ demographicsData }: DemographicsProps) => {
   return (
-    <AccordianSection>
-      <AccordianH4 id={"demographics"}>Demographics</AccordianH4>
-      <AccordianDiv>
+    <AccordionSection>
+      <AccordionH4 id={"demographics"}>Demographics</AccordionH4>
+      <AccordionDiv>
         {demographicsData.map((item, index) => (
           <DataDisplay item={item} key={index} />
         ))}
-      </AccordianDiv>
-    </AccordianSection>
+      </AccordionDiv>
+    </AccordionSection>
   );
 };
 

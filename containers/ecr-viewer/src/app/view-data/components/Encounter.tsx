@@ -1,10 +1,10 @@
-import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
-  AccordianSection,
-  AccordianH4,
-  AccordianDiv,
+  AccordionSection,
+  AccordionH4,
+  AccordionDiv,
 } from "../component-utils";
 import React from "react";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface EncounterProps {
   encounterData: DisplayDataProps[];
@@ -22,12 +22,12 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const renderEncounterDetails = () => {
     return (
       <>
-        <AccordianH4 id={"encounter-details"}>Encounter Details</AccordianH4>
-        <AccordianDiv>
+        <AccordionH4 id={"encounter-details"}>Encounter Details</AccordionH4>
+        <AccordionDiv>
           {encounterData.map((item, index) => (
             <DataDisplay item={item} key={index} />
           ))}
-        </AccordianDiv>
+        </AccordionDiv>
       </>
     );
   };
@@ -35,23 +35,23 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const renderProviderDetails = () => {
     return (
       <>
-        <AccordianH4 id={"provider-details"}>Provider Details</AccordianH4>
-        <AccordianDiv>
+        <AccordionH4 id={"provider-details"}>Provider Details</AccordionH4>
+        <AccordionDiv>
           {providerData.map((item, index) => (
             <DataDisplay item={item} key={index} />
           ))}
-        </AccordianDiv>
+        </AccordionDiv>
       </>
     );
   };
 
   return (
-    <AccordianSection>
+    <AccordionSection>
       <div>{encounterData.length > 0 && renderEncounterDetails()}</div>
       <div className="margin-top-3">
         {providerData.length > 0 && renderProviderDetails()}
       </div>
-    </AccordianSection>
+    </AccordionSection>
   );
 };
 

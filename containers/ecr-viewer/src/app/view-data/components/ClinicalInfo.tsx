@@ -1,11 +1,11 @@
-import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
-  AccordianSection,
-  AccordianH4,
-  AccordianDiv,
+  AccordionSection,
+  AccordionH4,
+  AccordionDiv,
 } from "../component-utils";
 import React from "react";
 import { addCaptionToTable } from "@/app/services/formatService";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface ClinicalProps {
   reasonForVisitDetails: DisplayDataProps[];
@@ -68,8 +68,8 @@ export const ClinicalInfo = ({
   const renderClinicalNotes = () => {
     return (
       <>
-        <AccordianH4 id={"clinical-notes"}>Clinical Notes</AccordianH4>
-        <AccordianDiv className={"clinical_info_container"}>
+        <AccordionH4 id={"clinical-notes"}>Clinical Notes</AccordionH4>
+        <AccordionDiv className={"clinical_info_container"}>
           {clinicalNotes.map((item, index) => {
             if (
               React.isValidElement(item.value) &&
@@ -91,7 +91,7 @@ export const ClinicalInfo = ({
             }
             return <DataDisplay item={item} key={index} />;
           })}
-        </AccordianDiv>
+        </AccordionDiv>
       </>
     );
   };
@@ -99,10 +99,10 @@ export const ClinicalInfo = ({
   const renderSymptomsAndProblems = () => {
     return (
       <>
-        <AccordianH4 id={"symptoms-and-problems"}>
+        <AccordionH4 id={"symptoms-and-problems"}>
           Symptoms and Problems
-        </AccordianH4>
-        <AccordianDiv>
+        </AccordionH4>
+        <AccordionDiv>
           <div data-testid="reason-for-visit">
             {reasonForVisitDetails.map((item, index) => (
               <DataDisplay item={item} key={index} />
@@ -111,7 +111,7 @@ export const ClinicalInfo = ({
           <div data-testid="active-problems">
             {renderTableDetails(activeProblemsDetails)}
           </div>
-        </AccordianDiv>
+        </AccordionDiv>
       </>
     );
   };
@@ -119,15 +119,15 @@ export const ClinicalInfo = ({
   const renderImmunizationsDetails = () => {
     return (
       <>
-        <AccordianH4 id={"immunizations"}>Immunizations</AccordianH4>
-        <AccordianDiv>
+        <AccordionH4 id={"immunizations"}>Immunizations</AccordionH4>
+        <AccordionDiv>
           <div
             className="immunization_table"
             data-testid="immunization-history"
           >
             {renderTableDetails(immunizationsDetails)}
           </div>
-        </AccordianDiv>
+        </AccordionDiv>
       </>
     );
   };
@@ -135,16 +135,16 @@ export const ClinicalInfo = ({
   const renderVitalDetails = () => {
     return (
       <>
-        <AccordianH4 id={"diagnostics-and-vital-signs"}>
+        <AccordionH4 id={"diagnostics-and-vital-signs"}>
           Diagnostics and Vital Signs
-        </AccordianH4>
-        <AccordianDiv>
+        </AccordionH4>
+        <AccordionDiv>
           <div className="lh-18" data-testid="vital-signs">
             {vitalData.map((item, index) => (
               <DataDisplay item={item} key={index} />
             ))}
           </div>
-        </AccordianDiv>
+        </AccordionDiv>
       </>
     );
   };
@@ -153,28 +153,28 @@ export const ClinicalInfo = ({
     const data = treatmentData.filter((item) => !React.isValidElement(item));
     return (
       <>
-        <AccordianH4 id={"treatment-details"}>Treatment Details</AccordianH4>
-        <AccordianDiv>
+        <AccordionH4 id={"treatment-details"}>Treatment Details</AccordionH4>
+        <AccordionDiv>
           <div data-testid="treatment-details">
             {data.map((item, index) => (
               <DataTableDisplay item={item} key={index} />
             ))}
           </div>
           <div className={"section__line_gray margin-y-2"} />
-        </AccordianDiv>
+        </AccordionDiv>
       </>
     );
   };
 
   return (
-    <AccordianSection>
+    <AccordionSection>
       {clinicalNotes?.length > 0 && renderClinicalNotes()}
       {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
         renderSymptomsAndProblems()}
       {treatmentData.length > 0 && renderTreatmentDetails()}
       {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
       {vitalData.length > 0 && renderVitalDetails()}
-    </AccordianSection>
+    </AccordionSection>
   );
 };
 

@@ -1,12 +1,12 @@
-import { DataDisplay, DisplayDataProps } from "../../utils";
 import {
-  AccordianSection,
-  AccordianH4,
-  AccordianDiv,
+  AccordionSection,
+  AccordionH4,
+  AccordionDiv,
 } from "../component-utils";
 import { Table } from "@trussworks/react-uswds";
 import { toolTipElement } from "@/app/utils";
 import { ReportableConditions } from "../../services/ecrMetadataService";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
@@ -71,9 +71,9 @@ const EcrMetadata = ({
   eCRSenderDetails,
 }: EcrMetadataProps) => {
   return (
-    <AccordianSection>
-      <AccordianH4 id={"rr-details"}>RR Details</AccordianH4>
-      <AccordianDiv>
+    <AccordionSection>
+      <AccordionH4 id={"rr-details"}>RR Details</AccordionH4>
+      <AccordionDiv>
         <Table bordered caption="Reportibility Summary" className="rrTable">
           <thead>
             <tr>
@@ -100,17 +100,17 @@ const EcrMetadata = ({
           <tbody>{convertDictionaryToRows(rrDetails)}</tbody>
         </Table>
         <div className={"padding-bottom-1"} />
-        <AccordianH4 id={"eicr-details"}>eICR Details</AccordianH4>
+        <AccordionH4 id={"eicr-details"}>eICR Details</AccordionH4>
         {eicrDetails.map((item) => {
           return <DataDisplay item={item} />;
         })}
         <div className={"padding-bottom-1"} />
-        <AccordianH4 id={"ecr-sender-details"}>eCR Sender Details</AccordianH4>
+        <AccordionH4 id={"ecr-sender-details"}>eCR Sender Details</AccordionH4>
         {eCRSenderDetails.map((item) => {
           return <DataDisplay item={item} />;
         })}
-      </AccordianDiv>
-    </AccordianSection>
+      </AccordionDiv>
+    </AccordionSection>
   );
 };
 
