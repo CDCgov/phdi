@@ -2,7 +2,6 @@ import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
 import EcrViewer from "@/app/view-data/components/EcrViewer";
 import { processSnomedCode } from "@/app/view-data/service";
-import { loadYamlConfig } from "@/app/api/utils";
 
 // string constants to match with possible .env values
 const basePath =
@@ -35,7 +34,7 @@ export default async function Page({
       "Sorry, we couldn't find this eCR ID. Please try again with a different ID.",
     );
   }
-  const mappings = loadYamlConfig();
+  const mappings = bundle.fhirPathMappings;
 
   return (
     <main>
