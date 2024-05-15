@@ -1,4 +1,3 @@
-import { DataDisplay, DisplayDataProps } from "../../utils";
 import {
   AccordionSection,
   AccordionH4,
@@ -8,6 +7,7 @@ import { SectionConfig } from "./SideNav";
 import { Table } from "@trussworks/react-uswds";
 import { toolTipElement } from "@/app/utils";
 import { ReportableConditions } from "../../services/ecrMetadataService";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
