@@ -13,13 +13,9 @@ exports[`Demographics should match snapshot 1`] = `
       >
         <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
+          id="demographics"
         >
-          <span
-            id="demographics"
-          >
-            Demographics
-          </span>
+          Demographics
         </h4>
         <div
           class="usa-summary-box__text"
