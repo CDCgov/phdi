@@ -4,7 +4,9 @@ from dibbs.base_service import BaseService
 from fastapi import Response
 
 from app.models import InsertConditionInput
-from app.utils import get_clean_snomed_code, get_clinical_services_list, get_clinical_services_dict
+from app.utils import get_clean_snomed_code
+from app.utils import get_clinical_services_dict
+from app.utils import get_clinical_services_list
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
