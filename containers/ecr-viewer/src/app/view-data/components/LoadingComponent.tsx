@@ -1,6 +1,5 @@
 "use client";
-import { Accordion, Grid, GridContainer } from "@trussworks/react-uswds";
-import { ExpandCollapseButtons } from "./ExpandCollapseButtons";
+import { Accordion } from "@trussworks/react-uswds";
 import {
   AccordianSection,
   AccordianH4,
@@ -8,10 +7,67 @@ import {
 } from "../component-utils";
 
 /**
- * Temp
- * @returns The main eCR Viewer JSX component.
+ * Renders the loading blobs in gray or in blue
+ * @param numberOfRows - number of rows to render
+ * @param isGray - whether you want the gray or blue version
+ * @returns Rows of blobs.
  */
-export const EcrLoading = () => {
+const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
+  // Create an array of specified size to map over
+  const rows = Array.from({ length: numberOfRows });
+  const loadingBlobStyle = isGray ? "loading-blob-gray" : "loading-blob-blue";
+  const sectionLineStyle = isGray ? "section__line_gray" : "section__line";
+  // Map over the array to create multiple divs
+  return (
+    <>
+      {rows.map((_, index) => (
+        <div key={index}>
+          <div className="grid-row">
+            <div className="grid-col-4">
+              <div className={`${loadingBlobStyle} margin-right-1`}>&nbsp;</div>
+            </div>
+            <div className={`grid-col-8 ${loadingBlobStyle}`}>&nbsp;</div>
+          </div>
+          <div className={sectionLineStyle} />
+        </div>
+      ))}
+    </>
+  );
+};
+
+/**
+ * Renders ECR Summary of the loading state
+ * @returns A JSX component with rows of blobs.
+ */
+export const EcrSummaryLoadingSkeleton = () => {
+  return (
+    <div className={"info-container"}>
+      <div
+        className="usa-summary-box padding-3"
+        aria-labelledby="summary-box-key-information"
+      >
+        <h3 className="summary-box-key-information side-nav-ignore">
+          About the Patient
+        </h3>
+        {renderLoadingBlobs(4, false)}
+        <h3 className="summary-box-key-information side-nav-ignore">
+          About the Encounter
+        </h3>
+        {renderLoadingBlobs(4, false)}
+        <h3 className="summary-box-key-information side-nav-ignore">
+          About the Condition
+        </h3>
+        {renderLoadingBlobs(4, false)}
+      </div>
+    </div>
+  );
+};
+
+/**
+ * Renders Accordion of the loading state
+ * @returns A JSX component with rows of blobs.
+ */
+export const AccordionLoadingSkeleton = () => {
   const renderEcrDocumentFiller = (title: string, numberOfRows: number) => {
     return (
       <AccordianSection>
@@ -20,30 +76,6 @@ export const EcrLoading = () => {
         </AccordianH4>
         <AccordianDiv>{renderLoadingBlobs(numberOfRows)}</AccordianDiv>
       </AccordianSection>
-    );
-  };
-  const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
-    // Create an array of specified size to map over
-    const rows = Array.from({ length: numberOfRows });
-    const loadingBlobStyle = isGray ? "loading-blob-gray" : "loading-blob-blue";
-    const sectionLineStyle = isGray ? "section__line_gray" : "section__line";
-    // Map over the array to create multiple divs
-    return (
-      <>
-        {rows.map((_, index) => (
-          <div key={index}>
-            <div className="grid-row">
-              <div className="grid-col-4">
-                <div className={`${loadingBlobStyle} margin-right-1`}>
-                  &nbsp;
-                </div>
-              </div>
-              <div className={`grid-col-8 ${loadingBlobStyle}`}>&nbsp;</div>
-            </div>
-            <div className={sectionLineStyle} />
-          </div>
-        ))}
-      </>
     );
   };
   const accordionItems: any[] = [
@@ -106,66 +138,11 @@ export const EcrLoading = () => {
       headingLevel: "h3",
     },
   ];
-
   return (
-    <div>
-      <div className="main-container">
-        <div className="content-wrapper">
-          <div className={"ecr-viewer-container"}>
-            <div className="ecr-content">
-              <h2 className="margin-bottom-3" id="ecr-summary">
-                eCR Summary
-              </h2>
-              <div className={"info-container"}>
-                <div
-                  className="usa-summary-box padding-3"
-                  aria-labelledby="summary-box-key-information"
-                >
-                  <h3 className="summary-box-key-information side-nav-ignore">
-                    About the Patient
-                  </h3>
-                  {renderLoadingBlobs(4, false)}
-                  <h3 className="summary-box-key-information side-nav-ignore">
-                    About the Encounter
-                  </h3>
-                  {renderLoadingBlobs(4, false)}
-                  <h3 className="summary-box-key-information side-nav-ignore">
-                    About the Condition
-                  </h3>
-                  {renderLoadingBlobs(4, false)}
-                </div>
-              </div>
-              <div className="margin-top-10">
-                <GridContainer className={"padding-0 margin-bottom-3"}>
-                  <Grid row>
-                    <Grid>
-                      <h2 className="margin-bottom-0" id="ecr-document">
-                        eCR Document
-                      </h2>
-                    </Grid>
-                    <Grid className={"flex-align-self-center margin-left-auto"}>
-                      <ExpandCollapseButtons
-                        id={"main"}
-                        buttonSelector={"h3 > .usa-accordion__button"}
-                        accordionSelector={
-                          ".info-container > .usa-accordion__content"
-                        }
-                        expandButtonText={"Expand all sections"}
-                        collapseButtonText={"Collapse all sections"}
-                      />
-                    </Grid>
-                  </Grid>
-                </GridContainer>
-                <Accordion
-                  className="info-container"
-                  items={accordionItems}
-                  multiselectable={true}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Accordion
+      className="info-container"
+      items={accordionItems}
+      multiselectable={true}
+    />
   );
 };
