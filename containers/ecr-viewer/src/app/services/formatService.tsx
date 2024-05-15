@@ -288,9 +288,6 @@ export const formatString = (input: string): string => {
  * @example @returns [{resultId: 'Result.123', resultName: 'foo', tables: [{}, {},...]}, ...]
  */
 export function formatTablesToJSON(htmlString: string): TableJson[] {
-  if (typeof DOMParser === "undefined") {
-    return [];
-  }
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
   const jsonArray: any[] = [];
