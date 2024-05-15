@@ -2,9 +2,9 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import fs from "fs";
 import YAML from "yaml";
-import { returnImmunizations } from "@/app/utils";
 import { Bundle, Immunization } from "fhir/r4";
 import BundleClinicalInfo from "@/app/tests/assets/BundleClinicalInfo.json";
+import { returnImmunizations } from "@/app/view-data/components/common";
 
 describe("Immunizations Table", () => {
   let container: HTMLElement;
