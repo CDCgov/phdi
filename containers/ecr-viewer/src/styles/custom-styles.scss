@@ -22,11 +22,11 @@
   border-top: 8px solid #EDEFF0;
 }
 
-h2 {
+#ecr-summary {
   font-size: 40px;
 }
 
-h3 {
+h2 {
   font-size: 22px;
   margin-top: 0;
   margin-bottom: 20px;
@@ -231,7 +231,7 @@ td {
 .ecr-content {
   max-width: 1440px;
 }
-.ecr-content h2:first-of-type {
+.ecr-content h1:first-of-type {
     margin-top: 0;
     padding-top: 0;
 }

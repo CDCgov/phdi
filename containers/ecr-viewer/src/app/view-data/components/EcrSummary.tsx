@@ -27,12 +27,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         aria-labelledby="summary-box-key-information"
       >
         <div className="usa-summary-box__body margin-bottom-05">
-          <h3
+          <h2
             className="summary-box-key-information side-nav-ignore"
             id={"about-the-patient"}
           >
             About the Patient
-          </h3>
+          </h2>
           <div className="usa-summary-box__text">
             {patientDetails.map((item) => (
               <DataDisplay item={item} key={item.title} />
@@ -40,12 +40,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </div>
         </div>
         <div className="usa-summary-box__body">
-          <h3
+          <h2
             className="summary-box-key-information side-nav-ignore"
             id="about-the-encounter"
           >
             About the Encounter
-          </h3>
+          </h2>
           <div className="usa-summary-box__text">
             {encounterDetails.map((item) => (
               <DataDisplay item={item} key={item.title} />
@@ -53,12 +53,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </div>
         </div>
         <div className="usa-summary-box__body">
-          <h3
+          <h2
             className={"summary-box-key-information side-nav-ignore"}
             id={"about-the-condition"}
           >
             About the Condition
-          </h3>
+          </h2>
           <div className="usa-summary-box__text">
             {aboutTheCondition.map((item) => (
               <DataDisplay item={item} key={item.title} />
