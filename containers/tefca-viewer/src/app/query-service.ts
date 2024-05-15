@@ -438,6 +438,16 @@ async function cancerQuery(
   const conditionResponse = await fhirClient.get(conditionQuery);
   queryResponse = await parseFhirSearch(conditionResponse, queryResponse);
 
+  // Query for medications & medication requests
+  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
+  const medicationRequestResponse = await fhirClient.get(
+    medicationRequestQuery,
+  );
+  queryResponse = await parseFhirSearch(
+    medicationRequestResponse,
+    queryResponse,
+  );
+
   // Query for encounters
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
     const conditionId = queryResponse.Condition[0].id;
@@ -446,12 +456,7 @@ async function cancerQuery(
     queryResponse = await parseFhirSearch(encounterResponse, queryResponse);
   }
 
-  // Query for medications & medication requests
-  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
-  const medicationRequestResponse = await fhirClient.get(
-    medicationRequestQuery,
-  );
-  return await parseFhirSearch(medicationRequestResponse, queryResponse);
+  return queryResponse;
 }
 
 /**
