@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { loadYamlConfig } from "@/app/api/utils";
+import { loadYamlConfig } from "@/app/api/services/utils";
 
 describe("loadYamlConfig", () => {
   it("returns the yaml config", () => {

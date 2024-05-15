@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import ClinicalInfo from "../../view-data/components/ClinicalInfo";
-import { loadYamlConfig } from "@/app/api/utils";
+import { loadYamlConfig } from "@/app/api/services/utils";
 import { Procedure } from "fhir/r4";
 import {
   evaluateClinicalData,

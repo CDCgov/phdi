@@ -5,7 +5,7 @@ import {
   TooltipDiv,
   toolTipElement,
 } from "@/app/utils";
-import { loadYamlConfig } from "@/app/api/utils";
+import { loadYamlConfig } from "@/app/api/services/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "./assets/BundleTravelHistory.json";
 import BundleWithPatient from "./assets/BundlePatient.json";

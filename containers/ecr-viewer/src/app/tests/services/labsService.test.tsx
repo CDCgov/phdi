@@ -1,4 +1,4 @@
-import { loadYamlConfig } from "@/app/api/utils";
+import { loadYamlConfig } from "@/app/api/services/utils";
 import BundleLab from "../assets/BundleLab.json";
 import { Bundle, Observation } from "fhir/r4";
 import { evaluate } from "fhirpath";

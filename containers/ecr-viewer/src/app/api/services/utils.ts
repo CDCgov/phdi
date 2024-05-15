@@ -8,7 +8,10 @@ import { PathMappings } from "@/app/utils";
  * @returns An object representing the path mappings defined in the YAML configuration file.
  */
 export function loadYamlConfig(): PathMappings {
-  const filePath = path.join(process.cwd(), "src/app/api/fhirPath.yml");
+  const filePath = path.join(
+    process.cwd(),
+    "src/app/api/services/fhirPath.yml",
+  );
   const fileContents = fs.readFileSync(filePath, "utf8");
   return <PathMappings>yaml.load(fileContents);
 }

@@ -1,18 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
-import fs from "fs";
-import YAML from "yaml";
 import { Bundle, Condition } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import { returnProblemsTable } from "@/app/view-data/components/common";
+import { loadYamlConfig } from "@/app/api/services/utils";
 
 describe("Active Problems Table", () => {
   let container: HTMLElement;
   beforeEach(() => {
-    const fhirPathFile = fs
-      .readFileSync("./src/app/api/fhirPath.yml", "utf8")
-      .toString();
-    const fhirPathMappings = YAML.parse(fhirPathFile);
+    const fhirPathMappings = loadYamlConfig();
 
     const activeProblemsData: Condition[] = [
       {

@@ -1,13 +1,7 @@
-import { Bundle } from "fhir/r4";
-import { PathMappings } from "../utils";
 import EcrViewer from "@/app/view-data/components/EcrViewer";
 import { processSnomedCode } from "@/app/view-data/service";
-
-// string constants to match with possible .env values
-const basePath =
-  process.env.NODE_ENV === "production"
-    ? "/ecr-viewer"
-    : "http://localhost:3000";
+import { loadYamlConfig } from "@/app/api/services/utils";
+import { getEcrData } from "@/app/api/services/ecrDataService";
 
 /**
  * Functional component for rendering a page based on provided search parameters.
@@ -21,21 +15,8 @@ export default async function Page({
   const fhirId = searchParams["id"] ?? "";
   const snomedCode = searchParams["snomed-code"] ?? "";
   processSnomedCode(snomedCode);
-
-  type ApiResponse = {
-    fhirBundle: Bundle;
-    fhirPathMappings: PathMappings;
-  };
-  const response = await fetch(`${basePath}/api/fhir-data?id=${fhirId}`);
-  const bundle: ApiResponse = await response.json();
-  const fhirBundle = bundle.fhirBundle;
-  if (!fhirBundle) {
-    throw Error(
-      "Sorry, we couldn't find this eCR ID. Please try again with a different ID.",
-    );
-  }
-  const mappings = bundle.fhirPathMappings;
-
+  const fhirBundle = await getEcrData(fhirId);
+  const mappings = loadYamlConfig();
   return (
     <main>
       <EcrViewer fhirBundle={fhirBundle} mappings={mappings} />

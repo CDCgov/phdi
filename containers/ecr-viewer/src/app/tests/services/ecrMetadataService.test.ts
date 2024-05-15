@@ -1,7 +1,7 @@
 import { evaluateEcrMetadata } from "@/app/services/ecrMetadataService";
 import { Bundle } from "fhir/r4";
 import BundleWithEcrMetadata from "../assets/BundleEcrMetadata.json";
-import { loadYamlConfig } from "@/app/api/utils";
+import { loadYamlConfig } from "@/app/api/services/utils";
 
 describe("Evaluate Ecr Metadata", () => {
   const mappings = loadYamlConfig();

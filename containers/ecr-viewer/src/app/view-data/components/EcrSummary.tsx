@@ -41,9 +41,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {ecrSummaryConfig.subNavItems?.[0].title}
           </h3>
           <div className="usa-summary-box__text">
-            {patientDetails.map((item) => (
-              <DataDisplay item={item} key={item.title} />
-            ))}
+            {patientDetails.map((item) => {
+              return <DataDisplay item={item} key={item.title} />;
+            })}
           </div>
         </div>
         <div className="usa-summary-box__body">

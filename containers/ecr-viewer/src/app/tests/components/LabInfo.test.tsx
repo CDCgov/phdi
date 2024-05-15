@@ -3,7 +3,7 @@ import LabInfo from "@/app/view-data/components/LabInfo";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import BundleLab from "@/app/tests/assets/BundleLab.json";
-import { loadYamlConfig } from "@/app/api/utils";
+import { loadYamlConfig } from "@/app/api/services/utils";
 import { Bundle } from "fhir/r4";
 import { evaluateLabInfoData } from "@/app/services/labsService";
 

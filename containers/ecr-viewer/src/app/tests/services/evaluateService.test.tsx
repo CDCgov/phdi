@@ -3,7 +3,7 @@ import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import BundleLab from "@/app/tests/assets/BundleLab.json";
-import { loadYamlConfig } from "@/app/api/utils";
+import { loadYamlConfig } from "@/app/api/services/utils";
 import { render, screen } from "@testing-library/react";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
