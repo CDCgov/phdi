@@ -45,7 +45,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
     }
     event.preventDefault();
     setLoading(true);
-    console.log("Event:", event);
     const originalRequest = {
       first_name: firstName,
       last_name: lastName,

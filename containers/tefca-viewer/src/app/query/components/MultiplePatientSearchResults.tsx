@@ -22,6 +22,7 @@ export interface MultiplePatientSearchResultsProps {
   originalRequest: UseCaseQueryRequest;
   setUseCaseQueryResponse: (useCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
+  setLoading: (loading: boolean) => void;
 }
 
 /**
@@ -31,11 +32,18 @@ export interface MultiplePatientSearchResultsProps {
  * @param root0.originalRequest - The original request object.
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
+ * @param root0.setLoading - The function to set the loading state.
  * @returns - The MultiplePatientSearchResults component.
  */
 const MultiplePatientSearchResults: React.FC<
   MultiplePatientSearchResultsProps
-> = ({ patients, originalRequest, setUseCaseQueryResponse, setMode }) => {
+> = ({
+  patients,
+  originalRequest,
+  setUseCaseQueryResponse,
+  setMode,
+  setLoading,
+}) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -73,6 +81,7 @@ const MultiplePatientSearchResults: React.FC<
                         originalRequest,
                         setUseCaseQueryResponse,
                         setMode,
+                        setLoading,
                       )
                     }
                   >
@@ -162,6 +171,7 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
  * @param originalRequest - The original request object.
  * @param setUseCaseQueryResponse - The function to set the use case query response.
  * @param setMode - The function to set the mode.
+ * @param setLoading - The function to set the loading state.
  */
 async function viewRecord(
   patients: Patient[],
@@ -169,11 +179,13 @@ async function viewRecord(
   originalRequest: UseCaseQueryRequest,
   setUseCaseQueryResponse: (useCaseQueryResponse: UseCaseQueryResponse) => void,
   setMode: (mode: Mode) => void,
+  setLoading: (loading: boolean) => void,
 ): Promise<void> {
-  console.log("Viewing record: ", index);
+  setLoading(true);
   const queryResponse = await useCaseQuery(originalRequest, {
     Patient: [patients[index]],
   });
   setUseCaseQueryResponse(queryResponse);
   setMode("results");
+  setLoading(false);
 }
