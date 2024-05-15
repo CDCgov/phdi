@@ -1,7 +1,7 @@
 import {
-  AccordianSection,
-  AccordianH4,
-  AccordianDiv,
+  AccordionSection,
+  AccordionH4,
+  AccordionDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
@@ -21,16 +21,16 @@ export const demographicsConfig = new SectionConfig("Demographics");
  */
 const Demographics = ({ demographicsData }: DemographicsProps) => {
   return (
-    <AccordianSection>
-      <AccordianH4>
+    <AccordionSection>
+      <AccordionH4>
         <span id={demographicsConfig.id}>{demographicsConfig.title}</span>
-      </AccordianH4>
-      <AccordianDiv>
+      </AccordionH4>
+      <AccordionDiv>
         {demographicsData.map((item, index) => (
           <DataDisplay item={item} key={index} />
         ))}
-      </AccordianDiv>
-    </AccordianSection>
+      </AccordionDiv>
+    </AccordionSection>
   );
 };
 

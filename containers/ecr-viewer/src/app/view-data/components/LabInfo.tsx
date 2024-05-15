@@ -1,7 +1,7 @@
 import {
-  AccordianSection,
-  AccordianH4,
-  AccordianDiv,
+  AccordionSection,
+  AccordionH4,
+  AccordionDiv,
 } from "../component-utils";
 import React from "react";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
@@ -43,8 +43,8 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
                 )}`;
           return (
             <div key={`${labResult.organizationId}${labIndex}`}>
-              <AccordianH4 id={formatString(labName)}>{labName}</AccordianH4>
-              <AccordianDiv>
+              <AccordionH4 id={formatString(labName)}>{labName}</AccordionH4>
+              <AccordionDiv>
                 {labResult?.organizationDisplayDataProps?.map(
                   (item: DisplayDataProps, index: any) => {
                     if (item.value)
@@ -63,7 +63,7 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
                   </div>
                 </div>
                 {labResult.diagnosticReportDataElements}
-              </AccordianDiv>
+              </AccordionDiv>
             </div>
           );
         })}
@@ -72,9 +72,9 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
   };
 
   return (
-    <AccordianSection>
+    <AccordionSection>
       {labResults.length > 0 && renderLabInfo()}
-    </AccordianSection>
+    </AccordionSection>
   );
 };
 
