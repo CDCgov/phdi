@@ -1,4 +1,3 @@
-import { SectionConfig } from "./SideNav";
 import React from "react";
 import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
@@ -7,12 +6,6 @@ interface EcrSummaryProps {
   encounterDetails: DisplayDataProps[];
   aboutTheCondition: DisplayDataProps[];
 }
-
-export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
-  "About the Patient",
-  "About the Encounter",
-  "About the Condition",
-]);
 
 /**
  * Generates a JSX element to display eCR viewer summary
@@ -36,9 +29,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body margin-bottom-05">
           <h2
             className="summary-box-key-information side-nav-ignore"
-            id={ecrSummaryConfig.subNavItems?.[0].id}
+            id={"about-the-patient"}
           >
-            {ecrSummaryConfig.subNavItems?.[0].title}
+            About the Patient
           </h2>
           <div className="usa-summary-box__text">
             {patientDetails.map((item) => (
@@ -49,9 +42,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body">
           <h2
             className="summary-box-key-information side-nav-ignore"
-            id={ecrSummaryConfig.subNavItems?.[1].id}
+            id="about-the-encounter"
           >
-            {ecrSummaryConfig.subNavItems?.[1].title}
+            About the Encounter
           </h2>
           <div className="usa-summary-box__text">
             {encounterDetails.map((item) => (
@@ -62,9 +55,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body">
           <h2
             className={"summary-box-key-information side-nav-ignore"}
-            id={ecrSummaryConfig.subNavItems?.[2].id}
+            id={"about-the-condition"}
           >
-            {ecrSummaryConfig.subNavItems?.[2].title}
+            About the Condition
           </h2>
           <div className="usa-summary-box__text">
             {aboutTheCondition.map((item) => (
