@@ -13,7 +13,6 @@ import {
 } from "@/app/services/formatService";
 import {
   ColumnInfoInput,
-  DisplayDataProps,
   PathMappings,
   evaluateData,
   noData,
@@ -32,6 +31,7 @@ import {
 } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import parse from "html-react-parser";
+import { DisplayDataProps } from "@/app/DataDisplay";
 
 /**
  * Returns a table displaying administered medication information.
