@@ -13,13 +13,9 @@ exports[`SocialHistory should match snapshot 1`] = `
       >
         <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
+          id="social-history"
         >
-          <span
-            id="social-history"
-          >
-            Social History
-          </span>
+          Social History
         </h4>
         <div
           class="usa-summary-box__text"

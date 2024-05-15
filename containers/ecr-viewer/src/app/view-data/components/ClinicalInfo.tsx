@@ -3,7 +3,6 @@ import {
   AccordionH4,
   AccordionDiv,
 } from "../component-utils";
-import { SectionConfig } from "./SideNav";
 import React from "react";
 import { addCaptionToTable } from "@/app/services/formatService";
 import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
@@ -16,17 +15,6 @@ interface ClinicalProps {
   treatmentData: DisplayDataProps[];
   clinicalNotes: DisplayDataProps[];
 }
-
-export const clinicalInfoConfig: SectionConfig = new SectionConfig(
-  "Clinical Info",
-  [
-    "Symptoms and Problems",
-    "Immunizations",
-    "Diagnostics and Vital Signs",
-    "Treatment Details",
-    "Clinical Notes",
-  ],
-);
 
 /**
  * Functional component for displaying data in a data table.
@@ -80,11 +68,7 @@ export const ClinicalInfo = ({
   const renderClinicalNotes = () => {
     return (
       <>
-        <AccordionH4>
-          <span id={clinicalInfoConfig.subNavItems?.[4].id}>
-            {clinicalInfoConfig.subNavItems?.[4].title}
-          </span>
-        </AccordionH4>
+        <AccordionH4 id={"clinical-notes"}>Clinical Notes</AccordionH4>
         <AccordionDiv className={"clinical_info_container"}>
           {clinicalNotes.map((item, index) => {
             if (
@@ -115,10 +99,8 @@ export const ClinicalInfo = ({
   const renderSymptomsAndProblems = () => {
     return (
       <>
-        <AccordionH4>
-          <span id={clinicalInfoConfig.subNavItems?.[0].id}>
-            {clinicalInfoConfig.subNavItems?.[0].title}
-          </span>
+        <AccordionH4 id={"symptoms-and-problems"}>
+          Symptoms and Problems
         </AccordionH4>
         <AccordionDiv>
           <div data-testid="reason-for-visit">
@@ -137,11 +119,7 @@ export const ClinicalInfo = ({
   const renderImmunizationsDetails = () => {
     return (
       <>
-        <AccordionH4>
-          <span id={clinicalInfoConfig.subNavItems?.[1].id}>
-            {clinicalInfoConfig.subNavItems?.[1].title}
-          </span>
-        </AccordionH4>
+        <AccordionH4 id={"immunizations"}>Immunizations</AccordionH4>
         <AccordionDiv>
           <div
             className="immunization_table"
@@ -157,10 +135,8 @@ export const ClinicalInfo = ({
   const renderVitalDetails = () => {
     return (
       <>
-        <AccordionH4>
-          <span id={clinicalInfoConfig.subNavItems?.[2].id}>
-            {clinicalInfoConfig.subNavItems?.[2].title}
-          </span>
+        <AccordionH4 id={"diagnostics-and-vital-signs"}>
+          Diagnostics and Vital Signs
         </AccordionH4>
         <AccordionDiv>
           <div className="lh-18" data-testid="vital-signs">
@@ -177,11 +153,7 @@ export const ClinicalInfo = ({
     const data = treatmentData.filter((item) => !React.isValidElement(item));
     return (
       <>
-        <AccordionH4>
-          <span id={clinicalInfoConfig.subNavItems?.[3].id}>
-            {clinicalInfoConfig.subNavItems?.[3].title}
-          </span>
-        </AccordionH4>
+        <AccordionH4 id={"treatment-details"}>Treatment Details</AccordionH4>
         <AccordionDiv>
           <div data-testid="treatment-details">
             {data.map((item, index) => (
