@@ -1,5 +1,5 @@
 import { DataDisplay, DisplayDataProps } from "@/app/utils";
-import { AccordianSection } from "../component-utils";
+import { AccordionSection } from "../component-utils";
 import React from "react";
 
 interface UnavailableInfoProps {
@@ -65,7 +65,7 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
   };
 
   return (
-    <AccordianSection>
+    <AccordionSection>
       {demographicsUnavailableData?.length > 0 &&
         renderSection("Demographics", demographicsUnavailableData)}
       {socialUnavailableData?.length > 0 &&
@@ -87,7 +87,7 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
         renderSection("Treatment Details", treatmentData)}
       {ecrMetadataUnavailableData?.length > 0 &&
         renderSection("eCR Metadata", ecrMetadataUnavailableData)}
-    </AccordianSection>
+    </AccordionSection>
   );
 };
 
