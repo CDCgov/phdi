@@ -7,6 +7,7 @@ RUN pip install -r requirements.txt
 
 COPY ./app /code/app
 COPY ./assets /code/assets
+COPY ./seed-scripts /code/seed-scripts
 COPY ./description.md /code/description.md
 
 EXPOSE 8080

@@ -1663,6 +1663,61 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:a73bcca9-c9e9-7ea2-44c4-b271b9017284",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a73bcca9-c9e9-7ea2-44c4-b271b9017284",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:16289e91-c8cd-88af-03e8-6a8eab53c763"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "95209-3",
+              "display": "SARS-CoV+SARS-CoV-2 (COVID-19) Ag IA.rapid Ql (Respiratory system specimen)",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "260373001",
+              "display": "DETECTED",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/a73bcca9-c9e9-7ea2-44c4-b271b9017284"
+        }
+      }
+    },
+    {
       "fullUrl": "urn:uuid:b56ecbc3-d9d6-9ee0-72a2-d593a1319384",
       "resource": {
         "resourceType": "Observation",

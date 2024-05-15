@@ -34,7 +34,7 @@ async def health_check():
     return {"status": "OK"}
 
 
-@app.post("/stamp-condition-extensions/")
+@app.post("/stamp-condition-extensions")
 async def stamp_condition_extensions(input: InsertConditionInput) -> Response:
     """
     Extends the resources of a supplied FHIR bundle with extension tags
@@ -97,7 +97,7 @@ async def stamp_condition_extensions(input: InsertConditionInput) -> Response:
     return {"extended_bundle": input.bundle}
 
 
-@app.get("/get-value-sets/")
+@app.get("/get-value-sets")
 async def get_value_sets_for_condition(condition_code: str) -> Response:
     """
     For a given condition, queries and returns the value set of clinical

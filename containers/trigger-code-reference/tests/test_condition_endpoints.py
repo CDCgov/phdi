@@ -34,7 +34,10 @@ def _check_for_stamped_resource_in_bundle(
             continue
         extensions = e.get("resource", {}).get("extension", [])
         for ext in extensions:
-            if ext == {"url": "http://snomed.info/sct", "coding": [{"code": code}]}:
+            if ext == {
+                "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+                "coding": [{"code": code, "system": "http://snomed.info/sct"}],
+            }:
                 found_matching_extension = True
                 break
     return found_matching_extension

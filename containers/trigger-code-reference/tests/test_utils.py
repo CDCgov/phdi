@@ -58,7 +58,7 @@ def test_get_clinical_services_list_no_results(mock_db):
     code = ["junk_id"]
     mock_db.fetchall.return_value = []
     result = get_clinical_services_list(code)
-    assert result == {"error": f"No data found for the SNOMED code: {code}."}
+    assert result == []
 
 
 # Test SQL error messaging
@@ -131,7 +131,9 @@ def test_find_codes_by_resource_type():
     ][0]
 
     # Find each resource's chief clinical code
-    assert ["64572001", "75323-6"] == _find_codes_by_resource_type(observation_resource)
+    assert ["64572001", "75323-6", "240372001"] == _find_codes_by_resource_type(
+        observation_resource
+    )
     assert ["C50.511"] == _find_codes_by_resource_type(condition_resource)
     assert ["24"] == _find_codes_by_resource_type(immunization_resource)
     assert ["LAB10082"] == _find_codes_by_resource_type(diagnostic_resource)
@@ -146,6 +148,7 @@ def test_find_codes_by_resource_type():
 
     # Test for a resource we do stamp that doesn't have any codes
     del observation_resource["code"]
+    del observation_resource["valueCodeableConcept"]
     assert [] == _find_codes_by_resource_type(observation_resource)
 
 
@@ -172,8 +175,8 @@ def test_stamp_resource_with_code_extension():
     found_stamp = False
     for ext in stamped_obs.get("extension", []):
         if ext == {
-            "url": "http://snomed.info/sct",
-            "coding": [{"code": "test_obs_code"}],
+            "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+            "coding": [{"code": "test_obs_code", "system": "http://snomed.info/sct"}],
         }:
             found_stamp = True
             break
@@ -185,8 +188,8 @@ def test_stamp_resource_with_code_extension():
     found_stamp = False
     for ext in stamped_condition.get("extension", []):
         if ext == {
-            "url": "http://snomed.info/sct",
-            "coding": [{"code": "test_cond_code"}],
+            "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+            "coding": [{"code": "test_cond_code", "system": "http://snomed.info/sct"}],
         }:
             found_stamp = True
             break

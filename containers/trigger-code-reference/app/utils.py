@@ -79,8 +79,10 @@ def get_clinical_services_list(snomed_code: list) -> List[tuple]:
             code = get_clean_snomed_code(snomed_code)
             cursor.execute(sql_query, code)
             clinical_services_list = cursor.fetchall()
+            # We know it's not an actual error because we didn't get kicked to
+            # except, so just return the lack of results
             if not clinical_services_list:
-                return {"error": f"No data found for the SNOMED code: {code}."}
+                return []
         return clinical_services_list
     except sqlite3.Error as e:
         return {"error": f"An SQL error occurred: {str(e)}"}
@@ -148,13 +150,19 @@ def _find_codes_by_resource_type(resource: dict) -> List[str]:
     codings = []
 
     # Grab coding schemes based on resource type
-    if rtype == "Observation" or rtype == "Condition" or rtype == "DiagnosticReport":
+    if rtype in ["Observation", "Condition", "DiagnosticReport"]:
         codings = resource.get("code", {}).get("coding", [])
     elif rtype == "Immunization":
         codings = resource.get("vaccineCode", {}).get("coding", [])
 
     # Then, isolate for the actual clinical codes
     codes = [x.get("code", "") for x in codings]
+
+    # Also need to add valueCodeableConcepts to obs resources
+    if rtype == "Observation":
+        vccs = resource.get("valueCodeableConcept", {}).get("coding", [])
+        codes += [x.get("code", "") for x in vccs]
+
     return [x for x in codes if x != ""]
 
 
@@ -171,6 +179,9 @@ def _stamp_resource_with_code_extension(resource: dict, code: str) -> dict:
     if "extension" not in resource:
         resource["extension"] = []
     resource["extension"].append(
-        {"url": "http://snomed.info/sct", "coding": [{"code": code}]}
+        {
+            "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+            "coding": [{"code": code, "system": "http://snomed.info/sct"}],
+        }
     )
     return resource
