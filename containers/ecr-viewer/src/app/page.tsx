@@ -1,6 +1,4 @@
-import { ListObjectsV2CommandOutput } from "@aws-sdk/client-s3";
 import React from "react";
-import { processListECR } from "@/app/services/processService";
 import ListECRViewer from "@/app/ListEcrViewer";
 import { listEcrData } from "@/app/api/services/listEcrDataService";
 
@@ -9,15 +7,7 @@ import { listEcrData } from "@/app/api/services/listEcrDataService";
  * @returns The home page JSX component.
  */
 const HomePage: React.FC = async () => {
-  type ListApiResponse = {
-    data: any[] | ListObjectsV2CommandOutput;
-    source: string;
-  };
-
-  const response = await listEcrData();
-  const responseBody: ListApiResponse = await response.json();
-  // TODO: move to API?
-  const listFhirData = processListECR(responseBody.data, responseBody.source);
+  const listFhirData = await listEcrData();
 
   return (
     <main>

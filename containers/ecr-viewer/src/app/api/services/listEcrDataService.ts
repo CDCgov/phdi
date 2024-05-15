@@ -1,7 +1,10 @@
-import { NextResponse } from "next/server";
 import pgPromise from "pg-promise";
 import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { database } from "@/app/api/services/db";
+import {
+  processListPostgres,
+  processListS3,
+} from "@/app/services/processService";
 
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
@@ -18,11 +21,13 @@ const s3Client = new S3Client({ region: process.env.AWS_REGION });
  */
 export async function listEcrData() {
   if (process.env.SOURCE === S3_SOURCE) {
-    return list_s3();
+    const data = await list_s3();
+    return processListS3(data);
   } else if (process.env.SOURCE === POSTGRES_SOURCE) {
-    return await list_postgres();
+    const data = await list_postgres();
+    return processListPostgres(data);
   } else {
-    return NextResponse.json({ message: "Invalid source" }, { status: 500 });
+    throw Error("Invalid Source");
   }
 }
 
@@ -36,19 +41,13 @@ export const list_postgres = async () => {
     text: "SELECT ecr_id FROM fhir",
   });
   try {
-    const entry = await database.manyOrNone(listFhir);
-    // TODO: changing this to not return a NextResponse? could just return entry
-    return NextResponse.json(
-      { data: entry, source: POSTGRES_SOURCE },
-      { status: 200 },
-    );
+    return await database.manyOrNone(listFhir);
   } catch (error: any) {
     console.error("Error fetching data:", error);
     if (error.message == "No data returned from the query.") {
-      // TODO: throw error?
-      return NextResponse.json({ message: "No eCRs found" }, { status: 404 });
+      throw Error("No eCRs found");
     } else {
-      return NextResponse.json({ message: error.message }, { status: 500 });
+      throw Error(error.message);
     }
   }
 };
@@ -65,14 +64,9 @@ export const list_s3 = async () => {
       Bucket: bucketName,
     });
 
-    const response = await s3Client.send(command);
-
-    return NextResponse.json(
-      { data: response, source: S3_SOURCE },
-      { status: 200 },
-    );
+    return await s3Client.send(command);
   } catch (error: any) {
     console.error("S3 GetObject error:", error);
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    throw Error(error.message);
   }
 };
