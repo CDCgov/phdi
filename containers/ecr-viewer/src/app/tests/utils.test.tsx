@@ -1,10 +1,4 @@
-import {
-  DisplayDataProps,
-  isDataAvailable,
-  DataDisplay,
-  TooltipDiv,
-  toolTipElement,
-} from "@/app/utils";
+import { isDataAvailable, TooltipDiv, toolTipElement } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/services/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "./assets/BundleTravelHistory.json";
@@ -31,6 +25,7 @@ import {
   returnPlannedProceduresTable,
   returnProblemsTable,
 } from "../view-data/components/common";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();

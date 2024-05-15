@@ -13,13 +13,9 @@ exports[`ECR Metadata should match snapshot 1`] = `
       >
         <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
+          id="rr-details"
         >
-          <span
-            id="rr-details"
-          >
-            RR Details
-          </span>
+          RR Details
         </h4>
         <div
           class="usa-summary-box__text"
@@ -168,13 +164,9 @@ exports[`ECR Metadata should match snapshot 1`] = `
           />
           <h4
             class="usa-summary-box__heading padding-y-105"
-            id="summary-box-key-information"
+            id="eicr-details"
           >
-            <span
-              id="eicr-details"
-            >
-              eICR Details
-            </span>
+            eICR Details
           </h4>
           <div>
             <div
@@ -200,13 +192,9 @@ exports[`ECR Metadata should match snapshot 1`] = `
           />
           <h4
             class="usa-summary-box__heading padding-y-105"
-            id="summary-box-key-information"
+            id="ecr-sender-details"
           >
-            <span
-              id="ecr-sender-details"
-            >
-              eCR Sender Details
-            </span>
+            eCR Sender Details
           </h4>
           <div>
             <div

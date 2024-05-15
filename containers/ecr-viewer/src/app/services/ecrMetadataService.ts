@@ -1,8 +1,9 @@
 import { formatDateTime } from "@/app/services/formatService";
-import { DisplayDataProps, PathMappings, evaluateData } from "@/app/utils";
+import { PathMappings, evaluateData } from "@/app/utils";
 import { Bundle } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { evaluateFacilityAddress } from "./evaluateFhirDataService";
+import { DisplayDataProps } from "@/app/DataDisplay";
 
 export interface ReportableConditions {
   [condition: string]: {
