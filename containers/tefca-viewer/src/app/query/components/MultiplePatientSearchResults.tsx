@@ -116,19 +116,19 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
   });
 
   searchElements = searchElements.filter((element) => element !== undefined);
-  console.log(searchElements);
-  console.log(searchElements.length);
 
   let noteParts = [
     <>The following records match by the values provided for </>,
   ];
   let comma = ", ";
-  if (searchElements.length === 1) {
+  if (searchElements.length <= 2) {
     comma = " ";
   }
   for (let i = 0; i < searchElements.length; i++) {
     if (i === searchElements.length - 1) {
-      noteParts.push(<>and </>);
+      if (searchElements.length > 1) {
+        noteParts.push(<>and </>);
+      }
       comma = "";
     }
     switch (searchElements[i]) {
@@ -148,16 +148,6 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
         );
         break;
     }
-    console.log(
-      "i: ",
-      i,
-      "searchElements[i]: ",
-      searchElements[i],
-      "comma: ",
-      comma,
-      "noteParts: ",
-      noteParts,
-    );
   }
   noteParts.push(<>:</>);
   return <p className="font-sans-lg text-light">{noteParts}</p>;
