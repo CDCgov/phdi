@@ -9,7 +9,7 @@ services:
     logging:
       driver: "json-file"
     environment:
-      - trigger-code-reference-service:8080
+      - TRIGGER_CODE_REFERENCE_URL=trigger-code-reference-service:8081
   trigger-code-reference-service:
     build:
       context: ../trigger-code-reference

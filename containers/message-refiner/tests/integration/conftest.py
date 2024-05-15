@@ -23,7 +23,7 @@ def setup(request):
         orchestration_service.wait_for(f"http://0.0.0.0:{port}")
         print(name, "started!")
 
-    print("Orchestration etc. services ready to test!")
+    print("Message refiner services ready to test!")
 
     def teardown():
         print("Tests finished! Tearing down.")
