@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import classNames from "classnames";
 
-type AccordianSectionProps = {
+type AccordionSectionProps = {
   children: ReactNode;
   className?: string;
   id?: string;
@@ -14,7 +14,7 @@ type AccordianSectionProps = {
  * @param [props.className] - Optional additional class name for styling.
  * @returns The JSX element representing the accordion section.
  */
-export const AccordianSection: React.FC<AccordianSectionProps> = ({
+export const AccordionSection: React.FC<AccordionSectionProps> = ({
   children,
   className,
 }) => {
@@ -37,11 +37,11 @@ export const AccordianSection: React.FC<AccordianSectionProps> = ({
  * @param [props.id] - The ID attribute of the heading.
  * @returns React element representing the AccordionH4 component.
  */
-export const AccordianH4: React.FC<AccordianSectionProps> = ({
+export const AccordionH4: React.FC<AccordionSectionProps> = ({
   children,
   className,
   id,
-}: AccordianSectionProps): React.JSX.Element => {
+}: AccordionSectionProps): React.JSX.Element => {
   return (
     <h4
       className={classNames(
@@ -62,7 +62,7 @@ export const AccordianH4: React.FC<AccordianSectionProps> = ({
  * @param [props.className] - Optional additional class name for styling.
  * @returns The JSX element representing the accordion div.
  */
-export const AccordianDiv: React.FC<AccordianSectionProps> = ({
+export const AccordionDiv: React.FC<AccordionSectionProps> = ({
   children,
   className,
 }) => {
