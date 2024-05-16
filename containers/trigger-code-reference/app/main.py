@@ -55,6 +55,9 @@ async def get_value_sets_for_condition(
 
     :param condition_code: A query param supplied as a string representing a
       single SNOMED condition code.
+    :param filter_clinical_services: (Optional) List of clinical service types
+      specified to keep. By default, all (currently) 6 clinical service types are
+      returned; use this parameter to return only types of interest.
     :return: An HTTP Response containing the value sets of the queried code.
     """
     if condition_code is None or condition_code == "":
@@ -62,10 +65,9 @@ async def get_value_sets_for_condition(
             content="Supplied condition code must be a non-empty string",
             status_code=422,
         )
-    else:
-        clean_snomed_code = get_clean_snomed_code(condition_code)
-        clinical_services_list = get_clinical_services_list(clean_snomed_code)
-        values = get_clinical_services_dict(
-            clinical_services_list, filter_clinical_services
-        )
+    clean_snomed_code = get_clean_snomed_code(condition_code)
+    clinical_services_list = get_clinical_services_list(clean_snomed_code)
+    values = get_clinical_services_dict(
+        clinical_services_list, filter_clinical_services
+    )
     return values
