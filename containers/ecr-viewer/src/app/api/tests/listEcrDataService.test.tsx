@@ -1,11 +1,15 @@
+/**
+ * @jest-environment node
+ */
+
 import { ListObjectsV2CommandOutput } from "@aws-sdk/client-s3";
 import {
   ListEcr,
   processListS3,
   processListPostgres,
-} from "@/app/services/processService";
+} from "@/app/api/services/listEcrDataService";
 
-describe("Home Page", () => {
+describe("listEcrDataService", () => {
   describe("processListS3", () => {
     it("should return an empty array when responseBody is empty", () => {
       const responseBody: ListObjectsV2CommandOutput = {
@@ -27,8 +31,8 @@ describe("Home Page", () => {
       };
 
       const expected: ListEcr = [
-        { ecr_id: "ecr1", dateModified: expect.any(String) },
-        { ecr_id: "ecr2", dateModified: expect.any(String) },
+        { ecrId: "ecr1", dateModified: expect.any(String) },
+        { ecrId: "ecr2", dateModified: expect.any(String) },
       ];
       const result = processListS3(responseBody);
 
@@ -46,8 +50,8 @@ describe("Home Page", () => {
       const responseBody: any[] = [{ ecr_id: "ecr1" }, { ecr_id: "ecr2" }];
 
       const expected: ListEcr = [
-        { ecr_id: "ecr1", dateModified: expect.any(String) },
-        { ecr_id: "ecr2", dateModified: expect.any(String) },
+        { ecrId: "ecr1", dateModified: expect.any(String) },
+        { ecrId: "ecr2", dateModified: expect.any(String) },
       ];
       const result = processListPostgres(responseBody);
 

@@ -1,5 +1,5 @@
 import { Table } from "@trussworks/react-uswds";
-import { ListEcr } from "@/app/services/processService";
+import { ListEcr } from "@/app/api/services/listEcrDataService";
 
 interface ListEcrViewerProps {
   listFhirData: ListEcr;
@@ -32,19 +32,27 @@ export default function ListECRViewer({
             ))}
           </tr>
         </thead>
-        <tbody>
-          {listFhirData.map((item, index) => {
-            return (
-              <tr key={`table-row-${index}`}>
-                <td>
-                  <a href={`/view-data?id=${item.ecr_id}`}>{item.ecr_id}</a>
-                </td>
-                <td>{item.dateModified}</td>
-              </tr>
-            );
-          })}
-        </tbody>
+        <tbody>{renderListEcrTableData(listFhirData)}</tbody>
       </Table>
     </div>
   );
 }
+
+/**
+ * Renders table rows given a list of eCRs. Each row contains an eCR ID linked to its
+ * individual eCR viewer page and the stored date.
+ * @param listFhirData - The list of eCRs to render.
+ * @returns An array of JSX table row elements representing the list of eCRs.
+ */
+const renderListEcrTableData = (listFhirData: ListEcr) => {
+  return listFhirData.map((item, index) => {
+    return (
+      <tr key={`table-row-${index}`}>
+        <td>
+          <a href={`/view-data?id=${item.ecrId}`}>{item.ecrId}</a>
+        </td>
+        <td>{item.dateModified}</td>
+      </tr>
+    );
+  });
+};

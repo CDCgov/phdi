@@ -1,14 +1,20 @@
 import pgPromise from "pg-promise";
-import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
-import { database } from "@/app/api/services/db";
 import {
-  processListPostgres,
-  processListS3,
-} from "@/app/services/processService";
+  S3Client,
+  ListObjectsV2Command,
+  ListObjectsV2CommandOutput,
+} from "@aws-sdk/client-s3";
+import { database } from "@/app/api/services/db";
+import { formatDateTime } from "@/app/services/formatService";
 
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
+
+export type ListEcr = {
+  ecrId: string;
+  dateModified: string;
+}[];
 
 /**
  * Handles GET requests by fetching data from different sources based on the environment configuration.
@@ -35,7 +41,7 @@ export async function listEcrData() {
  * Retrieves array of eCR IDs from PostgreSQL database.
  * @returns A promise resolving to a NextResponse object.
  */
-export const list_postgres = async () => {
+const list_postgres = async () => {
   const { ParameterizedQuery: PQ } = pgPromise;
   const listFhir = new PQ({
     text: "SELECT ecr_id FROM fhir",
@@ -56,7 +62,7 @@ export const list_postgres = async () => {
  * Retrieves array of eCRs and their metadata from S3.
  * @returns A promise resolving to a NextResponse object.
  */
-export const list_s3 = async () => {
+const list_s3 = async () => {
   const bucketName = process.env.ECR_BUCKET_NAME;
 
   try {
@@ -69,4 +75,38 @@ export const list_s3 = async () => {
     console.error("S3 GetObject error:", error);
     throw Error(error.message);
   }
+};
+
+/**
+ * Processes a list of eCR data retrieved from Postgres.
+ * @param responseBody - The response body containing eCR data from Postgres.
+ * @returns - The processed list of eCR IDs and dates.
+ */
+export const processListPostgres = (responseBody: any[]): ListEcr => {
+  return responseBody.map((object) => {
+    return {
+      ecrId: object.ecr_id || "",
+      dateModified: "N/A",
+    };
+  });
+};
+
+/**
+ * Processes a list of eCR data retrieved from an S3 bucket.
+ * @param responseBody - The response body containing eCR data from S3.
+ * @returns - The processed list of eCR IDs and dates.
+ */
+export const processListS3 = (
+  responseBody: ListObjectsV2CommandOutput,
+): ListEcr => {
+  return (
+    responseBody.Contents?.map((object) => {
+      return {
+        ecrId: object.Key?.replace(".json", "") || "",
+        dateModified: object.LastModified
+          ? formatDateTime(new Date(object.LastModified!).toISOString())
+          : "",
+      };
+    }) || []
+  );
 };
