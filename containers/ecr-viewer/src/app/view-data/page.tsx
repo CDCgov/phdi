@@ -14,10 +14,6 @@ import {
   evaluateEcrSummaryEncounterDetails,
   evaluateEcrSummaryAboutTheConditionDetails,
 } from "../services/ecrSummaryService";
-import {
-  AccordionLoadingSkeleton,
-  EcrSummaryLoadingSkeleton,
-} from "./components/LoadingComponent";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -92,7 +88,7 @@ const ECRViewerPage: React.FC = () => {
         </pre>
       </div>
     );
-  } else {
+  } else if (fhirBundle && mappings) {
     return (
       <div>
         <div className="main-container">
@@ -107,11 +103,7 @@ const ECRViewerPage: React.FC = () => {
                 <h2 className="margin-bottom-3" id="ecr-summary">
                   eCR Summary
                 </h2>
-                {fhirBundle && mappings ? (
-                  renderEcrSummary(fhirBundle, mappings)
-                ) : (
-                  <EcrSummaryLoadingSkeleton />
-                )}
+                {renderEcrSummary(fhirBundle, mappings)}
                 <div className="margin-top-10">
                   <GridContainer className={"padding-0 margin-bottom-3"}>
                     <Grid row>
@@ -135,14 +127,10 @@ const ECRViewerPage: React.FC = () => {
                       </Grid>
                     </Grid>
                   </GridContainer>
-                  {fhirBundle && mappings ? (
-                    <AccordionContainer
-                      fhirPathMappings={mappings}
-                      fhirBundle={fhirBundle}
-                    />
-                  ) : (
-                    <AccordionLoadingSkeleton />
-                  )}
+                  <AccordionContainer
+                    fhirPathMappings={mappings}
+                    fhirBundle={fhirBundle}
+                  />
                 </div>
               </div>
             </div>

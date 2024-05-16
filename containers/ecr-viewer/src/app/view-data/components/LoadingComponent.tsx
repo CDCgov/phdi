@@ -1,10 +1,12 @@
 "use client";
-import { Accordion } from "@trussworks/react-uswds";
+import { Accordion, Grid, GridContainer } from "@trussworks/react-uswds";
 import {
   AccordianSection,
   AccordianH4,
   AccordianDiv,
 } from "../component-utils";
+import { ExpandCollapseButtons } from "./ExpandCollapseButtons";
+import SideNav from "./SideNav";
 
 /**
  * Renders the loading blobs in gray or in blue
@@ -13,11 +15,10 @@ import {
  * @returns Rows of blobs.
  */
 const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
-  // Create an array of specified size to map over
   const rows = Array.from({ length: numberOfRows });
   const loadingBlobStyle = isGray ? "loading-blob-gray" : "loading-blob-blue";
   const sectionLineStyle = isGray ? "section__line_gray" : "section__line";
-  // Map over the array to create multiple divs
+
   return (
     <>
       {rows.map((_, index) => (
@@ -39,7 +40,7 @@ const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
  * Renders ECR Summary of the loading state
  * @returns A JSX component with rows of blobs.
  */
-export const EcrSummaryLoadingSkeleton = () => {
+const EcrSummaryLoadingSkeleton = () => {
   return (
     <div className={"info-container"}>
       <div
@@ -67,7 +68,7 @@ export const EcrSummaryLoadingSkeleton = () => {
  * Renders Accordion of the loading state
  * @returns A JSX component with rows of blobs.
  */
-export const AccordionLoadingSkeleton = () => {
+const AccordionLoadingSkeleton = () => {
   const renderEcrDocumentFiller = (title: string, numberOfRows: number) => {
     return (
       <AccordianSection>
@@ -144,5 +145,56 @@ export const AccordionLoadingSkeleton = () => {
       items={accordionItems}
       multiselectable={true}
     />
+  );
+};
+
+/**
+ * Creates the loading skeleton for the main ecr page
+ * @returns ECR page loading skeleton
+ */
+export const EcrLoadingSkeleton = () => {
+  return (
+    <div>
+      <div className="main-container">
+        <div className="content-wrapper">
+          <div className="nav-wrapper">
+            <nav className="sticky-nav">
+              <SideNav />
+            </nav>
+          </div>
+          <div className={"ecr-viewer-container"}>
+            <div className="ecr-content">
+              <h2 className="margin-bottom-3" id="ecr-summary">
+                eCR Summary
+              </h2>
+              <EcrSummaryLoadingSkeleton />
+              <div className="margin-top-10">
+                <GridContainer className={"padding-0 margin-bottom-3"}>
+                  <Grid row>
+                    <Grid>
+                      <h2 className="margin-bottom-0" id="ecr-document">
+                        eCR Document
+                      </h2>
+                    </Grid>
+                    <Grid className={"flex-align-self-center margin-left-auto"}>
+                      <ExpandCollapseButtons
+                        id={"main"}
+                        buttonSelector={"h3 > .usa-accordion__button"}
+                        accordionSelector={
+                          ".info-container > .usa-accordion__content"
+                        }
+                        expandButtonText={"Expand all sections"}
+                        collapseButtonText={"Collapse all sections"}
+                      />
+                    </Grid>
+                  </Grid>
+                </GridContainer>
+                <AccordionLoadingSkeleton />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
