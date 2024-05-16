@@ -3,8 +3,11 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import ClinicalInfo from "../../view-data/components/ClinicalInfo";
 import { loadYamlConfig } from "@/app/api/utils";
-import { returnProceduresTable, evaluateClinicalData } from "@/app/utils";
 import { Procedure } from "fhir/r4";
+import {
+  evaluateClinicalData,
+  returnProceduresTable,
+} from "@/app/view-data/components/common";
 
 describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () => {
   let container: HTMLElement;
