@@ -26,13 +26,6 @@ services:
       - "${VALIDATION_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
-  vocab-mapper:
-    build:
-      context: ../vocab-mapper
-    ports:
-      - "${VOCAB_MAPPER_PORT_NUMBER}:8080"
-    logging:
-      driver: "json-file"
   fhir-converter-service:
     build:
       context: ../fhir-converter
