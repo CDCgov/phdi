@@ -30,6 +30,24 @@ export default function FooterComponent() {
                 <p className=" text-base-lightest usa-footer__logo-heading">
                   Centers for Disease Control and Prevention
                 </p>
+                <p className="text-base-lightest">
+                  Email the DIBBs team for more information: dibbs@cdc.gov or
+                  visit the{" "}
+                  <a
+                    href="https://cdcgov.github.io/dibbs-site/"
+                    className="white-link"
+                  >
+                    DIBBs site
+                  </a>
+                </p>
+                <p className="text-base-lightest">
+                  <a
+                    href="https://cdcgov.github.io/dibbs-site/"
+                    className="white-link"
+                  >
+                    dibbs.cloud
+                  </a>
+                </p>
               </div>
             </div>
             <div
