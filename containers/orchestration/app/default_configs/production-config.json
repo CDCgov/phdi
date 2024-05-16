@@ -1,0 +1,52 @@
+{
+  "workflow": [
+    {
+      "service": "validation",
+      "url": "${VALIDATION_URL}",
+      "endpoint": "/validate",
+      "params": {
+        "include_error_types": "error"
+      }
+    },
+    {
+      "service": "fhir_converter",
+      "url": "${FHIR_CONVERTER_URL}",
+      "endpoint": "/convert-to-fhir"
+    },
+    {
+      "service": "vocab_mapper",
+      "url": "${VOCAB_MAPPER_URL}",
+      "endpoint": "/insert-condition-extensions"
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_names"
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_dob",
+      "params": {
+        "dob_format": ""
+      }
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/geospatial/geocode/geocode_bundle"
+    },
+    {
+      "service": "save_bundle",
+      "url": "${ECR_VIEWER_URL}",
+      "endpoint": "/api/save-fhir-data",
+      "params": {
+        "saveSource": "s3"
+      }
+    }
+  ]
+}
