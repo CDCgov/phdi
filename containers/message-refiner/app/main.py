@@ -1,9 +1,14 @@
 from pathlib import Path
+from typing import List
 
+import requests
 from dibbs.base_service import BaseService
 from fastapi import Request
 from fastapi import Response
 from lxml import etree as ET
+
+TCR_URL = "trigger-code-reference-service:8081"
+TCR_ENDPOINT = TCR_URL + "/get-value-sets/?condition_code="
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -26,14 +31,18 @@ async def health_check():
 
 @app.post("/ecr/")
 async def refine_ecr(
-    refiner_input: Request, sections_to_include: str | None = None
+    refiner_input: Request,
+    sections_to_include: str | None = None,
+    conditions_to_include: str | None = None,
 ) -> Response:
     """
     Refines an incoming XML message based on the fields to include and whether
     to include headers.
 
     :param request: The request object containing the XML input.
-    :param fields_to_include: The fields to include in the refined message.
+    :param sections_to_include: The fields to include in the refined message.
+    :param conditions_to_include: The SNOMED condition codes to search for
+    and then include the relevant clinical services in the refined message.
     :return: The RefinerResponse which includes the `refined_message`
     """
     data = await refiner_input.body()
@@ -96,12 +105,71 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     return (section_loincs, error_message) if section_loincs else (None, error_message)
 
 
-def refine(validated_message: bytes, sections_to_include: str) -> str:
+def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
+    """
+    This is a small helper function that loops through codes to create a set of
+    xpaths that can be used in the refine step.
+
+    :param system: This is the system type of the clinical service codes.
+    :param codes: This is a list of the clinical service codes for a specified
+    SNOMED code.
+    """
+    """
+    As of May 2024, these are the code systems used in clinical services
+    code_system
+    http://snomed.info/sct                         28102
+    http://loinc.org                                9509
+    http://hl7.org/fhir/sid/icd-10-cm               5892
+    http://www.nlm.nih.gov/research/umls/rxnorm      468
+    http://hl7.org/fhir/sid/cvx                        2
+    """
+    system_dict = {
+        "http://hl7.org/fhir/sid/icd-10-cm": "ICD10",
+        "http://snomed.info/sct": "SNOMED CT",
+        "http://loinc.org": "LOINC",
+        "http://www.nlm.nih.gov/research/umls/rxnorm": "?",  # TODO
+        "http://hl7.org/fhir/sid/cvx": "?",  # TODO
+    }
+
+    return [
+        f"//*[local-name()='code'][@code='{code}' and @codeSystemName='{system_dict[system]}']"
+        for code in codes
+    ]
+
+
+def get_clinical_services_to_include(condition_codes: str) -> List[str]:
+    """
+    This a function that loops through the provided condition codes. For each
+    condition code provided, it calls the trigger-code-reference service to get
+    the relevant clinical services for that condition. It then loops through
+    each of those clinical service codes and their system to create an xpath
+    query.
+
+    :param condition_codes: SNOMED condition codes to look up in TCR service
+    :return: List of xpath queries to check
+    """
+    conditions_list = condition_codes.split(",")
+    clinical_services_to_include = []
+
+    for condition in conditions_list:
+        clinical_services = requests.get(TCR_ENDPOINT + condition)
+        for system, entries in clinical_services.items():
+            for entry in entries:
+                system = entry.get("system")
+                xpath_queries = _generate_clinical_xpaths(system, entry.get("codes"))
+                clinical_services_to_include.extend(xpath_queries)
+    return clinical_services_to_include
+
+
+def refine(
+    validated_message: bytes, sections_to_include: str, conditions_to_include: str
+) -> str:
     """
     Refines an incoming XML message based on the sections to include.
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
+    :param conditions_to_include: XPaths of clinical service codes.
     :return: The refined message.
     """
     header = select_message_header(validated_message)
@@ -112,9 +180,17 @@ def refine(validated_message: bytes, sections_to_include: str) -> str:
     sections_xpath_expression = "or".join(
         [f"@code='{section}'" for section in sections_to_include]
     )
-    xpath_expression = (
-        f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
-    )
+
+    if conditions_to_include:
+        clinical_services_to_include = get_clinical_services_to_include(
+            conditions_to_include
+        )
+        services_xpath_expression = " or ".join(clinical_services_to_include)
+        xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}] and ({services_xpath_expression})]"
+    else:
+        xpath_expression = (
+            f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
+        )
 
     # Use XPath to find elements matching the expression
     elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
