@@ -31,7 +31,7 @@ export default function FooterComponent() {
                   Centers for Disease Control and Prevention
                 </p>
                 <p className="text-base-lightest">
-                  Email the DIBBs team for more information: dibbs@cdc.gov or
+                  Email the DIBBs team for more information at dibbs@cdc.gov or
                   visit the{" "}
                   <a
                     href="https://cdcgov.github.io/dibbs-site/"
