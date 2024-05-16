@@ -19,39 +19,6 @@ def read_json_from_test_assets():
 
 
 @pytest.fixture(scope="session")
-def read_json_from_phdi_test_assets():
-    def _read_json(filename: str) -> dict:
-        """
-        Reads a JSON file from the test assets directory.
-        """
-        with open(
-            (
-                Path(__file__).parent.parent.parent.parent
-                / "tests"
-                / "assets"
-                / "general"
-                / filename
-            ),
-            "r",
-        ) as file:
-            return json.load(file)
-
-    return _read_json
-
-
-@pytest.fixture(scope="session")
-def read_file_from_test_assets():
-    def _read_file(filename: str) -> str:
-        """
-        Reads a file from the test assets directory.
-        """
-        with open((Path(__file__).parent / "assets" / filename), "r") as file:
-            return file.read()
-
-    return _read_file
-
-
-@pytest.fixture(scope="session")
 def setup(request):
     print("Setting up tests...")
     compose_path = os.path.join(os.path.dirname(__file__), "./integration/")
