@@ -19,7 +19,7 @@ export const processListS3 = (
       return {
         ecr_id: object.Key?.replace(".json", "") || "",
         dateModified: object.LastModified
-          ? formatDateTime(object.LastModified.toString())
+          ? formatDateTime(new Date(object.LastModified!).toISOString())
           : "",
       };
     }) || []
