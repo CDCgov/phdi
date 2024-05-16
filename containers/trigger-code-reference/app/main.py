@@ -65,9 +65,10 @@ async def get_value_sets_for_condition(
             content="Supplied condition code must be a non-empty string",
             status_code=422,
         )
-    clean_snomed_code = get_clean_snomed_code(condition_code)
-    clinical_services_list = get_clinical_services_list(clean_snomed_code)
-    values = get_clinical_services_dict(
-        clinical_services_list, filter_clinical_services
-    )
+    else:
+        clean_snomed_code = get_clean_snomed_code(condition_code)
+        clinical_services_list = get_clinical_services_list(clean_snomed_code)
+        values = get_clinical_services_dict(
+            clinical_services_list, filter_clinical_services
+        )
     return values
