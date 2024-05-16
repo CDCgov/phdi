@@ -1,20 +1,14 @@
-import { DataDisplay, DisplayDataProps } from "@/app/utils";
 import {
-  AccordianSection,
-  AccordianH4,
-  AccordianDiv,
+  AccordionSection,
+  AccordionH4,
+  AccordionDiv,
 } from "../component-utils";
-import { SectionConfig } from "./SideNav";
 import React from "react";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface SocialHistoryProps {
   socialData: DisplayDataProps[];
 }
-
-export const socialHistoryConfig: SectionConfig = {
-  id: "social-history",
-  title: "Social History",
-};
 
 /**
  * Functional component for displaying social history.
@@ -24,16 +18,14 @@ export const socialHistoryConfig: SectionConfig = {
  */
 const SocialHistory: React.FC<SocialHistoryProps> = ({ socialData }) => {
   return (
-    <AccordianSection>
-      <AccordianH4>
-        <span id={socialHistoryConfig.id}>{socialHistoryConfig.title}</span>
-      </AccordianH4>
-      <AccordianDiv>
+    <AccordionSection>
+      <AccordionH4 id={"social-history"}>Social History</AccordionH4>
+      <AccordionDiv>
         {socialData.map((item, index) => (
           <DataDisplay item={item} key={index} />
         ))}
-      </AccordianDiv>
-    </AccordianSection>
+      </AccordionDiv>
+    </AccordionSection>
   );
 };
 

@@ -13,13 +13,9 @@ exports[`Snapshot test for Clinical Notes should match snapshot for non table no
       >
         <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
+          id="clinical-notes"
         >
-          <span
-            id="clinical-notes"
-          >
-            Clinical Notes
-          </span>
+          Clinical Notes
         </h4>
         <div
           class="usa-summary-box__text clinical_info_container"
@@ -65,13 +61,9 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
       >
         <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
+          id="clinical-notes"
         >
-          <span
-            id="clinical-notes"
-          >
-            Clinical Notes
-          </span>
+          Clinical Notes
         </h4>
         <div
           class="usa-summary-box__text clinical_info_container"
@@ -168,13 +160,9 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
       >
         <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
+          id="treatment-details"
         >
-          <span
-            id="treatment-details"
-          >
-            Treatment Details
-          </span>
+          Treatment Details
         </h4>
         <div
           class="usa-summary-box__text"
@@ -266,13 +254,9 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
         </div>
         <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
+          id="diagnostics-and-vital-signs"
         >
-          <span
-            id="diagnostics-and-vital-signs"
-          >
-            Diagnostics and Vital Signs
-          </span>
+          Diagnostics and Vital Signs
         </h4>
         <div
           class="usa-summary-box__text"
