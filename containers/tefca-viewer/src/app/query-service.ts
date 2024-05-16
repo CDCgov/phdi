@@ -212,9 +212,14 @@ async function syphilisQuery(
     encounterQuery,
     encounterClassTypeQuery,
   ];
-  const queryBundle = await generateQueryBundle(queryRequests);
-  const bundleResponse = await fhirClient.post(queryBundle);
-  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
+  // const queryBundle = await generateQueryBundle(queryRequests);
+  // const bundleResponse = await fhirClient.post(queryBundle);
+  const bundleResponse = await fetchFHIRDataWithClient(
+    queryRequests,
+    fhirClient,
+  );
+  console.log("bundleResponse: ", bundleResponse);
+  // queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters. TODO: Add encounters as _include in condition query
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
@@ -455,13 +460,8 @@ async function parseFhirSearch(
     const body = await response.json();
     if (body.entry) {
       for (const entry of body.entry) {
-        console.log(
-          "entry.resource.resourceType:",
-          entry.resource.resourceType,
-        );
         // Create resource array to handle Bundle & non-Bundle entries
         let resourceArray: any[];
-
         if (entry.resource.resourceType === "Bundle") {
           resourceArray = entry.resource.entry
             ? entry.resource.entry.map(
@@ -525,4 +525,20 @@ async function generateQueryBundle(urls: Array<string>): Promise<Bundle> {
   };
 
   return bundle;
+}
+
+async function fetchFHIRDataWithClient(
+  urls: Array<string>,
+  fhirClient: FHIRClient,
+): Promise<Array<Bundle>> {
+  const fetchPromises = urls.map((url) =>
+    fhirClient.get(url).then((response) => {
+      if (!response.ok) {
+        console.error(`Failed to fetch ${url}: ${response.statusText}`);
+      }
+      return response.json();
+    }),
+  );
+
+  return await Promise.all(fetchPromises);
 }
