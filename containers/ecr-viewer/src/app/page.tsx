@@ -2,6 +2,8 @@ import React from "react";
 import ListECRViewer from "@/app/ListEcrViewer";
 import { listEcrData } from "@/app/api/services/listEcrDataService";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Functional component for rendering the home page that lists all eCRs.
  * @returns The home page JSX component.
