@@ -1,6 +1,8 @@
 from pathlib import Path
+from typing import Annotated
 
 from dibbs.base_service import BaseService
+from fastapi import Body
 from fastapi import Response
 
 from app.models import InsertConditionInput
@@ -8,6 +10,7 @@ from app.utils import _find_codes_by_resource_type
 from app.utils import _stamp_resource_with_code_extension
 from app.utils import get_clinical_services_dict
 from app.utils import get_clinical_services_list
+from app.utils import read_json_from_assets
 
 RESOURCE_TO_SERVICE_TYPES = {
     "Observation": ["dxtc", "ostc", "lotc", "lrtc", "mrtc", "sdtc"],
@@ -23,6 +26,15 @@ app = BaseService(
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
+# Load up the annotated examples
+stamp_conditions_request_examples = read_json_from_assets(
+    "sample_stamp_condition_extensions_requests.json"
+)
+stamp_conditions_response_examples_raw = read_json_from_assets(
+    "sample_stamp_condition_extensions_responses.json"
+)
+stamp_conditions_response_examples = {200: stamp_conditions_response_examples_raw}
+
 
 @app.get("/")
 async def health_check():
@@ -34,8 +46,16 @@ async def health_check():
     return {"status": "OK"}
 
 
-@app.post("/stamp-condition-extensions")
-async def stamp_condition_extensions(input: InsertConditionInput) -> Response:
+@app.post(
+    "/stamp-condition-extensions",
+    status_code=200,
+    responses=stamp_conditions_response_examples,
+)
+async def stamp_condition_extensions(
+    input: Annotated[
+        InsertConditionInput, Body(examples=stamp_conditions_request_examples)
+    ],
+) -> Response:
     """
     Extends the resources of a supplied FHIR bundle with extension tags
     related to one or more supplied conditions. For each condition in the
