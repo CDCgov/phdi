@@ -1,7 +1,7 @@
 import Demographics from "./Demographics";
 import ObservationTable from "./ObservationTable";
 import EncounterTable from "./EncounterTable";
-import DiagnosticReportsTable from "./DiagnosticReportsTable";
+import DiagnosticReportTable from "./DiagnosticReportTable";
 import React from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import { formatString } from "@/app/format-service";
@@ -12,6 +12,7 @@ import {
 } from "../component-utils";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import ConditionsTable from "./ConditionsTable";
+import MedicationRequestTable from "./MedicationRequestTable";
 
 type AccordionContainerProps = {
   queryResponse: UseCaseQueryResponse;
@@ -30,16 +31,19 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const accordionItems: any[] = [];
 
   const patient =
-    queryResponse.patients && queryResponse.patients.length === 1
-      ? queryResponse.patients[0]
+    queryResponse.Patient && queryResponse.Patient.length === 1
+      ? queryResponse.Patient[0]
       : null;
-  const observations = queryResponse.observations
-    ? queryResponse.observations
+  const observations = queryResponse.Observation
+    ? queryResponse.Observation
     : null;
-  const encounters = queryResponse.encounters ? queryResponse.encounters : null;
-  const conditions = queryResponse.conditions ? queryResponse.conditions : null;
-  const diagnosticReports = queryResponse.diagnosticReports
-    ? queryResponse.diagnosticReports
+  const encounters = queryResponse.Encounter ? queryResponse.Encounter : null;
+  const conditions = queryResponse.Condition ? queryResponse.Condition : null;
+  const diagnosticReports = queryResponse.DiagnosticReport
+    ? queryResponse.DiagnosticReport
+    : null;
+  const medicationRequests = queryResponse.MedicationRequest
+    ? queryResponse.MedicationRequest
     : null;
 
   if (patient) {
@@ -132,7 +136,27 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
               <span id="diagnosticReports">Diagnostic Reports</span>
             </AccordianH4>
             <AccordianDiv>
-              <DiagnosticReportsTable diagnosticReports={diagnosticReports} />
+              <DiagnosticReportTable diagnosticReports={diagnosticReports} />
+            </AccordianDiv>
+          </AccordianSection>
+        </>
+      ),
+      expanded: true,
+      headingLevel: "h3",
+    });
+  }
+
+  if (medicationRequests) {
+    accordionItems.push({
+      title: "Medication Requests",
+      content: (
+        <>
+          <AccordianSection>
+            <AccordianH4>
+              <span id="medicationRequests">Medication Requests</span>
+            </AccordianH4>
+            <AccordianDiv>
+              <MedicationRequestTable medicationRequests={medicationRequests} />
             </AccordianDiv>
           </AccordianSection>
         </>

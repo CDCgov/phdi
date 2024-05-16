@@ -1,13 +1,4 @@
-import {
-  evaluateSocialData,
-  evaluateEncounterData,
-  evaluateProviderData,
-  evaluateClinicalData,
-  evaluateDemographicsData,
-  evaluateEcrMetadata,
-  PathMappings,
-} from "../../utils";
-import { evaluateLabInfoData } from "@/app/labs/utils";
+import { PathMappings } from "../../utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
 import UnavailableInfo from "./UnavailableInfo";
@@ -18,7 +9,16 @@ import { Bundle } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import LabInfo from "@/app/view-data/components/LabInfo";
-import { formatString } from "@/app/format-service";
+import { formatString } from "@/app/services/formatService";
+import { evaluateEcrMetadata } from "../../services/ecrMetadataService";
+import { evaluateLabInfoData } from "@/app/services/labsService";
+import {
+  evaluateDemographicsData,
+  evaluateSocialData,
+  evaluateEncounterData,
+  evaluateProviderData,
+} from "@/app/services/evaluateFhirDataService";
+import { evaluateClinicalData } from "./common";
 
 type AccordionContainerProps = {
   children?: ReactNode;
@@ -33,7 +33,7 @@ type AccordionContainerProps = {
  * @param props.fhirPathMappings - The path mappings used to extract information from the FHIR bundle.
  * @returns The JSX element representing the accordion container.
  */
-const AccordianContainer: React.FC<AccordionContainerProps> = ({
+const AccordionContainer: React.FC<AccordionContainerProps> = ({
   fhirBundle,
   fhirPathMappings,
 }) => {
@@ -158,4 +158,4 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     />
   );
 };
-export default AccordianContainer;
+export default AccordionContainer;
