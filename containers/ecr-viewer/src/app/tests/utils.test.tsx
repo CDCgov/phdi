@@ -10,7 +10,7 @@ import BundleCareTeam from "./assets/BundleCareTeam.json";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { CarePlanActivity } from "fhir/r4b";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import userEvent from "@testing-library/user-event";
 import { Tooltip } from "@trussworks/react-uswds";
 import {
