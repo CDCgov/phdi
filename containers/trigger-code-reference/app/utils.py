@@ -1,4 +1,6 @@
+import json
 import sqlite3
+from pathlib import Path
 from typing import List
 from typing import Union
 
@@ -185,3 +187,13 @@ def _stamp_resource_with_code_extension(resource: dict, code: str) -> dict:
         }
     )
     return resource
+
+
+def read_json_from_assets(filename: str) -> dict:
+    """
+    Reads a JSON file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A dictionary containing the contents of the file.
+    """
+    return json.load(open((Path(__file__).parent.parent / "assets" / filename)))
