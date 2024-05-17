@@ -32,7 +32,7 @@ export default function FooterComponent() {
                 </p>
                 <p className="text-base-lightest">
                   For more information send us an email at dibbs@cdc.gov or
-                  visit{" "}
+                  visit{"  "}
                   <a
                     href="https://cdcgov.github.io/dibbs-site/"
                     className="text-base-lightest"
