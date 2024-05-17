@@ -1,9 +1,10 @@
-import pytest
 import json
 from pathlib import Path
+from unittest.mock import patch
+
+import pytest
 from app.main import app
 from fastapi.testclient import TestClient
-from unittest.mock import patch
 
 client = TestClient(app)
 

@@ -122,7 +122,6 @@ async def stamp_condition_extensions(
 async def get_value_sets_for_condition(
     condition_code: str, filter_clinical_services: list = None
 ) -> Response:
-
     """
     For a given condition, queries and returns the value set of clinical
     services associated with that condition.
