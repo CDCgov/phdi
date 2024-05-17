@@ -132,10 +132,10 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
     }
     # XPath templates
     xpath_code = (
-        "//*[local-name()='code'][@code='{code}' and @codeSystemName='{system}']",
+        "//*[local-name()='code'][@code='{code}' and @codeSystemName='{system}']"
     )
     xpath_vax = (
-        "//*[local-name()='vaccine'][@code='{code}' and @codeSystemName='{system}']",
+        "//*[local-name()='vaccine'][@code='{code}' and @codeSystemName='{system}']"
     )
     xpath_value = (
         "//*[local-name()='value'][@code='{code}' and @codeSystemName='{system}']"
@@ -143,7 +143,6 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
     xpath_translation = (
         "//*[local-name()='translation'][@code='{code}' and @codeSystemName='{system}']"
     )
-
     # Loop through each code and create the XPath expressions
     return [
         xpath.format(code=code, system=system_dict.get(system))
@@ -184,7 +183,7 @@ def refine(
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
-    :param conditions_to_include: XPaths of clinical service codes.
+    :param conditions_to_include: SNOMED condition codes to look up in TCR
     :return: The refined message.
     """
     header = select_message_header(validated_message)
