@@ -146,7 +146,7 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
 
     # Loop through each code and create the XPath expressions
     return [
-        xpath.format(code=code, system=system_dict.get(system, system))
+        xpath.format(code=code, system=system_dict.get(system))
         for code in codes
         for xpath in [xpath_code, xpath_value, xpath_vax, xpath_translation]
     ]
