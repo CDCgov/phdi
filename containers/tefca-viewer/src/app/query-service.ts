@@ -79,7 +79,7 @@ async function patientQuery(
     console.error(
       `Patient search failed. Status: ${
         response.status
-      } \n Body: ${JSON.stringify(await response.body)} \n Headers: ${JSON.stringify(
+      } \n Body: ${await response.text} \n Headers: ${JSON.stringify(
         response.headers.raw(),
       )}`,
     );
