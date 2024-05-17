@@ -7,6 +7,8 @@ from fastapi import Request
 from fastapi import Response
 from lxml import etree as ET
 
+from app.utils import _generate_clinical_xpaths
+
 TCR_URL = "trigger-code-reference-service:8081"
 TCR_ENDPOINT = TCR_URL + "/get-value-sets/?condition_code="
 
@@ -51,17 +53,24 @@ async def refine_ecr(
     if error_message != "":
         return Response(content=error_message, status_code=400)
 
+    sections_to_include_list = None
     if sections_to_include:
-        sections_to_include, error_message = validate_sections_to_include(
+        sections_to_include_list, error_message = validate_sections_to_include(
             sections_to_include
         )
-
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
-        data = refine(validated_message, sections_to_include, conditions_to_include)
+    clinical_services_to_include = []
+    if conditions_to_include:
+        clinical_services_to_include = get_clinical_services_to_include(
+            conditions_to_include
+        )
 
-    return Response(content=data, media_type="application/xml")
+    refined_data = refine(
+        validated_message, sections_to_include_list, clinical_services_to_include
+    )
+    return Response(content=refined_data, media_type="application/xml")
 
 
 def validate_sections_to_include(sections_to_include: str | None) -> tuple[list, str]:
@@ -102,53 +111,11 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
             else:
                 section_loincs.append(section)
 
-    return (section_loincs, error_message) if section_loincs else (None, error_message)
-
-
-def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
-    """
-    This is a small helper function that loops through codes to create a set of
-    xpaths that can be used in the refine step.
-
-    :param system: This is the system type of the clinical service codes.
-    :param codes: This is a list of the clinical service codes for a specified
-    SNOMED code.
-    """
-    """
-    As of May 2024, these are the code systems used in clinical services
-    code_system
-    http://snomed.info/sct                         28102
-    http://loinc.org                                9509
-    http://hl7.org/fhir/sid/icd-10-cm               5892
-    http://www.nlm.nih.gov/research/umls/rxnorm      468
-    http://hl7.org/fhir/sid/cvx                        2
-    """
-    system_dict = {
-        "http://hl7.org/fhir/sid/icd-10-cm": "ICD10",
-        "http://snomed.info/sct": "SNOMED CT",
-        "http://loinc.org": "LOINC",
-        "http://www.nlm.nih.gov/research/umls/rxnorm": "?",  # TODO
-        "http://hl7.org/fhir/sid/cvx": "?",  # TODO
-    }
-    # XPath templates
-    xpath_code = (
-        "//*[local-name()='code'][@code='{code}' and @codeSystemName='{system}']"
+    return (
+        (section_loincs, error_message)
+        if section_loincs
+        else (section_LOINCs, error_message)
     )
-    xpath_vax = (
-        "//*[local-name()='vaccine'][@code='{code}' and @codeSystemName='{system}']"
-    )
-    xpath_value = (
-        "//*[local-name()='value'][@code='{code}' and @codeSystemName='{system}']"
-    )
-    xpath_translation = (
-        "//*[local-name()='translation'][@code='{code}' and @codeSystemName='{system}']"
-    )
-    # Loop through each code and create the XPath expressions
-    return [
-        xpath.format(code=code, system=system_dict.get(system))
-        for code in codes
-        for xpath in [xpath_code, xpath_value, xpath_vax, xpath_translation]
-    ]
 
 
 def get_clinical_services_to_include(condition_codes: str) -> List[str]:
@@ -179,15 +146,15 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
 
 def refine(
     validated_message: bytes,
-    sections_to_include: str,
-    conditions_to_include: str = None,
+    sections_to_include: List[str] = None,
+    clinical_services_to_include: List[str] = None,
 ) -> str:
     """
     Refines an incoming XML message based on the sections to include.
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
-    :param conditions_to_include: SNOMED condition codes to look up in TCR
+    :param clinical_services_to_include: List of clinical service XPaths.
     :return: The refined message.
     """
     header = select_message_header(validated_message)
@@ -199,10 +166,7 @@ def refine(
         [f"@code='{section}'" for section in sections_to_include]
     )
 
-    if conditions_to_include:
-        clinical_services_to_include = get_clinical_services_to_include(
-            conditions_to_include
-        )
+    if clinical_services_to_include:
         services_xpath_expression = " or ".join(clinical_services_to_include)
         xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}] and ({services_xpath_expression})]"
     else:
