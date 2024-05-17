@@ -1,0 +1,4339 @@
+{
+  "resourceType": "Bundle",
+  "type": "batch",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:8675309a-7754-r2d2-c3p0-973d9f777777",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "8675309a-7754-r2d2-c3p0-973d9f777777",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "code": "55751-2",
+                  "display": "Initial Public Health Case Report",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "value": "8675309a-7754-r2d2-c3p0-973d9f777777",
+            "assigner": {
+              "display": "EPC"
+            }
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+            "valueString": "2"
+          }
+        ],
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "code": "55751-2",
+              "display": "Initial Public Health Case Report",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "date": "2023-04-09T13:04:17-07:00",
+        "title": "Initial Public Health Case Report",
+        "confidentiality": "N",
+        "section": [
+          {
+            "id": "b7a7ed08-af88-4a31-cc4e-8dddd58b7fc8",
+            "title": "Miscellaneous Notes",
+            "text": {
+              "status": "generated",
+              "div": "Not on file documented in this encounter"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "10164-2",
+                  "display": "HISTORY OF PRESENT ILLNESS",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "BEB630CE-B12D-11EC-842B-C301D81100B2",
+            "title": "Immunizations",
+            "text": {
+              "status": "generated",
+              "div": "Not on file documented as of this encounter"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "11369-6",
+                  "display": "History of Immunization Narrative",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "BEB6D4DE-B12D-11EC-842B-C301D81100B2",
+            "title": "Administered Medications",
+            "text": {
+              "status": "generated",
+              "div": "Not on file documented in this encounter"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29549-3",
+                  "display": "MEDICATIONS ADMINISTERED",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "c2281805-ec40-0a32-031b-1c709c70d1c1",
+            "title": "Plan of Treatment",
+            "text": {
+              "status": "generated",
+              "div": "<paragraph>Not on file</paragraph>documented as of this encounter"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "18776-5",
+                  "display": "Plan of care note",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "CarePlan/b02f3743-5484-7dd8-8cc5-947a1f8ab685"
+              }
+            ]
+          },
+          {
+            "id": "2E345F58-7C25-11ED-B3EC-C301D81100B2",
+            "title": "Problems",
+            "text": {
+              "status": "generated",
+              "div": "<table><thead><tr><th>Problem</th><th>Noted Date</th></tr></thead><tbody><tr data-id=''problem15''><td data-id=''problem15name''>Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive</td><td>12/14/22</td></tr><tr data-id=''problem13''><td data-id=''problem13name''>Headache</td><td>8/19/22</td></tr><tr data-id=''problem14''><td data-id=''problem14name''>Backache</td><td>8/19/22</td></tr><tr data-id=''problem12''><td data-id=''problem12name''>Malignant neoplasm of urinary bladder neck</td><td>11/5/21</td></tr><tr data-id=''problem11''><td data-id=''problem11name''>Malignant neoplasm of overlapping sites of pancreas</td><td>9/18/17</td></tr><tr><td><paragraph>Cancer Staging:</paragraph>Stage IIB Stage III <br>(pT1, pN2, cM0) - Signed by Ocmd Phsbeacon, MD on 9/30/2022Pathologic: (cT1, cN1, cM0) - Signed by Ocmd Phsbeacon, MD on 1/13/2022Clinical stage from 1/13/2022:</td></tr><tr data-id=''problem10''><td data-id=''problem10name''>Bilateral malignant neoplasm of lower outer quadrant of breast in female</td><td>2/27/17</td></tr><tr><td><paragraph>Cancer Staging:</paragraph>Stage IIA Stage IV <br>(rpT2, pN1a(f), pM1, G3, ER: Negative, PR: Negative, HER2: Negative) - Signed by Ocmd Phsbeacon, MD on 1/10/2018Pathologic stage from 12/10/2017: (T1, N1, M0) - Signed by Ocmd Phsbeacon, MD on 2/27/2017Clinical stage from 2/27/2017:</td></tr></tbody></table>documented as of this encounter (statuses as of 12/14/2022)"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "11450-4",
+                  "display": "Problem list - Reported",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "entry": [
+              {
+                "display": "Problem - Bilateral malignant neoplasm of lower outer quadrant of breast in female",
+                "reference": "Condition/98767c9b-63c8-d80d-cb16-c5de734acf22"
+              },
+              {
+                "display": "Problem - Malignant neoplasm of overlapping sites of pancreas",
+                "reference": "Condition/bdb1e7a1-1a09-7792-df6c-2d85488986ee"
+              },
+              {
+                "display": "Problem - Malignant neoplasm of urinary bladder neck",
+                "reference": "Condition/42aa13bf-77c4-c57f-a250-987c1f593967"
+              },
+              {
+                "display": "Problem - Headache",
+                "reference": "Condition/6d11bcdf-55ee-e348-07c9-0282605e48e0"
+              },
+              {
+                "display": "Problem - Backache",
+                "reference": "Condition/2c6ddcbf-126f-2226-1c11-dd647aa44643"
+              },
+              {
+                "display": "Problem - Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive",
+                "reference": "Condition/6f1ba581-bdef-0d47-9b23-308987970f1b"
+              }
+            ]
+          },
+          {
+            "id": "eef25da4-bea1-2e77-4a0c-12f50e7be15e",
+            "title": "Reason for Visit",
+            "text": {
+              "status": "generated",
+              "div": "Not on file"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29299-5",
+                  "display": "REASON FOR VISIT",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                "valueString": "Not on file"
+              }
+            ]
+          },
+          {
+            "id": "BEBC8CEE-B12D-11EC-842B-C301D81100B2",
+            "title": "Results",
+            "text": {
+              "status": "generated",
+              "div": "<ul><li data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468''><caption data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Procedure''>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (03/31/2022 11:52 AM PDT)</caption><table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1Name''>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2Name''>C. Diff Toxin A/B, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3Name''>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4Name''>Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5Name''>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6Name''>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7Name''>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8Name''>E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9Name''>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10Name''>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11Name''>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12Name''>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13Name''>Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14Name''>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15Name''>Cyclospora cayetanensis, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16Name''>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17Name''>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18Name''>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19Name''>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20Name''>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21Name''>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21Signature''></td></tr><tr data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22''><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22Name''>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22TestMethodName1''>LAB DEVICE: BIOFIRE\ufffd FILMARRAY\ufffd 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</td><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22Signature''></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Specimen''>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>03/31/2022 11:52 AM PDT</td><td>03/31/2022 11:52 AM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Authorizing Provider</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td data-id=''Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.PerformingLab''><paragraph>PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)</paragraph></td><td><paragraph>2121 Santa Monica Blvd</paragraph></td><td><paragraph>Santa Monica, CA 90404</paragraph></td><td><paragraph>310-829-8800</paragraph></td></tr></tbody></table></li></ul>documented in this encounter"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "30954-2",
+                  "display": "Relevant diagnostic tests/laboratory data Narrative",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "entry": [
+              {
+                "display": "Campylobacter, NAAT",
+                "reference": "Observation/9005b05e-9d6b-04b8-3b24-3ccc2409bc10"
+              },
+              {
+                "display": "C. Diff Toxin A/B, NAAT",
+                "reference": "Observation/c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878"
+              },
+              {
+                "display": "Plesiomonas shigelloides, NAAT",
+                "reference": "Observation/9c46236d-9962-28d7-a797-dbdf0b7723a0"
+              },
+              {
+                "display": "Salmonella, NAAT",
+                "reference": "Observation/6b535d2b-6f45-8319-4b05-26a26c8de3bd"
+              },
+              {
+                "display": "Vibrio, NAAT",
+                "reference": "Observation/4e3b20b0-765d-039b-9614-9537b0c59588"
+              },
+              {
+                "display": "Vibrio cholerae, NAAT",
+                "reference": "Observation/42a0951a-ff80-7525-1046-505ba2ec6ba5"
+              },
+              {
+                "display": "Yersinia enterocolitica, NAAT",
+                "reference": "Observation/c7501c45-cfe7-c699-d538-9bb303f72e88"
+              },
+              {
+                "display": "E. Coli O157, NAAT",
+                "reference": "Observation/0f8fd57b-19f6-99d8-f0bd-cd0b335392b0"
+              },
+              {
+                "display": "E. Coli (EAEC), NAAT",
+                "reference": "Observation/2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c"
+              },
+              {
+                "display": "E. Coli (EPEC), NAAT",
+                "reference": "Observation/d0c377c9-af5d-f939-a35d-6e805f1fdfc4"
+              },
+              {
+                "display": "E. Coli (ETEC), NAAT",
+                "reference": "Observation/0812de0f-2cc3-c517-6376-001da70bae25"
+              },
+              {
+                "display": "Shiga-Like Toxin E. Coli (STEC), NAAT",
+                "reference": "Observation/07162769-83cc-61e0-6476-c916e0854e7d"
+              },
+              {
+                "display": "Shigella/EIEC, NAAT",
+                "reference": "Observation/5b2e1d26-b438-d200-6c7e-d17b748757e6"
+              },
+              {
+                "display": "Cryptosporidium, NAAT",
+                "reference": "Observation/f9d39143-ffb7-16c2-ef00-29fc0157a8fb"
+              },
+              {
+                "display": "Cyclospora cayetanensis, NAAT",
+                "reference": "Observation/5dacaa50-cef9-e4ec-21b1-15c2e15bc00a"
+              },
+              {
+                "display": "E. histolytica, NAAT",
+                "reference": "Observation/63056ac0-0596-d7ab-d02b-f6682bef73dd"
+              },
+              {
+                "display": "Giardia lamblia, NAAT",
+                "reference": "Observation/9800e50d-77dc-8b23-0af5-44929d91a3db"
+              },
+              {
+                "display": "Adenovirus F 40/41, NAAT",
+                "reference": "Observation/2f26889d-ad02-e761-e3a4-b93bfd9b6c5f"
+              },
+              {
+                "display": "Astrovirus, NAAT",
+                "reference": "Observation/33852e11-1614-2637-fec6-b873725ce3e0"
+              },
+              {
+                "display": "Norovirus, NAAT",
+                "reference": "Observation/d24a938c-526c-953a-d10b-f4e321a03555"
+              },
+              {
+                "display": "Rotavirus A, NAAT",
+                "reference": "Observation/a1c957bc-67e7-e9cd-fb85-e216b6c46299"
+              },
+              {
+                "display": "Sapovirus, NAAT",
+                "reference": "Observation/292416f6-39ba-9f36-bf4f-a7b302379abd"
+              },
+              {
+                "display": "Lab Interpretation",
+                "reference": "Observation/871dfa80-44de-7e07-dca1-91480e5e9612"
+              }
+            ]
+          },
+          {
+            "id": "de08d63e-a994-0da3-88cf-b99d3355b5ea",
+            "title": "Social History",
+            "text": {
+              "status": "generated",
+              "div": "<table data-id=''sochist14''><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Never Assessed</td><td></td><td data-id=''sochist14packsperday''></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr data-id=''BirthSex15''><td data-id=''BirthSex15Value''>Not on file</td><td></td></tr></tbody></table>documented as of this encounter"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29762-2",
+                  "display": "Social history Narrative",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "4976facc-887a-460b-f47e-a6613230befd",
+            "title": "Pregnancy Section",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Pregnancy Section</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "90767-5",
+                  "display": "Pregnancy summary Document",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "e535411b-2bfd-1b1e-8ec4-2a55e7118359",
+            "title": "Encounter Details",
+            "text": {
+              "status": "generated",
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr data-id=''encounter16''><td>3/31/22</td><td data-id=''encounter16type''>Lab Requisition</td><td><paragraph>PROVIDENCE SAINT JOHN''S HEALTH CTR CLINICAL LABORATORY</paragraph><paragraph>2121 Santa Monica Blvd</paragraph><paragraph>Santa Monica, CA 90404-2303</paragraph><paragraph>310-829-8116</paragraph></td><td><paragraph>Provider, Authorizing</paragraph></td><td></td></tr></tbody></table>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "46240-8",
+                  "display": "History of Hospitalizations+Outpatient visits Narrative",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "efc5f38f-e6a2-bef6-d775-78f0bcb241b7",
+            "title": "Reportability Response Information Section",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>"
+            },
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition",
+                "valueIdentifier": {
+                  "use": "official",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "88085-6",
+                        "display": "Reportability response report Document Public health",
+                        "system": "http://loinc.org"
+                      }
+                    ]
+                  },
+                  "value": "10123456-be91-4444-8888-9c12c0a6edc0"
+                }
+              },
+              {
+                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "RRVS19",
+                      "display": "eICR processed",
+                      "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                    }
+                  ]
+                }
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "code": "88085-6",
+                  "display": "Reportability response report Document Public health",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "entry": [
+              {
+                "display": "Relevant Reportable Condition Observation - Cyclosporiasis (disorder)",
+                "reference": "Observation/f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"
+              },
+              {
+                "display": "Relevant Reportable Condition Observation - Cyclosporiasis (disorder)",
+                "reference": "Observation/ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "relatesTo": [
+          {
+            "code": "replaces",
+            "targetReference": {
+              "reference": "Composition/1.2.840.114350.1.13.297.3.7.8.688883.473906"
+            },
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+                "valueString": "1"
+              }
+            ]
+          }
+        ],
+        "encounter": {
+          "reference": "Encounter/b99ed74e-acf4-992c-48e3-6d88d7414248"
+        },
+        "custodian": {
+          "reference": "Organization/401e4e5a-69e1-bdf6-7016-6aa11dfdd01f"
+        },
+        "author": [
+          {
+            "reference": "Practitioner/80746d38-56d1-93cd-febe-13ad0807a14b"
+          },
+          {
+            "reference": "Device/3cd5a00e-5ed8-c2a6-4be2-dbe915111561"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Composition/8675309a-7754-r2d2-c3p0-973d9f777777"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b99ed74e-acf4-992c-48e3-6d88d7414248",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "b99ed74e-acf4-992c-48e3-6d88d7414248",
+        "status": "unknown",
+        "class": {
+          "code": "AMB",
+          "display": "Ambulatory",
+          "system": "urn:oid:2.16.840.1.113883.5.4"
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.3.698084.8",
+            "value": "555555547455"
+          }
+        ],
+        "period": {
+          "start": "2023-02-12",
+          "end": "2023-02-12"
+        },
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "location": [
+          {
+            "id": "1.2.840.114350.1.13.297.3.7.2.686980",
+            "location": {
+              "reference": "Location/c32f95de-ab42-7854-3caf-a820a71322ec",
+              "display": "PROVIDENCE SAINT JOHN''S HEALTH CTR CLINICAL LABORATORY"
+            },
+            "extension": [
+              {
+                "url": "http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "257622000",
+                      "display": "Healthcare Facility",
+                      "system": "http://snomed.info/sct"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "ATND"
+                  }
+                ]
+              }
+            ],
+            "individual": {
+              "reference": "Practitioner/d48741a4-3f35-4a35-614b-aa714f9b9f88"
+            }
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter/b99ed74e-acf4-992c-48e3-6d88d7414248"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c32f95de-ab42-7854-3caf-a820a71322ec",
+      "resource": {
+        "resourceType": "Location",
+        "id": "c32f95de-ab42-7854-3caf-a820a71322ec",
+        "identifier": [
+          {
+            "value": "1.2.840.114350.1.13.297.3.7.2.686980"
+          }
+        ],
+        "name": "PROVIDENCE SAINT JOHN''S HEALTH CTR CLINICAL LABORATORY",
+        "address": {
+          "use": "work",
+          "line": [
+            "2121 Santa Monica Blvd"
+          ],
+          "city": "Santa Monica",
+          "state": "CA",
+          "country": "USA",
+          "postalCode": "90404-2303",
+          "district": "LOS ANGELES"
+        },
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "257622000",
+                "display": "Healthcare Facility",
+                "system": "http://snomed.info/sct"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Location/c32f95de-ab42-7854-3caf-a820a71322ec"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d48741a4-3f35-4a35-614b-aa714f9b9f88",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "d48741a4-3f35-4a35-614b-aa714f9b9f88",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+            "valueString": "Responsible Party"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:787878-5656"
+          }
+        ],
+        "name": [
+          {
+            "use": "usual",
+            "text": "Providence California"
+          }
+        ],
+        "address": [
+          {
+            "use": "work",
+            "line": [
+              "4733 TORRANCE BLVD #4400"
+            ],
+            "city": "TORRANCE",
+            "state": "CA",
+            "country": "USA",
+            "postalCode": "90503",
+            "district": "LOS ANGELES"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/d48741a4-3f35-4a35-614b-aa714f9b9f88"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0e0c4ed5-f251-7818-c530-5081ac13c13c",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "0e0c4ed5-f251-7818-c530-5081ac13c13c",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "California Department of Public Health"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/0e0c4ed5-f251-7818-c530-5081ac13c13c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f61d4bbc-d1d5-4bef-b2f6-d32e8db54596",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f61d4bbc-d1d5-4bef-b2f6-d32e8db54596",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "64572001",
+              "display": "Condition",
+              "system": "http://snomed.info/sct"
+            },
+            {
+              "code": "75323-6",
+              "display": "Condition",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "240372001",
+              "display": "Cyclosporiasis (disorder)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Detection of Cyclospora cayetanensis nucleic acid in a clinical specimen, including stool, intestinal fluid, intestinal aspirate, and intestinal biopsy, by any method"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/0e0c4ed5-f251-7818-c530-5081ac13c13c",
+            "display": "California Department of Public Health"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c56015b1-ec87-3ccf-4f38-5a16943cf505",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "c56015b1-ec87-3ccf-4f38-5a16943cf505",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "Los Angeles County Department of Public Health"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/c56015b1-ec87-3ccf-4f38-5a16943cf505"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "64572001",
+              "display": "Condition",
+              "system": "http://snomed.info/sct"
+            },
+            {
+              "code": "75323-6",
+              "display": "Condition",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "240372001",
+              "display": "Cyclosporiasis (disorder)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Detection of Cyclospora cayetanensis nucleic acid in a clinical specimen, including stool, intestinal fluid, intestinal aspirate, and intestinal biopsy, by any method"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/c56015b1-ec87-3ccf-4f38-5a16943cf505",
+            "display": "Los Angeles County Department of Public Health"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:401e4e5a-69e1-bdf6-7016-6aa11dfdd01f",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "401e4e5a-69e1-bdf6-7016-6aa11dfdd01f",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.696570",
+            "value": "50"
+          }
+        ],
+        "name": "Providence California",
+        "address": [
+          {
+            "use": "work",
+            "line": [
+              "4733 TORRANCE BLVD #4400"
+            ],
+            "city": "TORRANCE",
+            "state": "CA",
+            "country": "USA",
+            "postalCode": "90503",
+            "district": "LOS ANGELES"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1-855-415-6179",
+            "use": "work"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/401e4e5a-69e1-bdf6-7016-6aa11dfdd01f"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:80746d38-56d1-93cd-febe-13ad0807a14b",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "80746d38-56d1-93cd-febe-13ad0807a14b",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.697780",
+            "value": "LABBACKGROUND"
+          }
+        ],
+        "name": [
+          {
+            "family": "Lab",
+            "given": [
+              "Background"
+            ]
+          },
+          {
+            "use": "usual",
+            "text": "Providence California"
+          }
+        ],
+        "address": [
+          {
+            "use": "work",
+            "line": [
+              "4733 TORRANCE BLVD #4400"
+            ],
+            "city": "TORRANCE",
+            "state": "CA",
+            "country": "USA",
+            "postalCode": "90503",
+            "district": "LOS ANGELES"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/80746d38-56d1-93cd-febe-13ad0807a14b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3cd5a00e-5ed8-c2a6-4be2-dbe915111561",
+      "resource": {
+        "resourceType": "Device",
+        "id": "3cd5a00e-5ed8-c2a6-4be2-dbe915111561",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.1",
+            "value": "10.1"
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "display": "Epic - Version 10.1"
+            }
+          ]
+        },
+        "manufacturer": "Epic - Version 10.1",
+        "version": [
+          {
+            "value": "Epic - Version 10.1"
+          }
+        ],
+        "category": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/device-category",
+              "code": "software",
+              "display": "software"
+            }
+          ]
+        },
+        "owner": {
+          "reference": "Organization/401e4e5a-69e1-bdf6-7016-6aa11dfdd01f"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/3cd5a00e-5ed8-c2a6-4be2-dbe915111561"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6eb76bec-de1c-45b5-9122-c16c9bb0cf18",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "6eb76bec-de1c-45b5-9122-c16c9bb0cf18",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.3.688884.100",
+            "value": "MRN8675309"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Girl",
+            "given": [
+              "Jessies"
+            ]
+          }
+        ],
+        "birthDate": "1981-02-14",
+        "deceasedBoolean": false,
+        "gender": "female",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                  "code": "UNK",
+                  "display": "Unknown"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Unknown"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                  "code": "UNK",
+                  "display": "Unknown"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Unknown"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+            "extension": [
+              {
+                "url": "value",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "M",
+                      "display": "Male",
+                      "system": "urn:oid:2.16.840.1.113883.5.1"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension",
+            "extension": [
+              {
+                "url": "value",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "446141000124107",
+                      "display": "Identifies as female gender (finding)",
+                      "system": "http://snomed.info/sct"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension",
+            "extension": [
+              {
+                "url": "TribeName",
+                "valueCoding": {
+                  "code": "91",
+                  "display": "Fort Mojave Indian Tribe of Arizona, California",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-TribalEntityUS"
+                }
+              },
+              {
+                "url": "EnrolledTribeMember",
+                "valueBoolean": true
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension",
+            "extension": [
+              {
+                "url": "TribeName",
+                "valueCoding": {
+                  "code": "338",
+                  "display": "Native Village of Afognak",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-TribalEntityUS"
+                }
+              },
+              {
+                "url": "EnrolledTribeMember",
+                "valueBoolean": false
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "use": "home",
+            "line": [
+              "123 FAKE ST"
+            ],
+            "city": "LOS ANGELES",
+            "state": "CA",
+            "country": "USA",
+            "postalCode": "90062"
+          }
+        ],
+        "communication": [
+          {
+            "language": {
+              "coding": [
+                {
+                  "system": "urn:ietf:bcp:47",
+                  "code": "en",
+                  "display": "English"
+                }
+              ]
+            },
+            "preferred": true
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "CareTeam",
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b02f3743-5484-7dd8-8cc5-947a1f8ab685",
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "b02f3743-5484-7dd8-8cc5-947a1f8ab685",
+        "status": "unknown",
+        "intent": "proposal",
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "CarePlan/b02f3743-5484-7dd8-8cc5-947a1f8ab685"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:98767c9b-63c8-d80d-cb16-c5de734acf22",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "98767c9b-63c8-d80d-cb16-c5de734acf22",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+            "value": "11257"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "code": "55561003",
+              "display": "Active",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "problem-item-list",
+                "display": "Problem List Item",
+                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "C50.511",
+              "display": "Bilateral malignant neoplasm of lower outer quadrant of breast in female",
+              "system": "urn:oid:2.16.840.1.113883.6.90"
+            }
+          ]
+        },
+        "onsetDateTime": "2017-02-27",
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/98767c9b-63c8-d80d-cb16-c5de734acf22"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:bdb1e7a1-1a09-7792-df6c-2d85488986ee",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "bdb1e7a1-1a09-7792-df6c-2d85488986ee",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+            "value": "18792"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "code": "55561003",
+              "display": "Active",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "problem-item-list",
+                "display": "Problem List Item",
+                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "C25.8",
+              "display": "Malignant neoplasm of overlapping sites of pancreas",
+              "system": "urn:oid:2.16.840.1.113883.6.90"
+            }
+          ]
+        },
+        "onsetDateTime": "2017-09-18",
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/bdb1e7a1-1a09-7792-df6c-2d85488986ee"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:42aa13bf-77c4-c57f-a250-987c1f593967",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "42aa13bf-77c4-c57f-a250-987c1f593967",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+            "value": "79322"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "code": "55561003",
+              "display": "Active",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "problem-item-list",
+                "display": "Problem List Item",
+                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "C67.5",
+              "display": "Malignant neoplasm of urinary bladder neck",
+              "system": "urn:oid:2.16.840.1.113883.6.90"
+            }
+          ]
+        },
+        "onsetDateTime": "2021-11-05",
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/42aa13bf-77c4-c57f-a250-987c1f593967"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6d11bcdf-55ee-e348-07c9-0282605e48e0",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "6d11bcdf-55ee-e348-07c9-0282605e48e0",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+            "value": "95240"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "code": "55561003",
+              "display": "Active",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "problem-item-list",
+                "display": "Problem List Item",
+                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "R51.9",
+              "display": "Headache",
+              "system": "urn:oid:2.16.840.1.113883.6.90"
+            }
+          ]
+        },
+        "onsetDateTime": "2022-08-19",
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/6d11bcdf-55ee-e348-07c9-0282605e48e0"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2c6ddcbf-126f-2226-1c11-dd647aa44643",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "2c6ddcbf-126f-2226-1c11-dd647aa44643",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+            "value": "95252"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "code": "55561003",
+              "display": "Active",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "problem-item-list",
+                "display": "Problem List Item",
+                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "M54.9",
+              "display": "Backache",
+              "system": "urn:oid:2.16.840.1.113883.6.90"
+            }
+          ]
+        },
+        "onsetDateTime": "2022-08-19",
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/2c6ddcbf-126f-2226-1c11-dd647aa44643"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6f1ba581-bdef-0d47-9b23-308987970f1b",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "6f1ba581-bdef-0d47-9b23-308987970f1b",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+            "value": "100952"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "code": "55561003",
+              "display": "Active",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "problem-item-list",
+                "display": "Problem List Item",
+                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "C50.312",
+              "display": "Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive",
+              "system": "urn:oid:2.16.840.1.113883.6.90"
+            }
+          ]
+        },
+        "onsetDateTime": "2022-12-14",
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/6f1ba581-bdef-0d47-9b23-308987970f1b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:95a3a07b-2230-6485-23ef-397ff7fcd388",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "95a3a07b-2230-6485-23ef-397ff7fcd388",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-pregnancy-status-observation"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:beee38ad-68a4-45fd-9a8b-2d2c4ab4bb6a"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "exam"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "ASSERTION",
+              "system": "urn:oid:2.16.840.1.113883.5.4"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2017-08-26"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "77386006",
+              "display": "Pregnant",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/95a3a07b-2230-6485-23ef-397ff7fcd388"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8031d8e1-ef51-f8ac-82a6-b5f3ecac3cf4",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "8031d8e1-ef51-f8ac-82a6-b5f3ecac3cf4",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1546468"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "LAB10082",
+              "display": "STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS",
+              "system": "http://www.ama-assn.org/go/cpt"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2023-01-31T18:52:00Z",
+          "end": "2022-01-31T18:52:00Z"
+        },
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "reference": "Organization/0e0189fd-d651-3e89-03fc-d94b0d48c462"
+          }
+        ],
+        "result": [
+          {
+            "reference": "Observation/9005b05e-9d6b-04b8-3b24-3ccc2409bc10"
+          },
+          {
+            "reference": "Observation/c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878"
+          },
+          {
+            "reference": "Observation/9c46236d-9962-28d7-a797-dbdf0b7723a0"
+          },
+          {
+            "reference": "Observation/6b535d2b-6f45-8319-4b05-26a26c8de3bd"
+          },
+          {
+            "reference": "Observation/4e3b20b0-765d-039b-9614-9537b0c59588"
+          },
+          {
+            "reference": "Observation/42a0951a-ff80-7525-1046-505ba2ec6ba5"
+          },
+          {
+            "reference": "Observation/c7501c45-cfe7-c699-d538-9bb303f72e88"
+          },
+          {
+            "reference": "Observation/0f8fd57b-19f6-99d8-f0bd-cd0b335392b0"
+          },
+          {
+            "reference": "Observation/2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c"
+          },
+          {
+            "reference": "Observation/d0c377c9-af5d-f939-a35d-6e805f1fdfc4"
+          },
+          {
+            "reference": "Observation/0812de0f-2cc3-c517-6376-001da70bae25"
+          },
+          {
+            "reference": "Observation/07162769-83cc-61e0-6476-c916e0854e7d"
+          },
+          {
+            "reference": "Observation/5b2e1d26-b438-d200-6c7e-d17b748757e6"
+          },
+          {
+            "reference": "Observation/f9d39143-ffb7-16c2-ef00-29fc0157a8fb"
+          },
+          {
+            "reference": "Observation/5dacaa50-cef9-e4ec-21b1-15c2e15bc00a"
+          },
+          {
+            "reference": "Observation/63056ac0-0596-d7ab-d02b-f6682bef73dd"
+          },
+          {
+            "reference": "Observation/9800e50d-77dc-8b23-0af5-44929d91a3db"
+          },
+          {
+            "reference": "Observation/2f26889d-ad02-e761-e3a4-b93bfd9b6c5f"
+          },
+          {
+            "reference": "Observation/33852e11-1614-2637-fec6-b873725ce3e0"
+          },
+          {
+            "reference": "Observation/d24a938c-526c-953a-d10b-f4e321a03555"
+          },
+          {
+            "reference": "Observation/a1c957bc-67e7-e9cd-fb85-e216b6c46299"
+          },
+          {
+            "reference": "Observation/292416f6-39ba-9f36-bf4f-a7b302379abd"
+          },
+          {
+            "reference": "Observation/871dfa80-44de-7e07-dca1-91480e5e9612"
+          },
+          {
+            "reference": "Observation/d2173804-8b2b-550e-7876-047d99ec33ff"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/8031d8e1-ef51-f8ac-82a6-b5f3ecac3cf4"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0e0189fd-d651-3e89-03fc-d94b0d48c462",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "0e0189fd-d651-3e89-03fc-d94b0d48c462",
+        "name": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+        "address": [
+          {
+            "use": "work",
+            "line": [
+              "2121 Santa Monica Blvd"
+            ],
+            "city": "Santa Monica",
+            "state": "CA",
+            "country": "USA",
+            "postalCode": "90404",
+            "district": "LOS ANGELES"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/0e0189fd-d651-3e89-03fc-d94b0d48c462"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9005b05e-9d6b-04b8-3b24-3ccc2409bc10",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9005b05e-9d6b-04b8-3b24-3ccc2409bc10",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82196-7",
+              "display": "Campylobacter, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/9005b05e-9d6b-04b8-3b24-3ccc2409bc10"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:459d7711-c2ec-cc26-7b4e-03f3964be6ea",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "459d7711-c2ec-cc26-7b4e-03f3964be6ea",
+        "name": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+        "address": [
+          {
+            "line": [
+              "2121 Santa Monica Blvd"
+            ],
+            "city": "Santa Monica",
+            "state": "CA",
+            "postalCode": "90404"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1-310-829-8800"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.2"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82197-5",
+              "display": "C. Diff Toxin A/B, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9c46236d-9962-28d7-a797-dbdf0b7723a0",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9c46236d-9962-28d7-a797-dbdf0b7723a0",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.3"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82198-3",
+              "display": "Plesiomonas shigelloides, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/9c46236d-9962-28d7-a797-dbdf0b7723a0"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6b535d2b-6f45-8319-4b05-26a26c8de3bd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6b535d2b-6f45-8319-4b05-26a26c8de3bd",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.4"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82199-1",
+              "display": "Salmonella, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/6b535d2b-6f45-8319-4b05-26a26c8de3bd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4e3b20b0-765d-039b-9614-9537b0c59588",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4e3b20b0-765d-039b-9614-9537b0c59588",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.5"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82200-7",
+              "display": "Vibrio, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/4e3b20b0-765d-039b-9614-9537b0c59588"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:42a0951a-ff80-7525-1046-505ba2ec6ba5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "42a0951a-ff80-7525-1046-505ba2ec6ba5",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.6"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82201-5",
+              "display": "Vibrio cholerae, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/42a0951a-ff80-7525-1046-505ba2ec6ba5"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c7501c45-cfe7-c699-d538-9bb303f72e88",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c7501c45-cfe7-c699-d538-9bb303f72e88",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.7"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82202-3",
+              "display": "Yersinia enterocolitica, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c7501c45-cfe7-c699-d538-9bb303f72e88"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0f8fd57b-19f6-99d8-f0bd-cd0b335392b0",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0f8fd57b-19f6-99d8-f0bd-cd0b335392b0",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.8"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82204-9",
+              "display": "E. Coli O157, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0f8fd57b-19f6-99d8-f0bd-cd0b335392b0"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.9"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "80349-4",
+              "display": "E. Coli (EAEC), NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d0c377c9-af5d-f939-a35d-6e805f1fdfc4",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d0c377c9-af5d-f939-a35d-6e805f1fdfc4",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.10"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "80348-6",
+              "display": "E. Coli (EPEC), NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/d0c377c9-af5d-f939-a35d-6e805f1fdfc4"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0812de0f-2cc3-c517-6376-001da70bae25",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0812de0f-2cc3-c517-6376-001da70bae25",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.11"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "80351-0",
+              "display": "E. Coli (ETEC), NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0812de0f-2cc3-c517-6376-001da70bae25"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:07162769-83cc-61e0-6476-c916e0854e7d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "07162769-83cc-61e0-6476-c916e0854e7d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.12"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82203-1",
+              "display": "Shiga-Like Toxin E. Coli (STEC), NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/07162769-83cc-61e0-6476-c916e0854e7d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5b2e1d26-b438-d200-6c7e-d17b748757e6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "5b2e1d26-b438-d200-6c7e-d17b748757e6",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.13"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "80350-2",
+              "display": "Shigella/EIEC, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/5b2e1d26-b438-d200-6c7e-d17b748757e6"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f9d39143-ffb7-16c2-ef00-29fc0157a8fb",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f9d39143-ffb7-16c2-ef00-29fc0157a8fb",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.14"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "41434-2",
+              "display": "Cryptosporidium, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/f9d39143-ffb7-16c2-ef00-29fc0157a8fb"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5dacaa50-cef9-e4ec-21b1-15c2e15bc00a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "5dacaa50-cef9-e4ec-21b1-15c2e15bc00a",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.15"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82206-4",
+              "display": "Cyclospora cayetanensis, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "260373001",
+              "display": "DETECTED",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "AA",
+                "display": "Abnormal Alert",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/5dacaa50-cef9-e4ec-21b1-15c2e15bc00a"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:63056ac0-0596-d7ab-d02b-f6682bef73dd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "63056ac0-0596-d7ab-d02b-f6682bef73dd",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.16"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "6396-6",
+              "display": "E. histolytica, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/63056ac0-0596-d7ab-d02b-f6682bef73dd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9800e50d-77dc-8b23-0af5-44929d91a3db",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9800e50d-77dc-8b23-0af5-44929d91a3db",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.17"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82208-0",
+              "display": "Giardia lamblia, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/9800e50d-77dc-8b23-0af5-44929d91a3db"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2f26889d-ad02-e761-e3a4-b93bfd9b6c5f",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2f26889d-ad02-e761-e3a4-b93bfd9b6c5f",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.18"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82209-8",
+              "display": "Adenovirus F 40/41, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/2f26889d-ad02-e761-e3a4-b93bfd9b6c5f"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:33852e11-1614-2637-fec6-b873725ce3e0",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "33852e11-1614-2637-fec6-b873725ce3e0",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.19"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82210-6",
+              "display": "Astrovirus, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/33852e11-1614-2637-fec6-b873725ce3e0"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d24a938c-526c-953a-d10b-f4e321a03555",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d24a938c-526c-953a-d10b-f4e321a03555",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.20"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82211-4",
+              "display": "Norovirus, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/d24a938c-526c-953a-d10b-f4e321a03555"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a1c957bc-67e7-e9cd-fb85-e216b6c46299",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a1c957bc-67e7-e9cd-fb85-e216b6c46299",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.21"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82212-2",
+              "display": "Rotavirus A, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/a1c957bc-67e7-e9cd-fb85-e216b6c46299"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:292416f6-39ba-9f36-bf4f-a7b302379abd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "292416f6-39ba-9f36-bf4f-a7b302379abd",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+            "value": "1546468.22"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "82195-9",
+              "display": "Sapovirus, NAAT",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              },
+              {
+                "url": "observation entry reference value",
+                "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        },
+        "performer": [
+          {
+            "display": "PROVIDENCE SAINT JOHN''S HEALTH CENTER LAB (CLIA 05D0059345)",
+            "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/292416f6-39ba-9f36-bf4f-a7b302379abd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:871dfa80-44de-7e07-dca1-91480e5e9612",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "871dfa80-44de-7e07-dca1-91480e5e9612",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1546468"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "56850-1",
+              "display": "Lab Interpretation",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueString": "Abnormal",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/871dfa80-44de-7e07-dca1-91480e5e9612"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d2173804-8b2b-550e-7876-047d99ec33ff",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d2173804-8b2b-550e-7876-047d99ec33ff",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+            "value": "1546468"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "effectiveDateTime": "2023-01-31T20:04:16Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "18",
+              "system": "urn:oid:1.2.840.114350.1.72.1.5007"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/R4/specimen.html",
+            "extension": [
+              {
+                "url": "specimen source",
+                "valueString": "Stool"
+              },
+              {
+                "url": "specimen collection time",
+                "valueDateTime": "2023-01-31T18:52:00Z"
+              },
+              {
+                "url": "specimen receive time",
+                "valueDateTime": "2023-01-31T18:52:51Z"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/d2173804-8b2b-550e-7876-047d99ec33ff"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:06620f3f-52ed-4c23-8c08-28fe1af82384",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "06620f3f-52ed-4c23-8c08-28fe1af82384",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.297.3.7.1.1040.1",
+            "value": "Z36789^^72166-2"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "72166-2",
+              "display": "Tobacco smoking status NHIS",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "266927001",
+              "display": "Tobacco smoking consumption unknown",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/06620f3f-52ed-4c23-8c08-28fe1af82384"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cfdf3db5-8b75-a572-9845-ebe5cdcba5a8",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "cfdf3db5-8b75-a572-9845-ebe5cdcba5a8",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-characteristics-of-home-environment"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:37f76c51-6411-4e1d-8a37-957fd49d2ceg"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "75274-1",
+              "display": "Characteristics of residence",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2013-03-12",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "308899009",
+              "display": "unsatisfactory living conditions (finding)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/cfdf3db5-8b75-a572-9845-ebe5cdcba5a8"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a29f2ac5-0e14-8f4c-e99b-77ac6faf177c",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a29f2ac5-0e14-8f4c-e99b-77ac6faf177c",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-disability-status"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:c09ac074-605e-47bd-8b1c-735e7321fbc2"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "69856-3",
+              "display": "Are you deaf, or do you have serious difficulty hearing [HHS.ACA Section 4302]",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2020-11-09",
+        "valueBoolean": true,
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/a29f2ac5-0e14-8f4c-e99b-77ac6faf177c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e05af7a8-4865-3471-9905-8f35a6a1243b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "e05af7a8-4865-3471-9905-8f35a6a1243b",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:c1e39467-4b79-474e-9c75-927b45e8616a"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "74165-2",
+              "display": "History of Employment Status",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2017-01-16T15:47:14Z",
+          "end": "2018-06-16T15:47:14Z"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Employed",
+              "display": "Employed",
+              "system": "urn:oid:2.16.840.1.113883.5.1063"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/e05af7a8-4865-3471-9905-8f35a6a1243b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:346c9384-3a39-38e2-1ee0-2a20b7412ee2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "346c9384-3a39-38e2-1ee0-2a20b7412ee2",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/odh/StructureDefinition/odh-UsualWork"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:4b0149ce-45c3-4c29-97a1-951ecc415aac"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "21843-8",
+              "display": "History of Usual Occupation",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2017-12-16"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "3600",
+              "display": "Nursing, psychiatric, and home health aides",
+              "system": "urn:oid:2.16.840.1.113883.6.240"
+            }
+          ]
+        },
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "74163-7",
+                  "display": "Usual Occupation Duration",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueQuantity": {
+              "value": 15,
+              "unit": "a"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "21844-6",
+                  "display": "Usual Industry",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "8270",
+                  "display": "Nursing care facilities",
+                  "system": "urn:oid:2.16.840.1.114222.4.5.315"
+                }
+              ]
+            }
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/346c9384-3a39-38e2-1ee0-2a20b7412ee2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:94f56729-14e8-8e95-a1dc-96be0b07c565",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "94f56729-14e8-8e95-a1dc-96be0b07c565",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:86cbdd4a-a738-4252-93d4-455dc247c6ed"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "87511-2",
+              "display": "Combat zone and or hazardous duty work dates",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/94f56729-14e8-8e95-a1dc-96be0b07c565"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:965db622-e821-a004-71b9-f6959814516f",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "965db622-e821-a004-71b9-f6959814516f",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:5aff7416-7a1f-4922-a9a9-cb04338b25a5"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "11341-5",
+              "display": "History of Occupation",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2017-12-16"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "3600",
+              "display": "Nursing, psychiatric, and home health aides",
+              "system": "urn:oid:2.16.840.1.113883.6.240"
+            }
+          ]
+        },
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "74159-5",
+                  "display": "Work Schedule",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "NS",
+                  "display": "Night Shift",
+                  "system": "urn:oid:2.16.840.1.113883.5.1063"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "63761-1",
+                  "display": "What were your main activities or duties for this job",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueString": "Patient care"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "87729-0",
+                  "display": "History of Occupational Hazard",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueString": "Infectious Disease"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "87707-6",
+                  "display": "Job supervisory level or pay grade",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "C-6",
+                  "display": "C6 - Manager",
+                  "system": "urn:oid:2.16.840.1.114222.4.5.327"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "86188-0",
+                  "display": "History of Occupation Industry",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "8270",
+                  "display": "Nursing care facilities",
+                  "system": "http://snomed.info/sct"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "85104-8",
+                  "display": "Compensation and Sector Employment Type",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "PWNSE",
+                  "display": "Paid non-governmental work, not self-employed",
+                  "system": "urn:oid:2.16.840.1.113883.5.1139"
+                }
+              ]
+            }
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/965db622-e821-a004-71b9-f6959814516f"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:51487854-3257-0685-a4cf-f191347b317e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "51487854-3257-0685-a4cf-f191347b317e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:7916c040-f9a4-447d-95e7-3e4877582959"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "87510-4",
+              "display": "Date of Retirement",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "value": 20171216
+        },
+        "subject": {
+          "reference": "Patient/6eb76bec-de1c-45b5-9122-c16c9bb0cf18"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/51487854-3257-0685-a4cf-f191347b317e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/"
+      }
+    }
+  ]
+}

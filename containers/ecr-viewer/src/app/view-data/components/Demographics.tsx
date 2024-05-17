@@ -1,17 +1,14 @@
-import { DataDisplay, DisplayDataProps } from "../../utils";
 import {
-  AccordianSection,
-  AccordianH4,
-  AccordianDiv,
+  AccordionSection,
+  AccordionH4,
+  AccordionDiv,
 } from "../component-utils";
-import { SectionConfig } from "./SideNav";
 import React from "react";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface DemographicsProps {
   demographicsData: DisplayDataProps[];
 }
-
-export const demographicsConfig = new SectionConfig("Demographics");
 
 /**
  * Functional component for displaying demographic data
@@ -21,16 +18,14 @@ export const demographicsConfig = new SectionConfig("Demographics");
  */
 const Demographics = ({ demographicsData }: DemographicsProps) => {
   return (
-    <AccordianSection>
-      <AccordianH4>
-        <span id={demographicsConfig.id}>{demographicsConfig.title}</span>
-      </AccordianH4>
-      <AccordianDiv>
+    <AccordionSection>
+      <AccordionH4 id={"demographics"}>Demographics</AccordionH4>
+      <AccordionDiv>
         {demographicsData.map((item, index) => (
           <DataDisplay item={item} key={index} />
         ))}
-      </AccordianDiv>
-    </AccordianSection>
+      </AccordionDiv>
+    </AccordionSection>
   );
 };
 

@@ -1,1401 +1,1165 @@
-<ns0:ClinicalDocument xmlns:ns0="urn:hl7-org:v3">
-    <ns0:realmCode code="US" />
-    <ns0:typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3" />
-    <ns0:templateId root="2.16.840.1.113883.10.20.22.1.1" />
-    <ns0:templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.1.1" />
-    <ns0:templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2" />
-    <ns0:id root="1dd10047-2207-4eac-a993-0f706c88be5d" />
-    <ns0:code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
-        displayName="Initial Public Health Case Report" />
-    <ns0:title>Initial Public Health Case Report</ns0:title>
-    <ns0:effectiveTime value="20220514125638+0000" />
-    <ns0:confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" />
-    <ns0:languageCode code="en-US" />
-    <ns0:setId extension="36959489|65117030" root="2.16.840.1.113883" />
-    <ns0:versionNumber value="2" />
-    <ns0:recordTarget xmlns:sdtc="urn:hl7-org:sdtc">
-        <ns0:patientRole>
-            <ns0:id extension="10308625" root="2.16.840.1.113883.3.3316.100" />
-            <ns0:addr>
-                <ns0:streetAddressLine>1050 CARPENTER ST</ns0:streetAddressLine>
-                <ns0:city>EDWARDS</ns0:city>
-                <ns0:state>CA</ns0:state>
-                <ns0:postalCode>93523-2800</ns0:postalCode>
-                <ns0:country>US</ns0:country>
-            </ns0:addr>
-            <ns0:telecom use="HP" value="tel:(818)419-5968" />
-            <ns0:telecom value="mailto:MELLY.C.A.16@GMAIL.COM" />
-            <ns0:patient>
-                <ns0:name>
-                    <ns0:given>ABEL</ns0:given>
-                    <ns0:family>CASTILLO</ns0:family>
-                </ns0:name>
-                <ns0:administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" />
-                <ns0:birthTime value="20150415" />
-                <sdtc:deceasedInd value="false" />
-                <ns0:raceCode code="2054-5" codeSystem="2.16.840.1.113883.6.238"
-                    codeSystemName="Race &amp; Ethnicity - CDC"
-                    displayName="Black or African American" />
-                <ns0:ethnicGroupCode code="2135-2" codeSystem="2.16.840.1.113883.6.238"
-                    codeSystemName="Race &amp; Ethnicity - CDC" displayName="Hispanic or Latino" />
-                <ns0:languageCommunication>
-                    <ns0:languageCode code="en" />
-                </ns0:languageCommunication>
-            </ns0:patient>
-        </ns0:patientRole>
-    </ns0:recordTarget>
-    <ns0:author>
-        <ns0:time value="20220513072500+0000" />
-        <ns0:assignedAuthor>
-            <ns0:id root="2.16.840.1.113883.4.6" />
-            <ns0:addr>
-                <ns0:streetAddressLine nullFlavor="NI" />
-                <ns0:city nullFlavor="NI" />
-                <ns0:state nullFlavor="NI" />
-                <ns0:postalCode nullFlavor="NI" />
-                <ns0:country nullFlavor="NI" />
-            </ns0:addr>
-            <ns0:telecom nullFlavor="NI" />
-            <ns0:assignedPerson>
-                <ns0:name>
-                    <ns0:given>ED Billing</ns0:given>
-                    <ns0:given>Discharge</ns0:given>
-                    <ns0:family>Physician</ns0:family>
-                </ns0:name>
-            </ns0:assignedPerson>
-        </ns0:assignedAuthor>
-    </ns0:author>
-    <ns0:custodian>
-        <ns0:assignedCustodian>
-            <ns0:representedCustodianOrganization>
-                <ns0:id extension="PRM" root="2.16.840.1.113883.3.3316.200" />
-                <ns0:name>PRM- Palmdale Regional Medical Center</ns0:name>
-                <ns0:telecom use="WP" value="tel:(661)382-5000" />
-                <ns0:addr>
-                    <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                    <ns0:city>Palmdale</ns0:city>
-                    <ns0:state>CA</ns0:state>
-                    <ns0:postalCode>93551</ns0:postalCode>
-                    <ns0:country>USA</ns0:country>
-                </ns0:addr>
-            </ns0:representedCustodianOrganization>
-        </ns0:assignedCustodian>
-    </ns0:custodian>
-    <ns0:componentOf>
-        <ns0:encompassingEncounter>
-            <ns0:id extension="Encounter/65117030/_history/22" root="2.16.840.1.113883" />
-            <ns0:id extension="3012591990" root="2.16.840.1.113883.3.3316.200" />
-            <ns0:code code="E" codeSystem="2.16.840.1.113883.18.5" codeSystemName="v2-0004"
-                displayName="Emergency" />
-            <ns0:effectiveTime>
-                <ns0:low value="20220513072500+0000" />
-                <ns0:high value="20220513095700+0000" />
-            </ns0:effectiveTime>
-            <ns0:responsibleParty>
-                <ns0:assignedEntity>
-                    <ns0:id root="2.16.840.1.113883.4.6" />
-                    <ns0:addr>
-                        <ns0:streetAddressLine nullFlavor="NI" />
-                        <ns0:city nullFlavor="NI" />
-                        <ns0:state nullFlavor="NI" />
-                        <ns0:postalCode nullFlavor="NI" />
-                        <ns0:country nullFlavor="NI" />
-                    </ns0:addr>
-                    <ns0:telecom nullFlavor="NI" />
-                    <ns0:assignedPerson>
-                        <ns0:name>
-                            <ns0:given>ED Billing</ns0:given>
-                            <ns0:given>Discharge</ns0:given>
-                            <ns0:family>Physician</ns0:family>
-                        </ns0:name>
-                    </ns0:assignedPerson>
-                    <ns0:representedOrganization>
-                        <ns0:id extension="PRM" root="2.16.840.1.113883.3.3316.200" />
-                        <ns0:name>PRM- Palmdale Regional Medical Center</ns0:name>
-                        <ns0:telecom use="WP" value="tel:(661)382-5000" />
-                        <ns0:addr>
-                            <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                            <ns0:city>Palmdale</ns0:city>
-                            <ns0:state>CA</ns0:state>
-                            <ns0:postalCode>93551</ns0:postalCode>
-                            <ns0:country>USA</ns0:country>
-                        </ns0:addr>
-                    </ns0:representedOrganization>
-                </ns0:assignedEntity>
-            </ns0:responsibleParty>
-            <ns0:encounterParticipant typeCode="ATND">
-                <ns0:assignedEntity>
-                    <ns0:id extension="1114930757" root="2.16.840.1.113883.4.6" />
-                    <ns0:addr>
-                        <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                        <ns0:city>Palmdale</ns0:city>
-                        <ns0:state>CA</ns0:state>
-                        <ns0:postalCode>93551</ns0:postalCode>
-                        <ns0:country>US</ns0:country>
-                    </ns0:addr>
-                    <ns0:telecom value="tel:((66)1)3-82-6" />
-                    <ns0:assignedPerson>
-                        <ns0:name>
-                            <ns0:given>Scott</ns0:given>
-                            <ns0:given>A</ns0:given>
-                            <ns0:family>Wang</ns0:family>
-                        </ns0:name>
-                    </ns0:assignedPerson>
-                </ns0:assignedEntity>
-            </ns0:encounterParticipant>
-            <ns0:encounterParticipant typeCode="ATND">
-                <ns0:assignedEntity>
-                    <ns0:id extension="1999999992" root="2.16.840.1.113883.4.6" />
-                    <ns0:addr>
-                        <ns0:streetAddressLine nullFlavor="NI" />
-                        <ns0:city nullFlavor="NI" />
-                        <ns0:state nullFlavor="NI" />
-                        <ns0:postalCode nullFlavor="NI" />
-                        <ns0:country nullFlavor="NI" />
-                    </ns0:addr>
-                    <ns0:assignedPerson>
-                        <ns0:name>
-                            <ns0:given>Physician</ns0:given>
-                            <ns0:family>Ed staff</ns0:family>
-                        </ns0:name>
-                    </ns0:assignedPerson>
-                </ns0:assignedEntity>
-            </ns0:encounterParticipant>
-            <ns0:location>
-                <ns0:healthCareFacility>
-                    <ns0:id extension="1508856535" root="2.16.840.1.113883.4.6" />
-                    <ns0:code code="prov" codeSystem="2.16.840.1.113883.4.642.3.414"
-                        codeSystemName="organization-type" displayName="Healthcare Provider">
-                        <ns0:translation code="team" codeSystem="2.16.840.1.113883.4.642.3.414"
-                            codeSystemName="organization-type" displayName="Organizational team" />
-                    </ns0:code>
-                    <ns0:location>
-                        <ns0:addr>
-                            <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                            <ns0:city>Palmdale</ns0:city>
-                            <ns0:state>CA</ns0:state>
-                            <ns0:postalCode>93551</ns0:postalCode>
-                            <ns0:country>USA</ns0:country>
-                        </ns0:addr>
-                    </ns0:location>
-                    <ns0:serviceProviderOrganization>
-                        <ns0:id extension="PRM" root="2.16.840.1.113883.3.3316.200" />
-                        <ns0:name>PRM- Palmdale Regional Medical Center</ns0:name>
-                        <ns0:telecom use="WP" value="tel:(661)382-5000" />
-                        <ns0:addr>
-                            <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                            <ns0:city>Palmdale</ns0:city>
-                            <ns0:state>CA</ns0:state>
-                            <ns0:postalCode>93551</ns0:postalCode>
-                            <ns0:country>USA</ns0:country>
-                        </ns0:addr>
-                    </ns0:serviceProviderOrganization>
-                </ns0:healthCareFacility>
-            </ns0:location>
-        </ns0:encompassingEncounter>
-    </ns0:componentOf>
-    <component>
-        <structuredBody>
-            <component>
-                <ns0:section xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xmlns:sdtc="urn:hl7-org:sdtc">
-                    <ns0:templateId root="2.16.840.1.113883.10.20.22.2.3.1" />
-                    <ns0:templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.2.3.1" />
-                    <ns0:code code="30954-2" codeSystem="2.16.840.1.113883.6.1"
-                        codeSystemName="LOINC" displayName="RESULTS" />
-                    <ns0:title>RESULTS</ns0:title>
-                    <ns0:text>
-                        <ns0:table border="1" width="100%">
-                            <ns0:thead>
-                                <ns0:tr>
-                                    <ns0:th>Lab Test Name</ns0:th>
-                                    <ns0:th>Lab Test Result Value</ns0:th>
-                                    <ns0:th>Lab Test Result Date</ns0:th>
-                                </ns0:tr>
-                            </ns0:thead>
-                            <ns0:tbody>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName1">Ur Mucous</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue1">NONE /LPF</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate1">
-                                            2022-05-13T07:47:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName2">Ur Squam Epithelial</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue2">
-                                            1|http://unitsofmeasure.org|/HPF</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate2">
-                                            2022-05-13T07:47:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName3">Ur WBC</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue3">
-                                            1|http://unitsofmeasure.org|/HPF</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate3">
-                                            2022-05-13T07:47:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName4">Ur RBC</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue4">
-                                            2|http://unitsofmeasure.org|/HPF</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate4">
-                                            2022-05-13T07:47:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName5">Ur Bacteria</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue5">None Seen /HPF</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate5">
-                                            2022-05-13T07:47:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName6">Symptomatic as defined by
-                                            CDC?</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue6">No</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate6">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName7">In ICU?</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue7">No</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate7">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName8">Group care resident?</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue8">No</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate8">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName9">First test?</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue9">UNK</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate9">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName10">Employed in healthcare?</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue10">No</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate10">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName11">Date of onset?</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue11">UNK</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate11">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName12">SARS-CoV-2 Interp:</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue12">Unknown</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate12">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName13">SARS-CoV-2 PCR</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue13">Negative</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate13">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName14">Flu B PCR</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue14">Not Detected</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate14">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName15">Flu A PCR</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue15">Not Detected</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate15">
-                                            2022-05-13T07:43:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName16">Ur pH</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue16">6.0</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate16">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName17">Ur Spec Grav</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue17">1.020 mg/dL</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate17">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName18">Ur Urobilinogen</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue18">0.2 EU/dL</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate18">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName19">Ur Blood</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue19">Trace-lysed</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate19">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName20">Ur Bili</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue20">Negative</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate20">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName21">Ur Leuk Est</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue21">Negative</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate21">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName22">Ur Protein</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue22">Negative mg/dL</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate22">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName23">Ur Nitrite</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue23">Negative</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate23">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName24">Ur Ketones</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue24">Negative mg/dL</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate24">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestName25">UR Glucose</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValue25">Negative mg/dL</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="labTestResultValueDate25">
-                                            2022-05-13T06:52:00.000Z</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                            </ns0:tbody>
-                        </ns0:table>
-                    </ns0:text>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="ff1315b1-82ae-4bba-b2ad-b7fa2c6df609" />
-                            <ns0:code code="8247-9" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292944/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="8247-9" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName1" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074700+0000" />
-                                    <ns0:value xsi:type="ST">NONE /LPF</ns0:value>
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="058cd367-c2ac-4a60-96b3-e63cc19366b1" />
-                            <ns0:code code="11277-1" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292940/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="11277-1" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName2" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074700+0000" />
-                                    <ns0:value unit="/HPF" value="1" xsi:type="PQ" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="0eaa692c-917c-4e3f-ac8a-0cb281519fa6" />
-                            <ns0:code code="5821-4" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292936/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="5821-4" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName3" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074700+0000" />
-                                    <ns0:value unit="/HPF" value="1" xsi:type="PQ" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="9ee90a5e-72b7-4c76-86c8-ad30dbb004c3" />
-                            <ns0:code code="13945-1" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292938/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="13945-1" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName4" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074700+0000" />
-                                    <ns0:value unit="/HPF" value="2" xsi:type="PQ" />
-                                    <ns0:interpretationCode code="H"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="High" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="e13d84f5-5613-4492-8837-a2fd2fe5e38a" />
-                            <ns0:code code="5769-5" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292942/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="5769-5" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName5" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074700+0000" />
-                                    <ns0:value code="260413007" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct" displayName="None (qualifier value)"
-                                        xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="ae8bad55-ef9a-4a25-8775-f85d55223676" />
-                            <ns0:code code="95419-8" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361290/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="95419-8" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName6" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value code="373067005" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct" displayName="No (qualifier value)"
-                                        xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="e68c1036-24ed-4cc0-b4f6-7bc05c19a732" />
-                            <ns0:code code="95420-6" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361296/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="95420-6" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName7" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value code="373067005" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct" displayName="No (qualifier value)"
-                                        xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="66f04502-1e75-4931-bf6c-5a9f67f1fe02" />
-                            <ns0:code code="95421-4" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361302/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="95421-4" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName8" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value code="373067005" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct" displayName="No (qualifier value)"
-                                        xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="45d8a563-224c-4b9a-8eff-858b538ed6e9" />
-                            <ns0:code code="95417-2" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361288/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="95417-2" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName9" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value xsi:type="ST">UNK</ns0:value>
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="aab9084a-aa22-45c0-aa9b-c11d6ad0a104" />
-                            <ns0:code code="95418-0" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361300/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="95418-0" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName10" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value code="373067005" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct" displayName="No (qualifier value)"
-                                        xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="6c28395e-46a7-4298-bb48-0ea86172036c" />
-                            <ns0:code code="65222-2" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361292/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="65222-2" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName11" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value xsi:type="ST">UNK</ns0:value>
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="8625444b-ea02-4d22-9288-9e6df95d0bb7" />
-                            <ns0:code code="94309-2" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2016-12-01"
-                                        root="2.16.840.1.113883.10.20.15.2.3.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361306/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="94309-2" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="LOINC" displayName="SARS-CoV-2 Interp:"
-                                        sdtc:valueSet="2.16.840.1.114222.4.11.7508"
-                                        sdtc:valueSetVersion="2021-08-18">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName12" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value nullFlavor="NI" xsi:type="ST" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="4ba676a9-1271-4563-a285-f86948a57376" />
-                            <ns0:code code="94500-6" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2016-12-01"
-                                        root="2.16.840.1.113883.10.20.15.2.3.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361304/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="94500-6" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="LOINC" displayName="SARS-CoV-2 PCR"
-                                        sdtc:valueSet="2.16.840.1.114222.4.11.7508"
-                                        sdtc:valueSetVersion="2021-08-18">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName13" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value code="260385009" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct"
-                                        displayName="Negative (qualifier value)" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="26f9100d-515f-472c-bffb-93806fd9bd71" />
-                            <ns0:code code="76080-1" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361280/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="76080-1" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName14" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value code="260415000" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct"
-                                        displayName="Not detected (qualifier value)" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="10ea9500-d59d-4962-8a8d-81c0749f06f6" />
-                            <ns0:code code="76078-5" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361278/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="76078-5" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName15" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513074300+0000" />
-                                    <ns0:value code="260415000" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct"
-                                        displayName="Not detected (qualifier value)" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="a97480ed-8ed9-46d4-9c8b-f0203447b347" />
-                            <ns0:code code="5803-2" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157887/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="5803-2" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName16" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value code="68244004" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct" displayName="Six (qualifier value)"
-                                        xsi:type="CD" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="c4602a4c-fc77-42a2-97ac-076e3fc307a3" />
-                            <ns0:code code="2965-2" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157885/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="2965-2" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName17" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value nullFlavor="NI" xsi:type="CD" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="068fbc96-82f4-4ceb-9918-2b2cf1365631" />
-                            <ns0:code code="19161-9" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157895/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="19161-9" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName18" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value code="732349004" codeSystem="2.16.840.1.113883.6.96"
-                                        codeSystemName="sct" displayName="0.2" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="560ada7e-520d-4c1f-883d-2409edb39161" />
-                            <ns0:code code="725-2" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157893/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="725-2" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName19" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value xsi:type="ST">Trace-lysed</ns0:value>
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="1061fa97-53cb-47ee-b375-d560e7ab2773" />
-                            <ns0:code code="1977-8" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157891/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="1977-8" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName20" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value nullFlavor="NI" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="950ddc5f-f6c2-4586-b010-b59d9c0a745e" />
-                            <ns0:code code="5799-2" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157889/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="5799-2" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName21" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value nullFlavor="NI" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="40dbb39d-636f-4201-b84c-54cb7a985863" />
-                            <ns0:code code="5804-0" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157883/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="5804-0" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName22" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value nullFlavor="NI" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="53bef43a-a55b-4776-ae62-4ca14121af87" />
-                            <ns0:code code="5802-4" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157881/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="5802-4" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName23" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value nullFlavor="NI" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="1de1b0c3-fb17-4d68-8904-8211e38b9e84" />
-                            <ns0:code code="33903-6" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157879/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="33903-6" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName24" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value nullFlavor="NI" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                    <ns0:entry typeCode="DRIV">
-                        <ns0:organizer classCode="CLUSTER" moodCode="EVN">
-                            <ns0:templateId root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:templateId extension="2015-08-01"
-                                root="2.16.840.1.113883.10.20.22.4.1" />
-                            <ns0:id root="bfa56c8d-e132-4e16-b38c-999afaf05e36" />
-                            <ns0:code code="2350-7" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="loinc.org" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:component>
-                                <ns0:observation classCode="OBS" moodCode="EVN">
-                                    <ns0:templateId root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:templateId extension="2015-08-01"
-                                        root="2.16.840.1.113883.10.20.22.4.2" />
-                                    <ns0:id
-                                        extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157877/_history/1"
-                                        root="2.16.840.1.113883" />
-                                    <ns0:code code="2350-7" codeSystem="2.16.840.1.113883.6.1"
-                                        codeSystemName="loinc.org">
-                                        <ns0:originalText>
-                                            <ns0:reference value="#labTestName25" />
-                                        </ns0:originalText>
-                                    </ns0:code>
-                                    <ns0:statusCode code="completed" />
-                                    <ns0:effectiveTime value="20220513065200+0000" />
-                                    <ns0:value nullFlavor="NI" xsi:type="CD" />
-                                    <ns0:interpretationCode code="N"
-                                        codeSystem="2.16.840.1.113883.5.83"
-                                        codeSystemName="v3-ObservationInterpretation"
-                                        displayName="Normal" />
-                                </ns0:observation>
-                            </ns0:component>
-                        </ns0:organizer>
-                    </ns0:entry>
-                </ns0:section>
-            </component>
-            <component>
-                <ns0:section>
-                    <ns0:templateId root="2.16.840.1.113883.10.20.22.2.12" />
-                    <ns0:code code="29299-5" codeSystem="2.16.840.1.113883.6.1"
-                        codeSystemName="LOINC" displayName="Reason For Visit" />
-                    <ns0:title>Reason For Visit</ns0:title>
-                    <ns0:text>
-                        <ns0:table border="1" width="100%">
-                            <ns0:thead>
-                                <ns0:tr>
-                                    <ns0:th>text</ns0:th>
-                                </ns0:tr>
-                            </ns0:thead>
-                            <ns0:tbody>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="text1">FEVER</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                            </ns0:tbody>
-                        </ns0:table>
-                    </ns0:text>
-                </ns0:section>
-            </component>
-        </structuredBody>
-    </component>
-</ns0:ClinicalDocument>
+<ClinicalDocument
+	xmlns="urn:hl7-org:v3"
+	xmlns:cda="urn:hl7-org:v3"
+	xmlns:sdtc="urn:hl7-org:sdtc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<realmCode code="US"/>
+	<typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
+	<templateId root="2.16.840.1.113883.10.20.22.1.1"/>
+	<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.1.1"/>
+	<templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2"/>
+	<id root="1dd10047-2207-4eac-a993-0f706c88be5d"/>
+	<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Initial Public Health Case Report"/>
+	<title>Initial Public Health Case Report</title>
+	<effectiveTime value="20220514125638+0000"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+	<languageCode code="en-US"/>
+	<setId extension="36959489|65117030" root="2.16.840.1.113883"/>
+	<versionNumber value="2"/>
+	<recordTarget>
+		<patientRole>
+			<id extension="10308625" root="2.16.840.1.113883.3.3316.100"/>
+			<addr>
+				<streetAddressLine>1050 CARPENTER ST</streetAddressLine>
+				<city>EDWARDS</city>
+				<state>CA</state>
+				<postalCode>93523-2800</postalCode>
+				<country>US</country>
+			</addr>
+			<telecom use="HP" value="tel:(818)419-5968"/>
+			<telecom value="mailto:MELLY.C.A.16@GMAIL.COM"/>
+			<patient>
+				<name>
+					<given>ABEL</given>
+					<family>CASTILLO</family>
+				</name>
+				<administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
+				<birthTime value="20150415"/>
+				<sdtc:deceasedInd value="false"/>
+				<raceCode code="2054-5" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="Black or African American"/>
+				<ethnicGroupCode code="2135-2" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="Hispanic or Latino"/>
+				<languageCommunication>
+					<languageCode code="en"/>
+				</languageCommunication>
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<time value="20220513072500+0000"/>
+		<assignedAuthor>
+			<id root="2.16.840.1.113883.4.6"/>
+			<addr>
+				<streetAddressLine nullFlavor="NI"/>
+				<city nullFlavor="NI"/>
+				<state nullFlavor="NI"/>
+				<postalCode nullFlavor="NI"/>
+				<country nullFlavor="NI"/>
+			</addr>
+			<telecom nullFlavor="NI"/>
+			<assignedPerson>
+				<name>
+					<given>ED Billing</given>
+					<given>Discharge</given>
+					<family>Physician</family>
+				</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id extension="PRM" root="2.16.840.1.113883.3.3316.200"/>
+				<name>PRM- Palmdale Regional Medical Center</name>
+				<telecom use="WP" value="tel:(661)382-5000"/>
+				<addr>
+					<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+					<city>Palmdale</city>
+					<state>CA</state>
+					<postalCode>93551</postalCode>
+					<country>USA</country>
+				</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<componentOf>
+		<encompassingEncounter>
+			<id extension="Encounter/65117030/_history/22" root="2.16.840.1.113883"/>
+			<id extension="3012591990" root="2.16.840.1.113883.3.3316.200"/>
+			<code code="E" codeSystem="2.16.840.1.113883.18.5" codeSystemName="v2-0004" displayName="Emergency"/>
+			<effectiveTime>
+				<low value="20220513072500+0000"/>
+				<high value="20220513095700+0000"/>
+			</effectiveTime>
+			<responsibleParty>
+				<assignedEntity>
+					<id root="2.16.840.1.113883.4.6"/>
+					<addr>
+						<streetAddressLine nullFlavor="NI"/>
+						<city nullFlavor="NI"/>
+						<state nullFlavor="NI"/>
+						<postalCode nullFlavor="NI"/>
+						<country nullFlavor="NI"/>
+					</addr>
+					<telecom nullFlavor="NI"/>
+					<assignedPerson>
+						<name>
+							<given>ED Billing</given>
+							<given>Discharge</given>
+							<family>Physician</family>
+						</name>
+					</assignedPerson>
+					<representedOrganization>
+						<id extension="PRM" root="2.16.840.1.113883.3.3316.200"/>
+						<name>PRM- Palmdale Regional Medical Center</name>
+						<telecom use="WP" value="tel:(661)382-5000"/>
+						<addr>
+							<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+							<city>Palmdale</city>
+							<state>CA</state>
+							<postalCode>93551</postalCode>
+							<country>USA</country>
+						</addr>
+					</representedOrganization>
+				</assignedEntity>
+			</responsibleParty>
+			<encounterParticipant typeCode="ATND">
+				<assignedEntity>
+					<id extension="1114930757" root="2.16.840.1.113883.4.6"/>
+					<addr>
+						<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+						<city>Palmdale</city>
+						<state>CA</state>
+						<postalCode>93551</postalCode>
+						<country>US</country>
+					</addr>
+					<telecom value="tel:((66)1)3-82-6"/>
+					<assignedPerson>
+						<name>
+							<given>Scott</given>
+							<given>A</given>
+							<family>Wang</family>
+						</name>
+					</assignedPerson>
+				</assignedEntity>
+			</encounterParticipant>
+			<encounterParticipant typeCode="ATND">
+				<assignedEntity>
+					<id extension="1999999992" root="2.16.840.1.113883.4.6"/>
+					<addr>
+						<streetAddressLine nullFlavor="NI"/>
+						<city nullFlavor="NI"/>
+						<state nullFlavor="NI"/>
+						<postalCode nullFlavor="NI"/>
+						<country nullFlavor="NI"/>
+					</addr>
+					<assignedPerson>
+						<name>
+							<given>Physician</given>
+							<family>Ed staff</family>
+						</name>
+					</assignedPerson>
+				</assignedEntity>
+			</encounterParticipant>
+			<location>
+				<healthCareFacility>
+					<id extension="1508856535" root="2.16.840.1.113883.4.6"/>
+					<code code="prov" codeSystem="2.16.840.1.113883.4.642.3.414" codeSystemName="organization-type" displayName="Healthcare Provider">
+						<translation code="team" codeSystem="2.16.840.1.113883.4.642.3.414" codeSystemName="organization-type" displayName="Organizational team"/>
+					</code>
+					<location>
+						<addr>
+							<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+							<city>Palmdale</city>
+							<state>CA</state>
+							<postalCode>93551</postalCode>
+							<country>USA</country>
+						</addr>
+					</location>
+					<serviceProviderOrganization>
+						<id extension="PRM" root="2.16.840.1.113883.3.3316.200"/>
+						<name>PRM- Palmdale Regional Medical Center</name>
+						<telecom use="WP" value="tel:(661)382-5000"/>
+						<addr>
+							<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+							<city>Palmdale</city>
+							<state>CA</state>
+							<postalCode>93551</postalCode>
+							<country>USA</country>
+						</addr>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<component>
+		<structuredBody>
+			<component>
+				<section>
+					<templateId root="2.16.840.1.113883.10.20.22.2.3.1"/>
+					<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.2.3.1"/>
+					<code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="RESULTS"/>
+					<title>RESULTS</title>
+					<text>
+						<table border="1" width="100%">
+							<thead>
+								<tr>
+									<th>Lab Test Name</th>
+									<th>Lab Test Result Value</th>
+									<th>Lab Test Result Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<content ID="labTestName1">Ur Mucous</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue1">NONE /LPF</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate1">
+                                            2022-05-13T07:47:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName2">Ur Squam Epithelial</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue2">
+                                            1|http://unitsofmeasure.org|/HPF</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate2">
+                                            2022-05-13T07:47:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName3">Ur WBC</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue3">
+                                            1|http://unitsofmeasure.org|/HPF</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate3">
+                                            2022-05-13T07:47:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName4">Ur RBC</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue4">
+                                            2|http://unitsofmeasure.org|/HPF</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate4">
+                                            2022-05-13T07:47:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName5">Ur Bacteria</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue5">None Seen /HPF</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate5">
+                                            2022-05-13T07:47:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName6">Symptomatic as defined by CDC?</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue6">No</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate6">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName7">In ICU?</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue7">No</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate7">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName8">Group care resident?</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue8">No</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate8">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName9">First test?</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue9">UNK</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate9">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName10">Employed in healthcare?</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue10">No</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate10">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName11">Date of onset?</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue11">UNK</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate11">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName12">SARS-CoV-2 Interp:</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue12">Unknown</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate12">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName13">SARS-CoV-2 PCR</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue13">Negative</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate13">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName14">Flu B PCR</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue14">Not Detected</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate14">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName15">Flu A PCR</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue15">Not Detected</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate15">
+                                            2022-05-13T07:43:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName16">Ur pH</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue16">6.0</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate16">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName17">Ur Spec Grav</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue17">1.020 mg/dL</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate17">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName18">Ur Urobilinogen</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue18">0.2 EU/dL</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate18">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName19">Ur Blood</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue19">Trace-lysed</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate19">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName20">Ur Bili</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue20">Negative</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate20">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName21">Ur Leuk Est</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue21">Negative</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate21">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName22">Ur Protein</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue22">Negative mg/dL</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate22">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName23">Ur Nitrite</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue23">Negative</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate23">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName24">Ur Ketones</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue24">Negative mg/dL</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate24">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="labTestName25">UR Glucose</content>
+									</td>
+									<td>
+										<content ID="labTestResultValue25">Negative mg/dL</content>
+									</td>
+									<td>
+										<content ID="labTestResultValueDate25">
+                                            2022-05-13T06:52:00.000Z</content>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="ff1315b1-82ae-4bba-b2ad-b7fa2c6df609"/>
+							<code code="8247-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292944/_history/1" root="2.16.840.1.113883"/>
+									<code code="8247-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName1"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074700+0000"/>
+									<value xsi:type="ST">NONE /LPF</value>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="058cd367-c2ac-4a60-96b3-e63cc19366b1"/>
+							<code code="11277-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292940/_history/1" root="2.16.840.1.113883"/>
+									<code code="11277-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName2"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074700+0000"/>
+									<value unit="/HPF" value="1" xsi:type="PQ"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="0eaa692c-917c-4e3f-ac8a-0cb281519fa6"/>
+							<code code="5821-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292936/_history/1" root="2.16.840.1.113883"/>
+									<code code="5821-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName3"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074700+0000"/>
+									<value unit="/HPF" value="1" xsi:type="PQ"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="9ee90a5e-72b7-4c76-86c8-ad30dbb004c3"/>
+							<code code="13945-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292938/_history/1" root="2.16.840.1.113883"/>
+									<code code="13945-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName4"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074700+0000"/>
+									<value unit="/HPF" value="2" xsi:type="PQ"/>
+									<interpretationCode code="H" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="High"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="e13d84f5-5613-4492-8837-a2fd2fe5e38a"/>
+							<code code="5769-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292942/_history/1" root="2.16.840.1.113883"/>
+									<code code="5769-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName5"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074700+0000"/>
+									<value code="260413007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="None (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="ae8bad55-ef9a-4a25-8775-f85d55223676"/>
+							<code code="95419-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361290/_history/1" root="2.16.840.1.113883"/>
+									<code code="95419-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName6"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value code="373067005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="No (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="e68c1036-24ed-4cc0-b4f6-7bc05c19a732"/>
+							<code code="95420-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361296/_history/1" root="2.16.840.1.113883"/>
+									<code code="95420-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName7"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value code="373067005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="No (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="66f04502-1e75-4931-bf6c-5a9f67f1fe02"/>
+							<code code="95421-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361302/_history/1" root="2.16.840.1.113883"/>
+									<code code="95421-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName8"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value code="373067005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="No (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="45d8a563-224c-4b9a-8eff-858b538ed6e9"/>
+							<code code="95417-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361288/_history/1" root="2.16.840.1.113883"/>
+									<code code="95417-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName9"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value xsi:type="ST">UNK</value>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="aab9084a-aa22-45c0-aa9b-c11d6ad0a104"/>
+							<code code="95418-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361300/_history/1" root="2.16.840.1.113883"/>
+									<code code="95418-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName10"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value code="373067005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="No (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="6c28395e-46a7-4298-bb48-0ea86172036c"/>
+							<code code="65222-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361292/_history/1" root="2.16.840.1.113883"/>
+									<code code="65222-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName11"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value xsi:type="ST">UNK</value>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="8625444b-ea02-4d22-9288-9e6df95d0bb7"/>
+							<code code="94309-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2.3.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361306/_history/1" root="2.16.840.1.113883"/>
+									<code code="94309-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-CoV-2 Interp:" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2021-08-18">
+										<originalText>
+											<reference value="#labTestName12"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value nullFlavor="NI" xsi:type="ST"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="4ba676a9-1271-4563-a285-f86948a57376"/>
+							<code code="94500-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2.3.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361304/_history/1" root="2.16.840.1.113883"/>
+									<code code="94500-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-CoV-2 PCR" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2021-08-18">
+										<originalText>
+											<reference value="#labTestName13"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value code="260385009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Negative (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="26f9100d-515f-472c-bffb-93806fd9bd71"/>
+							<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361280/_history/1" root="2.16.840.1.113883"/>
+									<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName14"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="10ea9500-d59d-4962-8a8d-81c0749f06f6"/>
+							<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361278/_history/1" root="2.16.840.1.113883"/>
+									<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName15"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="a97480ed-8ed9-46d4-9c8b-f0203447b347"/>
+							<code code="5803-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157887/_history/1" root="2.16.840.1.113883"/>
+									<code code="5803-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName16"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value code="68244004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Six (qualifier value)" xsi:type="CD"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="c4602a4c-fc77-42a2-97ac-076e3fc307a3"/>
+							<code code="2965-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157885/_history/1" root="2.16.840.1.113883"/>
+									<code code="2965-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName17"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value nullFlavor="NI" xsi:type="CD"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="068fbc96-82f4-4ceb-9918-2b2cf1365631"/>
+							<code code="19161-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157895/_history/1" root="2.16.840.1.113883"/>
+									<code code="19161-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName18"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value code="732349004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="0.2" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="560ada7e-520d-4c1f-883d-2409edb39161"/>
+							<code code="725-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157893/_history/1" root="2.16.840.1.113883"/>
+									<code code="725-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName19"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value xsi:type="ST">Trace-lysed</value>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="1061fa97-53cb-47ee-b375-d560e7ab2773"/>
+							<code code="1977-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157891/_history/1" root="2.16.840.1.113883"/>
+									<code code="1977-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName20"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value nullFlavor="NI" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="950ddc5f-f6c2-4586-b010-b59d9c0a745e"/>
+							<code code="5799-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157889/_history/1" root="2.16.840.1.113883"/>
+									<code code="5799-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName21"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value nullFlavor="NI" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="40dbb39d-636f-4201-b84c-54cb7a985863"/>
+							<code code="5804-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157883/_history/1" root="2.16.840.1.113883"/>
+									<code code="5804-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName22"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value nullFlavor="NI" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="53bef43a-a55b-4776-ae62-4ca14121af87"/>
+							<code code="5802-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157881/_history/1" root="2.16.840.1.113883"/>
+									<code code="5802-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName23"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value nullFlavor="NI" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="1de1b0c3-fb17-4d68-8904-8211e38b9e84"/>
+							<code code="33903-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157879/_history/1" root="2.16.840.1.113883"/>
+									<code code="33903-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName24"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value nullFlavor="NI" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="bfa56c8d-e132-4e16-b38c-999afaf05e36"/>
+							<code code="2350-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157877/_history/1" root="2.16.840.1.113883"/>
+									<code code="2350-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName25"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513065200+0000"/>
+									<value nullFlavor="NI" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+				</section>
+			</component>
+			<component>
+				<section>
+					<templateId root="2.16.840.1.113883.10.20.22.2.12"/>
+					<code code="29299-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Reason For Visit"/>
+					<title>Reason For Visit</title>
+					<text>
+						<table border="1" width="100%">
+							<thead>
+								<tr>
+									<th>text</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<content ID="text1">FEVER</content>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

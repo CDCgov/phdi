@@ -1,13 +1,7 @@
 import React from "react";
 import { Bundle, Observation, Organization, Reference } from "fhir/r4";
-import {
-  PathMappings,
-  DisplayDataProps,
-  DataDisplay,
-  ColumnInfoInput,
-  noData,
-} from "@/app/utils";
-import { evaluate } from "fhirpath";
+import { PathMappings, ColumnInfoInput, noData } from "@/app/utils";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
   formatDateTime,
@@ -18,11 +12,9 @@ import {
   TableJson,
 } from "@/app/services/formatService";
 import { ObservationComponent } from "fhir/r4b";
-import {
-  evaluateReference,
-  evaluateTable,
-  evaluateValue,
-} from "./evaluateService";
+import { evaluateTable } from "./evaluateService";
+import { evaluateReference, evaluateValue } from "./evaluateFhirDataService";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 export interface LabReport {
   result: Array<Reference>;

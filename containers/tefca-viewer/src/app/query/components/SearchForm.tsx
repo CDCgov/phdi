@@ -45,7 +45,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
     }
     event.preventDefault();
     setLoading(true);
-    console.log("Event:", event);
     const originalRequest = {
       first_name: firstName,
       last_name: lastName,
@@ -84,7 +83,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 id="firstName"
                 name="first_name"
                 type="text"
-                pattern="^[A-Za-z]+$"
+                pattern="^[A-Za-z ]+$"
                 value={firstName}
                 onChange={(event) => {
                   setFirstName(event.target.value);
@@ -97,7 +96,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 id="lastName"
                 name="last_name"
                 type="text"
-                pattern="^[A-Za-z]+$"
+                pattern="^[A-Za-z ]+$"
                 value={lastName}
                 onChange={(event) => {
                   setLastName(event.target.value);

@@ -1,18 +1,4 @@
-import {
-  DisplayDataProps,
-  evaluateSocialData,
-  extractPatientAddress,
-  calculatePatientAge,
-  evaluateClinicalData,
-  evaluatePatientName,
-  returnProblemsTable,
-  returnCareTeamTable,
-  isDataAvailable,
-  returnPlannedProceduresTable,
-  DataDisplay,
-  TooltipDiv,
-  toolTipElement,
-} from "@/app/utils";
+import { isDataAvailable, TooltipDiv, toolTipElement } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "./assets/BundleTravelHistory.json";
@@ -24,9 +10,22 @@ import BundleCareTeam from "./assets/BundleCareTeam.json";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { CarePlanActivity } from "fhir/r4b";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import userEvent from "@testing-library/user-event";
 import { Tooltip } from "@trussworks/react-uswds";
+import {
+  evaluateSocialData,
+  evaluatePatientName,
+  calculatePatientAge,
+  evaluatePatientAddress,
+} from "../services/evaluateFhirDataService";
+import {
+  evaluateClinicalData,
+  returnCareTeamTable,
+  returnPlannedProceduresTable,
+  returnProblemsTable,
+} from "../view-data/components/common";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -109,12 +108,12 @@ describe("Utils", () => {
   });
   describe("Extract Patient Address", () => {
     it("should return empty string if no address is available", () => {
-      const actual = extractPatientAddress(undefined as any, mappings);
+      const actual = evaluatePatientAddress(undefined as any, mappings);
 
       expect(actual).toBeEmpty();
     });
     it("should get patient address", () => {
-      const actual = extractPatientAddress(
+      const actual = evaluatePatientAddress(
         BundleWithPatient as unknown as Bundle,
         mappings,
       );
