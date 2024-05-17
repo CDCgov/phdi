@@ -59,7 +59,7 @@ async def refine_ecr(
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
-        data = refine(validated_message, sections_to_include)
+        data = refine(validated_message, sections_to_include, conditions_to_include)
 
     return Response(content=data, media_type="application/xml")
 
@@ -130,10 +130,16 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
         "http://www.nlm.nih.gov/research/umls/rxnorm": "?",  # TODO
         "http://hl7.org/fhir/sid/cvx": "?",  # TODO
     }
-
+    # TODO: confirm vaccine and value xpaths with sample data
+    # Loop through each code and create the XPath expressions
     return [
-        f"//*[local-name()='code'][@code='{code}' and @codeSystemName='{system_dict[system]}']"
+        xpath
         for code in codes
+        for xpath in [
+            f"//*[local-name()='code'][@code='{code}' and @codeSystemName='{system_dict.get(system, system)}']",
+            f"//*[local-name()='vaccineCode'][@coding='{code}' and @codeSystemName='{system_dict.get(system, system)}']",
+            f"//*[local-name()='value'][@code='{code}' and @codeSystemName='{system_dict.get(system, system)}']",
+        ]
     ]
 
 
