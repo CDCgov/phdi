@@ -130,16 +130,25 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
         "http://www.nlm.nih.gov/research/umls/rxnorm": "?",  # TODO
         "http://hl7.org/fhir/sid/cvx": "?",  # TODO
     }
-    # TODO: confirm vaccine and value xpaths with sample data
+    # XPath templates
+    xpath_code = (
+        "//*[local-name()='code'][@code='{code}' and @codeSystemName='{system}']",
+    )
+    xpath_vax = (
+        "//*[local-name()='vaccine'][@code='{code}' and @codeSystemName='{system}']",
+    )
+    xpath_value = (
+        "//*[local-name()='value'][@code='{code}' and @codeSystemName='{system}']"
+    )
+    xpath_translation = (
+        "//*[local-name()='translation'][@code='{code}' and @codeSystemName='{system}']"
+    )
+
     # Loop through each code and create the XPath expressions
     return [
-        xpath
+        xpath.format(code=code, system=system_dict.get(system, system))
         for code in codes
-        for xpath in [
-            f"//*[local-name()='code'][@code='{code}' and @codeSystemName='{system_dict.get(system, system)}']",
-            f"//*[local-name()='vaccineCode'][@coding='{code}' and @codeSystemName='{system_dict.get(system, system)}']",
-            f"//*[local-name()='value'][@code='{code}' and @codeSystemName='{system_dict.get(system, system)}']",
-        ]
+        for xpath in [xpath_code, xpath_value, xpath_vax, xpath_translation]
     ]
 
 
