@@ -111,11 +111,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
             else:
                 section_loincs.append(section)
 
-    return (
-        (section_loincs, error_message)
-        if section_loincs
-        else (section_LOINCs, error_message)
-    )
+    return (section_loincs, error_message) if section_loincs else (None, error_message)
 
 
 def get_clinical_services_to_include(condition_codes: str) -> List[str]:
