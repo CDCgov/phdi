@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import List
+from typing import Optional
 
 import requests
 from dibbs.base_service import BaseService
@@ -141,12 +142,12 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
 
 
 def refine(
-    validated_message: bytes,
-    sections_to_include: List[str] = None,
-    clinical_services_to_include: List[str] = None,
+    validated_message: ET.Element,
+    sections_to_include: Optional[List[str]] = None,
+    clinical_services_to_include: Optional[List[str]] = None,
 ) -> str:
     """
-    Refines an incoming XML message based on the sections to include.
+    Refines an incoming XML message based on the sections to include and conditions.
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
@@ -155,27 +156,35 @@ def refine(
     """
     header = select_message_header(validated_message)
 
-    # Set up XPath expression
-    # this namespace is only used for filtering
     namespaces = {"hl7": "urn:hl7-org:v3"}
-    sections_xpath_expression = "or".join(
-        [f"@code='{section}'" for section in sections_to_include]
+    sections_xpath_expression = (
+        " or ".join([f"@code='{section}'" for section in sections_to_include])
+        if sections_to_include
+        else ""
     )
 
-    if clinical_services_to_include:
-        services_xpath_expression = " or ".join(clinical_services_to_include)
+    services_xpath_expression = (
+        " or ".join(clinical_services_to_include)
+        if clinical_services_to_include
+        else ""
+    )
+
+    if sections_to_include and clinical_services_to_include:
         xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}] and ({services_xpath_expression})]"
-    else:
+    elif sections_to_include:
         xpath_expression = (
             f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
         )
+    elif clinical_services_to_include:
+        xpath_expression = f"//*[local-name()='section'][{services_xpath_expression}]"
+    else:
+        # If no sections or services to include, return the original message
+        return ET.tostring(validated_message, encoding="unicode")
 
     # Use XPath to find elements matching the expression
     elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
 
     # Create & set up a new root element for the refined XML
-    # we are using a combination of a direct namespace uri and nsmap so that we can
-    # ensure that the default namespaces are set correctly
     namespace = "urn:hl7-org:v3"
     nsmap = {
         None: namespace,
@@ -183,21 +192,18 @@ def refine(
         "sdtc": "urn:hl7-org:sdtc",
         "xsi": "http://www.w3.org/2001/XMLSchema-instance",
     }
-    # creating the root element with our uri namespace and nsmap
+
     refined_message_root = ET.Element(f"{{{namespace}}}ClinicalDocument", nsmap=nsmap)
     for h in header:
         refined_message_root.append(h)
-    # creating the component element and structuredBody element with the same namespace
-    # and adding them to the new root
+
     main_component = ET.SubElement(refined_message_root, f"{{{namespace}}}component")
     structuredBody = ET.SubElement(main_component, f"{{{namespace}}}structuredBody")
 
-    # Append the filtered elements to the new root and use the uri namespace
     for element in elements:
         section_component = ET.SubElement(structuredBody, f"{{{namespace}}}component")
         section_component.append(element)
 
-    # Create a new ElementTree with the result root
     refined_message = ET.ElementTree(refined_message_root)
     return ET.tostring(refined_message, encoding="unicode")
 
