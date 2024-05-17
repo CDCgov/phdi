@@ -131,6 +131,16 @@ h4 {
   }
 }
 
+.table-homepage-list {
+  max-width: 840px !important;
+  thead th {
+    background-color: white !important;
+  }
+
+  tbody td:first-child {
+    width: 644px;
+  }
+}
 
 .minimize-container {
   position: absolute;

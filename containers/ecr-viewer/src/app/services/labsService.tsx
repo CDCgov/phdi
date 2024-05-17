@@ -1,7 +1,7 @@
 import React from "react";
 import { Bundle, Observation, Organization, Reference } from "fhir/r4";
 import { PathMappings, ColumnInfoInput, noData } from "@/app/utils";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
   formatDateTime,
