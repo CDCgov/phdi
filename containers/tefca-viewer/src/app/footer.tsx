@@ -31,22 +31,15 @@ export default function FooterComponent() {
                   Centers for Disease Control and Prevention
                 </p>
                 <p className="text-base-lightest">
-                  Email the DIBBs team for more information at dibbs@cdc.gov or
-                  visit the{" "}
+                  For more information send us an email at dibbs@cdc.gov or
+                  visit{" "}
                   <a
                     href="https://cdcgov.github.io/dibbs-site/"
-                    className="white-link"
+                    className="text-base-lightest"
                   >
-                    DIBBs site
+                    our website
                   </a>
-                </p>
-                <p className="text-base-lightest">
-                  <a
-                    href="https://cdcgov.github.io/dibbs-site/"
-                    className="white-link"
-                  >
-                    dibbs.cloud
-                  </a>
+                  .
                 </p>
               </div>
             </div>
