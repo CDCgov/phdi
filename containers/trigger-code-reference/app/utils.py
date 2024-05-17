@@ -1,4 +1,6 @@
+import json
 import sqlite3
+from pathlib import Path
 from typing import List
 from typing import Union
 
@@ -79,8 +81,10 @@ def get_clinical_services_list(snomed_code: list) -> List[tuple]:
             code = get_clean_snomed_code(snomed_code)
             cursor.execute(sql_query, code)
             clinical_services_list = cursor.fetchall()
+            # We know it's not an actual error because we didn't get kicked to
+            # except, so just return the lack of results
             if not clinical_services_list:
-                return {"error": f"No data found for the SNOMED code: {code}."}
+                return []
         return clinical_services_list
     except sqlite3.Error as e:
         return {"error": f"An SQL error occurred: {str(e)}"}
@@ -129,3 +133,67 @@ def get_clinical_services_dict(
         for type in remove_list:
             clinical_service_dict.pop(type, None)
     return clinical_service_dict
+
+
+def _find_codes_by_resource_type(resource: dict) -> List[str]:
+    """
+    For a given resource, extracts the chief clinical codes within the
+    resource body. The FHIRpath location of this resource depends on the
+    type of resource passed to the function. A resource might have more
+    than one clinical code denoting what type of information it holds, such
+    as an Observation with a SNOMED code and a LOINC code both relating
+    to a COVID-19 diagnosis.
+
+    :param resource: The resource in which to locate the code.
+    :return: One or more clinical codes, as a list of strings. If the given
+      resource has no corresponding codes, an empty list is returned.
+    """
+    rtype = resource.get("resourceType")
+    codings = []
+
+    # Grab coding schemes based on resource type
+    if rtype in ["Observation", "Condition", "DiagnosticReport"]:
+        codings = resource.get("code", {}).get("coding", [])
+    elif rtype == "Immunization":
+        codings = resource.get("vaccineCode", {}).get("coding", [])
+
+    # Then, isolate for the actual clinical codes
+    codes = [x.get("code", "") for x in codings]
+
+    # Also need to add valueCodeableConcepts to obs resources
+    if rtype == "Observation":
+        vccs = resource.get("valueCodeableConcept", {}).get("coding", [])
+        codes += [x.get("code", "") for x in vccs]
+
+    return [x for x in codes if x != ""]
+
+
+def _stamp_resource_with_code_extension(resource: dict, code: str) -> dict:
+    """
+    Stamps a provided resource with an extension containing a passed-in
+    SNOMED code. The stamping procedure adds an extension to the resource
+    body without altering any other existing data.
+
+    :param resource: The resource to stamp.
+    :param code: The SNOMED code to insert an extension for.
+    :return: The resource with new extension added.
+    """
+    if "extension" not in resource:
+        resource["extension"] = []
+    resource["extension"].append(
+        {
+            "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+            "coding": [{"code": code, "system": "http://snomed.info/sct"}],
+        }
+    )
+    return resource
+
+
+def read_json_from_assets(filename: str) -> dict:
+    """
+    Reads a JSON file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A dictionary containing the contents of the file.
+    """
+    return json.load(open((Path(__file__).parent.parent / "assets" / filename)))
