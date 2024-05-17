@@ -76,10 +76,10 @@ async function patientQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    throw new Error(
+    console.error(
       `Patient search failed. Status: ${
         response.status
-      } \n ${await response.text()} \n Headers: ${JSON.stringify(
+      } \n Body: ${JSON.stringify(await response.body)} \n Headers: ${JSON.stringify(
         response.headers.raw(),
       )}`,
     );
