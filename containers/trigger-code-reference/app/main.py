@@ -8,6 +8,7 @@ from fastapi import Response
 from app.models import InsertConditionInput
 from app.utils import _find_codes_by_resource_type
 from app.utils import _stamp_resource_with_code_extension
+from app.utils import get_clean_snomed_code
 from app.utils import get_clinical_services_dict
 from app.utils import get_clinical_services_list
 from app.utils import read_json_from_assets
@@ -117,14 +118,19 @@ async def stamp_condition_extensions(
     return {"extended_bundle": input.bundle}
 
 
-@app.get("/get-value-sets")
-async def get_value_sets_for_condition(condition_code: str) -> Response:
+@app.get("/get-value-sets/")
+async def get_value_sets_for_condition(
+    condition_code: str, filter_clinical_services: list = None
+) -> Response:
     """
     For a given condition, queries and returns the value set of clinical
     services associated with that condition.
 
     :param condition_code: A query param supplied as a string representing a
       single SNOMED condition code.
+    :param filter_clinical_services: (Optional) List of clinical service types
+      specified to keep. By default, all (currently) 6 clinical service types are
+      returned; use this parameter to return only types of interest.
     :return: An HTTP Response containing the value sets of the queried code.
     """
     if condition_code is None or condition_code == "":
@@ -132,6 +138,10 @@ async def get_value_sets_for_condition(condition_code: str) -> Response:
             content="Supplied condition code must be a non-empty string",
             status_code=422,
         )
-
-    # TODO: This method is a stub.
-    return {"value_set": []}
+    else:
+        clean_snomed_code = get_clean_snomed_code(condition_code)
+        clinical_services_list = get_clinical_services_list(clean_snomed_code)
+        values = get_clinical_services_dict(
+            clinical_services_list, filter_clinical_services
+        )
+    return values
