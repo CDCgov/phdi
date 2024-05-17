@@ -162,21 +162,25 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
     :param condition_codes: SNOMED condition codes to look up in TCR service
     :return: List of xpath queries to check
     """
-    conditions_list = condition_codes.split(",")
     clinical_services_to_include = []
-
-    for condition in conditions_list:
-        clinical_services = requests.get(TCR_ENDPOINT + condition)
-        for system, entries in clinical_services.items():
-            for entry in entries:
-                system = entry.get("system")
-                xpath_queries = _generate_clinical_xpaths(system, entry.get("codes"))
-                clinical_services_to_include.extend(xpath_queries)
+    if condition_codes:
+        conditions_list = condition_codes.split(",")
+        for condition in conditions_list:
+            clinical_services = requests.get(TCR_ENDPOINT + condition)
+            for system, entries in clinical_services.items():
+                for entry in entries:
+                    system = entry.get("system")
+                    xpath_queries = _generate_clinical_xpaths(
+                        system, entry.get("codes")
+                    )
+                    clinical_services_to_include.extend(xpath_queries)
     return clinical_services_to_include
 
 
 def refine(
-    validated_message: bytes, sections_to_include: str, conditions_to_include: str
+    validated_message: bytes,
+    sections_to_include: str,
+    conditions_to_include: str = None,
 ) -> str:
     """
     Refines an incoming XML message based on the sections to include.
