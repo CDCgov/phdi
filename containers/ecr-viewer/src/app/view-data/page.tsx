@@ -14,6 +14,7 @@ import {
   evaluateEcrSummaryEncounterDetails,
   evaluateEcrSummaryAboutTheConditionDetails,
 } from "../services/ecrSummaryService";
+import { metrics } from "@opentelemetry/api";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -34,6 +35,13 @@ const ECRViewerPage: React.FC = () => {
     fhirBundle: Bundle;
     fhirPathMappings: PathMappings;
   };
+  const meterProvider = metrics.getMeterProvider();
+  const metric = meterProvider.getMeter("view-data");
+  const visitors = metric.createCounter("visitors");
+  visitors.add(1, { fhirId });
+  const dummyHistogram = metric.createHistogram("histogram");
+  dummyHistogram.record(Math.random() * 100);
+  dummyHistogram.record(Math.random() * 100);
 
   useEffect(() => {
     // Fetch the appropriate bundle from Postgres database
@@ -62,6 +70,19 @@ const ECRViewerPage: React.FC = () => {
       }
     };
     fetchData();
+
+    // this does not work :(
+    const startViewTime = performance.now();
+    const timeSpentHistogram = metric.createHistogram("timeSpent");
+    const handleBeforeUnload = () => {
+      timeSpentHistogram.record(performance.now() - startViewTime || 0, {
+        fhirId,
+      });
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, []);
 
   if (errors) {

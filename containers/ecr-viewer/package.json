@@ -19,6 +19,11 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.515.0",
     "@opentelemetry/api": "^1.7.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.46.1",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.51.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.51.1",
+    "@opentelemetry/resource-detector-container": "^0.3.9",
+    "@opentelemetry/sdk-node": "^0.51.1",
     "@testing-library/user-event": "^14.5.2",
     "@trussworks/react-uswds": "^6.1.0",
     "@uswds/uswds": "3.7.0",
