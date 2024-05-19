@@ -344,7 +344,8 @@ async function chlamydiaQuery(
     "434692", // azithromycin 1000 MG
     "82122", // levofloxacin
     "1649987", // doxycycline hyclate 100 MG
-    "1665005", // ceftriaxone 500 MG Injection
+    "1665005", // ceftriaxone 500 MG Injection,
+    "749880",
   ];
   const serviceTypes = [
     "54", // Family planning
@@ -363,11 +364,11 @@ async function chlamydiaQuery(
 
   queryResponse = await parseFhirSearch(observationResponse, queryResponse);
 
-  // Observation queries for social history
-  const socialHistoryQuery = `/Observation?subject=${patientId}&category=social-history`;
-  const socialHistoryResponse = await fhirClient.get(socialHistoryQuery);
+  // // Observation queries for social history
+  // const socialHistoryQuery = `/Observation?subject=${patientId}&category=social-history`;
+  // const socialHistoryResponse = await fhirClient.get(socialHistoryQuery);
 
-  queryResponse = await parseFhirSearch(socialHistoryResponse, queryResponse);
+  //queryResponse = await parseFhirSearch(socialHistoryResponse, queryResponse);
 
   const diagnositicReportQuery = `/DiagnosticReport?subject=${patientId}&code=${loincFilter}`;
   const diagnositicReportResponse = await fhirClient.get(
