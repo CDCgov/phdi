@@ -12,7 +12,7 @@ import {
   TableJson,
 } from "@/app/services/formatService";
 import { ObservationComponent } from "fhir/r4b";
-import { evaluateTable } from "./evaluateService";
+import EvaluateTable from "@/app/view-data/components/EvaluateTable";
 import { evaluateReference, evaluateValue } from "./evaluateFhirDataService";
 import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
@@ -279,13 +279,13 @@ export function evaluateObservationTable(
   ).filter((observation) => !observation.component);
   let obsTable;
   if (observations?.length > 0) {
-    obsTable = evaluateTable(
-      observations,
-      mappings,
-      columnInfo,
-      "",
-      true,
-      false,
+    return (
+      <EvaluateTable
+        resources={observations}
+        mappings={mappings}
+        columns={columnInfo}
+        outerBorder={false}
+      />
     );
   }
   return obsTable;
@@ -367,7 +367,14 @@ export const evaluateOrganismsReportData = (
     { columnName: "Susceptibility", infoPath: "observationSusceptibility" },
   ];
 
-  return evaluateTable(components, mappings, columnInfo, "", true, false);
+  return (
+    <EvaluateTable
+      resources={components}
+      mappings={mappings}
+      columns={columnInfo}
+      outerBorder={false}
+    />
+  );
 };
 
 /**
