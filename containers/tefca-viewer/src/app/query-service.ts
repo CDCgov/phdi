@@ -159,11 +159,6 @@ async function newbornScreeningQuery(
 
   const query = `/Observation?subject=Patient/${patientId}&code=${loincFilter}`;
   const response = await fhirClient.get(query);
-  // const queryRequests: Array<string> = [query];
-  // const queryBundle = await generateQueryBundle(queryRequests);
-  // const bundleResponse = await fhirClient.post(queryBundle);
-  // queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
-  // return queryResponse;
 
   return await parseFhirSearch(response, queryResponse);
 }
@@ -416,19 +411,18 @@ async function cancerQuery(
  * @returns - The parsed response.
  */
 async function parseFhirSearch(
-  response: fetch.Response | fetch.Response[],
+  response: fetch.Response | Array<any>,
   queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
   let resourceArray: any[] = [];
   // If response is an array of responses, add each resource to reou
   if (Array.isArray(response)) {
     for (const body of response) {
-      console.log(body);
-      // if (body.entry) {
-      //   for (const entry of body.entry) {
-      //     resourceArray!.push(entry.resource);
-      //   }
-      // }
+      if (body.entry) {
+        for (const entry of body.entry) {
+          resourceArray!.push(entry.resource);
+        }
+      }
     }
   }
   // If response is a single response, add the resource to resourceArray
