@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
+    "dev-win": "next dev",
     "setup-local-env": "./setup-env.sh",
     "build": "next build && cp -r .next/static .next/standalone/.next && cp -r public .next/standalone/",
     "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 node .next/standalone/server.js",
@@ -29,7 +30,7 @@
     "html-react-parser": "^5.1.4",
     "jose": "5.2.2",
     "js-yaml": "4.1.0",
-    "next": "14.0.3",
+    "next": "14.1.1",
     "pg-promise": "^11.5.4",
     "react": "^18",
     "react-dom": "^18"

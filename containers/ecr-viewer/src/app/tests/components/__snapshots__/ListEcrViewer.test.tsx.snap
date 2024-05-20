@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home Page, ListECRViewer should match snapshot 1`] = `
+<div>
+  <div
+    class="content-wrapper"
+  >
+    <table
+      class="usa-table usa-table--borderless width-full table-homepage-list"
+      data-testid="table"
+    >
+      <thead>
+        <tr>
+          <th
+            scope="col"
+          >
+            eCR ID
+          </th>
+          <th
+            scope="col"
+          >
+            Stored Date
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=12345"
+            >
+              12345
+            </a>
+          </td>
+          <td>
+            04/16/2024 9:40 PM UTC
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=23456"
+            >
+              23456
+            </a>
+          </td>
+          <td>
+            04/16/2024 9:41 PM UTC
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=34567"
+            >
+              34567
+            </a>
+          </td>
+          <td>
+            04/16/2024 9:42 PM UTC
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
