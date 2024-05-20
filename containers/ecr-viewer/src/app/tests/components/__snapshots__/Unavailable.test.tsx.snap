@@ -394,6 +394,38 @@ exports[`UnavailableInfo should match snapshot 1`] = `
             </div>
           </div>
         </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            eCR Metadata
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Sender Software
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
