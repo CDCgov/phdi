@@ -181,7 +181,7 @@ async function syphilisQuery(
   queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
   const loincs: Array<string> = ["LP70657-9", "98212-4", "53605-2"];
-  const snomed: Array<string> = ["76272004, 186847001"];
+  const snomed: Array<string> = ["76272004", "186847001"];
   const rxnorm: Array<string> = ["2671695"]; // drug codes from NLM/NIH RxNorm
   const classType: Array<string> = [
     "54", // Family planning
@@ -394,8 +394,7 @@ async function cancerQuery(
   const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
 
   const queryRequests: Array<string> = [conditionQuery, medicationRequestQuery];
-  const queryBundle = await generateQueryBundle(queryRequests);
-  const bundleResponse = await fhirClient.post(queryBundle);
+  const bundleResponse = await fhirClient.getBundle(queryRequests);
   queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters
