@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { trace } from "@opentelemetry/api";
+import { metrics } from "@opentelemetry/api";
 
 /**
  * Handles GET requests by fetching data from different sources based on the environment configuration.
@@ -14,15 +14,14 @@ import { trace } from "@opentelemetry/api";
 export async function POST(request: NextRequest) {
   const requestBody = await request.json();
   const { startTime, endTime, fhirId } = requestBody;
-  const tracer = trace.getTracer("ecr-viewer");
-  const timeOnPage = tracer.startSpan("timeOnPage", {
-    attributes: {
-      timeElapsed: endTime - startTime,
-      startTime: startTime,
-      endTime: endTime,
-      fhirId: fhirId,
-    },
+  const meter = metrics.getMeter("ecr-viewer");
+  const timeOnPageHistrogram = meter.createHistogram("timeOnPage", {
+    unit: "ms",
   });
-  timeOnPage.end();
+  timeOnPageHistrogram.record(endTime - startTime, {
+    startTime: startTime,
+    endTime: endTime,
+    fhirId: fhirId,
+  });
   return NextResponse.json({ message: "ok" }, { status: 200 });
 }

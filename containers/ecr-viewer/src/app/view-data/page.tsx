@@ -39,6 +39,7 @@ const ECRViewerPage: React.FC = () => {
   useEffect(() => {
     const startTime = performance.now();
     window.addEventListener("beforeunload", function (_e) {
+      console.log("before unload");
       metrics(basePath, {
         startTime: startTime,
         endTime: performance.now(),
