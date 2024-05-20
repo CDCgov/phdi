@@ -18,7 +18,7 @@ import {
   combineOrgAndReportData,
   evaluateLabInfoData,
 } from "../../services/labsService";
-import { evaluateTable } from "@/app/services/evaluateService";
+import EvaluateTable from "@/app/view-data/components/EvaluateTable";
 import {
   evaluateReference,
   evaluateValue,
@@ -268,19 +268,26 @@ describe("evaluate value", () => {
 
 describe("Evaluate table", () => {
   it("should create an empty table with a caption", () => {
-    render(evaluateTable([], mappings, [], "Table Caption"));
+    render(
+      <EvaluateTable
+        resources={[]}
+        mappings={mappings}
+        columns={[]}
+        caption={"Table Caption"}
+      />,
+    );
 
     expect(screen.getByText("Table Caption")).toBeInTheDocument();
     expect(screen.getByTestId("table")).toBeInTheDocument();
   });
   it("should create a table with 1 row using the provided value", () => {
     render(
-      evaluateTable(
-        [{}],
-        mappings,
-        [{ columnName: "Col1", value: "Data1" }],
-        "",
-      ),
+      <EvaluateTable
+        resources={[{}]}
+        mappings={mappings}
+        columns={[{ columnName: "Col1", value: "Data1" }]}
+        caption={""}
+      />,
     );
 
     expect(screen.getByText("Col1")).toBeInTheDocument();
@@ -288,12 +295,12 @@ describe("Evaluate table", () => {
   });
   it("should create a table with 1 row evaluate the fhir element", () => {
     render(
-      evaluateTable(
-        [{ id: "id1" }],
-        { id: "id" },
-        [{ columnName: "Col1", infoPath: "id" }],
-        "",
-      ),
+      <EvaluateTable
+        resources={[{ id: "id1" }]}
+        mappings={{ id: "id" }}
+        columns={[{ columnName: "Col1", infoPath: "id" }]}
+        caption={""}
+      />,
     );
 
     expect(screen.getByText("Col1")).toBeInTheDocument();
@@ -301,18 +308,18 @@ describe("Evaluate table", () => {
   });
   it("should create a table and apply a function to the row value", () => {
     render(
-      evaluateTable(
-        [{ id: "id1" }],
-        { getId: "id" },
-        [
+      <EvaluateTable
+        resources={[{ id: "id1" }]}
+        mappings={{ getId: "id" }}
+        columns={[
           {
             columnName: "Col1",
             infoPath: "getId",
             applyToValue: (value) => value?.toUpperCase(),
           },
-        ],
-        "",
-      ),
+        ]}
+        caption={""}
+      />,
     );
 
     expect(screen.getByText("Col1")).toBeInTheDocument();
@@ -320,18 +327,18 @@ describe("Evaluate table", () => {
   });
   it("should not apply a function to the row value if value is null", () => {
     render(
-      evaluateTable(
-        [{}],
-        { getId: "id" },
-        [
+      <EvaluateTable
+        resources={[{}]}
+        mappings={{ getId: "id" }}
+        columns={[
           {
             columnName: "Col1",
             infoPath: "getId",
             applyToValue: (value) => value?.toUpperCase(),
           },
-        ],
-        "",
-      ),
+        ]}
+        caption={""}
+      />,
     );
 
     expect(screen.getByText("Col1")).toBeInTheDocument();
@@ -361,7 +368,14 @@ describe("Evaluate Table", () => {
             ],
           } as any,
         ];
-        render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+        render(
+          <EvaluateTable
+            resources={fhirResource}
+            mappings={pathMapping}
+            columns={columnInfo}
+            caption={""}
+          />,
+        );
 
         expect(screen.getByText("View notes")).toBeInTheDocument();
         expect(screen.queryByText("wow this is interesting")).not.toBeVisible();
@@ -378,7 +392,14 @@ describe("Evaluate Table", () => {
             ],
           } as any,
         ];
-        render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+        render(
+          <EvaluateTable
+            resources={fhirResource}
+            mappings={pathMapping}
+            columns={columnInfo}
+            caption={""}
+          />,
+        );
 
         await user.click(screen.getByText("View notes"));
 
@@ -405,7 +426,14 @@ describe("Evaluate Table", () => {
           },
         ];
 
-        render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+        render(
+          <EvaluateTable
+            resources={fhirResource}
+            mappings={pathMapping}
+            columns={columnInfo}
+            caption={""}
+          />,
+        );
 
         await user.click(screen.getAllByText("View notes")[0]);
 
@@ -436,7 +464,14 @@ describe("Evaluate Table", () => {
         } as any,
       ];
 
-      render(evaluateTable(fhirResource, pathMapping, columnInfo, ""));
+      render(
+        <EvaluateTable
+          resources={fhirResource}
+          mappings={pathMapping}
+          columns={columnInfo}
+          caption={""}
+        />,
+      );
 
       expect(screen.getByText("wow this is interesting")).toHaveAttribute(
         "colSpan",
