@@ -10,7 +10,7 @@ from lxml import etree as ET
 
 from app.utils import _generate_clinical_xpaths
 
-TCR_URL = "trigger-code-reference-service:8081"
+TCR_URL = "http://trigger-code-reference-service:8080"
 TCR_ENDPOINT = TCR_URL + "/get-value-sets/?condition_code="
 
 # Instantiate FastAPI via DIBBs' BaseService class
@@ -117,7 +117,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
 
 def get_clinical_services_to_include(condition_codes: str) -> List[str]:
     """
-    This a function that loops through the provided condition codes. For each
+    This function loops through the provided condition codes. For each
     condition code provided, it calls the trigger-code-reference service to get
     the relevant clinical services for that condition. It then loops through
     each of those clinical service codes and their system to create an xpath
@@ -127,17 +127,18 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
     :return: List of xpath queries to check
     """
     clinical_services_to_include = []
-    if condition_codes:
-        conditions_list = condition_codes.split(",")
-        for condition in conditions_list:
-            clinical_services = requests.get(TCR_ENDPOINT + condition)
-            for system, entries in clinical_services.items():
-                for entry in entries:
-                    system = entry.get("system")
-                    xpath_queries = _generate_clinical_xpaths(
-                        system, entry.get("codes")
-                    )
-                    clinical_services_to_include.extend(xpath_queries)
+    conditions_list = condition_codes.split(",")
+    for condition in conditions_list:
+        try:
+            response = requests.get(TCR_ENDPOINT + condition)
+            clinical_services = response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"Request to {TCR_ENDPOINT} failed: {e}")
+        for system, entries in clinical_services.items():
+            for entry in entries:
+                system = entry.get("system")
+                xpath_queries = _generate_clinical_xpaths(system, entry.get("codes"))
+                clinical_services_to_include.extend(xpath_queries)
     return clinical_services_to_include
 
 
@@ -170,15 +171,12 @@ def refine(
     )
 
     if sections_to_include and clinical_services_to_include:
-        xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}] and ({services_xpath_expression})]"
+        xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]//*[local-name()='entry' or local-name()='observation'][{services_xpath_expression}]"
     elif sections_to_include:
-        xpath_expression = (
-            f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
-        )
+        xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]//*[local-name()='entry' or local-name()='observation']"
     elif clinical_services_to_include:
-        xpath_expression = f"//*[local-name()='section'][{services_xpath_expression}]"
+        xpath_expression = f"//*[local-name()='section']//*[local-name()='entry' or local-name()='observation'][{services_xpath_expression}]"
     else:
-        # If no sections or services to include, return the original message
         return ET.tostring(validated_message, encoding="unicode")
 
     # Use XPath to find elements matching the expression

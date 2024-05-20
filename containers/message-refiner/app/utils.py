@@ -22,7 +22,7 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
     system_dict = {
         "http://hl7.org/fhir/sid/icd-10-cm": "ICD10",
         "http://snomed.info/sct": "SNOMED CT",
-        "http://loinc.org": "LOINC",
+        "http://loinc.org": "loinc.org",
         "http://www.nlm.nih.gov/research/umls/rxnorm": "?",  # TODO
         "http://hl7.org/fhir/sid/cvx": "?",  # TODO
     }
