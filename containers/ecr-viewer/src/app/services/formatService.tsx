@@ -1,5 +1,5 @@
 import React from "react";
-import { toolTipElement } from "@/app/utils";
+import { ToolTipElement } from "@/app/ToolTipElement";
 
 interface Metadata {
   [key: string]: string;
@@ -431,7 +431,9 @@ export const addCaptionToTable = (
   if (React.isValidElement(element) && element.type === "table") {
     return React.cloneElement(element, {}, [
       <caption key="caption">
-        <div className="data-title">{toolTipElement(caption, toolTip)}</div>
+        <div className="data-title">
+          <ToolTipElement content={caption} toolTip={toolTip} />
+        </div>
       </caption>,
       ...React.Children.toArray(element.props.children),
     ]);
