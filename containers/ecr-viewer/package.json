@@ -66,6 +66,7 @@
     "jest-axe": "^8.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-extended": "^4.0.2",
+    "jest-fetch-mock": "^3.0.3",
     "prettier": "3.1.1",
     "sass": "^1.69.5",
     "testcontainers": "^10.3.2",
