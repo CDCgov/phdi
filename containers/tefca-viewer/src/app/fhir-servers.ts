@@ -87,7 +87,7 @@ class FHIRClient {
     return fetch(this.hostname + path, this.init);
   }
 
-  async getBundle(urls: Array<string>): Promise<Array<Response>> {
+  async getBatch(urls: Array<string>): Promise<Array<Response>> {
     const fetchPromises = urls.map((url) =>
       fetch(this.hostname + url, this.init).then((response) => {
         console.log("response:", response);

@@ -212,7 +212,7 @@ async function syphilisQuery(
     encounterClassTypeQuery,
   ];
 
-  const bundleResponse = await fhirClient.getBundle(queryRequests);
+  const bundleResponse = await fhirClient.getBatch(queryRequests);
   queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters. TODO: Add encounters as _include in condition query
@@ -283,7 +283,7 @@ async function gonorrheaQuery(
     encounterQuery,
     encounterClassTypeQuery,
   ];
-  const bundleResponse = await fhirClient.getBundle(queryRequests);
+  const bundleResponse = await fhirClient.getBatch(queryRequests);
   queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters. TODO: Add encounters as _include in condition query & batch encounter queries
@@ -357,7 +357,7 @@ async function chlamydiaQuery(
     encounterQuery,
     encounterClassTypeQuery,
   ];
-  const bundleResponse = await fhirClient.getBundle(queryRequests);
+  const bundleResponse = await fhirClient.getBatch(queryRequests);
   queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
   // Query for encounters. TODO: Add encounters as _include in condition query & batch encounter queries
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
@@ -394,7 +394,7 @@ async function cancerQuery(
   const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
 
   const queryRequests: Array<string> = [conditionQuery, medicationRequestQuery];
-  const bundleResponse = await fhirClient.getBundle(queryRequests);
+  const bundleResponse = await fhirClient.getBatch(queryRequests);
   queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters
