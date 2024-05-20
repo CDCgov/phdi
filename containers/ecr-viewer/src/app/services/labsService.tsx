@@ -284,7 +284,6 @@ export function evaluateObservationTable(
         resources={observations}
         mappings={mappings}
         columns={columnInfo}
-        caption={""}
         outerBorder={false}
       />
     );
@@ -373,7 +372,6 @@ export const evaluateOrganismsReportData = (
       resources={components}
       mappings={mappings}
       columns={columnInfo}
-      caption={""}
       outerBorder={false}
     />
   );

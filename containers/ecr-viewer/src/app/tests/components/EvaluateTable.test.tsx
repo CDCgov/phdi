@@ -286,7 +286,6 @@ describe("Evaluate table", () => {
         resources={[{}]}
         mappings={mappings}
         columns={[{ columnName: "Col1", value: "Data1" }]}
-        caption={""}
       />,
     );
 
@@ -299,7 +298,6 @@ describe("Evaluate table", () => {
         resources={[{ id: "id1" }]}
         mappings={{ id: "id" }}
         columns={[{ columnName: "Col1", infoPath: "id" }]}
-        caption={""}
       />,
     );
 
@@ -318,7 +316,6 @@ describe("Evaluate table", () => {
             applyToValue: (value) => value?.toUpperCase(),
           },
         ]}
-        caption={""}
       />,
     );
 
@@ -337,7 +334,6 @@ describe("Evaluate table", () => {
             applyToValue: (value) => value?.toUpperCase(),
           },
         ]}
-        caption={""}
       />,
     );
 
@@ -373,7 +369,6 @@ describe("Evaluate Table", () => {
             resources={fhirResource}
             mappings={pathMapping}
             columns={columnInfo}
-            caption={""}
           />,
         );
 
@@ -397,7 +392,6 @@ describe("Evaluate Table", () => {
             resources={fhirResource}
             mappings={pathMapping}
             columns={columnInfo}
-            caption={""}
           />,
         );
 
@@ -431,7 +425,6 @@ describe("Evaluate Table", () => {
             resources={fhirResource}
             mappings={pathMapping}
             columns={columnInfo}
-            caption={""}
           />,
         );
 
@@ -469,7 +462,6 @@ describe("Evaluate Table", () => {
           resources={fhirResource}
           mappings={pathMapping}
           columns={columnInfo}
-          caption={""}
         />,
       );
 

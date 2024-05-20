@@ -14,7 +14,7 @@ interface TableProps {
   resources: Element[];
   mappings: PathMappings;
   columns: ColumnInfoInput[];
-  caption: string;
+  caption?: string;
   fixed?: boolean;
   outerBorder?: boolean;
 }
