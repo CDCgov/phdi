@@ -423,11 +423,12 @@ async function parseFhirSearch(
   // If response is an array of responses, add each resource to reou
   if (Array.isArray(response)) {
     for (const body of response) {
-      if (body.entry) {
-        for (const entry of body.entry) {
-          resourceArray!.push(entry.resource);
-        }
-      }
+      console.log(body);
+      // if (body.entry) {
+      //   for (const entry of body.entry) {
+      //     resourceArray!.push(entry.resource);
+      //   }
+      // }
     }
   }
   // If response is a single response, add the resource to resourceArray
