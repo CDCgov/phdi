@@ -11,7 +11,6 @@ import {
   MedicationRequest,
 } from "fhir/r4";
 import FHIRClient, { FHIR_SERVERS } from "./fhir-servers";
-import { v4 as uuidv4 } from "uuid";
 
 export type USE_CASES =
   | "social-determinants"
@@ -212,14 +211,9 @@ async function syphilisQuery(
     encounterQuery,
     encounterClassTypeQuery,
   ];
-  // const queryBundle = await generateQueryBundle(queryRequests);
-  // const bundleResponse = await fhirClient.post(queryBundle);
-  const bundleResponse = await fetchFHIRDataWithClient(
-    queryRequests,
-    fhirClient,
-  );
-  console.log("bundleResponse: ", bundleResponse);
-  // queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
+
+  const bundleResponse = await fhirClient.getBundle(queryRequests);
+  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters. TODO: Add encounters as _include in condition query
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
@@ -289,8 +283,7 @@ async function gonorrheaQuery(
     encounterQuery,
     encounterClassTypeQuery,
   ];
-  const queryBundle = await generateQueryBundle(queryRequests);
-  const bundleResponse = await fhirClient.post(queryBundle);
+  const bundleResponse = await fhirClient.getBundle(queryRequests);
   queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
 
   // Query for encounters. TODO: Add encounters as _include in condition query & batch encounter queries
@@ -364,8 +357,7 @@ async function chlamydiaQuery(
     encounterQuery,
     encounterClassTypeQuery,
   ];
-  const queryBundle = await generateQueryBundle(queryRequests);
-  const bundleResponse = await fhirClient.post(queryBundle);
+  const bundleResponse = await fhirClient.getBundle(queryRequests);
   queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
   // Query for encounters. TODO: Add encounters as _include in condition query & batch encounter queries
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
@@ -409,7 +401,6 @@ async function cancerQuery(
   // Query for encounters
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
     const conditionId = queryResponse.Condition[0].id;
-    console.log("conditionId: ", conditionId);
     const encounterQuery = `/Encounter?subject=${patientId}&reason-reference=${conditionId}`;
     const encounterResponse = await fhirClient.get(encounterQuery);
     queryResponse = await parseFhirSearch(encounterResponse, queryResponse);
@@ -425,120 +416,41 @@ async function cancerQuery(
  * @param queryResponse - The response object to store the results.
  * @returns - The parsed response.
  */
-async function parseFhirSearch_original(
-  response: fetch.Response,
-  queryResponse: QueryResponse = {},
-): Promise<QueryResponse> {
-  if (response.status === 200) {
-    const body = await response.json();
-    if (body.entry) {
-      for (const entry of body.entry) {
-        const resourceType = entry.resource.resourceType as keyof QueryResponse;
-        if (!queryResponse[resourceType]) {
-          queryResponse[resourceType] = [entry.resource];
-        } else {
-          queryResponse[resourceType]!.push(entry.resource);
-        }
-      }
-    }
-  }
-  return queryResponse;
-}
-
-/**
- * Parse the response from a FHIR search query. If the response is successful and
- * contains data, return an array of resources.
- * @param response - The response from the FHIR server.
- * @param queryResponse - The response object to store the results.
- * @returns - The parsed response.
- */
 async function parseFhirSearch(
-  response: fetch.Response,
+  response: fetch.Response | fetch.Response[],
   queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
-  if (response.status === 200) {
-    const body = await response.json();
-    if (body.entry) {
-      for (const entry of body.entry) {
-        // Create resource array to handle Bundle & non-Bundle entries
-        let resourceArray: any[];
-        if (entry.resource.resourceType === "Bundle") {
-          resourceArray = entry.resource.entry
-            ? entry.resource.entry.map(
-                (bundleEntry: any) => bundleEntry.resource,
-              )
-            : [];
-        } else {
-          // Handle non-Bundle entry
-          resourceArray = [entry.resource];
-        }
-
-        for (const resource of resourceArray) {
-          const resourceType = resource.resourceType as keyof QueryResponse;
-          if (!queryResponse[resourceType]) {
-            queryResponse[resourceType] = [resource];
-          } else {
-            queryResponse[resourceType]!.push(resource);
-          }
+  let resourceArray: any[] = [];
+  // If response is an array of responses, add each resource to reou
+  if (Array.isArray(response)) {
+    for (const body of response) {
+      if (body.entry) {
+        for (const entry of body.entry) {
+          resourceArray!.push(entry.resource);
         }
       }
     }
   }
-  return queryResponse;
-}
-
-interface BundleRequest {
-  method: string;
-  url: string;
-}
-
-interface BundleEntry {
-  request: BundleRequest;
-}
-
-export type Bundle = {
-  resourceType: string;
-  id: string;
-  type: string;
-  entry: BundleEntry[];
-};
-
-/**
- * Generate a request bundle for making batch requests from a list of URLs.
- * @param urls - The list of URLs to include in the bundle.
- * @returns - The generated bundle.
- */
-
-async function generateQueryBundle(urls: Array<string>): Promise<Bundle> {
-  const entry: BundleEntry[] = urls.map((url) => ({
-    request: {
-      method: "GET",
-      url: url.trim(),
-    },
-  }));
-
-  const bundle: Bundle = {
-    resourceType: "Bundle",
-    id: uuidv4(),
-    type: "batch",
-    entry,
-  };
-
-  return bundle;
-}
-
-async function fetchFHIRDataWithClient(
-  urls: Array<string>,
-  fhirClient: FHIRClient,
-): Promise<Array<Bundle>> {
-  const fetchPromises = urls.map((url) =>
-    fhirClient.get(url).then((response) => {
-      if (!response.ok) {
-        console.error(`Failed to fetch ${url}: ${response.statusText}`);
+  // If response is a single response, add the resource to resourceArray
+  else {
+    if (response.status === 200) {
+      const body = await response.json();
+      if (body.entry) {
+        for (const entry of body.entry) {
+          resourceArray!.push(entry.resource);
+        }
       }
-      return response.json();
-    }),
-  );
+    }
+  }
 
-  return await Promise.all(fetchPromises);
+  // Add resources to queryResponse
+  for (const resource of resourceArray) {
+    const resourceType = resource.resourceType as keyof QueryResponse;
+    if (!queryResponse[resourceType]) {
+      queryResponse[resourceType] = [resource];
+    } else {
+      queryResponse[resourceType]!.push(resource);
+    }
+  }
+  return queryResponse;
 }

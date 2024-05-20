@@ -88,6 +88,18 @@ class FHIRClient {
     return fetch(this.hostname + path, this.init);
   }
 
+  async getBundle(urls: Array<string>): Promise<Array<Response>> {
+    const fetchPromises = urls.map((url) =>
+      fetch(this.hostname + url, this.init).then((response) => {
+        if (!response.ok) {
+          console.error(`Failed to fetch ${url}: ${response.statusText}`);
+        }
+        return response.json();
+      }),
+    );
+    return await Promise.all(fetchPromises);
+  }
+
   async post(data: Bundle): Promise<Response> {
     const response = await fetch(this.hostname, {
       ...this.init,
