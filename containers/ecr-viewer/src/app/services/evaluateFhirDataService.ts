@@ -1,5 +1,5 @@
 import { Bundle, CodeableConcept, Quantity } from "fhir/r4";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import * as dateFns from "date-fns";
 import { PathMappings, evaluateData } from "../utils";
 import {

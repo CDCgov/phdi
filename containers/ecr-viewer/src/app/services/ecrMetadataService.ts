@@ -1,7 +1,7 @@
 import { formatDateTime } from "@/app/services/formatService";
 import { PathMappings, evaluateData } from "@/app/utils";
 import { Bundle } from "fhir/r4";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import { evaluateFacilityAddress } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/DataDisplay";
 

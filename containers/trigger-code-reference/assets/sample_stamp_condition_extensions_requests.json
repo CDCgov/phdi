@@ -1,0 +1,379 @@
+{
+  "Stamping an eICR": {
+    "summary": "Stamping a FHIR bundle consisting of an eICR merged with its RR",
+    "description": "This is an example bundle demonstrating condition-stamping on an input eICR that's checking for COVID-related condition codes.",
+    "value": {
+      "conditions": [
+        "840539006"
+      ],
+      "bundle": {
+        "resourceType": "Bundle",
+        "type": "batch",
+        "entry": [
+          {
+            "fullUrl": "urn:uuid:d90b3a5e-3328-48dd-bcbb-3c810a0ffb3d",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "d90b3a5e-3328-48dd-bcbb-3c810a0ffb3d",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
+                ],
+                "source": [
+                  "ecr"
+                ]
+              },
+              "identifier": [
+                {
+                  "system": "urn:ietf:rfc:3986",
+                  "value": "urn:uuid:d90b3a5e-3328-48dd-bcbb-3c810a0ffb3d"
+                }
+              ],
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "code": "64572001",
+                    "display": "Condition",
+                    "system": "http://snomed.info/sct"
+                  },
+                  {
+                    "code": "75323-6",
+                    "display": "Condition",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "840539006",
+                    "display": "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+                    "system": "http://snomed.info/sct"
+                  }
+                ]
+              },
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+                  "valueString": "COVID-19 (as a diagnosis or active problem)"
+                }
+              ],
+              "performer": [
+                {
+                  "reference": "Organization/f87de327-7272-42ac-012d-58904caf7ef1",
+                  "display": "Los Angeles County Department of Public Health"
+                }
+              ]
+            },
+            "request": {
+              "method": "PUT",
+              "url": "Observation/d90b3a5e-3328-48dd-bcbb-3c810a0ffb3d"
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:50c0a036-9a0a-4f6d-a511-f060f2f5172a",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "50c0a036-9a0a-4f6d-a511-f060f2f5172a",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
+                ],
+                "source": [
+                  "ecr"
+                ]
+              },
+              "identifier": [
+                {
+                  "system": "urn:ietf:rfc:3986",
+                  "value": "urn:uuid:50c0a036-9a0a-4f6d-a511-f060f2f5172a"
+                }
+              ],
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "code": "64572001",
+                    "display": "Condition",
+                    "system": "http://snomed.info/sct"
+                  },
+                  {
+                    "code": "75323-6",
+                    "display": "Condition",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "409498004",
+                    "display": "Anthrax (disorder)",
+                    "system": "http://snomed.info/sct"
+                  }
+                ]
+              },
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+                  "valueString": "Anthrax (as a diagnosis or active problem)"
+                },
+                {
+                  "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+                  "valueString": "Anthrax vaccine administered"
+                }
+              ],
+              "performer": [
+                {
+                  "reference": "Organization/f87de327-7272-42ac-012d-58904caf7ef1",
+                  "display": "Los Angeles County Department of Public Health"
+                }
+              ]
+            },
+            "request": {
+              "method": "PUT",
+              "url": "Observation/50c0a036-9a0a-4f6d-a511-f060f2f5172a"
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:c3073bcd-d59b-47a1-b978-9632f5e17846",
+            "resource": {
+              "resourceType": "Patient",
+              "id": "c3073bcd-d59b-47a1-b978-9632f5e17846",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                ],
+                "source": [
+                  "ecr"
+                ]
+              },
+              "identifier": [
+                {
+                  "system": "urn:oid:2.25.208734791866360805618646170698166832449",
+                  "value": "0000008807"
+                },
+                {
+                  "system": "urn:oid:2.25.208734791866360805618646170698166832449",
+                  "value": "9244"
+                },
+                {
+                  "system": "urn:oid:2.25.208734791866360805618646170698166832449",
+                  "value": "8589d444-a267-11ec-81e0-9e7eef92c510"
+                }
+              ],
+              "name": [
+                {
+                  "use": "official",
+                  "family": "CUTLA",
+                  "given": [
+                    "CARETEAM"
+                  ]
+                }
+              ],
+              "birthDate": "1960-09-12",
+              "deceasedBoolean": false,
+              "gender": "male",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                  "extension": [
+                    {
+                      "url": "ombCategory",
+                      "valueCoding": {
+                        "code": "2106-3",
+                        "display": "White"
+                      }
+                    },
+                    {
+                      "url": "detailed",
+                      "valueCoding": {
+                        "code": "2108-9",
+                        "display": "European"
+                      }
+                    },
+                    {
+                      "url": "text",
+                      "valueString": "Mixed"
+                    }
+                  ]
+                }
+              ],
+              "address": [
+                {
+                  "use": "home",
+                  "line": [
+                    "1 main street"
+                  ],
+                  "city": "brockton",
+                  "state": "CA",
+                  "country": "US",
+                  "postalCode": "90210"
+                }
+              ],
+              "telecom": [
+                {
+                  "system": "phone",
+                  "value": "+1(789)785-8594",
+                  "use": "home"
+                }
+              ]
+            },
+            "request": {
+              "method": "PUT",
+              "url": "Patient/c3073bcd-d59b-47a1-b978-9632f5e17846"
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:c172d574-fdc1-89f7-3278-005764c4e297",
+            "resource": {
+              "resourceType": "Condition",
+              "id": "c172d574-fdc1-89f7-3278-005764c4e297",
+              "identifier": [
+                {
+                  "system": "urn:ietf:rfc:3986",
+                  "value": "urn:uuid:5dd0f7f1-ffc0-4447-9c8c-66b7adc6bf28"
+                }
+              ],
+              "category": [
+                {
+                  "coding": [
+                    {
+                      "code": "problem-item-list",
+                      "display": "Problem List Item",
+                      "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                    }
+                  ]
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "code": "022.9",
+                    "display": "Anthrax",
+                    "system": "urn:oid:2.16.840.1.113883.6.103"
+                  }
+                ]
+              },
+              "onsetDateTime": "2022-03-24T11:05:00-04:00",
+              "subject": {
+                "reference": "Patient/c3073bcd-d59b-47a1-b978-9632f5e17846"
+              },
+              "meta": {
+                "source": [
+                  "ecr"
+                ]
+              }
+            },
+            "request": {
+              "method": "PUT",
+              "url": "Condition/c172d574-fdc1-89f7-3278-005764c4e297"
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:f3f66c7c-b9ae-57ac-18e4-f6ff681f0e06",
+            "resource": {
+              "resourceType": "Condition",
+              "id": "f3f66c7c-b9ae-57ac-18e4-f6ff681f0e06",
+              "identifier": [
+                {
+                  "system": "urn:ietf:rfc:3986",
+                  "value": "urn:uuid:f12fc3b2-0685-4ba0-930f-bac0d26a4c70"
+                }
+              ],
+              "category": [
+                {
+                  "coding": [
+                    {
+                      "code": "problem-item-list",
+                      "display": "Problem List Item",
+                      "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                    }
+                  ]
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "code": "079.89",
+                    "display": "Infection due to severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)",
+                    "system": "urn:oid:2.16.840.1.113883.6.103"
+                  }
+                ]
+              },
+              "onsetDateTime": "2022-03-24T11:06:00-04:00",
+              "subject": {
+                "reference": "Patient/c3073bcd-d59b-47a1-b978-9632f5e17846"
+              },
+              "meta": {
+                "source": [
+                  "ecr"
+                ]
+              }
+            },
+            "request": {
+              "method": "PUT",
+              "url": "Condition/f3f66c7c-b9ae-57ac-18e4-f6ff681f0e06"
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:a73bcca9-c9e9-7ea2-44c4-b271b9017284",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "a73bcca9-c9e9-7ea2-44c4-b271b9017284",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                ],
+                "source": [
+                  "ecr"
+                ]
+              },
+              "identifier": [
+                {
+                  "system": "urn:ietf:rfc:3986",
+                  "value": "urn:uuid:16289e91-c8cd-88af-03e8-6a8eab53c763"
+                }
+              ],
+              "category": [
+                {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "laboratory"
+                    }
+                  ]
+                }
+              ],
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "code": "95209-3",
+                    "display": "SARS-CoV+SARS-CoV-2 (COVID-19) Ag IA.rapid Ql (Respiratory system specimen)",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "effectiveDateTime": "2023-01-31T20:04:16Z",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "260373001",
+                    "display": "DETECTED",
+                    "system": "http://snomed.info/sct"
+                  }
+                ]
+              },
+              "request": {
+                "method": "PUT",
+                "url": "Observation/a73bcca9-c9e9-7ea2-44c4-b271b9017284"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

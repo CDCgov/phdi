@@ -1,7 +1,11 @@
+import json
 import sqlite3
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+from app.utils import _find_codes_by_resource_type
+from app.utils import _stamp_resource_with_code_extension
 from app.utils import convert_inputs_to_list
 from app.utils import get_clean_snomed_code
 from app.utils import get_clinical_services_dict
@@ -54,7 +58,7 @@ def test_get_clinical_services_list_no_results(mock_db):
     code = ["junk_id"]
     mock_db.fetchall.return_value = []
     result = get_clinical_services_list(code)
-    assert result == {"error": f"No data found for the SNOMED code: {code}."}
+    assert result == []
 
 
 # Test SQL error messaging
@@ -94,3 +98,99 @@ def test_get_clinical_services_dict_filter_services():
     }
     result = get_clinical_services_dict(clinical_services_list, filtered_services)
     assert result == expected_result
+
+
+def test_find_codes_by_resource_type():
+    message = json.load(
+        open(
+            Path(__file__).parent / "assets" / "sample_ecr_with_diagnostic_report.json"
+        )
+    )
+    message_with_immunization = json.load(
+        open(Path(__file__).parent / "assets" / "sample_ecr.json")
+    )
+    observation_resource = [
+        e.get("resource")
+        for e in message.get("entry", [])
+        if e.get("resource").get("resourceType") == "Observation"
+    ][0]
+    condition_resource = [
+        e.get("resource")
+        for e in message.get("entry", [])
+        if e.get("resource").get("resourceType") == "Condition"
+    ][0]
+    immunization_resource = [
+        e.get("resource")
+        for e in message_with_immunization.get("entry", [])
+        if e.get("resource").get("resourceType") == "Immunization"
+    ][3]
+    diagnostic_resource = [
+        e.get("resource")
+        for e in message.get("entry", [])
+        if e.get("resource").get("resourceType") == "DiagnosticReport"
+    ][0]
+
+    # Find each resource's chief clinical code
+    assert ["64572001", "75323-6", "240372001"] == _find_codes_by_resource_type(
+        observation_resource
+    )
+    assert ["C50.511"] == _find_codes_by_resource_type(condition_resource)
+    assert ["24"] == _find_codes_by_resource_type(immunization_resource)
+    assert ["LAB10082"] == _find_codes_by_resource_type(diagnostic_resource)
+
+    # Test for a resource we don't stamp for
+    patient_resource = [
+        e.get("resource")
+        for e in message.get("entry", [])
+        if e.get("resource").get("resourceType") == "Patient"
+    ][0]
+    assert [] == _find_codes_by_resource_type(patient_resource)
+
+    # Test for a resource we do stamp that doesn't have any codes
+    del observation_resource["code"]
+    del observation_resource["valueCodeableConcept"]
+    assert [] == _find_codes_by_resource_type(observation_resource)
+
+
+def test_stamp_resource_with_code_extension():
+    message = json.load(
+        open(
+            Path(__file__).parent / "assets" / "sample_ecr_with_diagnostic_report.json"
+        )
+    )
+    observation_resource = [
+        e.get("resource")
+        for e in message.get("entry", [])
+        if e.get("resource").get("resourceType") == "Observation"
+    ][0]
+    condition_resource = [
+        e.get("resource")
+        for e in message.get("entry", [])
+        if e.get("resource").get("resourceType") == "Condition"
+    ][0]
+
+    stamped_obs = _stamp_resource_with_code_extension(
+        observation_resource, "test_obs_code"
+    )
+    found_stamp = False
+    for ext in stamped_obs.get("extension", []):
+        if ext == {
+            "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+            "coding": [{"code": "test_obs_code", "system": "http://snomed.info/sct"}],
+        }:
+            found_stamp = True
+            break
+    assert found_stamp
+
+    stamped_condition = _stamp_resource_with_code_extension(
+        condition_resource, "test_cond_code"
+    )
+    found_stamp = False
+    for ext in stamped_condition.get("extension", []):
+        if ext == {
+            "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+            "coding": [{"code": "test_cond_code", "system": "http://snomed.info/sct"}],
+        }:
+            found_stamp = True
+            break
+    assert found_stamp
