@@ -1,6 +1,5 @@
 import fetch, { RequestInit, HeaderInit, Response } from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
-import { Bundle } from "./query-service";
 /**
  * The FHIR servers that can be used in the app
  */
@@ -91,27 +90,15 @@ class FHIRClient {
   async getBundle(urls: Array<string>): Promise<Array<Response>> {
     const fetchPromises = urls.map((url) =>
       fetch(this.hostname + url, this.init).then((response) => {
+        console.log("response:", response);
         if (!response.ok) {
           console.error(`Failed to fetch ${url}: ${response.statusText}`);
+          return;
         }
         return response.json();
       }),
     );
     return await Promise.all(fetchPromises);
-  }
-
-  async post(data: Bundle): Promise<Response> {
-    const response = await fetch(this.hostname, {
-      ...this.init,
-      method: "POST",
-      headers: {
-        ...this.init.headers,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    return response;
   }
 }
 
