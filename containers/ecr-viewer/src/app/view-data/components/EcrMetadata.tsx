@@ -4,9 +4,10 @@ import {
   AccordionDiv,
 } from "../component-utils";
 import { Table } from "@trussworks/react-uswds";
-import { toolTipElement } from "@/app/utils";
+import { ToolTipElement } from "@/app/ToolTipElement";
 import { ReportableConditions } from "../../services/ecrMetadataService";
 import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import React from "react";
 
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
@@ -22,7 +23,7 @@ interface ReportableConditionsList {
 
 const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
   if (!dictionary) return [];
-  const rows: JSX.Element[] = [];
+  const rows: React.JSX.Element[] = [];
   Object.entries(dictionary).forEach(([condition, triggers], _) => {
     Object.entries(triggers).forEach(([trigger, locations], triggerIndex) => {
       const locationsArray = Array.from(locations);
@@ -78,22 +79,28 @@ const EcrMetadata = ({
           <thead>
             <tr>
               <th className="reportability_summary_header">
-                {toolTipElement(
-                  "Reportable Condition",
-                  "List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR.",
-                )}
+                <ToolTipElement
+                  content={"Reportable Condition"}
+                  toolTip={
+                    "List of conditions that caused this eCR to be sent to your jurisdiction based on the rules set up for routing eCRs by your jurisdiction in RCKMS (Reportable Condition Knowledge Management System). Can include multiple Reportable Conditions for one eCR."
+                  }
+                />
               </th>
               <th>
-                {toolTipElement(
-                  "RCKMS Rule Summary",
-                  "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
-                )}
+                <ToolTipElement
+                  content={"RCKMS Rule Summary"}
+                  toolTip={
+                    "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System)."
+                  }
+                />
               </th>
               <th className="reportability_summary_header">
-                {toolTipElement(
-                  "Jurisdiction Sent eCR",
-                  "List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR.",
-                )}
+                <ToolTipElement
+                  content={"Jurisdiction Sent eCR"}
+                  toolTip={
+                    "List of jurisdictions this eCR was sent to. Can include multiple jurisdictions depending on provider location, patient address, and jurisdictions onboarded to eCR."
+                  }
+                />
               </th>
             </tr>
           </thead>
@@ -101,13 +108,13 @@ const EcrMetadata = ({
         </Table>
         <div className={"padding-bottom-1"} />
         <AccordionH4 id={"eicr-details"}>eICR Details</AccordionH4>
-        {eicrDetails.map((item) => {
-          return <DataDisplay item={item} />;
+        {eicrDetails.map((item, index) => {
+          return <DataDisplay item={item} key={index} />;
         })}
         <div className={"padding-bottom-1"} />
         <AccordionH4 id={"ecr-sender-details"}>eCR Sender Details</AccordionH4>
-        {eCRSenderDetails.map((item) => {
-          return <DataDisplay item={item} />;
+        {eCRSenderDetails.map((item, index) => {
+          return <DataDisplay item={item} key={index} />;
         })}
       </AccordionDiv>
     </AccordionSection>

@@ -1,4 +1,4 @@
-import { isDataAvailable, TooltipDiv, toolTipElement } from "@/app/utils";
+import { isDataAvailable } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/services/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "./assets/BundleTravelHistory.json";
@@ -10,7 +10,7 @@ import BundleCareTeam from "./assets/BundleCareTeam.json";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { CarePlanActivity } from "fhir/r4b";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import userEvent from "@testing-library/user-event";
 import { Tooltip } from "@trussworks/react-uswds";
 import {
@@ -26,6 +26,7 @@ import {
   returnProblemsTable,
 } from "../view-data/components/common";
 import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import { TooltipDiv, ToolTipElement } from "@/app/ToolTipElement";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -446,7 +447,7 @@ describe("Utils", () => {
       expect(tip.textContent).toInclude("Test child");
     });
     it("should make a tooltip", () => {
-      render(toolTipElement("Item Title", "Tooltip"));
+      render(<ToolTipElement content={"Item Title"} toolTip={"Tooltip"} />);
       const tip = screen.getByTestId("triggerElement");
       expect(tip.className).toInclude("short-tooltip");
       expect(tip.textContent).toInclude("Item Title");
@@ -454,7 +455,7 @@ describe("Utils", () => {
     it("should not make the tool tip short if the tip has more than 100 character", () => {
       const toolTip =
         "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-      render(toolTipElement("Item Title", toolTip));
+      render(<ToolTipElement content={"Item Title"} toolTip={toolTip} />);
       const tip = screen.getByTestId("triggerElement");
       expect(tip.className).not.toInclude("short-tooltip");
     });

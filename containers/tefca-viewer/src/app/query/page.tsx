@@ -50,11 +50,17 @@ const Query: React.FC = () => {
             originalRequest={originalRequest}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setMode={setMode}
+            setLoading={setLoading}
           />
         </>
       )}
       {/* Show the no patients found view if there are no patients */}
       {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
+      {loading && (
+        <div className="overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
     </div>
   );
 };

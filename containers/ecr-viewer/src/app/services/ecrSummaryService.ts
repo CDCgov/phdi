@@ -4,7 +4,7 @@ import {
   formatDate,
   formatStartEndDateTime,
 } from "@/app/services/formatService";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import {
   evaluatePatientName,
   evaluatePatientContactInfo,
