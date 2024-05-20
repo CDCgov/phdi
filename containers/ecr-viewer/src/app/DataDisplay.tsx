@@ -1,7 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { Button } from "@trussworks/react-uswds";
 import classNames from "classnames";
-
 import { ToolTipElement } from "@/app/ToolTipElement";
 
 export interface DisplayDataProps {
