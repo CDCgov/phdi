@@ -85,6 +85,12 @@ describe("UnavailableInfo", () => {
         value: "",
       },
     ];
+    const ecrMetadata = [
+      {
+        title: "Sender Software",
+        value: "",
+      },
+    ];
     container = render(
       <UnavailableInfo
         demographicsUnavailableData={demographicsUnavailability}
@@ -97,6 +103,7 @@ describe("UnavailableInfo", () => {
         vitalUnavailableData={vitalUnavailableData}
         treatmentData={treatmentUnavailableData}
         clinicalNotesData={clinicalNotesData}
+        ecrMetadataUnavailableData={ecrMetadata}
       />,
     ).container;
   });
