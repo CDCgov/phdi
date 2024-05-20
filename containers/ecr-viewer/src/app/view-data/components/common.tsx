@@ -2,7 +2,7 @@ import {
   calculatePatientAge,
   evaluateReference,
 } from "@/app/services/evaluateFhirDataService";
-import { evaluateTable } from "@/app/services/evaluateService";
+import EvaluateTable from "@/app/view-data/components/EvaluateTable";
 import {
   TableRow,
   formatName,
@@ -156,13 +156,14 @@ export const returnCareTeamTable = (
       );
     }
   });
-
-  return evaluateTable(
-    careTeamParticipants as FhirResource[],
-    mappings,
-    columnInfo,
-    "Care Team",
-    false,
+  return (
+    <EvaluateTable
+      resources={careTeamParticipants as FhirResource[]}
+      mappings={mappings}
+      columns={columnInfo}
+      caption={"Care Team"}
+      fixed={false}
+    />
   );
 };
 
@@ -211,12 +212,13 @@ export const returnImmunizations = (
       new Date(b.occurrenceDateTime ?? "").getTime() -
       new Date(a.occurrenceDateTime ?? "").getTime(),
   );
-
-  return evaluateTable(
-    immunizationsArray,
-    mappings,
-    columnInfo,
-    "Immunization History",
+  return (
+    <EvaluateTable
+      resources={immunizationsArray}
+      mappings={mappings}
+      columns={columnInfo}
+      caption={"Immunization History"}
+    />
   );
 };
 
@@ -267,12 +269,14 @@ export const returnProblemsTable = (
       new Date(a.onsetDateTime ?? "").getTime(),
   );
 
-  return evaluateTable(
-    problemsArray,
-    mappings,
-    columnInfo,
-    "Problems List",
-    false,
+  return (
+    <EvaluateTable
+      resources={problemsArray}
+      mappings={mappings}
+      columns={columnInfo}
+      caption={"Problems List"}
+      fixed={false}
+    />
   );
 };
 
@@ -436,7 +440,14 @@ export const returnProceduresTable = (
       new Date(a.performedDateTime ?? "").getTime(),
   );
 
-  return evaluateTable(proceduresArray, mappings, columnInfo, "Procedures");
+  return (
+    <EvaluateTable
+      resources={proceduresArray}
+      mappings={mappings}
+      columns={columnInfo}
+      caption={"Procedures"}
+    />
+  );
 };
 
 /**
@@ -470,11 +481,13 @@ export const returnPlannedProceduresTable = (
     },
   ];
 
-  return evaluateTable(
-    carePlanActivities,
-    mappings,
-    columnInfo,
-    "Planned Procedures",
+  return (
+    <EvaluateTable
+      resources={carePlanActivities}
+      mappings={mappings}
+      columns={columnInfo}
+      caption={"Planned Procedures"}
+    />
   );
 };
 
