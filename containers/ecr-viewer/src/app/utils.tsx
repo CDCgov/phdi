@@ -12,7 +12,7 @@ export interface ColumnInfoInput {
   value?: string;
   className?: string;
   hiddenBaseText?: string;
-  applyToValue?: (value: any) => any;
+  applyToValue?: "toSentenceCase" | "formatDate";
 }
 
 export interface CompleteData {

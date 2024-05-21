@@ -6,7 +6,6 @@ import EvaluateTable from "@/app/view-data/components/EvaluateTable";
 import {
   formatName,
   formatVitals,
-  toSentenceCase,
   formatDate,
 } from "@/app/services/formatService";
 import {
@@ -117,7 +116,7 @@ export const returnCareTeamTable = (
     {
       columnName: "Status",
       infoPath: "careTeamParticipantStatus",
-      applyToValue: toSentenceCase,
+      applyToValue: "toSentenceCase",
     },
     { columnName: "Dates", infoPath: "careTeamParticipantPeriod" },
   ];
@@ -476,12 +475,12 @@ export const returnPlannedProceduresTable = (
     {
       columnName: "Ordered Date",
       infoPath: "plannedProcedureOrderedDate",
-      applyToValue: formatDate,
+      applyToValue: "formatDate",
     },
     {
       columnName: "Scheduled Date",
       infoPath: "plannedProcedureScheduledDate",
-      applyToValue: formatDate,
+      applyToValue: "formatDate",
     },
   ];
 
