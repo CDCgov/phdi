@@ -10,7 +10,15 @@ import {
   searchResultRecord,
   returnFieldValueFromLabHtmlString,
   evaluateOrganismsReportData,
+  evaluateDiagnosticReportData,
+  evaluateObservationTable,
+  LabReport,
+  evaluateLabOrganizationData,
+  ResultObject,
+  combineOrgAndReportData,
+  evaluateLabInfoData,
 } from "@/app/services/labsService";
+import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 
 const mappings = loadYamlConfig();
 
@@ -300,5 +308,171 @@ describe("Labs Utils", () => {
 
       expect(result).toBeUndefined();
     });
+  });
+});
+
+describe("Evaluate Diagnostic Report", () => {
+  it("should evaluate diagnostic report title", () => {
+    const report = evaluate(BundleLab, mappings["diagnosticReports"])[0];
+    const labReportJson = getLabJsonObject(
+      report,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    const actual = evaluateDiagnosticReportData(
+      labReportJson,
+      report,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    const actualDisplay = (
+      <AccordionLabResults
+        title={report.code.coding?.[0].display ?? "\u{200B}"}
+        abnormalTag={false}
+        content={[<>{actual}</>]}
+        organizationId="test"
+      />
+    );
+
+    expect(actualDisplay.props.title).toContain(
+      "STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS",
+    );
+  });
+  it("should evaluate diagnostic report results", () => {
+    const report = evaluate(BundleLab, mappings["diagnosticReports"])[0];
+    const labReportJson = getLabJsonObject(
+      report,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    const actual = evaluateDiagnosticReportData(
+      labReportJson,
+      report,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    const actualDisplay = (
+      <AccordionLabResults
+        title={report.code.coding?.[0].display ?? "\u{200B}"}
+        abnormalTag={false}
+        content={[<div key={"1"}>{actual}</div>]}
+        organizationId="test"
+      />
+    );
+
+    render(actualDisplay.props.content);
+
+    expect(screen.getByText("Campylobacter, NAAT")).toBeInTheDocument();
+    expect(screen.getAllByText("Not Detected")).not.toBeEmpty();
+  });
+  it("the table should not appear when there are no results", () => {
+    const diagnosticReport = {
+      resource: {
+        resourceType: "DiagnosticReport",
+        code: {
+          coding: [
+            {
+              display: "Drugs Of Abuse Comprehensive Screen, Ur",
+            },
+          ],
+        },
+      },
+    };
+    const actual = evaluateObservationTable(
+      diagnosticReport as unknown as LabReport,
+      null as unknown as Bundle,
+      mappings,
+      [],
+    );
+    expect(actual).toBeUndefined();
+  });
+  it("should evaluate test method results", () => {
+    const report = evaluate(BundleLab, mappings["diagnosticReports"])[0];
+    const labReportJson = getLabJsonObject(
+      report,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    const actual = evaluateDiagnosticReportData(
+      labReportJson,
+      report,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    const actualDisplay = (
+      <AccordionLabResults
+        title={report.code.coding?.[0].display ?? "\u{200B}"}
+        abnormalTag={false}
+        content={[<div key={"1"}>{actual}</div>]}
+        organizationId="test"
+      />
+    );
+
+    render(actualDisplay.props.content);
+
+    expect(
+      screen.getAllByText("LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM"),
+    ).not.toBeEmpty();
+  });
+  it("should display comment", () => {
+    const report = evaluate(BundleLab, mappings["diagnosticReports"])[2];
+    const labReportJson = getLabJsonObject(
+      report,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    const actual = evaluateDiagnosticReportData(
+      labReportJson,
+      report,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    render(actual!);
+
+    expect(screen.getByText("View comment")).toBeInTheDocument();
+  });
+});
+
+describe("Evaluate Organization with ID", () => {
+  it("should return a matching org", () => {
+    const result = evaluateLabOrganizationData(
+      "22c6cdd0-bde1-e220-9ba4-2c2802f795ad",
+      BundleLab as unknown as Bundle,
+      mappings,
+      0,
+    );
+    expect(result[0].value).toEqual("VUMC CERNER LAB");
+  });
+  it("should combine the data into new format", () => {
+    const testResultObject: ResultObject = {
+      "Organization/22c6cdd0-bde1-e220-9ba4-2c2802f795ad": [<div></div>],
+    };
+    const result = combineOrgAndReportData(
+      testResultObject,
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0].organizationDisplayDataProps).toBeArray();
+  });
+});
+
+describe("Evaluate the lab info section", () => {
+  it("should return a list of objects", () => {
+    const result = evaluateLabInfoData(
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0]).toHaveProperty("diagnosticReportDataElements");
+    expect(result[0]).toHaveProperty("organizationDisplayDataProps");
+  });
+  it("should properly count the number of labs", () => {
+    const result = evaluateLabInfoData(
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    expect(result[0].organizationDisplayDataProps[3].title).toEqual(
+      "Number of Results",
+    );
+    expect(result[0].organizationDisplayDataProps[3].value).toEqual(2);
   });
 });

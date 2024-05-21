@@ -14,6 +14,7 @@ import {
   evaluateEcrSummaryEncounterDetails,
   evaluateEcrSummaryAboutTheConditionDetails,
 } from "../services/ecrSummaryService";
+import { metrics } from "./component-utils";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -27,8 +28,8 @@ const ECRViewerPage: React.FC = () => {
   const [mappings, setMappings] = useState<PathMappings>({});
   const [errors, setErrors] = useState<Error>();
   const searchParams = useSearchParams();
-  const fhirId = searchParams.get("id") ?? "";
-  const snomedCode = searchParams.get("snomed-code") ?? "";
+  const fhirId = searchParams ? searchParams.get("id") ?? "" : "";
+  const snomedCode = searchParams ? searchParams.get("snomed-code") ?? "" : "";
 
   type ApiResponse = {
     fhirBundle: Bundle;
@@ -36,8 +37,14 @@ const ECRViewerPage: React.FC = () => {
   };
 
   useEffect(() => {
-    // Fetch the appropriate bundle from Postgres database
-
+    const startTime = performance.now();
+    window.addEventListener("beforeunload", function (_e) {
+      metrics(basePath, {
+        startTime: startTime,
+        endTime: performance.now(),
+        fhirId: `${fhirId}`,
+      });
+    });
     const fetchData = async () => {
       try {
         const response = await fetch(`${basePath}/api/fhir-data?id=${fhirId}`);

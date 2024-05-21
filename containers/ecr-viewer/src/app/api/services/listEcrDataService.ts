@@ -44,7 +44,7 @@ export async function listEcrData() {
 const list_postgres = async () => {
   const { ParameterizedQuery: PQ } = pgPromise;
   const listFhir = new PQ({
-    text: "SELECT ecr_id FROM fhir",
+    text: "SELECT ecr_id, date_created FROM fhir",
   });
   try {
     return await database.manyOrNone(listFhir);
@@ -86,7 +86,9 @@ export const processListPostgres = (responseBody: any[]): ListEcr => {
   return responseBody.map((object) => {
     return {
       ecrId: object.ecr_id || "",
-      dateModified: "N/A",
+      dateModified: object.date_created
+        ? formatDateTime(new Date(object.date_created!).toISOString())
+        : "",
     };
   });
 };
