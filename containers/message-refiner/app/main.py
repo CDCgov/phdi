@@ -1,6 +1,5 @@
 from pathlib import Path
 from typing import List
-from typing import Optional
 
 import requests
 from dibbs.base_service import BaseService
@@ -54,24 +53,17 @@ async def refine_ecr(
     if error_message != "":
         return Response(content=error_message, status_code=400)
 
-    sections_to_include_list = None
     if sections_to_include:
-        sections_to_include_list, error_message = validate_sections_to_include(
+        sections_to_include, error_message = validate_sections_to_include(
             sections_to_include
         )
+
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
-    clinical_services_to_include = []
-    if conditions_to_include:
-        clinical_services_to_include = get_clinical_services_to_include(
-            conditions_to_include
-        )
+        data = refine(validated_message, sections_to_include, conditions_to_include)
 
-    refined_data = refine(
-        validated_message, sections_to_include_list, clinical_services_to_include
-    )
-    return Response(content=refined_data, media_type="application/xml")
+    return Response(content=data, media_type="application/xml")
 
 
 def validate_sections_to_include(sections_to_include: str | None) -> tuple[list, str]:
@@ -117,7 +109,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
 
 def get_clinical_services_to_include(condition_codes: str) -> List[str]:
     """
-    This function loops through the provided condition codes. For each
+    This a function that loops through the provided condition codes. For each
     condition code provided, it calls the trigger-code-reference service to get
     the relevant clinical services for that condition. It then loops through
     each of those clinical service codes and their system to create an xpath
@@ -127,62 +119,64 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
     :return: List of xpath queries to check
     """
     clinical_services_to_include = []
-    conditions_list = condition_codes.split(",")
-    for condition in conditions_list:
-        try:
-            response = requests.get(TCR_ENDPOINT + condition)
-            clinical_services = response.json()
-        except requests.exceptions.RequestException as e:
-            print(f"Request to {TCR_ENDPOINT} failed: {e}")
-        for system, entries in clinical_services.items():
-            for entry in entries:
-                system = entry.get("system")
-                xpath_queries = _generate_clinical_xpaths(system, entry.get("codes"))
-                clinical_services_to_include.extend(xpath_queries)
+    if condition_codes:
+        conditions_list = condition_codes.split(",")
+        for condition in conditions_list:
+            try:
+                response = requests.get(TCR_ENDPOINT + condition)
+                clinical_services = response.json()
+            except requests.exceptions.RequestException as e:
+                print(f"Request to {TCR_ENDPOINT} failed: {e}")
+            for system, entries in clinical_services.items():
+                for entry in entries:
+                    system = entry.get("system")
+                    xpath_queries = _generate_clinical_xpaths(
+                        system, entry.get("codes")
+                    )
+                    clinical_services_to_include.extend(xpath_queries)
     return clinical_services_to_include
 
 
 def refine(
-    validated_message: ET.Element,
-    sections_to_include: Optional[List[str]] = None,
-    clinical_services_to_include: Optional[List[str]] = None,
+    validated_message: bytes,
+    sections_to_include: str,
+    conditions_to_include: str = None,
 ) -> str:
     """
-    Refines an incoming XML message based on the sections to include and conditions.
+    Refines an incoming XML message based on the sections to include.
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
-    :param clinical_services_to_include: List of clinical service XPaths.
+    :param conditions_to_include: SNOMED condition codes to look up in TCR
     :return: The refined message.
     """
     header = select_message_header(validated_message)
 
+    # Set up XPath expression
+    # this namespace is only used for filtering
     namespaces = {"hl7": "urn:hl7-org:v3"}
-    sections_xpath_expression = (
-        " or ".join([f"@code='{section}'" for section in sections_to_include])
-        if sections_to_include
-        else ""
+    sections_xpath_expression = "or".join(
+        [f"@code='{section}'" for section in sections_to_include]
     )
 
-    services_xpath_expression = (
-        " or ".join(clinical_services_to_include)
-        if clinical_services_to_include
-        else ""
-    )
-
-    if sections_to_include and clinical_services_to_include:
+    if conditions_to_include:
+        clinical_services_to_include = get_clinical_services_to_include(
+            conditions_to_include
+        )
+        services_xpath_expression = "|".join(clinical_services_to_include)
         xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]//*[local-name()='entry' or local-name()='observation'][{services_xpath_expression}]"
-    elif sections_to_include:
-        xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]//*[local-name()='entry' or local-name()='observation']"
-    elif clinical_services_to_include:
-        xpath_expression = f"//*[local-name()='section']//*[local-name()='entry' or local-name()='observation'][{services_xpath_expression}]"
+        print("Condition xpath:", xpath_expression)
     else:
-        return ET.tostring(validated_message, encoding="unicode")
+        xpath_expression = (
+            f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
+        )
 
     # Use XPath to find elements matching the expression
     elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
 
     # Create & set up a new root element for the refined XML
+    # we are using a combination of a direct namespace uri and nsmap so that we can
+    # ensure that the default namespaces are set correctly
     namespace = "urn:hl7-org:v3"
     nsmap = {
         None: namespace,
@@ -190,18 +184,21 @@ def refine(
         "sdtc": "urn:hl7-org:sdtc",
         "xsi": "http://www.w3.org/2001/XMLSchema-instance",
     }
-
+    # creating the root element with our uri namespace and nsmap
     refined_message_root = ET.Element(f"{{{namespace}}}ClinicalDocument", nsmap=nsmap)
     for h in header:
         refined_message_root.append(h)
-
+    # creating the component element and structuredBody element with the same namespace
+    # and adding them to the new root
     main_component = ET.SubElement(refined_message_root, f"{{{namespace}}}component")
     structuredBody = ET.SubElement(main_component, f"{{{namespace}}}structuredBody")
 
+    # Append the filtered elements to the new root and use the uri namespace
     for element in elements:
         section_component = ET.SubElement(structuredBody, f"{{{namespace}}}component")
         section_component.append(element)
 
+    # Create a new ElementTree with the result root
     refined_message = ET.ElementTree(refined_message_root)
     return ET.tostring(refined_message, encoding="unicode")
 

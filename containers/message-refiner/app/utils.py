@@ -28,17 +28,15 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
     }
     # XPath templates
     xpath_code = (
-        "//*[local-name()='code'][@code='{code}' and @codeSystemName='{system}']"
+        ".//*[local-name()='code'][@code='{code}' and @codeSystemName='{system}']"
     )
     xpath_vax = (
-        "//*[local-name()='vaccine'][@code='{code}' and @codeSystemName='{system}']"
+        ".//*[local-name()='vaccine'][@code='{code}' and @codeSystemName='{system}']"
     )
     xpath_value = (
-        "//*[local-name()='value'][@code='{code}' and @codeSystemName='{system}']"
+        ".//*[local-name()='value'][@code='{code}' and @codeSystemName='{system}']"
     )
-    xpath_translation = (
-        "//*[local-name()='translation'][@code='{code}' and @codeSystemName='{system}']"
-    )
+    xpath_translation = ".//*[local-name()='translation'][@code='{code}' and @codeSystemName='{system}']"
     # Loop through each code and create the XPath expressions
     return [
         xpath.format(code=code, system=system_dict.get(system))
