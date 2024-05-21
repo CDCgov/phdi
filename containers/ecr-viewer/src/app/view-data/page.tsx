@@ -17,7 +17,7 @@ import React from "react";
  * Functional component for rendering a page based on provided search parameters.
  * @param props - Component props.
  * @param props.searchParams - Search parameters object.
- * @returns - functional component for view-data
+ * @returns The main eCR Viewer JSX component.
  */
 export default async function Page({
   searchParams,
@@ -27,6 +27,7 @@ export default async function Page({
   processSnomedCode(snomedCode);
   const fhirBundle = await getEcrData(fhirId);
   const mappings = loadYamlConfig();
+
   return (
     <main>
       <div>

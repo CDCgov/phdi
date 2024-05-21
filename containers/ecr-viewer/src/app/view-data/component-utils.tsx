@@ -72,3 +72,37 @@ export const AccordionDiv: React.FC<AccordionSectionProps> = ({
     </div>
   );
 };
+
+/**
+ * Sends metrics data to a specified endpoint.
+ * @param basePath - The base URL path where the metrics API is hosted.
+ * @param metricOptions - An object containing key-value pairs of metrics data to be sent.
+ * @returns - A promise that resolves when the metrics are successfully sent.
+ * @throws - Throws an error if the fetch request fails or the endpoint returns an error status.
+ */
+export const metrics = async (
+  basePath: string,
+  metricOptions: { [key: string]: any },
+) => {
+  try {
+    const response = await fetch(`${basePath}/api/metrics`, {
+      body: JSON.stringify(metricOptions),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error("Sorry, we couldn't find this endpoint.");
+      } else {
+        const errorData = response.statusText;
+        throw new Error(errorData || "Internal Server Error");
+      }
+    }
+  } catch (error: any) {
+    console.error("Error data:", error);
+    throw error;
+  }
+};
