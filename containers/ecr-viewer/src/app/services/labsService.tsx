@@ -5,16 +5,18 @@ import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
   formatDateTime,
-  formatTablesToJSON,
   extractNumbersAndPeriods,
   formatAddress,
   formatPhoneNumber,
-  TableJson,
 } from "@/app/services/formatService";
 import { ObservationComponent } from "fhir/r4b";
 import EvaluateTable from "@/app/view-data/components/EvaluateTable";
 import { evaluateReference, evaluateValue } from "./evaluateFhirDataService";
 import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import {
+  formatTablesToJSON,
+  TableJson,
+} from "@/app/services/formatTablesToJSON";
 
 export interface LabReport {
   result: Array<Reference>;
