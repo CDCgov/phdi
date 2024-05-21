@@ -8,7 +8,7 @@ export default function FooterComponent() {
   return (
     <footer className="usa-footer">
       <div className="usa-footer__secondary-section max-w-full bg-primary-darker">
-        <div className="grid-container usa-nav-container">
+        <div className="header-footer-content grid-container usa-nav-container">
           <div className="grid-row grid-gap">
             <div
               className="
@@ -29,6 +29,17 @@ export default function FooterComponent() {
               <div className="mobile-lg:grid-col-auto">
                 <p className=" text-base-lightest usa-footer__logo-heading">
                   Centers for Disease Control and Prevention
+                </p>
+                <p className="text-base-lightest">
+                  For more information send us an email at dibbs@cdc.gov or
+                  visit{"  "}
+                  <a
+                    href="https://cdcgov.github.io/dibbs-site/"
+                    className="text-base-lightest"
+                  >
+                    our website
+                  </a>
+                  .
                 </p>
               </div>
             </div>

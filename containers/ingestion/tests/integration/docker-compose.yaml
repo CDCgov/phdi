@@ -1,0 +1,8 @@
+version: "3.3"
+
+services:
+  ingestion-service:
+    build:
+      context: ../..
+    ports:
+      - "8080:8080"

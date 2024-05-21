@@ -1,13 +1,16 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
 import {
-  AccordianSection,
-  AccordianH4,
-  AccordianDiv,
+  AccordionSection,
+  AccordionH4,
+  AccordionDiv,
 } from "../component-utils";
 import React from "react";
-import { LabReportElementData } from "@/app/labs/utils";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
-import { truncateLabNameWholeWord, formatString } from "@/app/format-service";
+import {
+  truncateLabNameWholeWord,
+  formatString,
+} from "@/app/services/formatService";
+import { LabReportElementData } from "@/app/services/labsService";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface LabInfoProps {
   labResults: LabReportElementData[];
@@ -36,14 +39,14 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
             : "h5";
           const labName = `Lab Results from 
                 ${truncateLabNameWholeWord(
-                  labResult.organizationDisplayData[0].value as string,
+                  labResult.organizationDisplayDataProps[0].value as string,
                 )}`;
           return (
             <div key={`${labResult.organizationId}${labIndex}`}>
-              <AccordianH4 id={formatString(labName)}>{labName}</AccordianH4>
-              <AccordianDiv>
-                {labResult?.organizationDisplayData?.map(
-                  (item: DisplayData, index: any) => {
+              <AccordionH4 id={formatString(labName)}>{labName}</AccordionH4>
+              <AccordionDiv>
+                {labResult?.organizationDisplayDataProps?.map(
+                  (item: DisplayDataProps, index: any) => {
                     if (item.value)
                       return <DataDisplay item={item} key={index} />;
                   },
@@ -60,7 +63,7 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
                   </div>
                 </div>
                 {labResult.diagnosticReportDataElements}
-              </AccordianDiv>
+              </AccordionDiv>
             </div>
           );
         })}
@@ -69,9 +72,9 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
   };
 
   return (
-    <AccordianSection>
+    <AccordionSection>
       {labResults.length > 0 && renderLabInfo()}
-    </AccordianSection>
+    </AccordionSection>
   );
 };
 

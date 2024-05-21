@@ -1,1 +1,0 @@
-This file is purely a placeholder until we have example JSON assets or other files to put in this directory.

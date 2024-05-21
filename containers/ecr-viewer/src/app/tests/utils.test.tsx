@@ -1,31 +1,32 @@
-import {
-  DisplayData,
-  evaluateEcrMetadata,
-  evaluateSocialData,
-  extractPatientAddress,
-  calculatePatientAge,
-  evaluateClinicalData,
-  evaluatePatientName,
-  returnProblemsTable,
-  returnCareTeamTable,
-  isDataAvailable,
-  returnPlannedProceduresTable,
-  DataDisplay,
-} from "@/app/utils";
+import { isDataAvailable } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
-import BundleWithTravelHistory from "../tests/assets/BundleTravelHistory.json";
-import BundleWithPatient from "../tests/assets/BundlePatient.json";
-import BundleWithEcrMetadata from "../tests/assets/BundleEcrMetadata.json";
-import BundleWithSexualOrientation from "../tests/assets/BundleSexualOrientation.json";
-import BundleWithMiscNotes from "../tests/assets/BundleMiscNotes.json";
-import BundleNoActiveProblems from "../tests/assets/BundleNoActiveProblems.json";
-import BundleCareTeam from "../tests/assets/BundleCareTeam.json";
+import BundleWithTravelHistory from "./assets/BundleTravelHistory.json";
+import BundleWithPatient from "./assets/BundlePatient.json";
+import BundleWithSexualOrientation from "./assets/BundleSexualOrientation.json";
+import BundleWithMiscNotes from "./assets/BundleMiscNotes.json";
+import BundleNoActiveProblems from "./assets/BundleNoActiveProblems.json";
+import BundleCareTeam from "./assets/BundleCareTeam.json";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { CarePlanActivity } from "fhir/r4b";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import userEvent from "@testing-library/user-event";
+import { Tooltip } from "@trussworks/react-uswds";
+import {
+  evaluateSocialData,
+  evaluatePatientName,
+  calculatePatientAge,
+  evaluatePatientAddress,
+} from "../services/evaluateFhirDataService";
+import {
+  evaluateClinicalData,
+  returnCareTeamTable,
+  returnPlannedProceduresTable,
+  returnProblemsTable,
+} from "../view-data/components/common";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import { TooltipDiv, ToolTipElement } from "@/app/ToolTipElement";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -56,72 +57,7 @@ describe("Utils", () => {
       expect(actual.availableData[0].value).toEqual("Other");
     });
   });
-  describe("Evaluate Ecr Metadata", () => {
-    it("should have no available data where there is no data", () => {
-      const actual = evaluateEcrMetadata(undefined as any, mappings);
-      expect(actual.ecrSenderDetails.availableData).toBeEmpty();
-      expect(actual.ecrSenderDetails.unavailableData).not.toBeEmpty();
 
-      expect(actual.eicrDetails.availableData).toBeEmpty();
-      expect(actual.eicrDetails.unavailableData).not.toBeEmpty();
-
-      expect(actual.rrDetails.availableData).toBeUndefined();
-    });
-    it("should have ecrSenderDetails", () => {
-      const actual = evaluateEcrMetadata(
-        BundleWithEcrMetadata as unknown as Bundle,
-        mappings,
-      );
-
-      expect(actual.ecrSenderDetails.availableData).toEqual([
-        { title: "Date/Time eCR Created", value: "07/28/2022 9:01 AM -05:00" },
-        {
-          title: "Sender Facility Name",
-          value: "Vanderbilt University Adult Hospital",
-        },
-        {
-          title: "Facility Address",
-          value: "1211 Medical Center Dr\nNashville, TN\n37232",
-        },
-        { title: "Facility Contact", value: "+1-615-322-5000" },
-        { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
-      ]);
-      expect(actual.ecrSenderDetails.unavailableData).toEqual([
-        { title: "Sender Software" },
-      ]);
-    });
-    it("should have eicrDetails", () => {
-      const actual = evaluateEcrMetadata(
-        BundleWithEcrMetadata as unknown as Bundle,
-        mappings,
-      );
-
-      expect(actual.eicrDetails.availableData).toEqual([
-        {
-          title: "eICR Identifier",
-          value: "1.2.840.114350.1.13.478.3.7.8.688883.230886",
-        },
-      ]);
-      expect(actual.eicrDetails.unavailableData).toBeEmpty();
-    });
-    it("should have rrDetails", () => {
-      const actual = evaluateEcrMetadata(
-        BundleWithEcrMetadata as unknown as Bundle,
-        mappings,
-      );
-
-      expect(actual.rrDetails).toEqual({
-        "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)":
-          {
-            "COVID-19 (as a diagnosis or active problem)": new Set([
-              "Tennessee Department of Health",
-            ]),
-            "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method":
-              new Set(["Tennessee Department of Health"]),
-          },
-      });
-    });
-  });
   describe("Evaluate Clinical Info", () => {
     it("Should return notes", () => {
       const actual = evaluateClinicalData(
@@ -173,12 +109,12 @@ describe("Utils", () => {
   });
   describe("Extract Patient Address", () => {
     it("should return empty string if no address is available", () => {
-      const actual = extractPatientAddress(undefined as any, mappings);
+      const actual = evaluatePatientAddress(undefined as any, mappings);
 
       expect(actual).toBeEmpty();
     });
     it("should get patient address", () => {
-      const actual = extractPatientAddress(
+      const actual = evaluatePatientAddress(
         BundleWithPatient as unknown as Bundle,
         mappings,
       );
@@ -270,26 +206,26 @@ describe("Utils", () => {
 
   describe("isDataAvailable", () => {
     it("given an item with no value, it should return false", () => {
-      const input: DisplayData = {};
+      const input: DisplayDataProps = {};
       const result = isDataAvailable(input);
       expect(result).toEqual(false);
     });
     it("given an item with no length in its value array, it should return false", () => {
-      const input: DisplayData = {
+      const input: DisplayDataProps = {
         value: [],
       };
       const result = isDataAvailable(input);
       expect(result).toEqual(false);
     });
     it("given an item whose value matches one of the unavailable terms, it should return false", () => {
-      const input: DisplayData = {
+      const input: DisplayDataProps = {
         value: "Not on file documented in this encounter",
       };
       const result = isDataAvailable(input);
       expect(result).toEqual(false);
     });
     it("given an item with available info, it should return true", () => {
-      const input: DisplayData = {
+      const input: DisplayDataProps = {
         value: "01/01/1970",
       };
       const result = isDataAvailable(input);
@@ -492,6 +428,36 @@ describe("Utils", () => {
           screen.queryByText(OneHundredTwentyFiveCharStrings[4]),
         ).not.toBeInTheDocument();
       });
+    });
+  });
+
+  describe("ToolTips", () => {
+    it("should return the tool tip with the custom jsx", () => {
+      render(
+        <Tooltip
+          label={"test label"}
+          asCustom={TooltipDiv}
+          className="testClass"
+        >
+          Test child
+        </Tooltip>,
+      );
+      const tip = screen.getByTestId("triggerElement");
+      expect(tip.className).toInclude("testClass");
+      expect(tip.textContent).toInclude("Test child");
+    });
+    it("should make a tooltip", () => {
+      render(<ToolTipElement content={"Item Title"} toolTip={"Tooltip"} />);
+      const tip = screen.getByTestId("triggerElement");
+      expect(tip.className).toInclude("short-tooltip");
+      expect(tip.textContent).toInclude("Item Title");
+    });
+    it("should not make the tool tip short if the tip has more than 100 character", () => {
+      const toolTip =
+        "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+      render(<ToolTipElement content={"Item Title"} toolTip={toolTip} />);
+      const tip = screen.getByTestId("triggerElement");
+      expect(tip.className).not.toInclude("short-tooltip");
     });
   });
 });

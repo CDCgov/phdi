@@ -22,11 +22,11 @@
   border-top: 8px solid #EDEFF0;
 }
 
-h2 {
+#ecr-summary {
   font-size: 40px;
 }
 
-h3 {
+h2 {
   font-size: 22px;
   margin-top: 0;
   margin-bottom: 20px;
@@ -101,6 +101,7 @@ h4 {
     margin-right: -1.25rem;
     margin-left: -1.25rem;
     margin-top: -1rem;
+    margin-bottom: 1rem;
     border-bottom: #1b1b1b 1px solid;
     thead th {
       background-color: #F0F0F0;
@@ -130,6 +131,16 @@ h4 {
   }
 }
 
+.table-homepage-list {
+  max-width: 840px !important;
+  thead th {
+    background-color: white !important;
+  }
+
+  tbody td:first-child {
+    width: 644px;
+  }
+}
 
 .minimize-container {
   position: absolute;
@@ -230,7 +241,7 @@ td {
 .ecr-content {
   max-width: 1440px;
 }
-.ecr-content h2:first-of-type {
+.ecr-content h1:first-of-type {
     margin-top: 0;
     padding-top: 0;
 }
@@ -286,4 +297,23 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
 
 .reportability_summary_header {
   width: 190px;
+}
+
+.usa-accordion__content {
+  overflow: visible;
+}
+
+
+.usa-tooltip__body {
+  max-width: 700px;
+  min-width: 450px;
+  white-space: normal;
+  text-align: left;
+  font-weight: normal;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.short-tooltip + .usa-tooltip__body {
+  min-width: 350px;
 }

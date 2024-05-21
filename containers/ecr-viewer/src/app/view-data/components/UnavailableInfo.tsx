@@ -1,18 +1,19 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
-import { AccordianSection } from "../component-utils";
 import React from "react";
+import { AccordionSection } from "@/app/view-data/component-utils";
+import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
 interface UnavailableInfoProps {
-  demographicsUnavailableData: DisplayData[];
-  socialUnavailableData: DisplayData[];
-  encounterUnavailableData: DisplayData[];
-  providerUnavailableData: DisplayData[];
-  reasonForVisitUnavailableData: DisplayData[];
-  activeProblemsUnavailableData: DisplayData[];
-  vitalUnavailableData: DisplayData[];
-  treatmentData: DisplayData[];
-  clinicalNotesData: DisplayData[];
-  immunizationsUnavailableData: DisplayData[];
+  demographicsUnavailableData: DisplayDataProps[];
+  socialUnavailableData: DisplayDataProps[];
+  encounterUnavailableData: DisplayDataProps[];
+  providerUnavailableData: DisplayDataProps[];
+  reasonForVisitUnavailableData: DisplayDataProps[];
+  activeProblemsUnavailableData: DisplayDataProps[];
+  vitalUnavailableData: DisplayDataProps[];
+  treatmentData: DisplayDataProps[];
+  clinicalNotesData: DisplayDataProps[];
+  immunizationsUnavailableData: DisplayDataProps[];
+  ecrMetadataUnavailableData: DisplayDataProps[];
 }
 
 /**
@@ -28,6 +29,7 @@ interface UnavailableInfoProps {
  * @param props.vitalUnavailableData The unavailable vital data
  * @param props.treatmentData The unavailable treatment data
  * @param props.clinicalNotesData The unavailable clinical notes
+ * @param props.ecrMetadataUnavailableData The unavailable ecr meta data
  * @returns The JSX element representing all unavailable data.
  */
 const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
@@ -41,8 +43,9 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
   vitalUnavailableData,
   treatmentData,
   clinicalNotesData,
+  ecrMetadataUnavailableData,
 }) => {
-  const renderSection = (sectionTitle: string, data: DisplayData[]) => {
+  const renderSection = (sectionTitle: string, data: DisplayDataProps[]) => {
     return (
       <div className="margin-bottom-4">
         <h3 className="usa-summary-box__heading padding-bottom-205 unavailable-info">
@@ -62,7 +65,7 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
   };
 
   return (
-    <AccordianSection>
+    <AccordionSection>
       {demographicsUnavailableData?.length > 0 &&
         renderSection("Demographics", demographicsUnavailableData)}
       {socialUnavailableData?.length > 0 &&
@@ -82,7 +85,9 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
         renderSection("Immunizations", immunizationsUnavailableData)}
       {treatmentData?.length > 0 &&
         renderSection("Treatment Details", treatmentData)}
-    </AccordianSection>
+      {ecrMetadataUnavailableData?.length > 0 &&
+        renderSection("eCR Metadata", ecrMetadataUnavailableData)}
+    </AccordionSection>
   );
 };
 
