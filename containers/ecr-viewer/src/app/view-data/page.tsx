@@ -12,6 +12,7 @@ import { Grid, GridContainer } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 import AccordionContainer from "@/app/view-data/components/AccordionContainer";
 import React from "react";
+import Metric from "@/app/view-data/components/Metric";
 
 /**
  * Functional component for rendering a page based on provided search parameters.
@@ -30,6 +31,7 @@ export default async function Page({
 
   return (
     <main>
+      <Metric fhirId={fhirId} />
       <div>
         <div className="main-container">
           <div className="content-wrapper">
