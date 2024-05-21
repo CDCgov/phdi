@@ -1,4 +1,0 @@
-../dibbs
-pathlib
-httpx
-requests

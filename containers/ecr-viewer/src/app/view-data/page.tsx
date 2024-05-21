@@ -1,5 +1,4 @@
 "use client";
-import EcrSummary from "@/app/view-data/components/EcrSummary";
 import AccordionContainer from "@/app/view-data/components/AccordionContainer";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -9,11 +8,13 @@ import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
 import { Grid, GridContainer } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
+import EcrSummary from "./components/EcrSummary";
 import {
-  evaluateEcrSummaryAboutTheConditionDetails,
-  evaluateEcrSummaryEncounterDetails,
   evaluateEcrSummaryPatientDetails,
-} from "@/app/view-data/components/service/EcrSummaryService";
+  evaluateEcrSummaryEncounterDetails,
+  evaluateEcrSummaryAboutTheConditionDetails,
+} from "../services/ecrSummaryService";
+import { metrics } from "./component-utils";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -27,8 +28,8 @@ const ECRViewerPage: React.FC = () => {
   const [mappings, setMappings] = useState<PathMappings>({});
   const [errors, setErrors] = useState<Error>();
   const searchParams = useSearchParams();
-  const fhirId = searchParams.get("id") ?? "";
-  const snomedCode = searchParams.get("snomed-code") ?? "";
+  const fhirId = searchParams ? searchParams.get("id") ?? "" : "";
+  const snomedCode = searchParams ? searchParams.get("snomed-code") ?? "" : "";
 
   type ApiResponse = {
     fhirBundle: Bundle;
@@ -36,8 +37,14 @@ const ECRViewerPage: React.FC = () => {
   };
 
   useEffect(() => {
-    // Fetch the appropriate bundle from Postgres database
-
+    const startTime = performance.now();
+    window.addEventListener("beforeunload", function (_e) {
+      metrics(basePath, {
+        startTime: startTime,
+        endTime: performance.now(),
+        fhirId: `${fhirId}`,
+      });
+    });
     const fetchData = async () => {
       try {
         const response = await fetch(`${basePath}/api/fhir-data?id=${fhirId}`);
@@ -74,66 +81,68 @@ const ECRViewerPage: React.FC = () => {
     );
   } else if (fhirBundle && mappings) {
     return (
-      <div>
-        <div className="main-container">
-          <div className="content-wrapper">
-            <div className="nav-wrapper">
-              <nav className="sticky-nav">
-                <SideNav />
-              </nav>
-            </div>
-            <div className={"ecr-viewer-container"}>
-              <div className="ecr-content">
-                <h2 className="margin-bottom-3" id="ecr-summary">
-                  eCR Summary
-                </h2>
-                <EcrSummary
-                  patientDetails={evaluateEcrSummaryPatientDetails(
-                    fhirBundle,
-                    mappings,
-                  )}
-                  encounterDetails={evaluateEcrSummaryEncounterDetails(
-                    fhirBundle,
-                    mappings,
-                  )}
-                  aboutTheCondition={evaluateEcrSummaryAboutTheConditionDetails(
-                    fhirBundle,
-                    mappings,
-                  )}
-                />
-                <div className="margin-top-10">
-                  <GridContainer className={"padding-0 margin-bottom-3"}>
-                    <Grid row>
-                      <Grid>
-                        <h2 className="margin-bottom-0" id="ecr-document">
-                          eCR Document
-                        </h2>
-                      </Grid>
-                      <Grid
-                        className={"flex-align-self-center margin-left-auto"}
-                      >
-                        <ExpandCollapseButtons
-                          id={"main"}
-                          buttonSelector={"h3 > .usa-accordion__button"}
-                          accordionSelector={
-                            ".info-container > .usa-accordion__content"
-                          }
-                          expandButtonText={"Expand all sections"}
-                          collapseButtonText={"Collapse all sections"}
-                        />
-                      </Grid>
-                    </Grid>
-                  </GridContainer>
-                  <AccordionContainer
-                    fhirPathMappings={mappings}
-                    fhirBundle={fhirBundle}
+      <main>
+        <div>
+          <div className="main-container">
+            <div className="content-wrapper">
+              <div className="nav-wrapper">
+                <nav className="sticky-nav">
+                  <SideNav />
+                </nav>
+              </div>
+              <div className={"ecr-viewer-container"}>
+                <div className="ecr-content">
+                  <h1 className="margin-bottom-3" id="ecr-summary">
+                    eCR Summary
+                  </h1>
+                  <EcrSummary
+                    patientDetails={evaluateEcrSummaryPatientDetails(
+                      fhirBundle,
+                      mappings,
+                    )}
+                    encounterDetails={evaluateEcrSummaryEncounterDetails(
+                      fhirBundle,
+                      mappings,
+                    )}
+                    aboutTheCondition={evaluateEcrSummaryAboutTheConditionDetails(
+                      fhirBundle,
+                      mappings,
+                    )}
                   />
+                  <div className="margin-top-10">
+                    <GridContainer className={"padding-0 margin-bottom-3"}>
+                      <Grid row>
+                        <Grid>
+                          <h2 className="margin-bottom-0" id="ecr-document">
+                            eCR Document
+                          </h2>
+                        </Grid>
+                        <Grid
+                          className={"flex-align-self-center margin-left-auto"}
+                        >
+                          <ExpandCollapseButtons
+                            id={"main"}
+                            buttonSelector={"h3 > .usa-accordion__button"}
+                            accordionSelector={
+                              ".info-container > .usa-accordion__content"
+                            }
+                            expandButtonText={"Expand all sections"}
+                            collapseButtonText={"Collapse all sections"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </GridContainer>
+                    <AccordionContainer
+                      fhirPathMappings={mappings}
+                      fhirBundle={fhirBundle}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
     );
   } else {
     return (

@@ -1,285 +1,273 @@
-<ns0:ClinicalDocument xmlns:ns0="urn:hl7-org:v3">
-    <ns0:realmCode code="US" />
-    <ns0:typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3" />
-    <ns0:templateId root="2.16.840.1.113883.10.20.22.1.1" />
-    <ns0:templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.1.1" />
-    <ns0:templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2" />
-    <ns0:id root="1dd10047-2207-4eac-a993-0f706c88be5d" />
-    <ns0:code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
-        displayName="Initial Public Health Case Report" />
-    <ns0:title>Initial Public Health Case Report</ns0:title>
-    <ns0:effectiveTime value="20220514125638+0000" />
-    <ns0:confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" />
-    <ns0:languageCode code="en-US" />
-    <ns0:setId extension="36959489|65117030" root="2.16.840.1.113883" />
-    <ns0:versionNumber value="2" />
-    <ns0:recordTarget xmlns:sdtc="urn:hl7-org:sdtc">
-        <ns0:patientRole>
-            <ns0:id extension="10308625" root="2.16.840.1.113883.3.3316.100" />
-            <ns0:addr>
-                <ns0:streetAddressLine>1050 CARPENTER ST</ns0:streetAddressLine>
-                <ns0:city>EDWARDS</ns0:city>
-                <ns0:state>CA</ns0:state>
-                <ns0:postalCode>93523-2800</ns0:postalCode>
-                <ns0:country>US</ns0:country>
-            </ns0:addr>
-            <ns0:telecom use="HP" value="tel:(818)419-5968" />
-            <ns0:telecom value="mailto:MELLY.C.A.16@GMAIL.COM" />
-            <ns0:patient>
-                <ns0:name>
-                    <ns0:given>ABEL</ns0:given>
-                    <ns0:family>CASTILLO</ns0:family>
-                </ns0:name>
-                <ns0:administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" />
-                <ns0:birthTime value="20150415" />
-                <sdtc:deceasedInd value="false" />
-                <ns0:raceCode code="2054-5" codeSystem="2.16.840.1.113883.6.238"
-                    codeSystemName="Race &amp; Ethnicity - CDC"
-                    displayName="Black or African American" />
-                <ns0:ethnicGroupCode code="2135-2" codeSystem="2.16.840.1.113883.6.238"
-                    codeSystemName="Race &amp; Ethnicity - CDC" displayName="Hispanic or Latino" />
-                <ns0:languageCommunication>
-                    <ns0:languageCode code="en" />
-                </ns0:languageCommunication>
-            </ns0:patient>
-        </ns0:patientRole>
-    </ns0:recordTarget>
-    <ns0:author>
-        <ns0:time value="20220513072500+0000" />
-        <ns0:assignedAuthor>
-            <ns0:id root="2.16.840.1.113883.4.6" />
-            <ns0:addr>
-                <ns0:streetAddressLine nullFlavor="NI" />
-                <ns0:city nullFlavor="NI" />
-                <ns0:state nullFlavor="NI" />
-                <ns0:postalCode nullFlavor="NI" />
-                <ns0:country nullFlavor="NI" />
-            </ns0:addr>
-            <ns0:telecom nullFlavor="NI" />
-            <ns0:assignedPerson>
-                <ns0:name>
-                    <ns0:given>ED Billing</ns0:given>
-                    <ns0:given>Discharge</ns0:given>
-                    <ns0:family>Physician</ns0:family>
-                </ns0:name>
-            </ns0:assignedPerson>
-        </ns0:assignedAuthor>
-    </ns0:author>
-    <ns0:custodian>
-        <ns0:assignedCustodian>
-            <ns0:representedCustodianOrganization>
-                <ns0:id extension="PRM" root="2.16.840.1.113883.3.3316.200" />
-                <ns0:name>PRM- Palmdale Regional Medical Center</ns0:name>
-                <ns0:telecom use="WP" value="tel:(661)382-5000" />
-                <ns0:addr>
-                    <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                    <ns0:city>Palmdale</ns0:city>
-                    <ns0:state>CA</ns0:state>
-                    <ns0:postalCode>93551</ns0:postalCode>
-                    <ns0:country>USA</ns0:country>
-                </ns0:addr>
-            </ns0:representedCustodianOrganization>
-        </ns0:assignedCustodian>
-    </ns0:custodian>
-    <ns0:componentOf>
-        <ns0:encompassingEncounter>
-            <ns0:id extension="Encounter/65117030/_history/22" root="2.16.840.1.113883" />
-            <ns0:id extension="3012591990" root="2.16.840.1.113883.3.3316.200" />
-            <ns0:code code="E" codeSystem="2.16.840.1.113883.18.5" codeSystemName="v2-0004"
-                displayName="Emergency" />
-            <ns0:effectiveTime>
-                <ns0:low value="20220513072500+0000" />
-                <ns0:high value="20220513095700+0000" />
-            </ns0:effectiveTime>
-            <ns0:responsibleParty>
-                <ns0:assignedEntity>
-                    <ns0:id root="2.16.840.1.113883.4.6" />
-                    <ns0:addr>
-                        <ns0:streetAddressLine nullFlavor="NI" />
-                        <ns0:city nullFlavor="NI" />
-                        <ns0:state nullFlavor="NI" />
-                        <ns0:postalCode nullFlavor="NI" />
-                        <ns0:country nullFlavor="NI" />
-                    </ns0:addr>
-                    <ns0:telecom nullFlavor="NI" />
-                    <ns0:assignedPerson>
-                        <ns0:name>
-                            <ns0:given>ED Billing</ns0:given>
-                            <ns0:given>Discharge</ns0:given>
-                            <ns0:family>Physician</ns0:family>
-                        </ns0:name>
-                    </ns0:assignedPerson>
-                    <ns0:representedOrganization>
-                        <ns0:id extension="PRM" root="2.16.840.1.113883.3.3316.200" />
-                        <ns0:name>PRM- Palmdale Regional Medical Center</ns0:name>
-                        <ns0:telecom use="WP" value="tel:(661)382-5000" />
-                        <ns0:addr>
-                            <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                            <ns0:city>Palmdale</ns0:city>
-                            <ns0:state>CA</ns0:state>
-                            <ns0:postalCode>93551</ns0:postalCode>
-                            <ns0:country>USA</ns0:country>
-                        </ns0:addr>
-                    </ns0:representedOrganization>
-                </ns0:assignedEntity>
-            </ns0:responsibleParty>
-            <ns0:encounterParticipant typeCode="ATND">
-                <ns0:assignedEntity>
-                    <ns0:id extension="1114930757" root="2.16.840.1.113883.4.6" />
-                    <ns0:addr>
-                        <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                        <ns0:city>Palmdale</ns0:city>
-                        <ns0:state>CA</ns0:state>
-                        <ns0:postalCode>93551</ns0:postalCode>
-                        <ns0:country>US</ns0:country>
-                    </ns0:addr>
-                    <ns0:telecom value="tel:((66)1)3-82-6" />
-                    <ns0:assignedPerson>
-                        <ns0:name>
-                            <ns0:given>Scott</ns0:given>
-                            <ns0:given>A</ns0:given>
-                            <ns0:family>Wang</ns0:family>
-                        </ns0:name>
-                    </ns0:assignedPerson>
-                </ns0:assignedEntity>
-            </ns0:encounterParticipant>
-            <ns0:encounterParticipant typeCode="ATND">
-                <ns0:assignedEntity>
-                    <ns0:id extension="1999999992" root="2.16.840.1.113883.4.6" />
-                    <ns0:addr>
-                        <ns0:streetAddressLine nullFlavor="NI" />
-                        <ns0:city nullFlavor="NI" />
-                        <ns0:state nullFlavor="NI" />
-                        <ns0:postalCode nullFlavor="NI" />
-                        <ns0:country nullFlavor="NI" />
-                    </ns0:addr>
-                    <ns0:assignedPerson>
-                        <ns0:name>
-                            <ns0:given>Physician</ns0:given>
-                            <ns0:family>Ed staff</ns0:family>
-                        </ns0:name>
-                    </ns0:assignedPerson>
-                </ns0:assignedEntity>
-            </ns0:encounterParticipant>
-            <ns0:location>
-                <ns0:healthCareFacility>
-                    <ns0:id extension="1508856535" root="2.16.840.1.113883.4.6" />
-                    <ns0:code code="prov" codeSystem="2.16.840.1.113883.4.642.3.414"
-                        codeSystemName="organization-type" displayName="Healthcare Provider">
-                        <ns0:translation code="team" codeSystem="2.16.840.1.113883.4.642.3.414"
-                            codeSystemName="organization-type" displayName="Organizational team" />
-                    </ns0:code>
-                    <ns0:location>
-                        <ns0:addr>
-                            <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                            <ns0:city>Palmdale</ns0:city>
-                            <ns0:state>CA</ns0:state>
-                            <ns0:postalCode>93551</ns0:postalCode>
-                            <ns0:country>USA</ns0:country>
-                        </ns0:addr>
-                    </ns0:location>
-                    <ns0:serviceProviderOrganization>
-                        <ns0:id extension="PRM" root="2.16.840.1.113883.3.3316.200" />
-                        <ns0:name>PRM- Palmdale Regional Medical Center</ns0:name>
-                        <ns0:telecom use="WP" value="tel:(661)382-5000" />
-                        <ns0:addr>
-                            <ns0:streetAddressLine>38600 Medical Center Drive</ns0:streetAddressLine>
-                            <ns0:city>Palmdale</ns0:city>
-                            <ns0:state>CA</ns0:state>
-                            <ns0:postalCode>93551</ns0:postalCode>
-                            <ns0:country>USA</ns0:country>
-                        </ns0:addr>
-                    </ns0:serviceProviderOrganization>
-                </ns0:healthCareFacility>
-            </ns0:location>
-        </ns0:encompassingEncounter>
-    </ns0:componentOf>
-    <component>
-        <structuredBody>
-            <component>
-                <ns0:section xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                    <ns0:templateId root="2.16.840.1.113883.10.20.22.2.17" />
-                    <ns0:templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.2.17" />
-                    <ns0:code code="29762-2" codeSystem="2.16.840.1.113883.6.1"
-                        codeSystemName="LOINC" displayName="Social History" />
-                    <ns0:title>SOCIAL HISTORY</ns0:title>
-                    <ns0:text>
-                        <ns0:table border="1" width="100%">
-                            <ns0:thead>
-                                <ns0:tr>
-                                    <ns0:th>Social History Observation</ns0:th>
-                                    <ns0:th>Social History Observation Result</ns0:th>
-                                </ns0:tr>
-                            </ns0:thead>
-                            <ns0:tbody>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="socContent0">Birth Sex</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="socObservationResult0">M</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="socContent1">Travel History</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="socObservationResult1">COVID- 19 Testing
-                                            Reason-Screening</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                                <ns0:tr>
-                                    <ns0:td>
-                                        <ns0:content ID="socContent2">Travel History</ns0:content>
-                                    </ns0:td>
-                                    <ns0:td>
-                                        <ns0:content ID="socObservationResult2">Pregnancy Status-Not
-                                            applicable (qualifier value)</ns0:content>
-                                    </ns0:td>
-                                </ns0:tr>
-                            </ns0:tbody>
-                        </ns0:table>
-                    </ns0:text>
-                    <ns0:entry>
-                        <ns0:observation classCode="OBS" moodCode="EVN">
-                            <ns0:templateId extension="2016-06-01"
-                                root="2.16.840.1.113883.10.20.22.4.200" />
-                            <ns0:id root="178c1aaf-fd2a-4652-9bc0-8e668c22e80c" />
-                            <ns0:code code="76689-9" codeSystem="2.16.840.1.113883.6.1"
-                                codeSystemName="LOINC" displayName="Birth Sex" />
-                            <ns0:statusCode code="completed" />
-                            <ns0:value code="M" codeSystem="2.16.840.1.113883.5.1"
-                                codeSystemName="Administrative Gender" displayName="Male"
-                                xsi:type="CD" />
-                        </ns0:observation>
-                    </ns0:entry>
-                    <ns0:entry>
-                        <ns0:act classCode="ACT" moodCode="EVN">
-                            <ns0:templateId extension="2016-12-01"
-                                root="2.16.840.1.113883.10.20.15.2.3.1" />
-                            <ns0:id root="e0548b3b-6eca-401f-970c-676c6f8e09f4" />
-                            <ns0:code code="420008001" codeSystem="2.16.840.1.113883.6.96"
-                                codeSystemName="SNOMED-CT" displayName="Travel" />
-                            <ns0:text>COVID- 19 Testing Reason-Screening</ns0:text>
-                            <ns0:statusCode code="completed" />
-                            <ns0:effectiveTime value="20220513073102+0000" />
-                        </ns0:act>
-                    </ns0:entry>
-                    <ns0:entry>
-                        <ns0:act classCode="ACT" moodCode="EVN">
-                            <ns0:templateId extension="2016-12-01"
-                                root="2.16.840.1.113883.10.20.15.2.3.1" />
-                            <ns0:id root="1cc4eacd-5c2f-40c4-8bc2-e50e563fcbc0" />
-                            <ns0:code code="420008001" codeSystem="2.16.840.1.113883.6.96"
-                                codeSystemName="SNOMED-CT" displayName="Travel" />
-                            <ns0:text>Pregnancy Status-Not applicable (qualifier value)</ns0:text>
-                            <ns0:statusCode code="completed" />
-                            <ns0:effectiveTime value="20220513072522+0000" />
-                        </ns0:act>
-                    </ns0:entry>
-                </ns0:section>
-            </component>
-        </structuredBody>
-    </component>
-</ns0:ClinicalDocument>
+<ClinicalDocument
+	xmlns="urn:hl7-org:v3"
+	xmlns:cda="urn:hl7-org:v3"
+	xmlns:sdtc="urn:hl7-org:sdtc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<realmCode code="US"/>
+	<typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
+	<templateId root="2.16.840.1.113883.10.20.22.1.1"/>
+	<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.1.1"/>
+	<templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2"/>
+	<id root="1dd10047-2207-4eac-a993-0f706c88be5d"/>
+	<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Initial Public Health Case Report"/>
+	<title>Initial Public Health Case Report</title>
+	<effectiveTime value="20220514125638+0000"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+	<languageCode code="en-US"/>
+	<setId extension="36959489|65117030" root="2.16.840.1.113883"/>
+	<versionNumber value="2"/>
+	<recordTarget>
+		<patientRole>
+			<id extension="10308625" root="2.16.840.1.113883.3.3316.100"/>
+			<addr>
+				<streetAddressLine>1050 CARPENTER ST</streetAddressLine>
+				<city>EDWARDS</city>
+				<state>CA</state>
+				<postalCode>93523-2800</postalCode>
+				<country>US</country>
+			</addr>
+			<telecom use="HP" value="tel:(818)419-5968"/>
+			<telecom value="mailto:MELLY.C.A.16@GMAIL.COM"/>
+			<patient>
+				<name>
+					<given>ABEL</given>
+					<family>CASTILLO</family>
+				</name>
+				<administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
+				<birthTime value="20150415"/>
+				<sdtc:deceasedInd value="false"/>
+				<raceCode code="2054-5" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="Black or African American"/>
+				<ethnicGroupCode code="2135-2" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="Hispanic or Latino"/>
+				<languageCommunication>
+					<languageCode code="en"/>
+				</languageCommunication>
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<time value="20220513072500+0000"/>
+		<assignedAuthor>
+			<id root="2.16.840.1.113883.4.6"/>
+			<addr>
+				<streetAddressLine nullFlavor="NI"/>
+				<city nullFlavor="NI"/>
+				<state nullFlavor="NI"/>
+				<postalCode nullFlavor="NI"/>
+				<country nullFlavor="NI"/>
+			</addr>
+			<telecom nullFlavor="NI"/>
+			<assignedPerson>
+				<name>
+					<given>ED Billing</given>
+					<given>Discharge</given>
+					<family>Physician</family>
+				</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id extension="PRM" root="2.16.840.1.113883.3.3316.200"/>
+				<name>PRM- Palmdale Regional Medical Center</name>
+				<telecom use="WP" value="tel:(661)382-5000"/>
+				<addr>
+					<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+					<city>Palmdale</city>
+					<state>CA</state>
+					<postalCode>93551</postalCode>
+					<country>USA</country>
+				</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<componentOf>
+		<encompassingEncounter>
+			<id extension="Encounter/65117030/_history/22" root="2.16.840.1.113883"/>
+			<id extension="3012591990" root="2.16.840.1.113883.3.3316.200"/>
+			<code code="E" codeSystem="2.16.840.1.113883.18.5" codeSystemName="v2-0004" displayName="Emergency"/>
+			<effectiveTime>
+				<low value="20220513072500+0000"/>
+				<high value="20220513095700+0000"/>
+			</effectiveTime>
+			<responsibleParty>
+				<assignedEntity>
+					<id root="2.16.840.1.113883.4.6"/>
+					<addr>
+						<streetAddressLine nullFlavor="NI"/>
+						<city nullFlavor="NI"/>
+						<state nullFlavor="NI"/>
+						<postalCode nullFlavor="NI"/>
+						<country nullFlavor="NI"/>
+					</addr>
+					<telecom nullFlavor="NI"/>
+					<assignedPerson>
+						<name>
+							<given>ED Billing</given>
+							<given>Discharge</given>
+							<family>Physician</family>
+						</name>
+					</assignedPerson>
+					<representedOrganization>
+						<id extension="PRM" root="2.16.840.1.113883.3.3316.200"/>
+						<name>PRM- Palmdale Regional Medical Center</name>
+						<telecom use="WP" value="tel:(661)382-5000"/>
+						<addr>
+							<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+							<city>Palmdale</city>
+							<state>CA</state>
+							<postalCode>93551</postalCode>
+							<country>USA</country>
+						</addr>
+					</representedOrganization>
+				</assignedEntity>
+			</responsibleParty>
+			<encounterParticipant typeCode="ATND">
+				<assignedEntity>
+					<id extension="1114930757" root="2.16.840.1.113883.4.6"/>
+					<addr>
+						<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+						<city>Palmdale</city>
+						<state>CA</state>
+						<postalCode>93551</postalCode>
+						<country>US</country>
+					</addr>
+					<telecom value="tel:((66)1)3-82-6"/>
+					<assignedPerson>
+						<name>
+							<given>Scott</given>
+							<given>A</given>
+							<family>Wang</family>
+						</name>
+					</assignedPerson>
+				</assignedEntity>
+			</encounterParticipant>
+			<encounterParticipant typeCode="ATND">
+				<assignedEntity>
+					<id extension="1999999992" root="2.16.840.1.113883.4.6"/>
+					<addr>
+						<streetAddressLine nullFlavor="NI"/>
+						<city nullFlavor="NI"/>
+						<state nullFlavor="NI"/>
+						<postalCode nullFlavor="NI"/>
+						<country nullFlavor="NI"/>
+					</addr>
+					<assignedPerson>
+						<name>
+							<given>Physician</given>
+							<family>Ed staff</family>
+						</name>
+					</assignedPerson>
+				</assignedEntity>
+			</encounterParticipant>
+			<location>
+				<healthCareFacility>
+					<id extension="1508856535" root="2.16.840.1.113883.4.6"/>
+					<code code="prov" codeSystem="2.16.840.1.113883.4.642.3.414" codeSystemName="organization-type" displayName="Healthcare Provider">
+						<translation code="team" codeSystem="2.16.840.1.113883.4.642.3.414" codeSystemName="organization-type" displayName="Organizational team"/>
+					</code>
+					<location>
+						<addr>
+							<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+							<city>Palmdale</city>
+							<state>CA</state>
+							<postalCode>93551</postalCode>
+							<country>USA</country>
+						</addr>
+					</location>
+					<serviceProviderOrganization>
+						<id extension="PRM" root="2.16.840.1.113883.3.3316.200"/>
+						<name>PRM- Palmdale Regional Medical Center</name>
+						<telecom use="WP" value="tel:(661)382-5000"/>
+						<addr>
+							<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
+							<city>Palmdale</city>
+							<state>CA</state>
+							<postalCode>93551</postalCode>
+							<country>USA</country>
+						</addr>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<component>
+		<structuredBody>
+			<component>
+				<section>
+					<templateId root="2.16.840.1.113883.10.20.22.2.17"/>
+					<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.2.17"/>
+					<code code="29762-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Social History"/>
+					<title>SOCIAL HISTORY</title>
+					<text>
+						<table border="1" width="100%">
+							<thead>
+								<tr>
+									<th>Social History Observation</th>
+									<th>Social History Observation Result</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<content ID="socContent0">Birth Sex</content>
+									</td>
+									<td>
+										<content ID="socObservationResult0">M</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="socContent1">Travel History</content>
+									</td>
+									<td>
+										<content ID="socObservationResult1">COVID- 19 Testing
+                                            Reason-Screening</content>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<content ID="socContent2">Travel History</content>
+									</td>
+									<td>
+										<content ID="socObservationResult2">Pregnancy Status-Not
+                                            applicable (qualifier value)</content>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<templateId extension="2016-06-01" root="2.16.840.1.113883.10.20.22.4.200"/>
+							<id root="178c1aaf-fd2a-4652-9bc0-8e668c22e80c"/>
+							<code code="76689-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Birth Sex"/>
+							<statusCode code="completed"/>
+							<value code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="Administrative Gender" displayName="Male" xsi:type="CD"/>
+						</observation>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2.3.1"/>
+							<id root="e0548b3b-6eca-401f-970c-676c6f8e09f4"/>
+							<code code="420008001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Travel"/>
+							<text>COVID- 19 Testing Reason-Screening</text>
+							<statusCode code="completed"/>
+							<effectiveTime value="20220513073102+0000"/>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2.3.1"/>
+							<id root="1cc4eacd-5c2f-40c4-8bc2-e50e563fcbc0"/>
+							<code code="420008001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Travel"/>
+							<text>Pregnancy Status-Not applicable (qualifier value)</text>
+							<statusCode code="completed"/>
+							<effectiveTime value="20220513072522+0000"/>
+						</act>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>
