@@ -1,3 +1,4 @@
+"use client";
 import React, { ReactNode, useEffect, useState } from "react";
 import { Button } from "@trussworks/react-uswds";
 import classNames from "classnames";
