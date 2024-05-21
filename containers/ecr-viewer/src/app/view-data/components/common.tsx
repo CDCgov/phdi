@@ -4,9 +4,7 @@ import {
 } from "@/app/services/evaluateFhirDataService";
 import EvaluateTable from "@/app/view-data/components/EvaluateTable";
 import {
-  TableRow,
   formatName,
-  formatTablesToJSON,
   formatVitals,
   toSentenceCase,
   formatDate,
@@ -32,6 +30,12 @@ import {
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import parse from "html-react-parser";
 import { DisplayDataProps } from "@/app/DataDisplay";
+import {
+  formatTablesToJSON,
+  TableRow,
+} from "@/app/services/formatTablesToJSON";
+import { JSDOM } from "jsdom";
+import DOMPurify from "dompurify";
 
 /**
  * Returns a table displaying administered medication information.
@@ -507,12 +511,18 @@ export const evaluateClinicalData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
+  const htmlString = evaluate(
+    fhirBundle,
+    mappings["historyOfPresentIllness"],
+  )[0]?.div;
+  const window = new JSDOM("").window;
+  const purify = DOMPurify(window);
+  const cleanMiscNotes = purify.sanitize(htmlString);
+
   const clinicalNotes: DisplayDataProps[] = [
     {
       title: "Miscellaneous Notes",
-      value: parse(
-        evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0]?.div || "",
-      ),
+      value: parse(cleanMiscNotes),
     },
   ];
 
