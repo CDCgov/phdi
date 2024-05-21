@@ -1,4 +1,3 @@
-"use client";
 import { Bundle, FhirResource } from "fhir/r4";
 import { PathMappings } from "@/app/utils";
 import SideNav from "@/app/view-data/components/SideNav";
