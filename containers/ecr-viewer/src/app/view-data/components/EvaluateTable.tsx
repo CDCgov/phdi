@@ -1,15 +1,11 @@
 import { Element } from "fhir/r4";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
-import { Button, Table } from "@trussworks/react-uswds";
+import { Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import { evaluateValue } from "../../services/evaluateFhirDataService";
+import BuildRow from "@/app/view-data/components/BuildRow";
 
-interface BuildRowProps {
-  mappings: PathMappings;
-  columns: ColumnInfoInput[];
-  entry: Element;
-}
 interface TableProps {
   resources: Element[];
   mappings: PathMappings;
@@ -17,6 +13,11 @@ interface TableProps {
   caption?: string;
   fixed?: boolean;
   outerBorder?: boolean;
+}
+interface EvaluateRowProps {
+  fhirElement: Element;
+  mappings: PathMappings;
+  column: ColumnInfoInput;
 }
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
@@ -48,12 +49,19 @@ const EvaluateTable = ({
   ));
 
   let tableRows = resources.map((entry, index) => {
+    const rowValues = columns.map((column) => {
+      return (
+        <RowData fhirElement={entry} mappings={mappings} column={column} />
+      );
+    });
     return (
       <BuildRow
         key={index}
-        columns={columns}
-        mappings={mappings}
-        entry={entry}
+        columns={columns.map(
+          ({ applyToValue: _applyToValue, ...everythingElse }) =>
+            everythingElse,
+        )}
+        rowValues={rowValues}
       />
     );
   });
@@ -77,70 +85,19 @@ const EvaluateTable = ({
   );
 };
 
-/**
- * Builds a row for a table based on provided columns, mappings, and entry data.
- * @param props - The properties object containing columns, mappings, and entry data.
- * @param props.columns - An array of column objects defining the structure of the row.
- * @param props.mappings - An object containing mappings for column data.
- * @param props.entry - The data entry object for the row.
- * @returns - The JSX element representing the constructed row.
- */
-const BuildRow: React.FC<BuildRowProps> = ({
-  columns,
-  mappings,
-  entry,
-}: BuildRowProps) => {
-  const [hiddenComment, setHiddenComment] = useState(true);
-
-  let hiddenRows: React.JSX.Element[] = [];
-  let rowCells = columns.map((column, index) => {
-    let rowCellData: ReactNode;
-    if (column?.value) {
-      rowCellData = column.value;
-    } else if (column?.infoPath) {
-      rowCellData = evaluateValue(entry, mappings[column.infoPath]);
-    }
-    if (rowCellData && column.applyToValue) {
-      rowCellData = column.applyToValue(rowCellData);
-    } else if (!rowCellData) {
-      rowCellData = <span className={"text-italic text-base"}>No data</span>;
-    } else if (column.hiddenBaseText) {
-      hiddenRows.push(
-        <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
-          <td colSpan={columns.length} className={"hideableData"}>
-            {rowCellData}
-          </td>
-        </tr>,
-      );
-      rowCellData = (
-        <Button
-          unstyled={true}
-          type={"button"}
-          onClick={() => setHiddenComment(!hiddenComment)}
-          aria-controls={`hidden-comment-${index}`}
-          aria-expanded={!hiddenComment}
-        >
-          {hiddenComment ? "View" : "Hide"} {column.hiddenBaseText}
-        </Button>
-      );
-    }
-    return (
-      <td key={`row-data-${index}`} className="text-top">
-        {rowCellData}
-      </td>
-    );
-  });
-
-  if (hiddenRows) {
-    return (
-      <React.Fragment>
-        <tr>{rowCells}</tr>
-        {...hiddenRows}
-      </React.Fragment>
-    );
-  } else {
-    return <tr>{rowCells}</tr>;
+const RowData = ({ column, mappings, fhirElement }: EvaluateRowProps) => {
+  let rowData: ReactNode;
+  if (column?.value) {
+    rowData = column.value;
+  } else if (column?.infoPath) {
+    rowData = evaluateValue(fhirElement, mappings[column.infoPath]);
   }
+
+  if (rowData && column.applyToValue) {
+    rowData = column.applyToValue(rowData);
+  }
+
+  return rowData;
 };
 
 export default EvaluateTable;
