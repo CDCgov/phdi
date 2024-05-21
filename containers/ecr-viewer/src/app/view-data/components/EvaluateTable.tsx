@@ -1,11 +1,9 @@
-"use client";
 import { Element } from "fhir/r4";
 import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
 import { evaluateValue } from "../../services/evaluateFhirDataService";
-import { formatDate, toSentenceCase } from "@/app/services/formatService";
 
 interface BuildRowProps {
   mappings: PathMappings;
@@ -102,13 +100,8 @@ const BuildRow: React.FC<BuildRowProps> = ({
     } else if (column?.infoPath) {
       rowCellData = evaluateValue(entry, mappings[column.infoPath]);
     }
-    if (typeof rowCellData === "string" && column.applyToValue) {
-      rowCellData = (
-        <EvaluateFunction
-          data={rowCellData}
-          functionName={column.applyToValue}
-        />
-      );
+    if (rowCellData && column.applyToValue) {
+      rowCellData = column.applyToValue(rowCellData);
     } else if (!rowCellData) {
       rowCellData = <span className={"text-italic text-base"}>No data</span>;
     } else if (column.hiddenBaseText) {
@@ -147,21 +140,6 @@ const BuildRow: React.FC<BuildRowProps> = ({
     );
   } else {
     return <tr>{rowCells}</tr>;
-  }
-};
-
-interface EvaluateFunctionProps {
-  data: string;
-  functionName: string;
-}
-
-const EvaluateFunction = ({ data, functionName }: EvaluateFunctionProps) => {
-  if (functionName === "toSentenceCase") {
-    return toSentenceCase(data);
-  } else if (functionName === "formatDate") {
-    return formatDate(data);
-  } else {
-    console.error("Unable to find function");
   }
 };
 
