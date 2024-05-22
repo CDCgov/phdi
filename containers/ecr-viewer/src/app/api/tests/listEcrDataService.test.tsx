@@ -47,7 +47,10 @@ describe("listEcrDataService", () => {
     });
 
     it("should map each object in responseBody to the correct output structure", () => {
-      const responseBody: any[] = [{ ecr_id: "ecr1" }, { ecr_id: "ecr2" }];
+      const responseBody: any[] = [
+        { ecr_id: "ecr1", date_created: new Date() },
+        { ecr_id: "ecr2", date_created: new Date() },
+      ];
 
       const expected: ListEcr = [
         { ecrId: "ecr1", dateModified: expect.any(String) },
