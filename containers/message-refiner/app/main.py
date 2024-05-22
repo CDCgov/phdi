@@ -173,21 +173,27 @@ def refine(
     )
 
     if sections_xpath_expression and services_xpath_expression:
-        xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]][{services_xpath_expression}]"
+        elements = []
+        sections = validated_message.xpath(
+            f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]",
+            namespaces=namespaces,
+        )
+        for section in sections:
+            condition_elements = section.xpath(
+                services_xpath_expression, namespaces=namespaces
+            )
+            if condition_elements:
+                elements.extend(condition_elements)
     elif sections_xpath_expression:
         xpath_expression = (
             f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
         )
+        elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
     elif services_xpath_expression:
         xpath_expression = services_xpath_expression
+        elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
     else:
         return ET.tostring(validated_message, encoding="unicode")
-
-    print(f"Full XPath Expression: {xpath_expression}")
-
-    # Use XPath to find elements matching the expression
-    elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
-    print(f"Found Elements: {len(elements)}")
 
     # Create & set up a new root element for the refined XML
     # we are using a combination of a direct namespace uri and nsmap so that we can
