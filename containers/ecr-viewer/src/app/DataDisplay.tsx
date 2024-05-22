@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { Button } from "@trussworks/react-uswds";
 import classNames from "classnames";
-import { toolTipElement } from "@/app/utils";
+import { ToolTipElement } from "@/app/ToolTipElement";
 
 export interface DisplayDataProps {
   title?: string;
@@ -36,7 +36,7 @@ export const DataDisplay: React.FC<{
     <div>
       <div className="grid-row">
         <div className="data-title">
-          {toolTipElement(item.title, item.toolTip)}
+          <ToolTipElement content={item.title} toolTip={item.toolTip} />
         </div>
         <div
           className={classNames(

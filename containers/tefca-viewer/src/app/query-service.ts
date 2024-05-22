@@ -76,10 +76,10 @@ async function patientQuery(
 
   // Check for errors
   if (response.status !== 200) {
-    throw new Error(
+    console.error(
       `Patient search failed. Status: ${
         response.status
-      } \n ${await response.text()} \n Headers: ${JSON.stringify(
+      } \n Body: ${await response.text} \n Headers: ${JSON.stringify(
         response.headers.raw(),
       )}`,
     );
@@ -175,8 +175,8 @@ async function syphilisQuery(
   fhirClient: FHIRClient,
   queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
-  const loincs: Array<string> = ["LP70657-9", "98212-4"];
-  const snomed: Array<string> = ["76272004"];
+  const loincs: Array<string> = ["LP70657-9", "98212-4", "53605-2"];
+  const snomed: Array<string> = ["76272004, 186847001"];
   const rxnorm: Array<string> = ["2671695"]; // drug codes from NLM/NIH RxNorm
   const loincFilter: string = loincs.join(",");
   const snomedFilter: string = snomed.join(",");
