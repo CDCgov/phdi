@@ -7,6 +7,7 @@ from app.main import refine
 from app.main import select_message_header
 from app.main import validate_message
 from app.main import validate_sections_to_include
+from app.utils import _generate_clinical_xpaths
 from fastapi.testclient import TestClient
 from lxml import etree as ET
 
@@ -241,12 +242,29 @@ def test_refine():
 
     # Test case: Refine for condition only
     expected_message = refined_test_condition_only
+    raw_message = ET.fromstring(test_eICR_xml)
+    system = "http://loinc.org"
+    codes = ["76078-5", "76080-1"]
+    mock_clinical_service_xpaths = _generate_clinical_xpaths(system, codes)
     refined_message = refine(
-        raw_message, sections_to_include=None, clinical_services=mock_tcr_response
+        raw_message,
+        sections_to_include=None,
+        clinical_services=mock_clinical_service_xpaths,
     )
-
     actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
     expected_flattened = [i.tag for i in ET.fromstring(expected_message).iter()]
+    assert actual_flattened == expected_flattened
+
+    # Test case: Refine for condition and labs/diagnostics section
+    expected_message = refined_test_conditon_and_labs
+    sections_to_include = ["30954-2"]
+    refined_message = refine(
+        raw_message,
+        sections_to_include=sections_to_include,
+        clinical_services=mock_clinical_service_xpaths,
+    )
+    actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
+    expected_flattened = [i.tag for i in expected_message.iter()]
     assert actual_flattened == expected_flattened
 
 
