@@ -27,7 +27,7 @@ services:
       - "3000:3000"
     volumes:
       - ./src/app:/app
-      - ../shared:/shared # Mapping the shared directory
+      - ../../shared-resources:/shared-resources # Mapping the shared directory
     environment:
       - DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
     depends_on:

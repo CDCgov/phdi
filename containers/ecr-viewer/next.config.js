@@ -31,7 +31,10 @@ const nextConfig = {
    * @returns The modified Webpack configuration.
    */
   webpack: (config, { isServer }) => {
-    config.resolve.alias["@shared"] = path.resolve(__dirname, "../shared");
+    config.resolve.alias["@shared"] = path.resolve(
+      __dirname,
+      "../../shared-resources",
+    );
     if (!isServer) {
       const ignored =
         typeof config.watchOptions.ignored[Symbol.iterator] === "function"
@@ -40,7 +43,7 @@ const nextConfig = {
 
       config.watchOptions.ignored = [
         ...ignored,
-        path.resolve(__dirname, "../shared"),
+        path.resolve(__dirname, "../../shared-resources"),
       ];
     }
 
