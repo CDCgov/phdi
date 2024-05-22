@@ -1,4 +1,7 @@
 @use 'uswds-core' as *;
+// @import 'tailwindcss/base'; 
+// @import 'tailwindcss/components'; 
+// @import 'tailwindcss/utilities';
 
 .section__line {
   border-top: 1px solid #99DEEA;
@@ -308,9 +311,27 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   min-width: 350px;
 }
 
-.loading-blob-blue {
-  background: #99DEEA; border-radius: 8px
+
+@keyframes shimmer {
+  to {
+     background-position-x: 0%
+  }
 }
+
+.loading-blob-blue {
+  background: #99DEEA;
+  border-radius: 8px;
+  background: linear-gradient(-90deg, #99DEEA 40%, #34CAE9 50%, #99DEEA 60%);
+  background-size: 300%;
+  background-position-x: 100%;
+  animation: shimmer 2s infinite linear;
+}
+
 .loading-blob-gray {
-  background: #DFE1E2; border-radius: 8px
+  background: #DFE1E2;
+  border-radius: 8px;
+  background: linear-gradient(-90deg, #eee 40%, #B4BABF 50%, #eee 60%);
+  background-size: 300%;
+  background-position-x: 100%;
+  animation: shimmer 2s infinite linear;
 }
