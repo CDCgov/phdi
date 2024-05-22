@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import List
 
 import requests
 from dibbs.base_service import BaseService
@@ -61,7 +60,11 @@ async def refine_ecr(
 
     clinical_services = None
     if conditions_to_include:
-        clinical_services = get_clinical_services_to_include(conditions_to_include)
+        clinical_services, error_message = get_clinical_services_to_include(
+            conditions_to_include
+        )
+        if error_message != "":
+            return Response(content=error_message, status_code=422)
 
     data = refine(validated_message, sections, clinical_services)
 
@@ -109,7 +112,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     return (section_loincs, error_message) if section_loincs else (None, error_message)
 
 
-def get_clinical_services_to_include(condition_codes: str) -> List[str]:
+def get_clinical_services_to_include(condition_codes: str) -> tuple[list, str]:
     """
     This a function that loops through the provided condition codes. For each
     condition code provided, it calls the trigger-code-reference service to get
@@ -120,6 +123,7 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
     :param condition_codes: SNOMED condition codes to look up in TCR service
     :return: List of xpath queries to check
     """
+    error_message = ""
     clinical_services_to_include = []
     if condition_codes:
         conditions_list = condition_codes.split(",")
@@ -128,8 +132,8 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
                 response = requests.get(TCR_ENDPOINT + condition)
                 clinical_services = response.json()
             except requests.exceptions.RequestException as e:
-                print(f"Request to {TCR_ENDPOINT} failed: {e}")
-                return clinical_services_to_include
+                error_message = f"Request to {TCR_ENDPOINT} failed: {e}"
+                return (clinical_services_to_include, error_message)
             for system, entries in clinical_services.items():
                 for entry in entries:
                     system = entry.get("system")
@@ -137,7 +141,7 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
                         system, entry.get("codes")
                     )
                     clinical_services_to_include.extend(xpath_queries)
-    return clinical_services_to_include
+    return (clinical_services_to_include, error_message)
 
 
 def refine(
@@ -150,7 +154,7 @@ def refine(
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
-    :param clinical_services: SNOMED clinical service XPaths
+    :param clinical_services: clinical service XPaths
     :return: The refined message.
     """
     header = select_message_header(validated_message)
@@ -175,7 +179,7 @@ def refine(
             f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
         )
     elif services_xpath_expression:
-        xpath_expression = f"//*[local-name()='section'][{services_xpath_expression}]"
+        xpath_expression = services_xpath_expression
     else:
         return ET.tostring(validated_message, encoding="unicode")
 
