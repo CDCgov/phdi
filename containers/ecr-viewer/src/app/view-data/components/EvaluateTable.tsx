@@ -14,11 +14,6 @@ interface TableProps {
   fixed?: boolean;
   outerBorder?: boolean;
 }
-interface EvaluateRowProps {
-  fhirElement: Element;
-  mappings: PathMappings;
-  column: ColumnInfoInput;
-}
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
  * @param props - The properties for configuring the table.
@@ -47,13 +42,10 @@ const EvaluateTable = ({
       {column.columnName}
     </th>
   ));
-
-  let tableRows = resources.map((entry, index) => {
-    const rowValues = columns.map((column) => {
-      return (
-        <RowData fhirElement={entry} mappings={mappings} column={column} />
-      );
-    });
+  let tableRows = resources.map((fhirElement, index) => {
+    const rowValues = columns.map((column) =>
+      evaluateRowData(column, mappings, fhirElement),
+    );
     return (
       <BuildRow
         key={index}
@@ -85,7 +77,11 @@ const EvaluateTable = ({
   );
 };
 
-const RowData = ({ column, mappings, fhirElement }: EvaluateRowProps) => {
+const evaluateRowData = (
+  column: ColumnInfoInput,
+  mappings: PathMappings,
+  fhirElement: Element,
+) => {
   let rowData: ReactNode;
   if (column?.value) {
     rowData = column.value;
