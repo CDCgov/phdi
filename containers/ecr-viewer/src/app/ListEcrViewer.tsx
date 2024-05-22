@@ -52,7 +52,7 @@ export default function ListECRViewer({
             ))}
           </tr>
         </thead>
-        <tbody>{renderPage(currentPage)}</tbody>{" "}
+        <tbody>{renderPage(currentPage)}</tbody>
       </Table>
       <Pagination
         currentPage={currentPage}

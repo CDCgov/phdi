@@ -207,6 +207,14 @@ td {
   align-items: center;
   flex-wrap: wrap;
   flex-direction: column;
+
+  .usa-table {
+    margin-bottom: 0 !important;
+  }
+
+  .usa-pagination {
+    margin-top: 0 !important;
+  }
 }
 
 .main-container {
