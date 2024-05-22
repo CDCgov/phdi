@@ -37,6 +37,11 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
         ".//*[local-name()='value'][@code='{code}' and @codeSystemName='{system}']"
     )
     xpath_translation = ".//*[local-name()='translation'][@code='{code}' and @codeSystemName='{system}']"
+
+    # add condition to confirm if system in dict
+    if system not in system_dict.keys():
+        raise KeyError(f"{system} not a recognized clinical service system.")
+
     # Loop through each code and create the XPath expressions
     return [
         xpath.format(code=code, system=system_dict.get(system))
