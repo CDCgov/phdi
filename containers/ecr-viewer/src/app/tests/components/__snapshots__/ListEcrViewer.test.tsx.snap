@@ -3,7 +3,7 @@
 exports[`Home Page, ListECRViewer should match snapshot 1`] = `
 <div>
   <div
-    class="content-wrapper"
+    class="homepage-wrapper"
   >
     <table
       class="usa-table usa-table--borderless width-full table-homepage-list"
@@ -61,7 +61,30 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
           </td>
         </tr>
       </tbody>
+       
     </table>
+    <nav
+      aria-label="Pagination"
+      class="usa-pagination"
+    >
+      <ul
+        class="usa-pagination__list"
+      >
+        <li
+          class="usa-pagination__item usa-pagination__page-no"
+        >
+          <button
+            aria-current="page"
+            aria-label="Page 1"
+            class="usa-button usa-button--unstyled usa-pagination__button usa-current"
+            data-testid="pagination-page-number"
+            type="button"
+          >
+            1
+          </button>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>
 `;

@@ -20,7 +20,7 @@ export default function ListECRViewer({
 }: ListEcrViewerProps): JSX.Element {
   const header = ["eCR ID", "Stored Date"];
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; // TODO: Change number of items per page
+  const itemsPerPage = 25;
   const totalPages = Math.ceil(listFhirData.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
