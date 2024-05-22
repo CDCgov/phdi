@@ -53,15 +53,17 @@ async def refine_ecr(
     if error_message != "":
         return Response(content=error_message, status_code=400)
 
+    sections = None
     if sections_to_include:
-        sections_to_include, error_message = validate_sections_to_include(
-            sections_to_include
-        )
-
+        sections, error_message = validate_sections_to_include(sections_to_include)
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
-        data = refine(validated_message, sections_to_include, conditions_to_include)
+    clinical_services = None
+    if conditions_to_include:
+        clinical_services = get_clinical_services_to_include(conditions_to_include)
+
+    data = refine(validated_message, sections, clinical_services)
 
     return Response(content=data, media_type="application/xml")
 
@@ -127,6 +129,7 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
                 clinical_services = response.json()
             except requests.exceptions.RequestException as e:
                 print(f"Request to {TCR_ENDPOINT} failed: {e}")
+                return clinical_services_to_include
             for system, entries in clinical_services.items():
                 for entry in entries:
                     system = entry.get("system")
@@ -140,14 +143,14 @@ def get_clinical_services_to_include(condition_codes: str) -> List[str]:
 def refine(
     validated_message: bytes,
     sections_to_include: str,
-    conditions_to_include: str = None,
+    clinical_services: str = None,
 ) -> str:
     """
     Refines an incoming XML message based on the sections to include.
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
-    :param conditions_to_include: SNOMED condition codes to look up in TCR
+    :param clinical_services: SNOMED clinical service XPaths
     :return: The refined message.
     """
     header = select_message_header(validated_message)
@@ -155,24 +158,32 @@ def refine(
     # Set up XPath expression
     # this namespace is only used for filtering
     namespaces = {"hl7": "urn:hl7-org:v3"}
-    sections_xpath_expression = "or".join(
-        [f"@code='{section}'" for section in sections_to_include]
+    sections_xpath_expression = (
+        " or ".join([f"@code='{section}'" for section in sections_to_include])
+        if sections_to_include
+        else None
     )
 
-    if conditions_to_include:
-        clinical_services_to_include = get_clinical_services_to_include(
-            conditions_to_include
-        )
-        services_xpath_expression = "|".join(clinical_services_to_include)
-        xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]//*[local-name()='entry' or local-name()='observation'][{services_xpath_expression}]"
-        print("Condition xpath:", xpath_expression)
-    else:
+    services_xpath_expression = (
+        " | ".join(clinical_services) if clinical_services else None
+    )
+
+    if sections_xpath_expression and services_xpath_expression:
+        xpath_expression = f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]][{services_xpath_expression}]"
+    elif sections_xpath_expression:
         xpath_expression = (
             f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
         )
+    elif services_xpath_expression:
+        xpath_expression = f"//*[local-name()='section'][{services_xpath_expression}]"
+    else:
+        return ET.tostring(validated_message, encoding="unicode")
+
+    print(f"Full XPath Expression: {xpath_expression}")
 
     # Use XPath to find elements matching the expression
     elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
+    print(f"Found Elements: {len(elements)}")
 
     # Create & set up a new root element for the refined XML
     # we are using a combination of a direct namespace uri and nsmap so that we can
