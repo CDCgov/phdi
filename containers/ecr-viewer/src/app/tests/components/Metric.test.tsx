@@ -1,18 +1,18 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import ECRViewerPage from "../view-data/page";
 
-jest.mock("../view-data/component-utils", () => ({
+jest.mock("../../view-data/component-utils", () => ({
   metrics: jest.fn(),
 }));
 
-import { metrics } from "../view-data/component-utils";
+import { metrics } from "../../view-data/component-utils";
+import Metric from "@/app/view-data/components/Metric";
 
 describe("ECRViewerPage", () => {
   it("calls metrics on beforeunload", () => {
     const metricsMock = metrics as jest.Mock;
 
-    const { unmount } = render(<ECRViewerPage />);
+    const { unmount } = render(<Metric fhirId={""} />);
 
     // Create a fake event
     const event = new Event("beforeunload");
