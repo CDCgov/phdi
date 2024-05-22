@@ -1,7 +1,4 @@
 @use 'uswds-core' as *;
-// @import 'tailwindcss/base'; 
-// @import 'tailwindcss/components'; 
-// @import 'tailwindcss/utilities';
 
 .section__line {
   border-top: 1px solid #99DEEA;
@@ -318,20 +315,33 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   }
 }
 
-.loading-blob-blue {
-  background: #99DEEA;
+.loading-blob {
   border-radius: 8px;
-  background: linear-gradient(-90deg, #99DEEA 40%, #34CAE9 50%, #99DEEA 60%);
-  background-size: 300%;
-  background-position-x: 100%;
-  animation: shimmer 2s infinite linear;
-}
+  animation: shimmer 0.75s infinite linear;
 
-.loading-blob-gray {
+  &-blue-small {
+    background: linear-gradient(-90deg, #99DEEA 40%, #71D5E6 50%, #99DEEA 60%);
+    background-size: 300%; //for whatever reason, it won't work if you move this to the parent
+    background-position-x: 100%;
+  }
+
+  &-blue-big {
+    background: linear-gradient(-90deg, #99DEEA 45%, #71D5E6 50%, #99DEEA 55%);
+    background-size: 300%;
+    background-position-x: 100%;
+  }
+
   background: #DFE1E2;
-  border-radius: 8px;
-  background: linear-gradient(-90deg, #eee 40%, #B4BABF 50%, #eee 60%);
-  background-size: 300%;
-  background-position-x: 100%;
-  animation: shimmer 2s infinite linear;
+
+  &-gray-small {
+    background: linear-gradient(-90deg, #F0F0F0 40%, #E4E4E4 50%, #F0F0F0 60%);
+    background-size: 300%;
+    background-position-x: 100%;
+  }
+
+  &-gray-big {
+    background: linear-gradient(-90deg, #F0F0F0 45%, #E4E4E4 50%, #F0F0F0 55%);
+    background-size: 300%;
+    background-position-x: 100%;
+  }
 }
