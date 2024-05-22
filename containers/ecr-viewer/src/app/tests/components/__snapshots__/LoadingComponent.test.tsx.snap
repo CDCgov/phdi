@@ -1,0 +1,2097 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      class="main-container"
+    >
+      <div
+        class="content-wrapper"
+      >
+        <div
+          class="nav-wrapper"
+        >
+          <nav
+            class="sticky-nav"
+          >
+            <ul
+              class="usa-sidenav"
+              data-testid="sidenav"
+            >
+              <li
+                class="usa-sidenav__item"
+              >
+                <a
+                  class=""
+                  href="#ecr-summary"
+                >
+                  eCR Summary
+                </a>
+              </li>
+              <li
+                class="usa-sidenav__item"
+              >
+                <a
+                  class=""
+                  href="#ecr-document"
+                >
+                  eCR Document
+                </a>
+              </li>
+              <li
+                class="usa-sidenav__item"
+              >
+                <ul
+                  class="usa-sidenav__sublist"
+                  data-testid="sidenav"
+                >
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <a
+                      class=""
+                      href="#patient-info"
+                    >
+                      Patient Info
+                    </a>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <ul
+                      class="usa-sidenav__sublist"
+                      data-testid="sidenav"
+                    >
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#demographics"
+                        >
+                          Demographics
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#social-history"
+                        >
+                          Social History
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <a
+                      class=""
+                      href="#encounter-info"
+                    >
+                      Encounter Info
+                    </a>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <ul
+                      class="usa-sidenav__sublist"
+                      data-testid="sidenav"
+                    >
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#encounter-details"
+                        >
+                          Encounter Details
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#provider-details"
+                        >
+                          Provider Details
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <a
+                      class=""
+                      href="#clinical-info"
+                    >
+                      Clinical Info
+                    </a>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <ul
+                      class="usa-sidenav__sublist"
+                      data-testid="sidenav"
+                    >
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#symptoms-and-problems"
+                        >
+                          Symptoms and Problems
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#treatment-details"
+                        >
+                          Treatment Details
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#immunizations"
+                        >
+                          Immunizations
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#diagnostic-and-vital-signs"
+                        >
+                          Diagnostic and Vital Signs
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <a
+                      class=""
+                      href="#lab-info"
+                    >
+                      Lab Info
+                    </a>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <ul
+                      class="usa-sidenav__sublist"
+                      data-testid="sidenav"
+                    >
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#lab-results-from"
+                        >
+                          Lab Results from
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <a
+                      class=""
+                      href="#ecr-metadata"
+                    >
+                      eCR Metadata
+                    </a>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <ul
+                      class="usa-sidenav__sublist"
+                      data-testid="sidenav"
+                    >
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#rr-details"
+                        >
+                          RR Details
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#eicr-details"
+                        >
+                          eICR Details
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#ecr-sender-details"
+                        >
+                          eCR Sender Details
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <a
+                      class=""
+                      href="#unavailable-info"
+                    >
+                      Unavailable Info
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div
+          class="ecr-viewer-container"
+        >
+          <div
+            class="ecr-content"
+          >
+            <h2
+              class="margin-bottom-3"
+              data-sectionid="ecr-summary"
+              id="ecr-summary"
+            >
+              eCR Summary
+            </h2>
+            <div
+              class="info-container"
+            >
+              <div
+                aria-labelledby="summary-box-key-information"
+                class="usa-summary-box padding-3"
+              >
+                <h3
+                  class="summary-box-key-information side-nav-ignore"
+                >
+                  About the Patient
+                </h3>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <h3
+                  class="summary-box-key-information side-nav-ignore"
+                >
+                  About the Encounter
+                </h3>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <h3
+                  class="summary-box-key-information side-nav-ignore"
+                >
+                  About the Condition
+                </h3>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+                <div>
+                  <div
+                    class="grid-row"
+                  >
+                    <div
+                      class="grid-col-4"
+                    >
+                      <div
+                        class="loading-blob-blue margin-right-1"
+                      >
+                         
+                      </div>
+                    </div>
+                    <div
+                      class="grid-col-8 loading-blob-blue"
+                    >
+                       
+                    </div>
+                  </div>
+                  <div
+                    class="section__line"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="margin-top-10"
+            >
+              <div
+                class="grid-container padding-0 margin-bottom-3"
+                data-testid="gridContainer"
+              >
+                <div
+                  class="grid-row"
+                  data-testid="grid"
+                >
+                  <div
+                    class=""
+                    data-testid="grid"
+                  >
+                    <h2
+                      class="margin-bottom-0"
+                      data-sectionid="ecr-document"
+                      id="ecr-document"
+                    >
+                      eCR Document
+                    </h2>
+                  </div>
+                  <div
+                    class="flex-align-self-center margin-left-auto"
+                    data-testid="grid"
+                  >
+                    <button
+                      class="usa-button usa-button--unstyled"
+                      data-testid="button"
+                      id="main-expand-button"
+                      type="button"
+                    >
+                      Expand all sections
+                    </button>
+                    <span
+                      class="vertical-line"
+                    />
+                    <button
+                      class="usa-button usa-button--unstyled"
+                      data-testid="button"
+                      id="main-collapse-button"
+                      type="button"
+                    >
+                      Collapse all sections
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="usa-accordion info-container"
+                data-allow-multiple="true"
+                data-testid="accordion"
+              >
+                <h3
+                  class="usa-accordion__heading"
+                  data-sectionid="patient-info"
+                >
+                  <button
+                    aria-expanded="true"
+                    class="usa-accordion__button"
+                    data-testid="accordionButton_undefined"
+                    type="button"
+                  >
+                    Patient Info
+                  </button>
+                </h3>
+                <div
+                  class="usa-accordion__content usa-prose"
+                  data-testid="accordionItem_undefined"
+                >
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="demographics"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="Demographics"
+                          >
+                            Demographics
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="social-history"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="Social History"
+                          >
+                            Social History
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  class="usa-accordion__heading"
+                  data-sectionid="encounter-info"
+                >
+                  <button
+                    aria-expanded="true"
+                    class="usa-accordion__button"
+                    data-testid="accordionButton_undefined"
+                    type="button"
+                  >
+                    Encounter Info
+                  </button>
+                </h3>
+                <div
+                  class="usa-accordion__content usa-prose"
+                  data-testid="accordionItem_undefined"
+                >
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="encounter-details"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="Encounter Details"
+                          >
+                            Encounter Details
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="provider-details"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="Provider Details"
+                          >
+                            Provider Details
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  class="usa-accordion__heading"
+                  data-sectionid="clinical-info"
+                >
+                  <button
+                    aria-expanded="true"
+                    class="usa-accordion__button"
+                    data-testid="accordionButton_undefined"
+                    type="button"
+                  >
+                    Clinical Info
+                  </button>
+                </h3>
+                <div
+                  class="usa-accordion__content usa-prose"
+                  data-testid="accordionItem_undefined"
+                >
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="symptoms-and-problems"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="Symptoms and Problems"
+                          >
+                            Symptoms and Problems
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="treatment-details"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="Treatment Details"
+                          >
+                            Treatment Details
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="immunizations"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="Immunizations"
+                          >
+                            Immunizations
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="diagnostic-and-vital-signs"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="Diagnostic and Vital Signs"
+                          >
+                            Diagnostic and Vital Signs
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  class="usa-accordion__heading"
+                  data-sectionid="lab-info"
+                >
+                  <button
+                    aria-expanded="true"
+                    class="usa-accordion__button"
+                    data-testid="accordionButton_undefined"
+                    type="button"
+                  >
+                    Lab Info
+                  </button>
+                </h3>
+                <div
+                  class="usa-accordion__content usa-prose"
+                  data-testid="accordionItem_undefined"
+                >
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="lab-results-from"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="Lab Results from"
+                          >
+                            Lab Results from
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  class="usa-accordion__heading"
+                  data-sectionid="ecr-metadata"
+                >
+                  <button
+                    aria-expanded="true"
+                    class="usa-accordion__button"
+                    data-testid="accordionButton_undefined"
+                    type="button"
+                  >
+                    eCR Metadata
+                  </button>
+                </h3>
+                <div
+                  class="usa-accordion__content usa-prose"
+                  data-testid="accordionItem_undefined"
+                >
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="rr-details"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="RR Details"
+                          >
+                            RR Details
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="eicr-details"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="eICR Details"
+                          >
+                            eICR Details
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="margin-top-0"
+                  >
+                    <div
+                      class="padding-bottom-3"
+                    >
+                      <div
+                        class="usa-summary-box__body"
+                      >
+                        <h4
+                          class="usa-summary-box__heading padding-y-105"
+                          data-sectionid="ecr-sender-details"
+                          id="summary-box-key-information"
+                        >
+                          <span
+                            id="eCR Sender Details"
+                          >
+                            eCR Sender Details
+                          </span>
+                        </h4>
+                        <div
+                          class="usa-summary-box__text"
+                        >
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                          <div>
+                            <div
+                              class="grid-row"
+                            >
+                              <div
+                                class="grid-col-4"
+                              >
+                                <div
+                                  class="loading-blob-gray margin-right-1"
+                                >
+                                   
+                                </div>
+                              </div>
+                              <div
+                                class="grid-col-8 loading-blob-gray"
+                              >
+                                 
+                              </div>
+                            </div>
+                            <div
+                              class="section__line_gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  class="usa-accordion__heading"
+                  data-sectionid="unavailable-info"
+                >
+                  <button
+                    aria-expanded="true"
+                    class="usa-accordion__button"
+                    data-testid="accordionButton_undefined"
+                    type="button"
+                  >
+                    Unavailable Info
+                  </button>
+                </h3>
+                <div
+                  class="usa-accordion__content usa-prose"
+                  data-testid="accordionItem_undefined"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
