@@ -293,7 +293,9 @@ def test_select_header():
 def test_add_root_element():
     raw_message = ET.fromstring(test_eICR_xml)
     header = select_message_header(raw_message)
-    elements = raw_message.xpath("//*[local-name()='section']")
+    elements = raw_message.xpath(
+        "//*[local-name()='section']", namespaces={"hl7": "urn:hl7-org:v3"}
+    )
     result = add_root_element(header, elements)
     actual_flattened = [i.tag for i in ET.fromstring(result).iter()]
     expected_flattened = [i.tag for i in raw_message.iter()]

@@ -203,7 +203,7 @@ def add_root_element(header: bytes, elements: list) -> str:
     by using a combination of a direct namespace uri and nsmap to ensure that
     the default namespaces are set correctly.
     :param header: The header section of the XML.
-    :param elements: _description_
+    :param elements: List of refined elements found in XML.
     :return: A new root element for the refined XML.
     """
     namespace = "urn:hl7-org:v3"
