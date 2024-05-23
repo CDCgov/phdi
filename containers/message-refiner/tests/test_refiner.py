@@ -1,4 +1,5 @@
 import pathlib
+import re
 from unittest.mock import patch
 
 import pytest
@@ -297,9 +298,8 @@ def test_add_root_element():
         "//*[local-name()='section']", namespaces={"hl7": "urn:hl7-org:v3"}
     )
     result = add_root_element(header, elements)
-    actual_flattened = [i.tag for i in ET.fromstring(result).iter()]
-    expected_flattened = [i.tag for i in raw_message.iter()]
-    assert actual_flattened == expected_flattened
+    # TODO: I could only get this to work with regex
+    assert re.sub(r"\s+", "", result) == re.sub(r"\s+", "", test_eICR_xml)
 
 
 def test_validate_message():
