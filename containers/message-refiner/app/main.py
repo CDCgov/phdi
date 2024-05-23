@@ -145,11 +145,14 @@ def get_clinical_services_to_include(condition_codes: str) -> tuple[list, str]:
 
 def refine(
     validated_message: bytes,
-    sections_to_include: str = None,
-    clinical_services: str = None,
+    sections_to_include: list = None,
+    clinical_services: list = None,
 ) -> str:
     """
-    Refines an incoming XML message based on the sections to include.
+    Refines an incoming XML message based on the sections to include and/or
+    the clinical services found based on inputted section LOINC codes or
+    condition SNOMED codes. This will then loop through the dynamic XPaths to
+    create an XPath to refine the XML.
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
@@ -158,23 +161,24 @@ def refine(
     """
     header = select_message_header(validated_message)
 
-    # Set up XPath expression
+    # Set up XPath expressions
     namespaces = {"hl7": "urn:hl7-org:v3"}
-    sections_xpath_expression = (
-        " or ".join([f"@code='{section}'" for section in sections_to_include])
-        if sections_to_include
-        else None
-    )
+    if sections_to_include:
+        sections_xpaths = " or ".join(
+            [f"@code='{section}'" for section in sections_to_include]
+        )
+        sections_xpath_expression = (
+            f"//*[local-name()='section'][hl7:code[{sections_xpaths}]]"
+        )
 
     services_xpath_expression = (
         " | ".join(clinical_services) if clinical_services else None
     )
     # both are handled slightly differently
-    if sections_xpath_expression and services_xpath_expression:
+    if sections_to_include and services_xpath_expression:
         elements = []
         sections = validated_message.xpath(
-            f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]",
-            namespaces=namespaces,
+            sections_xpath_expression, namespaces=namespaces
         )
         for section in sections:
             condition_elements = section.xpath(
@@ -184,10 +188,8 @@ def refine(
                 elements.extend(condition_elements)
         return add_root_element(header, elements)
 
-    if sections_xpath_expression:
-        xpath_expression = (
-            f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
-        )
+    if sections_to_include:
+        xpath_expression = sections_xpath_expression
     elif services_xpath_expression:
         xpath_expression = services_xpath_expression
     else:
