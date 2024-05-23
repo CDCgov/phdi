@@ -9,14 +9,8 @@ def test_generate_clinical_xpath():
     system = "http://loinc.org"
     codes = ["76078-5", "76080-1"]
     expected_output = [
-        ".//*[local-name()='code'][@code='76078-5' and @codeSystemName='loinc.org']",
-        ".//*[local-name()='value'][@code='76078-5' and @codeSystemName='loinc.org']",
-        ".//*[local-name()='vaccine'][@code='76078-5' and @codeSystemName='loinc.org']",
-        ".//*[local-name()='translation'][@code='76078-5' and @codeSystemName='loinc.org']",
-        ".//*[local-name()='code'][@code='76080-1' and @codeSystemName='loinc.org']",
-        ".//*[local-name()='value'][@code='76080-1' and @codeSystemName='loinc.org']",
-        ".//*[local-name()='vaccine'][@code='76080-1' and @codeSystemName='loinc.org']",
-        ".//*[local-name()='translation'][@code='76080-1' and @codeSystemName='loinc.org']",
+        ".//*[@code='76078-5' and @codeSystemName='loinc.org']",
+        ".//*[@code='76080-1' and @codeSystemName='loinc.org']",
     ]
     output = _generate_clinical_xpaths(system, codes)
     assert output == expected_output

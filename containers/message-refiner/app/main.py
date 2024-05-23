@@ -178,9 +178,12 @@ def refine(
             namespaces=namespaces,
         )
         for section in sections:
+            print("Section:", section)
             condition_elements = section.xpath(
                 services_xpath_expression, namespaces=namespaces
             )
+            print("Services xpaths:", services_xpath_expression)
+            print("Condition elements", len(condition_elements))
             if condition_elements:
                 elements.extend(condition_elements)
         return add_root_element(header, elements)

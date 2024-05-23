@@ -263,7 +263,7 @@ def test_refine():
         clinical_services=mock_clinical_service_xpaths,
     )
     actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
-    expected_flattened = [i.tag for i in ET.fromstring(expected_message).iter()]
+    expected_flattened = [i.tag for i in expected_message.iter()]
     assert actual_flattened == expected_flattened
 
     # Test case: Refine for condition and labs/diagnostics section
