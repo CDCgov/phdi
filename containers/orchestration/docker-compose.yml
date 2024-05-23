@@ -74,8 +74,8 @@ services:
     ports:
       - "8888:8888" # Prometheus metrics exposed by collector
       - "8889:8889" # Endpoint prometheus will scrape
-      - "4317:4317" # gRPC OTLP receiver
-      - "4318:4318" # HTTP OTLP receiver
+      - "4319:4319" # gRPC OTLP receiver
+      - "4320:4320" # HTTP OTLP receiver
     depends_on:
       - jaeger
       - prometheus
