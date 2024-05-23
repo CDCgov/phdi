@@ -98,16 +98,18 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     error_message = ""
     section_loincs = []
 
-    if sections_to_include:
-        section_loincs = []
-        sections = sections_to_include.split(",")
-        for section in sections:
-            if section not in section_LOINCs:
-                section_loincs = None
-                error_message = f"{section} is invalid. Please provide a valid section."
-                break
-            else:
-                section_loincs.append(section)
+    if sections_to_include is None:
+        return (None, "")
+
+    section_loincs = []
+    sections = sections_to_include.split(",")
+    for section in sections:
+        if section not in section_LOINCs:
+            section_loincs = None
+            error_message = f"{section} is invalid. Please provide a valid section."
+            break
+        else:
+            section_loincs.append(section)
 
     return (section_loincs, error_message) if section_loincs else (None, error_message)
 
@@ -125,22 +127,19 @@ def get_clinical_services_to_include(condition_codes: str) -> tuple[list, str]:
     """
     error_message = ""
     clinical_services_to_include = []
-    if condition_codes:
-        conditions_list = condition_codes.split(",")
-        for condition in conditions_list:
-            try:
-                response = requests.get(TCR_ENDPOINT + condition)
-                clinical_services = response.json()
-            except requests.exceptions.RequestException as e:
-                error_message = f"Request to {TCR_ENDPOINT} failed: {e}"
-                return (clinical_services_to_include, error_message)
-            for system, entries in clinical_services.items():
-                for entry in entries:
-                    system = entry.get("system")
-                    xpath_queries = _generate_clinical_xpaths(
-                        system, entry.get("codes")
-                    )
-                    clinical_services_to_include.extend(xpath_queries)
+    conditions_list = condition_codes.split(",")
+    for condition in conditions_list:
+        try:
+            response = requests.get(TCR_ENDPOINT + condition)
+            clinical_services = response.json()
+        except requests.exceptions.RequestException as e:
+            error_message = f"Request to {TCR_ENDPOINT} failed: {e}"
+            return (clinical_services_to_include, error_message)
+        for system, entries in clinical_services.items():
+            for entry in entries:
+                system = entry.get("system")
+                xpath_queries = _generate_clinical_xpaths(system, entry.get("codes"))
+                clinical_services_to_include.extend(xpath_queries)
     return (clinical_services_to_include, error_message)
 
 
