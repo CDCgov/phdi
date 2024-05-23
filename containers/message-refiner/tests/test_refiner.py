@@ -2,6 +2,7 @@ import pathlib
 from unittest.mock import patch
 
 import pytest
+from app.main import add_root_element
 from app.main import app
 from app.main import refine
 from app.main import select_message_header
@@ -268,6 +269,7 @@ def test_refine():
 
     # Test case: Refine for condition and labs/diagnostics section
     expected_message = refined_test_conditon_and_labs
+    raw_message = ET.fromstring(test_eICR_xml)
     sections_to_include = ["30954-2"]
     refined_message = refine(
         raw_message,
@@ -285,6 +287,16 @@ def test_select_header():
     expected_header = test_header
     actual_flattened = [i.tag for i in actual_header.iter()]
     expected_flattened = [i.tag for i in expected_header.iter()]
+    assert actual_flattened == expected_flattened
+
+
+def test_add_root_element():
+    raw_message = ET.fromstring(test_eICR_xml)
+    header = select_message_header(raw_message)
+    elements = raw_message.xpath("//*[local-name()='section']")
+    result = add_root_element(header, elements)
+    actual_flattened = [i.tag for i in ET.fromstring(result).iter()]
+    expected_flattened = [i.tag for i in raw_message.iter()]
     assert actual_flattened == expected_flattened
 
 
