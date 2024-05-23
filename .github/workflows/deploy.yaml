@@ -1,6 +1,6 @@
 ---
 name: Deploy
-run-name: Deploy ${{github.event.inputs.branch }} to ${{ github.event.inputs.environment }} by @${{ github.actor }}
+run-name: Deploy ${{ github.event.inputs.branch }} to ${{ github.event.inputs.environment }} by @${{ github.actor }}
 
 on:
   workflow_dispatch:
