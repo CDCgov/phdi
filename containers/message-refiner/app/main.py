@@ -146,7 +146,7 @@ def get_clinical_services_to_include(condition_codes: str) -> tuple[list, str]:
 
 def refine(
     validated_message: bytes,
-    sections_to_include: str,
+    sections_to_include: str = None,
     clinical_services: str = None,
 ) -> str:
     """
@@ -160,7 +160,6 @@ def refine(
     header = select_message_header(validated_message)
 
     # Set up XPath expression
-    # this namespace is only used for filtering
     namespaces = {"hl7": "urn:hl7-org:v3"}
     sections_xpath_expression = (
         " or ".join([f"@code='{section}'" for section in sections_to_include])
@@ -171,7 +170,7 @@ def refine(
     services_xpath_expression = (
         " | ".join(clinical_services) if clinical_services else None
     )
-
+    # both are handled slightly differently
     if sections_xpath_expression and services_xpath_expression:
         elements = []
         sections = validated_message.xpath(
@@ -184,20 +183,29 @@ def refine(
             )
             if condition_elements:
                 elements.extend(condition_elements)
-    elif sections_xpath_expression:
+        return add_root_element(header, elements)
+
+    if sections_xpath_expression:
         xpath_expression = (
             f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
         )
-        elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
     elif services_xpath_expression:
         xpath_expression = services_xpath_expression
-        elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
     else:
-        return ET.tostring(validated_message, encoding="unicode")
+        xpath_expression = "//*[local-name()='section']"
+    elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
+    return add_root_element(header, elements)
 
-    # Create & set up a new root element for the refined XML
-    # we are using a combination of a direct namespace uri and nsmap so that we can
-    # ensure that the default namespaces are set correctly
+
+def add_root_element(header: bytes, elements: list) -> str:
+    """
+    This helper function sets up and creates a new root element for the XML
+    by using a combination of a direct namespace uri and nsmap to ensure that
+    the default namespaces are set correctly.
+    :param header: The header section of the XML.
+    :param elements: _description_
+    :return: A new root element for the refined XML.
+    """
     namespace = "urn:hl7-org:v3"
     nsmap = {
         None: namespace,
