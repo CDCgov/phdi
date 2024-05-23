@@ -203,6 +203,7 @@ jobs:
           python -m pytest -m "integration"
 
   test-node-containers:
+    needs: integration-test-python-containers
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
