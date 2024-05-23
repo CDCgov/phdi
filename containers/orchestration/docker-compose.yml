@@ -1,5 +1,5 @@
 include:
-  - ../ecr-viewer/docker-compose.yml
+  - ../ecr-viewer/docker-compose-orchestration.yml
 
 services:
   orchestration-service:
