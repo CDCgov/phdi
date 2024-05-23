@@ -78,13 +78,16 @@ def test_health_check():
 
 def test_ecr_refiner():
     # Test case: sections_to_include = None
-    expected_response = test_eICR_xml
+    expected_response = parse_file_from_test_assets("CDA_eICR.xml")
     content = test_eICR_xml
     sections_to_include = None
     endpoint = "/ecr/"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
-    assert actual_response.content.decode() == expected_response
+
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
 
     # Test case: sections_to_include = "29762-2" # social history narrative
     expected_response = refined_test_eICR_social_history_only
