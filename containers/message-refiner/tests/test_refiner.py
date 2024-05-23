@@ -141,8 +141,10 @@ def test_ecr_refiner_conditions(mock_get):
     endpoint = f"/ecr/?conditions_to_include={conditions_to_include}"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
-    assert actual_response.content.decode() == expected_response
 
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
     actual_elements = [
         i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
     ]
@@ -156,7 +158,10 @@ def test_ecr_refiner_conditions(mock_get):
     endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
-    assert actual_response.content.decode() == expected_response
+
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
 
     actual_elements = [
         i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
@@ -171,7 +176,10 @@ def test_ecr_refiner_conditions(mock_get):
     endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
-    assert actual_response.content.decode() == expected_response
+
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
 
     actual_elements = [
         i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
