@@ -61,7 +61,6 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
           </td>
         </tr>
       </tbody>
-       
     </table>
     <nav
       aria-label="Pagination"
