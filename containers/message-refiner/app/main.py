@@ -68,15 +68,15 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     string.
     """
     section_LOINCs = [
+        "46240-8",  # encounters: hospitalizations+outpatient visits narrative
         "10164-2",  # history of present illness
-        "11369-6",  # history of immunization narrative
+        "11369-6",  # immunizations
         "29549-3",  # medications administered
-        "18776-5",  # plan of care note
-        "11450-4",  # problem list - reported
+        "18776-5",  # plan of treatment: care plan
+        "11450-4",  # problem: reported list
         "29299-5",  # reason for visit
-        "30954-2",  # relevant diagnostic tests/laboratory data narrative
-        "29762-2",  # social history narrative
-        "46240-8",  # history of hospitalizations+outpatient visits narrative
+        "30954-2",  # results: diagnostic tests/laboratory data narrative
+        "29762-2",  # social history: narrative
     ]
 
     error_message = ""
