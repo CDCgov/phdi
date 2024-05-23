@@ -1,5 +1,5 @@
 import { Bundle, CodeableConcept, Quantity } from "fhir/r4";
-import { evaluate } from "fhirpath";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 import * as dateFns from "date-fns";
 import { PathMappings, evaluateData } from "../utils";
 import {
@@ -444,10 +444,12 @@ export const evaluateReference = (
  */
 export const evaluateValue = (entry: Element, path: string): string => {
   let originalValue = evaluate(entry, path, undefined, fhirpath_r4_model)[0];
+
   let value = "";
+  const originalValuePath = originalValue?.__path__?.path;
   if (typeof originalValue === "string" || typeof originalValue === "number") {
     value = originalValue.toString();
-  } else if (originalValue?.__path__ === "Quantity") {
+  } else if (originalValuePath === "Quantity") {
     const data = originalValue as Quantity;
     let unit = data.unit;
     const firstLetterRegex = /^[a-z]/i;
@@ -455,7 +457,7 @@ export const evaluateValue = (entry: Element, path: string): string => {
       unit = " " + unit;
     }
     value = `${data.value ?? ""}${unit ?? ""}`;
-  } else if (originalValue?.__path__ === "CodeableConcept") {
+  } else if (originalValuePath === "CodeableConcept") {
     const data = originalValue as CodeableConcept;
     value = data.coding?.[0].display || data.text || "";
   } else if (typeof originalValue === "object") {
