@@ -60,9 +60,7 @@ async def refine_ecr(
 
     clinical_services = None
     if conditions_to_include:
-        clinical_services, error_message = get_clinical_services_to_include(
-            conditions_to_include
-        )
+        clinical_services, error_message = get_clinical_services(conditions_to_include)
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
@@ -114,33 +112,44 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     return (section_loincs, error_message) if section_loincs else (None, error_message)
 
 
-def get_clinical_services_to_include(condition_codes: str) -> tuple[list, str]:
+def get_clinical_services(condition_codes: str) -> tuple[list, str]:
     """
     This a function that loops through the provided condition codes. For each
     condition code provided, it calls the trigger-code-reference service to get
-    the relevant clinical services for that condition. It then loops through
-    each of those clinical service codes and their system to create an xpath
-    query.
+    the relevant clinical services for that condition.
 
     :param condition_codes: SNOMED condition codes to look up in TCR service
-    :return: List of xpath queries to check
+    :return: List of clinical_service dictionaries to check, error message
     """
     error_message = ""
-    clinical_services_to_include = []
+    clinical_services_list = []
     conditions_list = condition_codes.split(",")
     for condition in conditions_list:
-        try:
-            response = requests.get(TCR_ENDPOINT + condition)
-            clinical_services = response.json()
-        except requests.exceptions.RequestException as e:
-            error_message = f"Request to {TCR_ENDPOINT} failed: {e}"
-            return (clinical_services_to_include, error_message)
+        response = requests.get(TCR_ENDPOINT + condition)
+        clinical_services = response.json()
+        match response.status_code:
+            case 200:
+                clinical_services_list.append(clinical_services)
+            case _:  # TODO: need to write 400/422/404 cases
+                return (None, response)
+    return (create_clinical_xpaths(clinical_services_list), error_message)
+
+
+def create_clinical_xpaths(clinical_services_list: list[dict]) -> list[str]:
+    """
+    This function loops through each of those clinical service codes and their
+    system to create a list of all possible xpath queries.
+    :param clinical_services_list: List of clinical_service dictionaries.
+    :return: List of xpath queries to check.
+    """
+    clinical_services_xpaths = []
+    for clinical_services in clinical_services_list:
         for system, entries in clinical_services.items():
             for entry in entries:
                 system = entry.get("system")
                 xpaths = _generate_clinical_xpaths(system, entry.get("codes"))
-                clinical_services_to_include.extend(xpaths)
-    return (clinical_services_to_include, error_message)
+                clinical_services_xpaths.extend(xpaths)
+    return clinical_services_xpaths
 
 
 def refine(
@@ -156,7 +165,8 @@ def refine(
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
-    :param clinical_services: clinical service XPaths
+    :param clinical_services_xpaths: clinical service XPaths to include in the
+    refined message.
     :return: The refined message.
     """
     header = select_message_header(validated_message)
@@ -171,11 +181,11 @@ def refine(
             f"//*[local-name()='section'][hl7:code[{sections_xpaths}]]"
         )
 
-    services_xpath_expression = (
-        " | ".join(clinical_services) if clinical_services else None
-    )
+    if clinical_services:
+        services_xpath_expression = " | ".join(clinical_services)
+
     # both are handled slightly differently
-    if sections_to_include and services_xpath_expression:
+    if sections_to_include and clinical_services:
         elements = []
         sections = validated_message.xpath(
             sections_xpath_expression, namespaces=namespaces
@@ -190,7 +200,7 @@ def refine(
 
     if sections_to_include:
         xpath_expression = sections_xpath_expression
-    elif services_xpath_expression:
+    elif clinical_services:
         xpath_expression = services_xpath_expression
     else:
         xpath_expression = "//*[local-name()='section']"

@@ -2,7 +2,7 @@ import pytest
 from app.utils import _generate_clinical_xpaths
 
 
-def test_generate_clinical_xpath():
+def test_generate_clinical_xpaths():
     """
     Confirms that xpaths can be generated for sample codes.
     """

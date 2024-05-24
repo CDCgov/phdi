@@ -1,10 +1,13 @@
 import pathlib
 import re
+from unittest.mock import Mock
 from unittest.mock import patch
 
 import pytest
 from app.main import add_root_element
 from app.main import app
+from app.main import create_clinical_xpaths
+from app.main import get_clinical_services
 from app.main import refine
 from app.main import select_message_header
 from app.main import validate_message
@@ -135,7 +138,11 @@ def test_ecr_refiner():
 @patch("requests.get")
 def test_ecr_refiner_conditions(mock_get):
     # Mock the response from the trigger-code-reference service
-    mock_get.return_value.json.return_value = mock_tcr_response
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = mock_tcr_response
+    mock_get.return_value = mock_response
+
     # Test conditions only
     expected_response = refined_test_condition_only
     content = test_eICR_xml
@@ -144,12 +151,11 @@ def test_ecr_refiner_conditions(mock_get):
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
-    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    actual_response_content = ET.fromstring(actual_response.content)
+    actual_flattened = [i.tag for i in actual_response_content.iter()]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
-    actual_elements = [
-        i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
-    ]
+    actual_elements = [i.tag.split("}")[-1] for i in actual_response_content.iter()]
     assert "ClinicalDocument" in actual_elements
 
     # Test conditions and sections
@@ -230,6 +236,53 @@ def test_validate_sections_to_include(test_data, expected_result):
         actual_response = validate_sections_to_include(test_data)
         assert actual_response == expected_result
         assert actual_response[1] != ""
+
+
+@patch("requests.get")
+def test_get_clinical_services(mock_get):
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {
+        "lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]
+    }
+    mock_get.return_value = mock_response
+
+    condition_codes = "6142004"
+    clinical_services, error_message = get_clinical_services(condition_codes)
+
+    expected_xpaths = [
+        ".//*[@code='76078-5' and @codeSystemName='loinc.org']",
+        ".//*[@code='76080-1' and @codeSystemName='loinc.org']",
+    ]
+
+    assert clinical_services == expected_xpaths
+    assert error_message == ""
+
+
+@patch("requests.get")
+def test_get_clinical_services_error(mock_get):
+    mock_response = Mock()
+    mock_response.status_code = 404
+    mock_response.json.return_value = {"detail": "Not Found"}
+    mock_get.return_value = mock_response
+
+    condition_codes = "invalid_code"
+    clinical_services, error_message = get_clinical_services(condition_codes)
+
+    assert clinical_services is None
+    assert error_message == mock_response
+
+
+def test_create_clinical_xpaths():
+    clinical_services_list = [
+        {"lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]}
+    ]
+    expected_xpaths = [
+        ".//*[@code='76078-5' and @codeSystemName='loinc.org']",
+        ".//*[@code='76080-1' and @codeSystemName='loinc.org']",
+    ]
+    actual_xpaths = create_clinical_xpaths(clinical_services_list)
+    assert actual_xpaths == expected_xpaths
 
 
 def test_refine():
