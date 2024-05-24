@@ -1,0 +1,4 @@
+services:
+  ecr-viewer:
+    environment:
+      - NBS_PUB_KEY

@@ -234,6 +234,7 @@ jobs:
   cypress-e2e-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    environment: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -247,7 +248,7 @@ jobs:
 
       - name: Start ecr-viewer
         working-directory: ./containers/ecr-viewer
-        run: docker compose up -d
+        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml up -d
 
       - name: Wait for server to be ready
         run: |
