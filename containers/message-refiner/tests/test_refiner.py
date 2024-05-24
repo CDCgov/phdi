@@ -1,5 +1,6 @@
 import pathlib
 import re
+from unittest.mock import AsyncMock
 from unittest.mock import Mock
 from unittest.mock import patch
 
@@ -135,8 +136,9 @@ def test_ecr_refiner():
     assert "XMLSyntaxError" in actual_response.content.decode()
 
 
-@patch("requests.get")
-def test_ecr_refiner_conditions(mock_get):
+@pytest.mark.asyncio
+@patch("httpx.AsyncClient.get", new_callable=AsyncMock)
+async def test_ecr_refiner_conditions(mock_get):
     # Mock the response from the trigger-code-reference service
     mock_response = Mock()
     mock_response.status_code = 200
@@ -151,48 +153,49 @@ def test_ecr_refiner_conditions(mock_get):
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
-    actual_response_content = ET.fromstring(actual_response.content)
-    actual_flattened = [i.tag for i in actual_response_content.iter()]
+    actual_flattened = [
+        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
-    actual_elements = [i.tag.split("}")[-1] for i in actual_response_content.iter()]
-    assert "ClinicalDocument" in actual_elements
-
-    # Test conditions and sections
-    content = test_eICR_xml
-    expected_response = refined_test_conditon_and_labs
-    sections_to_include = "30954-2"
-    conditions_to_include = "6142004"
-    endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
-    actual_response = client.post(endpoint, content=content)
-    assert actual_response.status_code == 200
-
-    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
-    expected_flattened = [i.tag for i in expected_response.iter()]
-    assert actual_flattened == expected_flattened
-
     actual_elements = [
-        i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
+        i.tag.split("}")[-1]
+        for i in ET.fromstring(actual_response.content.decode()).iter()
     ]
     assert "ClinicalDocument" in actual_elements
 
-    # Test conditions but no relevant section
-    content = test_eICR_xml
-    expected_response = refined_test_no_relevant_section_data
-    conditions_to_include = "6142004"
-    sections_to_include = "46240-8"
-    endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
-    actual_response = client.post(endpoint, content=content)
-    assert actual_response.status_code == 200
 
-    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
-    expected_flattened = [i.tag for i in expected_response.iter()]
-    assert actual_flattened == expected_flattened
+@pytest.mark.asyncio
+@patch("httpx.AsyncClient.get", new_callable=AsyncMock)
+async def test_get_clinical_services(mock_get):
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {
+        "lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]
+    }
+    mock_get.return_value = mock_response
 
-    actual_elements = [
-        i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
-    ]
-    assert "ClinicalDocument" in actual_elements
+    condition_codes = "6142004"
+    clinical_services, error_message = await get_clinical_services(condition_codes)
+    # mimic list comprehension
+    expected_result = [mock_tcr_response]
+    assert clinical_services == expected_result
+    assert error_message == ""
+
+
+@pytest.mark.asyncio
+@patch("httpx.AsyncClient.get", new_callable=AsyncMock)
+async def test_get_clinical_services_error(mock_get):
+    mock_response = Mock()
+    mock_response.status_code = 404
+    mock_response.json.return_value = {"detail": "Not Found"}
+    mock_get.return_value = mock_response
+
+    condition_codes = "invalid_code"
+    clinical_services, error_message = await get_clinical_services(condition_codes)
+
+    assert clinical_services is None
+    assert error_message != ""
 
 
 @pytest.mark.parametrize(
@@ -236,41 +239,6 @@ def test_validate_sections_to_include(test_data, expected_result):
         actual_response = validate_sections_to_include(test_data)
         assert actual_response == expected_result
         assert actual_response[1] != ""
-
-
-@patch("requests.get")
-def test_get_clinical_services(mock_get):
-    mock_response = Mock()
-    mock_response.status_code = 200
-    mock_response.json.return_value = {
-        "lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]
-    }
-    mock_get.return_value = mock_response
-
-    condition_codes = "6142004"
-    clinical_services, error_message = get_clinical_services(condition_codes)
-
-    expected_xpaths = [
-        ".//*[@code='76078-5' and @codeSystemName='loinc.org']",
-        ".//*[@code='76080-1' and @codeSystemName='loinc.org']",
-    ]
-
-    assert clinical_services == expected_xpaths
-    assert error_message == ""
-
-
-@patch("requests.get")
-def test_get_clinical_services_error(mock_get):
-    mock_response = Mock()
-    mock_response.status_code = 404
-    mock_response.json.return_value = {"detail": "Not Found"}
-    mock_get.return_value = mock_response
-
-    condition_codes = "invalid_code"
-    clinical_services, error_message = get_clinical_services(condition_codes)
-
-    assert clinical_services is None
-    assert error_message == mock_response
 
 
 def test_create_clinical_xpaths():

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import requests
+import httpx
 from dibbs.base_service import BaseService
 from fastapi import Request
 from fastapi import Response
@@ -58,13 +58,16 @@ async def refine_ecr(
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
-    clinical_services = None
+    clinical_services_xpaths = None
     if conditions_to_include:
-        clinical_services, error_message = get_clinical_services(conditions_to_include)
+        clinical_services, error_message = await get_clinical_services(
+            conditions_to_include
+        )
+        clinical_services_xpaths = create_clinical_xpaths(clinical_services)
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
-    data = refine(validated_message, sections, clinical_services)
+    data = refine(validated_message, sections, clinical_services_xpaths)
 
     return Response(content=data, media_type="application/xml")
 
@@ -112,7 +115,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     return (section_loincs, error_message) if section_loincs else (None, error_message)
 
 
-def get_clinical_services(condition_codes: str) -> tuple[list, str]:
+async def get_clinical_services(condition_codes: str) -> tuple[list, str]:
     """
     This a function that loops through the provided condition codes. For each
     condition code provided, it calls the trigger-code-reference service to get
@@ -124,15 +127,16 @@ def get_clinical_services(condition_codes: str) -> tuple[list, str]:
     error_message = ""
     clinical_services_list = []
     conditions_list = condition_codes.split(",")
-    for condition in conditions_list:
-        response = requests.get(TCR_ENDPOINT + condition)
-        clinical_services = response.json()
-        match response.status_code:
-            case 200:
-                clinical_services_list.append(clinical_services)
-            case _:  # TODO: need to write 400/422/404 cases
-                return (None, response)
-    return (create_clinical_xpaths(clinical_services_list), error_message)
+    async with httpx.AsyncClient() as client:
+        for condition in conditions_list:
+            response = await client.get(TCR_ENDPOINT + condition)
+            clinical_services = response.json()
+            match response.status_code:
+                case 200:
+                    clinical_services_list.append(clinical_services)
+                case _:  # TODO: need to write 400/422/404 cases
+                    return (None, response)
+    return (clinical_services_list, error_message)
 
 
 def create_clinical_xpaths(clinical_services_list: list[dict]) -> list[str]:
