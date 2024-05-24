@@ -138,8 +138,8 @@ def get_clinical_services_to_include(condition_codes: str) -> tuple[list, str]:
         for system, entries in clinical_services.items():
             for entry in entries:
                 system = entry.get("system")
-                xpath_queries = _generate_clinical_xpaths(system, entry.get("codes"))
-                clinical_services_to_include.extend(xpath_queries)
+                xpaths = _generate_clinical_xpaths(system, entry.get("codes"))
+                clinical_services_to_include.extend(xpaths)
     return (clinical_services_to_include, error_message)
 
 
@@ -205,7 +205,7 @@ def add_root_element(header: bytes, elements: list) -> str:
     the default namespaces are set correctly.
     :param header: The header section of the XML.
     :param elements: List of refined elements found in XML.
-    :return: A new root element for the refined XML.
+    :return: The full refined XML, formatted as a string.
     """
     namespace = "urn:hl7-org:v3"
     nsmap = {
