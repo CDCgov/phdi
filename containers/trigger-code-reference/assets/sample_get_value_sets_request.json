@@ -1,0 +1,11 @@
+{
+  "summary": "Get Value Sets for Condition",
+  "description": "For a given condition, queries and returns the value set of clinical services associated with that condition.",
+  "value": {
+    "condition_code": "276197005",
+    "filter_clinical_services": [
+      "dxtc",
+      "sdtc"
+    ]
+  }
+}

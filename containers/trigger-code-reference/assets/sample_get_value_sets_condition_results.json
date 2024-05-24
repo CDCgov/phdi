@@ -1,0 +1,19 @@
+{
+  "description": "Success",
+  "content": {
+    "200": {
+      "description": "A list of clinical service types associated with the condition",
+      "content": {
+        "application/json": {
+          "example": {
+            "condition_code": "276197005",
+            "filter_clinical_services": [
+              "dxtc",
+              "sdtc"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
