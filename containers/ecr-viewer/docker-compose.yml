@@ -24,8 +24,6 @@ services:
       context: .
     ports:
       - "3000:3000"
-    volumes:
-      - ./src/app:/app
     environment:
       - DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
     depends_on:
