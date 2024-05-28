@@ -194,7 +194,7 @@ async def test_get_clinical_services_error(mock_get):
     condition_codes = "invalid_code"
     clinical_services, error_message = await get_clinical_services(condition_codes)
 
-    assert clinical_services is None
+    assert clinical_services == []
     assert error_message != ""
 
 
