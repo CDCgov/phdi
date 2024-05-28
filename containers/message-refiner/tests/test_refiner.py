@@ -164,6 +164,46 @@ async def test_ecr_refiner_conditions(mock_get):
     ]
     assert "ClinicalDocument" in actual_elements
 
+    # Test conditions and relevant labs section
+    expected_response = refined_test_conditon_and_labs
+    content = test_eICR_xml
+    conditions_to_include = "6142004"
+    sections_to_include = "30954-2"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
+    actual_response = client.post(endpoint, content=content)
+    assert actual_response.status_code == 200
+
+    actual_flattened = [
+        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
+    actual_elements = [
+        i.tag.split("}")[-1]
+        for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    assert "ClinicalDocument" in actual_elements
+
+    # Test conditions, history of hospitalization section without relevant data
+    expected_response = refined_test_no_relevant_section_data
+    content = test_eICR_xml
+    conditions_to_include = "6142004"
+    sections_to_include = "46240-8"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
+    actual_response = client.post(endpoint, content=content)
+    assert actual_response.status_code == 200
+
+    actual_flattened = [
+        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
+    actual_elements = [
+        i.tag.split("}")[-1]
+        for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    assert "ClinicalDocument" in actual_elements
+
 
 @pytest.mark.asyncio
 @patch("httpx.AsyncClient.get", new_callable=AsyncMock)
@@ -176,26 +216,22 @@ async def test_get_clinical_services(mock_get):
     mock_get.return_value = mock_response
 
     condition_codes = "6142004"
-    clinical_services, error_message = await get_clinical_services(condition_codes)
-    # mimic list comprehension
-    expected_result = [mock_tcr_response]
+    clinical_services = await get_clinical_services(condition_codes)
+    expected_result = [mock_response]
     assert clinical_services == expected_result
-    assert error_message == ""
 
 
 @pytest.mark.asyncio
 @patch("httpx.AsyncClient.get", new_callable=AsyncMock)
 async def test_get_clinical_services_error(mock_get):
     mock_response = Mock()
-    mock_response.status_code = 404
+    mock_response.status_code = 503
     mock_response.json.return_value = {"detail": "Not Found"}
     mock_get.return_value = mock_response
 
     condition_codes = "invalid_code"
-    clinical_services, error_message = await get_clinical_services(condition_codes)
-
-    assert clinical_services == []
-    assert error_message != ""
+    clinical_services = await get_clinical_services(condition_codes)
+    assert clinical_services[0].status_code == 503
 
 
 @pytest.mark.parametrize(

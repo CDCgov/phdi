@@ -61,9 +61,11 @@ async def refine_ecr(
 
     clinical_services_xpaths = None
     if conditions_to_include:
-        clinical_services = await get_clinical_services(conditions_to_include)
-        if error_message != "":
-            return Response(content=error_message, status_code=502)
+        responses = await get_clinical_services(conditions_to_include)
+        print(responses)
+        if set([response.status_code for response in responses]) != {200}:
+            return Response(content=responses[0], status_code=502)
+        clinical_services = [response.json() for response in responses]
         clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 
     data = refine(validated_message, sections, clinical_services_xpaths)
@@ -123,19 +125,13 @@ async def get_clinical_services(condition_codes: str) -> tuple[list, str]:
     :param condition_codes: SNOMED condition codes to look up in TCR service
     :return: List of clinical_service dictionaries to check, error message
     """
-    error_message = ""
     clinical_services_list = []
     conditions_list = condition_codes.split(",")
     async with httpx.AsyncClient() as client:
         for condition in conditions_list:
             response = await client.get(TCR_ENDPOINT + condition)
-            clinical_services = response.json()
-            match response.status_code:
-                case 200:
-                    clinical_services_list.append(clinical_services)
-                case _:  # 400/422/404 cases should return empty list, errors
-                    return ([], response)
-    return (clinical_services_list, error_message)
+            clinical_services_list.append(response)
+    return clinical_services_list
 
 
 def create_clinical_xpaths(clinical_services_list: list[dict]) -> list[str]:
