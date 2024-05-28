@@ -199,6 +199,24 @@ td {
   font-weight: bold;
 }
 
+.homepage-wrapper {
+  display: flex;
+  max-width: 1440px;
+  gap: 48px;
+  overflow: visible;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  .usa-table {
+    margin-bottom: 0 !important;
+  }
+
+  .usa-pagination {
+    margin-top: 0 !important;
+  }
+}
+
 .main-container {
   display: flex;
   justify-content: center;
