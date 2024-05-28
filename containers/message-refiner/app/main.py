@@ -6,10 +6,11 @@ from fastapi import Request
 from fastapi import Response
 from lxml import etree as ET
 
+from app.config import get_settings
 from app.utils import _generate_clinical_xpaths
 
-TCR_URL = "http://trigger-code-reference-service:8080"
-TCR_ENDPOINT = TCR_URL + "/get-value-sets/?condition_code="
+settings = get_settings()
+TCR_ENDPOINT = f"{settings.tcr_url}/get-value-sets/?condition_code="
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -65,7 +66,7 @@ async def refine_ecr(
         )
         clinical_services_xpaths = create_clinical_xpaths(clinical_services)
         if error_message != "":
-            return Response(content=error_message, status_code=422)
+            return Response(content=error_message, status_code=502)
 
     data = refine(validated_message, sections, clinical_services_xpaths)
 
