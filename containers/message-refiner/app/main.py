@@ -64,7 +64,7 @@ async def refine_ecr(
         responses = await get_clinical_services(conditions_to_include)
         # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
-            return Response(content=responses[0], status_code=502)
+            return Response(content=responses, status_code=502)
         clinical_services = [response.json() for response in responses]
         clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 
