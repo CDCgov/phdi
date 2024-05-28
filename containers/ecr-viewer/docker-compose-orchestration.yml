@@ -1,5 +1,5 @@
+# This exists because it conflicts with orchestration if Jaeger and otel are here
 services:
-  # PostgreSQL database
   db:
     image: "postgres:alpine"
     ports:
