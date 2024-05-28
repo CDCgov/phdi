@@ -36,37 +36,39 @@ export default function ListECRViewer({
   };
 
   return (
-    <div className="homepage-wrapper">
-      <Table
-        bordered={false}
-        fullWidth={true}
-        className={"table-homepage-list"}
-        data-testid="table"
-      >
-        <thead>
-          <tr>
-            {header.map((column) => (
-              <th key={`${column}`} scope="col">
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{renderPage(currentPage)}</tbody>
-      </Table>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        pathname={""}
-        onClickNext={() => handlePageChange(currentPage + 1)}
-        onClickPrevious={() => handlePageChange(currentPage - 1)}
-        onClickPageNumber={(
-          _event: React.MouseEvent<HTMLButtonElement>,
-          page: number,
-        ) => {
-          handlePageChange(page);
-        }}
-      />
+    <div className="main-container">
+      <div className="homepage-wrapper">
+        <Table
+          bordered={false}
+          fullWidth={true}
+          className={"table-homepage-list"}
+          data-testid="table"
+        >
+          <thead>
+            <tr>
+              {header.map((column) => (
+                <th key={`${column}`} scope="col">
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>{renderPage(currentPage)}</tbody>
+        </Table>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pathname={""}
+          onClickNext={() => handlePageChange(currentPage + 1)}
+          onClickPrevious={() => handlePageChange(currentPage - 1)}
+          onClickPageNumber={(
+            _event: React.MouseEvent<HTMLButtonElement>,
+            page: number,
+          ) => {
+            handlePageChange(page);
+          }}
+        />
+      </div>
     </div>
   );
 }
