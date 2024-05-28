@@ -62,7 +62,7 @@ async def refine_ecr(
     clinical_services_xpaths = None
     if conditions_to_include:
         responses = await get_clinical_services(conditions_to_include)
-        print(responses)
+        # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
             return Response(content=responses[0], status_code=502)
         clinical_services = [response.json() for response in responses]
@@ -116,14 +116,14 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     return (section_loincs, error_message)
 
 
-async def get_clinical_services(condition_codes: str) -> tuple[list, str]:
+async def get_clinical_services(condition_codes: str) -> list[dict]:
     """
     This a function that loops through the provided condition codes. For each
     condition code provided, it calls the trigger-code-reference service to get
-    the relevant clinical services for that condition.
+    the API response for that condition.
 
     :param condition_codes: SNOMED condition codes to look up in TCR service
-    :return: List of clinical_service dictionaries to check, error message
+    :return: List of API responses to check
     """
     clinical_services_list = []
     conditions_list = condition_codes.split(",")
