@@ -61,12 +61,10 @@ async def refine_ecr(
 
     clinical_services_xpaths = None
     if conditions_to_include:
-        clinical_services, error_message = await get_clinical_services(
-            conditions_to_include
-        )
-        clinical_services_xpaths = create_clinical_xpaths(clinical_services)
+        clinical_services = await get_clinical_services(conditions_to_include)
         if error_message != "":
             return Response(content=error_message, status_code=502)
+        clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 
     data = refine(validated_message, sections, clinical_services_xpaths)
 
@@ -113,7 +111,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
         else:
             section_loincs.append(section)
 
-    return (section_loincs, error_message) if section_loincs else (None, error_message)
+    return (section_loincs, error_message)
 
 
 async def get_clinical_services(condition_codes: str) -> tuple[list, str]:
