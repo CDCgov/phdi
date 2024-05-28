@@ -1,18 +1,22 @@
 ---
-name: Deploy
-run-name: Deploy ${{ github.event.inputs.branch }} to ${{ github.event.inputs.environment }} by @${{ github.actor }}
-
+# name: Deploy
+# run-name: Deploy ${{ github.event.inputs.branch }} to ${{ github.event.inputs.environment }} by @${{ github.actor }}
+name: Create New Release
 on:
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       branch:
         description: Branch to deploy
         required: true
         type: string
-        default: main
+        default: alis/46
       environment:
         description: Environment to deploy
         required: true
+        default: Development
         type: choice
         options:
           - Development
@@ -22,6 +26,8 @@ on:
 env:
   OCTOPUS_SPACE: Default
   OCTOPUS_PROJECT: Data Ingestion Building Blocks
+  BRANCH: alis/46
+  ENVIRONMENT: Development
 
 concurrency:
   group: ${{ github.event.inputs.environment }}-deployment
@@ -34,38 +40,51 @@ jobs:
       - name: Check environment
         run: |
           echo "Checking environment..."
-          echo "Environment: ${{ github.event.inputs.environment }}"
-          echo "Branch: ${{ github.event.inputs.branch }}"
-          if [ ${{ github.event.inputs.environment }} != "Development" ]; then
-            echo "Cannot deploy to ${{ github.event.inputs.environment }} environment"
+          echo "Environment: $ENVIRONMENT"
+          echo "Branch: $BRANCH"
+          if [ "$ENVIRONMENT" == "Development" ]; then
+            echo "Deploying to $ENVIRONMENT environment"
+            exit 0
+          else
+            echo "Cannot deploy to $ENVIRONMENT environment"
             exit 1
           fi
 
   checkout:
     needs: environment-check
     runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.get_version.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: "0"
           ref: ${{ github.event.inputs.branch }}
       - name: Get version
-        id: get_version
+        id: get-version
         run: |
           TAG=$(git describe --tags)
           echo "$TAG"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+    outputs:
+      tag: ${{ steps.get-version.outputs.tag }}
+
+  test-for-release:
+    needs: checkout
+    uses: ./.github/workflows/test.yaml
+
+  generate-docs:
+    needs: checkout
+    with:
+      tag: ${{ needs.checkout.outputs.tag }}
+    uses: ./.github/workflows/generateDocs.yaml
 
   build-containers:
-    needs: [environment-check, checkout]
+    needs: [test-for-release, generate-docs]
     uses: ./.github/workflows/buildReleaseContainers.yaml
     with:
       container-tag: ${{ needs.checkout.outputs.tag }}
 
   deploy:
-    needs: [environment-check, checkout, build-containers]
+    needs: [build-containers]
     with:
       environment: ${{ github.event.inputs.environment }}
       tag: ${{ needs.checkout.outputs.tag }}

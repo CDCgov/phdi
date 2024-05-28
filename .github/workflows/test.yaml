@@ -43,6 +43,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
         uses: actions/setup-python@v5
         with:
@@ -91,7 +92,7 @@ jobs:
       - name: Run pytest with code coverage output
         run: poetry run pytest --cov-report xml --cov=phdi tests/
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           flags: unit-tests
 
@@ -208,7 +209,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 18 # Adjust the Node.js version as needed
       - name: Install dependencies
@@ -224,7 +225,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0.x"
       - name: Run tests
@@ -237,7 +238,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 18 # Adjust the Node.js version as needed
       - name: Install dependencies
