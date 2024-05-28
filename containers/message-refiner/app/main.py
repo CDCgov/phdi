@@ -135,8 +135,8 @@ async def get_clinical_services(condition_codes: str) -> tuple[list, str]:
             match response.status_code:
                 case 200:
                     clinical_services_list.append(clinical_services)
-                case _:  # TODO: need to write 400/422/404 cases
-                    return (None, response)
+                case _:  # 400/422/404 cases should return empty list, errors
+                    return ([], response)
     return (clinical_services_list, error_message)
 
 
