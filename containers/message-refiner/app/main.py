@@ -10,7 +10,7 @@ from app.config import get_settings
 from app.utils import _generate_clinical_xpaths
 
 settings = get_settings()
-TCR_ENDPOINT = f"{settings.tcr_url}/get-value-sets/?condition_code="
+TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets/?condition_code="
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
