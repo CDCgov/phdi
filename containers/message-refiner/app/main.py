@@ -107,13 +107,11 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     sections = sections_to_include.split(",")
     for section in sections:
         if section not in section_LOINCs:
-            section_loincs = None
             error_message = f"{section} is invalid. Please provide a valid section."
-            break
-        else:
-            section_loincs.append(section)
+            return (section_loincs, error_message)
+        section_loincs.append(section)
 
-    return (section_loincs, error_message)
+    return (section_loincs, "")
 
 
 async def get_clinical_services(condition_codes: str) -> list[dict]:
