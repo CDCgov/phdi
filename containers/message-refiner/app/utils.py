@@ -33,6 +33,6 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
 
     # Loop through each code and create the XPath expressions
     return [
-        f"//*[local-name()='entry'][.//*[@code='{code}' and @codeSystemName='{system_dict.get(system)}']]"
+        f".//*[local-name()='entry'][.//*[@code='{code}' and @codeSystemName='{system_dict.get(system)}']]"
         for code in codes
     ]
