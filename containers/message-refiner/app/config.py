@@ -11,7 +11,8 @@ class Settings(BaseSettings):
     """
 
     tcr_url: str = Field(
-        description="The URL for the Trigger Code Reference service.", env="tcr_url"
+        description="The URL for the Trigger Code Reference service.",
+        env="TRIGGER_CODE_REFERENCE_URL",
     )
 
 
@@ -25,4 +26,4 @@ def get_settings() -> Settings:
     :return: the specified Settings. The value of each key is read from the
     corresponding environment variable.
     """
-    return Settings(_env_file=".env").dict()
+    return Settings().dict()
