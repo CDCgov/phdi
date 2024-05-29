@@ -255,7 +255,7 @@ async def test_get_clinical_services_error(mock_get):
         # Test case: invalid sections_to_include
         (
             "blah blah blah",
-            (None, "blah blah blah is invalid. Please provide a valid section."),
+            ([], "blah blah blah is invalid. Please provide a valid section."),
         ),
     ],
 )
@@ -282,8 +282,8 @@ def test_create_clinical_xpaths():
         {"lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]}
     ]
     expected_xpaths = [
-        ".//*[@code='76078-5' and @codeSystemName='loinc.org']",
-        ".//*[@code='76080-1' and @codeSystemName='loinc.org']",
+        "//*[local-name()='entry'][.//*[@code='76078-5' and @codeSystemName='loinc.org']]",
+        "//*[local-name()='entry'][.//*[@code='76080-1' and @codeSystemName='loinc.org']]",
     ]
     actual_xpaths = create_clinical_xpaths(clinical_services_list)
     assert actual_xpaths == expected_xpaths

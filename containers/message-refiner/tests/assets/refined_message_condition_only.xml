@@ -194,24 +194,58 @@
 	<component>
 		<structuredBody>
 			<component>
-				<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+				<entry typeCode="DRIV">
+					<organizer classCode="CLUSTER" moodCode="EVN">
+						<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+						<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+						<id root="26f9100d-515f-472c-bffb-93806fd9bd71"/>
+						<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+						<statusCode code="completed"/>
+						<component>
+							<observation classCode="OBS" moodCode="EVN">
+								<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+								<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+								<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361280/_history/1" root="2.16.840.1.113883"/>
+								<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+									<originalText>
+										<reference value="#labTestName14"/>
+									</originalText>
+								</code>
+								<statusCode code="completed"/>
+								<effectiveTime value="20220513074300+0000"/>
+								<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
+								<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+							</observation>
+						</component>
+					</organizer>
+				</entry>
 			</component>
 			<component>
-				<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-					<originalText>
-						<reference value="#labTestName14"/>
-					</originalText>
-				</code>
-			</component>
-			<component>
-				<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-			</component>
-			<component>
-				<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-					<originalText>
-						<reference value="#labTestName15"/>
-					</originalText>
-				</code>
+				<entry typeCode="DRIV">
+					<organizer classCode="CLUSTER" moodCode="EVN">
+						<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+						<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+						<id root="10ea9500-d59d-4962-8a8d-81c0749f06f6"/>
+						<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+						<statusCode code="completed"/>
+						<component>
+							<observation classCode="OBS" moodCode="EVN">
+								<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+								<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+								<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361278/_history/1" root="2.16.840.1.113883"/>
+								<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+									<originalText>
+										<reference value="#labTestName15"/>
+									</originalText>
+								</code>
+								<statusCode code="completed"/>
+								<effectiveTime value="20220513074300+0000"/>
+								<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
+								<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+							</observation>
+						</component>
+					</organizer>
+				</entry>
 			</component>
 		</structuredBody>
 	</component>

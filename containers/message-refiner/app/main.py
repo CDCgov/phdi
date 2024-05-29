@@ -97,9 +97,6 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
         "46240-8",  # history of hospitalizations+outpatient visits narrative
     ]
 
-    error_message = ""
-    section_loincs = []
-
     if sections_to_include is None:
         return (None, "")
 
