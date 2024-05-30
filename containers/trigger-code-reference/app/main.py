@@ -154,8 +154,6 @@ async def get_value_sets_for_condition(
             status_code=422,
         )
     else:
-        if filter_clinical_services not in [None, ""]:
-            filter_clinical_services = filter_clinical_services.split(",")
         clean_snomed_code = get_clean_snomed_code(condition_code)
         clinical_services_list = get_clinical_services_list(clean_snomed_code)
         values = get_clinical_services_dict(
