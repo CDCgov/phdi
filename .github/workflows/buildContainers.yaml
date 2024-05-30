@@ -31,7 +31,7 @@ jobs:
       - name: Copy shared-resources (if needed)
         if: ${{ matrix.container-to-build == 'ecr-viewer' }}
         working-directory: ./containers/${{matrix.container-to-build}}
-        run: cp -r ../../shared-resources ./shared-resources
+        run: cp -r ../../shared-resources ./src/app/shared-resources
 
       - name: Target branch in requirements.txt
         working-directory: ./containers/${{matrix.container-to-build}}
