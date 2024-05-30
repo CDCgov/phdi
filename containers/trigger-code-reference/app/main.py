@@ -3,6 +3,7 @@ from typing import Annotated
 
 from dibbs.base_service import BaseService
 from fastapi import Body
+from fastapi import Query
 from fastapi import Response
 
 from app.models import InsertConditionInput
@@ -27,7 +28,7 @@ app = BaseService(
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
-# Load up the annotated examples
+# Load up the stamping annotated examples
 stamp_conditions_request_examples = read_json_from_assets(
     "sample_stamp_condition_extensions_requests.json"
 )
@@ -118,9 +119,22 @@ async def stamp_condition_extensions(
     return {"extended_bundle": input.bundle}
 
 
-@app.get("/get-value-sets/")
+# Load up the value set retrieval annotated examples
+get_value_sets_request_examples = read_json_from_assets(
+    "sample_get_value_sets_requests.json"
+)
+get_value_sets_response_examples_raw = read_json_from_assets(
+    "sample_get_value_sets_responses.json"
+)
+get_value_sets_response_examples = {200: get_value_sets_response_examples_raw}
+
+
+@app.get("/get-value-sets", status_code=200, responses=get_value_sets_response_examples)
 async def get_value_sets_for_condition(
-    condition_code: str, filter_clinical_services: list = None
+    condition_code: Annotated[str, Query(examples=get_value_sets_request_examples)],
+    filter_clinical_services: Annotated[
+        str, Query(examples=get_value_sets_request_examples)
+    ] = None,
 ) -> Response:
     """
     For a given condition, queries and returns the value set of clinical
@@ -128,8 +142,9 @@ async def get_value_sets_for_condition(
 
     :param condition_code: A query param supplied as a string representing a
       single SNOMED condition code.
-    :param filter_clinical_services: (Optional) List of clinical service types
-      specified to keep. By default, all (currently) 6 clinical service types are
+    :param filter_clinical_services: (Optional) A comma-separated string of
+      clinical service types (defined by the abbreviation codes above) to
+      keep. By default, all (currently) 6 clinical service types are
       returned; use this parameter to return only types of interest.
     :return: An HTTP Response containing the value sets of the queried code.
     """
