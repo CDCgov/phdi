@@ -3,6 +3,7 @@ from typing import Annotated
 
 from dibbs.base_service import BaseService
 from fastapi import Body
+from fastapi import Query
 from fastapi import Response
 
 from app.models import InsertConditionInput
@@ -130,7 +131,7 @@ get_value_sets_response_examples = {200: get_value_sets_response_examples_raw}
 
 @app.get("/get-value-sets", status_code=200, responses=get_value_sets_response_examples)
 async def get_value_sets_for_condition(
-    condition_code: Annotated[str, Body(examples=get_value_sets_request_examples)],
+    condition_code: Annotated[str, Query(examples=get_value_sets_request_examples)],
     filter_clinical_services: str = None,
 ) -> Response:
     """
