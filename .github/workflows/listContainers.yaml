@@ -25,8 +25,8 @@ jobs:
         name: Generate list of directories within containers/
         working-directory: ./containers
         run: |
-          ls -d */ | cut -f1 -d'/' | grep -v 'orchestration' | jq -R -s -c 'split("\n")[:-1]'
-          echo "containers=$(ls -d */ | cut -f1 -d'/' | grep -v 'orchestration' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+          ls -d * | jq -R -s -c 'split("\n")[:-1]'
+          echo "containers=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1] ')" >> $GITHUB_OUTPUT
   list-python-containers:
     runs-on: ubuntu-latest
     outputs:
