@@ -1,16 +1,20 @@
 from pathlib import Path
+from typing import Annotated
 
 import httpx
 from dibbs.base_service import BaseService
-from fastapi import Request
+from fastapi import Body
 from fastapi import Response
 from lxml import etree as ET
 
 from app.config import get_settings
+from app.models import RefineECRRequest
+from app.models import RefineECRResponse
 from app.utils import _generate_clinical_xpaths
+from app.utils import read_json_from_assets
 
 settings = get_settings()
-TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets/?condition_code="
+TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets?condition_code="
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -31,37 +35,43 @@ async def health_check():
     return {"status": "OK"}
 
 
-@app.post("/ecr/")
+# /ecr endpoint request examples
+refine_ecr_request_examples = read_json_from_assets("sample_refine_ecr_request.json")
+refine_ecr_response_examples = read_json_from_assets("sample_refine_ecr_response.json")
+refiner_ecr_response_example_dict = {200: refine_ecr_response_examples}
+
+
+@app.post("/ecr", status_code=200, responses=refine_ecr_request_examples)
 async def refine_ecr(
-    refiner_input: Request,
-    sections_to_include: str | None = None,
-    conditions_to_include: str | None = None,
-) -> Response:
+    input: Annotated[
+        RefineECRRequest, Body(examples=refiner_ecr_response_example_dict)
+    ],
+) -> RefineECRResponse:
     """
     Refines an incoming XML message based on the fields to include and whether
     to include headers.
 
-    :param request: The request object containing the XML input.
-    :param sections_to_include: The fields to include in the refined message.
-    :param conditions_to_include: The SNOMED condition codes to search for
-    and then include the relevant clinical services in the refined message.
-    :return: The RefinerResponse which includes the `refined_message`
+    :param input: The request object containing the XML input and any sections or
+    conditions upon which to refine.
+    :return: The RefineECRResponse, the refined XML as a string.
     """
-    data = await refiner_input.body()
+    data = await input.refiner_input.body()
 
     validated_message, error_message = validate_message(data)
     if error_message != "":
         return Response(content=error_message, status_code=400)
 
     sections = None
-    if sections_to_include:
-        sections, error_message = validate_sections_to_include(sections_to_include)
+    if input.sections_to_include:
+        sections, error_message = validate_sections_to_include(
+            input.sections_to_include
+        )
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
     clinical_services_xpaths = None
-    if conditions_to_include:
-        responses = await get_clinical_services(conditions_to_include)
+    if input.conditions_to_include:
+        responses = await get_clinical_services(input.conditions_to_include)
         # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
             return Response(content=responses, status_code=502)
