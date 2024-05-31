@@ -87,7 +87,7 @@ async def refine_ecr(
 
     data = refine(validated_message, sections, clinical_services_xpaths)
 
-    return RefineECRResponse(refined_message=data)
+    return Response(content=data, media_type="application/xml")
 
 
 def validate_sections_to_include(sections_to_include: str | None) -> tuple[list, str]:

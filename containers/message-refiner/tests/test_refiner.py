@@ -94,9 +94,16 @@ def test_ecr_refiner():
     actual_response = client.post(endpoint, json=request_body)
     assert actual_response.status_code == 200
 
-    actual_flattened = [
-        i.tag for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-    ]
+    if actual_response.headers["content-type"] == "application/json":
+        actual_flattened = [
+            i.tag
+            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
+        ]
+    else:
+        actual_flattened = [
+            i.tag for i in ET.fromstring(actual_response.content).iter()
+        ]
+
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
 
@@ -111,9 +118,16 @@ def test_ecr_refiner():
     actual_response = client.post(endpoint, json=request_body)
     assert actual_response.status_code == 200
 
-    actual_flattened = [
-        i.tag for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-    ]
+    if actual_response.headers["content-type"] == "application/json":
+        actual_flattened = [
+            i.tag
+            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
+        ]
+    else:
+        actual_flattened = [
+            i.tag for i in ET.fromstring(actual_response.content).iter()
+        ]
+
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
 
@@ -128,9 +142,16 @@ def test_ecr_refiner():
     actual_response = client.post(endpoint, json=request_body)
     assert actual_response.status_code == 200
 
-    actual_flattened = [
-        i.tag for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-    ]
+    if actual_response.headers["content-type"] == "application/json":
+        actual_flattened = [
+            i.tag
+            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
+        ]
+    else:
+        actual_flattened = [
+            i.tag for i in ET.fromstring(actual_response.content).iter()
+        ]
+
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
 
@@ -178,14 +199,20 @@ async def test_ecr_refiner_conditions(mock_get):
     actual_response = client.post(endpoint, json=request_body)
     assert actual_response.status_code == 200
 
-    actual_flattened = [
-        i.tag for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-    ]
+    if actual_response.headers["content-type"] == "application/json":
+        actual_flattened = [
+            i.tag
+            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
+        ]
+    else:
+        actual_flattened = [
+            i.tag for i in ET.fromstring(actual_response.content).iter()
+        ]
+
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
     actual_elements = [
-        i.tag.split("}")[-1]
-        for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
+        i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
     ]
     assert "ClinicalDocument" in actual_elements
 
@@ -200,14 +227,20 @@ async def test_ecr_refiner_conditions(mock_get):
     actual_response = client.post(endpoint, json=request_body)
     assert actual_response.status_code == 200
 
-    actual_flattened = [
-        i.tag for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-    ]
+    if actual_response.headers["content-type"] == "application/json":
+        actual_flattened = [
+            i.tag
+            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
+        ]
+    else:
+        actual_flattened = [
+            i.tag for i in ET.fromstring(actual_response.content).iter()
+        ]
+
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
     actual_elements = [
-        i.tag.split("}")[-1]
-        for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
+        i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
     ]
     assert "ClinicalDocument" in actual_elements
 
@@ -222,14 +255,20 @@ async def test_ecr_refiner_conditions(mock_get):
     actual_response = client.post(endpoint, json=request_body)
     assert actual_response.status_code == 200
 
-    actual_flattened = [
-        i.tag for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-    ]
+    if actual_response.headers["content-type"] == "application/json":
+        actual_flattened = [
+            i.tag
+            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
+        ]
+    else:
+        actual_flattened = [
+            i.tag for i in ET.fromstring(actual_response.content).iter()
+        ]
+
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
     actual_elements = [
-        i.tag.split("}")[-1]
-        for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
+        i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
     ]
     assert "ClinicalDocument" in actual_elements
 
