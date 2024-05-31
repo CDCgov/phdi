@@ -29,7 +29,11 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Show files
-        working-directory: ./containers/${{matrix.container-to-build}}
+        working-directory: ./containers/${{matrix.container-to-build}}/src/app
+        run: ls -la
+
+      - name: Show files
+        working-directory: ./containers/${{matrix.container-to-build}}/src/app/shared
         run: ls -la
 
       - name: Copy shared-resources (if needed)
