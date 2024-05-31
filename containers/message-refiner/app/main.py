@@ -4,6 +4,8 @@ from typing import Annotated
 import httpx
 from dibbs.base_service import BaseService
 from fastapi import Body
+from fastapi import Response
+from fastapi import status
 from lxml import etree as ET
 
 from app.config import get_settings
@@ -39,9 +41,15 @@ refine_ecr_request_examples = read_json_from_assets("sample_refine_ecr_request.j
 refine_ecr_response_examples = read_json_from_assets("sample_refine_ecr_response.json")
 
 
-@app.post("/ecr", status_code=200, responses=refine_ecr_response_examples)
+@app.post(
+    "/ecr",
+    response_model=RefineECRResponse,
+    status_code=200,
+    responses=refine_ecr_response_examples,
+)
 async def refine_ecr(
     input: Annotated[RefineECRRequest, Body(examples=refine_ecr_request_examples)],
+    response: Response,
 ) -> RefineECRResponse:
     """
     Refines an incoming XML message based on the fields to include and whether
@@ -54,7 +62,8 @@ async def refine_ecr(
     data = input.refiner_input.encode()
 
     validated_message, error_message = validate_message(data)
-    if error_message != "":
+    if error_message:
+        response.status_code = status.HTTP_400_BAD_REQUEST
         return RefineECRResponse(refined_message=error_message)
 
     sections = None
@@ -62,7 +71,8 @@ async def refine_ecr(
         sections, error_message = validate_sections_to_include(
             input.sections_to_include
         )
-        if error_message != "":
+        if error_message:
+            response.status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
             return RefineECRResponse(refined_message=error_message)
 
     clinical_services_xpaths = None
@@ -70,9 +80,8 @@ async def refine_ecr(
         responses = await get_clinical_services(input.conditions_to_include)
         # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
-            return RefineECRResponse(
-                refined_message="Failed to fetch clinical services"
-            )
+            response.status_code = status.HTTP_502_BAD_GATEWAY
+            return RefineECRResponse(refined_message=responses)
         clinical_services = [response.json() for response in responses]
         clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 
