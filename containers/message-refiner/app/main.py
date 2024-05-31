@@ -4,7 +4,6 @@ from typing import Annotated
 import httpx
 from dibbs.base_service import BaseService
 from fastapi import Body
-from fastapi import Response
 from lxml import etree as ET
 
 from app.config import get_settings
@@ -59,7 +58,7 @@ async def refine_ecr(
 
     validated_message, error_message = validate_message(data)
     if error_message != "":
-        return Response(content=error_message, status_code=400)
+        return RefineECRResponse(content=error_message, status_code=400)
 
     sections = None
     if input.sections_to_include:
@@ -67,20 +66,20 @@ async def refine_ecr(
             input.sections_to_include
         )
         if error_message != "":
-            return Response(content=error_message, status_code=422)
+            return RefineECRResponse(content=error_message, status_code=422)
 
     clinical_services_xpaths = None
     if input.conditions_to_include:
         responses = await get_clinical_services(input.conditions_to_include)
         # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
-            return Response(content=responses, status_code=502)
+            return RefineECRResponse(content=responses, status_code=502)
         clinical_services = [response.json() for response in responses]
         clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 
     data = refine(validated_message, sections, clinical_services_xpaths)
 
-    return Response(content=data, media_type="application/xml")
+    return RefineECRResponse(content=data, media_type="application/xml")
 
 
 def validate_sections_to_include(sections_to_include: str | None) -> tuple[list, str]:
