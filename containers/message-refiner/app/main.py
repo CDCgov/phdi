@@ -81,7 +81,10 @@ async def refine_ecr(
         # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
             response.status_code = status.HTTP_502_BAD_GATEWAY
-            return RefineECRResponse(refined_message=responses)
+            error_message = ";".join(
+                [str(response) for response in responses if response.status_code != 200]
+            )
+            return RefineECRResponse(refined_message=error_message)
         clinical_services = [response.json() for response in responses]
         clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 
