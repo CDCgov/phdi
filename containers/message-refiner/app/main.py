@@ -1,9 +1,16 @@
 from pathlib import Path
 
+import httpx
 from dibbs.base_service import BaseService
 from fastapi import Request
 from fastapi import Response
 from lxml import etree as ET
+
+from app.config import get_settings
+from app.utils import _generate_clinical_xpaths
+
+settings = get_settings()
+TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets/?condition_code="
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -26,14 +33,18 @@ async def health_check():
 
 @app.post("/ecr/")
 async def refine_ecr(
-    refiner_input: Request, sections_to_include: str | None = None
+    refiner_input: Request,
+    sections_to_include: str | None = None,
+    conditions_to_include: str | None = None,
 ) -> Response:
     """
     Refines an incoming XML message based on the fields to include and whether
     to include headers.
 
     :param request: The request object containing the XML input.
-    :param fields_to_include: The fields to include in the refined message.
+    :param sections_to_include: The fields to include in the refined message.
+    :param conditions_to_include: The SNOMED condition codes to search for
+    and then include the relevant clinical services in the refined message.
     :return: The RefinerResponse which includes the `refined_message`
     """
     data = await refiner_input.body()
@@ -42,15 +53,22 @@ async def refine_ecr(
     if error_message != "":
         return Response(content=error_message, status_code=400)
 
+    sections = None
     if sections_to_include:
-        sections_to_include, error_message = validate_sections_to_include(
-            sections_to_include
-        )
-
+        sections, error_message = validate_sections_to_include(sections_to_include)
         if error_message != "":
             return Response(content=error_message, status_code=422)
 
-        data = refine(validated_message, sections_to_include)
+    clinical_services_xpaths = None
+    if conditions_to_include:
+        responses = await get_clinical_services(conditions_to_include)
+        # confirm all API responses were 200
+        if set([response.status_code for response in responses]) != {200}:
+            return Response(content=responses, status_code=502)
+        clinical_services = [response.json() for response in responses]
+        clinical_services_xpaths = create_clinical_xpaths(clinical_services)
+
+    data = refine(validated_message, sections, clinical_services_xpaths)
 
     return Response(content=data, media_type="application/xml")
 
@@ -79,49 +97,120 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
         "46240-8",  # history of hospitalizations+outpatient visits narrative
     ]
 
-    error_message = ""
+    if sections_to_include in [None, ""]:
+        return (None, "")
+
     section_loincs = []
+    sections = sections_to_include.split(",")
+    for section in sections:
+        if section not in section_LOINCs:
+            error_message = f"{section} is invalid. Please provide a valid section."
+            return (section_loincs, error_message)
+        section_loincs.append(section)
 
-    if sections_to_include:
-        section_loincs = []
-        sections = sections_to_include.split(",")
-        for section in sections:
-            if section not in section_LOINCs:
-                section_loincs = None
-                error_message = f"{section} is invalid. Please provide a valid section."
-                break
-            else:
-                section_loincs.append(section)
-
-    return (section_loincs, error_message) if section_loincs else (None, error_message)
+    return (section_loincs, "")
 
 
-def refine(validated_message: bytes, sections_to_include: str) -> str:
+async def get_clinical_services(condition_codes: str) -> list[dict]:
     """
-    Refines an incoming XML message based on the sections to include.
+    This a function that loops through the provided condition codes. For each
+    condition code provided, it calls the trigger-code-reference service to get
+    the API response for that condition.
+
+    :param condition_codes: SNOMED condition codes to look up in TCR service
+    :return: List of API responses to check
+    """
+    clinical_services_list = []
+    conditions_list = condition_codes.split(",")
+    async with httpx.AsyncClient() as client:
+        for condition in conditions_list:
+            response = await client.get(TCR_ENDPOINT + condition)
+            clinical_services_list.append(response)
+    return clinical_services_list
+
+
+def create_clinical_xpaths(clinical_services_list: list[dict]) -> list[str]:
+    """
+    This function loops through each of those clinical service codes and their
+    system to create a list of all possible xpath queries.
+    :param clinical_services_list: List of clinical_service dictionaries.
+    :return: List of xpath queries to check.
+    """
+    clinical_services_xpaths = []
+    for clinical_services in clinical_services_list:
+        for system, entries in clinical_services.items():
+            for entry in entries:
+                system = entry.get("system")
+                xpaths = _generate_clinical_xpaths(system, entry.get("codes"))
+                clinical_services_xpaths.extend(xpaths)
+    return clinical_services_xpaths
+
+
+def refine(
+    validated_message: bytes,
+    sections_to_include: list = None,
+    clinical_services: list = None,
+) -> str:
+    """
+    Refines an incoming XML message based on the sections to include and/or
+    the clinical services found based on inputted section LOINC codes or
+    condition SNOMED codes. This will then loop through the dynamic XPaths to
+    create an XPath to refine the XML.
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
+    :param clinical_services_xpaths: clinical service XPaths to include in the
+    refined message.
     :return: The refined message.
     """
     header = select_message_header(validated_message)
 
-    # Set up XPath expression
-    # this namespace is only used for filtering
+    # Set up XPath expressions
     namespaces = {"hl7": "urn:hl7-org:v3"}
-    sections_xpath_expression = "or".join(
-        [f"@code='{section}'" for section in sections_to_include]
-    )
-    xpath_expression = (
-        f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
-    )
+    if sections_to_include:
+        sections_xpaths = " or ".join(
+            [f"@code='{section}'" for section in sections_to_include]
+        )
+        sections_xpath_expression = (
+            f"//*[local-name()='section'][hl7:code[{sections_xpaths}]]"
+        )
 
-    # Use XPath to find elements matching the expression
+    if clinical_services:
+        services_xpath_expression = " | ".join(clinical_services)
+
+    # both are handled slightly differently
+    if sections_to_include and clinical_services:
+        elements = []
+        sections = validated_message.xpath(
+            sections_xpath_expression, namespaces=namespaces
+        )
+        for section in sections:
+            condition_elements = section.xpath(
+                services_xpath_expression, namespaces=namespaces
+            )
+            if condition_elements:
+                elements.extend(condition_elements)
+        return add_root_element(header, elements)
+
+    if sections_to_include:
+        xpath_expression = sections_xpath_expression
+    elif clinical_services:
+        xpath_expression = services_xpath_expression
+    else:
+        xpath_expression = "//*[local-name()='section']"
     elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
+    return add_root_element(header, elements)
 
-    # Create & set up a new root element for the refined XML
-    # we are using a combination of a direct namespace uri and nsmap so that we can
-    # ensure that the default namespaces are set correctly
+
+def add_root_element(header: bytes, elements: list) -> str:
+    """
+    This helper function sets up and creates a new root element for the XML
+    by using a combination of a direct namespace uri and nsmap to ensure that
+    the default namespaces are set correctly.
+    :param header: The header section of the XML.
+    :param elements: List of refined elements found in XML.
+    :return: The full refined XML, formatted as a string.
+    """
     namespace = "urn:hl7-org:v3"
     nsmap = {
         None: namespace,

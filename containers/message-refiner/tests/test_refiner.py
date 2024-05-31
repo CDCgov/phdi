@@ -1,11 +1,19 @@
 import pathlib
+import re
+from unittest.mock import AsyncMock
+from unittest.mock import Mock
+from unittest.mock import patch
 
 import pytest
+from app.main import add_root_element
 from app.main import app
+from app.main import create_clinical_xpaths
+from app.main import get_clinical_services
 from app.main import refine
 from app.main import select_message_header
 from app.main import validate_message
 from app.main import validate_sections_to_include
+from app.utils import _generate_clinical_xpaths
 from fastapi.testclient import TestClient
 from lxml import etree as ET
 
@@ -23,10 +31,7 @@ def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
         (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
     ) as file:
         parser = ET.XMLParser(remove_blank_text=True)
-        tree = ET.parse(
-            file,
-            parser,
-        )
+        tree = ET.parse(file, parser)
         return tree
 
 
@@ -51,26 +56,44 @@ refined_test_eICR_social_history_only = parse_file_from_test_assets(
 refined_test_eICR_labs_reason = parse_file_from_test_assets(
     "refined_message_labs_reason.xml"
 )
+
+refined_test_condition_only = parse_file_from_test_assets(
+    "refined_message_condition_only.xml"
+)
+
+refined_test_conditon_and_labs = parse_file_from_test_assets(
+    "refined_message_condition_and_lab_section.xml"
+)
+
+refined_test_no_relevant_section_data = parse_file_from_test_assets(
+    "refined_message_with_condition_and_section_with_no_condition_info.xml"
+)
+
 test_header = parse_file_from_test_assets("test_header.xml")
+
+mock_tcr_response = {
+    "lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]
+}
 
 
 def test_health_check():
     actual_response = client.get("/")
     assert actual_response.status_code == 200
-    assert actual_response.json() == {
-        "status": "OK",
-    }
+    assert actual_response.json() == {"status": "OK"}
 
 
 def test_ecr_refiner():
     # Test case: sections_to_include = None
-    expected_response = test_eICR_xml
+    expected_response = parse_file_from_test_assets("CDA_eICR.xml")
     content = test_eICR_xml
     sections_to_include = None
     endpoint = "/ecr/"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
-    assert actual_response.content.decode() == expected_response
+
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
 
     # Test case: sections_to_include = "29762-2" # social history narrative
     expected_response = refined_test_eICR_social_history_only
@@ -113,6 +136,104 @@ def test_ecr_refiner():
     assert "XMLSyntaxError" in actual_response.content.decode()
 
 
+@pytest.mark.asyncio
+@patch("httpx.AsyncClient.get", new_callable=AsyncMock)
+async def test_ecr_refiner_conditions(mock_get):
+    # Mock the response from the trigger-code-reference service
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = mock_tcr_response
+    mock_get.return_value = mock_response
+
+    # Test conditions only
+    expected_response = refined_test_condition_only
+    content = test_eICR_xml
+    conditions_to_include = "6142004"
+    endpoint = f"/ecr/?conditions_to_include={conditions_to_include}"
+    actual_response = client.post(endpoint, content=content)
+    assert actual_response.status_code == 200
+
+    actual_flattened = [
+        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
+    actual_elements = [
+        i.tag.split("}")[-1]
+        for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    assert "ClinicalDocument" in actual_elements
+
+    # Test conditions and relevant labs section
+    expected_response = refined_test_conditon_and_labs
+    content = test_eICR_xml
+    conditions_to_include = "6142004"
+    sections_to_include = "30954-2"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
+    actual_response = client.post(endpoint, content=content)
+    assert actual_response.status_code == 200
+
+    actual_flattened = [
+        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
+    actual_elements = [
+        i.tag.split("}")[-1]
+        for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    assert "ClinicalDocument" in actual_elements
+
+    # Test conditions, history of hospitalization section without relevant data
+    expected_response = refined_test_no_relevant_section_data
+    content = test_eICR_xml
+    conditions_to_include = "6142004"
+    sections_to_include = "46240-8"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
+    actual_response = client.post(endpoint, content=content)
+    assert actual_response.status_code == 200
+
+    actual_flattened = [
+        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    expected_flattened = [i.tag for i in expected_response.iter()]
+    assert actual_flattened == expected_flattened
+    actual_elements = [
+        i.tag.split("}")[-1]
+        for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
+    assert "ClinicalDocument" in actual_elements
+
+
+@pytest.mark.asyncio
+@patch("httpx.AsyncClient.get", new_callable=AsyncMock)
+async def test_get_clinical_services(mock_get):
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {
+        "lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]
+    }
+    mock_get.return_value = mock_response
+
+    condition_codes = "6142004"
+    clinical_services = await get_clinical_services(condition_codes)
+    expected_result = [mock_response]
+    assert clinical_services == expected_result
+
+
+@pytest.mark.asyncio
+@patch("httpx.AsyncClient.get", new_callable=AsyncMock)
+async def test_get_clinical_services_error(mock_get):
+    mock_response = Mock()
+    mock_response.status_code = 503
+    mock_response.json.return_value = {"detail": "Not Found"}
+    mock_get.return_value = mock_response
+
+    condition_codes = "invalid_code"
+    clinical_services = await get_clinical_services(condition_codes)
+    assert clinical_services[0].status_code == 503
+
+
 @pytest.mark.parametrize(
     "test_data, expected_result",
     [
@@ -134,7 +255,7 @@ def test_ecr_refiner():
         # Test case: invalid sections_to_include
         (
             "blah blah blah",
-            (None, "blah blah blah is invalid. Please provide a valid section."),
+            ([], "blah blah blah is invalid. Please provide a valid section."),
         ),
     ],
 )
@@ -154,6 +275,18 @@ def test_validate_sections_to_include(test_data, expected_result):
         actual_response = validate_sections_to_include(test_data)
         assert actual_response == expected_result
         assert actual_response[1] != ""
+
+
+def test_create_clinical_xpaths():
+    clinical_services_list = [
+        {"lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]}
+    ]
+    expected_xpaths = [
+        ".//*[local-name()='entry'][.//*[@code='76078-5' and @codeSystemName='loinc.org']]",
+        ".//*[local-name()='entry'][.//*[@code='76080-1' and @codeSystemName='loinc.org']]",
+    ]
+    actual_xpaths = create_clinical_xpaths(clinical_services_list)
+    assert actual_xpaths == expected_xpaths
 
 
 def test_refine():
@@ -177,6 +310,34 @@ def test_refine():
     expected_flattened = [i.tag for i in expected_message.iter()]
     assert actual_flattened == expected_flattened
 
+    # Test case: Refine for condition only
+    expected_message = refined_test_condition_only
+    raw_message = ET.fromstring(test_eICR_xml)
+    system = "http://loinc.org"
+    codes = ["76078-5", "76080-1"]
+    mock_clinical_service_xpaths = _generate_clinical_xpaths(system, codes)
+    refined_message = refine(
+        raw_message,
+        sections_to_include=None,
+        clinical_services=mock_clinical_service_xpaths,
+    )
+    actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
+    expected_flattened = [i.tag for i in expected_message.iter()]
+    assert actual_flattened == expected_flattened
+
+    # Test case: Refine for condition and labs/diagnostics section
+    expected_message = refined_test_conditon_and_labs
+    raw_message = ET.fromstring(test_eICR_xml)
+    sections_to_include = ["30954-2"]
+    refined_message = refine(
+        raw_message,
+        sections_to_include=sections_to_include,
+        clinical_services=mock_clinical_service_xpaths,
+    )
+    actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
+    expected_flattened = [i.tag for i in expected_message.iter()]
+    assert actual_flattened == expected_flattened
+
 
 def test_select_header():
     raw_message = ET.fromstring(test_eICR_xml)
@@ -185,6 +346,17 @@ def test_select_header():
     actual_flattened = [i.tag for i in actual_header.iter()]
     expected_flattened = [i.tag for i in expected_header.iter()]
     assert actual_flattened == expected_flattened
+
+
+def test_add_root_element():
+    raw_message = ET.fromstring(test_eICR_xml)
+    header = select_message_header(raw_message)
+    elements = raw_message.xpath(
+        "//*[local-name()='section']", namespaces={"hl7": "urn:hl7-org:v3"}
+    )
+    result = add_root_element(header, elements)
+    # TODO: I could only get this to work with regex
+    assert re.sub(r"\s+", "", result) == re.sub(r"\s+", "", test_eICR_xml)
 
 
 def test_validate_message():

@@ -25,11 +25,17 @@ const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
         <div key={index}>
           <div className="grid-row">
             <div className="grid-col-4">
-              <div className={`${loadingBlobStyle} margin-right-1`}>&nbsp;</div>
+              <div
+                className={`${loadingBlobStyle}-small loading-blob margin-right-1 loading-blob`}
+              >
+                &nbsp;
+              </div>
             </div>
-            <div className={`grid-col-8 ${loadingBlobStyle}`}>&nbsp;</div>
+            <div className={`loading-blob grid-col-8 ${loadingBlobStyle}-big`}>
+              &nbsp;
+            </div>
           </div>
-          <div className={sectionLineStyle} />
+          <div className={`${sectionLineStyle}`} />
         </div>
       ))}
     </>
