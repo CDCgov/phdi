@@ -37,14 +37,11 @@ async def health_check():
 # /ecr endpoint request examples
 refine_ecr_request_examples = read_json_from_assets("sample_refine_ecr_request.json")
 refine_ecr_response_examples = read_json_from_assets("sample_refine_ecr_response.json")
-refiner_ecr_response_example_dict = {200: refine_ecr_response_examples}
 
 
-@app.post("/ecr", status_code=200, responses=refine_ecr_request_examples)
+@app.post("/ecr", status_code=200, responses=refine_ecr_response_examples)
 async def refine_ecr(
-    input: Annotated[
-        RefineECRRequest, Body(examples=refiner_ecr_response_example_dict)
-    ],
+    input: Annotated[RefineECRRequest, Body(examples=refine_ecr_request_examples)],
 ) -> RefineECRResponse:
     """
     Refines an incoming XML message based on the fields to include and whether
@@ -54,11 +51,11 @@ async def refine_ecr(
     conditions upon which to refine.
     :return: The RefineECRResponse, the refined XML as a string.
     """
-    data = await input.refiner_input.body()
+    data = input.refiner_input.encode()
 
     validated_message, error_message = validate_message(data)
     if error_message != "":
-        return RefineECRResponse(content=error_message, status_code=400)
+        return RefineECRResponse(refined_message=error_message)
 
     sections = None
     if input.sections_to_include:
@@ -66,20 +63,22 @@ async def refine_ecr(
             input.sections_to_include
         )
         if error_message != "":
-            return RefineECRResponse(content=error_message, status_code=422)
+            return RefineECRResponse(refined_message=error_message)
 
     clinical_services_xpaths = None
     if input.conditions_to_include:
         responses = await get_clinical_services(input.conditions_to_include)
         # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
-            return RefineECRResponse(content=responses, status_code=502)
+            return RefineECRResponse(
+                refined_message="Failed to fetch clinical services"
+            )
         clinical_services = [response.json() for response in responses]
         clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 
     data = refine(validated_message, sections, clinical_services_xpaths)
 
-    return RefineECRResponse(content=data, media_type="application/xml")
+    return RefineECRResponse(refined_message=data)
 
 
 def validate_sections_to_include(sections_to_include: str | None) -> tuple[list, str]:
