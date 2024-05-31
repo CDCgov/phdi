@@ -2,7 +2,7 @@
   "200": {
     "description": "Success",
     "content": {
-      "application/xml": {
+      "application/json": {
         "example": {
           "summary": "Refined ECR XML as string.",
           "refined_message": "<ClinicalDocument xmlns=\"urn:hl7-org:v3\">...</ClinicalDocument>"
@@ -13,7 +13,7 @@
   "400": {
     "description": "Invalid XML",
     "content": {
-      "application/xml": {
+      "application/json": {
         "example": {
           "summary": "Error indicating that the input XML is malformed.",
           "refined_message": "XMLSyntaxError: error details"
@@ -24,7 +24,7 @@
   "422": {
     "description": "Invalid Section",
     "content": {
-      "application/xml": {
+      "application/json": {
         "example": {
           "summary": "Error indicating that section(s) to include are not correct.",
           "refined_message": "Invalid section details"
@@ -35,7 +35,7 @@
   "502": {
     "description": "Service Error",
     "content": {
-      "application/xml": {
+      "application/json": {
         "example": {
           "summary": "Error indicating that condition code(s) provided are not recognized.",
           "refined_message": "Failed to fetch clinical services"

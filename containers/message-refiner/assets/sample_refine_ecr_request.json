@@ -1,6 +1,6 @@
 {
   "summary": "Sample eICR.xml",
-  "description": "This is a sample eICR XML to refine for relevant data.",
+  "description": "This is a sample eICR XML to refine for relevant data. Remove or set sections_to_include and/or conditions_to_include to None if you do not want to include. More sections or conditions can be added by delimiting with a comma.",
   "value": {
     "sections_to_include": "30954-2",
     "conditions_to_include": "6142004",
