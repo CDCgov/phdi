@@ -29,10 +29,17 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Show files
-        working-directory: ./containers/${{matrix.container-to-build}}/src/app
+        if: ${{ matrix.container-to-build == 'ecr-viewer' }}
+        working-directory: ./containers/${{matrix.container-to-build}}/src/app/shared
         run: ls -la
 
+      - name: Remove symlinks (if needed)
+        if: ${{ matrix.container-to-build == 'ecr-viewer' }}
+        working-directory: ./containers/${{matrix.container-to-build}}/src/app/shared
+        run: rm -rf ./*
+
       - name: Show files
+        if: ${{ matrix.container-to-build == 'ecr-viewer' }}
         working-directory: ./containers/${{matrix.container-to-build}}/src/app/shared
         run: ls -la
 
