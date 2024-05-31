@@ -17,7 +17,7 @@ import {
   evaluateProviderData,
 } from "@/app/services/evaluateFhirDataService";
 import { evaluateClinicalData } from "./common";
-import AccordionContainer from "@shared/accordion/AccordionContainer";
+import AccordionContainer from "@/app/shared/src/accordion/AccordionContainer";
 
 type AccordionContainerProps = {
   children?: ReactNode;

@@ -26,10 +26,6 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@shared/*": [
-        "../../shared-resources/src/*",
-        "./shared-resources/src/*"
       ]
     }
   },
