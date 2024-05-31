@@ -1,0 +1,38 @@
+{
+  "dependencies": {
+    "menuEnabled": true
+  },
+  "monitor": {
+    "menuEnabled": false
+  },
+  "menu": [
+    {
+      "label": "About Jaeger",
+      "items": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/jaegertracing/jaeger"
+        },
+        {
+          "label": "Docs",
+          "url": "http://jaeger.readthedocs.io/en/latest/"
+        }
+      ]
+    },
+    {
+      "label": "To Prometheus Server",
+      "url": "http://localhost:9090/graph"
+    },
+    {
+      "label": "To Grafana Dashboards",
+      "url": "http://localhost:4000"
+    }
+  ],
+  "search": {
+    "maxLookback": {
+      "label": "7 Days",
+      "value": "7d"
+    },
+    "maxLimit": 1500
+  }
+}
