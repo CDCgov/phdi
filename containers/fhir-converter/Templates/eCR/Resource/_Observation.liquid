@@ -74,7 +74,23 @@
                 {% endif -%}
             },
         {% else -%}
-            "valueString":"{{ observationEntry.value._ }}",
+        {% comment %} TODO: Remove comments {% endcomment %}
+            {% if observationEntry.value._ %}
+                "valueString":"{{ observationEntry.value._ }}",
+            {% else %}
+                {% assign observationId = observationEntry.value.reference.value | replace: '#', '' -%}
+                {% assign valueStringObject = text | find_object_by_id: observationId -%}
+                {% if valueStringObject != null %}
+                    {% assign foundObjectString = valueStringObject | to_json_string %}
+                    "FOOBAR2": {{ foundObjectString }},
+                        {% if valueStringObject._ != null %}
+                            {% assign valueString = valueStringObject._ | concat_strings %}
+                        {% else %}
+                            {% assign valueString = valueStringObject.content | concat_strings %}
+                        {% endif %}
+                    "valueString": "{{ valueString }}",
+                {% endif %}
+            {% endif %}
         {% endif -%}
         "referenceRange":
         [
