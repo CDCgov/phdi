@@ -25,6 +25,10 @@ jobs:
         with:
           node-version: "18"
 
+      - name: Copy shared-resources (if needed)
+        working-directory: ./containers/ecr-viewer
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/
+
       - name: Change to the correct directory
         run: cd containers/ecr-viewer
 

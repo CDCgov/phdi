@@ -38,11 +38,6 @@ jobs:
         working-directory: ./containers/${{matrix.container-to-build}}/src/app/shared
         run: rm -rf ./*
 
-      - name: Show files
-        if: ${{ matrix.container-to-build == 'ecr-viewer' }}
-        working-directory: ./containers/${{matrix.container-to-build}}/src/app/shared
-        run: ls -la
-
       - name: Copy shared-resources (if needed)
         if: ${{ matrix.container-to-build == 'ecr-viewer' }}
         working-directory: ./containers/${{matrix.container-to-build}}
