@@ -12,7 +12,7 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "convert-seed-data": "docker compose -f ./seed-scripts/docker-compose.yml up --abort-on-container-exit",
+    "convert-seed-data": "docker compose -f ./seed-scripts/docker-compose.yml up convert-data --abort-on-container-exit",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
