@@ -3,13 +3,13 @@ from typing import Annotated
 
 import httpx
 from dibbs.base_service import BaseService
-from fastapi import Body
+from fastapi import Query
+from fastapi import Request
 from fastapi import Response
 from fastapi import status
 from lxml import etree as ET
 
 from app.config import get_settings
-from app.models import RefineECRRequest
 from app.models import RefineECRResponse
 from app.utils import _generate_clinical_xpaths
 from app.utils import read_json_from_assets
@@ -48,18 +48,30 @@ refine_ecr_response_examples = read_json_from_assets("sample_refine_ecr_response
     responses=refine_ecr_response_examples,
 )
 async def refine_ecr(
-    input: Annotated[RefineECRRequest, Body(examples=refine_ecr_request_examples)],
+    refiner_input: Request,
     response: Response,
-) -> RefineECRResponse:
+    sections_to_include: Annotated[
+        str | None, Query(description="The fields to include in the refined message.")
+    ] = None,
+    conditions_to_include: Annotated[
+        str | None,
+        Query(
+            description="The SNOMED condition codes to use to search for relevant clinical services in the ECR."
+        ),
+    ] = None,
+) -> Response:
     """
     Refines an incoming XML message based on the fields to include and whether
     to include headers.
 
-    :param input: The request object containing the XML input and any sections or
-    conditions upon which to refine.
+    :param refiner_input: The request object containing the XML input.
+    :param sections_to_include: The fields to include in the refined message.
+    :param conditions_to_include: The SNOMED condition codes to use to search for
+    relevant clinical services in the ECR.
+    :param response: The HTTP response object.
     :return: The RefineECRResponse, the refined XML as a string.
     """
-    data = input.refiner_input.encode()
+    data = await refiner_input.body()
 
     validated_message, error_message = validate_message(data)
     if error_message:
@@ -67,17 +79,15 @@ async def refine_ecr(
         return RefineECRResponse(refined_message=error_message)
 
     sections = None
-    if input.sections_to_include:
-        sections, error_message = validate_sections_to_include(
-            input.sections_to_include
-        )
+    if sections_to_include:
+        sections, error_message = validate_sections_to_include(sections_to_include)
         if error_message:
             response.status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
             return RefineECRResponse(refined_message=error_message)
 
     clinical_services_xpaths = None
-    if input.conditions_to_include:
-        responses = await get_clinical_services(input.conditions_to_include)
+    if conditions_to_include:
+        responses = await get_clinical_services(conditions_to_include)
         # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
             response.status_code = status.HTTP_502_BAD_GATEWAY

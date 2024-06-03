@@ -3,10 +3,7 @@
     "description": "Success",
     "content": {
       "application/json": {
-        "example": {
-          "summary": "Refined ECR XML as string.",
-          "refined_message": "<ClinicalDocument xmlns=\"urn:hl7-org:v3\">...</ClinicalDocument>"
-        }
+        "example": "<ClinicalDocument xmlns=\"urn:hl7-org:v3\">...</ClinicalDocument>"
       }
     }
   },

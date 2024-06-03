@@ -85,96 +85,53 @@ def test_health_check():
 def test_ecr_refiner():
     # Test case: sections_to_include = None
     expected_response = parse_file_from_test_assets("CDA_eICR.xml")
-    request_body = {
-        "refiner_input": test_eICR_xml,
-        "sections_to_include": None,
-        "conditions_to_include": None,
-    }
+    content = test_eICR_xml
+    sections_to_include = None
     endpoint = "/ecr/"
-    actual_response = client.post(endpoint, json=request_body)
+    actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
-    if actual_response.headers["content-type"] == "application/json":
-        actual_flattened = [
-            i.tag
-            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-        ]
-    else:
-        actual_flattened = [
-            i.tag for i in ET.fromstring(actual_response.content).iter()
-        ]
-
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
 
     # Test case: sections_to_include = "29762-2" # social history narrative
     expected_response = refined_test_eICR_social_history_only
-    request_body = {
-        "refiner_input": test_eICR_xml,
-        "sections_to_include": "29762-2",
-        "conditions_to_include": None,
-    }
-    endpoint = "/ecr/"
-    actual_response = client.post(endpoint, json=request_body)
+    content = test_eICR_xml
+    sections_to_include = "29762-2"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}"
+    actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
-    if actual_response.headers["content-type"] == "application/json":
-        actual_flattened = [
-            i.tag
-            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-        ]
-    else:
-        actual_flattened = [
-            i.tag for i in ET.fromstring(actual_response.content).iter()
-        ]
-
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
 
     # Test case: sections_to_include = "30954-2,29299-5" # labs/diagnostics and reason for visit
     expected_response = refined_test_eICR_labs_reason
-    request_body = {
-        "refiner_input": test_eICR_xml,
-        "sections_to_include": "30954-2,29299-5",
-        "conditions_to_include": None,
-    }
-    endpoint = "/ecr/"
-    actual_response = client.post(endpoint, json=request_body)
+    content = test_eICR_xml
+    sections_to_include = "30954-2,29299-5"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}"
+    actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
-
-    if actual_response.headers["content-type"] == "application/json":
-        actual_flattened = [
-            i.tag
-            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-        ]
-    else:
-        actual_flattened = [
-            i.tag for i in ET.fromstring(actual_response.content).iter()
-        ]
-
+    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
 
     # Test case: sections_to_include is invalid
     expected_response = "blah blah blah is invalid. Please provide a valid section."
-    request_body = {
-        "refiner_input": test_eICR_xml,
-        "sections_to_include": "blah blah blah",
-        "conditions_to_include": None,
-    }
-    endpoint = "/ecr/"
-    actual_response = client.post(endpoint, json=request_body)
+    content = test_eICR_xml
+    sections_to_include = "blah blah blah"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}"
+    actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 422
     assert actual_response.json()["refined_message"] == expected_response
 
     # Test case: raw_message is invalid XML
-    request_body = {
-        "refiner_input": "invalid XML",
-        "sections_to_include": None,
-        "conditions_to_include": None,
-    }
+    content = "invalid XML"
+    sections_to_include = None
     endpoint = "/ecr/"
-    actual_response = client.post(endpoint, json=request_body)
+    actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 400
     assert "XMLSyntaxError" in actual_response.json()["refined_message"]
 
@@ -190,85 +147,60 @@ async def test_ecr_refiner_conditions(mock_get):
 
     # Test conditions only
     expected_response = refined_test_condition_only
-    request_body = {
-        "refiner_input": test_eICR_xml,
-        "sections_to_include": None,
-        "conditions_to_include": "6142004",
-    }
-    endpoint = "/ecr/"
-    actual_response = client.post(endpoint, json=request_body)
+    content = test_eICR_xml
+    conditions_to_include = "6142004"
+    endpoint = f"/ecr/?conditions_to_include={conditions_to_include}"
+    actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
-    if actual_response.headers["content-type"] == "application/json":
-        actual_flattened = [
-            i.tag
-            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-        ]
-    else:
-        actual_flattened = [
-            i.tag for i in ET.fromstring(actual_response.content).iter()
-        ]
-
+    actual_flattened = [
+        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
     actual_elements = [
-        i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
+        i.tag.split("}")[-1]
+        for i in ET.fromstring(actual_response.content.decode()).iter()
     ]
     assert "ClinicalDocument" in actual_elements
 
     # Test conditions and relevant labs section
     expected_response = refined_test_conditon_and_labs
-    request_body = {
-        "refiner_input": test_eICR_xml,
-        "sections_to_include": "30954-2",
-        "conditions_to_include": "6142004",
-    }
-    endpoint = "/ecr/"
-    actual_response = client.post(endpoint, json=request_body)
+    content = test_eICR_xml
+    conditions_to_include = "6142004"
+    sections_to_include = "30954-2"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
+    actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
-    if actual_response.headers["content-type"] == "application/json":
-        actual_flattened = [
-            i.tag
-            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-        ]
-    else:
-        actual_flattened = [
-            i.tag for i in ET.fromstring(actual_response.content).iter()
-        ]
-
+    actual_flattened = [
+        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
     actual_elements = [
-        i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
+        i.tag.split("}")[-1]
+        for i in ET.fromstring(actual_response.content.decode()).iter()
     ]
     assert "ClinicalDocument" in actual_elements
 
     # Test conditions, history of hospitalization section without relevant data
     expected_response = refined_test_no_relevant_section_data
-    request_body = {
-        "refiner_input": test_eICR_xml,
-        "sections_to_include": "46240-8",
-        "conditions_to_include": "6142004",
-    }
-    endpoint = "/ecr/"
-    actual_response = client.post(endpoint, json=request_body)
+    content = test_eICR_xml
+    conditions_to_include = "6142004"
+    sections_to_include = "46240-8"
+    endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
+    actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
-    if actual_response.headers["content-type"] == "application/json":
-        actual_flattened = [
-            i.tag
-            for i in ET.fromstring(actual_response.json()["refined_message"]).iter()
-        ]
-    else:
-        actual_flattened = [
-            i.tag for i in ET.fromstring(actual_response.content).iter()
-        ]
-
+    actual_flattened = [
+        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+    ]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
     actual_elements = [
-        i.tag.split("}")[-1] for i in ET.fromstring(actual_response.content).iter()
+        i.tag.split("}")[-1]
+        for i in ET.fromstring(actual_response.content.decode()).iter()
     ]
     assert "ClinicalDocument" in actual_elements
 
