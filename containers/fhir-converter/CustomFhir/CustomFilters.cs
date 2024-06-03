@@ -181,24 +181,38 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       {
         foreach (var kvp in dict)
         {
-          if (kvp.Key == "_")
-          {
-            stringBuilder.Append(ToHtmlString(kvp.Value));
-          }
-          else if (kvp.Key == "br")
+          // TODO: DELETE
+          // Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
+          if (kvp.Key == "br")
           {
             stringBuilder.Append("<br>");
+          }
+          else if (kvp.Value is IList list)
+          {
+            // For Lists where all elements are strings, (i.e., content with <br>), they are showing up in reverse order
+            bool allElementsAreStrings = list.Cast<object>().All(row => row is string);
+            if (allElementsAreStrings)
+            {
+              Console.WriteLine("All Elements are Strings!");
+              list = list.Cast<object>().Reverse().ToList();
+            }
+            foreach (var row in list)
+            {
+              if (row is string)
+              {
+              // Console.WriteLine($"LIST IS STRING! data: {list}, Row: {row}");
+              // PrintObject(list.Cast<object>().ToList(), 0);
+              }
+              stringBuilder.Append(WrapHtmlValue(kvp.Key, row));
+            }
+          }
+          else if (kvp.Key == "_")
+          {
+            stringBuilder.Append(ToHtmlString(kvp.Value));
           }
           else if (kvp.Value is IDictionary<string, object>)
           {
             stringBuilder.Append(WrapHtmlValue(kvp.Key, kvp.Value));
-          }
-          else if (kvp.Value is IList list)
-          {
-            foreach (var row in list)
-            {
-              stringBuilder.Append(WrapHtmlValue(kvp.Key, row));
-            }
           }
         }
       }
@@ -243,6 +257,126 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       loincDict ??= LoincDictionary();
       loincDict.TryGetValue(loinc, out string? element);
       return element;
+    }
+    
+    // TODO: Add Docs
+    // TODO: Remove logs
+    public static IDictionary<string, object>  FindObjectById(object data, string id)
+    {
+      // Console.WriteLine($"------ SEARCHING FOR ID: {id}");
+      return FindObjectByIdRecursive(data, id);
+    }
+
+    // TODO: Add Docs
+    // TODO: Remove logs
+    private static IDictionary<string, object>  FindObjectByIdRecursive(object data, string id)
+    {
+      // Console.WriteLine("FindObjectByIdRecursive function running");
+      if (data == null)
+      {
+        // Console.WriteLine("FindObjectByIdRecursive token is null");
+        return null;
+      }
+
+      if (data is IDictionary<string, object> dict)
+      {
+        // Console.WriteLine($"Checking object: {dict}");
+        if (dict.ContainsKey("ID") && dict["ID"].ToString() == id)
+        {
+          // Console.WriteLine($"Found object with ID: {id}");
+          return dict;
+        }
+
+        foreach (var key in dict.Keys)
+        {
+          // Console.WriteLine($"Checking key: {key}, {dict[key]}");
+          var found = FindObjectByIdRecursive(dict[key], id);
+          if (found != null)
+          {
+            return found;
+          }
+        }
+      }
+
+      else if (data is JArray array)
+      {
+        // Console.WriteLine($"data is an array: {array}");
+        foreach (var item in array)
+        {
+          var found = FindObjectByIdRecursive(item, id);
+          if (found != null)
+          {
+            return found;
+          }
+        }
+      }
+      else if (data is IList list)
+      {
+        // Console.WriteLine($"data is a list: {list}");
+        foreach (var item in list)
+        {
+          var found = FindObjectByIdRecursive(item, id);
+          if (found != null)
+          {
+            return found;
+          }
+        }
+      }
+      return null;
+    }
+
+    // TODO: Add Docs
+    // TODO: Remove logs
+    public static string ConcatStrings(object input)
+    {
+      // Console.WriteLine($"---------- INPUT: {input}");
+      if (input == null) return string.Empty;
+
+      if (input is IList list)
+      {
+        // If all elements are strings, reverse the list
+        bool allElementsAreStrings = list.Cast<object>().All(row => row is string);
+        if (allElementsAreStrings)
+        {
+          // Console.WriteLine($"Array, and all elements are strings");
+          return string.Join(" ", list.Cast<object>().Reverse().ToList());
+        }
+        else
+        {
+          List<string> result = new List<string>();
+
+          foreach (var item in list)
+          {
+            // Console.WriteLine($"List, and all elements are objects");
+            if (item is IDictionary<string, object> dict)
+            {
+              // Console.WriteLine($"List, and all elements are dictionaries");
+              foreach (var kvp in dict)
+              {
+                result.Add(kvp.Value.ToString());
+              }
+            }
+            else
+            {
+              result.Add(item.ToString());
+            }
+          }
+          // Console.WriteLine($"RESULT: {string.Join(" ", result)}");
+          return string.Join(" ", result); 
+        }
+      }
+
+      else if (input is IDictionary<string, object> dictObject)
+      {
+        List<string> result = new List<string>();
+        foreach (var kvp in dictObject)
+          {
+            result.Add(kvp.Value.ToString());
+          }
+        return string.Join(" ", result);
+      }
+      // Console.WriteLine("Returning an empty string");
+      return string.Empty;
     }
   }
 }
