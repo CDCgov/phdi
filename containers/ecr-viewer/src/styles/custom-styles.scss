@@ -199,6 +199,24 @@ td {
   font-weight: bold;
 }
 
+.homepage-wrapper {
+  display: flex;
+  max-width: 1440px;
+  gap: 48px;
+  overflow: visible;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  .usa-table {
+    margin-bottom: 0 !important;
+  }
+
+  .usa-pagination {
+    margin-top: 0 !important;
+  }
+}
+
 .main-container {
   display: flex;
   justify-content: center;
@@ -316,4 +334,42 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
 
 .short-tooltip + .usa-tooltip__body {
   min-width: 350px;
+}
+
+
+@keyframes shimmer {
+  to {
+     background-position-x: 0%
+  }
+}
+
+.loading-blob {
+  border-radius: 8px;
+  animation: shimmer 0.75s infinite linear;
+
+  &-blue-small {
+    background: linear-gradient(-90deg, #99DEEA 40%, #71D5E6 50%, #99DEEA 60%);
+    background-size: 300%; //for whatever reason, it won't work if you move this to the parent
+    background-position-x: 100%;
+  }
+
+  &-blue-big {
+    background: linear-gradient(-90deg, #99DEEA 45%, #71D5E6 50%, #99DEEA 55%);
+    background-size: 300%;
+    background-position-x: 100%;
+  }
+
+  background: #DFE1E2;
+
+  &-gray-small {
+    background: linear-gradient(-90deg, #F0F0F0 40%, #E4E4E4 50%, #F0F0F0 60%);
+    background-size: 300%;
+    background-position-x: 100%;
+  }
+
+  &-gray-big {
+    background: linear-gradient(-90deg, #F0F0F0 45%, #E4E4E4 50%, #F0F0F0 55%);
+    background-size: 300%;
+    background-position-x: 100%;
+  }
 }

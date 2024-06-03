@@ -67,7 +67,7 @@ def test_get_value_sets_for_condition(mock_db):
         ("sdtc", "772150003", "http://snomed.info/sct"),
     ]
     mock_db.fetchall.return_value = mocked_db_response
-    response = client.get("/get-value-sets/?condition_code=276197005")
+    response = client.get("/get-value-sets?condition_code=276197005")
     expected_result = {
         "dxtc": [
             {"codes": ["A36.3", "A36"], "system": "http://hl7.org/fhir/sid/icd-10-cm"}

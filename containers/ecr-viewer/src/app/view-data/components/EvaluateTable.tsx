@@ -3,33 +3,40 @@ import { ColumnInfoInput, PathMappings } from "@/app/utils";
 import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
-import { evaluateValue } from "./evaluateFhirDataService";
+import { evaluateValue } from "../../services/evaluateFhirDataService";
 
 interface BuildRowProps {
   mappings: PathMappings;
   columns: ColumnInfoInput[];
   entry: Element;
 }
-
+interface TableProps {
+  resources: Element[];
+  mappings: PathMappings;
+  columns: ColumnInfoInput[];
+  caption?: string;
+  fixed?: boolean;
+  outerBorder?: boolean;
+}
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
- * @param resources - An array of FHIR Resources representing the data entries.
- * @param mappings - An object containing the FHIR path mappings.
- * @param columns - An array of objects representing column information.
- *                                      The order of columns in the array determines the order of appearance.
- * @param caption - The caption for the table.
- * @param [fixed] - Optional. Determines whether to fix the width of the table columns. Default is true.
- * @param [outerBorder] - Optional. Determines whether to include an outer border for the table. Default is true.
+ * @param props - The properties for configuring the table.
+ * @param props.resources - An array of FHIR Resources representing the data entries.
+ * @param props.mappings - An object containing the FHIR path mappings.
+ * @param props.columns - An array of objects representing column information. The order of columns in the array determines the order of appearance.
+ * @param props.caption - The caption for the table.
+ * @param props.fixed - Determines whether to fix the width of the table columns. Default is true.
+ * @param props.outerBorder - Determines whether to include an outer border for the table. Default is true
  * @returns - A formatted table React element.
  */
-export const evaluateTable = (
-  resources: Element[],
-  mappings: PathMappings,
-  columns: ColumnInfoInput[],
-  caption: string,
-  fixed: boolean = true,
-  outerBorder: boolean = true,
-): React.JSX.Element => {
+const EvaluateTable = ({
+  resources,
+  mappings,
+  columns,
+  caption,
+  fixed = true,
+  outerBorder = true,
+}: TableProps): React.JSX.Element => {
   let headers = columns.map((column, index) => (
     <th
       key={`${column.columnName}${index}`}
@@ -135,3 +142,5 @@ const BuildRow: React.FC<BuildRowProps> = ({
     return <tr>{rowCells}</tr>;
   }
 };
+
+export default EvaluateTable;

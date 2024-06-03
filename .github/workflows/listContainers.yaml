@@ -14,7 +14,7 @@ jobs:
   list-containers:
     runs-on: ubuntu-latest
     outputs:
-      container-dirs: ${{steps.generate-list.outputs.containers}}
+      container-dirs: ${{ steps.generate-list.outputs.containers }}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v4
@@ -24,7 +24,6 @@ jobs:
       - id: generate-list
         name: Generate list of directories within containers/
         working-directory: ./containers
-        # use jq to produce json output and filter out the empty item caused by final newline
         run: |
           ls -d * | jq -R -s -c 'split("\n")[:-1]'
           echo "containers=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1] ')" >> $GITHUB_OUTPUT
