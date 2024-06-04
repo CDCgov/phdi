@@ -40,6 +40,26 @@ describe("listEcrDataService", () => {
     });
   });
 
+  it("should sort objects by LastModified in descending order", () => {
+    const date1 = new Date("2023-01-01T12:00:00Z");
+    const date2 = new Date("2023-01-02T12:00:00Z");
+    const responseBody = {
+      $metadata: {},
+      Contents: [
+        { Key: "ecr1.json", LastModified: date1 },
+        { Key: "ecr2.json", LastModified: date2 },
+      ],
+    };
+
+    const expected = [
+      { ecrId: "ecr2", dateModified: "01/02/2023 12:00 PM UTC" },
+      { ecrId: "ecr1", dateModified: "01/01/2023 12:00 PM UTC" },
+    ];
+    const result = processListS3(responseBody);
+
+    expect(result).toEqual(expected);
+  });
+
   describe("processListPostgres", () => {
     it("should return an empty array when responseBody is empty", () => {
       const result = processListPostgres([]);
