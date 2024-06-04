@@ -156,15 +156,14 @@ async def refine_ecr(
         Query(
             description="""The sections of an ECR to include in the refined message.
             Multiples can be delimited by a comma. Valid LOINC codes for sections are:\n
-            10164-2: history of present illness\n
-            11369-6: history of immunization narrative\n
-            29549-3: medications administered\n
-            18776-5: plan of care note\n
-            11450-4: problem list - reported\n
-            29299-5: reason for visit\n
-            30954-2: relevant diagnostic tests/laboratory data narrative\n
-            29762-2: social history narrative\n
-            46240-8:  history of hospitalizations+outpatient visits narrative\n
+            46240-8: Encounters--Hospitalizations+outpatient visits narrative\n
+            10164-2: History of present illness\n
+            29549-3: Medications administered\n
+            18776-5: Plan of treatment: Care plan\n
+            11450-4: Problem--Reported list\n
+            29299-5: Reason for visit\n
+            30954-2: Results--Diagnostic tests/laboratory data narrative\n
+            29762-2: Social history--Narrative\n
             """
         ),
     ] = None,
