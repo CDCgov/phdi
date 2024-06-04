@@ -40,16 +40,16 @@ def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
     openapi_schema = get_openapi(
-        title="Message Refiner",
-        version="1.0.0",
-        description="This is a custom OpenAPI schema for the Message Refiner",
+        title=app.title,
+        version=app.version,
+        description=app.description,
         routes=app.routes,
     )
     path = openapi_schema["paths"]["/ecr"]["post"]
     path["requestBody"] = {
         "content": {
             "application/xml": {
-                "schema": {"type": "string"},
+                "schema": {"type": "Raw eCR XML payload"},
                 "examples": refine_ecr_request_examples,
             }
         }
