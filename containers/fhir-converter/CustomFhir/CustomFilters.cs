@@ -187,8 +187,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       {
         foreach (var kvp in dict)
         {
-          // TODO: DELETE
-          // Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
           if (kvp.Key == "br")
           {
             stringBuilder.Append("<br>");
@@ -204,11 +202,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
             }
             foreach (var row in list)
             {
-              if (row is string)
-              {
-              // Console.WriteLine($"LIST IS STRING! data: {list}, Row: {row}");
-              // PrintObject(list.Cast<object>().ToList(), 0);
-              }
               stringBuilder.Append(WrapHtmlValue(kvp.Key, row));
             }
           }
@@ -265,7 +258,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return element;
     }
     
-    // TODO: Remove logs
     /// <summary>
     /// Searches for an object with a specified ID within a given data structure.
     /// </summary>
@@ -274,11 +266,9 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// <returns>An IDictionary<string, object> representing the found object with the specified ID, or null if not found.</returns>
     public static IDictionary<string, object>  FindObjectById(object data, string id)
     {
-      // Console.WriteLine($"------ SEARCHING FOR ID: {id}");
       return FindObjectByIdRecursive(data, id);
     }
 
-    // TODO: Remove logs
     /// <summary>
     /// Recursively searches for an object with a specified ID within a given data structure.
     /// </summary>
@@ -287,25 +277,20 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// <returns>An IDictionary<string, object> representing the found object with the specified ID, or null if not found.</returns>
     private static IDictionary<string, object>  FindObjectByIdRecursive(object data, string id)
     {
-      // Console.WriteLine("FindObjectByIdRecursive function running");
       if (data == null)
       {
-        // Console.WriteLine("FindObjectByIdRecursive token is null");
         return null;
       }
 
       if (data is IDictionary<string, object> dict)
       {
-        // Console.WriteLine($"Checking object: {dict}");
         if (dict.ContainsKey("ID") && dict["ID"].ToString() == id)
         {
-          // Console.WriteLine($"Found object with ID: {id}");
           return dict;
         }
 
         foreach (var key in dict.Keys)
         {
-          // Console.WriteLine($"Checking key: {key}, {dict[key]}");
           var found = FindObjectByIdRecursive(dict[key], id);
           if (found != null)
           {
@@ -316,7 +301,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
       else if (data is JArray array)
       {
-        // Console.WriteLine($"data is an array: {array}");
         foreach (var item in array)
         {
           var found = FindObjectByIdRecursive(item, id);
@@ -328,7 +312,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       }
       else if (data is IList list)
       {
-        // Console.WriteLine($"data is a list: {list}");
         foreach (var item in list)
         {
           var found = FindObjectByIdRecursive(item, id);
@@ -341,7 +324,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return null;
     }
 
-    // TODO: Add Docs
     // TODO: Remove logs
     /// <summary>
     /// Concatenates strings from a given input object into a single string.
@@ -351,7 +333,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// <remarks> Note that if the input object is a list and all elements are strings, they appear in reverse order. This function reverses the list again so that the output string appears in the correct order.</remarks>
     public static string ConcatStrings(object input)
     {
-      // Console.WriteLine($"---------- INPUT: {input}");
       if (input == null) return string.Empty;
 
       if (input is IList list)
@@ -360,7 +341,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         bool allElementsAreStrings = list.Cast<object>().All(row => row is string);
         if (allElementsAreStrings)
         {
-          // Console.WriteLine($"Array, and all elements are strings");
           return string.Join(" ", list.Cast<object>().Reverse().ToList());
         }
         else
@@ -369,10 +349,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
           foreach (var item in list)
           {
-            // Console.WriteLine($"List, and all elements are objects");
             if (item is IDictionary<string, object> dict)
             {
-              // Console.WriteLine($"List, and all elements are dictionaries");
               foreach (var kvp in dict)
               {
                 result.Add(kvp.Value.ToString());
@@ -383,7 +361,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
               result.Add(item.ToString());
             }
           }
-          // Console.WriteLine($"RESULT: {string.Join(" ", result)}");
           return string.Join(" ", result); 
         }
       }
@@ -397,7 +374,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
           }
         return string.Join(" ", result);
       }
-      // Console.WriteLine("Returning an empty string");
       return string.Empty;
     }
   }
