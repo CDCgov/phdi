@@ -82,7 +82,7 @@
                 {% if valueStringObject != null %}
                         {% if valueStringObject._ != null %}
                             {% assign valueString = valueStringObject._ | concat_strings %}
-                        {% else %}
+                        {% elsif valueStringObject.content != null %}
                             {% assign valueString = valueStringObject.content | concat_strings %}
                         {% endif %}
                     "valueString": "{{ valueString }}",
