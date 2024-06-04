@@ -73,7 +73,6 @@ async def health_check():
     return {"status": "OK"}
 
 
-
 @app.get("/example-collection")
 async def get_uat_collection() -> FileResponse:
     """
@@ -91,7 +90,12 @@ async def get_uat_collection() -> FileResponse:
     return FileResponse(uat_collection_path)
 
 
-@app.post("/ecr/")
+@app.post(
+    "/ecr",
+    response_model=RefineECRResponse,
+    status_code=200,
+    responses=refine_ecr_response_examples,
+)
 async def refine_ecr(
     refiner_input: Request,
     sections_to_include: Annotated[
