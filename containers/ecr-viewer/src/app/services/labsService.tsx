@@ -276,7 +276,11 @@ export function evaluateObservationTable(
     report.result?.map((obsRef: Reference) =>
       evaluateReference(fhirBundle, mappings, obsRef.reference ?? ""),
     ) ?? []
-  ).filter((observation) => !observation.component);
+  ).filter(
+    (observation) =>
+      !observation.component && observation.code?.coding[0]?.display,
+  );
+
   let obsTable;
   if (observations?.length > 0) {
     return (
