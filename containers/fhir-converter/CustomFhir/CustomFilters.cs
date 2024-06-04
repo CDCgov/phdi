@@ -168,7 +168,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// </summary>
     /// <param name="data">The data to convert, which can be of type string, IList, or IDictionary<string, object>.</param>
     /// <returns>An HTML-formatted string representing the input data.</returns>
-    /// <remarks> Note that if the input object is a list and all elements are strings, they appear in reverse order. This function reverses the list again so that the output string appears in the correct order.</remarks>
     public static string ToHtmlString(object data)
     {
       var stringBuilder = new StringBuilder();
@@ -187,30 +186,24 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       {
         foreach (var kvp in dict)
         {
-          if (kvp.Key == "br")
-          {
-            stringBuilder.Append("<br>");
-          }
-          else if (kvp.Value is IList list)
-          {
-            // For Lists where all elements are strings, (i.e., content with <br>), they are showing up in reverse order
-            bool allElementsAreStrings = list.Cast<object>().All(row => row is string);
-            if (allElementsAreStrings)
-            {
-              list = list.Cast<object>().Reverse().ToList();
-            }
-            foreach (var row in list)
-            {
-              stringBuilder.Append(WrapHtmlValue(kvp.Key, row));
-            }
-          }
-          else if (kvp.Key == "_")
+          if (kvp.Key == "_")
           {
             stringBuilder.Append(ToHtmlString(kvp.Value));
+          }
+          else if (kvp.Key == "br")
+          {
+            stringBuilder.Append("<br>");
           }
           else if (kvp.Value is IDictionary<string, object>)
           {
             stringBuilder.Append(WrapHtmlValue(kvp.Key, kvp.Value));
+          }
+          else if (kvp.Value is IList list)
+          {
+            foreach (var row in list)
+            {
+              stringBuilder.Append(WrapHtmlValue(kvp.Key, row));
+            }
           }
         }
       }
