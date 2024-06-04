@@ -91,7 +91,7 @@ def test_get_uat_collection():
             / "Message_Refiner_UAT.postman_collection.json"
         )
     )
-    actual_response = client.get("uat-collection")
+    actual_response = client.get("example-collection")
     assert actual_response.status_code == 200
     assert actual_response.json() == uat_collection
 

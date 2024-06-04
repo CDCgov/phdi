@@ -12,11 +12,7 @@ from app.utils import _generate_clinical_xpaths
 
 settings = get_settings()
 TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets/?condition_code="
-UAT_COLLECTION_FILEPATH = (
-    Path(__file__).parent.parent
-    / "assets"
-    / "Message_Refiner_UAT.postman_collection.json"
-)
+
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -37,7 +33,7 @@ async def health_check():
     return {"status": "OK"}
 
 
-@app.get("/uat-collection")
+@app.get("/example-collection")
 async def get_uat_collection() -> FileResponse:
     """
     Fetches a Postman Collection of sample requests designed for UAT.
@@ -46,7 +42,12 @@ async def get_uat_collection() -> FileResponse:
     The requests showcase the functionality of various aspects of the TCR
     and the message refine.
     """
-    return FileResponse(UAT_COLLECTION_FILEPATH)
+    uat_collection_path = (
+        Path(__file__).parent.parent
+        / "assets"
+        / "Message_Refiner_UAT.postman_collection.json"
+    )
+    return FileResponse(uat_collection_path)
 
 
 @app.post("/ecr/")
