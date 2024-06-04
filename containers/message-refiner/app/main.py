@@ -12,6 +12,59 @@ from app.utils import _generate_clinical_xpaths
 settings = get_settings()
 TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets/?condition_code="
 
+# LOINC codes for the required sections of an eICR
+SECTION_LOINCS = [
+    "46240-8",  # encounters: hospitalizations+outpatient visits narrative
+    "10164-2",  # history of present illness
+    "29549-3",  # medications administered
+    "18776-5",  # plan of treatment: care plan
+    "11450-4",  # problem: reported list
+    "29299-5",  # reason for visit
+    "30954-2",  # results: diagnostic tests/laboratory data narrative
+    "29762-2",  # social history: narrative
+]
+
+# dictionary of the section's LOINC, displayName, OID, and title
+SECTION_DETAILS = {
+    "46240-8": (
+        "History of encounters",
+        "2.16.840.1.113883.10.20.22.2.22.1",
+        "Encounters",
+    ),
+    "10164-2": (
+        "History of Present Illness",
+        "2.16.840.1.113883.10.20.22.2.20",
+        "History of Present Illness",
+    ),
+    "11369-6": (
+        "History of immunizations",
+        "2.16.840.1.113883.10.20.22.2.2.1",
+        "Immunizations",
+    ),
+    "29549-3": (
+        "Medications Administered",
+        "2.16.840.1.113883.10.20.22.2.38",
+        "Medications Administered",
+    ),
+    "18776-5": (
+        "Plan of Treatment",
+        "2.16.840.1.113883.10.20.22.2.10",
+        "Plan of Treatment",
+    ),
+    "11450-4": ("Problem List", "2.16.840.1.113883.10.20.22.2.5.1", "Problem List"),
+    "29299-5": (
+        "Reason For Visit",
+        "2.16.840.1.113883.10.20.22.2.12",
+        "Reason For Visit",
+    ),
+    "30954-2": (
+        "Relevant diagnostic tests and/or laboratory data",
+        "2.16.840.1.113883.10.20.22.2.3.1",
+        "Results",
+    ),
+    "29762-2": ("Social History", "2.16.840.1.113883.10.20.22.2.17", "Social History"),
+}
+
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
     service_name="Message Refiner",
@@ -85,25 +138,13 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     no error in validating the sections to include, the error message will be an empty
     string.
     """
-    section_LOINCs = [
-        "46240-8",  # encounters: hospitalizations+outpatient visits narrative
-        "10164-2",  # history of present illness
-        "11369-6",  # immunizations
-        "29549-3",  # medications administered
-        "18776-5",  # plan of treatment: care plan
-        "11450-4",  # problem: reported list
-        "29299-5",  # reason for visit
-        "30954-2",  # results: diagnostic tests/laboratory data narrative
-        "29762-2",  # social history: narrative
-    ]
-
     if sections_to_include in [None, ""]:
         return (None, "")
 
     section_loincs = []
     sections = sections_to_include.split(",")
     for section in sections:
-        if section not in section_LOINCs:
+        if section not in SECTION_LOINCS:
             error_message = f"{section} is invalid. Please provide a valid section."
             return (section_loincs, error_message)
         section_loincs.append(section)
@@ -178,6 +219,10 @@ def refine(
     if clinical_services:
         services_xpath_expression = " | ".join(clinical_services)
 
+    # for sections we are not interested in, create minimal sections based on the anti-join
+    # of the SECTION_LOINCS and sections_to_include
+    minimal_sections = create_minimal_sections(sections_to_include)
+
     # both are handled slightly differently
     if sections_to_include and clinical_services:
         elements = []
@@ -190,7 +235,7 @@ def refine(
             )
             if condition_elements:
                 elements.extend(condition_elements)
-        return add_root_element(header, elements)
+        return add_root_element(header, elements + minimal_sections)
 
     if sections_to_include:
         xpath_expression = sections_xpath_expression
@@ -198,8 +243,69 @@ def refine(
         xpath_expression = services_xpath_expression
     else:
         xpath_expression = "//*[local-name()='section']"
+
     elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
-    return add_root_element(header, elements)
+    return add_root_element(header, elements + minimal_sections)
+
+
+def create_minimal_section(section_code: str, empty_section: bool) -> ET.Element:
+    """
+    Creates a minimal section element based on the LOINC section code.
+
+    :param section_code: The LOINC code of the section to create a minimal section for.
+    :param empty_section: Whether the section should be empty and include a nullFlavor attribute.
+    :return: A minimal section element or None if the section code is not recognized.
+    """
+    if section_code not in SECTION_DETAILS:
+        return None
+
+    display_name, template_root, title_text = SECTION_DETAILS[section_code]
+
+    section = ET.Element("section")
+    if empty_section:
+        section.set("nullFlavor", "NI")
+
+    templateId1 = ET.Element("templateId", root=template_root, extension="2015-08-01")
+    section.append(templateId1)
+
+    code = ET.Element(
+        "code",
+        code=section_code,
+        codeSystem="2.16.840.1.113883.6.1",
+        displayName=display_name,
+    )
+    section.append(code)
+
+    title = ET.Element("title")
+    title.text = title_text
+    section.append(title)
+
+    text_elem = ET.Element("text")
+    if empty_section:
+        text_elem.text = "Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority"
+    section.append(text_elem)
+
+    return section
+
+
+def create_minimal_sections(
+    sections_to_include: list = None, empty_section: bool = True
+) -> list:
+    """
+    Creates minimal sections for sections not included in sections_to_include.
+
+    :param sections_to_include: The sections to include in the refined message.
+    :param empty_section: Whether the sections should be empty and include a nullFlavor attribute.
+    :return: List of minimal section elements.
+    """
+    minimal_sections = []
+    sections_to_exclude = set(SECTION_DETAILS.keys()) - set(sections_to_include or [])
+
+    for section_code in sections_to_exclude:
+        minimal_section = create_minimal_section(section_code, empty_section)
+        if minimal_section:
+            minimal_sections.append(minimal_section)
+    return minimal_sections
 
 
 def add_root_element(header: bytes, elements: list) -> str:
@@ -282,7 +388,7 @@ def select_message_header(raw_message: bytes) -> bytes:
 
 def validate_message(raw_message: str) -> tuple[bytes | None, str]:
     """
-    Validates that an incoming XML message can be parsed by lxml's etree .
+    Validates that an incoming XML message can be parsed by lxml's ET .
 
     :param raw_message: The XML input.
     :return: The validation result as a string.
