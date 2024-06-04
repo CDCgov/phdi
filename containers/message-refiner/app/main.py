@@ -18,6 +18,7 @@ app = BaseService(
     service_path="/message-refiner",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
+    openapi_url="/message-refiner/openapi.json",
 ).start()
 
 
