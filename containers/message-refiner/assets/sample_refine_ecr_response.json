@@ -9,34 +9,28 @@
   },
   "400": {
     "description": "Invalid XML",
+    "summary": "Error indicating that the input XML is malformed.",
     "content": {
       "application/json": {
-        "example": {
-          "summary": "Error indicating that the input XML is malformed.",
-          "refined_message": "XMLSyntaxError: error details"
-        }
+        "example": "XMLSyntaxError: error details"
       }
     }
   },
   "422": {
     "description": "Invalid Section",
+    "summary": "Error indicating that section(s) to include are not correct.",
     "content": {
       "application/json": {
-        "example": {
-          "summary": "Error indicating that section(s) to include are not correct.",
-          "refined_message": "Invalid section details"
-        }
+        "example": "Invalid section details"
       }
     }
   },
   "502": {
     "description": "Service Error",
+    "summary": "Error indicating that condition code(s) provided are not recognized.",
     "content": {
       "application/json": {
-        "example": {
-          "summary": "Error indicating that condition code(s) provided are not recognized.",
-          "refined_message": "Failed to fetch clinical services"
-        }
+        "example": "Failed to fetch clinical services"
       }
     }
   }

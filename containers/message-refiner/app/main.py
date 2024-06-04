@@ -49,7 +49,6 @@ refine_ecr_response_examples = read_json_from_assets("sample_refine_ecr_response
 )
 async def refine_ecr(
     refiner_input: Request,
-    response: Response,
     sections_to_include: Annotated[
         str | None, Query(description="The fields to include in the refined message.")
     ] = None,
@@ -75,26 +74,27 @@ async def refine_ecr(
 
     validated_message, error_message = validate_message(data)
     if error_message:
-        response.status_code = status.HTTP_400_BAD_REQUEST
-        return RefineECRResponse(refined_message=error_message)
+        return Response(content=error_message, status_code=status.HTTP_400_BAD_REQUEST)
 
     sections = None
     if sections_to_include:
         sections, error_message = validate_sections_to_include(sections_to_include)
         if error_message:
-            response.status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-            return RefineECRResponse(refined_message=error_message)
+            return Response(
+                content=error_message, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
+            )
 
     clinical_services_xpaths = None
     if conditions_to_include:
         responses = await get_clinical_services(conditions_to_include)
         # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
-            response.status_code = status.HTTP_502_BAD_GATEWAY
             error_message = ";".join(
                 [str(response) for response in responses if response.status_code != 200]
             )
-            return RefineECRResponse(refined_message=error_message)
+            return Response(
+                content=error_message, status_code=status.HTTP_502_BAD_GATEWAY
+            )
         clinical_services = [response.json() for response in responses]
         clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 

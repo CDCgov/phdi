@@ -125,7 +125,7 @@ def test_ecr_refiner():
     endpoint = f"/ecr/?sections_to_include={sections_to_include}"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 422
-    assert actual_response.json()["refined_message"] == expected_response
+    assert actual_response.content.decode() == expected_response
 
     # Test case: raw_message is invalid XML
     content = "invalid XML"
@@ -133,7 +133,7 @@ def test_ecr_refiner():
     endpoint = "/ecr/"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 400
-    assert "XMLSyntaxError" in actual_response.json()["refined_message"]
+    assert "XMLSyntaxError" in actual_response.content.decode()
 
 
 @pytest.mark.asyncio
