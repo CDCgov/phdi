@@ -80,24 +80,40 @@ async def health_check():
 async def refine_ecr(
     refiner_input: Request,
     sections_to_include: Annotated[
-        str | None, Query(description="The fields to include in the refined message.")
+        str | None,
+        Query(
+            description="""The sections of an ECR to include in the refined message.
+            Multiples can be delimited by a comma. Valid LOINC codes for sections are:\n
+            10164-2: history of present illness\n
+            11369-6: history of immunization narrative\n
+            29549-3: medications administered\n
+            18776-5: plan of care note\n
+            11450-4: problem list - reported\n
+            29299-5: reason for visit\n
+            30954-2: relevant diagnostic tests/laboratory data narrative\n
+            29762-2: social history narrative\n
+            46240-8:  history of hospitalizations+outpatient visits narrative\n
+            """
+        ),
     ] = None,
     conditions_to_include: Annotated[
         str | None,
         Query(
             description="The SNOMED condition codes to use to search for relevant clinical services in the ECR."
+            + " Multiples can be delimited by a comma."
         ),
     ] = None,
 ) -> Response:
     """
-    Refines an incoming XML message based on the fields to include and whether
-    to include headers.
+    Refines an incoming XML ECR message based on sections to include and/or trigger code
+    conditions to include, based on the parameters included in the endpoint.
+
+    The return will be a formatted, refined XML, limited to just the data specified.
 
     :param refiner_input: The request object containing the XML input.
     :param sections_to_include: The fields to include in the refined message.
     :param conditions_to_include: The SNOMED condition codes to use to search for
     relevant clinical services in the ECR.
-    :param response: The HTTP response object.
     :return: The RefineECRResponse, the refined XML as a string.
     """
     data = await refiner_input.body()
