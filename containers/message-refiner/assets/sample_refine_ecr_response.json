@@ -1,0 +1,37 @@
+{
+  "200": {
+    "description": "Success",
+    "content": {
+      "application/json": {
+        "example": "<ClinicalDocument xmlns=\"urn:hl7-org:v3\">...</ClinicalDocument>"
+      }
+    }
+  },
+  "400": {
+    "description": "Invalid XML",
+    "summary": "Error indicating that the input XML is malformed.",
+    "content": {
+      "application/json": {
+        "example": "XMLSyntaxError: error details"
+      }
+    }
+  },
+  "422": {
+    "description": "Invalid Section",
+    "summary": "Error indicating that section(s) to include are not correct.",
+    "content": {
+      "application/json": {
+        "example": "Invalid section details"
+      }
+    }
+  },
+  "502": {
+    "description": "Service Error",
+    "summary": "Error indicating that condition code(s) provided are not recognized.",
+    "content": {
+      "application/json": {
+        "example": "Failed to fetch clinical services"
+      }
+    }
+  }
+}
