@@ -197,7 +197,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
             bool allElementsAreStrings = list.Cast<object>().All(row => row is string);
             if (allElementsAreStrings)
             {
-              Console.WriteLine("All Elements are Strings!");
               list = list.Cast<object>().Reverse().ToList();
             }
             foreach (var row in list)

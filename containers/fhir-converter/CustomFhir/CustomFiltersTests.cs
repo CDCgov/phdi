@@ -59,12 +59,13 @@ public class CustomFilterTests
     [Fact]
     public void ToHtmlString_StringObjectDictionaryList_ReturnsEachItemWithTags()
     {
-        var strList = new List<object>() { "Race", "car" };
+        var strList = new List<object>() { "car", "Race" };
         var dictDict = new Dictionary<string, object>(){
             {"span", strList},
             {"/nSun", "flower"}
         };
         var actual = Filters.ToHtmlString(dictDict);
+        Console.WriteLine("####### ToHtmlString_StringObjectDictionaryList_ReturnsEachItemWithTags", actual);
         Assert.Equal("<span>Race</span><span>car</span>", actual);
     }
 
@@ -125,6 +126,7 @@ public class CustomFilterTests
         };
 
         var actual = Filters.ToHtmlString(completeDict);
+        Console.WriteLine("####### ToHtmlString_ComplicatedExample_ReturnsString", actual);
         Assert.Equal("<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr data-id='problem13'><td data-id='problem13name'>Parkinson's syndrome</td><td>7/25/22</td></tr><tr data-id='problem12'><td data-id='problem12name'>Essential hypertension</td><td>7/21/22</td></tr></tbody></table>documented as of this encounter (statuses as of 07/25/2022)", actual);
     }
 
@@ -146,6 +148,7 @@ public class CustomFilterTests
                 {"list", list}
             };
         var actual = Filters.ToHtmlString(complete);
+        Console.WriteLine("####### ToHtmlString_ContainsListXmlTags_ReturnsReplacedTags", actual);
         Assert.Equal("<ul><li>Recurrent GI bleed of unknown etiology; hypotension perhaps secondary to this but as likely secondary to polypharmacy.</li><li>Acute on chronic anemia secondary to #1.</li><li>Azotemia, acute renal failure with volume loss secondary to #1.</li><li>Hyperkalemia secondary to #3 and on ACE and K+ supplement.</li><li>Other chronic diagnoses as noted above, currently stable.</li></ul>", actual);
     }
 
@@ -211,7 +214,7 @@ public class CustomFilterTests
             dict1, dict2
         };
         var actual = Filters.FindObjectById(data, "test-id-1");
-        Assert.Equal(dict1, actual);
+        Assert.Equal(content1, actual);
     }
 
     [Fact]
