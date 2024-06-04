@@ -1,0 +1,23 @@
+{
+  "example_section_only": {
+    "summary": "Sections",
+    "value": {
+      "API Call": "/ecr?sections_to_include=11450-4,30954-2,29762-2",
+      "Raw eCR XML payload": "<ClinicalDocument xmlns=\"urn:hl7-org:v3\"</ClinicalDocument>"
+    }
+  },
+  "example_conditions_only": {
+    "summary": "Conditions",
+    "value": {
+      "API Call": "/ecr?conditions_to_include=840539006",
+      "Raw eCR XML payload": "<ClinicalDocument xmlns=\"urn:hl7-org:v3\"</ClinicalDocument>"
+    }
+  },
+  "example_conditions_and_sections": {
+    "summary": "Sections and Conditions",
+    "value": {
+      "API Call": "/ecr?sections_to_include=30954-2&conditions_to_include=840539006",
+      "Raw eCR XML payload": "<ClinicalDocument xmlns=\"urn:hl7-org:v3\"</ClinicalDocument>"
+    }
+  }
+}
