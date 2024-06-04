@@ -4,6 +4,7 @@ import httpx
 from dibbs.base_service import BaseService
 from fastapi import Request
 from fastapi import Response
+from fastapi.responses import FileResponse
 from lxml import etree as ET
 
 from app.config import get_settings
@@ -11,6 +12,11 @@ from app.utils import _generate_clinical_xpaths
 
 settings = get_settings()
 TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets/?condition_code="
+UAT_COLLECTION_FILEPATH = (
+    Path(__file__).parent.parent
+    / "assets"
+    / "Message_Refiner_UAT.postman_collection.json"
+)
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -29,6 +35,18 @@ async def health_check():
     properly.
     """
     return {"status": "OK"}
+
+
+@app.get("/uat-collection")
+async def get_uat_collection() -> FileResponse:
+    """
+    Fetches a Postman Collection of sample requests designed for UAT.
+    The Collection is a JSON-exported file consisting of five GET and POST
+    requests to endpoints of the publicly available dibbs.cloud server.
+    The requests showcase the functionality of various aspects of the TCR
+    and the message refine.
+    """
+    return FileResponse(UAT_COLLECTION_FILEPATH)
 
 
 @app.post("/ecr/")
