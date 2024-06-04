@@ -2,69 +2,34 @@
 
 This folder contains shared modules that can be used across PHDI Next.js projects. Follow the instructions below to integrate these shared modules into other containers.
 
-## Step 1: Configure TypeScript in the PHDI container
+## Step 1: Sym link the folder to your container
 
-Update the `tsconfig.json` file to include the shared folder in the module resolution paths.
+From the repo you want to sym link to
 
-### tsconfig.json
-
-Add the following configuration:
-
-**container/tsconfig.json**
-
-```json
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["../shared/src/*"]
-    }
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "../shared"
-  ]
-}
+Example:
+```
+ln -s ../../../../../shared-resources/src/ ./src/app/shared/
 ```
 
-## Step 2: Configure Webpack in next.config.js
-
-Update the next.config.js file in your PHDI container to resolve the @shared alias.
-
-```json
-const path = require('path');
-
-module.exports = {
-  webpack: (config, { isServer }) => {
-    config.resolve.alias['@shared'] = path.resolve(__dirname, '../shared');
-    if (!isServer) {
-      const ignored = typeof config.watchOptions.ignored[Symbol.iterator] === "function" ? 
-        config.watchOptions.ignored : [config.watchOptions.ignored];
-      
-      config.watchOptions.ignored = [
-        ...ignored,
-        path.resolve(__dirname, '../shared')
-      ];
-    }
-
-    return config;
-  },
-};
+## Step 2: Install local requirements for shared-resources
+In the shared resources folder run:
+```
+npm install
 ```
 
-## Step 3: Import Shared Modules
-You can now import the shared modules in your PHDI container using the `@shared` alias.
+## Step 3: Update various build commands
+Certain github build commands will need to be updated.
+
+In order for docker to work, the files need to be located in the repo they are being used in. See these examples from build container.
 
 ```
-// pages/index.tsx
-import sharedModule from '@shared/module';
+- name: Remove symlinks (if needed)
+  if: ${{ matrix.container-to-build == 'ecr-viewer' }}
+  working-directory: ./containers/${{matrix.container-to-build}}/src/app/shared
+  run: rm -rf ./*
 
-const HomePage = () => {
-  sharedModule();
-  return <div>Home Page using shared module</div>;
-};
-
-export default HomePage;
+- name: Copy shared-resources (if needed)
+  if: ${{ matrix.container-to-build == 'ecr-viewer' }}
+  working-directory: ./containers/${{matrix.container-to-build}}
+  run: cp -r ../../shared-resources/src/ ./src/app/shared/
 ```
