@@ -7,6 +7,7 @@ from fastapi import Query
 from fastapi import Request
 from fastapi import Response
 from fastapi import status
+from fastapi.openapi.utils import get_openapi
 from lxml import etree as ET
 
 from app.config import get_settings
@@ -26,6 +27,40 @@ app = BaseService(
 ).start()
 
 
+# /ecr endpoint request examples
+refine_ecr_request_examples = read_json_from_assets("sample_refine_ecr_request.json")
+refine_ecr_response_examples = read_json_from_assets("sample_refine_ecr_response.json")
+
+
+def custom_openapi():
+    """
+    This customizes the FastAPI response to allow example requests given that the
+    raw Request cannot have annotations.
+    """
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="Message Refiner",
+        version="1.0.0",
+        description="This is a custom OpenAPI schema for the Message Refiner",
+        routes=app.routes,
+    )
+    path = openapi_schema["paths"]["/ecr"]["post"]
+    path["requestBody"] = {
+        "content": {
+            "application/xml": {
+                "schema": {"type": "string"},
+                "examples": refine_ecr_request_examples,
+            }
+        }
+    }
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
+
+
 @app.get("/")
 async def health_check():
     """
@@ -34,11 +69,6 @@ async def health_check():
     properly.
     """
     return {"status": "OK"}
-
-
-# /ecr endpoint request examples
-refine_ecr_request_examples = read_json_from_assets("sample_refine_ecr_request.json")
-refine_ecr_response_examples = read_json_from_assets("sample_refine_ecr_response.json")
 
 
 @app.post(
