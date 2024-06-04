@@ -3,19 +3,6 @@
   "description": "The DIBBs eCR Viewer app offers a REST API for processing FHIR messages into an HTML page with key insights.",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "local-dev": "npm run setup-local-env && docker compose up db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
-    "setup-local-env": "./setup-env.sh",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "convert-seed-data": "docker compose -f ./seed-scripts/docker-compose.yml up --abort-on-container-exit",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
-  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.515.0",
     "@opentelemetry/api": "^1.7.0",
