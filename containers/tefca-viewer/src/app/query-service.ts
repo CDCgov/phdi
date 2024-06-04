@@ -405,36 +405,24 @@ async function cancerQuery(
 
 /**
  * Parse the response from a FHIR search query. If the response is successful and
- * contains data, return an array of resources.
+ * contains data, return an array of parsed resources.
  * @param response - The response from the FHIR server.
  * @param queryResponse - The response object to store the results.
  * @returns - The parsed response.
  */
 async function parseFhirSearch(
-  response: fetch.Response | Array<any>,
+  response: fetch.Response | Array<fetch.Response>,
   queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
   let resourceArray: any[] = [];
-  // If response is an array of responses, add each resource to reou
+
+  // Process the responses
   if (Array.isArray(response)) {
-    for (const body of response) {
-      if (body.entry) {
-        for (const entry of body.entry) {
-          resourceArray!.push(entry.resource);
-        }
-      }
+    for (const r of response) {
+      resourceArray = resourceArray.concat(await processResponse(r));
     }
-  }
-  // If response is a single response, add the resource to resourceArray
-  else {
-    if (response.status === 200) {
-      const body = await response.json();
-      if (body.entry) {
-        for (const entry of body.entry) {
-          resourceArray!.push(entry.resource);
-        }
-      }
-    }
+  } else {
+    resourceArray = await processResponse(response);
   }
 
   // Add resources to queryResponse
@@ -447,4 +435,23 @@ async function parseFhirSearch(
     }
   }
   return queryResponse;
+}
+
+/**
+ * Process the response from a FHIR search query. If the response is successful and
+ * contains data, return an array of resources that are ready to be parsed.
+ * @param response - The response from the FHIR server.
+ * @returns - The array of resources from the response.
+ */
+async function processResponse(response: fetch.Response): Promise<any[]> {
+  let resourceArray: any[] = [];
+  if (response.status === 200) {
+    const body = await response.json();
+    if (body.entry) {
+      for (const entry of body.entry) {
+        resourceArray.push(entry.resource);
+      }
+    }
+  }
+  return resourceArray;
 }

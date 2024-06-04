@@ -87,18 +87,20 @@ class FHIRClient {
     return fetch(this.hostname + path, this.init);
   }
 
-  async getBatch(urls: Array<string>): Promise<Array<any>> {
-    const fetchPromises = urls.map((url) =>
-      fetch(this.hostname + url, this.init).then((response) => {
+  async getBatch(paths: Array<string>): Promise<Array<Response>> {
+    const fetchPromises = paths.map((path) =>
+      fetch(this.hostname + path, this.init).then((response) => {
         if (!response.ok) {
-          console.error(`Failed to fetch ${url}: ${response.statusText}`);
-          return; // will return undefined if the fetch fails
+          console.error(`Failed to fetch ${path}: ${response.statusText}`);
+          return undefined; // Explicitly return undefined if the fetch fails
         }
-        return response.json();
+        return response;
       }),
     );
+
     const results = await Promise.all(fetchPromises);
-    return results.filter((result) => result !== undefined); // Filter out undefined results
+    // Filter out undefined results
+    return results.filter((result): result is Response => result !== undefined);
   }
 }
 
