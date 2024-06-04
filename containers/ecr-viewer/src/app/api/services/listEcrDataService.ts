@@ -44,7 +44,7 @@ export async function listEcrData() {
 const list_postgres = async () => {
   const { ParameterizedQuery: PQ } = pgPromise;
   const listFhir = new PQ({
-    text: "SELECT ecr_id, date_created FROM fhir",
+    text: "SELECT ecr_id, date_created FROM fhir order by date_created DESC",
   });
   try {
     return await database.manyOrNone(listFhir);
@@ -101,6 +101,10 @@ export const processListPostgres = (responseBody: any[]): ListEcr => {
 export const processListS3 = (
   responseBody: ListObjectsV2CommandOutput,
 ): ListEcr => {
+  responseBody.Contents?.sort(
+    (a, b) => Number(b.LastModified) - Number(a.LastModified),
+  );
+
   return (
     responseBody.Contents?.map((object) => {
       return {
