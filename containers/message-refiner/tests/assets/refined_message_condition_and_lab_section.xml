@@ -194,58 +194,118 @@
 	<component>
 		<structuredBody>
 			<component>
-				<entry typeCode="DRIV">
-					<organizer classCode="CLUSTER" moodCode="EVN">
-						<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-						<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-						<id root="26f9100d-515f-472c-bffb-93806fd9bd71"/>
-						<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-						<statusCode code="completed"/>
-						<component>
-							<observation classCode="OBS" moodCode="EVN">
-								<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-								<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-								<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361280/_history/1" root="2.16.840.1.113883"/>
-								<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-									<originalText>
-										<reference value="#labTestName14"/>
-									</originalText>
-								</code>
-								<statusCode code="completed"/>
-								<effectiveTime value="20220513074300+0000"/>
-								<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
-								<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-							</observation>
-						</component>
-					</organizer>
-				</entry>
+				<section>
+					<templateId root="2.16.840.1.113883.10.20.22.2.3.1" extension="2015-08-01"/>
+					<code code="30954-2" codeSystem="2.16.840.1.113883.6.1" displayName="Relevant diagnostic tests and/or laboratory data"/>
+					<title>Results</title>
+					<text>Only entries that match the corresponding condition code were included in this section via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="26f9100d-515f-472c-bffb-93806fd9bd71"/>
+							<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361280/_history/1" root="2.16.840.1.113883"/>
+									<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName14"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+					<entry typeCode="DRIV">
+						<organizer classCode="CLUSTER" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+							<id root="10ea9500-d59d-4962-8a8d-81c0749f06f6"/>
+							<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
+							<statusCode code="completed"/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361278/_history/1" root="2.16.840.1.113883"/>
+									<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
+										<originalText>
+											<reference value="#labTestName15"/>
+										</originalText>
+									</code>
+									<statusCode code="completed"/>
+									<effectiveTime value="20220513074300+0000"/>
+									<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
+									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+				</section>
 			</component>
 			<component>
-				<entry typeCode="DRIV">
-					<organizer classCode="CLUSTER" moodCode="EVN">
-						<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-						<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-						<id root="10ea9500-d59d-4962-8a8d-81c0749f06f6"/>
-						<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-						<statusCode code="completed"/>
-						<component>
-							<observation classCode="OBS" moodCode="EVN">
-								<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-								<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-								<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361278/_history/1" root="2.16.840.1.113883"/>
-								<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-									<originalText>
-										<reference value="#labTestName15"/>
-									</originalText>
-								</code>
-								<statusCode code="completed"/>
-								<effectiveTime value="20220513074300+0000"/>
-								<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
-								<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-							</observation>
-						</component>
-					</organizer>
-				</entry>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.38" extension="2014-06-09"/>
+					<code code="29549-3" codeSystem="2.16.840.1.113883.6.1" displayName="Medications Administered"/>
+					<title>Medications Administered</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.5.1" extension="2015-08-01"/>
+					<code code="11450-4" codeSystem="2.16.840.1.113883.6.1" displayName="Problem List"/>
+					<title>Problem List</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.10" extension="2014-06-09"/>
+					<code code="18776-5" codeSystem="2.16.840.1.113883.6.1" displayName="Plan of Treatment"/>
+					<title>Plan of Treatment</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.22.1" extension="2015-08-01"/>
+					<code code="46240-8" codeSystem="2.16.840.1.113883.6.1" displayName="History of encounters"/>
+					<title>Encounters</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.17" extension="2015-08-01"/>
+					<code code="29762-2" codeSystem="2.16.840.1.113883.6.1" displayName="Social History"/>
+					<title>Social History</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.20" extension="2015-08-01"/>
+					<code code="10164-2" codeSystem="2.16.840.1.113883.6.1" displayName="History of Present Illness"/>
+					<title>History of Present Illness</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.12" extension="2015-08-01"/>
+					<code code="29299-5" codeSystem="2.16.840.1.113883.6.1" displayName="Reason For Visit"/>
+					<title>Reason For Visit</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
 			</component>
 		</structuredBody>
 	</component>
