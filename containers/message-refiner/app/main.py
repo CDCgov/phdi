@@ -88,7 +88,11 @@ async def get_uat_collection() -> FileResponse:
         / "assets"
         / "Message_Refiner_UAT.postman_collection.json"
     )
-    return FileResponse(uat_collection_path)
+    return FileResponse(
+        path=uat_collection_path,
+        media_type="application/json",
+        filename="Message_Refiner_Postman_Samples.json",
+    )
 
 
 @app.post(
