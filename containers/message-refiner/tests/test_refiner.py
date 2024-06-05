@@ -96,6 +96,11 @@ def test_get_uat_collection():
     assert actual_response.json() == uat_collection
 
 
+def test_openapi():
+    actual_response = client.get("/message-refiner/openapi.json")
+    assert actual_response.status_code == 200
+
+
 def test_ecr_refiner():
     # Test case: sections_to_include = None
     expected_response = parse_file_from_test_assets("CDA_eICR.xml")
