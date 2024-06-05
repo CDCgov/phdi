@@ -316,7 +316,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return null;
     }
 
-    // TODO: Remove logs
     /// <summary>
     /// Concatenates strings from a given input object into a single string.
     /// </summary>
