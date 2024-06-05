@@ -561,7 +561,7 @@ def select_message_header(raw_message: bytes) -> bytes:
 
 def validate_message(raw_message: str) -> tuple[bytes | None, str]:
     """
-    Validates that an incoming XML message can be parsed by lxml's ET .
+    Validates that an incoming XML message can be parsed by lxml's etree .
 
     :param raw_message: The XML input.
     :return: The validation result as a string.
