@@ -1,3 +1,5 @@
+import json
+import pathlib
 from typing import List
 
 
@@ -36,3 +38,13 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
         f".//*[local-name()='entry'][.//*[@code='{code}' and @codeSystemName='{system_dict.get(system)}']]"
         for code in codes
     ]
+
+
+def read_json_from_assets(filename: str) -> dict:
+    """
+    Reads a JSON file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A dictionary containing the contents of the file.
+    """
+    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
