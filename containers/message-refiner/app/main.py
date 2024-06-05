@@ -363,33 +363,26 @@ def refine(
     # then we need to add the remaining clinical_services to their parent sections,
     # and create minimal sections for any remaining sections
     if sections_to_include and clinical_services:
-        # check if there is overlap between sections_to_include and clinical_sections;
-        # we can remove key-value paris from the dict if there is overlap
-        overlapping_sections = set(sections_to_include) & set(
+        # check if there is match between sections_to_include and conditions  we want to include
+        # if there is a match, these are the _only_ sections we want to include
+        matching_sections = set(sections_to_include) & set(
             services_section_and_elements.keys()
         )
-        for section_code in overlapping_sections:
-            del services_section_and_elements[section_code]
+        # if there is no match, we will respond with empty; minimal sections
+        if not matching_sections:
+            minimal_sections = create_minimal_sections()
+            return add_root_element(header, minimal_sections)
 
-        # create minimal sections for remaining keys in services_section_and_elements
-        for section_code, entries in services_section_and_elements.items():
+        elements = []
+        for section_code in matching_sections:
             minimal_section = create_minimal_section(section_code, empty_section=False)
-            for entry in entries:
+            for entry in services_section_and_elements[section_code]:
                 minimal_section.append(entry)
             elements.append(minimal_section)
 
-        # add sections specified in sections_to_include
-        sections = validated_message.xpath(
-            sections_xpath_expression, namespaces=namespaces
-        )
-        elements.extend(sections)
-
-        # create minimal sections for sections not included yet
-        all_included_sections = set(sections_to_include) | set(
-            services_section_and_elements.keys()
-        )
         minimal_sections = create_minimal_sections(
-            sections_to_include=list(all_included_sections), empty_section=True
+            sections_with_conditions=matching_sections,
+            empty_section=True,
         )
 
         return add_root_element(header, elements + minimal_sections)
