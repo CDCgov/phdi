@@ -46,12 +46,6 @@ SECTION_DETAILS = {
         "2015-08-01",
         "History of Present Illness",
     ),
-    # "11369-6": (
-    #     "History of immunizations",
-    #     "2.16.840.1.113883.10.20.22.2.2.1",
-    #     "2015-08-01"
-    #     "Immunizations",
-    # ),
     "29549-3": (
         "Medications Administered",
         "2.16.840.1.113883.10.20.22.2.38",
