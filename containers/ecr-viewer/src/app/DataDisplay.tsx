@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState, useId } from "react";
 import { Button } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import { ToolTipElement } from "@/app/ToolTipElement";
@@ -67,6 +67,7 @@ const FieldValue: React.FC<{
   const [fieldValue, setFieldValue] = useState(children);
   const valueLength = getReactNodeLength(children);
   const cutField = trimField(children, cutLength, setHidden).value;
+  const id = useId();
   useEffect(() => {
     if (valueLength > maxLength) {
       if (hidden) {
@@ -74,11 +75,13 @@ const FieldValue: React.FC<{
       } else {
         setFieldValue(
           <>
-            {children}&nbsp;
+            <span id={id}>{children}&nbsp;</span>
             <Button
               type={"button"}
               unstyled={true}
               onClick={() => setHidden(true)}
+              aria-expanded="true"
+              aria-controls={id}
             >
               View less
             </Button>
@@ -119,6 +122,7 @@ const trimField = (
   remainingLength: number,
   setHidden: (val: boolean) => void,
 ): { value: React.ReactNode; remainingLength: number } => {
+  const id = useId();
   if (remainingLength < 1) {
     return { value: null, remainingLength };
   }
@@ -128,11 +132,13 @@ const trimField = (
       return {
         value: (
           <>
-            {cutString}...&nbsp;
+            <span id={id}>{cutString}...&nbsp;</span>
             <Button
               type={"button"}
               unstyled={true}
               onClick={() => setHidden(false)}
+              aria-expanded={"false"}
+              aria-controls={id}
             >
               View more
             </Button>
