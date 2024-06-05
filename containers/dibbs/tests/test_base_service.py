@@ -20,6 +20,7 @@ def test_base_service():
     assert service.app.contact == DIBBS_CONTACT
     assert service.app.license_info == LICENSES["CreativeCommonsZero"]
     assert service.app.description == "This is a test description."
+    assert service.app.openapi_url == "/openapi.json"
 
     client = TestClient(service.start())
 
