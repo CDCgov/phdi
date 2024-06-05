@@ -32,7 +32,7 @@ SECTION_LOINCS = [
     "29762-2",  # social history: narrative
 ]
 
-# dictionary of the section's LOINC, displayName, OID, and title
+# dictionary of the section's LOINC, displayName, templateId, extension, and title
 SECTION_DETAILS = {
     "46240-8": (
         "History of encounters",
@@ -381,9 +381,7 @@ def refine(
         return add_root_element(header, elements + minimal_sections)
 
     # if we have both sections_to_include and clinical_services then we need to
-    # prioritize the sections_to_include and remove any sections that overlap;
-    # then we need to add the remaining clinical_services to their parent sections,
-    # and create minimal sections for any remaining sections
+    # prioritize the clinical_services using the sections_to_include as a locus
     if sections_to_include and clinical_services:
         # check if there is match between sections_to_include and conditions  we want to include
         # if there is a match, these are the _only_ sections we want to include
