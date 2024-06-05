@@ -143,7 +143,6 @@ export function formatMRN(identifier: Identifier[]): JSX.Element {
   return (
     <>
       {identifier.map((id) => {
-        console.log(id);
         let mrnFlag = false;
         id.type?.coding?.forEach((code) => {
           if (code.code === "MR") {

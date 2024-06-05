@@ -1,6 +1,5 @@
 import fetch, { RequestInit, HeaderInit, Response } from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
-
 /**
  * The FHIR servers that can be used in the app
  */
@@ -86,6 +85,16 @@ class FHIRClient {
 
   async get(path: string): Promise<Response> {
     return fetch(this.hostname + path, this.init);
+  }
+
+  async getBatch(paths: Array<string>): Promise<Array<Response>> {
+    const fetchPromises = paths.map((path) =>
+      fetch(this.hostname + path, this.init).then((response) => {
+        return response;
+      }),
+    );
+
+    return await Promise.all(fetchPromises);
   }
 }
 
