@@ -37,40 +37,57 @@ SECTION_DETAILS = {
     "46240-8": (
         "History of encounters",
         "2.16.840.1.113883.10.20.22.2.22.1",
+        "2015-08-01",
         "Encounters",
     ),
     "10164-2": (
         "History of Present Illness",
         "2.16.840.1.113883.10.20.22.2.20",
+        "2015-08-01",
         "History of Present Illness",
     ),
-    "11369-6": (
-        "History of immunizations",
-        "2.16.840.1.113883.10.20.22.2.2.1",
-        "Immunizations",
-    ),
+    # "11369-6": (
+    #     "History of immunizations",
+    #     "2.16.840.1.113883.10.20.22.2.2.1",
+    #     "2015-08-01"
+    #     "Immunizations",
+    # ),
     "29549-3": (
         "Medications Administered",
         "2.16.840.1.113883.10.20.22.2.38",
+        "2014-06-09",
         "Medications Administered",
     ),
     "18776-5": (
         "Plan of Treatment",
         "2.16.840.1.113883.10.20.22.2.10",
+        "2014-06-09",
         "Plan of Treatment",
     ),
-    "11450-4": ("Problem List", "2.16.840.1.113883.10.20.22.2.5.1", "Problem List"),
+    "11450-4": (
+        "Problem List",
+        "2.16.840.1.113883.10.20.22.2.5.1",
+        "2015-08-01",
+        "Problem List",
+    ),
     "29299-5": (
         "Reason For Visit",
         "2.16.840.1.113883.10.20.22.2.12",
+        "2015-08-01",
         "Reason For Visit",
     ),
     "30954-2": (
         "Relevant diagnostic tests and/or laboratory data",
         "2.16.840.1.113883.10.20.22.2.3.1",
+        "2015-08-01",
         "Results",
     ),
-    "29762-2": ("Social History", "2.16.840.1.113883.10.20.22.2.17", "Social History"),
+    "29762-2": (
+        "Social History",
+        "2.16.840.1.113883.10.20.22.2.17",
+        "2015-08-01",
+        "Social History",
+    ),
 }
 
 # Instantiate FastAPI via DIBBs' BaseService class
@@ -302,6 +319,12 @@ def refine(
     namespaces = {"hl7": "urn:hl7-org:v3"}
     elements = []
 
+    # if no parameters are provided, return the header with all sections
+    if not sections_to_include and not clinical_services:
+        xpath_expression = "//*[local-name()='section']"
+        elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
+        return add_root_element(header, elements)
+
     # start with sections_to_include param
     if sections_to_include:
         sections_xpaths = " or ".join(
@@ -399,13 +422,17 @@ def create_minimal_section(section_code: str, empty_section: bool) -> ET.Element
     if section_code not in SECTION_DETAILS:
         return None
 
-    display_name, template_root, title_text = SECTION_DETAILS[section_code]
+    display_name, template_root, template_extension, title_text = SECTION_DETAILS[
+        section_code
+    ]
 
     section = ET.Element("section")
     if empty_section:
         section.set("nullFlavor", "NI")
 
-    templateId1 = ET.Element("templateId", root=template_root, extension="2015-08-01")
+    templateId1 = ET.Element(
+        "templateId", root=template_root, extension=template_extension
+    )
     section.append(templateId1)
 
     code = ET.Element(
