@@ -1,39 +1,12 @@
 {
   "info": {
-    "_postman_id": "d32cd712-7f80-4453-8de9-85908c6642bc",
+    "_postman_id": "e4628169-0bda-4264-804e-b61fa0e9c67c",
     "name": "Message Refiner UAT",
-    "description": "A collection of 5 requests intended to demonstrate the functionality of the DIBBs Message Refiner service. These requests test the various section-based and condition-based filtering options available through the service, showing them in isolation and in combination on a variety of data. This collection also shows how clinical services related to a particular SNOMED code are queried behind the scenes using the Trigger Code Reference Service. All data featured in these requests comes from anonymized case reports supplied by LAC's Department of Public Health.",
+    "description": "A collection of 5 requests intended to demonstrate the functionality of the DIBBs Message Refiner service. These requests test the various section-based and condition-based filtering options available through the service, showing them in isolation and in combination on a variety of data. This collection also shows how clinical services related to a particular SNOMED code are queried behind the scenes using the Trigger Code Reference Service. All data featured in these requests comes from anonymized case reports supplied by LAC's Department of Public Health.\n\nFull documentation of the endpoints for the Message Refiner Service can be found at https://dibbs.cloud/message-refiner/redoc.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "35978615"
+    "_exporter_id": "35997847"
   },
   "item": [
-    {
-      "name": "TCR Returned Services for Covid SNOMED",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "https://dibbs.cloud/trigger-code-reference/get-value-sets/?condition_code=840539006",
-          "protocol": "https",
-          "host": [
-            "dibbs",
-            "cloud"
-          ],
-          "path": [
-            "trigger-code-reference",
-            "get-value-sets",
-            ""
-          ],
-          "query": [
-            {
-              "key": "condition_code",
-              "value": "840539006"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
     {
       "name": "Section Filter: Problems, Labs, Social History",
       "request": {
@@ -49,7 +22,7 @@
           }
         },
         "url": {
-          "raw": "https://dibbs.cloud/message-refiner/ecr/?sections_to_include=11450-4,30954-2,29762-2",
+          "raw": "https://dibbs.cloud/message-refiner/ecr?sections_to_include=11450-4,30954-2,29762-2",
           "protocol": "https",
           "host": [
             "dibbs",
@@ -57,8 +30,7 @@
           ],
           "path": [
             "message-refiner",
-            "ecr",
-            ""
+            "ecr"
           ],
           "query": [
             {
@@ -66,7 +38,8 @@
               "value": "11450-4,30954-2,29762-2"
             }
           ]
-        }
+        },
+        "description": "# Scenario\n\nWe are an epidemiologist with an ECR. Rather than review the full set of data, we want to limit the data for review and storage to just any laboratory tests and results, the patient's social history, and that patient's list of reported problems.\n\n## Example\n\nThis API example has three key components to note:\n\n1. In the Body tab of this request, we have a full, unrefined ECR XML.\n    \n2. In the Params tab, also viewable within the URL, we have included the sections_to_include parameter, which here includes the codes for the three sections of the ECR to keep.\n    \n\n## API Notes\n\nThis first API request seeks to use the message refiner to refine an ECR based on the sections_to_include parameter.\n\nThese sections pertain to different areas, such as social history, reason for visits, problem list, and more. Each of these sections have a corresponding LOINC code that can be used in the API call.\n\nThe full list of available LOINC codes, and the section of the ECR to which they correspond, can be found here: [https://dibbs.cloud/message-refiner/redoc#operation/refine_ecr_ecr_post](https://dibbs.cloud/message-refiner/redoc#operation/refine_ecr_ecr_post).\n\nMultiple sections be added by delimiting them with a comma. If the section is not included in this call, then the information from that section will be removed"
       },
       "response": []
     },
@@ -85,7 +58,7 @@
           }
         },
         "url": {
-          "raw": "https://dibbs.cloud/message-refiner/ecr/?conditions_to_include=840539006",
+          "raw": "https://dibbs.cloud/message-refiner/ecr?conditions_to_include=840539006",
           "protocol": "https",
           "host": [
             "dibbs",
@@ -93,12 +66,37 @@
           ],
           "path": [
             "message-refiner",
-            "ecr",
-            ""
+            "ecr"
           ],
           "query": [
             {
               "key": "conditions_to_include",
+              "value": "840539006"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TCR Returned Services for Covid SNOMED",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://dibbs.cloud/trigger-code-reference/get-value-sets?condition_code=840539006",
+          "protocol": "https",
+          "host": [
+            "dibbs",
+            "cloud"
+          ],
+          "path": [
+            "trigger-code-reference",
+            "get-value-sets"
+          ],
+          "query": [
+            {
+              "key": "condition_code",
               "value": "840539006"
             }
           ]
@@ -121,7 +119,7 @@
           }
         },
         "url": {
-          "raw": "https://dibbs.cloud/message-refiner/ecr/?sections_to_include=30954-2&conditions_to_include=840539006",
+          "raw": "https://dibbs.cloud/message-refiner/ecr?sections_to_include=30954-2&conditions_to_include=840539006",
           "protocol": "https",
           "host": [
             "dibbs",
@@ -129,8 +127,7 @@
           ],
           "path": [
             "message-refiner",
-            "ecr",
-            ""
+            "ecr"
           ],
           "query": [
             {
@@ -161,7 +158,7 @@
           }
         },
         "url": {
-          "raw": "https://dibbs.cloud/message-refiner/ecr/?conditions_to_include=407479009",
+          "raw": "https://dibbs.cloud/message-refiner/ecr?conditions_to_include=407479009",
           "protocol": "https",
           "host": [
             "dibbs",
@@ -169,8 +166,7 @@
           ],
           "path": [
             "message-refiner",
-            "ecr",
-            ""
+            "ecr"
           ],
           "query": [
             {
