@@ -294,14 +294,15 @@ def refine(
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
-    :param clinical_services_xpaths: clinical service XPaths to include in the
+    :param clinical_services: clinical service XPaths to include in the
     refined message.
     :return: The refined message.
     """
     header = select_message_header(validated_message)
-
-    # Set up XPath expressions
     namespaces = {"hl7": "urn:hl7-org:v3"}
+    elements = []
+
+    # start with sections_to_include param
     if sections_to_include:
         sections_xpaths = " or ".join(
             [f"@code='{section}'" for section in sections_to_include]
@@ -310,36 +311,88 @@ def refine(
             f"//*[local-name()='section'][hl7:code[{sections_xpaths}]]"
         )
 
+    # we need to find the condition codes in the clinical_services list and then
+    # extract the section LOINC codes
     if clinical_services:
+        # join the xpath expressions together
         services_xpath_expression = " | ".join(clinical_services)
+        # grab all of the <entry> elements with the clinical_service codes
+        service_elements = validated_message.xpath(
+            services_xpath_expression, namespaces=namespaces
+        )
+        # initialize a dictionary to hold the section code and the element
+        services_section_and_elements = {}
+        for element in service_elements:
+            # the parent is the section element
+            parent = element.getparent()
+            # find the code element and extract the section LOINC
+            code_element = parent.find(".//hl7:code", namespaces=namespaces)
+            code = code_element.get("code")
+            # as we create the dictionary, we want to make sure the section key is unique
+            if code not in services_section_and_elements:
+                services_section_and_elements[code] = []
+            # append (<entry>) element to corresponding section key
+            services_section_and_elements[code].append(element)
 
-    # for sections we are not interested in, create minimal sections based on the anti-join
-    # of the SECTION_LOINCS and sections_to_include
-    minimal_sections = create_minimal_sections(sections_to_include)
+    # if we only have sections_to_include then we need to create minimal sections
+    # for the sections not included
+    if sections_to_include and not clinical_services:
+        minimal_sections = create_minimal_sections(sections_to_include)
+        xpath_expression = sections_xpath_expression
+        elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
+        return add_root_element(header, elements + minimal_sections)
 
-    # both are handled slightly differently
-    if sections_to_include and clinical_services:
+    # if we only have clinical_services then we use the unique sections from the
+    # services_section_and_elements dictionary to include entries to sections + minimal sections
+    # if no sections_to_include are provided
+    if clinical_services and not sections_to_include:
         elements = []
+        for section_code, entries in services_section_and_elements.items():
+            minimal_section = create_minimal_section(section_code, empty_section=False)
+            for entry in entries:
+                minimal_section.append(entry)
+            elements.append(minimal_section)
+        minimal_sections = create_minimal_sections(
+            sections_with_conditions=services_section_and_elements.keys(),
+            empty_section=True,
+        )
+        return add_root_element(header, elements + minimal_sections)
+
+    # if we have both sections_to_include and clinical_services then we need to
+    # prioritize the sections_to_include and remove any sections that overlap;
+    # then we need to add the remaining clinical_services to their parent sections,
+    # and create minimal sections for any remaining sections
+    if sections_to_include and clinical_services:
+        # check if there is overlap between sections_to_include and clinical_sections;
+        # we can remove key-value paris from the dict if there is overlap
+        overlapping_sections = set(sections_to_include) & set(
+            services_section_and_elements.keys()
+        )
+        for section_code in overlapping_sections:
+            del services_section_and_elements[section_code]
+
+        # create minimal sections for remaining keys in services_section_and_elements
+        for section_code, entries in services_section_and_elements.items():
+            minimal_section = create_minimal_section(section_code, empty_section=False)
+            for entry in entries:
+                minimal_section.append(entry)
+            elements.append(minimal_section)
+
+        # add sections specified in sections_to_include
         sections = validated_message.xpath(
             sections_xpath_expression, namespaces=namespaces
         )
-        for section in sections:
-            condition_elements = section.xpath(
-                services_xpath_expression, namespaces=namespaces
-            )
-            if condition_elements:
-                elements.extend(condition_elements)
+        elements.extend(sections)
+
+        # create minimal sections for sections not included yet
+        all_included_sections = set(sections_to_include) | set(
+            services_section_and_elements.keys()
+        )
+        minimal_sections = create_minimal_sections(
+            sections_to_include=list(all_included_sections), empty_section=True
+        )
+
         return add_root_element(header, elements + minimal_sections)
-
-    if sections_to_include:
-        xpath_expression = sections_xpath_expression
-    elif clinical_services:
-        xpath_expression = services_xpath_expression
-    else:
-        xpath_expression = "//*[local-name()='section']"
-
-    elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
-    return add_root_element(header, elements + minimal_sections)
 
 
 def create_minimal_section(section_code: str, empty_section: bool) -> ET.Element:
@@ -377,23 +430,32 @@ def create_minimal_section(section_code: str, empty_section: bool) -> ET.Element
     text_elem = ET.Element("text")
     if empty_section:
         text_elem.text = "Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority"
+    else:
+        text_elem.text = "Only entries that match the corresponding condition code were included in this section via PRIME DIBBs Message Refiner API endpoint by Public Health Authority"
     section.append(text_elem)
 
     return section
 
 
 def create_minimal_sections(
-    sections_to_include: list = None, empty_section: bool = True
+    sections_to_include: list = None,
+    sections_with_conditions: list = None,
+    empty_section: bool = True,
 ) -> list:
     """
     Creates minimal sections for sections not included in sections_to_include.
 
     :param sections_to_include: The sections to include in the refined message.
+    :param sections_with_conditions: Sections that have condition-specific entries.
     :param empty_section: Whether the sections should be empty and include a nullFlavor attribute.
     :return: List of minimal section elements.
     """
     minimal_sections = []
-    sections_to_exclude = set(SECTION_DETAILS.keys()) - set(sections_to_include or [])
+    sections_to_exclude = (
+        set(SECTION_DETAILS.keys())
+        - set(sections_to_include or [])
+        - set(sections_with_conditions or [])
+    )
 
     for section_code in sections_to_exclude:
         minimal_section = create_minimal_section(section_code, empty_section)
