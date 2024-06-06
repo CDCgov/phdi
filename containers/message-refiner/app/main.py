@@ -480,7 +480,7 @@ def create_minimal_sections(
 
     for section_code in sections_to_exclude:
         minimal_section = create_minimal_section(section_code, empty_section)
-        if minimal_section:
+        if minimal_section is not None:
             minimal_sections.append(minimal_section)
     return minimal_sections
 
