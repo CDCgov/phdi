@@ -20,10 +20,11 @@ settings = get_settings()
 TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets?condition_code="
 
 
-# LOINC codes for the required sections of an eICR
+# LOINC codes for eICR sections our refiner API accepts
 SECTION_LOINCS = [
     "46240-8",  # encounters: hospitalizations+outpatient visits narrative
     "10164-2",  # history of present illness
+    "11369-6",  # history of immunizations
     "29549-3",  # medications administered
     "18776-5",  # plan of treatment: care plan
     "11450-4",  # problem: reported list
@@ -32,7 +33,9 @@ SECTION_LOINCS = [
     "29762-2",  # social history: narrative
 ]
 
-# dictionary of the section's LOINC, displayName, templateId, extension, and title
+# dictionary of the required eICR sections'
+# LOINC code, displayName, templateId, extension, and title
+# to be used to create minimal sections and to support validation
 SECTION_DETAILS = {
     "46240-8": (
         "History of encounters",
@@ -174,6 +177,7 @@ async def refine_ecr(
             Multiples can be delimited by a comma. Valid LOINC codes for sections are:\n
             46240-8: Encounters--Hospitalizations+outpatient visits narrative\n
             10164-2: History of present illness\n
+            11369-6: History of immunizations\n
             29549-3: Medications administered\n
             18776-5: Plan of treatment: Care plan\n
             11450-4: Problem--Reported list\n
