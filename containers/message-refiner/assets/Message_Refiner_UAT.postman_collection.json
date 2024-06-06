@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "e4628169-0bda-4264-804e-b61fa0e9c67c",
     "name": "Message Refiner UAT",
-    "description": "A collection of 5 requests intended to demonstrate the functionality of the DIBBs Message Refiner service. These requests test the various section-based and condition-based filtering options available through the service, showing them in isolation and in combination on a variety of data. This collection also shows how clinical services related to a particular SNOMED code are queried behind the scenes using the Trigger Code Reference Service. All data featured in these requests comes from anonymized case reports supplied by LAC's Department of Public Health.\n\nFull documentation of the endpoints for the Message Refiner Service can be found at https://dibbs.cloud/message-refiner/redoc.",
+    "description": "A collection of 5 requests intended to demonstrate the functionality of the DIBBs Message Refiner service. These requests test the various section-based and condition-based filtering options available through the service, showing them in isolation and in combination on a variety of data. This collection also shows how clinical services related to a particular SNOMED code are queried behind the scenes using the Trigger Code Reference Service. All data featured in these requests comes from anonymized case reports supplied by LAC's Department of Public Health.\n\nFull documentation of the endpoints for the Message Refiner Service can be found at [https://dibbs.cloud/message-refiner/redoc](https://dibbs.cloud/message-refiner/redoc).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "35997847"
   },
@@ -39,7 +39,7 @@
             }
           ]
         },
-        "description": "# Scenario\n\nWe are an epidemiologist with an ECR. Rather than review the full set of data, we want to limit the data for review and storage to just any laboratory tests and results, the patient's social history, and that patient's list of reported problems.\n\n## Example\n\nThis API example has three key components to note:\n\n1. In the Body tab of this request, we have a full, unrefined ECR XML.\n    \n2. In the Params tab, also viewable within the URL, we have included the sections_to_include parameter, which here includes the codes for the three sections of the ECR to keep.\n    \n\n## API Notes\n\nThis first API request seeks to use the message refiner to refine an ECR based on the sections_to_include parameter.\n\nThese sections pertain to different areas, such as social history, reason for visits, problem list, and more. Each of these sections have a corresponding LOINC code that can be used in the API call.\n\nThe full list of available LOINC codes, and the section of the ECR to which they correspond, can be found here: [https://dibbs.cloud/message-refiner/redoc#operation/refine_ecr_ecr_post](https://dibbs.cloud/message-refiner/redoc#operation/refine_ecr_ecr_post).\n\nMultiple sections be added by delimiting them with a comma. If the section is not included in this call, then the information from that section will be removed"
+        "description": "# Use Case\n\nA public health authority receives a large eCR but only wants to store and review certain sections of the eCR, such as laboratory tests and results, the patient's social history narrative, and the patient's list of reported problems.\n\nThe Body tab shows the large ECR we are sending to the Message Refiner service. The message refiner service only requires an XML to be submitted; parameters can then be added to specify how to refine the ECR.\n\nThis first API request seeks to use the message refiner to refine an eCR based on the `sections_to_include` parameter. Each section of an eCR has a corresponding LOINC code that can be used in the API call.\n\nFor example, the social history narrative section corresponds to LOINC code 29762-2 and the API request would include the following query parameter: `?sections_to_include=29762-2`.\n\nThe full list of available LOINC codes, and the section of the ECR to which they correspond, can be found [here](https://dibbs.cloud/message-refiner/redoc#operation/refine_ecr_ecr_post).\n\nIn this scenario, the public health authority wants to include multiple sections in the refined eCR so the sections LOINCs are comma delimited to include laboratory tests and results (LOINC 30954-2) , the patient's social history narrative (LOINC 29762-2), and the patient's list of reported problems (LOINC 11450-4), the API request would include the following query parameter: `?sections_to_include=30954-2,29762-2,11450-4`. This information is also viewable in the Params tab.\n\nOnce Send is hit on the request, we can compare the original ECR XML (top) to our refined ECR XML (bottom). The length of the ECR has been reduced by about 30%.\n\nFurther, if we search for sections each XML for sections, for example, we can see section for laboratory tests and results (LOINC 30954-2) is still included, whereas the section for medications administered (LOINC 29549-3) has been truncated."
       },
       "response": []
     },
@@ -74,7 +74,8 @@
               "value": "840539006"
             }
           ]
-        }
+        },
+        "description": "# Use Case\n\nA public health authority receives a large eCR but only wants to store and review information pertaining to COVID.\n\nThe Body tab shows the large ECR we are sending to the Message Refiner service. The message refiner service only requires an XML to be submitted; parameters can then be added to specify how to refine the ECR.\n\nThis API request seeks to use the message refiner to refine an eCR based on the `conditions_to_include` parameter. The condition code for COVID is `840539006`, so this is the parameter: `?conditions_to_include=840539006`. This information is also viewable in the Params tab.\n\nSimilar to the `sections_to_include` section, we can include multiple conditions, delimited by a comma. For example, if the public health authority wanted to refine an ECR for data on COVID and Influenza (`6142004`) simultaneously, the parameter would be: `?conditions_to_include=840539006,6142004`\n\nThe conditions are based off APHL's Electronic Reporting and Surveillance Distrubution (eRSD). This request uses another building block to look up any all clinical services associated with the COVID condition code. It will then search the ECR to determine if any of those clinical services are in the ECR and return only those entries relevant to a particular condition, in this case, COVID. More information on this building block is discussed in the next example.\n\nOnce Send is hit on the request, we can compare the original ECR XML (top) to our refined ECR XML (bottom).\n\nTODO: Expand once Robert's work on refine is complete."
       },
       "response": []
     },
@@ -100,7 +101,8 @@
               "value": "840539006"
             }
           ]
-        }
+        },
+        "description": "# Use Case\n\nAs noted in the previous example, a public health authority receives a large eCR but only wants to store and review information pertaining to COVID.\n\nThe message refiner uses the another building block, called the Trigger Code Reference. Trigger codes correspond to the reason a ECR was ultimately transmitted to the public health authority. While a public health authority is unlikely to use this building block directly, it is still a necessary intermediary step to ensure that an eCR is refined on the most up-to-date codes associated with a particular trigger.\n\nThis service uses the `/get-value-sets` endpoint to look up a trigger code and return all data relevant to that particular trigger code, such as lab results, lab orders, organisms tested, medications, and diagnoses.\n\nThe conditions are based off APHL's Electronic Reporting and Surveillance Distrubution (eRSD). This API call looks up a particular condition, in this case, COVID. More information on eRSD can be found [here](https://ersd.aimsplatform.org/#/home).\n\nThis API request uses the following parameter to return data releated to COVID: `?condition_code=840539006`. This information is also viewable in the Params tab. Only one condition code can be looked up at a time.\n\nOnce Send is hit on the request, we can review the response and see it returns a number of potential codes, organized by value set types as defined by APHL, such as diagnoses (dxtc), lab results (lrtc), organisms tested (ostc), and also by system for that code, such as LOINC, SNOMED, ICD-10. The combination of codes and system are what are then used in the message-refiner."
       },
       "response": []
     },
@@ -139,7 +141,8 @@
               "value": "840539006"
             }
           ]
-        }
+        },
+        "description": "# Use Case\n\nA public health authority receives a large eCR but only wants to store and review certain sections of the eCR, such as laboratory tests, but also wants to limit those results to just any results relevant to COVID.\n\nThe Body tab shows the large ECR we are sending to the Message Refiner service. The message refiner service only requires an XML to be submitted; parameters can then be added to specify how to refine the ECR.\n\nThis API request seeks to use the message refiner to refine an eCR based on the `sections_to_include` parameter in tandem with the `conditions_to_include` parameter.\n\nIn this scenario, the public health authority wants to include just one section in the refined eCR so the sections to include will just be laboratory tests and results (LOINC 30954-2) and the trigger code for COVID (840539006). We can include both in the query parameter, separating them with an `&`: `?sections_to_include=30954-2&conditions_to_include=840539006`. This information is also viewable in the Params tab.\n\nOnce Send is hit on the request, we can compare the original ECR XML (top) to our refined ECR XML (bottom).\n\nTODO: Expand comparison of results."
       },
       "response": []
     },
@@ -174,7 +177,8 @@
               "value": "407479009"
             }
           ]
-        }
+        },
+        "description": "# Use Case\n\nA public health authority receives a large eCR but wants to review it to determine if there is any data related to Influenza A.\n\nThe Body tab shows the large ECR we are sending to the Message Refiner service. The message refiner service only requires an XML to be submitted; parameters can then be added to specify how to refine the ECR.\n\nThis API request seeks to use the message refiner to refine an eCR based on the `conditions_to_include` parameter. The condition code for Influenza A is `407479009`, so this is the parameter: `?conditions_to_include=407479009`. This information is also viewable in the Params tab.\n\nOnce Send is hit on the request, we can compare the original ECR XML (top) to our refined ECR XML (bottom).\n\nIn the newly refined XML, which has no information related to Influenza A, we are able to see that the XML only has demographic data and each section is otherwise empty. This would allow a public health authority to quickly determine that for a particular condition that there is no data present."
       },
       "response": []
     }
