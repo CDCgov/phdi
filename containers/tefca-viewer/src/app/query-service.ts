@@ -26,6 +26,7 @@ export type UseCaseQueryRequest = {
   first_name?: string;
   last_name?: string;
   dob?: string;
+  mrn?: string;
 };
 
 export type QueryResponse = {
@@ -71,7 +72,8 @@ async function patientQuery(
   queryResponse: QueryResponse,
 ): Promise<void> {
   // Query for patient
-  const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}`;
+  const query = `Patient?given=${request.first_name}&family=${request.last_name}&birthdate=${request.dob}&identifier=${request.mrn}`;
+  console.log(`Querying FHIR server for patient: ${query}`);
   const response = await fhirClient.get(query);
 
   // Check for errors
