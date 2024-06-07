@@ -40,6 +40,23 @@ def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
     ]
 
 
+def create_clinical_xpaths(clinical_services_list: list[dict]) -> list[str]:
+    """
+    This function loops through each of those clinical service codes and their
+    system to create a list of all possible xpath queries.
+    :param clinical_services_list: List of clinical_service dictionaries.
+    :return: List of xpath queries to check.
+    """
+    clinical_services_xpaths = []
+    for clinical_services in clinical_services_list:
+        for system, entries in clinical_services.items():
+            for entry in entries:
+                system = entry.get("system")
+                xpaths = _generate_clinical_xpaths(system, entry.get("codes"))
+                clinical_services_xpaths.extend(xpaths)
+    return clinical_services_xpaths
+
+
 def read_json_from_assets(filename: str) -> dict:
     """
     Reads a JSON file from the assets directory.
@@ -48,3 +65,25 @@ def read_json_from_assets(filename: str) -> dict:
     :return: A dictionary containing the contents of the file.
     """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+
+
+def load_section_loincs(loinc_json: dict) -> tuple[list, dict]:
+    """
+    Reads section LOINC json to create two constants needed for parsing
+    section data and creating refined sections.
+    :param loinc_dict: Nested dictionary containing the nested section LOINCs
+    :return: a list of all section LOINCs currently supported by the API;
+             a dictionary of all required section LOINCs to pass validation
+    """
+    # LOINC codes for eICR sections our refiner API accepts
+    section_list = list(loinc_json.keys())
+
+    # dictionary of the required eICR sections'
+    # LOINC code, displayName, templateId, extension, and title
+    # to be used to create minimal sections and to support validation
+    section_details = {
+        loinc: details.get("details")
+        for loinc, details in loinc_json.items()
+        if details.get("required")
+    }
+    return (section_list, section_details)
