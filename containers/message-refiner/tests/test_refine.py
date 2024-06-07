@@ -2,9 +2,9 @@ import pathlib
 import re
 
 import pytest
-from app.refine import add_root_element
+from app.refine import _add_root_element
+from app.refine import _select_message_header
 from app.refine import refine
-from app.refine import select_message_header
 from app.refine import validate_message
 from app.refine import validate_sections_to_include
 from app.utils import _generate_clinical_xpaths
@@ -158,7 +158,7 @@ def test_refine():
 
 def test_select_header():
     raw_message = ET.fromstring(test_eICR_xml)
-    actual_header = select_message_header(raw_message)
+    actual_header = _select_message_header(raw_message)
     expected_header = test_header
     actual_flattened = [i.tag for i in actual_header.iter()]
     expected_flattened = [i.tag for i in expected_header.iter()]
@@ -167,11 +167,11 @@ def test_select_header():
 
 def test_add_root_element():
     raw_message = ET.fromstring(test_eICR_xml)
-    header = select_message_header(raw_message)
+    header = _select_message_header(raw_message)
     elements = raw_message.xpath(
         "//*[local-name()='section']", namespaces={"hl7": "urn:hl7-org:v3"}
     )
-    result = add_root_element(header, elements)
+    result = _add_root_element(header, elements)
     # TODO: I could only get this to work with regex
     assert re.sub(r"\s+", "", result) == re.sub(r"\s+", "", test_eICR_xml)
 

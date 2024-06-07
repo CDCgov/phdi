@@ -4,8 +4,9 @@ from app.utils import load_section_loincs
 from app.utils import read_json_from_assets
 
 # LOINC codes for eICR sections our refiner API accepts
-loinc_json = read_json_from_assets("section_loincs.json")
-SECTION_LOINCS, SECTION_DETAILS = load_section_loincs(loinc_json)
+SECTION_LOINCS, SECTION_DETAILS = load_section_loincs(
+    read_json_from_assets("section_loincs.json")
+)
 
 
 def validate_message(raw_message: str) -> tuple[bytes | None, str]:
@@ -67,7 +68,7 @@ def refine(
     refined message.
     :return: The refined message.
     """
-    header = select_message_header(validated_message)
+    header = _select_message_header(validated_message)
     namespaces = {"hl7": "urn:hl7-org:v3"}
     elements = []
 
@@ -75,7 +76,7 @@ def refine(
     if not sections_to_include and not clinical_services:
         xpath_expression = "//*[local-name()='section']"
         elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
-        return add_root_element(header, elements)
+        return _add_root_element(header, elements)
 
     # start with sections_to_include param
     if sections_to_include:
@@ -112,10 +113,10 @@ def refine(
     # if we only have sections_to_include then we need to create minimal sections
     # for the sections not included
     if sections_to_include and not clinical_services:
-        minimal_sections = create_minimal_sections(sections_to_include)
+        minimal_sections = _create_minimal_sections(sections_to_include)
         xpath_expression = sections_xpath_expression
         elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
-        return add_root_element(header, elements + minimal_sections)
+        return _add_root_element(header, elements + minimal_sections)
 
     # if we only have clinical_services then we use the unique sections from the
     # services_section_and_elements dictionary to include entries to sections + minimal sections
@@ -123,15 +124,15 @@ def refine(
     if clinical_services and not sections_to_include:
         elements = []
         for section_code, entries in services_section_and_elements.items():
-            minimal_section = create_minimal_section(section_code, empty_section=False)
+            minimal_section = _create_minimal_section(section_code, empty_section=False)
             for entry in entries:
                 minimal_section.append(entry)
             elements.append(minimal_section)
-        minimal_sections = create_minimal_sections(
+        minimal_sections = _create_minimal_sections(
             sections_with_conditions=services_section_and_elements.keys(),
             empty_section=True,
         )
-        return add_root_element(header, elements + minimal_sections)
+        return _add_root_element(header, elements + minimal_sections)
 
     # if we have both sections_to_include and clinical_services then we need to
     # prioritize the clinical_services using the sections_to_include as a locus
@@ -143,27 +144,27 @@ def refine(
         )
         # if there is no match, we will respond with empty; minimal sections
         if not matching_sections:
-            minimal_sections = create_minimal_sections()
-            return add_root_element(header, minimal_sections)
+            minimal_sections = _create_minimal_sections()
+            return _add_root_element(header, minimal_sections)
 
         elements = []
         for section_code in matching_sections:
-            minimal_section = create_minimal_section(section_code, empty_section=False)
+            minimal_section = _create_minimal_section(section_code, empty_section=False)
             for entry in services_section_and_elements[section_code]:
                 minimal_section.append(entry)
             elements.append(minimal_section)
 
-        minimal_sections = create_minimal_sections(
+        minimal_sections = _create_minimal_sections(
             sections_with_conditions=matching_sections,
             empty_section=True,
         )
 
-        return add_root_element(header, elements + minimal_sections)
+        return _add_root_element(header, elements + minimal_sections)
 
 
-def create_minimal_section(section_code: str, empty_section: bool) -> ET.Element:
+def _create_minimal_section(section_code: str, empty_section: bool) -> ET.Element:
     """
-    Creates a minimal section element based on the LOINC section code.
+    Helper function to create a minimal section element based on the LOINC section code.
 
     :param section_code: The LOINC code of the section to create a minimal section for.
     :param empty_section: Whether the section should be empty and include a nullFlavor attribute.
@@ -207,7 +208,7 @@ def create_minimal_section(section_code: str, empty_section: bool) -> ET.Element
     return section
 
 
-def create_minimal_sections(
+def _create_minimal_sections(
     sections_to_include: list = None,
     sections_with_conditions: list = None,
     empty_section: bool = True,
@@ -228,13 +229,13 @@ def create_minimal_sections(
     )
 
     for section_code in sections_to_exclude:
-        minimal_section = create_minimal_section(section_code, empty_section)
+        minimal_section = _create_minimal_section(section_code, empty_section)
         if minimal_section is not None:
             minimal_sections.append(minimal_section)
     return minimal_sections
 
 
-def add_root_element(header: bytes, elements: list) -> str:
+def _add_root_element(header: bytes, elements: list) -> str:
     """
     This helper function sets up and creates a new root element for the XML
     by using a combination of a direct namespace uri and nsmap to ensure that
@@ -269,9 +270,9 @@ def add_root_element(header: bytes, elements: list) -> str:
     return ET.tostring(refined_message, encoding="unicode")
 
 
-def select_message_header(raw_message: bytes) -> bytes:
+def _select_message_header(raw_message: bytes) -> bytes:
     """
-    Selects the header of an incoming message.
+    Helper function that selects the header of an incoming message.
 
     :param raw_message: The XML input.
     :return: The header section of the XML.
