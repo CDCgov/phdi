@@ -20,12 +20,80 @@ settings = get_settings()
 TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets?condition_code="
 
 
+# LOINC codes for eICR sections our refiner API accepts
+SECTION_LOINCS = [
+    "46240-8",  # encounters: hospitalizations+outpatient visits narrative
+    "10164-2",  # history of present illness
+    "11369-6",  # history of immunizations
+    "29549-3",  # medications administered
+    "18776-5",  # plan of treatment: care plan
+    "11450-4",  # problem: reported list
+    "29299-5",  # reason for visit
+    "30954-2",  # results: diagnostic tests/laboratory data narrative
+    "29762-2",  # social history: narrative
+]
+
+# dictionary of the required eICR sections'
+# LOINC code, displayName, templateId, extension, and title
+# to be used to create minimal sections and to support validation
+SECTION_DETAILS = {
+    "46240-8": (
+        "History of encounters",
+        "2.16.840.1.113883.10.20.22.2.22.1",
+        "2015-08-01",
+        "Encounters",
+    ),
+    "10164-2": (
+        "History of Present Illness",
+        "2.16.840.1.113883.10.20.22.2.20",
+        "2015-08-01",
+        "History of Present Illness",
+    ),
+    "29549-3": (
+        "Medications Administered",
+        "2.16.840.1.113883.10.20.22.2.38",
+        "2014-06-09",
+        "Medications Administered",
+    ),
+    "18776-5": (
+        "Plan of Treatment",
+        "2.16.840.1.113883.10.20.22.2.10",
+        "2014-06-09",
+        "Plan of Treatment",
+    ),
+    "11450-4": (
+        "Problem List",
+        "2.16.840.1.113883.10.20.22.2.5.1",
+        "2015-08-01",
+        "Problem List",
+    ),
+    "29299-5": (
+        "Reason For Visit",
+        "2.16.840.1.113883.10.20.22.2.12",
+        "2015-08-01",
+        "Reason For Visit",
+    ),
+    "30954-2": (
+        "Relevant diagnostic tests and/or laboratory data",
+        "2.16.840.1.113883.10.20.22.2.3.1",
+        "2015-08-01",
+        "Results",
+    ),
+    "29762-2": (
+        "Social History",
+        "2.16.840.1.113883.10.20.22.2.17",
+        "2015-08-01",
+        "Social History",
+    ),
+}
+
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
     service_name="Message Refiner",
     service_path="/message-refiner",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
+    openapi_url="/message-refiner/openapi.json",
 ).start()
 
 
@@ -87,7 +155,11 @@ async def get_uat_collection() -> FileResponse:
         / "assets"
         / "Message_Refiner_UAT.postman_collection.json"
     )
-    return FileResponse(uat_collection_path)
+    return FileResponse(
+        path=uat_collection_path,
+        media_type="application/json",
+        filename="Message_Refiner_Postman_Samples.json",
+    )
 
 
 @app.post(
@@ -103,15 +175,15 @@ async def refine_ecr(
         Query(
             description="""The sections of an ECR to include in the refined message.
             Multiples can be delimited by a comma. Valid LOINC codes for sections are:\n
-            10164-2: history of present illness\n
-            11369-6: history of immunization narrative\n
-            29549-3: medications administered\n
-            18776-5: plan of care note\n
-            11450-4: problem list - reported\n
-            29299-5: reason for visit\n
-            30954-2: relevant diagnostic tests/laboratory data narrative\n
-            29762-2: social history narrative\n
-            46240-8:  history of hospitalizations+outpatient visits narrative\n
+            46240-8: Encounters--Hospitalizations+outpatient visits narrative\n
+            10164-2: History of present illness\n
+            11369-6: History of immunizations\n
+            29549-3: Medications administered\n
+            18776-5: Plan of treatment: Care plan\n
+            11450-4: Problem--Reported list\n
+            29299-5: Reason for visit\n
+            30954-2: Results--Diagnostic tests/laboratory data narrative\n
+            29762-2: Social history--Narrative\n
             """
         ),
     ] = None,
@@ -180,25 +252,13 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     no error in validating the sections to include, the error message will be an empty
     string.
     """
-    section_LOINCs = [
-        "10164-2",  # history of present illness
-        "11369-6",  # history of immunization narrative
-        "29549-3",  # medications administered
-        "18776-5",  # plan of care note
-        "11450-4",  # problem list - reported
-        "29299-5",  # reason for visit
-        "30954-2",  # relevant diagnostic tests/laboratory data narrative
-        "29762-2",  # social history narrative
-        "46240-8",  # history of hospitalizations+outpatient visits narrative
-    ]
-
     if sections_to_include in [None, ""]:
         return (None, "")
 
     section_loincs = []
     sections = sections_to_include.split(",")
     for section in sections:
-        if section not in section_LOINCs:
+        if section not in SECTION_LOINCS:
             error_message = f"{section} is invalid. Please provide a valid section."
             return (section_loincs, error_message)
         section_loincs.append(section)
@@ -254,14 +314,21 @@ def refine(
 
     :param validated_message: The XML input.
     :param sections_to_include: The sections to include in the refined message.
-    :param clinical_services_xpaths: clinical service XPaths to include in the
+    :param clinical_services: clinical service XPaths to include in the
     refined message.
     :return: The refined message.
     """
     header = select_message_header(validated_message)
-
-    # Set up XPath expressions
     namespaces = {"hl7": "urn:hl7-org:v3"}
+    elements = []
+
+    # if no parameters are provided, return the header with all sections
+    if not sections_to_include and not clinical_services:
+        xpath_expression = "//*[local-name()='section']"
+        elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
+        return add_root_element(header, elements)
+
+    # start with sections_to_include param
     if sections_to_include:
         sections_xpaths = " or ".join(
             [f"@code='{section}'" for section in sections_to_include]
@@ -270,31 +337,152 @@ def refine(
             f"//*[local-name()='section'][hl7:code[{sections_xpaths}]]"
         )
 
+    # we need to find the condition codes in the clinical_services list and then
+    # extract the section LOINC codes
     if clinical_services:
+        # join the xpath expressions together
         services_xpath_expression = " | ".join(clinical_services)
-
-    # both are handled slightly differently
-    if sections_to_include and clinical_services:
-        elements = []
-        sections = validated_message.xpath(
-            sections_xpath_expression, namespaces=namespaces
+        # grab all of the <entry> elements with the clinical_service codes
+        service_elements = validated_message.xpath(
+            services_xpath_expression, namespaces=namespaces
         )
-        for section in sections:
-            condition_elements = section.xpath(
-                services_xpath_expression, namespaces=namespaces
-            )
-            if condition_elements:
-                elements.extend(condition_elements)
-        return add_root_element(header, elements)
+        # initialize a dictionary to hold the section code and the element
+        services_section_and_elements = {}
+        for element in service_elements:
+            # the parent is the section element
+            parent = element.getparent()
+            # find the code element and extract the section LOINC
+            code_element = parent.find(".//hl7:code", namespaces=namespaces)
+            code = code_element.get("code")
+            # as we create the dictionary, we want to make sure the section key is unique
+            if code not in services_section_and_elements:
+                services_section_and_elements[code] = []
+            # append (<entry>) element to corresponding section key
+            services_section_and_elements[code].append(element)
 
-    if sections_to_include:
+    # if we only have sections_to_include then we need to create minimal sections
+    # for the sections not included
+    if sections_to_include and not clinical_services:
+        minimal_sections = create_minimal_sections(sections_to_include)
         xpath_expression = sections_xpath_expression
-    elif clinical_services:
-        xpath_expression = services_xpath_expression
+        elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
+        return add_root_element(header, elements + minimal_sections)
+
+    # if we only have clinical_services then we use the unique sections from the
+    # services_section_and_elements dictionary to include entries to sections + minimal sections
+    # if no sections_to_include are provided
+    if clinical_services and not sections_to_include:
+        elements = []
+        for section_code, entries in services_section_and_elements.items():
+            minimal_section = create_minimal_section(section_code, empty_section=False)
+            for entry in entries:
+                minimal_section.append(entry)
+            elements.append(minimal_section)
+        minimal_sections = create_minimal_sections(
+            sections_with_conditions=services_section_and_elements.keys(),
+            empty_section=True,
+        )
+        return add_root_element(header, elements + minimal_sections)
+
+    # if we have both sections_to_include and clinical_services then we need to
+    # prioritize the clinical_services using the sections_to_include as a locus
+    if sections_to_include and clinical_services:
+        # check if there is match between sections_to_include and conditions  we want to include
+        # if there is a match, these are the _only_ sections we want to include
+        matching_sections = set(sections_to_include) & set(
+            services_section_and_elements.keys()
+        )
+        # if there is no match, we will respond with empty; minimal sections
+        if not matching_sections:
+            minimal_sections = create_minimal_sections()
+            return add_root_element(header, minimal_sections)
+
+        elements = []
+        for section_code in matching_sections:
+            minimal_section = create_minimal_section(section_code, empty_section=False)
+            for entry in services_section_and_elements[section_code]:
+                minimal_section.append(entry)
+            elements.append(minimal_section)
+
+        minimal_sections = create_minimal_sections(
+            sections_with_conditions=matching_sections,
+            empty_section=True,
+        )
+
+        return add_root_element(header, elements + minimal_sections)
+
+
+def create_minimal_section(section_code: str, empty_section: bool) -> ET.Element:
+    """
+    Creates a minimal section element based on the LOINC section code.
+
+    :param section_code: The LOINC code of the section to create a minimal section for.
+    :param empty_section: Whether the section should be empty and include a nullFlavor attribute.
+    :return: A minimal section element or None if the section code is not recognized.
+    """
+    if section_code not in SECTION_DETAILS:
+        return None
+
+    display_name, template_root, template_extension, title_text = SECTION_DETAILS[
+        section_code
+    ]
+
+    section = ET.Element("section")
+    if empty_section:
+        section.set("nullFlavor", "NI")
+
+    templateId1 = ET.Element(
+        "templateId", root=template_root, extension=template_extension
+    )
+    section.append(templateId1)
+
+    code = ET.Element(
+        "code",
+        code=section_code,
+        codeSystem="2.16.840.1.113883.6.1",
+        displayName=display_name,
+    )
+    section.append(code)
+
+    title = ET.Element("title")
+    title.text = title_text
+    section.append(title)
+
+    text_elem = ET.Element("text")
+    if empty_section:
+        text_elem.text = "Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority"
     else:
-        xpath_expression = "//*[local-name()='section']"
-    elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
-    return add_root_element(header, elements)
+        text_elem.text = "Only entries that match the corresponding condition code were included in this section via PRIME DIBBs Message Refiner API endpoint by Public Health Authority"
+    section.append(text_elem)
+
+    return section
+
+
+def create_minimal_sections(
+    sections_to_include: list = None,
+    sections_with_conditions: list = None,
+    empty_section: bool = True,
+) -> list:
+    """
+    Creates minimal sections for sections not included in sections_to_include.
+
+    :param sections_to_include: The sections to include in the refined message.
+    :param sections_with_conditions: Sections that have condition-specific entries.
+    :param empty_section: Whether the sections should be empty and include a nullFlavor attribute.
+    :return: List of minimal section elements.
+    """
+    minimal_sections = []
+    sections_to_exclude = (
+        set(SECTION_DETAILS.keys())
+        - set(sections_to_include or [])
+        - set(sections_with_conditions or [])
+    )
+
+    for section_code in sections_to_exclude:
+        minimal_section = create_minimal_section(section_code, empty_section)
+        if minimal_section is not None:
+            minimal_sections.append(minimal_section)
+    return minimal_sections
 
 
 def add_root_element(header: bytes, elements: list) -> str:
