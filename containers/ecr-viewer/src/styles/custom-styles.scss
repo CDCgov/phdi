@@ -96,7 +96,7 @@ h4 {
   }
 
   .usa-prose > table {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
     width: calc(100% + 2.5rem);
     margin-right: -1.25rem;
     margin-left: -1.25rem;
