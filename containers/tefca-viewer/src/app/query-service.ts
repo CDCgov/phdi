@@ -327,10 +327,11 @@ async function chlamydiaQuery(
     "11350-6", // History of Sexual behavior Narrative
     "83317-8", // Sexual activity with anonymous partner in the past year
   ];
-  const snomed: Array<string> = [
+  const conditionCodes: Array<string> = [
     "2339001", // Sexual overexposure,
     "72531000052105", // Counseling for contraception (procedure)
     "102874004", // Possible pregnancy
+    "A74.9",
   ];
   const rxnorm: Array<string> = [
     "434692", // azithromycin 1000 MG
@@ -344,17 +345,17 @@ async function chlamydiaQuery(
   ];
 
   const loincFilter: string = loincs.join(",");
-  const snomedFilter: string = snomed.join(",");
+  const conditionFilter: string = conditionCodes.join(",");
   const rxnormFilter: string = rxnorm.join(",");
   const classTypeFilter: string = classType.join(",");
 
   // Batch query for observations, diagnostic reports, conditions, some encounters, and medication requests
   const observationQuery = `/Observation?subject=${patientId}&code=${loincFilter}`;
   const diagnositicReportQuery = `/DiagnosticReport?subject=${patientId}&code=${loincFilter}`;
-  const conditionQuery = `/Condition?subject=${patientId}&code=${snomedFilter}`;
+  const conditionQuery = `/Condition?subject=${patientId}&code=${conditionFilter}`;
   const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
   const socialHistoryQuery = `/Observation?subject=${patientId}&category=social-history`;
-  const encounterQuery = `/Encounter?subject=${patientId}&reason-code=${snomedFilter}`;
+  const encounterQuery = `/Encounter?subject=${patientId}&reason-code=${conditionFilter}`;
   const encounterClassTypeQuery = `/Encounter?subject=${patientId}&class=${classTypeFilter}`;
 
   const queryRequests: Array<string> = [
