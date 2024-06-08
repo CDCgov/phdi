@@ -85,7 +85,6 @@ async function patientQuery(
   if (request.mrn) {
     query += `identifier=${request.mrn}&`;
   }
-  console.log(`Querying FHIR server for patient: ${query}`);
   const response = await fhirClient.get(query);
 
   // Check for errors
@@ -353,7 +352,7 @@ async function chlamydiaQuery(
   const observationQuery = `/Observation?subject=${patientId}&code=${loincFilter}`;
   const diagnositicReportQuery = `/DiagnosticReport?subject=${patientId}&code=${loincFilter}`;
   const conditionQuery = `/Condition?subject=${patientId}&code=${conditionFilter}`;
-  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`;
+  const medicationRequestQuery = `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}`;
   const socialHistoryQuery = `/Observation?subject=${patientId}&category=social-history`;
   const encounterQuery = `/Encounter?subject=${patientId}&reason-code=${conditionFilter}`;
   const encounterClassTypeQuery = `/Encounter?subject=${patientId}&class=${classTypeFilter}`;
