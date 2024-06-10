@@ -1,5 +1,9 @@
+"use client";
+
 import { Table } from "@trussworks/react-uswds";
 import { ListEcr } from "@/app/api/services/listEcrDataService";
+import { useState } from "react";
+import { Pagination } from "@trussworks/react-uswds";
 
 interface ListEcrViewerProps {
   listFhirData: ListEcr;
@@ -15,25 +19,56 @@ export default function ListECRViewer({
   listFhirData,
 }: ListEcrViewerProps): JSX.Element {
   const header = ["eCR ID", "Stored Date"];
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 25;
+  const totalPages = Math.ceil(listFhirData.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    renderPage(pageNumber);
+  };
+
+  const renderPage = (pageNumber: number) => {
+    const startIndex = (pageNumber - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pageData = listFhirData.slice(startIndex, endIndex);
+    return renderListEcrTableData(pageData);
+  };
+
   return (
-    <div className="content-wrapper">
-      <Table
-        bordered={false}
-        fullWidth={true}
-        className={"table-homepage-list"}
-        data-testid="table"
-      >
-        <thead>
-          <tr>
-            {header.map((column) => (
-              <th key={`${column}`} scope="col">
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{renderListEcrTableData(listFhirData)}</tbody>
-      </Table>
+    <div className="main-container">
+      <div className="homepage-wrapper">
+        <Table
+          bordered={false}
+          fullWidth={true}
+          className={"table-homepage-list"}
+          data-testid="table"
+        >
+          <thead>
+            <tr>
+              {header.map((column) => (
+                <th key={`${column}`} scope="col">
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>{renderPage(currentPage)}</tbody>
+        </Table>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pathname={""}
+          onClickNext={() => handlePageChange(currentPage + 1)}
+          onClickPrevious={() => handlePageChange(currentPage - 1)}
+          onClickPageNumber={(
+            _event: React.MouseEvent<HTMLButtonElement>,
+            page: number,
+          ) => {
+            handlePageChange(page);
+          }}
+        />
+      </div>
     </div>
   );
 }

@@ -43,6 +43,7 @@ class BaseService:
         description_path: str,
         include_health_check_endpoint: bool = True,
         license_info: Literal["CreativeCommonsZero", "MIT"] = "CreativeCommonsZero",
+        openapi_url: str = "/openapi.json",
     ):
         """
         Initialize a BaseService instance.
@@ -50,12 +51,18 @@ class BaseService:
         :param service_name: The name of the service.
         :param service_path: The path to used to access the service from a gateway.
         :param description_path: The path to a markdown file containing a description of
-            the service.
+          the service.
         :param include_health_check_endpoint: If True, the standard DIBBs health check
-            endpoint will be added.
+          endpoint will be added.
         :param license_info: If empty, the standard DIBBs Creative Commons Zero v1.0
-            Universal license will be used. The other available option is to use the
-            MIT license.
+          Universal license will be used. The other available option is to use the
+          MIT license.
+        :param openapi_url: Optionally, the url of the OpenAPI.json file that FastAPI
+          should use when auto-constructing docs at the `/redoc` endpoint. For
+          services deployed in public environments managed by application gateways
+          or other routers, this parameter should be set to
+          "/{service-name}/openapi.json". If omitted, the parameter is set to the
+          FastAPI default.
         """
         description = Path(description_path).read_text(encoding="utf-8")
         self.service_path = service_path
@@ -66,6 +73,7 @@ class BaseService:
             contact=DIBBS_CONTACT,
             license_info=LICENSES[license_info],
             description=description,
+            openapi_url=openapi_url,
         )
 
     """
@@ -84,7 +92,10 @@ class BaseService:
 
         @self.app.middleware("http")
         async def rewrite_path(request: Request, call_next: callable) -> Response:
-            if request.url.path.startswith(self.service_path):
+            if (
+                request.url.path.startswith(self.service_path)
+                and "openapi.json" not in request.url.path
+            ):
                 request.scope["path"] = request.scope["path"].replace(
                     self.service_path, ""
                 )
