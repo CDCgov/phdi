@@ -1,0 +1,91 @@
+---
+name: Release Workflow
+run-name: Release ${{ github.event.inputs.branch }} to ${{ github.event.inputs.environment }} by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to release
+        required: true
+        type: string
+        default: alis/46
+      environment:
+        description: Environment to release
+        required: true
+        default: Development
+        type: choice
+        options:
+          - Development
+          - Staging
+          - Production
+
+env:
+  OCTOPUS_SPACE: Default
+  OCTOPUS_PROJECT: Data Ingestion Building Blocks
+  BRANCH: alis/46
+  ENVIRONMENT: Development
+
+concurrency:
+  group: ${{ github.event.inputs.environment }}-release
+  cancel-in-progress: false
+
+jobs:
+  environment-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check environment
+        run: |
+          echo "Checking environment..."
+          echo "Environment: $ENVIRONMENT"
+          echo "Branch: $BRANCH"
+          if [ "$ENVIRONMENT" == "Development" ]; then
+            echo "Releasing to $ENVIRONMENT environment"
+            exit 0
+          else
+            echo "Cannot Releasing to $ENVIRONMENT environment"
+            exit 1
+          fi
+
+  checkout:
+    needs: environment-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: "0"
+          ref: ${{ github.event.inputs.branch }}
+      - name: Get version
+        id: get-version
+        run: |
+          TAG=$(git describe --tags)
+          echo "$TAG"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+    outputs:
+      tag: ${{ steps.get-version.outputs.tag }}
+
+  test-for-release:
+    needs: checkout
+    uses: ./.github/workflows/test.yaml
+
+  generate-docs:
+    needs: checkout
+    with:
+      tag: ${{ needs.checkout.outputs.tag }}
+    uses: ./.github/workflows/generateDocs.yaml
+
+  build-containers:
+    needs: [test-for-release, generate-docs]
+    uses: ./.github/workflows/buildReleaseContainers.yaml
+    with:
+      container-tag: ${{ needs.checkout.outputs.tag }}
+
+  deploy:
+    needs: [build-containers]
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      tag: ${{ needs.checkout.outputs.tag }}
+    secrets:
+      OCTOPUS_URL: ${{ secrets.OCTOPUS_URL }}
+      OCTOPUS_SERVICE_ACCOUNT_ID: ${{ secrets.OCTOPUS_SERVICE_ACCOUNT_ID }}
+    uses: ./.github/workflows/octopus.yaml
