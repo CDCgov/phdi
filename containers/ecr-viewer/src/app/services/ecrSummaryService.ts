@@ -104,6 +104,38 @@ export const evaluateEcrSummaryAboutTheConditionDetails = (
 };
 
 /**
+ * Evaluates and retrieves relevant clinical details from the FHIR bundle using the provided SNOMED code and path mappings.
+ * @param fhirBundle - The FHIR bundle containing patient data.
+ * @param fhirPathMappings - Object containing fhir path mappings.
+ * @param snomedCode - String containing the SNOMED code search parameter.
+ * @returns An array of condition details objects containing title and value pairs.
+ */
+export const evaluateEcrSummaryRelevantClinicalDetails = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+  snomedCode: string,
+) => {
+  const noData: string = "No matching clinical data found in this eCR";
+  // TODO: Find relevant clinical info
+
+  // TODO: Add condition: if not empty, return
+  // return [
+  //   {
+  //     title: "",
+  //     value: "Empty",
+  //     dividerLine: true,
+  //   },
+  // ];
+
+  // TODO: Add else return noData
+  return [
+    {
+      value: noData,
+    },
+  ];
+};
+
+/**
  * Evaluates encounter date from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing encounter date.
  * @param mappings - The object containing the fhir paths.
