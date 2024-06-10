@@ -87,12 +87,28 @@ describe("convertUTCToLocalString", () => {
     expect(result).toEqual(expectedDate);
   });
 
-  it("Given a date time in the format of 'MM/DD/YYYY HH:MM AM/PM Z.' , should return the date in the user's local time zone", () => {
-    const inputDate = "06/10/2024 10:00 AM PDT";
-    const expectedDate = "06/10/2024 1:00 PM EDT";
+  it("Given an invalid date string, should throw an error", () => {
+    const invalidDateString = "abcd-10-10T12:00:00Z";
 
-    const result = formatDateTime(inputDate);
-    expect(result).toEqual(expectedDate);
+    expect(() => convertUTCToLocalString(invalidDateString)).toThrow(
+      "Invalid UTC date string",
+    );
+  });
+
+  it("Should convert to local time correctly for dates in daylight saving time and standard time", () => {
+    // Date in Daylight Savings Time
+    const inputDaylightSavingTime = "2024-04-01T12:00:00Z";
+    const expectedDaylightSavingTime = "04/01/2024 8:00 AM EDT";
+    const resultDaylightSavingTime = convertUTCToLocalString(
+      inputDaylightSavingTime,
+    );
+    expect(resultDaylightSavingTime).toEqual(expectedDaylightSavingTime);
+
+    // Date in Standard Time
+    const inputStandardTime = "2023-12-01T12:00:00Z";
+    const expectedStandardTime = "12/01/2023 7:00 AM EST";
+    const resultStandardTime = convertUTCToLocalString(inputStandardTime);
+    expect(resultStandardTime).toEqual(expectedStandardTime);
   });
 });
 
