@@ -54,7 +54,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
     };
     setOriginalRequest(originalRequest);
     const queryResponse = await useCaseQuery(originalRequest);
-    console.log("Patient ID:", queryResponse);
     setUseCaseQueryResponse(queryResponse);
     if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
       setMode("no-patients");

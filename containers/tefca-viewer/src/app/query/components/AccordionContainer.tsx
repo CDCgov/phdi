@@ -27,7 +27,6 @@ type AccordionContainerProps = {
 const AccordianContainer: React.FC<AccordionContainerProps> = ({
   queryResponse,
 }) => {
-  console.log("queryResponse:", queryResponse);
   const accordionItems: any[] = [];
 
   const patient =

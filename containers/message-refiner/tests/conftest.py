@@ -1,7 +1,15 @@
+import os
 from pathlib import Path
 
 import lxml.etree as ET
 import pytest
+
+
+def pytest_configure():
+    """Add Trigger Code Reference service URL"""
+    os.environ["TRIGGER_CODE_REFERENCE_URL"] = (
+        "http://trigger-code-reference-service:8080"
+    )
 
 
 @pytest.fixture(scope="session")

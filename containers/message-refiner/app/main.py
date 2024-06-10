@@ -1,9 +1,26 @@
 from pathlib import Path
+from typing import Annotated
 
+import httpx
 from dibbs.base_service import BaseService
+from fastapi import Query
 from fastapi import Request
 from fastapi import Response
-from lxml import etree as ET
+from fastapi import status
+from fastapi.openapi.utils import get_openapi
+from fastapi.responses import FileResponse
+
+from app.config import get_settings
+from app.models import RefineECRResponse
+from app.refine import refine
+from app.refine import validate_message
+from app.refine import validate_sections_to_include
+from app.utils import create_clinical_xpaths
+from app.utils import read_json_from_assets
+
+settings = get_settings()
+TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets?condition_code="
+
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
@@ -11,7 +28,42 @@ app = BaseService(
     service_path="/message-refiner",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
+    openapi_url="/message-refiner/openapi.json",
 ).start()
+
+
+# /ecr endpoint request examples
+refine_ecr_request_examples = read_json_from_assets("sample_refine_ecr_request.json")
+refine_ecr_response_examples = read_json_from_assets("sample_refine_ecr_response.json")
+
+
+def custom_openapi():
+    """
+    This customizes the FastAPI response to allow example requests given that the
+    raw Request cannot have annotations.
+    """
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
+    path = openapi_schema["paths"]["/ecr"]["post"]
+    path["requestBody"] = {
+        "content": {
+            "application/xml": {
+                "schema": {"type": "Raw eCR XML payload"},
+                "examples": refine_ecr_request_examples,
+            }
+        }
+    }
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
 
 
 @app.get("/")
@@ -24,184 +76,118 @@ async def health_check():
     return {"status": "OK"}
 
 
-@app.post("/ecr/")
+@app.get("/example-collection")
+async def get_uat_collection() -> FileResponse:
+    """
+    Fetches a Postman Collection of sample requests designed for UAT.
+    The Collection is a JSON-exported file consisting of five GET and POST
+    requests to endpoints of the publicly available dibbs.cloud server.
+    The requests showcase the functionality of various aspects of the TCR
+    and the message refine.
+    """
+    uat_collection_path = (
+        Path(__file__).parent.parent
+        / "assets"
+        / "Message_Refiner_UAT.postman_collection.json"
+    )
+    return FileResponse(
+        path=uat_collection_path,
+        media_type="application/json",
+        filename="Message_Refiner_Postman_Samples.json",
+    )
+
+
+@app.post(
+    "/ecr",
+    response_model=RefineECRResponse,
+    status_code=200,
+    responses=refine_ecr_response_examples,
+)
 async def refine_ecr(
-    refiner_input: Request, sections_to_include: str | None = None
+    refiner_input: Request,
+    sections_to_include: Annotated[
+        str | None,
+        Query(
+            description="""The sections of an ECR to include in the refined message.
+            Multiples can be delimited by a comma. Valid LOINC codes for sections are:\n
+            46240-8: Encounters--Hospitalizations+outpatient visits narrative\n
+            10164-2: History of present illness\n
+            11369-6: History of immunizations\n
+            29549-3: Medications administered\n
+            18776-5: Plan of treatment: Care plan\n
+            11450-4: Problem--Reported list\n
+            29299-5: Reason for visit\n
+            30954-2: Results--Diagnostic tests/laboratory data narrative\n
+            29762-2: Social history--Narrative\n
+            """
+        ),
+    ] = None,
+    conditions_to_include: Annotated[
+        str | None,
+        Query(
+            description="The SNOMED condition codes to use to search for relevant clinical services in the ECR."
+            + " Multiples can be delimited by a comma."
+        ),
+    ] = None,
 ) -> Response:
     """
-    Refines an incoming XML message based on the fields to include and whether
-    to include headers.
+    Refines an incoming XML ECR message based on sections to include and/or trigger code
+    conditions to include, based on the parameters included in the endpoint.
 
-    :param request: The request object containing the XML input.
-    :param fields_to_include: The fields to include in the refined message.
-    :return: The RefinerResponse which includes the `refined_message`
+    The return will be a formatted, refined XML, limited to just the data specified.
+
+    :param refiner_input: The request object containing the XML input.
+    :param sections_to_include: The fields to include in the refined message.
+    :param conditions_to_include: The SNOMED condition codes to use to search for
+    relevant clinical services in the ECR.
+    :return: The RefineECRResponse, the refined XML as a string.
     """
     data = await refiner_input.body()
 
     validated_message, error_message = validate_message(data)
-    if error_message != "":
-        return Response(content=error_message, status_code=400)
+    if error_message:
+        return Response(content=error_message, status_code=status.HTTP_400_BAD_REQUEST)
 
+    sections = None
     if sections_to_include:
-        sections_to_include, error_message = validate_sections_to_include(
-            sections_to_include
-        )
+        sections, error_message = validate_sections_to_include(sections_to_include)
+        if error_message:
+            return Response(
+                content=error_message, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
+            )
 
-        if error_message != "":
-            return Response(content=error_message, status_code=422)
+    clinical_services_xpaths = None
+    if conditions_to_include:
+        responses = await get_clinical_services(conditions_to_include)
+        # confirm all API responses were 200
+        if set([response.status_code for response in responses]) != {200}:
+            error_message = ";".join(
+                [str(response) for response in responses if response.status_code != 200]
+            )
+            return Response(
+                content=error_message, status_code=status.HTTP_502_BAD_GATEWAY
+            )
+        clinical_services = [response.json() for response in responses]
+        clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 
-        data = refine(validated_message, sections_to_include)
+    data = refine(validated_message, sections, clinical_services_xpaths)
 
     return Response(content=data, media_type="application/xml")
 
 
-def validate_sections_to_include(sections_to_include: str | None) -> tuple[list, str]:
+async def get_clinical_services(condition_codes: str) -> list[dict]:
     """
-    Validates the sections to include in the refined message and returns them as a list
-    of corresponding LOINC codes.
+    This a function that loops through the provided condition codes. For each
+    condition code provided, it calls the trigger-code-reference service to get
+    the API response for that condition.
 
-    :param sections_to_include: The sections to include in the refined message.
-    :raises ValueError: When at least one of the sections_to_inlcude is invalid.
-    :return: A tuple that includes the sections to include in the refined message as a
-    list of LOINC codes corresponding to the sections and an error message. If there is
-    no error in validating the sections to include, the error message will be an empty
-    string.
+    :param condition_codes: SNOMED condition codes to look up in TCR service
+    :return: List of API responses to check
     """
-    section_LOINCs = [
-        "10164-2",  # history of present illness
-        "11369-6",  # history of immunization narrative
-        "29549-3",  # medications administered
-        "18776-5",  # plan of care note
-        "11450-4",  # problem list - reported
-        "29299-5",  # reason for visit
-        "30954-2",  # relevant diagnostic tests/laboratory data narrative
-        "29762-2",  # social history narrative
-        "46240-8",  # history of hospitalizations+outpatient visits narrative
-    ]
-
-    error_message = ""
-    section_loincs = []
-
-    if sections_to_include:
-        section_loincs = []
-        sections = sections_to_include.split(",")
-        for section in sections:
-            if section not in section_LOINCs:
-                section_loincs = None
-                error_message = f"{section} is invalid. Please provide a valid section."
-                break
-            else:
-                section_loincs.append(section)
-
-    return (section_loincs, error_message) if section_loincs else (None, error_message)
-
-
-def refine(validated_message: bytes, sections_to_include: str) -> str:
-    """
-    Refines an incoming XML message based on the sections to include.
-
-    :param validated_message: The XML input.
-    :param sections_to_include: The sections to include in the refined message.
-    :return: The refined message.
-    """
-    header = select_message_header(validated_message)
-
-    # Set up XPath expression
-    # this namespace is only used for filtering
-    namespaces = {"hl7": "urn:hl7-org:v3"}
-    sections_xpath_expression = "or".join(
-        [f"@code='{section}'" for section in sections_to_include]
-    )
-    xpath_expression = (
-        f"//*[local-name()='section'][hl7:code[{sections_xpath_expression}]]"
-    )
-
-    # Use XPath to find elements matching the expression
-    elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
-
-    # Create & set up a new root element for the refined XML
-    # we are using a combination of a direct namespace uri and nsmap so that we can
-    # ensure that the default namespaces are set correctly
-    namespace = "urn:hl7-org:v3"
-    nsmap = {
-        None: namespace,
-        "cda": namespace,
-        "sdtc": "urn:hl7-org:sdtc",
-        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
-    }
-    # creating the root element with our uri namespace and nsmap
-    refined_message_root = ET.Element(f"{{{namespace}}}ClinicalDocument", nsmap=nsmap)
-    for h in header:
-        refined_message_root.append(h)
-    # creating the component element and structuredBody element with the same namespace
-    # and adding them to the new root
-    main_component = ET.SubElement(refined_message_root, f"{{{namespace}}}component")
-    structuredBody = ET.SubElement(main_component, f"{{{namespace}}}structuredBody")
-
-    # Append the filtered elements to the new root and use the uri namespace
-    for element in elements:
-        section_component = ET.SubElement(structuredBody, f"{{{namespace}}}component")
-        section_component.append(element)
-
-    # Create a new ElementTree with the result root
-    refined_message = ET.ElementTree(refined_message_root)
-    return ET.tostring(refined_message, encoding="unicode")
-
-
-def select_message_header(raw_message: bytes) -> bytes:
-    """
-    Selects the header of an incoming message.
-
-    :param raw_message: The XML input.
-    :return: The header section of the XML.
-    """
-    HEADER_SECTIONS = [
-        "realmCode",
-        "typeId",
-        "templateId",
-        "id",
-        "code",
-        "title",
-        "effectiveTime",
-        "confidentialityCode",
-        "languageCode",
-        "setId",
-        "versionNumber",
-        "recordTarget",
-        "author",
-        "custodian",
-        "componentOf",
-    ]
-
-    # Set up XPath expression
-    namespaces = {"hl7": "urn:hl7-org:v3"}
-    xpath_expression = " | ".join(
-        [f"//hl7:ClinicalDocument/hl7:{section}" for section in HEADER_SECTIONS]
-    )
-    # Use XPath to find elements matching the expression
-    elements = raw_message.xpath(xpath_expression, namespaces=namespaces)
-
-    # Create & set up a new root element for the refined XML
-    header = ET.Element(raw_message.tag)
-
-    # Append the filtered elements to the new root
-    for element in elements:
-        header.append(element)
-
-    return header
-
-
-def validate_message(raw_message: str) -> tuple[bytes | None, str]:
-    """
-    Validates that an incoming XML message can be parsed by lxml's etree .
-
-    :param raw_message: The XML input.
-    :return: The validation result as a string.
-    """
-    error_message = ""
-    try:
-        validated_message = ET.fromstring(raw_message)
-        return (validated_message, error_message)
-    except ET.XMLSyntaxError as e:
-        error_message = f"XMLSyntaxError: {e}"
-        return (None, str(error_message))
+    clinical_services_list = []
+    conditions_list = condition_codes.split(",")
+    async with httpx.AsyncClient() as client:
+        for condition in conditions_list:
+            response = await client.get(TCR_ENDPOINT + condition)
+            clinical_services_list.append(response)
+    return clinical_services_list
