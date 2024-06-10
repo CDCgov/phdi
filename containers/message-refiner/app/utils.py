@@ -82,7 +82,7 @@ def load_section_loincs(loinc_json: dict) -> tuple[list, dict]:
     # LOINC code, displayName, templateId, extension, and title
     # to be used to create minimal sections and to support validation
     section_details = {
-        loinc: details.get("details")
+        loinc: details.get("minimal_fields")
         for loinc, details in loinc_json.items()
         if details.get("required")
     }

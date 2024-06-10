@@ -1,6 +1,6 @@
 {
   "46240-8": {
-    "details": [
+    "minimal_fields": [
       "History of encounters",
       "2.16.840.1.113883.10.20.22.2.22.1",
       "2015-08-01",
@@ -9,7 +9,7 @@
     "required": true
   },
   "10164-2": {
-    "details": [
+    "minimal_fields": [
       "History of Present Illness",
       "2.16.840.1.113883.10.20.22.2.20",
       "2015-08-01",
@@ -18,7 +18,7 @@
     "required": true
   },
   "29549-3": {
-    "details": [
+    "minimal_fields": [
       "Medications Administered",
       "2.16.840.1.113883.10.20.22.2.38",
       "2014-06-09",
@@ -27,7 +27,7 @@
     "required": true
   },
   "18776-5": {
-    "details": [
+    "minimal_fields": [
       "Plan of Treatment",
       "2.16.840.1.113883.10.20.22.2.10",
       "2014-06-09",
@@ -36,7 +36,7 @@
     "required": true
   },
   "11450-4": {
-    "details": [
+    "minimal_fields": [
       "Problem List",
       "2.16.840.1.113883.10.20.22.2.5.1",
       "2015-08-01",
@@ -45,7 +45,7 @@
     "required": true
   },
   "29299-5": {
-    "details": [
+    "minimal_fields": [
       "Reason For Visit",
       "2.16.840.1.113883.10.20.22.2.12",
       "2015-08-01",
@@ -54,7 +54,7 @@
     "required": true
   },
   "30954-2": {
-    "details": [
+    "minimal_fields": [
       "Relevant diagnostic tests and/or laboratory data",
       "2.16.840.1.113883.10.20.22.2.3.1",
       "2015-08-01",
@@ -63,7 +63,7 @@
     "required": true
   },
   "29762-2": {
-    "details": [
+    "minimal_fields": [
       "Social History",
       "2.16.840.1.113883.10.20.22.2.17",
       "2015-08-01",
@@ -72,7 +72,7 @@
     "required": true
   },
   "11369-6": {
-    "details": [
+    "minimal_fields": [
       "History of Immunizations",
       "2.16.840.1.113883.10.20.22.4.52",
       "2015-08-01",

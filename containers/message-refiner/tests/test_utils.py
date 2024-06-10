@@ -54,7 +54,7 @@ def test_load_section_loincs():
     """
     loinc_json = {
         "29762-2": {
-            "details": [
+            "minimal_fields": [
                 "Social History",
                 "2.16.840.1.113883.10.20.22.2.17",
                 "2015-08-01",
@@ -63,7 +63,7 @@ def test_load_section_loincs():
             "required": True,
         },
         "11369-6": {
-            "details": [
+            "minimal_fields": [
                 "History of Immunizations",
                 "2.16.840.1.113883.10.20.22.4.52",
                 "2015-08-01",
