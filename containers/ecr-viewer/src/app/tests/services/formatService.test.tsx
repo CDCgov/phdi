@@ -7,6 +7,7 @@ import {
   toSentenceCase,
   removeHtmlElements,
   formatDateTime,
+  convertUTCToLocalString,
 } from "@/app/services/formatService";
 
 describe("Format Name", () => {
@@ -71,6 +72,24 @@ describe("formatDateTime", () => {
   it("Given a date time in the format of 'MM/DD/YYYY HH:MM AM/PM Z.' (as found in Lab Info Analysis Time), should return the correct formatted date", () => {
     const inputDate = "10/19/2022 10:00 AM PDT";
     const expectedDate = "10/19/2022 10:00 AM PDT";
+
+    const result = formatDateTime(inputDate);
+    expect(result).toEqual(expectedDate);
+  });
+});
+
+describe("convertUTCToLocalString", () => {
+  it("Given an ISO date time string, should return the correct formatted date and time in user's local time zone", () => {
+    const inputDate = "2024-06-10T12:00:00Z";
+    const expectedDate = "06/10/2024 8:00 AM EDT";
+
+    const result = convertUTCToLocalString(inputDate);
+    expect(result).toEqual(expectedDate);
+  });
+
+  it("Given a date time in the format of 'MM/DD/YYYY HH:MM AM/PM Z.' , should return the date in the user's local time zone", () => {
+    const inputDate = "06/10/2024 10:00 AM PDT";
+    const expectedDate = "06/10/2024 1:00 PM EDT";
 
     const result = formatDateTime(inputDate);
     expect(result).toEqual(expectedDate);
