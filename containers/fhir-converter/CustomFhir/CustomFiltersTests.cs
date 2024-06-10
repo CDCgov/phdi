@@ -183,4 +183,71 @@ public class CustomFilterTests
         var actual = Filters.GetLoincName(loinc);
         Assert.Null(actual);
     }
+
+    [Fact]
+    public void FindObjectByIdRecursive_ValidId_ReturnsObject()
+    {
+        var text1 = new List<object>(){
+            "Correct return value"
+        };
+        var content1 = new Dictionary<string, object>() {
+            {"ID", "test-id-1"},
+            {"_", text1},
+        };
+        var dict1 = new Dictionary<string, object>() {
+            {"content", content1},
+        };
+        var text2 = new List<object>(){
+            "Incorrect return value"
+        };
+        var content2 = new Dictionary<string, object>() {
+            {"ID", "test-id-2"},
+            {"_", text2},
+        };
+        var dict2 = new Dictionary<string, object>() {
+            {"content", content2},
+        };
+        var data = new List<object>(){
+            dict1, dict2
+        };
+        var actual = Filters.FindObjectById(data, "test-id-1");
+        Assert.Equal(content1, actual);
+    }
+
+    [Fact]
+    public void FindObjectById_NullData_ReturnsNull()
+    {
+        // var data = null;
+        var actual = Filters.FindObjectById(null, "fake-id");
+        Assert.Null(actual);
+    }
+
+    [Fact]
+    public void ConcatStrings_ValidData_ReturnsCorrectString()
+    {
+        var object1 = new List<object>() {
+            "string2", "string1"
+        };
+        var object2 = new List<object>() {
+            new Dictionary<string, object>() {{"key1", "string1"}},
+            new Dictionary<string, object>() {{"key2", "string2"}},
+        };
+        var object3 = new Dictionary<string, object>() {{"key1", "string1"}};
+        
+        var actual1 = Filters.ConcatStrings(object1);
+        Assert.Equal("string1 string2", actual1);
+
+        var actual2 = Filters.ConcatStrings(object2);
+        Assert.Equal("string1 string2", actual2);
+
+        var actual3 = Filters.ConcatStrings(object3);
+        Assert.Equal("string1", actual3);
+    }
+
+   [Fact]
+    public void ConcatStrings_NullData_ReturnsEmptyString()
+    {
+        var actual = Filters.ConcatStrings(null);
+        Assert.Equal("", actual);
+    }
 }

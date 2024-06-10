@@ -163,6 +163,11 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       }
     }
 
+    /// <summary>
+    /// Converts an to an HTML-formatted string.
+    /// </summary>
+    /// <param name="data">The data to convert, which can be of type string, IList, or IDictionary<string, object>.</param>
+    /// <returns>An HTML-formatted string representing the input data.</returns>
     public static string ToHtmlString(object data)
     {
       var stringBuilder = new StringBuilder();
@@ -243,6 +248,124 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       loincDict ??= LoincDictionary();
       loincDict.TryGetValue(loinc, out string? element);
       return element;
+    }
+    
+    /// <summary>
+    /// Searches for an object with a specified ID within a given data structure.
+    /// </summary>
+    /// <param name="data">The data structure to search within, of type IDictionary<string, object>, IList, or JArray.</param>
+    /// <param name="id">The ID (reference value) to search for within the data structure.</param>
+    /// <returns>An IDictionary<string, object> representing the found object with the specified ID, or null if not found.</returns>
+    public static IDictionary<string, object>  FindObjectById(object data, string id)
+    {
+      return FindObjectByIdRecursive(data, id);
+    }
+
+    /// <summary>
+    /// Recursively searches for an object with a specified ID within a given data structure.
+    /// </summary>
+    /// <param name="data">The data structure to search within, of type IDictionary<string, object>, IList, or JArray.</param>
+    /// <param name="id">The ID to search for within the data structure.</param>
+    /// <returns>An IDictionary<string, object> representing the found object with the specified ID, or null if not found.</returns>
+    private static IDictionary<string, object>  FindObjectByIdRecursive(object data, string id)
+    {
+      if (data == null)
+      {
+        return null;
+      }
+
+      if (data is IDictionary<string, object> dict)
+      {
+        if (dict.ContainsKey("ID") && dict["ID"].ToString() == id)
+        {
+          return dict;
+        }
+
+        foreach (var key in dict.Keys)
+        {
+          var found = FindObjectByIdRecursive(dict[key], id);
+          if (found != null)
+          {
+            return found;
+          }
+        }
+      }
+
+      else if (data is JArray array)
+      {
+        foreach (var item in array)
+        {
+          var found = FindObjectByIdRecursive(item, id);
+          if (found != null)
+          {
+            return found;
+          }
+        }
+      }
+      else if (data is IList list)
+      {
+        foreach (var item in list)
+        {
+          var found = FindObjectByIdRecursive(item, id);
+          if (found != null)
+          {
+            return found;
+          }
+        }
+      }
+      return null;
+    }
+
+    /// <summary>
+    /// Concatenates strings from a given input object into a single string.
+    /// </summary>
+    /// <param name="input">The input data to process, which can be of type IList or IDictionary<string, object>.</param>
+    /// <returns>A single concatenated string from the input data, with elements separated by spaces.</returns>
+    /// <remarks> Note that if the input object is a list and all elements are strings, they appear in reverse order. This function reverses the list again so that the output string appears in the correct order.</remarks>
+    public static string ConcatStrings(object input)
+    {
+      if (input == null) return string.Empty;
+
+      if (input is IList list)
+      {
+        // If all elements are strings, reverse the list
+        bool allElementsAreStrings = list.Cast<object>().All(row => row is string);
+        if (allElementsAreStrings)
+        {
+          return string.Join(" ", list.Cast<object>().Reverse().ToList());
+        }
+        else
+        {
+          List<string> result = new List<string>();
+
+          foreach (var item in list)
+          {
+            if (item is IDictionary<string, object> dict)
+            {
+              foreach (var kvp in dict)
+              {
+                result.Add(kvp.Value.ToString());
+              }
+            }
+            else
+            {
+              result.Add(item.ToString());
+            }
+          }
+          return string.Join(" ", result); 
+        }
+      }
+
+      else if (input is IDictionary<string, object> dictObject)
+      {
+        List<string> result = new List<string>();
+        foreach (var kvp in dictObject)
+          {
+            result.Add(kvp.Value.ToString());
+          }
+        return string.Join(" ", result);
+      }
+      return string.Empty;
     }
   }
 }
