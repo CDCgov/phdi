@@ -3,11 +3,15 @@ import re
 
 import pytest
 from app.refine import _add_root_element
+from app.refine import _create_minimal_section
+from app.refine import _create_minimal_sections
 from app.refine import _select_message_header
 from app.refine import refine
 from app.refine import validate_message
 from app.refine import validate_sections_to_include
 from app.utils import _generate_clinical_xpaths
+from app.utils import load_section_loincs
+from app.utils import read_json_from_assets
 from lxml import etree as ET
 
 
@@ -190,3 +194,101 @@ def test_validate_message():
     actual_response, error_message = validate_message(raw_message)
     assert actual_response is None
     assert "XMLSyntaxError" in error_message
+
+
+_, SECTION_DETAILS = load_section_loincs(read_json_from_assets("section_loincs.json"))
+
+
+def test_create_minimal_section():
+    # Test case: Valid section code, not empty
+    section_code = "29762-2"
+    empty_section = False
+    result = _create_minimal_section(section_code, empty_section)
+    assert result is not None
+    assert result.tag == "section"
+    assert result.find("templateId").get("root") == "2.16.840.1.113883.10.20.22.2.17"
+    assert result.find("templateId").get("extension") == "2015-08-01"
+    assert result.find("code").get("code") == section_code
+    assert result.find("code").get("displayName") == "Social History"
+    assert result.find("title").text == "Social History"
+    assert "nullFlavor" not in result.attrib
+    assert (
+        "Only entries that match the corresponding condition code were included"
+        in result.find("text").text
+    )
+
+    # Test case: Valid section code, empty
+    empty_section = True
+    result = _create_minimal_section(section_code, empty_section)
+    assert result is not None
+    assert result.tag == "section"
+    assert result.get("nullFlavor") == "NI"
+    assert (
+        "Removed via PRIME DIBBs Message Refiner API endpoint"
+        in result.find("text").text
+    )
+
+    # Test case: Invalid section code
+    section_code = "invalid-code"
+    result = _create_minimal_section(section_code, empty_section)
+    assert result is None
+
+
+def test_create_minimal_sections():
+    # Test case: No sections to include or conditions
+    result = _create_minimal_sections()
+    assert len(result) == len(SECTION_DETAILS)  # all minimal
+    assert all([section.tag == "section" for section in result])
+    assert all([section.get("nullFlavor") == "NI" for section in result])
+
+    # Test case: Sections to include
+    sections_to_include = ["29762-2"]
+    result = _create_minimal_sections(sections_to_include=sections_to_include)
+    expected_length = len(SECTION_DETAILS) - len(sections_to_include)
+    assert len(result) == expected_length  # Excluded section should be minimal
+
+    # Check that excluded sections are in the result
+    excluded_sections = set(SECTION_DETAILS.keys()) - set(sections_to_include)
+    assert all(
+        [section.find("code").get("code") in excluded_sections for section in result]
+    )
+
+    # Test case: Sections with conditions
+    sections_with_conditions = ["30954-2"]
+    result = _create_minimal_sections(sections_with_conditions=sections_with_conditions)
+    expected_length = len(SECTION_DETAILS) - len(sections_with_conditions)
+    assert len(result) == expected_length  # Excluded section should be minimal
+
+    # Check that excluded sections are in the result
+    excluded_sections = set(SECTION_DETAILS.keys()) - set(sections_with_conditions)
+    assert all(
+        [section.find("code").get("code") in excluded_sections for section in result]
+    )
+
+    # Test case: Sections to include and sections with conditions
+    sections_to_include = ["29762-2"]
+    sections_with_conditions = ["30954-2"]
+    result = _create_minimal_sections(
+        sections_to_include=sections_to_include,
+        sections_with_conditions=sections_with_conditions,
+    )
+    expected_length = (
+        len(SECTION_DETAILS) - len(sections_to_include) - len(sections_with_conditions)
+    )
+    assert len(result) == expected_length  # Excluded sections should be minimal
+
+    # Check that excluded sections are in the result
+    excluded_sections = (
+        set(SECTION_DETAILS.keys())
+        - set(sections_to_include)
+        - set(sections_with_conditions)
+    )
+    assert all(
+        [section.find("code").get("code") in excluded_sections for section in result]
+    )
+
+    # Test case: Empty sections
+    result = _create_minimal_sections(empty_section=False)
+    assert len(result) == len(SECTION_DETAILS)  # Should create minimal sections for all
+    assert all([section.tag == "section" for section in result])
+    assert all(["nullFlavor" not in section.attrib for section in result])
