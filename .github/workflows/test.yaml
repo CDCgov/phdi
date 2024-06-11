@@ -170,6 +170,9 @@ jobs:
         with:
           files: ./containers/${{matrix.container-to-test}}/coverage.xml
           flags: unit-tests
+          name: ${{matrix.container-to-test}}-coverage
+          fail_ci_if_error: true
+          verbose: true
   integration-test-python-containers:
     needs: list-containers
     runs-on: ubuntu-latest
