@@ -28,6 +28,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Remove symlinks (if needed)
+        if: ${{ matrix.container-to-build == 'ecr-viewer' }}
+        working-directory: ./containers/${{matrix.container-to-build}}/src/app/shared
+        run: rm -rf ./*
+
+      - name: Copy shared-resources (if needed)
+        if: ${{ matrix.container-to-build == 'ecr-viewer' }}
+        working-directory: ./containers/${{matrix.container-to-build}}
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/
+
       - name: Target branch in requirements.txt
         working-directory: ./containers/${{matrix.container-to-build}}
         run: |
