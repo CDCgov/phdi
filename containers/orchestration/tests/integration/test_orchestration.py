@@ -9,6 +9,19 @@ from app.config import get_settings
 from app.main import app
 from lxml import etree
 from starlette.testclient import TestClient
+import psycopg2
+
+
+def clean_up_db():
+    connection_string = os.environ.get("DATABASE_URL").replace("@db", "@localhost")
+    dbconn = psycopg2.connect(connection_string)
+    cursor = dbconn.cursor()
+    # Drop data in db to ensure idempotency
+    cursor.execute("DELETE from fhir;")
+    dbconn.commit()
+    cursor.close()
+    dbconn.close()
+
 
 get_settings()
 
@@ -153,6 +166,7 @@ def test_success_save_to_ecr_viewer(setup):
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
     """
+    clean_up_db()
     with open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -163,13 +177,16 @@ def test_success_save_to_ecr_viewer(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
+            "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
             PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
         )
+
         assert orchestration_response.status_code == 200
+    clean_up_db()
 
 
 @pytest.mark.integration
