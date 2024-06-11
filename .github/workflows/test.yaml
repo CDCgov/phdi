@@ -137,8 +137,8 @@ jobs:
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
-      - name: Install Pytest
-        run: pip install pytest
+      - name: Install Pytest and Pytest-Cov
+        run: pip install pytest pytest-cov
       - name: Install dependencies
         working-directory: ./containers/${{matrix.container-to-test}}
         run: |
@@ -152,7 +152,7 @@ jobs:
           if [ -f dev-requirements.txt ]; then
             pip install -r dev-requirements.txt
           fi
-      - name: Run unit tests for containers
+      - name: Run unit tests for containers with coverage
         env:
           MPI_DBNAME: testdb
           MPI_PASSWORD: pw
@@ -164,7 +164,12 @@ jobs:
           MPI_PERSON_TABLE: person
         working-directory: ./containers/${{matrix.container-to-test}}
         run: |
-          python -m pytest -m "not integration"
+          pytest --cov-report xml --cov=${{matrix.container-to-test}} -m "not integration" tests/
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./containers/${{matrix.container-to-test}}/coverage.xml
+          flags: unit-tests
   integration-test-python-containers:
     needs: list-containers
     runs-on: ubuntu-latest
