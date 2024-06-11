@@ -7,9 +7,7 @@ import EncounterDetails from "./Encounter";
 import ClinicalInfo from "./ClinicalInfo";
 import { Bundle } from "fhir/r4";
 import React, { ReactNode } from "react";
-import { Accordion } from "@trussworks/react-uswds";
 import LabInfo from "@/app/view-data/components/LabInfo";
-import { formatString } from "@/app/services/formatService";
 import { evaluateEcrMetadata } from "../../services/ecrMetadataService";
 import { evaluateLabInfoData } from "@/app/services/labsService";
 import {
@@ -19,6 +17,7 @@ import {
   evaluateProviderData,
 } from "@/app/services/evaluateFhirDataService";
 import { evaluateClinicalData } from "./common";
+import AccordionContainer from "@/app/shared/src/accordion/AccordionContainer";
 
 type AccordionContainerProps = {
   children?: ReactNode;
@@ -33,7 +32,7 @@ type AccordionContainerProps = {
  * @param props.fhirPathMappings - The path mappings used to extract information from the FHIR bundle.
  * @returns The JSX element representing the accordion container.
  */
-const AccordionContainer: React.FC<AccordionContainerProps> = ({
+const AccordionContent: React.FC<AccordionContainerProps> = ({
   fhirBundle,
   fhirPathMappings,
 }) => {
@@ -142,20 +141,6 @@ const AccordionContainer: React.FC<AccordionContainerProps> = ({
     },
   ];
 
-  //Add id, adjust title
-  accordionItems.forEach((item, index) => {
-    let formattedTitle = formatString(item["title"]);
-    item["id"] = `${formattedTitle}_${index + 1}`;
-    item["title"] = <span id={formattedTitle}>{item["title"]}</span>;
-    accordionItems[index] = item;
-  });
-
-  return (
-    <Accordion
-      className="info-container"
-      items={accordionItems}
-      multiselectable={true}
-    />
-  );
+  return <AccordionContainer accordionItems={accordionItems} />;
 };
-export default AccordionContainer;
+export default AccordionContent;
