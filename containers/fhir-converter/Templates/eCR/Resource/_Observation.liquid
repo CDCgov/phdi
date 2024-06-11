@@ -74,7 +74,20 @@
                 {% endif -%}
             },
         {% else -%}
-            "valueString":"{{ observationEntry.value._ }}",
+            {% if observationEntry.value._ %}
+                "valueString":"{{ observationEntry.value._ }}",
+            {% else %}
+                {% assign obsRefVal = observationEntry.value.reference.value | replace: '#', '' -%}
+                {% assign valueStringObject = text | find_object_by_id: obsRefVal -%}
+                {% if valueStringObject != null %}
+                        {% if valueStringObject._ != null %}
+                            {% assign valueString = valueStringObject._ | concat_strings %}
+                        {% elsif valueStringObject.content != null %}
+                            {% assign valueString = valueStringObject.content | concat_strings %}
+                        {% endif %}
+                    "valueString": "{{ valueString }}",
+                {% endif %}
+            {% endif %}
         {% endif -%}
         "referenceRange":
         [
