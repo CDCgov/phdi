@@ -77,6 +77,9 @@ h4 {
   border-radius: .25rem;
   overflow: hidden;
   margin-top: 1rem;
+  &:focus-within{
+    border: #2491ff .25rem solid;
+  }
   .usa-accordion__button {
     @include u-text('ink');
     font-size: 1.125rem;
