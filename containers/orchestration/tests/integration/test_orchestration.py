@@ -114,7 +114,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
-            PROCESS_ENDPOINT, data=form_data, files=files
+            PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
