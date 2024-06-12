@@ -1,7 +1,10 @@
 import json
 import os
+import time
 
 import requests
+
+time.sleep(5)
 
 URL = "http://orchestration-service:8080"
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
@@ -27,6 +30,7 @@ def convert_files():
 
     :return: A list of fhir bundles
     """
+    print("Converting files...")
     fhir_bundles = []
     for folder in os.listdir(os.path.join(BASEDIR, "baseECR")):
         folder_path = os.path.join(BASEDIR, "baseECR", folder)
@@ -39,11 +43,10 @@ def convert_files():
                     "message_type": "ecr",
                     "data_type": "ecr",
                     "config_file_name": "seed-ecr-viewer-config.json",
-                    "message": {
-                        "eICR": eicr_file.read(),
-                        "RR": rr_file.read(),
-                    },
+                    "message": eicr_file.read(),
+                    "RR": rr_file.read(),
                 }
+
                 print(f"{URL}/process-message")
                 response = requests.post(f"{URL}/process-message", json=payload)
                 print(response.text)

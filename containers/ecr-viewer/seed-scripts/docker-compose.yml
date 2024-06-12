@@ -4,25 +4,19 @@ services:
     build:
       context: ../../orchestration/
     depends_on:
-      - validation-service
       - fhir-converter-service
       - ingestion-service
-      - message-parser-service
     ports:
       - "8080:8080"
     logging:
       driver: "json-file"
     env_file:
       - ../../orchestration/.env
-
-  validation-service:
-    platform: linux/amd64
-    build:
-      context: ../../validation
-    ports:
-      - "8081:8080"
-    logging:
-      driver: "json-file"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://fhir-converter-service:8080/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   fhir-converter-service:
     build:
@@ -41,20 +35,11 @@ services:
     environment:
       SMARTY_AUTH_ID: ${SMARTY_AUTH_ID}
       SMARTY_AUTH_TOKEN: ${SMARTY_AUTH_TOKEN}
-
-  message-parser-service:
-    platform: linux/amd64
-    build:
-      context: ../../message-parser
-    ports:
-      - "8084:8080"
-    logging:
-      driver: "json-file"
-
   convert-data:
     build: .
     depends_on:
-      - orchestration-service
+      orchestration-service:
+        condition: service_healthy
     ports:
       - "8085:8080"
     volumes:

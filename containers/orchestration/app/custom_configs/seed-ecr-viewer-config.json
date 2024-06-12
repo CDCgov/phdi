@@ -1,13 +1,6 @@
 {
   "workflow": [
     {
-      "service": "validation",
-      "endpoint": "/validate",
-      "params": {
-        "include_error_types": "error"
-      }
-    },
-    {
       "service": "fhir_converter",
       "endpoint": "/convert-to-fhir"
     },
@@ -25,15 +18,6 @@
     {
       "service": "ingestion",
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
-    },
-    {
-      "service": "message_parser",
-      "endpoint": "/parse_message",
-      "params": {
-        "message_format": "fhir",
-        "parsing_schema_name": "ecr.json",
-        "credential_manager": "azure"
-      }
     }
   ]
 }
