@@ -164,11 +164,11 @@ jobs:
           MPI_PERSON_TABLE: person
         working-directory: ./containers/${{matrix.container-to-test}}
         run: |
-          pytest --cov-report xml --cov=phdi -m "not integration" tests/
+          pytest --cov-report xml --cov=. -m "not integration" tests/
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          flags: unit-tests
+          flags: ${{matrix.container-to-test}}
   integration-test-python-containers:
     needs: list-containers
     runs-on: ubuntu-latest
