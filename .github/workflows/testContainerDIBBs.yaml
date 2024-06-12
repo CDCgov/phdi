@@ -35,7 +35,7 @@ jobs:
       - name: Install Pytest
         run: pip install pytest
       - name: Install dependencies
-        working-directory: ./containers/dibbs/${{matrix.container-to-test}}
+        working-directory: ./containers/dibbs
         run: |
           pip install .
           pip install -r requirements.txt
