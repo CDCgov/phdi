@@ -23,7 +23,7 @@ DIBBS_CONTACT = {
     "email": "dibbs@cdc.gov",
 }
 
-print()
+print("test")
 STATUS_OK = {"status": "OK"}
 
 
