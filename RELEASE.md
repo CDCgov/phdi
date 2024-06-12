@@ -48,7 +48,7 @@ Any time a new release needs to go out, you should check with the broader team t
 Once the new version number is defined and all desired functionality is merged into the `main` branch of the github repository, you can safely begin executing the release process. First, create a new branch off of `main` called `release-MAJOR.MINOR.PATCH` (replace each of the SemVer components with the appropriate number in the new release version).
 
 ### Update Versioning Files
-On the release branch, navigate to the `phdi/__init__.py` file. Replace the version numebr there with the new release's version number. Then, navigate to the `pyproject.toml` file and do the same thing with the `version` keyword on line 3.
+On the release branch, navigate to the `phdi/__init__.py` file. Replace the version number there with the new release's version number. Then, navigate to the `pyproject.toml` file and do the same thing with the `version` keyword on line 3.
 
 ### Open Pull Request
 Commit the versioning changes to the branch, then open a new Pull Request for the release. This PR *must* be titled **[RELEASE]-MAJOR.MINOR.PATCH**, including the brackets around "RELEASE" (for example, `[RELEASE]-1.4.4` is a valid PR title, but `RELEASE-1.2.5` is not). Once this PR is approved, you can safely merge it using the merge queue.
