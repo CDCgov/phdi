@@ -39,9 +39,9 @@ services:
   convert-data:
     build: .
     depends_on:
-      orchestration-service:
-        condition: service_healthy
-      # - orchestration-service
+      # orchestration-service:
+      #   condition: service_healthy
+      - orchestration-service
     ports:
       - "8081:8081"
     volumes:

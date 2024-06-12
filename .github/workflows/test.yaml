@@ -211,6 +211,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18 # Adjust the Node.js version as needed
+      - name: Remove symlinks
+        working-directory: ./containers/ecr-viewer/src/app/shared
+        run: rm -rf ./*
+      - name: Copy shared-resources
+        working-directory: ./containers/ecr-viewer
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/
       - name: Install dependencies
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm install
@@ -240,6 +246,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18 # Adjust the Node.js version as needed
+      - name: Remove symlinks
+        working-directory: ./containers/ecr-viewer/src/app/shared
+        run: rm -rf ./*
+      - name: Copy shared-resources
+        working-directory: ./containers/ecr-viewer
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/
       - name: Install dependencies
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm install

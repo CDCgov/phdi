@@ -53,5 +53,7 @@
             {% endif -%}
         {% endif -%}
     {% endfor-%}   
-    {{ comps | batch_render: 'Entry/Result/entry_organizer_component', 'component' }}
+    {% for component in comps %}
+        {% include 'Entry/Result/entry_organizer_component' with component, text: text %}
+    {% endfor %}
 {% endif -%}
