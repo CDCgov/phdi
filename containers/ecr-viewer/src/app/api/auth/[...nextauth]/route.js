@@ -10,7 +10,7 @@ const handler = NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async redirect({ url, baseUrl }) {
+    async redirect({ baseUrl }) {
       // Ensure you are redirecting to the right baseUrl
       return baseUrl;
     },

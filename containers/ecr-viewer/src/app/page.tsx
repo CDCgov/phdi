@@ -1,6 +1,7 @@
 import React from "react";
 import ListECRViewer from "@/app/ListEcrViewer";
 import { listEcrData } from "@/app/api/services/listEcrDataService";
+import { getServerSession } from "next-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +11,8 @@ export const dynamic = "force-dynamic";
  */
 const HomePage: React.FC = async () => {
   const listFhirData = await listEcrData();
+  const serverSession = await getServerSession();
+  console.log(serverSession?.user?.email);
 
   return (
     <main>
