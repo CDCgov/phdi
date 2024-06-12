@@ -5,6 +5,8 @@ on:
   pull_request:
     branches:
       - "**"
+    paths:
+      - containers/dibbs/**
   merge_group:
     types:
       - checks_requested
