@@ -6,7 +6,7 @@ on:
     branches:
       - "**"
     paths:
-      - containers/${{env.CONTAINER}}/**
+      - containers/ingestion/**
   merge_group:
     types:
       - checks_requested

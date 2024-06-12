@@ -6,7 +6,7 @@ on:
     branches:
       - "**"
     paths:
-      - containers/${{env.CONTAINER}}/**
+      - containers/ecr-viewer/**
   merge_group:
     types:
       - checks_requested
