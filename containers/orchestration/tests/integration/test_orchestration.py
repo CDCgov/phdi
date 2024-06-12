@@ -4,12 +4,12 @@ from pathlib import Path
 from unittest.mock import patch
 
 import httpx
+import psycopg2
 import pytest
 from app.config import get_settings
 from app.main import app
 from lxml import etree
 from starlette.testclient import TestClient
-import psycopg2
 
 
 @pytest.fixture
@@ -183,7 +183,6 @@ def test_success_save_to_ecr_viewer(setup, clean_up_db):
             "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
         }
-        print(file)
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
             PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
