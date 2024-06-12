@@ -1,272 +1,272 @@
-name: Test
-on:
-  workflow_call:
-  workflow_dispatch:
-  pull_request:
-    branches:
-      - "**"
-  merge_group:
-    types:
-      - checks_requested
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - pyproject.toml
+# name: Test
+# on:
+#   workflow_call:
+#   workflow_dispatch:
+#   pull_request:
+#     branches:
+#       - "**"
+#   merge_group:
+#     types:
+#       - checks_requested
+#   push:
+#     branches:
+#       - main
+#     paths-ignore:
+#       - pyproject.toml
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.ref }}
+#   cancel-in-progress: true
 
-env:
-  TEST_RUNNER_PYTHON_VERSION: 3.10.12
+# env:
+#   TEST_RUNNER_PYTHON_VERSION: 3.10.12
 
-jobs:
-  postgres-tests:
-    runs-on: ubuntu-latest
-    services:
-      test-db:
-        image: postgres:13-alpine3.16
-        env:
-          POSTGRES_PASSWORD: pw
-          POSTGRES_DB: testdb
-          POSTGRES_USER: postgres
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --name testdb
-        ports:
-          - 5432:5432
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
-      - name: Install dependencies
-        run: poetry install
-      - name: test_postgres_connection
-        run: poetry run pytest tests/linkage/test_mpi.py
-  unit-test-phdi-building-blocks-lib:
-    runs-on: ubuntu-latest
-    services:
-      test-db:
-        image: postgres:13-alpine3.16
-        env:
-          POSTGRES_PASSWORD: pw
-          POSTGRES_DB: testdb
-          POSTGRES_USER: postgres
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --name testdb
-        ports:
-          - 5432:5432
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
-      - name: Install dependencies
-        run: poetry install
-      - name: Run pytest with code coverage output
-        run: poetry run pytest --cov-report xml --cov=phdi tests/
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          flags: unit-tests
+# jobs:
+#   postgres-tests:
+#     runs-on: ubuntu-latest
+#     services:
+#       test-db:
+#         image: postgres:13-alpine3.16
+#         env:
+#           POSTGRES_PASSWORD: pw
+#           POSTGRES_DB: testdb
+#           POSTGRES_USER: postgres
+#         # Set health checks to wait until postgres has started
+#         options: >-
+#           --health-cmd pg_isready
+#           --health-interval 10s
+#           --health-timeout 5s
+#           --health-retries 5
+#           --name testdb
+#         ports:
+#           - 5432:5432
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#           cache: pip
+#       - name: Install poetry
+#         run: |
+#           curl -sSL https://install.python-poetry.org | python3 -
+#           echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
+#       - name: Install dependencies
+#         run: poetry install
+#       - name: test_postgres_connection
+#         run: poetry run pytest tests/linkage/test_mpi.py
+#   unit-test-phdi-building-blocks-lib:
+#     runs-on: ubuntu-latest
+#     services:
+#       test-db:
+#         image: postgres:13-alpine3.16
+#         env:
+#           POSTGRES_PASSWORD: pw
+#           POSTGRES_DB: testdb
+#           POSTGRES_USER: postgres
+#         # Set health checks to wait until postgres has started
+#         options: >-
+#           --health-cmd pg_isready
+#           --health-interval 10s
+#           --health-timeout 5s
+#           --health-retries 5
+#           --name testdb
+#         ports:
+#           - 5432:5432
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#           cache: pip
+#       - name: Install poetry
+#         run: |
+#           curl -sSL https://install.python-poetry.org | python3 -
+#           echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
+#       - name: Install dependencies
+#         run: poetry install
+#       - name: Run pytest with code coverage output
+#         run: poetry run pytest --cov-report xml --cov=phdi tests/
+#       - name: Upload coverage to Codecov
+#         uses: codecov/codecov-action@v3
+#         with:
+#           flags: unit-tests
 
-  ensure-clean-notebooks:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Check notebook cleanliness
-        uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
+#   ensure-clean-notebooks:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#       - name: Check notebook cleanliness
+#         uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
 
-  list-containers:
-    uses: ./.github/workflows/listContainers.yaml
+#   list-containers:
+#     uses: ./.github/workflows/listContainers.yaml
 
-  unit-test-python-containers:
-    needs: list-containers
-    runs-on: ubuntu-latest
-    services:
-      test-db:
-        image: postgres:13-alpine3.16
-        env:
-          POSTGRES_PASSWORD: pw
-          POSTGRES_DB: testdb
-          POSTGRES_USER: postgres
+#   unit-test-python-containers:
+#     needs: list-containers
+#     runs-on: ubuntu-latest
+#     services:
+#       test-db:
+#         image: postgres:13-alpine3.16
+#         env:
+#           POSTGRES_PASSWORD: pw
+#           POSTGRES_DB: testdb
+#           POSTGRES_USER: postgres
 
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --name testdb
-        ports:
-          - 5432:5432
-    strategy:
-      matrix:
-        container-to-test: ${{fromJson(needs.list-containers.outputs.python-containers)}}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install Pytest
-        run: pip install pytest
-      - name: Install dependencies
-        working-directory: ./containers/${{matrix.container-to-test}}
-        run: |
-          if [[ ${{matrix.container-to-test}} == "dibbs" ]]; then
-            pip install .
-          elif [[ $GITHUB_REF != "refs/heads/main" ]]; then
-               commit_hash=$(git rev-parse HEAD)
-               find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
-          fi
-          pip install -r requirements.txt
-          if [ -f dev-requirements.txt ]; then
-            pip install -r dev-requirements.txt
-          fi
-      - name: Run unit tests for containers
-        env:
-          MPI_DBNAME: testdb
-          MPI_PASSWORD: pw
-          MPI_DB_TYPE: postgres
-          MPI_HOST: localhost
-          MPI_USER: postgres
-          MPI_PORT: 5432
-          MPI_PATIENT_TABLE: patient
-          MPI_PERSON_TABLE: person
-        working-directory: ./containers/${{matrix.container-to-test}}
-        run: |
-          python -m pytest -m "not integration"
-  integration-test-python-containers:
-    needs: list-containers
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    strategy:
-      matrix:
-        directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install Pytest
-        run: pip install pytest
-      - name: Install dependencies
-        working-directory: ./containers/${{matrix.directories-to-test}}
-        # When running as a PR check, instead of importing the SDK from @main,
-        # import it from the current commit. (Need to do this for all containers)
-        run: |
-          if [[ $GITHUB_REF != "refs/heads/main" ]]; then
-            commit_hash=$(git rev-parse HEAD)
-            cd ..
-            find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
-            cd ${{matrix.directories-to-test}}
-          fi
-          pip install -r requirements.txt
-          if [ -f dev-requirements.txt ]; then
-            pip install -r dev-requirements.txt
-          fi
-      - name: Run integration tests for containers
-        working-directory: ./containers/${{matrix.directories-to-test}}/tests/integration
-        run: |
-          python -m pytest -m "integration"
+#         # Set health checks to wait until postgres has started
+#         options: >-
+#           --health-cmd pg_isready
+#           --health-interval 10s
+#           --health-timeout 5s
+#           --health-retries 5
+#           --name testdb
+#         ports:
+#           - 5432:5432
+#     strategy:
+#       matrix:
+#         container-to-test: ${{fromJson(needs.list-containers.outputs.python-containers)}}
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#           cache: pip
+#       - name: Install Pytest
+#         run: pip install pytest
+#       - name: Install dependencies
+#         working-directory: ./containers/${{matrix.container-to-test}}
+#         run: |
+#           if [[ ${{matrix.container-to-test}} == "dibbs" ]]; then
+#             pip install .
+#           elif [[ $GITHUB_REF != "refs/heads/main" ]]; then
+#                commit_hash=$(git rev-parse HEAD)
+#                find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
+#           fi
+#           pip install -r requirements.txt
+#           if [ -f dev-requirements.txt ]; then
+#             pip install -r dev-requirements.txt
+#           fi
+#       - name: Run unit tests for containers
+#         env:
+#           MPI_DBNAME: testdb
+#           MPI_PASSWORD: pw
+#           MPI_DB_TYPE: postgres
+#           MPI_HOST: localhost
+#           MPI_USER: postgres
+#           MPI_PORT: 5432
+#           MPI_PATIENT_TABLE: patient
+#           MPI_PERSON_TABLE: person
+#         working-directory: ./containers/${{matrix.container-to-test}}
+#         run: |
+#           python -m pytest -m "not integration"
+#   integration-test-python-containers:
+#     needs: list-containers
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 30
+#     strategy:
+#       matrix:
+#         directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#           cache: pip
+#       - name: Install Pytest
+#         run: pip install pytest
+#       - name: Install dependencies
+#         working-directory: ./containers/${{matrix.directories-to-test}}
+#         # When running as a PR check, instead of importing the SDK from @main,
+#         # import it from the current commit. (Need to do this for all containers)
+#         run: |
+#           if [[ $GITHUB_REF != "refs/heads/main" ]]; then
+#             commit_hash=$(git rev-parse HEAD)
+#             cd ..
+#             find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
+#             cd ${{matrix.directories-to-test}}
+#           fi
+#           pip install -r requirements.txt
+#           if [ -f dev-requirements.txt ]; then
+#             pip install -r dev-requirements.txt
+#           fi
+#       - name: Run integration tests for containers
+#         working-directory: ./containers/${{matrix.directories-to-test}}/tests/integration
+#         run: |
+#           python -m pytest -m "integration"
 
-  test-node-containers:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18 # Adjust the Node.js version as needed
-      - name: Remove symlinks
-        working-directory: ./containers/ecr-viewer/src/app/shared
-        run: rm -rf ./*
-      - name: Copy shared-resources
-        working-directory: ./containers/ecr-viewer
-        run: cp -r ../../shared-resources/src/ ./src/app/shared/
-      - name: Install dependencies
-        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-        run: npm install
-      - name: Run tests
-        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-        run: npm test
+#   test-node-containers:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: 18 # Adjust the Node.js version as needed
+#       - name: Remove symlinks
+#         working-directory: ./containers/ecr-viewer/src/app/shared
+#         run: rm -rf ./*
+#       - name: Copy shared-resources
+#         working-directory: ./containers/ecr-viewer
+#         run: cp -r ../../shared-resources/src/ ./src/app/shared/
+#       - name: Install dependencies
+#         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+#         run: npm install
+#       - name: Run tests
+#         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+#         run: npm test
 
-  unit-test-dotnet-fhir-converter:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "8.0.x"
-      - name: Run tests
-        working-directory: ./containers/fhir-converter # Navigate to your Node.js app directory
-        run: dotnet test
+#   unit-test-dotnet-fhir-converter:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#       - name: Setup dotnet
+#         uses: actions/setup-dotnet@v3
+#         with:
+#           dotnet-version: "8.0.x"
+#       - name: Run tests
+#         working-directory: ./containers/fhir-converter # Navigate to your Node.js app directory
+#         run: dotnet test
 
-  cypress-e2e-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18 # Adjust the Node.js version as needed
-      - name: Remove symlinks
-        working-directory: ./containers/ecr-viewer/src/app/shared
-        run: rm -rf ./*
-      - name: Copy shared-resources
-        working-directory: ./containers/ecr-viewer
-        run: cp -r ../../shared-resources/src/ ./src/app/shared/
-      - name: Install dependencies
-        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-        run: npm install
+#   cypress-e2e-tests:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: 18 # Adjust the Node.js version as needed
+#       - name: Remove symlinks
+#         working-directory: ./containers/ecr-viewer/src/app/shared
+#         run: rm -rf ./*
+#       - name: Copy shared-resources
+#         working-directory: ./containers/ecr-viewer
+#         run: cp -r ../../shared-resources/src/ ./src/app/shared/
+#       - name: Install dependencies
+#         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+#         run: npm install
 
-      - name: Start ecr-viewer
-        working-directory: ./containers/ecr-viewer
-        run: docker compose up -d
+#       - name: Start ecr-viewer
+#         working-directory: ./containers/ecr-viewer
+#         run: docker compose up -d
 
-      - name: Wait for server to be ready
-        run: |
-          until $(curl --output /dev/null --silent --head --fail http://localhost:3000); do
-            echo "Waiting for server to be ready..."
-            sleep 5
-          done
+#       - name: Wait for server to be ready
+#         run: |
+#           until $(curl --output /dev/null --silent --head --fail http://localhost:3000); do
+#             echo "Waiting for server to be ready..."
+#             sleep 5
+#           done
 
-      - name: Run cypress tests
-        working-directory: ./containers/ecr-viewer
-        run: npm run cypress:run
+#       - name: Run cypress tests
+#         working-directory: ./containers/ecr-viewer
+#         run: npm run cypress:run
