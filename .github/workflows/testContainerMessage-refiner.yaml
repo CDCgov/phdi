@@ -1,7 +1,4 @@
 name: Test message-refiner Container
-env:
-  TEST_RUNNER_PYTHON_VERSION: 3.10.12
-  CONTAINER: message-refiner
 on:
   workflow_call:
   workflow_dispatch:
@@ -9,7 +6,7 @@ on:
     branches:
       - "**"
     paths:
-      - containers/${{env.CONTAINER}}/**
+      - containers/message-refiner/**
   merge_group:
     types:
       - checks_requested
@@ -22,6 +19,10 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+env:
+  TEST_RUNNER_PYTHON_VERSION: 3.10.12
+  CONTAINER: message-refiner
 
 jobs:
   unit-test-python-containers:
