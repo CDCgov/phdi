@@ -41,6 +41,6 @@ services:
       orchestration-service:
         condition: service_healthy
     ports:
-      - "8085:8080"
+      - "8081:8081"
     volumes:
       - ./sql:/code/sql
