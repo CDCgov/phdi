@@ -1,10 +1,7 @@
 import json
 import os
-import time
 
 import requests
-
-time.sleep(5)
 
 URL = "http://orchestration-service:8080"
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
@@ -44,7 +41,7 @@ def convert_files():
                     "data_type": "ecr",
                     "config_file_name": "seed-ecr-viewer-config.json",
                     "message": eicr_file.read(),
-                    "RR": rr_file.read(),
+                    "rr_data": rr_file.read(),
                 }
 
                 print(f"{URL}/process-message")
