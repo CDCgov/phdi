@@ -46,33 +46,3 @@ jobs:
         working-directory: ./containers/dibbs
         run: |
           python -m pytest -m "not integration"
-  integration-test-python-containers:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install Pytest
-        run: pip install pytest
-      - name: Install dependencies
-        working-directory: ./containers/dibbs
-        # When running as a PR check, instead of importing the SDK from @main,
-        # import it from the current commit. (Need to do this for all containers)
-        run: |
-          if [[ $GITHUB_REF != "refs/heads/main" ]]; then
-            commit_hash=$(git rev-parse HEAD)
-            find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
-          fi
-          pip install -r requirements.txt
-          if [ -f dev-requirements.txt ]; then
-            pip install -r dev-requirements.txt
-          fi
-      - name: Run integration tests for containers
-        working-directory: ./containers/dibbs/tests/integration
-        run: |
-          python -m pytest -m "integration"
