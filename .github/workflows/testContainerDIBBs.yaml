@@ -72,6 +72,7 @@ jobs:
         if: env.exists == 'true'
         run: pip install pytest
       - name: Install dependencies
+        if: env.exists == 'true'
         working-directory: ./containers/${{env.CONTAINER}}
         # When running as a PR check, instead of importing the SDK from @main,
         # import it from the current commit. (Need to do this for all containers)
