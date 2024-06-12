@@ -1,19 +1,47 @@
 services:
+  orchestration-service:
+    platform: linux/amd64
+    build:
+      context: ../../orchestration/
+    depends_on:
+      - fhir-converter-service
+      - ingestion-service
+    ports:
+      - "8080:8080"
+    logging:
+      driver: "json-file"
+    env_file:
+      - ../../orchestration/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://orchestration-service:8080/"]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+
   fhir-converter-service:
     build:
       context: ../../fhir-converter/
     ports:
-      - "8080:8080"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://fhir-converter-service:8080/"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - "8082:8080"
+
+  ingestion-service:
+    platform: linux/amd64
+    build:
+      context: ../../ingestion
+    ports:
+      - "8083:8080"
+    logging:
+      driver: "json-file"
+    environment:
+      SMARTY_AUTH_ID: ${SMARTY_AUTH_ID}
+      SMARTY_AUTH_TOKEN: ${SMARTY_AUTH_TOKEN}
+
   convert-data:
     build: .
     depends_on:
-      fhir-converter-service:
-        condition: service_healthy
+      # orchestration-service:
+      #   condition: service_healthy
+      - orchestration-service
     ports:
       - "8081:8081"
     volumes:

@@ -4,11 +4,28 @@ from pathlib import Path
 from unittest.mock import patch
 
 import httpx
+import psycopg2
 import pytest
 from app.config import get_settings
 from app.main import app
 from lxml import etree
 from starlette.testclient import TestClient
+
+
+@pytest.fixture
+def clean_up_db():
+    """
+    Removes the test data that is inserted during testing to ensure idempotency.
+    """
+    connection_string = os.environ.get("DATABASE_URL").replace("@db", "@localhost")
+    dbconn = psycopg2.connect(connection_string)
+    cursor = dbconn.cursor()
+    query = "DELETE FROM fhir;"
+    cursor.execute(query)
+    dbconn.commit()
+    cursor.close()
+    dbconn.close()
+
 
 get_settings()
 
@@ -45,7 +62,7 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
-def test_process_message_endpoint(setup):
+def test_process_message_endpoint(setup, clean_up_db):
     """
     Tests a basic scenario of accepting an eCR message in XML format and
     applying a full validation through parsing workflow.
@@ -63,7 +80,7 @@ def test_process_message_endpoint(setup):
 
 
 @pytest.mark.integration
-def test_process_endpoint_with_zip(setup):
+def test_process_endpoint_with_zip(setup, clean_up_db):
     """
     Tests full orchestration functionality of an eCR file, but this time,
     the file is zipped rather than raw string.
@@ -85,7 +102,7 @@ def test_process_endpoint_with_zip(setup):
 
 
 @pytest.mark.integration
-def test_process_endpoint_with_zip_and_rr_data(setup):
+def test_process_endpoint_with_zip_and_rr_data(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
@@ -108,7 +125,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
 
 
 @pytest.mark.integration
-def test_failed_save_to_ecr_viewer(setup):
+def test_failed_save_to_ecr_viewer(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
@@ -130,7 +147,7 @@ def test_failed_save_to_ecr_viewer(setup):
 
 
 @pytest.mark.integration
-def test_success_save_to_ecr_viewer(setup):
+def test_success_save_to_ecr_viewer(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
@@ -141,12 +158,14 @@ def test_success_save_to_ecr_viewer(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
+            "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
             PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
         )
+
         assert orchestration_response.status_code == 200
 
 
