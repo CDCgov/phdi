@@ -47,7 +47,6 @@ jobs:
         run: |
           python -m pytest -m "not integration"
   integration-test-python-containers:
-    needs: list-containers
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
