@@ -18,7 +18,6 @@ from app.refine import validate_sections_to_include
 from app.utils import create_clinical_xpaths
 from app.utils import read_json_from_assets
 
-
 settings = get_settings()
 TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets?condition_code="
 
