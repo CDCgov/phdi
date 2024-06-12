@@ -183,7 +183,6 @@ def test_success_save_to_ecr_viewer(setup, clean_up_db):
             "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
         }
-        print(file)
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
             PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
