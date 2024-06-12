@@ -49,7 +49,7 @@ def convert_files():
                 print(response.text)
                 if response.status_code == 200:
                     resp_json = response.json()
-                    fhir_bundles.append(resp_json["response"]["FhirResource"])
+                    fhir_bundles.append(resp_json["processed_values"]["bundle"])
                     print(f"Converted {folder} successfully.")
                 else:
                     print(f"Failed to convert {folder}. Response: {response.text}")
