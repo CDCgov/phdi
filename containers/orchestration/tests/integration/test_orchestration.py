@@ -12,12 +12,18 @@ from starlette.testclient import TestClient
 import psycopg2
 
 
+@pytest.fixture
 def clean_up_db():
+    """
+    Removes the test data from `test_zip.zip` that is inserted during testing
+    from the database using the `ecr_id` to identify the test data for removal.
+    """
     connection_string = os.environ.get("DATABASE_URL").replace("@db", "@localhost")
+    test_ecr_id = "1.2.840.114350.1.13.297.3.7.8.688883.532013"
     dbconn = psycopg2.connect(connection_string)
     cursor = dbconn.cursor()
-    # Drop data in db to ensure idempotency
-    cursor.execute("DELETE from fhir;")
+    query = "DELETE FROM fhir WHERE ecr_id = %s"
+    cursor.execute(query, (test_ecr_id,))
     dbconn.commit()
     cursor.close()
     dbconn.close()
@@ -161,12 +167,11 @@ def test_failed_save_to_ecr_viewer(setup):
 
 
 @pytest.mark.integration
-def test_success_save_to_ecr_viewer(setup):
+def test_success_save_to_ecr_viewer(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
     """
-    clean_up_db()
     with open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -180,13 +185,13 @@ def test_success_save_to_ecr_viewer(setup):
             "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
         }
+        print(file)
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
             PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
         )
 
         assert orchestration_response.status_code == 200
-    clean_up_db()
 
 
 @pytest.mark.integration
