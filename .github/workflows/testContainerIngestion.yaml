@@ -5,6 +5,8 @@ on:
   pull_request:
     branches:
       - "**"
+    paths:
+      - containers/${{env.CONTAINER}}/**
   merge_group:
     types:
       - checks_requested
