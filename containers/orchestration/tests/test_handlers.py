@@ -22,14 +22,7 @@ from lxml import etree
 
 def test_build_fhir_converter_request():
     # Test case for an HL7 message
-    message = open(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "fhir-converter"
-        / "hl7v2"
-        / "hl7_with_msh_3_set.hl7"
-    ).read()
+    message = open(Path(__file__).parent / "assets" / "hl7_with_msh_3_set.hl7").read()
     orchestration_request = {
         "message_type": "elr",
         "data_type": "hl7",
@@ -42,14 +35,7 @@ def test_build_fhir_converter_request():
     assert result["input_data"] == message
 
     # Test case for an eCR message
-    message = open(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "fhir-converter"
-        / "ccda"
-        / "ccda_sample.xml"
-    ).read()
+    message = open(Path(__file__).parent / "assets" / "ccda_sample.xml").read()
     orchestration_request = {
         "message_type": "ecr",
         "data_type": "ecr",
@@ -64,14 +50,7 @@ def test_build_fhir_converter_request():
 def test_build_validation_request():
     # Test case for an eCR message, since it's the only one currently
     # implemented
-    message = open(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "fhir-converter"
-        / "ccda"
-        / "ccda_sample.xml"
-    ).read()
+    message = open(Path(__file__).parent / "assets" / "ccda_sample.xml").read()
     workflow_params = {"include_error_types": "error"}
     orchestration_request = {
         "message_type": "ecr",
@@ -105,13 +84,7 @@ def test_unpack_fhir_converter_response():
 
     # Successful conversion response
     sample_bundle = json.load(
-        open(
-            Path(__file__).parent.parent.parent.parent
-            / "tests"
-            / "assets"
-            / "general"
-            / "patient_bundle.json"
-        )
+        open(Path(__file__).parent / "assets" / "patient_bundle.json")
     )
     converter_result = MagicMock()
     actual_bundle = {"FhirResource": sample_bundle}
@@ -193,13 +166,7 @@ def test_unpack_validation_response():
 def test_build_message_parser_message_request():
     # Test for /parse_message endpoint
     sample_json = json.load(
-        open(
-            Path(__file__).parent.parent.parent.parent
-            / "tests"
-            / "assets"
-            / "general"
-            / "patient_bundle.json"
-        )
+        open(Path(__file__).parent / "assets" / "patient_bundle.json")
     )
     orchestration_request = {"message": sample_json, "message_type": "fhir"}
     workflow_params = {
@@ -301,13 +268,7 @@ def test_unpack_fhir_to_phdc_response():
 
 def test_build_ingestion_name_request():
     input_msg = json.load(
-        open(
-            Path(__file__).parent.parent.parent.parent
-            / "tests"
-            / "assets"
-            / "general"
-            / "patient_bundle.json"
-        )
+        open(Path(__file__).parent / "assets" / "patient_bundle.json")
     )
     orchestration_request = input_msg
 
@@ -342,13 +303,7 @@ def test_build_ingestion_name_request():
 
 def test_build_ingestion_phone_request():
     input_msg = json.load(
-        open(
-            Path(__file__).parent.parent.parent.parent
-            / "tests"
-            / "assets"
-            / "general"
-            / "patient_bundle.json"
-        )
+        open(Path(__file__).parent / "assets" / "patient_bundle.json")
     )
     orchestration_request = input_msg
 
@@ -372,13 +327,7 @@ def test_build_ingestion_phone_request():
 
 def test_build_ingestion_dob_request():
     input_msg = json.load(
-        open(
-            Path(__file__).parent.parent.parent.parent
-            / "tests"
-            / "assets"
-            / "general"
-            / "patient_bundle.json"
-        )
+        open(Path(__file__).parent / "assets" / "patient_bundle.json")
     )
     orchestration_request = input_msg
 
@@ -404,13 +353,7 @@ def test_build_ingestion_dob_request():
 
 def test_build_geocoding_request():
     input_msg = json.load(
-        open(
-            Path(__file__).parent.parent.parent.parent
-            / "tests"
-            / "assets"
-            / "general"
-            / "patient_bundle.json"
-        )
+        open(Path(__file__).parent / "assets" / "patient_bundle.json")
     )
     orchestration_request = input_msg
 
