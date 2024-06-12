@@ -15,15 +15,13 @@ import psycopg2
 @pytest.fixture
 def clean_up_db():
     """
-    Removes the test data from `test_zip.zip` that is inserted during testing
-    from the database using the `ecr_id` to identify the test data for removal.
+    Removes the test data that is inserted during testing to ensure idempotency.
     """
     connection_string = os.environ.get("DATABASE_URL").replace("@db", "@localhost")
-    test_ecr_id = "1.2.840.114350.1.13.297.3.7.8.688883.532013"
     dbconn = psycopg2.connect(connection_string)
     cursor = dbconn.cursor()
-    query = "DELETE FROM fhir WHERE ecr_id = %s"
-    cursor.execute(query, (test_ecr_id,))
+    query = "DELETE FROM fhir;"
+    cursor.execute(query)
     dbconn.commit()
     cursor.close()
     dbconn.close()
@@ -64,7 +62,7 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
-def test_process_message_endpoint(setup):
+def test_process_message_endpoint(setup, clean_up_db):
     """
     Tests a basic scenario of accepting an eCR message in XML format and
     applying a full validation through parsing workflow.
@@ -88,7 +86,7 @@ def test_process_message_endpoint(setup):
 
 
 @pytest.mark.integration
-def test_process_endpoint_with_zip(setup):
+def test_process_endpoint_with_zip(setup, clean_up_db):
     """
     Tests full orchestration functionality of an eCR file, but this time,
     the file is zipped rather than raw string.
@@ -114,7 +112,7 @@ def test_process_endpoint_with_zip(setup):
 
 
 @pytest.mark.integration
-def test_process_endpoint_with_zip_and_rr_data(setup):
+def test_process_endpoint_with_zip_and_rr_data(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
@@ -141,7 +139,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
 
 
 @pytest.mark.integration
-def test_failed_save_to_ecr_viewer(setup):
+def test_failed_save_to_ecr_viewer(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
