@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-        - name: Check if working directory exists
+      - name: Check if working directory exists
         id: check_dir
         run: |
           if [ -d "./containers/${{env.CONTAINER}}/tests/integration" ]; then
