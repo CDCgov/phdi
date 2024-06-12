@@ -1,5 +1,5 @@
 "use client";
-import AccordionContainer from "@/app/view-data/components/AccordionContainer";
+import AccordionContent from "@/app/view-data/components/AccordionContent";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
@@ -132,7 +132,7 @@ const ECRViewerPage: React.FC = () => {
                         </Grid>
                       </Grid>
                     </GridContainer>
-                    <AccordionContainer
+                    <AccordionContent
                       fhirPathMappings={mappings}
                       fhirBundle={fhirBundle}
                     />
