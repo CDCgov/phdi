@@ -16,7 +16,8 @@ testcontainers[compose]==4.1.1
 websockets
 asyncio
 sqlalchemy
-requests-mock 
+requests-mock
+psycopg2-binary==2.9.9
 pytest-mock
 opentelemetry-distro
 opentelemetry-exporter-otlp
