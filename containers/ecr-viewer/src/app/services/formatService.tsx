@@ -145,6 +145,7 @@ export const formatDateTime = (dateTimeString: string): string => {
 
 /**
  * Converts a UTC date time string to the date string in the user's local timezone.
+ * Returned date is in format "MM/DD/YYYY HH:MM AM/PM Z" where "Z" is the timezone abbreviation
  * @param utcDateString - The date string in UTC to be converted.
  * @returns The formatted date string converted to the user's local timezone.
  * @throws {Error} If the input UTC date string is invalid.
