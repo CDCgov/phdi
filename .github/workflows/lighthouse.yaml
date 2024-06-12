@@ -25,6 +25,14 @@ jobs:
         with:
           node-version: "18"
 
+      - name: Remove symlinks
+        working-directory: ./containers/ecr-viewer/src/app/shared
+        run: rm -rf ./*
+
+      - name: Copy shared-resources (if needed)
+        working-directory: ./containers/ecr-viewer
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/
+
       - name: Change to the correct directory
         run: cd containers/ecr-viewer
 
