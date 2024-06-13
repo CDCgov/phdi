@@ -86,6 +86,8 @@ jobs:
           python -m  --cov-report xml --cov=. pytest -m "not integration"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          flags: unit-tests
   integration-test-python-containers:
     runs-on: ubuntu-latest
     timeout-minutes: 30
