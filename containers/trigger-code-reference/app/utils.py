@@ -5,6 +5,13 @@ from typing import List
 from typing import Union
 
 
+def say_hi() -> str:
+    """
+    say hi
+    """
+    print("hi")
+
+
 def convert_inputs_to_list(value: Union[list, str, int, float]) -> list:
     """
     Small helper function that checks the type of the input.

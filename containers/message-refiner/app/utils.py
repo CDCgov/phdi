@@ -3,6 +3,13 @@ import pathlib
 from typing import List
 
 
+def say_hi() -> str:
+    """
+    say hi
+    """
+    print("hi")
+
+
 def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
     """
     This is a small helper function that loops through codes to create a set of
