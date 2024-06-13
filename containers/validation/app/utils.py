@@ -9,6 +9,14 @@ from lxml.etree import XMLSyntaxError
 
 from app.fhir.conversion import add_rr_data_to_eicr
 
+
+def say_hi() -> str:
+    """
+    say hi
+    """
+    print("hi")
+
+
 VALID_ERROR_TYPES = ["fatal", "errors", "warnings", "information"]
 # TODO: remove the hard coding of the location of the config file
 # and utilize the location passed in...OR we could use a specified
