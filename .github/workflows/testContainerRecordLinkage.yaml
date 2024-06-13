@@ -46,12 +46,9 @@ jobs:
           fi
       - name: Run unit tests for container
         env:
-          MPI_DBNAME: testdb
-          MPI_PASSWORD: pw
-          MPI_DB_TYPE: postgres
-          MPI_HOST: localhost
-          MPI_USER: postgres
-          MPI_PORT: 5432
+          POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
         working-directory: ./containers/${{env.CONTAINER}}
         run: |
           python -m pytest -m "not integration"
