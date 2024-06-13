@@ -23,6 +23,7 @@ DIBBS_CONTACT = {
     "email": "dibbs@cdc.gov",
 }
 
+
 STATUS_OK = {"status": "OK"}
 
 
