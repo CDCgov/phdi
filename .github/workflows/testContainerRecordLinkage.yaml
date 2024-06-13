@@ -60,13 +60,13 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Check if working directory exists
-          id: check_dir
-          run: |
-            if [ -d "./containers/${{env.CONTAINER}}/tests/integration" ]; then
-              echo "exists=true" >> $GITHUB_ENV
-            else
-              echo "exists=false" >> $GITHUB_ENV
-            fi
+        id: check_dir
+        run: |
+          if [ -d "./containers/${{env.CONTAINER}}/tests/integration" ]; then
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
       - name: Checkout
         if: env.exists == 'true'
         uses: actions/checkout@v4
