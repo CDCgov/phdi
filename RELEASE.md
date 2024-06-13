@@ -34,61 +34,32 @@ API documentation is published automatically with Sphinx and hosted via GitHub p
 
 ## PHDI Release Process
 
-### Define a Target Version
-The very first step in a release is defining the release's new version number. The previous section describes details of the release versioning scheme (`MAJOR`, `MINOR`, `PATCH`), and should be used to assign the version number for the next release. The values identified will be referenced in the sections below.
+### Determine New Version Number
+The first step in a release is defining the release's new version number. The previous section describes the different components of Semantic Versioning that should be used in the definition process. In general:
 
-### GitHub Release
-#### Create a Major Version Release Branch
-In order to support patching old major version releases without forcing users to upgrade, new major versions involve creating a release branch. The following steps should be followed when a breaking change is merged into `main`, requiring a new major version.
+* A release that **breaks existing APIs or function interfaces** should increment the `MAJOR` version and reset the `MINOR` and `PATCH` components to 0.
+* A release that **introduces new functionality without breaking an interface** should leave `MAJOR` unchanged, increment `MINOR`, and reset `PATCH` to 0.
+* A release that **includes only bug fixes without new functionality** should leave `MAJOR` and `MINOR` unchanged and increment `PATCH`.
 
-First, in GitHub, create a new branch representing the **old/existing major version**. The new branch should be based on the commit prior to the breaking change that triggers a new version. The naming convention for the new branch is `vMAJOR` where `MAJOR` is the current major version, prior to introducing the breaking change. 
+### Confirm Release With The Team
+Any time a new release needs to go out, you should check with the broader team to see if there's any additional functionality someone wishes to merge into the release. While the merge queue means that most of these changes will automatically be included in the new release so long as they were approved and merged prior to the release PR (see below), checking with others ensures that any required or desired additions make it into the release without needing to repeat the process.
 
-* `MAJOR` is the major version number of the **old/existing major version**
-* `COMMIT-HASH` is the commit hash of the commit prior to the breaking merge commit (if the breaking commit has not been merged to `main` and can just specify `main`)
+### Create a Release Branch
+Once the new version number is defined and all desired functionality is merged into the `main` branch of the github repository, you can safely begin executing the release process. First, create a new branch off of `main` called `release-MAJOR.MINOR.PATCH` (replace each of the SemVer components with the appropriate number in the new release version).
 
-#### Create a GitHub Release
-A GitHub release ties together a few pieces of information in the release process:
-1) A tag for the commit that comprises the release
-2) A short description/name for the release
-3) A list of changes in the release
+### Update Versioning Files
+On the release branch, navigate to the `phdi/__init__.py` file. Replace the version number there with the new release's version number. Then, navigate to the `pyproject.toml` file and do the same thing with the `version` keyword on line 3.
 
-In order to create a new release in GitHub, open a [new release GitHub form](https://github.com/CDCgov/phdi/releases/new). First, select a target branch - this will either be `main` or the previous version branch if the release is for an older version. Create (or select) a tag named `vMAJOR.MINOR.PATCH`, replacing the release parts as appropriate with the correct release version values. 
+### Open Pull Request
+Commit the versioning changes to the branch, then open a new Pull Request for the release. This PR *must* be titled **[RELEASE]-MAJOR.MINOR.PATCH**, including the brackets around "RELEASE" (for example, `[RELEASE]-1.4.4` is a valid PR title, but `RELEASE-1.2.5` is not). Once this PR is approved, you can safely merge it using the merge queue.
 
-Next, enter the release title to match the tag name. 
+### Wait
+GitHub Actions will automatically take care of a number of things once the release PR is merged.
 
-Finally, compile a list of changes that describe the release. This information will become the change log for the release, and should describe the changes in the release in a way that users will understand what's in it. Major releases should list a comprehensive list of breaking changes, and minor/patch versions should list changes at an appropriate level of detail.
+* It creates the appropriate containers for the release and publishes their images to the Docker registry
+* It deploys the newly updated release to PyPi
 
-### PyPI Release
-#### Authenticate with PyPI
-PHDI recommends that users authenticate with PyPI using an API token. To download a token, log in to PyPI and access [project settings](https://pypi.org/manage/project/phdi/settings/). Select "Create a token for phdi" and create a phdi-specific token. Save the token you just created to a file named `.pypitoken` in your project directory. When publishing to PyPI as described later in this section, this API token will be used to authenticate.
+If you're going to deploy the new release to AWS (so that it's usable from `dibbs.cloud`, for example), make sure to wait until both of these steps complete. Otherwise, Terraform won't be able to find or pull the new container images for the public services.
 
-#### Prepare to Publish
-The steps below depend on defining a full version number using semantic versioning. See the release methodology section above for help assigning a version to your project.
-
-The correct release version should be set both in `pyproject.toml` and `phdi/__init__.py`. When you are ready to release, set the version, commit, and merge the change to the `main` branch.
-
-Once project artifacts above are updated with your version number, tag the commit with a release tag. To assign the release tag, you may execute the following commands:
-
-```bash
-git checkout COMMIT-HASH
-git tag -a -m "Version MAJOR.MINOR.PATCH" vMAJOR.MINOR.PATCH
-
-```
-
-Next, create a release for the new vertion in GitHub. To create a new release, follow the steps outlined in GitHub's [release creation process](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository).
-
-The following values should be used:
-* Choose a tag: `vMAJOR.MINOR.PATCH` previously created using the commands above
-* Release title: `vMAJOR.MINOR.PATCH`
-  * `MAJOR`, `MINOR`, and `PATCH` should be replaced with the corresponding major, minor and patch version numbers for the new release.
-
-#### Publish to PyPI
-Once the version has been set, and the release has been defined, you are ready to publish the new version to PyPI. 
-
-To publish to PyPI, run the following command. NOTE: you will need a valid PyPI user with [authentication set up](#authenticating-with-pypi) as described above for this to work!
-
-```bash
-poetry publish --build --username __token__ --password `cat .pypitoken`
-```
-
-Congratulations! The project is now published!
+### Deploy to AWS
+After these steps finish, it's time to send the new release out into the wild. Navigate to the GitHub Actions tab of the `phdi-playground` repo, then click on the `AWS Deployment` option on the left side. Run the deployment from the `main` branch. Congratulations! Once that worklow finishes, the new code is usable at `dibbs.cloud`.
