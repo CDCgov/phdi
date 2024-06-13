@@ -7,6 +7,7 @@ httpx
 pytest
 lxml
 frozendict
+certifi>=2023.7.22
 requests
 python-dotenv
 python-multipart
