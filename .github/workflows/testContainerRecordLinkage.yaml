@@ -45,7 +45,7 @@ jobs:
             pip install -r dev-requirements.txt
           fi
       - name: Run unit tests for container
-         services:
+        services:
           test-db:
             image: postgres:13-alpine3.16
             env:
