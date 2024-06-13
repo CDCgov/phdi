@@ -1,0 +1,82 @@
+name: Test tefca-viewer Container
+on:
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - containers/tefca-viewer/**
+  merge_group:
+    types:
+      - checks_requested
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - pyproject.toml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TEST_RUNNER_PYTHON_VERSION: 3.10.12
+  CONTAINER: tefca-viewer
+  NODE_VERSION: 18 # Adjust the Node.js version as needed
+
+jobs:
+  test-node-containers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{env.NODE_VERSION}}
+      - name: Remove symlinks
+        working-directory: ./containers/${{env.CONTAINER}}/src/app/shared
+        run: rm -rf ./*
+      - name: Copy shared-resources
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/
+      - name: Install dependencies
+        working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
+        run: npm install
+      - name: Run tests
+        working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
+        run: npm test
+  cypress-e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{env.NODE_VERSION}}
+      - name: Remove symlinks
+        working-directory: ./containers/${{env.CONTAINER}}/src/app/shared
+        run: rm -rf ./*
+      - name: Copy shared-resources
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/
+      - name: Install dependencies
+        working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
+        run: npm install
+
+      - name: Start ${{env.CONTAINER}}
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: docker compose up -d
+
+      - name: Wait for server to be ready
+        run: |
+          until $(curl --output /dev/null --silent --head --fail http://localhost:3000); do
+            echo "Waiting for server to be ready..."
+            sleep 5
+          done
+
+      - name: Run cypress tests
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: npm run cypress:run
