@@ -23,6 +23,26 @@ env:
   CONTAINER: orchestration
 
 jobs:
+ python-linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install ruff==0.4.3
+      - name: Run linter (ruff)
+        run: |
+          ruff check --output-format=github .
+      - name: Run formatter (ruff)
+        run: |
+          ruff format --check
   unit-test-python-containers:
     runs-on: ubuntu-latest
     services:
