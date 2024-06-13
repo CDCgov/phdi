@@ -1,0 +1,94 @@
+name: Test record-linkage Container
+on:
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - "**"
+  merge_group:
+    types:
+      - checks_requested
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - pyproject.toml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TEST_RUNNER_PYTHON_VERSION: 3.10.12
+  CONTAINER: record-linkage
+
+jobs:
+  unit-test-python-containers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install pytest
+        run: pip install pytest
+      - name: Install dependencies
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: |
+          commit_hash=$(git rev-parse HEAD)
+          find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
+          pip install -r requirements.txt
+          if [ -f dev-requirements.txt ]; then
+            pip install -r dev-requirements.txt
+          fi
+      - name: Run unit tests for container
+        env:
+          MPI_DBNAME: testdb
+          MPI_PASSWORD: pw
+          MPI_DB_TYPE: postgres
+          MPI_HOST: localhost
+          MPI_USER: postgres
+          MPI_PORT: 5432
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: |
+          python -m pytest -m "not integration"
+  integration-test-python-containers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install pytest
+        run: pip install pytest
+      - name: Install dependencies
+        working-directory: ./containers/${{env.CONTAINER}}
+        # When running as a PR check, instead of importing the SDK from @main,
+        # import it from the current commit. (Need to do this for all containers)
+        run: |
+          if [[ $GITHUB_REF != "refs/heads/main" ]]; then
+            commit_hash=$(git rev-parse HEAD)
+            find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
+          fi
+          pip install -r requirements.txt
+          if [ -f dev-requirements.txt ]; then
+            pip install -r dev-requirements.txt
+          fi
+      - name: Run integration tests for containers
+        env:
+          MPI_DBNAME: testdb
+          MPI_PASSWORD: pw
+          MPI_DB_TYPE: postgres
+          MPI_HOST: localhost
+          MPI_USER: postgres
+          MPI_PORT: 5432
+        working-directory: ./containers/${{env.CONTAINER}}/tests/integration
+        run: |
+          python -m pytest -m "integration"
