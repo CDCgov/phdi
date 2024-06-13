@@ -26,6 +26,15 @@ env:
   NODE_VERSION: 18 # Adjust the Node.js version as needed
 
 jobs:
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint ${{env.CONTAINER}}
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: |
+          npm ci
+          npm run lint
   test-node-containers:
     runs-on: ubuntu-latest
     steps:
