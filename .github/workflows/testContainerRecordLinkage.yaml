@@ -59,16 +59,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Check if working directory exists
+          id: check_dir
+          run: |
+            if [ -d "./containers/${{env.CONTAINER}}/tests/integration" ]; then
+              echo "exists=true" >> $GITHUB_ENV
+            else
+              echo "exists=false" >> $GITHUB_ENV
+            fi
       - name: Checkout
+        if: env.exists == 'true'
         uses: actions/checkout@v4
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        if: env.exists == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
       - name: Install pytest
+        if: env.exists == 'true'
         run: pip install pytest
       - name: Install dependencies
+        if: env.exists == 'true'
         working-directory: ./containers/${{env.CONTAINER}}
         # When running as a PR check, instead of importing the SDK from @main,
         # import it from the current commit. (Need to do this for all containers)
@@ -82,6 +94,7 @@ jobs:
             pip install -r dev-requirements.txt
           fi
       - name: Run integration tests for containers
+        if: env.exists == 'true'
         env:
           MPI_DBNAME: testdb
           MPI_PASSWORD: pw
