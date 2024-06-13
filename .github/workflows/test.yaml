@@ -94,7 +94,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: unit-tests
+          flags: sdk
 
   ensure-clean-notebooks:
     runs-on: ubuntu-latest

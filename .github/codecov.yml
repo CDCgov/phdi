@@ -13,7 +13,7 @@ coverage:
         target: 95%
         threshold: 10%
         flags:
-          - unit-tests
+          - sdk
 flags:
   dibbs:
     paths:
