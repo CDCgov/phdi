@@ -93,6 +93,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           flags: unit-tests
 
   ensure-clean-notebooks:
@@ -168,6 +169,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{matrix.container-to-test}}
   integration-test-python-containers:
     needs: list-containers
