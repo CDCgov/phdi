@@ -5,8 +5,6 @@ on:
   pull_request:
     branches:
       - "**"
-    paths:
-      - containers/tefca-viewer/**
   merge_group:
     types:
       - checks_requested
