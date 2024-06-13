@@ -26,7 +26,7 @@ env:
   CONTAINER: record-linkage
 
 jobs:
- python-linting:
+  python-linting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

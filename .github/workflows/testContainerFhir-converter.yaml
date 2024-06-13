@@ -25,7 +25,7 @@ env:
   CONTAINER: fhir-converter
 
 jobs:
- python-linting:
+  python-linting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
