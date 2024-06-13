@@ -7,6 +7,7 @@ on:
       - "**"
     paths:
       - containers/message-refiner/**
+      - containers/dibbs/**
   merge_group:
     types:
       - checks_requested
