@@ -51,13 +51,7 @@ def test_load_processing_config_fail():
 
 
 def test_search_for_ecr_data_with_eicr_present_success():
-    valid_zipfile = ZipFile(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "test_zip.zip"
-    )
+    valid_zipfile = ZipFile(Path(__file__).parent / "assets" / "test_zip.zip")
 
     response = search_for_ecr_data(valid_zipfile)
     assert response["ecr"] is not None
@@ -65,13 +59,7 @@ def test_search_for_ecr_data_with_eicr_present_success():
 
 
 def test_search_for_ecr_data_with_eicr_rr_present_success():
-    valid_zipfile = ZipFile(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "eICR_RR_combo.zip"
-    )
+    valid_zipfile = ZipFile(Path(__file__).parent / "assets" / "eICR_RR_combo.zip")
 
     response = search_for_ecr_data(valid_zipfile)
     assert response["ecr"] is not None
@@ -79,13 +67,7 @@ def test_search_for_ecr_data_with_eicr_rr_present_success():
 
 
 def test_search_for_ecr_data_eicr_not_found_fails():
-    zipfile_without_eicr = ZipFile(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "no_eicr.zip"
-    )
+    zipfile_without_eicr = ZipFile(Path(__file__).parent / "assets" / "no_eicr.zip")
 
     with pytest.raises(IndexError) as indexError:
         search_for_ecr_data(zipfile_without_eicr)
