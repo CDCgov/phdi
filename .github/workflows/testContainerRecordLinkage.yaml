@@ -7,7 +7,6 @@ on:
       - "**"
     paths:
       - containers/record-linkage/**
-      - containers/dibbs/**
   merge_group:
     types:
       - checks_requested
