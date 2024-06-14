@@ -52,8 +52,8 @@ describe("listEcrDataService", () => {
     };
 
     const expected = [
-      { ecrId: "ecr2", dateModified: "01/02/2023 12:00 PM UTC" },
-      { ecrId: "ecr1", dateModified: "01/01/2023 12:00 PM UTC" },
+      { ecrId: "ecr2", dateModified: "01/02/2023 7:00 AM EST" },
+      { ecrId: "ecr1", dateModified: "01/01/2023 7:00 AM EST" },
     ];
     const result = processListS3(responseBody);
 
