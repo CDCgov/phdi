@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { importSPKI, jwtVerify } from "jose";
+import { getToken } from "next-auth/jwt";
 
 /**
  * Acts as a middleware for handling authentication and authorization in a Next.js application.
@@ -9,13 +10,31 @@ import { importSPKI, jwtVerify } from "jose";
  *     handler based on the authentication and authorization logic.
  */
 export async function middleware(req: NextRequest): Promise<NextResponse> {
-  return (
-    set_auth_cookie(req) ?? (await authorize_api(req)) ?? NextResponse.next()
-  );
+  const isDevelopment = process.env.NODE_ENV === "development";
+  const needsAuth = !isDevelopment;
+
+  const oauthToken = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+  if (needsAuth) {
+    if (oauthToken) {
+      return NextResponse.next();
+    } else {
+      const nbsAuth = set_auth_cookie(req) ?? (await authorize_api(req));
+      if (nbsAuth) {
+        return nbsAuth;
+      } else {
+        return NextResponse.json({ message: "Auth required" }, { status: 401 });
+      }
+    }
+  } else {
+    return NextResponse.next();
+  }
 }
 
 export const config = {
-  matcher: ["/api/:path*", "/view-data"],
+  matcher: ["/api/fhir-data", "/api/metrics", "/view-data", "/"],
 };
 
 /**
@@ -53,26 +72,17 @@ function set_auth_cookie(req: NextRequest) {
  */
 async function authorize_api(req: NextRequest) {
   const auth = req.cookies.get("auth-token")?.value;
-  const pathname = req.nextUrl.pathname;
-  const isDevelopment = process.env.NODE_ENV === "development";
-  // temporarily ignore save-fhir-data until we fix the auth issue
-  if (
-    !isDevelopment &&
-    !pathname.includes("save-fhir-data") &&
-    pathname.startsWith("/api")
-  ) {
-    if (!auth) {
-      return NextResponse.json({ message: "Auth required" }, { status: 401 });
-    }
-    try {
-      await jwtVerify(
-        auth,
-        await importSPKI(process.env.NBS_PUB_KEY as string, "RS256"),
-      );
-    } catch (e) {
-      return NextResponse.json({ message: "Auth required" }, { status: 401 });
-    }
-    return NextResponse.next();
+
+  if (!auth) {
+    return null;
   }
-  return null;
+  try {
+    await jwtVerify(
+      auth,
+      await importSPKI(process.env.NBS_PUB_KEY as string, "RS256"),
+    );
+  } catch (e) {
+    return null;
+  }
+  return NextResponse.next();
 }
