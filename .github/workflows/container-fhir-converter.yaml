@@ -1,10 +1,11 @@
-name: Test orchestration Container
+name: Test fhir-converter Container
+
 on:
-  workflow_call:
-  workflow_dispatch:
   pull_request:
     branches:
       - "**"
+    paths:
+      - containers/fhir-converter/**
   merge_group:
     types:
       - checks_requested
@@ -20,7 +21,7 @@ concurrency:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.11
-  CONTAINER: orchestration
+  CONTAINER: fhir-converter
 
 jobs:
   python-linting:
@@ -45,22 +46,6 @@ jobs:
           ruff format --check
   unit-test-python-containers:
     runs-on: ubuntu-latest
-    services:
-      test-db:
-        image: postgres:13-alpine3.16
-        env:
-          POSTGRES_PASSWORD: pw
-          POSTGRES_DB: testdb
-          POSTGRES_USER: postgres
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --name testdb
-        ports:
-          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -116,13 +101,18 @@ jobs:
             pip install -r dev-requirements.txt
           fi
       - name: Run integration tests for containers
-        env:
-          MPI_DBNAME: testdb
-          MPI_PASSWORD: pw
-          MPI_DB_TYPE: postgres
-          MPI_HOST: localhost
-          MPI_USER: postgres
-          MPI_PORT: 5432
         working-directory: ./containers/${{env.CONTAINER}}/tests/integration
         run: |
           python -m pytest -m "integration"
+  unit-test-dotnet-fhir-converter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+      - name: Run tests
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: dotnet test

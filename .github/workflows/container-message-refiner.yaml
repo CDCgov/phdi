@@ -1,12 +1,12 @@
-name: Test fhir-converter Container
+name: Test message-refiner Container
+
 on:
-  workflow_call:
-  workflow_dispatch:
   pull_request:
     branches:
       - "**"
     paths:
-      - containers/fhir-converter/**
+      - containers/message-refiner/**
+      - containers/dibbs/**
   merge_group:
     types:
       - checks_requested
@@ -22,7 +22,7 @@ concurrency:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.11
-  CONTAINER: fhir-converter
+  CONTAINER: message-refiner
 
 jobs:
   python-linting:
@@ -105,15 +105,3 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}}/tests/integration
         run: |
           python -m pytest -m "integration"
-  unit-test-dotnet-fhir-converter:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "8.0.x"
-      - name: Run tests
-        working-directory: ./containers/${{env.CONTAINER}}
-        run: dotnet test

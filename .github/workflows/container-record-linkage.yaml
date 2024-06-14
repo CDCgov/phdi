@@ -1,12 +1,11 @@
-name: Test trigger-code-reference Container
+name: Test record-linkage Container
+
 on:
-  workflow_call:
-  workflow_dispatch:
   pull_request:
     branches:
       - "**"
     paths:
-      - containers/trigger-code-reference/**
+      - containers/record-linkage/**
       - containers/dibbs/**
   merge_group:
     types:
@@ -23,7 +22,7 @@ concurrency:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.11
-  CONTAINER: trigger-code-reference
+  CONTAINER: record-linkage
 
 jobs:
   python-linting:
@@ -48,6 +47,22 @@ jobs:
           ruff format --check
   unit-test-python-containers:
     runs-on: ubuntu-latest
+    services:
+      test-db:
+        image: postgres:13-alpine3.16
+        env:
+          POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name testdb
+        ports:
+          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -76,33 +91,3 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ env.CONTAINER }}
-  integration-test-python-containers:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install pytest
-        run: pip install pytest
-      - name: Install dependencies
-        working-directory: ./containers/${{env.CONTAINER}}
-        # When running as a PR check, instead of importing the SDK from @main,
-        # import it from the current commit. (Need to do this for all containers)
-        run: |
-          if [[ $GITHUB_REF != "refs/heads/main" ]]; then
-            commit_hash=$(git rev-parse HEAD)
-            find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
-          fi
-          pip install -r requirements.txt
-          if [ -f dev-requirements.txt ]; then
-            pip install -r dev-requirements.txt
-          fi
-      - name: Run integration tests for containers
-        working-directory: ./containers/${{env.CONTAINER}}/tests/integration
-        run: |
-          python -m pytest -m "integration"

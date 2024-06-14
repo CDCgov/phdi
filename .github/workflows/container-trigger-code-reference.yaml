@@ -1,12 +1,11 @@
-name: Test ingestion Container
+name: Test trigger-code-reference Container
+
 on:
-  workflow_call:
-  workflow_dispatch:
   pull_request:
     branches:
       - "**"
     paths:
-      - containers/ingestion/**
+      - containers/trigger-code-reference/**
       - containers/dibbs/**
   merge_group:
     types:
@@ -23,7 +22,7 @@ concurrency:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.11
-  CONTAINER: ingestion
+  CONTAINER: trigger-code-reference
 
 jobs:
   python-linting:
@@ -74,7 +73,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          toekn: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ env.CONTAINER }}
   integration-test-python-containers:
     runs-on: ubuntu-latest

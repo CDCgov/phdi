@@ -1,12 +1,10 @@
-name: Test message-refiner Container
+name: DIBBs Container Workflow
+
 on:
-  workflow_call:
-  workflow_dispatch:
   pull_request:
     branches:
       - "**"
     paths:
-      - containers/message-refiner/**
       - containers/dibbs/**
   merge_group:
     types:
@@ -23,7 +21,7 @@ concurrency:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.11
-  CONTAINER: message-refiner
+  CONTAINER: dibbs
 
 jobs:
   python-linting:
@@ -31,78 +29,79 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
         uses: actions/setup-python@v5
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
+
       - name: Install dependencies
         run: |
           pip install -U pip
           pip install ruff==0.4.3
+
       - name: Run linter (ruff)
         run: |
           ruff check --output-format=github .
+
       - name: Run formatter (ruff)
         run: |
           ruff format --check
+
   unit-test-python-containers:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
         uses: actions/setup-python@v5
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
+
       - name: Install pytest and pytest-cov
         run: pip install pytest pytest-cov
+
       - name: Install dependencies
         working-directory: ./containers/${{env.CONTAINER}}
         run: |
-          commit_hash=$(git rev-parse HEAD)
-          find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
+          pip install .
           pip install -r requirements.txt
           if [ -f dev-requirements.txt ]; then
             pip install -r dev-requirements.txt
           fi
+
       - name: Run unit tests for container with coverage
         working-directory: ./containers/${{env.CONTAINER}}
         run: |
           python -m pytest --cov-report xml --cov=. -m "not integration" tests/
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ env.CONTAINER }}
-  integration-test-python-containers:
+
+  build-container:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v5
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build ${{ env.CONTAINER }} Container
+        uses: docker/build-push-action@v3
         with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install pytest
-        run: pip install pytest
-      - name: Install dependencies
-        working-directory: ./containers/${{env.CONTAINER}}
-        # When running as a PR check, instead of importing the SDK from @main,
-        # import it from the current commit. (Need to do this for all containers)
-        run: |
-          if [[ $GITHUB_REF != "refs/heads/main" ]]; then
-            commit_hash=$(git rev-parse HEAD)
-            find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
-          fi
-          pip install -r requirements.txt
-          if [ -f dev-requirements.txt ]; then
-            pip install -r dev-requirements.txt
-          fi
-      - name: Run integration tests for containers
-        working-directory: ./containers/${{env.CONTAINER}}/tests/integration
-        run: |
-          python -m pytest -m "integration"
+          context: ./containers/${{ env.CONTAINER }}
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            "INGESTION_URL=${{secrets.INGESTION_URL}}"
+            "MESSAGE_PARSER_URL=${{secrets.MESSAGE_PARSER_URL}}"
+            "SMARTY_AUTH_ID=${{secrets.SMARTY_AUTH_ID}}"
+            "SMARTY_AUTH_TOKEN=${{secrets.SMARTY_AUTH_TOKEN}}"

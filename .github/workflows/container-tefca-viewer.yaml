@@ -1,12 +1,11 @@
-name: Test ecr-viewer Container
+name: Test tefca-viewer Container
+
 on:
-  workflow_call:
-  workflow_dispatch:
   pull_request:
     branches:
       - "**"
     paths:
-      - containers/ecr-viewer/**
+      - containers/tefca-viewer/**
   merge_group:
     types:
       - checks_requested
@@ -22,7 +21,7 @@ concurrency:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
-  CONTAINER: ecr-viewer
+  CONTAINER: tefca-viewer
   NODE_VERSION: 18 # Adjust the Node.js version as needed
 
 jobs:
