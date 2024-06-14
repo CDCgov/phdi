@@ -21,6 +21,7 @@ services:
     env_file:
       - .env
   validation-service:
+    platform: linux/amd64
     build:
       context: ../validation
     ports:
@@ -28,6 +29,7 @@ services:
     logging:
       driver: "json-file"
   fhir-converter-service:
+    platform: linux/amd64
     build:
       context: ../fhir-converter
     ports:
@@ -35,6 +37,7 @@ services:
     logging:
       driver: "json-file"
   ingestion-service:
+    platform: linux/amd64
     build:
       context: ../ingestion
     ports:
@@ -45,6 +48,7 @@ services:
       SMARTY_AUTH_ID: ${SMARTY_AUTH_ID}
       SMARTY_AUTH_TOKEN: ${SMARTY_AUTH_TOKEN}
   message-parser-service:
+    platform: linux/amd64
     build:
       context: ../message-parser
     ports:
