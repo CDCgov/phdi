@@ -1,0 +1,61 @@
+name: "List Containers"
+
+on:
+  workflow_call:
+    outputs:
+      all-containers:
+        value: ${{ jobs.list-containers.outputs.container-dirs }}
+      python-containers:
+        value: ${{ jobs.list-python-containers.outputs.python-containers }}
+      integration-dirs:
+        value: ${{ jobs.list-integration-test-directories.outputs.integration-dirs }}
+
+jobs:
+  list-containers:
+    runs-on: ubuntu-latest
+    outputs:
+      container-dirs: ${{ steps.generate-list.outputs.containers }}
+    steps:
+      - name: Check Out Changes
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get install jq
+      - id: generate-list
+        name: Generate list of directories within containers/
+        working-directory: ./containers
+        run: |
+          ls -d * | jq -R -s -c 'split("\n")[:-1]'
+          echo "containers=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1] ')" >> $GITHUB_OUTPUT
+  list-python-containers:
+    runs-on: ubuntu-latest
+    outputs:
+      python-containers: ${{steps.generate-python-list.outputs.python_containers}}
+    steps:
+      - name: Check Out Changes
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get install jq
+      - id: generate-python-list
+        name: Generate list of python-specific directories within containers/
+        working-directory: ./containers
+        # find all subdirectories with a requirements.txt file at the base (the python containers)
+        run: |
+          find . -maxdepth 2 -type f -name "requirements.txt" -exec dirname {} \; | sort -u | xargs -n 1 basename | jq -R -s -c 'split("\n")[:-1] '
+          echo "python_containers=$(find . -maxdepth 2 -type f -name "requirements.txt" -exec dirname {} \; | sort -u | xargs -n 1 basename | jq -R -s -c 'split("\n")[:-1] ')" >> $GITHUB_OUTPUT
+  list-integration-test-directories:
+    runs-on: ubuntu-latest
+    outputs:
+      integration-dirs: ${{steps.generate-integration-list.outputs.containers_to_test}}
+    steps:
+      - name: Check Out Changes
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get install jq
+      - id: generate-integration-list
+        name: Generate list of integration test directories within containers/
+        working-directory: ./containers
+        run: |
+          echo "containers_to_test=$(find . -name "integration" -type d | cut -d "/" -f2 | jq -R -s -c 'split("\n")[:-1] | map(select(. != "ecr-viewer"))' )" >> $GITHUB_OUTPUT
