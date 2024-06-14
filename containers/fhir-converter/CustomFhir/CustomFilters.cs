@@ -256,7 +256,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// <param name="data">The data structure to search within, of type IDictionary<string, object>, IList, or JArray.</param>
     /// <param name="id">The ID (reference value) to search for within the data structure.</param>
     /// <returns>An IDictionary<string, object> representing the found object with the specified ID, or null if not found.</returns>
-    public static IDictionary<string, object>  FindObjectById(object data, string id)
+    public static IDictionary<string, object>? FindObjectById(object data, string id)
     {
       return FindObjectByIdRecursive(data, id);
     }
@@ -267,7 +267,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// <param name="data">The data structure to search within, of type IDictionary<string, object>, IList, or JArray.</param>
     /// <param name="id">The ID to search for within the data structure.</param>
     /// <returns>An IDictionary<string, object> representing the found object with the specified ID, or null if not found.</returns>
-    private static IDictionary<string, object>  FindObjectByIdRecursive(object data, string id)
+    private static IDictionary<string, object>? FindObjectByIdRecursive(object data, string id)
     {
       if (data == null)
       {
@@ -340,16 +340,20 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
           foreach (var item in list)
           {
-            if (item is IDictionary<string, object> dict)
+            if (item is null)
+            {
+              continue;
+            }
+            else if (item is IDictionary<string, object> dict)
             {
               foreach (var kvp in dict)
               {
-                result.Add(kvp.Value.ToString());
+                result.Add(kvp.Value.ToString() ?? "");
               }
             }
             else
             {
-              result.Add(item.ToString());
+              result.Add(item.ToString() ?? "");
             }
           }
           return string.Join(" ", result); 
@@ -361,7 +365,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         List<string> result = new List<string>();
         foreach (var kvp in dictObject)
           {
-            result.Add(kvp.Value.ToString());
+            result.Add(kvp.Value.ToString() ?? "");
           }
         return string.Join(" ", result);
       }

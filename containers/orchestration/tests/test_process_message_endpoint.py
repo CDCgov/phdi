@@ -15,13 +15,7 @@ test_config_path = (
     / "sample-orchestration-config.json"
 )
 
-fhir_bundle_path = (
-    Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "general"
-    / "patient_bundle.json"
-)
+fhir_bundle_path = Path(__file__).parent / "assets" / "patient_bundle.json"
 
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
@@ -52,14 +46,7 @@ manifests on real data in each step.
 # /process-message tests
 @mock.patch("app.services.post_request")
 def test_process_message_success(patched_post_request):
-    message = open(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "fhir-converter"
-        / "hl7v2"
-        / "hl7_with_msh_3_set.hl7"
-    ).read()
+    message = open(Path(__file__).parent / "assets" / "hl7_with_msh_3_set.hl7").read()
     request = {
         "message_type": "elr",
         "data_type": "hl7",
@@ -240,11 +227,7 @@ def test_process_message_input_validation_with_rr_data():
 @mock.patch("app.services.post_request")
 def test_process_success(patched_post_request):
     with open(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "eICR_RR_combo.zip",
+        Path(__file__).parent / "assets" / "eICR_RR_combo.zip",
         "rb",
     ) as f:
         form_data = {
@@ -318,11 +301,7 @@ def test_process_success(patched_post_request):
 
 def test_process_with_empty_zip():
     with open(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "empty.zip",
+        Path(__file__).parent / "assets" / "empty.zip",
         "rb",
     ) as f:
         form_data = {
@@ -340,11 +319,7 @@ def test_process_with_empty_zip():
 
 def test_process_invalid_config():
     with open(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "eICR_RR_combo.zip",
+        Path(__file__).parent / "assets" / "eICR_RR_combo.zip",
         "rb",
     ) as f:
         form_data = {

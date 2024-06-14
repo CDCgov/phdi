@@ -1,10 +1,11 @@
+../dibbs
 typing_extensions>=4.8.0
 pydantic==1.10.13
 fastapi>=0.109.1
-phdi @ git+https://github.com/CDCgov/phdi@main
 uvicorn
 httpx
 pytest
+lxml
 frozendict
 requests
 python-dotenv
@@ -15,7 +16,8 @@ testcontainers[compose]==4.1.1
 websockets
 asyncio
 sqlalchemy
-requests-mock 
+requests-mock
+psycopg2-binary==2.9.9
 pytest-mock
 opentelemetry-distro
 opentelemetry-exporter-otlp
