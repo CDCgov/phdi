@@ -13,8 +13,6 @@ on:
         required: true
 
 jobs:
-  list-containers:
-    uses: ./.github/workflows/listContainers.yaml
   build:
     name: Build containers
     needs: list-containers
