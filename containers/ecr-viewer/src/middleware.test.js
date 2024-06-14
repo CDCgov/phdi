@@ -4,16 +4,41 @@
 import { middleware } from "@/middleware";
 import { NextRequest } from "next/server";
 import { importSPKI, jwtVerify } from "jose";
+import { getToken } from "next-auth/jwt";
 
 jest.mock("jose", () => ({
   importSPKI: jest.fn(() => true),
   jwtVerify: jest.fn(() => true),
 }));
 
+// Mock next-auth/jwt getToken
+jest.mock("next-auth/jwt", () => ({
+  getToken: jest.fn(),
+}));
+
 describe("Middleware", () => {
+  beforeEach(() => {
+    process.env.NEXTAUTH_SECRET = "test-secret";
+    jest.resetAllMocks(); // Reset mocks before each test
+  });
+
+  it("should authorize the request if oauthToken is present", async () => {
+    getToken.mockImplementation(() => Promise.resolve({ token: "fake-token" }));
+
+    const req = new NextRequest("https://www.example.com/api/protected");
+
+    const resp = await middleware(req);
+
+    expect(resp.status).toBe(200);
+    expect(getToken).toHaveBeenCalledWith({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+  });
+
   it("should strip the auth query param and set the token", async () => {
     const req = new NextRequest(
-      "https://www.example.com/view-data?id=1234&auth=abcd",
+      "https://www.example.com/api?id=1234&auth=abcd",
     );
 
     const resp = await middleware(req);
@@ -24,7 +49,7 @@ describe("Middleware", () => {
       httpOnly: true,
     });
     expect(resp.headers.get("location")).toBe(
-      "https://www.example.com/view-data?id=1234",
+      "https://www.example.com/api?id=1234",
     );
   });
 
@@ -53,6 +78,6 @@ describe("Middleware", () => {
   it("should not authorize non api endpoints ", async () => {
     const req = new NextRequest("https://www.example.com/view-data?id=1234");
     const resp = await middleware(req);
-    expect(resp.status).toBe(200);
+    expect(resp.status).toBe(401);
   });
 });
