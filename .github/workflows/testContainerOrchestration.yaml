@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TEST_RUNNER_PYTHON_VERSION: 3.10.12
+  TEST_RUNNER_PYTHON_VERSION: 3.11
   CONTAINER: orchestration
 
 jobs:
@@ -69,7 +69,7 @@ jobs:
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
-      - name: Install pytest
+      - name: Install pytest and pytest-cov
         run: pip install pytest pytest-cov
       - name: Install dependencies
         working-directory: ./containers/${{env.CONTAINER}}
@@ -80,14 +80,15 @@ jobs:
           if [ -f dev-requirements.txt ]; then
             pip install -r dev-requirements.txt
           fi
-      - name: Run unit tests for container with code coverage output
+      - name: Run unit tests for container with coverage
         working-directory: ./containers/${{env.CONTAINER}}
         run: |
           python -m pytest --cov-report xml --cov=. -m "not integration" tests/
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          flags: unit-tests
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: ${{ env.CONTAINER }}
   integration-test-python-containers:
     runs-on: ubuntu-latest
     timeout-minutes: 30
