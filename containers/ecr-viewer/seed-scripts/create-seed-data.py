@@ -3,7 +3,7 @@ import os
 
 import requests
 
-FHIR_CONVERTER_URL = "http://fhir-converter-service:8080"
+URL = "http://orchestration-service:8080"
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -27,6 +27,7 @@ def convert_files():
 
     :return: A list of fhir bundles
     """
+    print("Converting files...")
     fhir_bundles = []
     for folder in os.listdir(os.path.join(BASEDIR, "baseECR")):
         folder_path = os.path.join(BASEDIR, "baseECR", folder)
@@ -36,18 +37,18 @@ def convert_files():
                 open(os.path.join(folder_path, "CDA_eICR.xml"), "r") as eicr_file,
             ):
                 payload = {
-                    "input_type": "ecr",
-                    "root_template": "EICR",
-                    "input_data": eicr_file.read(),
+                    "message_type": "ecr",
+                    "data_type": "ecr",
+                    "config_file_name": "seed-ecr-viewer-config.json",
+                    "message": eicr_file.read(),
                     "rr_data": rr_file.read(),
                 }
 
-                response = requests.post(
-                    f"{FHIR_CONVERTER_URL}/convert-to-fhir", json=payload
-                )
+                print(f"{URL}/process-message")
+                response = requests.post(f"{URL}/process-message", json=payload)
                 if response.status_code == 200:
                     resp_json = response.json()
-                    fhir_bundles.append(resp_json["response"]["FhirResource"])
+                    fhir_bundles.append(resp_json["processed_values"]["bundle"])
                     print(f"Converted {folder} successfully.")
                 else:
                     print(f"Failed to convert {folder}. Response: {response.text}")

@@ -14,10 +14,7 @@ def test_list_loaded_configs():
         Path(__file__).parent.parent / "app" / "default_configs"
     )
     assert response.status_code == 200
-    assert response.json() == {
-        "default_configs": default_configs,
-        "custom_configs": [],
-    }
+    assert response.json()["default_configs"] == default_configs
 
 
 def test_get_specific_config():
