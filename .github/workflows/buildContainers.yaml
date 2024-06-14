@@ -38,13 +38,6 @@ jobs:
         working-directory: ./containers/${{matrix.container-to-build}}
         run: cp -r ../../shared-resources/src/ ./src/app/shared/
 
-      - name: Target branch in requirements.txt
-        working-directory: ./containers/${{matrix.container-to-build}}
-        run: |
-          if [ -f "requirements.txt" ]; then
-            sed 's/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@main/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@${{ github.sha }}/g' requirements.txt > requirements_new.txt && mv requirements_new.txt requirements.txt
-          fi
-
       - name: Build
         uses: docker/build-push-action@v3
         with:
