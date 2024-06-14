@@ -42,6 +42,15 @@
         "parsing_schema_name": "ecr.json",
         "credential_manager": "azure"
       }
+    },
+    {
+      "service": "message_parser",
+      "endpoint": "/parse_message",
+      "params": {
+        "message_format": "fhir",
+        "parsing_schema_name": "ecr.json",
+        "credential_manager": "azure"
+      }
     }
   ]
 }

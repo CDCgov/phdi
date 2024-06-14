@@ -3,6 +3,7 @@ include:
 
 services:
   orchestration-service:
+    platform: linux/amd64
     build:
       context: .
     depends_on:
