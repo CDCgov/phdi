@@ -26,7 +26,7 @@ jobs:
   test-for-release:
     needs: check-commit-message
     if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
-    uses: ./.github/workflows/testContainerDIBBs.yaml
+    uses: ./.github/workflows/test.yaml
   tag-release:
     name: Update phdi init version number
     needs: test-for-release
