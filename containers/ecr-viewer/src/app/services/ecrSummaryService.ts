@@ -11,6 +11,8 @@ import {
   evaluatePatientAddress,
   evaluateFacilityAddress,
 } from "./evaluateFhirDataService";
+import { evaluateClinicalData } from "../view-data/components/common";
+import { DisplayDataProps } from "../DataDisplay";
 
 /**
  * Evaluates and retrieves patient details from the FHIR bundle using the provided path mappings.
@@ -116,23 +118,48 @@ export const evaluateEcrSummaryRelevantClinicalDetails = (
   snomedCode: string,
 ) => {
   const noData: string = "No matching clinical data found in this eCR";
-  // TODO: Find relevant clinical info
+  let resultsArray: DisplayDataProps[] = [];
+  const clinicalData = evaluateClinicalData(
+    fhirBundle,
+    fhirPathMappings,
+    snomedCode,
+  );
+  console.log("Clinical Data", clinicalData);
 
-  // TODO: Add condition: if not empty, return
-  // return [
-  //   {
-  //     title: "",
-  //     value: "Empty",
-  //     dividerLine: true,
-  //   },
-  // ];
+  // * PROBLEMS LIST
+  const problemsList = clinicalData.activeProblemsDetails.availableData;
+  if (problemsList.length > 0) {
+    resultsArray.push({ value: problemsList[0].value, dividerLine: false });
+  }
 
-  // TODO: Add else return noData
-  return [
-    {
-      value: noData,
-    },
-  ];
+  // * PLANNED PROCEDURES ONLY
+  const plannedProcedures = clinicalData.treatmentData.availableData.filter(
+    (entry) => entry.title === "Planned Procedures",
+  );
+  if (plannedProcedures.length > 0) {
+    resultsArray.push({
+      value: plannedProcedures[0].value,
+      dividerLine: false,
+    });
+  }
+
+  // * IMMUNIZATIONS
+  const immunizations = clinicalData.immunizationsDetails.availableData;
+  if (immunizations.length > 0) {
+    resultsArray.push({
+      value: immunizations[0].value,
+      dividerLine: false,
+    });
+  }
+
+  // * If no data, return noData
+  if (resultsArray.length === 0) {
+    console.log("No relevant clinical results");
+    resultsArray.push({ value: noData, dividerLine: false });
+  }
+
+  resultsArray.push({ dividerLine: true });
+  return resultsArray;
 };
 
 /**

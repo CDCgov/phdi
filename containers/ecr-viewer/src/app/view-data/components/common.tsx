@@ -172,13 +172,22 @@ export const returnCareTeamTable = (
  * @param fhirBundle - The FHIR bundle containing patient and immunizations information.
  * @param immunizationsArray - An array containing the list of immunizations.
  * @param mappings - An object containing the FHIR path mappings.
+ * @param snomedCode - (Optional) The SNOMED code used to filter the immunizations.
  * @returns - A formatted table React element representing the list of immunizations, or undefined if the immunizations array is empty.
  */
 export const returnImmunizations = (
   fhirBundle: Bundle,
   immunizationsArray: Immunization[],
   mappings: PathMappings,
+  snomedCode?: string,
 ): React.JSX.Element | undefined => {
+  if (snomedCode) {
+    console.log("There's a snomed code. Will filter relevant immunizations");
+    // immunizationsArray = immunizationsArray.filter(
+    //   (entry) => entry.code?.coding?.some((item) => item.code === snomedCode) // TODO ANGELA: Don't know how trigger code will get stamped
+    // );
+  }
+
   if (immunizationsArray.length === 0) {
     return undefined;
   }
@@ -227,16 +236,24 @@ export const returnImmunizations = (
  * @param fhirBundle - The FHIR bundle containing patient information.
  * @param problemsArray - An array containing the list of problems.
  * @param mappings - An object containing the FHIR path mappings.
+ * @param snomedCode - (Optional) The SNOMED code used to filter the active problems.
  * @returns - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
  */
 export const returnProblemsTable = (
   fhirBundle: Bundle,
   problemsArray: Condition[],
   mappings: PathMappings,
+  snomedCode?: string,
 ): React.JSX.Element | undefined => {
   problemsArray = problemsArray.filter(
     (entry) => entry.code?.coding?.[0].display,
   );
+
+  if (snomedCode) {
+    problemsArray = problemsArray.filter(
+      (entry) => entry.code?.coding?.some((item) => item.code === snomedCode), // TODO ANGELA: Subject to change
+    );
+  }
 
   if (problemsArray.length === 0) {
     return undefined;
@@ -454,15 +471,25 @@ export const returnProceduresTable = (
  * Generates a formatted table representing the list of planned procedures
  * @param carePlanActivities - An array containing the list of procedures.
  * @param mappings - An object containing FHIR path mappings for procedure attributes.
+ * @param snomedCode - (Optional) The SNOMED code used to filter the list of procedures.
  * @returns - A formatted table React element representing the list of planned procedures, or undefined if the procedures array is empty.
  */
 export const returnPlannedProceduresTable = (
   carePlanActivities: CarePlanActivity[],
   mappings: PathMappings,
+  snomedCode?: string,
 ): React.JSX.Element | undefined => {
   carePlanActivities = carePlanActivities.filter(
     (entry) => entry.detail?.code?.coding?.[0]?.display,
   );
+
+  if (snomedCode) {
+    carePlanActivities = carePlanActivities.filter(
+      (entry) =>
+        entry.detail?.code?.coding?.some((item) => item.code === snomedCode), // TODO ANGELA: Subject to change
+    );
+  }
+
   if (carePlanActivities.length === 0) {
     return undefined;
   }
@@ -495,6 +522,7 @@ export const returnPlannedProceduresTable = (
  * Evaluates clinical data from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing clinical data.
  * @param mappings - The object containing the fhir paths.
+ * @param snomedCode - (Optional) The SNOMED code used to filter the clinical data
  * @returns An object containing evaluated and formatted clinical data.
  * @property {DisplayDataProps[]} clinicalNotes - Clinical notes data.
  * @property {DisplayDataProps[]} reasonForVisitDetails - Reason for visit details.
@@ -506,6 +534,7 @@ export const returnPlannedProceduresTable = (
 export const evaluateClinicalData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
+  snomedCode?: string,
 ) => {
   const clinicalNotes: DisplayDataProps[] = [
     {
@@ -530,6 +559,7 @@ export const evaluateClinicalData = (
         fhirBundle,
         evaluate(fhirBundle, mappings["activeProblems"]),
         mappings,
+        snomedCode,
       ),
     },
   ];
@@ -565,6 +595,7 @@ export const evaluateClinicalData = (
       value: returnPlannedProceduresTable(
         evaluate(fhirBundle, mappings["plannedProcedures"]),
         mappings,
+        snomedCode,
       ),
     },
     {
@@ -601,6 +632,7 @@ export const evaluateClinicalData = (
         fhirBundle,
         evaluate(fhirBundle, mappings["immunizations"]),
         mappings,
+        snomedCode,
       ),
     },
   ];
