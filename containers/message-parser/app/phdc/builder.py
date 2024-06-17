@@ -58,6 +58,7 @@ class PHDC:
         :return: The PHDC XML document as an ElementTree.
         """
         if self.data is None:
+            print()
             raise ValueError("The PHDC object must be initialized.")
         return self.data
 

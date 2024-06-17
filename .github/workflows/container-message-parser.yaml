@@ -121,5 +121,3 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            "MESSAGE_PARSER_URL=${{secrets.MESSAGE_PARSER_URL}}"
