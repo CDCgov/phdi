@@ -88,3 +88,33 @@ jobs:
       - name: Run cypress tests
         working-directory: ./containers/${{env.CONTAINER}}
         run: npm run cypress:run
+  build-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Check Out Changes
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Remove symlinks
+        working-directory: ./containers/${{env.CONTAINER}}/src/app/shared
+        run: rm -rf ./*
+
+      - name: Copy shared-resources
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/
+
+      - name: Build ${{ env.CONTAINER }} Container
+        uses: docker/build-push-action@v3
+        with:
+          context: ./containers/${{ env.CONTAINER }}
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -125,3 +125,24 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}}/tests/integration
         run: |
           python -m pytest -m "integration"
+  build-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build ${{ env.CONTAINER }} Container
+        uses: docker/build-push-action@v3
+        with:
+          context: ./containers/${{ env.CONTAINER }}
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            "INGESTION_URL=${{secrets.INGESTION_URL}}"
+            "MESSAGE_PARSER_URL=${{secrets.MESSAGE_PARSER_URL}}"
+            "SMARTY_AUTH_ID=${{secrets.SMARTY_AUTH_ID}}"
+            "SMARTY_AUTH_TOKEN=${{secrets.SMARTY_AUTH_TOKEN}}"

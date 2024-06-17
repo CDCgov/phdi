@@ -91,3 +91,19 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ env.CONTAINER }}
+  build-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build ${{ env.CONTAINER }} Container
+        uses: docker/build-push-action@v3
+        with:
+          context: ./containers/${{ env.CONTAINER }}
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
