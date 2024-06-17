@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 from typing import Annotated
 
+from dibbs.base_service import BaseService
 from fastapi import Body
 from fastapi import File
 from fastapi import Form
@@ -34,7 +35,6 @@ from app.utils import load_json_from_binary
 from app.utils import load_processing_config
 from app.utils import unzip_http
 from app.utils import unzip_ws
-from phdi.containers.base_service import BaseService
 
 # Integrate main app tracer with automatic instrumentation context
 tracer = trace.get_tracer("orchestration_main_tracer")

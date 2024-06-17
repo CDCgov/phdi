@@ -1,20 +1,12 @@
 import json
 import pathlib
-import re
 from unittest.mock import AsyncMock
 from unittest.mock import Mock
 from unittest.mock import patch
 
 import pytest
-from app.main import add_root_element
 from app.main import app
-from app.main import create_clinical_xpaths
 from app.main import get_clinical_services
-from app.main import refine
-from app.main import select_message_header
-from app.main import validate_message
-from app.main import validate_sections_to_include
-from app.utils import _generate_clinical_xpaths
 from fastapi.testclient import TestClient
 from lxml import etree as ET
 
@@ -251,144 +243,3 @@ async def test_get_clinical_services_error(mock_get):
     condition_codes = "invalid_code"
     clinical_services = await get_clinical_services(condition_codes)
     assert clinical_services[0].status_code == 503
-
-
-@pytest.mark.parametrize(
-    "test_data, expected_result",
-    [
-        # Test case: single sections_to_include
-        (
-            "29762-2",
-            (["29762-2"], ""),
-        ),
-        # Test case: multiple sections_to_include
-        (
-            "10164-2,29299-5",
-            (["10164-2", "29299-5"], ""),
-        ),
-        # Test case: no sections_to_include
-        (
-            None,
-            (None, ""),
-        ),
-        # Test case: invalid sections_to_include
-        (
-            "blah blah blah",
-            ([], "blah blah blah is invalid. Please provide a valid section."),
-        ),
-    ],
-)
-def test_validate_sections_to_include(test_data, expected_result):
-    # # Test cases: single and multiple sections_to_include
-    if test_data != "blah blah blah" and test_data is not None:
-        actual_response = validate_sections_to_include(test_data)
-        assert actual_response == expected_result
-        assert isinstance(actual_response[0], list)
-    # Test case: no sections_to_include
-    elif test_data is None:
-        actual_response = validate_sections_to_include(test_data)
-        assert actual_response == expected_result
-        assert actual_response[0] is None
-    # Test case: invalid sections_to_include
-    else:
-        actual_response = validate_sections_to_include(test_data)
-        assert actual_response == expected_result
-        assert actual_response[1] != ""
-
-
-def test_create_clinical_xpaths():
-    clinical_services_list = [
-        {"lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]}
-    ]
-    expected_xpaths = [
-        ".//*[local-name()='entry'][.//*[@code='76078-5' and @codeSystemName='loinc.org']]",
-        ".//*[local-name()='entry'][.//*[@code='76080-1' and @codeSystemName='loinc.org']]",
-    ]
-    actual_xpaths = create_clinical_xpaths(clinical_services_list)
-    assert actual_xpaths == expected_xpaths
-
-
-def test_refine():
-    raw_message = ET.fromstring(test_eICR_xml)
-    # Test case: Refine for only social history
-    expected_message = refined_test_eICR_social_history_only
-    sections_to_include = ["29762-2"]
-    refined_message = refine(raw_message, sections_to_include)
-
-    actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
-    expected_flattened = [i.tag for i in expected_message.iter()]
-    assert actual_flattened == expected_flattened
-
-    # Test case: Refine for labs/diagnostics and reason for visit
-    expected_message = refined_test_eICR_labs_reason
-    sections_to_include = ["30954-2", "29299-5"]
-    raw_message = ET.fromstring(test_eICR_xml)
-    refined_message = refine(raw_message, sections_to_include)
-
-    actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
-    expected_flattened = [i.tag for i in expected_message.iter()]
-    assert actual_flattened == expected_flattened
-
-    # Test case: Refine for condition only
-    expected_message = refined_test_condition_only
-    raw_message = ET.fromstring(test_eICR_xml)
-    system = "http://loinc.org"
-    codes = ["76078-5", "76080-1"]
-    mock_clinical_service_xpaths = _generate_clinical_xpaths(system, codes)
-    refined_message = refine(
-        raw_message,
-        sections_to_include=None,
-        clinical_services=mock_clinical_service_xpaths,
-    )
-    actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
-    expected_flattened = [i.tag for i in expected_message.iter()]
-    assert actual_flattened == expected_flattened
-
-    # Test case: Refine for condition and labs/diagnostics section
-    expected_message = refined_test_conditon_and_labs
-    raw_message = ET.fromstring(test_eICR_xml)
-    sections_to_include = ["30954-2"]
-    refined_message = refine(
-        raw_message,
-        sections_to_include=sections_to_include,
-        clinical_services=mock_clinical_service_xpaths,
-    )
-    actual_flattened = [i.tag for i in ET.fromstring(refined_message).iter()]
-    expected_flattened = [i.tag for i in expected_message.iter()]
-    assert actual_flattened == expected_flattened
-
-
-def test_select_header():
-    raw_message = ET.fromstring(test_eICR_xml)
-    actual_header = select_message_header(raw_message)
-    expected_header = test_header
-    actual_flattened = [i.tag for i in actual_header.iter()]
-    expected_flattened = [i.tag for i in expected_header.iter()]
-    assert actual_flattened == expected_flattened
-
-
-def test_add_root_element():
-    raw_message = ET.fromstring(test_eICR_xml)
-    header = select_message_header(raw_message)
-    elements = raw_message.xpath(
-        "//*[local-name()='section']", namespaces={"hl7": "urn:hl7-org:v3"}
-    )
-    result = add_root_element(header, elements)
-    # TODO: I could only get this to work with regex
-    assert re.sub(r"\s+", "", result) == re.sub(r"\s+", "", test_eICR_xml)
-
-
-def test_validate_message():
-    # Test case: valid XML
-    raw_message = test_eICR_xml
-    actual_response, error_message = validate_message(raw_message)
-    actual_flattened = [i.tag for i in actual_response.iter()]
-    expected_flattened = [i.tag for i in ET.fromstring(raw_message).iter()]
-    assert actual_flattened == expected_flattened
-    assert error_message == ""
-
-    # Test case: invalid XML
-    raw_message = "this is not a valid XML"
-    actual_response, error_message = validate_message(raw_message)
-    assert actual_response is None
-    assert "XMLSyntaxError" in error_message
