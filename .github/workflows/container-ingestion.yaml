@@ -123,6 +123,5 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             "INGESTION_URL=${{secrets.INGESTION_URL}}"
-            "MESSAGE_PARSER_URL=${{secrets.MESSAGE_PARSER_URL}}"
             "SMARTY_AUTH_ID=${{secrets.SMARTY_AUTH_ID}}"
             "SMARTY_AUTH_TOKEN=${{secrets.SMARTY_AUTH_TOKEN}}"

@@ -15,4 +15,5 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
     hash_obj = hashlib.sha256()
     to_encode = (linking_identifier + salt_str).encode("utf-8")
     hash_obj.update(to_encode)
+    print()
     return hash_obj.hexdigest()
