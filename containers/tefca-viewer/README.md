@@ -20,7 +20,7 @@ Docker version 20.10.21, build baeda1f
 ```
 
 2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/tefca-viewer:latest`.
-3. Run the service with `docker run -p 3000:3000 tefca-viewer:latest`.
+3. Run the service with `docker run -p 3000:3000 tefca-viewer:latest`. If you're on a windows machine, you may need to run `docker run -p 3000:3000 ghcr.io/cdcgov/phdi/tefca-viewer:latest` instead.
 
 Congratulations, the TEFCA Viewer app should now be running on `localhost:3000`!
 
