@@ -1,16 +1,16 @@
-## Getting Started with DIBBs eCR Viewer
+## Getting Started with TEFCA Viewer
 
 ### Introduction
 
-The DIBBs eCR Viewer app offers a REST API for processing eCR FHIR messages into an HTML page with key insights.
+The DIBBs TEFCA Viewer app offers a REST API for searching for a patient and viewng information tied to your case investigation.
 
-### Running eCR Viewer
+### Running TEFCA Viewer
 
-The eCR Viewer app can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Node.js source code.
+The TEFCA Viewer app can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Node.js source code.
 
 #### Running with Docker (Recommended)
 
-To run the eCR Viewer app with Docker, follow these steps.
+To run the TEFCA Viewer app with Docker, follow these steps.
 
 1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar to what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
 
@@ -19,47 +19,34 @@ To run the eCR Viewer app with Docker, follow these steps.
 Docker version 20.10.21, build baeda1f
 ```
 
-2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/ecr-viewer:latest`.
-3. Run the service with `docker run -p 8080:8080 ecr-viewer:latest`.
+2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/tefca-viewer:latest`.
+3. Run the service with `docker run -p 3000:3000 tefca-viewer:latest`. If you're on a windows machine, you may need to run `docker run -p 3000:3000 ghcr.io/cdcgov/phdi/tefca-viewer:latest` instead.
 
-Congratulations, the eCR Viewer app should now be running on `localhost:8080`!
+Congratulations, the TEFCA Viewer app should now be running on `localhost:3000/tefca-viewer`!
 
 #### Running from Node.js Source Code
 
-We recommend running the eCR Viewer app from a container, but if that is not feasible for a given use-case, it may also be run directly from Node using the steps below.
+We recommend running the TEFCA Viewer app from a container, but if that is not feasible for a given use-case, it may also be run directly from Node using the steps below.
 
 1. Ensure that both Git and Node 18.x or higher are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
-3. Navigate to `/phdi/containers/ecr-viewer/`.
-4. Install all of the Node dependencies for the eCR Viewer app with `npm install`.
-5. Run the eCR Viewer app on `localhost:3000` with `npm run dev`.
+3. Navigate to `/phdi/containers/tefca-viewer/`.
+4. Install all of the Node dependencies for the TEFCA Viewer app with `npm install`.
+5. Run the TEFCA Viewer app on `localhost:3000` with `npm run dev`. If you are on a Windows Machine, you may need to run `npm run dev-win` instead.
 
 ### Building the Docker Image
 
-To build the Docker image for the eCR Viewer app from source instead of downloading it from the PHDI repository follow these steps.
+To build the Docker image for the TEFCA Viewer app from source instead of downloading it from the PHDI repository follow these steps.
 
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
-3. Navigate to `/phdi/containers/ecr-viewer/`.
-4. Run `docker build -t ecr-viewer .`.
+3. Navigate to `/phdi/containers/tefca-viewer/`.
+4. Run `docker build -t tefca-viewer .`.
 
-### Running via docker-compose
+### Running via docker-compose (WIP)
 
-The eCR Viewer requires a Postgres database with FHIR bundles to render properly. To make local development easier, a docker-compose file has been created that starts a Postgres database, seeds it with eCR FHIR data, and starts the Node service. This can be run with `docker compose up`. See the [Docker Compose documentation](https://docs.docker.com/engine/reference/commandline/compose_up/) for additional information.
-
-
-### Updating Seed Data
-
-Occasionally, the FHIR Converter will be updated requiring new seed data to be regenerated. This can be done by running `npm run convert-seed-data`.
-To reload the local DB with the new data you will need to delete the `ecr-viewer-seed-db` image by running `docker image rm ecr-viewer-seed-db ` and deleting the volume for the DB.
-
-### Potential Issues
-
-If you have problems connecting your database run this command to see what other postgres databases are running
-`sudo lsof -i :5432`
-
-then kill it
-`kill {pid}`
+The TEFCA Viewer will eventually require other inputs from other DIBBs services. For now, this is a simplified docker compose file that starts the Node service. This can be run with `docker compose up --build`. See the [Docker Compose documentation](https://docs.docker.com/engine/reference/commandline/compose_up/) for additional information.
 
 ### Developer Documentation
+
 Can be found in [api-documentation.md](api-documentation.md).
