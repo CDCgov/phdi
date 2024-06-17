@@ -32,7 +32,7 @@ We recommend running the TEFCA Viewer app from a container, but if that is not f
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/tefca-viewer/`.
 4. Install all of the Node dependencies for the TEFCA Viewer app with `npm install`.
-5. Run the TEFCA Viewer app on `localhost:3000` with `npm run dev`.
+5. Run the TEFCA Viewer app on `localhost:3000` with `npm run dev`. If you are on a Windows Machine, you may need to run `npm run dev-win` instead.
 
 ### Building the Docker Image
 
