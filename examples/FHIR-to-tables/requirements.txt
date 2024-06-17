@@ -1,7 +1,0 @@
-azure-identity
-pyyaml
-pyarrow>=14.0.1
-pandas
-numpy
-pandas
-phdi

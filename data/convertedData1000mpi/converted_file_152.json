@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "301 Rhonda Forest Apt. 454",
+    "first_name": "Paul",
+    "birthdate": "1991-11-23",
+    "last_name": "Roman",
+    "city": "Reedton",
+    "state": "NV",
+    "postalCode": "69499",
+    "country": "USA",
+    "mrn": "757-53-9068"
+  }
+}

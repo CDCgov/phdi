@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "622 Ebony Mills",
+    "first_name": "Kevin",
+    "birthdate": "1948-02-14",
+    "last_name": "Bartlett",
+    "city": "Millerhaven",
+    "state": "VA",
+    "postalCode": "6168",
+    "country": "USA",
+    "mrn": "857-75-2523"
+  }
+}

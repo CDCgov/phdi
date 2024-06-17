@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7015 Edward Route Suite 123",
+    "first_name": "Emma",
+    "birthdate": "1945-09-03",
+    "last_name": "Barnes",
+    "city": "Lake Susanborough",
+    "state": "NE",
+    "postalCode": "77298",
+    "country": "USA",
+    "mrn": "762-43-2409"
+  }
+}

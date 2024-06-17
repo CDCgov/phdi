@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Ellis",
+                            "given": [
+                                "Charles"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "283 Gardner Unions"
+                            ],
+                            "city": "Josephland",
+                            "state": "GA",
+                            "postalCode": "55708",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "143-33-5915",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1963-08-29"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1008607",
+    "use_enhanced": true
+}

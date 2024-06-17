@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Davis",
+                            "given": [
+                                "Beth"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "20146 Williams Springs Suite 830"
+                            ],
+                            "city": "Sandovalland",
+                            "state": "ND",
+                            "postalCode": "917",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "576-54-9566",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2000-10-31"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9426047",
+    "use_enhanced": true
+}

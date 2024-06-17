@@ -1,4 +1,0 @@
-pytest
-pytest-asyncio
-httpx
-testcontainers[compose]==3.7.1

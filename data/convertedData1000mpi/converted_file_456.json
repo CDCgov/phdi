@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "43544 Tonya Heights Apt. 048",
+    "first_name": "Michael",
+    "birthdate": "2005-02-02",
+    "last_name": "Navarro",
+    "city": "Tylertown",
+    "state": "CO",
+    "postalCode": "51166",
+    "country": "USA",
+    "mrn": "267-66-5738"
+  }
+}

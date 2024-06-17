@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "10702 Shirley Village Suite 302",
+    "first_name": "David",
+    "birthdate": "1953-05-15",
+    "last_name": "Hall",
+    "city": "Port Carlview",
+    "state": "PW",
+    "postalCode": "80959",
+    "country": "USA",
+    "mrn": "400-97-5111"
+  }
+}

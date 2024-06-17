@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "00709 Hoover Prairie",
+    "first_name": "William",
+    "birthdate": "1995-03-12",
+    "last_name": "Klein",
+    "city": "East Dylan",
+    "state": "PA",
+    "postalCode": "59332",
+    "country": "USA",
+    "mrn": "555-54-4200"
+  }
+}

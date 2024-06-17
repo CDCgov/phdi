@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8020 Lucas Street",
+    "first_name": "Joyce",
+    "birthdate": "1981-10-07",
+    "last_name": "Hendricks",
+    "city": "Cruzmouth",
+    "state": "TN",
+    "postalCode": "75981",
+    "country": "USA",
+    "mrn": "243-18-2121"
+  }
+}

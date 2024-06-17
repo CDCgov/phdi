@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "610 Snyder Viaduct Suite 089",
+    "first_name": "Kimberly",
+    "birthdate": "1976-03-24",
+    "last_name": "Aguilar",
+    "city": "Whitetown",
+    "state": "TN",
+    "postalCode": "75816",
+    "country": "USA",
+    "mrn": "122-19-8458"
+  }
+}

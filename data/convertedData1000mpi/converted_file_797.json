@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "48398 Johnathan Isle",
+    "first_name": "Michael",
+    "birthdate": "2005-06-14",
+    "last_name": "Dunlap",
+    "city": "Port Stephenville",
+    "state": "UT",
+    "postalCode": "76819",
+    "country": "USA",
+    "mrn": "801-64-0335"
+  }
+}

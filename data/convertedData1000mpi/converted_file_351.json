@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3426 Lewis Parkway",
+    "first_name": "Andrea",
+    "birthdate": "1935-04-02",
+    "last_name": "Travis",
+    "city": "North David",
+    "state": "DE",
+    "postalCode": "55139",
+    "country": "USA",
+    "mrn": "146-84-8983"
+  }
+}

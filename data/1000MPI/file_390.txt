@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Jackson",
+                            "given": [
+                                "Robyn"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "40436 Davis Corners"
+                            ],
+                            "city": "North Rachaelstad",
+                            "state": "KS",
+                            "postalCode": "80637",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "538-36-2549",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1947-10-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9985763",
+    "use_enhanced": true
+}

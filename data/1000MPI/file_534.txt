@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "White",
+                            "given": [
+                                "Samantha"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "011 Miller Road Apt. 545"
+                            ],
+                            "city": "Mcdanielview",
+                            "state": "MN",
+                            "postalCode": "52196",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "827-48-8845",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1941-06-14"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6229515",
+    "use_enhanced": true
+}

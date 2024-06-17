@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6789 Tammy Knoll",
+    "first_name": "Lawrence",
+    "birthdate": "1940-08-09",
+    "last_name": "Acosta",
+    "city": "East Julia",
+    "state": "ME",
+    "postalCode": "2362",
+    "country": "USA",
+    "mrn": "827-59-0772"
+  }
+}

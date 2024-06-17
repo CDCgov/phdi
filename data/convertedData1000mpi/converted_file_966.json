@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2609 Larson Coves Apt. 281",
+    "first_name": "Lisa",
+    "birthdate": "1982-08-28",
+    "last_name": "Bowman",
+    "city": "Huertaview",
+    "state": "NJ",
+    "postalCode": "72003",
+    "country": "USA",
+    "mrn": "195-07-4296"
+  }
+}

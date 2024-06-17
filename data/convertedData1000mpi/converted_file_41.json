@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "660 Patrick Ridges",
+    "first_name": "Todd",
+    "birthdate": "1948-03-27",
+    "last_name": "Valentine",
+    "city": "North Amy",
+    "state": "GA",
+    "postalCode": "74566",
+    "country": "USA",
+    "mrn": "391-81-6915"
+  }
+}

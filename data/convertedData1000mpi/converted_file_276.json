@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "04194 Miranda Manors Apt. 880",
+    "first_name": "Benjamin",
+    "birthdate": "1973-06-04",
+    "last_name": "Brown",
+    "city": "South Jameschester",
+    "state": "AR",
+    "postalCode": "61679",
+    "country": "USA",
+    "mrn": "773-54-5453"
+  }
+}

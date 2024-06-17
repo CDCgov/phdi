@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5667 Hendricks Loop Suite 552",
+    "first_name": "Jonathan",
+    "birthdate": "1976-04-08",
+    "last_name": "Griffith",
+    "city": "West William",
+    "state": "FL",
+    "postalCode": "5080",
+    "country": "USA",
+    "mrn": "402-13-6053"
+  }
+}

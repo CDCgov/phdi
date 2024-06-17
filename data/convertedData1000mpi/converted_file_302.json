@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "484 Brandi Islands",
+    "first_name": "Jim",
+    "birthdate": "1937-06-05",
+    "last_name": "Chaney",
+    "city": "Gonzaleshaven",
+    "state": "NJ",
+    "postalCode": "24882",
+    "country": "USA",
+    "mrn": "468-24-9333"
+  }
+}

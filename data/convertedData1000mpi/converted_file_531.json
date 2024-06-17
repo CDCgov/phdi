@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5402 Fletcher Freeway",
+    "first_name": "Samantha",
+    "birthdate": "1942-01-06",
+    "last_name": "Oneill",
+    "city": "North Herbert",
+    "state": "FL",
+    "postalCode": "28680",
+    "country": "USA",
+    "mrn": "688-16-5795"
+  }
+}

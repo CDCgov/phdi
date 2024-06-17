@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "016 Jennifer Via Apt. 705",
+    "first_name": "Tammy",
+    "birthdate": "1961-12-07",
+    "last_name": "Anderson",
+    "city": "North Thomashaven",
+    "state": "VA",
+    "postalCode": "83377",
+    "country": "USA",
+    "mrn": "372-26-2081"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hale",
+                            "given": [
+                                "Katelyn"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "337 Smith Rue"
+                            ],
+                            "city": "East Sarah",
+                            "state": "WA",
+                            "postalCode": "55013",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "046-11-8131",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1937-06-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3599312",
+    "use_enhanced": true
+}

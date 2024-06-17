@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5253 Joyce Estates",
+    "first_name": "Ross",
+    "birthdate": "1953-06-11",
+    "last_name": "Pierce",
+    "city": "Lake Jeffton",
+    "state": "IA",
+    "postalCode": "88033",
+    "country": "USA",
+    "mrn": "206-24-8574"
+  }
+}

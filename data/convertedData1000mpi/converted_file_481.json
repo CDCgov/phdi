@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "945 Clark Drives Apt. 853",
+    "first_name": "Lori",
+    "birthdate": "2001-12-29",
+    "last_name": "Castillo",
+    "city": "Robertside",
+    "state": "MS",
+    "postalCode": "87694",
+    "country": "USA",
+    "mrn": "489-19-6287"
+  }
+}

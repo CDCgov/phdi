@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Kramer",
+                            "given": [
+                                "Jeff"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "68717 Bell Manors"
+                            ],
+                            "city": "Lisamouth",
+                            "state": "MN",
+                            "postalCode": "59917",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "820-15-3705",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1947-06-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9128286",
+    "use_enhanced": true
+}

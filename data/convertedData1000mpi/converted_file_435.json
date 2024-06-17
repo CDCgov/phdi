@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "025 Garza Courts Suite 948",
+    "first_name": "Teresa",
+    "birthdate": "1975-07-13",
+    "last_name": "Johnson",
+    "city": "Pottsfurt",
+    "state": "PA",
+    "postalCode": "93460",
+    "country": "USA",
+    "mrn": "016-25-1370"
+  }
+}

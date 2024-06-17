@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Miller",
+                            "given": [
+                                "Courtney"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "39978 Angelica Pines"
+                            ],
+                            "city": "Lake Graceberg",
+                            "state": "AR",
+                            "postalCode": "82016",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "150-81-0908",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1941-08-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8938051",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "493 Jake Mission",
+    "first_name": "Nancy",
+    "birthdate": "1976-01-19",
+    "last_name": "Smith",
+    "city": "Lake Richardstad",
+    "state": "VI",
+    "postalCode": "25009",
+    "country": "USA",
+    "mrn": "253-83-7216"
+  }
+}

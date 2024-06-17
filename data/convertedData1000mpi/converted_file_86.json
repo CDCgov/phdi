@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "489 Ramirez Mills",
+    "first_name": "Michael",
+    "birthdate": "1985-11-26",
+    "last_name": "Miller",
+    "city": "New Zoeshire",
+    "state": "GU",
+    "postalCode": "42566",
+    "country": "USA",
+    "mrn": "789-19-3493"
+  }
+}

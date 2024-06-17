@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "957 Steele Estate",
+    "first_name": "Bridget",
+    "birthdate": "2004-11-08",
+    "last_name": "Bautista",
+    "city": "North Stephanieport",
+    "state": "PW",
+    "postalCode": "10881",
+    "country": "USA",
+    "mrn": "595-95-9667"
+  }
+}

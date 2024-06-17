@@ -1,6 +1,0 @@
-{
-  "name": "utils",
-  "scripts": {
-    "zip-search": "python zip-search/zip-search-gui.py"
-  }
-}

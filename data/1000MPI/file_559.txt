@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gonzalez",
+                            "given": [
+                                "Paul"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "352 Wendy Circle"
+                            ],
+                            "city": "Wangland",
+                            "state": "VA",
+                            "postalCode": "51781",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "639-86-5655",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1941-02-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4635624",
+    "use_enhanced": true
+}

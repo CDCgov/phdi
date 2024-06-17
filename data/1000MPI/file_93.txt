@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hart",
+                            "given": [
+                                "Paula"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "161 Turner Ways"
+                            ],
+                            "city": "Smithburgh",
+                            "state": "MP",
+                            "postalCode": "52483",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "049-79-3469",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1946-02-10"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7876855",
+    "use_enhanced": true
+}

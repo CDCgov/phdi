@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "036 Jessica Spring Suite 829",
+    "first_name": "David",
+    "birthdate": "1939-12-29",
+    "last_name": "Love",
+    "city": "Justinhaven",
+    "state": "NJ",
+    "postalCode": "11672",
+    "country": "USA",
+    "mrn": "467-79-3885"
+  }
+}

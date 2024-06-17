@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "31796 Gibson Spurs Suite 914",
+    "first_name": "Jeremy",
+    "birthdate": "1996-06-01",
+    "last_name": "Stewart",
+    "city": "East Jamieburgh",
+    "state": "PR",
+    "postalCode": "16985",
+    "country": "USA",
+    "mrn": "421-38-9480"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "70323 Nelson Mews",
+    "first_name": "Jason",
+    "birthdate": "1970-11-12",
+    "last_name": "Mendez",
+    "city": "Erichaven",
+    "state": "IN",
+    "postalCode": "96786",
+    "country": "USA",
+    "mrn": "785-51-9627"
+  }
+}

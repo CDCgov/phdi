@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "73425 Williams Spur Suite 786",
+    "first_name": "Nancy",
+    "birthdate": "2003-11-11",
+    "last_name": "Miller",
+    "city": "New Joelland",
+    "state": "LA",
+    "postalCode": "83935",
+    "country": "USA",
+    "mrn": "588-76-1820"
+  }
+}

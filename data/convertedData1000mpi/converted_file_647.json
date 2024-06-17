@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "94190 Martinez Trail",
+    "first_name": "Kristina",
+    "birthdate": "1963-01-26",
+    "last_name": "Washington",
+    "city": "Port Carlosside",
+    "state": "SC",
+    "postalCode": "41706",
+    "country": "USA",
+    "mrn": "736-74-6054"
+  }
+}

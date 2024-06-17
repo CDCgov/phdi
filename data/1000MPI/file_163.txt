@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Carter",
+                            "given": [
+                                "Charles"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "62111 Stacy Inlet Apt. 526"
+                            ],
+                            "city": "East Lisa",
+                            "state": "MO",
+                            "postalCode": "81337",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "344-23-4563",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1955-09-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5429009",
+    "use_enhanced": true
+}

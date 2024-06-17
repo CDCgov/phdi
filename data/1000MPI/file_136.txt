@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Aguilar",
+                            "given": [
+                                "Kimberly"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "610 Snyder Viaduct Suite 089"
+                            ],
+                            "city": "Whitetown",
+                            "state": "TN",
+                            "postalCode": "75816",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "122-19-8458",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1976-03-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5211540",
+    "use_enhanced": true
+}

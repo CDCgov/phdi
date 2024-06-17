@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Cunningham",
+                            "given": [
+                                "Samantha"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "44929 Waller Prairie Apt. 066"
+                            ],
+                            "city": "West Candace",
+                            "state": "DE",
+                            "postalCode": "31587",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "068-39-0549",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1988-11-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8485337",
+    "use_enhanced": true
+}

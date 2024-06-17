@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hammond",
+                            "given": [
+                                "Walter"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "22166 Bonnie Neck"
+                            ],
+                            "city": "East Kellyberg",
+                            "state": "PW",
+                            "postalCode": "90511",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "223-91-0266",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1934-02-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5208298",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "93652 Karen Port Suite 362",
+    "first_name": "Madeline",
+    "birthdate": "1981-03-07",
+    "last_name": "Daniels",
+    "city": "Johnsonton",
+    "state": "UT",
+    "postalCode": "69868",
+    "country": "USA",
+    "mrn": "378-06-2453"
+  }
+}

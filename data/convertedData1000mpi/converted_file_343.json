@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "627 Smith Ports",
+    "first_name": "William",
+    "birthdate": "2004-03-25",
+    "last_name": "Reid",
+    "city": "Mcdowellhaven",
+    "state": "LA",
+    "postalCode": "99813",
+    "country": "USA",
+    "mrn": "731-72-3605"
+  }
+}

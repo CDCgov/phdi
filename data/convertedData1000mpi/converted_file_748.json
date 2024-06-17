@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "462 Patricia Fall Suite 236",
+    "first_name": "Joshua",
+    "birthdate": "1995-03-18",
+    "last_name": "Galloway",
+    "city": "Natashaside",
+    "state": "VI",
+    "postalCode": "64361",
+    "country": "USA",
+    "mrn": "131-41-7785"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "23636 Weeks Plaza Suite 083",
+    "first_name": "Ryan",
+    "birthdate": "2000-02-08",
+    "last_name": "Hill",
+    "city": "Millerside",
+    "state": "ID",
+    "postalCode": "54548",
+    "country": "USA",
+    "mrn": "843-52-9046"
+  }
+}

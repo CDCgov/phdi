@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "80176 Mark Common Suite 925",
+    "first_name": "James",
+    "birthdate": "1952-10-25",
+    "last_name": "Foster",
+    "city": "New Alexander",
+    "state": "AZ",
+    "postalCode": "31693",
+    "country": "USA",
+    "mrn": "450-15-2162"
+  }
+}

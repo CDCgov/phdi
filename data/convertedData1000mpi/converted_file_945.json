@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2879 Jessica Fort",
+    "first_name": "Joshua",
+    "birthdate": "1940-01-03",
+    "last_name": "Barnes",
+    "city": "Cynthiafurt",
+    "state": "NH",
+    "postalCode": "49588",
+    "country": "USA",
+    "mrn": "483-42-1498"
+  }
+}

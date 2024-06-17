@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "822 Nicole Ranch Suite 166",
+    "first_name": "Jeremy",
+    "birthdate": "2000-10-27",
+    "last_name": "Williams",
+    "city": "Liuton",
+    "state": "DC",
+    "postalCode": "84627",
+    "country": "USA",
+    "mrn": "438-67-2027"
+  }
+}

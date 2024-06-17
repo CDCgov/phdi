@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "30203 Virginia Mills Suite 042",
+    "first_name": "Jodi",
+    "birthdate": "1942-10-24",
+    "last_name": "Davis",
+    "city": "Kevinmouth",
+    "state": "HI",
+    "postalCode": "84401",
+    "country": "USA",
+    "mrn": "287-92-9157"
+  }
+}

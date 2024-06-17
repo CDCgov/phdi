@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9705 Campbell Hills",
+    "first_name": "Kristin",
+    "birthdate": "1950-05-01",
+    "last_name": "Green",
+    "city": "Lake Jacqueline",
+    "state": "KS",
+    "postalCode": "3527",
+    "country": "USA",
+    "mrn": "180-76-4010"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "058 Jones Vista",
+    "first_name": "Kimberly",
+    "birthdate": "1975-11-05",
+    "last_name": "Edwards",
+    "city": "Saundersmouth",
+    "state": "TN",
+    "postalCode": "53737",
+    "country": "USA",
+    "mrn": "341-96-8733"
+  }
+}

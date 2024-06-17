@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "658 Gibson Trace",
+    "first_name": "James",
+    "birthdate": "1983-04-20",
+    "last_name": "Hernandez",
+    "city": "New Phillipmouth",
+    "state": "NE",
+    "postalCode": "73096",
+    "country": "USA",
+    "mrn": "804-04-6999"
+  }
+}

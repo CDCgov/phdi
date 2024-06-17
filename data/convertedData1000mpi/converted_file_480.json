@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "57599 Garcia Center",
+    "first_name": "Robin",
+    "birthdate": "1976-10-16",
+    "last_name": "Ashley",
+    "city": "Kevinstad",
+    "state": "CO",
+    "postalCode": "56896",
+    "country": "USA",
+    "mrn": "276-20-3409"
+  }
+}

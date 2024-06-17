@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8749 Lam Harbors",
+    "first_name": "Andrew",
+    "birthdate": "1994-05-17",
+    "last_name": "George",
+    "city": "Gordontown",
+    "state": "CT",
+    "postalCode": "30787",
+    "country": "USA",
+    "mrn": "693-96-9195"
+  }
+}

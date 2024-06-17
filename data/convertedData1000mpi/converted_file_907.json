@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "44929 Waller Prairie Apt. 066",
+    "first_name": "Samantha",
+    "birthdate": "1988-11-17",
+    "last_name": "Cunningham",
+    "city": "West Candace",
+    "state": "DE",
+    "postalCode": "31587",
+    "country": "USA",
+    "mrn": "068-39-0549"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "72848 Barker Rapids Apt. 303",
+    "first_name": "Michael",
+    "birthdate": "1940-06-17",
+    "last_name": "Perez",
+    "city": "Warrenshire",
+    "state": "ME",
+    "postalCode": "65709",
+    "country": "USA",
+    "mrn": "702-73-0450"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "10667 Fisher Coves",
+    "first_name": "George",
+    "birthdate": "1989-11-18",
+    "last_name": "Williams",
+    "city": "Amandaborough",
+    "state": "LA",
+    "postalCode": "96005",
+    "country": "USA",
+    "mrn": "779-95-7759"
+  }
+}

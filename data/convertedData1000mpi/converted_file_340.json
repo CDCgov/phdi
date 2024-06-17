@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1429 Emily Trace",
+    "first_name": "Stephanie",
+    "birthdate": "1991-04-08",
+    "last_name": "James",
+    "city": "West Christine",
+    "state": "IN",
+    "postalCode": "89585",
+    "country": "USA",
+    "mrn": "834-96-8672"
+  }
+}

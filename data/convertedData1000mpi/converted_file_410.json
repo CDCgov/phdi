@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "774 Kimberly Parks Suite 252",
+    "first_name": "Jacqueline",
+    "birthdate": "1964-07-17",
+    "last_name": "Duffy",
+    "city": "Lake Johnfurt",
+    "state": "AZ",
+    "postalCode": "93190",
+    "country": "USA",
+    "mrn": "755-82-2968"
+  }
+}

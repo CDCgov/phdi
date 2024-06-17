@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Jackson",
+                            "given": [
+                                "Patrick"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "926 Jacobs View"
+                            ],
+                            "city": "Chapmanside",
+                            "state": "NY",
+                            "postalCode": "54117",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "627-83-6055",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1941-12-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7691056",
+    "use_enhanced": true
+}

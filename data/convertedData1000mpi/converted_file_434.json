@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "971 Scott Mills",
+    "first_name": "Joseph",
+    "birthdate": "1996-11-10",
+    "last_name": "Garza",
+    "city": "Campbellmouth",
+    "state": "LA",
+    "postalCode": "26254",
+    "country": "USA",
+    "mrn": "116-47-3752"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "23630 Stephanie Skyway",
+    "first_name": "David",
+    "birthdate": "1962-10-31",
+    "last_name": "Williamson",
+    "city": "Hernandezmouth",
+    "state": "WI",
+    "postalCode": "51938",
+    "country": "USA",
+    "mrn": "676-74-0036"
+  }
+}

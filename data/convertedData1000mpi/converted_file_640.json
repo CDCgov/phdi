@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "47485 Matthew Lock Apt. 911",
+    "first_name": "Connie",
+    "birthdate": "1954-02-14",
+    "last_name": "Schultz",
+    "city": "South David",
+    "state": "WY",
+    "postalCode": "2273",
+    "country": "USA",
+    "mrn": "584-15-0878"
+  }
+}

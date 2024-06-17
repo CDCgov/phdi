@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4709 Chad Shore Suite 089",
+    "first_name": "Jamie",
+    "birthdate": "1935-09-19",
+    "last_name": "Welch",
+    "city": "Marymouth",
+    "state": "UT",
+    "postalCode": "32673",
+    "country": "USA",
+    "mrn": "062-69-9488"
+  }
+}

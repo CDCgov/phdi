@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "569 Holmes Road",
+    "first_name": "Ricky",
+    "birthdate": "2005-09-12",
+    "last_name": "Lowery",
+    "city": "Barbaramouth",
+    "state": "NE",
+    "postalCode": "32289",
+    "country": "USA",
+    "mrn": "432-55-2664"
+  }
+}

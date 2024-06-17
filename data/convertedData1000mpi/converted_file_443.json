@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17256 Garcia Viaduct",
+    "first_name": "Jason",
+    "birthdate": "1984-07-15",
+    "last_name": "Davidson",
+    "city": "Jasonshire",
+    "state": "OH",
+    "postalCode": "39606",
+    "country": "USA",
+    "mrn": "731-96-3927"
+  }
+}

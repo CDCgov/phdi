@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "92897 Klein Mountain Suite 417",
+    "first_name": "Jay",
+    "birthdate": "1966-05-21",
+    "last_name": "Arias",
+    "city": "Howellfort",
+    "state": "HI",
+    "postalCode": "8349",
+    "country": "USA",
+    "mrn": "485-34-1845"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "461 Marshall Square Apt. 356",
+    "first_name": "Chase",
+    "birthdate": "1961-10-29",
+    "last_name": "Casey",
+    "city": "New Ginashire",
+    "state": "WY",
+    "postalCode": "49582",
+    "country": "USA",
+    "mrn": "030-15-8293"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Robinson",
+                            "given": [
+                                "Brittany"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "52957 Devin Cliff"
+                            ],
+                            "city": "Robertamouth",
+                            "state": "FL",
+                            "postalCode": "77724",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "368-57-1422",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1969-04-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9910895",
+    "use_enhanced": true
+}

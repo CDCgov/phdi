@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Spears",
+                            "given": [
+                                "Tiffany"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "758 Floyd Unions Suite 220"
+                            ],
+                            "city": "North David",
+                            "state": "MS",
+                            "postalCode": "82674",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "775-15-6935",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2000-03-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8168182",
+    "use_enhanced": true
+}

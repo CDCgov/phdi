@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "104 Miller Valleys",
+    "first_name": "Lisa",
+    "birthdate": "1999-04-08",
+    "last_name": "Esparza",
+    "city": "West Hannah",
+    "state": "RI",
+    "postalCode": "28779",
+    "country": "USA",
+    "mrn": "001-75-2229"
+  }
+}

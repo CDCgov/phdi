@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "62111 Stacy Inlet Apt. 526",
+    "first_name": "Charles",
+    "birthdate": "1955-09-04",
+    "last_name": "Carter",
+    "city": "East Lisa",
+    "state": "MO",
+    "postalCode": "81337",
+    "country": "USA",
+    "mrn": "344-23-4563"
+  }
+}

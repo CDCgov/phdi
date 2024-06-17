@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Thompson",
+                            "given": [
+                                "Tony"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "84569 Rowe Center"
+                            ],
+                            "city": "Port Barbarafort",
+                            "state": "OH",
+                            "postalCode": "54284",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "858-69-0576",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1950-12-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9303312",
+    "use_enhanced": true
+}

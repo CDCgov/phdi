@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "13755 Wesley Place Apt. 338",
+    "first_name": "Thomas",
+    "birthdate": "1973-01-02",
+    "last_name": "Collins",
+    "city": "East Robin",
+    "state": "AK",
+    "postalCode": "92899",
+    "country": "USA",
+    "mrn": "054-48-9894"
+  }
+}

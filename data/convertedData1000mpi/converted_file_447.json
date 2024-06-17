@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "930 Cook Lakes",
+    "first_name": "Gregory",
+    "birthdate": "1949-06-04",
+    "last_name": "Patel",
+    "city": "Bullockhaven",
+    "state": "FM",
+    "postalCode": "43745",
+    "country": "USA",
+    "mrn": "528-79-9189"
+  }
+}

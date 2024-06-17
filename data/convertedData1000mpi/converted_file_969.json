@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "206 Ramirez Dam",
+    "first_name": "Melissa",
+    "birthdate": "1996-12-10",
+    "last_name": "Noble",
+    "city": "Webbburgh",
+    "state": "DC",
+    "postalCode": "52053",
+    "country": "USA",
+    "mrn": "380-36-1147"
+  }
+}

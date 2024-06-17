@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "95317 Elizabeth Garden",
+    "first_name": "Karla",
+    "birthdate": "1951-06-19",
+    "last_name": "Hart",
+    "city": "Port Casey",
+    "state": "GU",
+    "postalCode": "69387",
+    "country": "USA",
+    "mrn": "605-31-5581"
+  }
+}

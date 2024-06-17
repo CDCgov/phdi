@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "18563 Williams Circle",
+    "first_name": "Victor",
+    "birthdate": "1992-08-12",
+    "last_name": "Russell",
+    "city": "Lake Haroldland",
+    "state": "MN",
+    "postalCode": "13322",
+    "country": "USA",
+    "mrn": "716-57-3933"
+  }
+}

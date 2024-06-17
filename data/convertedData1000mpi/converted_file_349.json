@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "07135 Elizabeth Common",
+    "first_name": "James",
+    "birthdate": "1992-11-10",
+    "last_name": "Tyler",
+    "city": "Lake Tracyville",
+    "state": "PA",
+    "postalCode": "23998",
+    "country": "USA",
+    "mrn": "147-81-2210"
+  }
+}

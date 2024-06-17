@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Nichols",
+                            "given": [
+                                "Clayton"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "15191 Bradley Garden"
+                            ],
+                            "city": "Kelleyfort",
+                            "state": "MN",
+                            "postalCode": "4921",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "703-50-1045",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1961-04-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3826945",
+    "use_enhanced": true
+}

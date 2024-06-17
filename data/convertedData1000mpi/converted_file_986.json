@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "49984 Brian Prairie",
+    "first_name": "Patricia",
+    "birthdate": "1987-07-28",
+    "last_name": "Martin",
+    "city": "Matthewport",
+    "state": "OK",
+    "postalCode": "37024",
+    "country": "USA",
+    "mrn": "176-91-1221"
+  }
+}

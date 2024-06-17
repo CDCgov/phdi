@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "79948 Freeman Landing",
+    "first_name": "Jessica",
+    "birthdate": "2002-11-13",
+    "last_name": "Stevens",
+    "city": "East Allison",
+    "state": "MA",
+    "postalCode": "49180",
+    "country": "USA",
+    "mrn": "241-74-2115"
+  }
+}

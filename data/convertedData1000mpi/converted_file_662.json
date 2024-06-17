@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "35335 Bernard Point Suite 082",
+    "first_name": "Andrew",
+    "birthdate": "1943-01-21",
+    "last_name": "Perry",
+    "city": "Moranland",
+    "state": "HI",
+    "postalCode": "7185",
+    "country": "USA",
+    "mrn": "052-09-0166"
+  }
+}

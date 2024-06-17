@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7380 Collins Overpass Suite 719",
+    "first_name": "Jessica",
+    "birthdate": "1947-12-25",
+    "last_name": "Moore",
+    "city": "Harrisonton",
+    "state": "MN",
+    "postalCode": "74915",
+    "country": "USA",
+    "mrn": "473-84-6245"
+  }
+}

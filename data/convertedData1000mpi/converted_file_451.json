@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "12787 Campos Mount",
+    "first_name": "Darius",
+    "birthdate": "1961-01-18",
+    "last_name": "Johnson",
+    "city": "Reneeside",
+    "state": "MO",
+    "postalCode": "88450",
+    "country": "USA",
+    "mrn": "372-40-3608"
+  }
+}

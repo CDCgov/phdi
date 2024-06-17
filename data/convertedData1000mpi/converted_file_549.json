@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "22852 Bell Track Apt. 888",
+    "first_name": "Daniel",
+    "birthdate": "1980-08-10",
+    "last_name": "Robinson",
+    "city": "Michaelside",
+    "state": "VA",
+    "postalCode": "59249",
+    "country": "USA",
+    "mrn": "516-28-6878"
+  }
+}

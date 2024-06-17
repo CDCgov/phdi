@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9623 Bryant Coves",
+    "first_name": "Ryan",
+    "birthdate": "1952-04-24",
+    "last_name": "Guerra",
+    "city": "Charlesstad",
+    "state": "NV",
+    "postalCode": "68514",
+    "country": "USA",
+    "mrn": "690-01-3196"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Medina",
+                            "given": [
+                                "Peter"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "941 Erica Causeway"
+                            ],
+                            "city": "Port Brittanyside",
+                            "state": "IA",
+                            "postalCode": "6657",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "378-27-6191",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1979-03-05"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9370276",
+    "use_enhanced": true
+}

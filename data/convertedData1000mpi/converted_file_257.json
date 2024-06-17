@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "27039 Rice Vista",
+    "first_name": "Daniel",
+    "birthdate": "1975-07-30",
+    "last_name": "Gonzales",
+    "city": "East Jeffreymouth",
+    "state": "FL",
+    "postalCode": "49943",
+    "country": "USA",
+    "mrn": "108-61-2437"
+  }
+}

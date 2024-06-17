@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "522 Clayton Ports",
+    "first_name": "Matthew",
+    "birthdate": "1971-01-24",
+    "last_name": "Daniels",
+    "city": "Danielshire",
+    "state": "IL",
+    "postalCode": "6557",
+    "country": "USA",
+    "mrn": "522-40-8265"
+  }
+}

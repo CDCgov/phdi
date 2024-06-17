@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8667 Villa Hill Suite 631",
+    "first_name": "Roberta",
+    "birthdate": "1962-01-12",
+    "last_name": "Foster",
+    "city": "Jordanshire",
+    "state": "KS",
+    "postalCode": "78586",
+    "country": "USA",
+    "mrn": "506-04-3291"
+  }
+}

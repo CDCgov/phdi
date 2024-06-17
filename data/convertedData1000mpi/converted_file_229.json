@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "53066 Rhonda Garden Apt. 436",
+    "first_name": "Andrew",
+    "birthdate": "1986-12-20",
+    "last_name": "Chavez",
+    "city": "West Johnhaven",
+    "state": "CT",
+    "postalCode": "51241",
+    "country": "USA",
+    "mrn": "837-51-9394"
+  }
+}

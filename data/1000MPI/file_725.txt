@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Weeks",
+                            "given": [
+                                "Jason"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "52166 Julie Road Apt. 894"
+                            ],
+                            "city": "Hurleyhaven",
+                            "state": "MS",
+                            "postalCode": "75041",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "391-73-3727",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1987-10-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6686765",
+    "use_enhanced": true
+}

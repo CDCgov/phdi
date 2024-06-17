@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2654 Shaffer Landing",
+    "first_name": "Jacob",
+    "birthdate": "1956-03-15",
+    "last_name": "Trujillo",
+    "city": "Powersburgh",
+    "state": "MN",
+    "postalCode": "6338",
+    "country": "USA",
+    "mrn": "054-49-6891"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "44955 Jennifer Passage",
+    "first_name": "Donald",
+    "birthdate": "1976-03-21",
+    "last_name": "Jimenez",
+    "city": "Munozstad",
+    "state": "KY",
+    "postalCode": "68827",
+    "country": "USA",
+    "mrn": "070-53-6126"
+  }
+}

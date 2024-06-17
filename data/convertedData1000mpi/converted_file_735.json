@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "448 Jennifer Flat",
+    "first_name": "Whitney",
+    "birthdate": "1990-04-24",
+    "last_name": "Pennington",
+    "city": "Harmonside",
+    "state": "TX",
+    "postalCode": "62482",
+    "country": "USA",
+    "mrn": "255-96-3668"
+  }
+}

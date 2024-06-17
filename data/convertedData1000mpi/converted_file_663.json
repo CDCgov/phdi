@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "40953 Potts Dam Suite 413",
+    "first_name": "Eugene",
+    "birthdate": "1967-05-08",
+    "last_name": "Larson",
+    "city": "Milestown",
+    "state": "AR",
+    "postalCode": "57936",
+    "country": "USA",
+    "mrn": "667-22-3550"
+  }
+}

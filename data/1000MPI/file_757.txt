@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Howard",
+                            "given": [
+                                "Jade"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "728 Coleman Stream Apt. 829"
+                            ],
+                            "city": "Jamesfurt",
+                            "state": "TN",
+                            "postalCode": "73090",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "042-14-2945",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2004-10-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6549361",
+    "use_enhanced": true
+}

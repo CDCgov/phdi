@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "317 Tricia Prairie",
+    "first_name": "Dana",
+    "birthdate": "1963-07-16",
+    "last_name": "Fowler",
+    "city": "Ryanborough",
+    "state": "MN",
+    "postalCode": "54861",
+    "country": "USA",
+    "mrn": "785-03-3575"
+  }
+}

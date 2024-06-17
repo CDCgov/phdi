@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "00403 Alexa Mountain",
+    "first_name": "James",
+    "birthdate": "1975-05-29",
+    "last_name": "Roberts",
+    "city": "West Oliviashire",
+    "state": "KS",
+    "postalCode": "53843",
+    "country": "USA",
+    "mrn": "135-11-7876"
+  }
+}

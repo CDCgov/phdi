@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3721 Angela Run Apt. 803",
+    "first_name": "Corey",
+    "birthdate": "1950-04-14",
+    "last_name": "Greer",
+    "city": "Brianfort",
+    "state": "MO",
+    "postalCode": "15391",
+    "country": "USA",
+    "mrn": "488-89-6201"
+  }
+}

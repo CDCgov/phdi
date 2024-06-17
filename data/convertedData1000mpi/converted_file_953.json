@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "49704 Stacy Meadows Suite 741",
+    "first_name": "Jason",
+    "birthdate": "1947-10-19",
+    "last_name": "Marshall",
+    "city": "Reneechester",
+    "state": "FM",
+    "postalCode": "18420",
+    "country": "USA",
+    "mrn": "553-48-9782"
+  }
+}

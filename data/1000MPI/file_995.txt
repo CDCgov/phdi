@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Marks",
+                            "given": [
+                                "Emily"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "289 David Lakes"
+                            ],
+                            "city": "Garyville",
+                            "state": "CO",
+                            "postalCode": "5789",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "882-67-5521",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1974-01-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3216162",
+    "use_enhanced": true
+}

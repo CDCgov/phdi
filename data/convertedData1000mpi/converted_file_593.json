@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7400 Courtney Mission Suite 159",
+    "first_name": "Anthony",
+    "birthdate": "1950-01-22",
+    "last_name": "Odom",
+    "city": "Craigfurt",
+    "state": "VT",
+    "postalCode": "89055",
+    "country": "USA",
+    "mrn": "289-16-6789"
+  }
+}

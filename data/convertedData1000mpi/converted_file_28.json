@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "23018 Morgan Ln. Apt. 896",
+    "first_name": "Emily",
+    "birthdate": "1943-01-06",
+    "last_name": "Weber",
+    "city": "Trevinoside",
+    "state": "GA",
+    "postalCode": "7141",
+    "country": "USA",
+    "mrn": "523-44-1472"
+  }
+}

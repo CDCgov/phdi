@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hernandez",
+                            "given": [
+                                "Bryce"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "56367 Cassandra Points Suite 929"
+                            ],
+                            "city": "Leeville",
+                            "state": "MN",
+                            "postalCode": "38024",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "855-62-5050",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1979-05-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1399406",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "97575 Small Circles",
+    "first_name": "Sarah",
+    "birthdate": "1998-07-07",
+    "last_name": "Christensen",
+    "city": "Joseland",
+    "state": "UT",
+    "postalCode": "11963",
+    "country": "USA",
+    "mrn": "214-28-2269"
+  }
+}

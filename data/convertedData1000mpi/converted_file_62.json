@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "93924 Moore Parks",
+    "first_name": "Nicole",
+    "birthdate": "1974-11-09",
+    "last_name": "Chandler",
+    "city": "Jaystad",
+    "state": "AL",
+    "postalCode": "45899",
+    "country": "USA",
+    "mrn": "710-45-5676"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "260 Colton Flats Suite 434",
+    "first_name": "Alex",
+    "birthdate": "1957-03-10",
+    "last_name": "Ward",
+    "city": "New Susan",
+    "state": "TN",
+    "postalCode": "2246",
+    "country": "USA",
+    "mrn": "728-80-5012"
+  }
+}

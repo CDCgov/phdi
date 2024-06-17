@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "71684 Perez Way",
+    "first_name": "Frank",
+    "birthdate": "1998-04-05",
+    "last_name": "Owens",
+    "city": "Jamesberg",
+    "state": "WA",
+    "postalCode": "72685",
+    "country": "USA",
+    "mrn": "423-10-9629"
+  }
+}

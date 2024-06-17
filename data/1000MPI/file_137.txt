@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Schultz",
+                            "given": [
+                                "Dillon"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "30694 Daniel Inlet Suite 199"
+                            ],
+                            "city": "Chanton",
+                            "state": "NE",
+                            "postalCode": "7047",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "856-80-5741",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1934-08-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9954600",
+    "use_enhanced": true
+}

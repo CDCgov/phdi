@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "43479 Collier Stravenue",
+    "first_name": "Dakota",
+    "birthdate": "1948-11-08",
+    "last_name": "Herring",
+    "city": "South Richardhaven",
+    "state": "UT",
+    "postalCode": "14389",
+    "country": "USA",
+    "mrn": "154-52-5027"
+  }
+}

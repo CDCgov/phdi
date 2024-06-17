@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "81632 Alexander Parks",
+    "first_name": "Whitney",
+    "birthdate": "2003-06-13",
+    "last_name": "Morgan",
+    "city": "East Pamelafurt",
+    "state": "PA",
+    "postalCode": "8313",
+    "country": "USA",
+    "mrn": "705-02-8093"
+  }
+}

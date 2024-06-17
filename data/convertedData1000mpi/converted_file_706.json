@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "461 Padilla Branch",
+    "first_name": "Ashley",
+    "birthdate": "1976-04-24",
+    "last_name": "Gonzalez",
+    "city": "South Josephport",
+    "state": "ID",
+    "postalCode": "71387",
+    "country": "USA",
+    "mrn": "246-82-7234"
+  }
+}

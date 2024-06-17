@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "585 Ortiz Streets Suite 575",
+    "first_name": "Karen",
+    "birthdate": "1997-09-26",
+    "last_name": "Miller",
+    "city": "Fitzgeraldstad",
+    "state": "GU",
+    "postalCode": "76415",
+    "country": "USA",
+    "mrn": "218-97-4693"
+  }
+}

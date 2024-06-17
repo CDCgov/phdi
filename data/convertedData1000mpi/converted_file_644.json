@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "38979 Gina Courts",
+    "first_name": "Cynthia",
+    "birthdate": "1988-06-02",
+    "last_name": "Smith",
+    "city": "Christinaberg",
+    "state": "DE",
+    "postalCode": "38849",
+    "country": "USA",
+    "mrn": "255-03-5095"
+  }
+}

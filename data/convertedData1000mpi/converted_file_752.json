@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "924 Pratt Stravenue",
+    "first_name": "Rhonda",
+    "birthdate": "1991-07-06",
+    "last_name": "Petty",
+    "city": "Hernandezview",
+    "state": "VT",
+    "postalCode": "94779",
+    "country": "USA",
+    "mrn": "733-83-3554"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "319 Dawn Harbors",
+    "first_name": "Stacy",
+    "birthdate": "1992-07-22",
+    "last_name": "Price",
+    "city": "Port Adam",
+    "state": "KS",
+    "postalCode": "66541",
+    "country": "USA",
+    "mrn": "099-78-3217"
+  }
+}

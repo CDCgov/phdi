@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "506 Jordan Harbors",
+    "first_name": "Jeremiah",
+    "birthdate": "1946-01-07",
+    "last_name": "Harrison",
+    "city": "Geraldport",
+    "state": "OH",
+    "postalCode": "34046",
+    "country": "USA",
+    "mrn": "147-04-6980"
+  }
+}

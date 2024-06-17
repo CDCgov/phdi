@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "04055 Amy Keys Apt. 561",
+    "first_name": "Kevin",
+    "birthdate": "1937-12-05",
+    "last_name": "Serrano",
+    "city": "Rebeccamouth",
+    "state": "MD",
+    "postalCode": "69385",
+    "country": "USA",
+    "mrn": "689-53-5480"
+  }
+}

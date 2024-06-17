@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "283 Thomas Cliff",
+    "first_name": "Eric",
+    "birthdate": "1977-12-05",
+    "last_name": "Odonnell",
+    "city": "South Meganmouth",
+    "state": "FL",
+    "postalCode": "8363",
+    "country": "USA",
+    "mrn": "282-61-9958"
+  }
+}

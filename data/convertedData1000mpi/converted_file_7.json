@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3461 Adams Neck",
+    "first_name": "Rob",
+    "birthdate": "2003-10-08",
+    "last_name": "Washington",
+    "city": "Sarahbury",
+    "state": "MA",
+    "postalCode": "64832",
+    "country": "USA",
+    "mrn": "551-79-0423"
+  }
+}

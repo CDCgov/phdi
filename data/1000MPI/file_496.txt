@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Jimenez",
+                            "given": [
+                                "Donald"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "44955 Jennifer Passage"
+                            ],
+                            "city": "Munozstad",
+                            "state": "KY",
+                            "postalCode": "68827",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "070-53-6126",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1976-03-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7662565",
+    "use_enhanced": true
+}

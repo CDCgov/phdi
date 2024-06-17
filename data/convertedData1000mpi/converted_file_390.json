@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "40436 Davis Corners",
+    "first_name": "Robyn",
+    "birthdate": "1947-10-22",
+    "last_name": "Jackson",
+    "city": "North Rachaelstad",
+    "state": "KS",
+    "postalCode": "80637",
+    "country": "USA",
+    "mrn": "538-36-2549"
+  }
+}

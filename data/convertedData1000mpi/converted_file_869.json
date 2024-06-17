@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7375 Johnson Oval",
+    "first_name": "Bonnie",
+    "birthdate": "1936-02-10",
+    "last_name": "Juarez",
+    "city": "Jonestown",
+    "state": "MO",
+    "postalCode": "33011",
+    "country": "USA",
+    "mrn": "339-23-2915"
+  }
+}

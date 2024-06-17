@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5236 Fischer Way",
+    "first_name": "Dawn",
+    "birthdate": "2000-13-01",
+    "last_name": "Ayala",
+    "city": "Moralesstad",
+    "state": "AS",
+    "postalCode": "47592",
+    "country": "USA",
+    "mrn": "069-78-3909"
+  }
+}

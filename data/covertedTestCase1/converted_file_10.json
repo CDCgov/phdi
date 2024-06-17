@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "56067 Jenna Hill",
+    "first_name": "Willy",
+    "birthdate": "1947-10-19",
+    "last_name": "Potter",
+    "city": "Claireberg",
+    "state": "ME",
+    "postalCode": "5845",
+    "country": "USA",
+    "mrn": "086-55-9906"
+  }
+}

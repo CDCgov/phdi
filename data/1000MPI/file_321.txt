@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hanson",
+                            "given": [
+                                "Jason"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "02805 Nathaniel Summit Suite 484"
+                            ],
+                            "city": "Edwardsfort",
+                            "state": "FM",
+                            "postalCode": "71624",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "530-31-6556",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1967-11-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1357788",
+    "use_enhanced": true
+}

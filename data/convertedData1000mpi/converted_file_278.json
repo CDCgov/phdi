@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "216 James Cape Apt. 267",
+    "first_name": "Marilyn",
+    "birthdate": "1965-07-16",
+    "last_name": "Duran",
+    "city": "Gregorymouth",
+    "state": "OH",
+    "postalCode": "71064",
+    "country": "USA",
+    "mrn": "515-62-7244"
+  }
+}

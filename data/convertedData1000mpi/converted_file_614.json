@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1860 Griffin Mountains",
+    "first_name": "Jeff",
+    "birthdate": "1979-02-10",
+    "last_name": "Watson",
+    "city": "West Alexistown",
+    "state": "IA",
+    "postalCode": "90258",
+    "country": "USA",
+    "mrn": "261-25-0186"
+  }
+}

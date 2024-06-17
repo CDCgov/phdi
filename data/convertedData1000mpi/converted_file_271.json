@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0108 David Expressway Apt. 807",
+    "first_name": "Patricia",
+    "birthdate": "1993-09-07",
+    "last_name": "Diaz",
+    "city": "Kristinabury",
+    "state": "DC",
+    "postalCode": "57783",
+    "country": "USA",
+    "mrn": "097-14-9180"
+  }
+}

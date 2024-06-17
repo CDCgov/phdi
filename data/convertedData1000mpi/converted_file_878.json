@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "152 Charles Estate Apt. 776",
+    "first_name": "Patrick",
+    "birthdate": "1967-08-15",
+    "last_name": "Suarez",
+    "city": "East Michael",
+    "state": "TX",
+    "postalCode": "62840",
+    "country": "USA",
+    "mrn": "166-59-8477"
+  }
+}

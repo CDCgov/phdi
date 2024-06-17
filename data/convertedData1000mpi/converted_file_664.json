@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "841 Kathryn Row",
+    "first_name": "Robert",
+    "birthdate": "2002-12-26",
+    "last_name": "White",
+    "city": "South William",
+    "state": "ID",
+    "postalCode": "46039",
+    "country": "USA",
+    "mrn": "443-06-7745"
+  }
+}

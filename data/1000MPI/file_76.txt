@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lozano",
+                            "given": [
+                                "Samantha"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "306 Houston Spurs"
+                            ],
+                            "city": "North Christineburgh",
+                            "state": "AS",
+                            "postalCode": "43451",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "647-81-4532",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1933-12-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1385268",
+    "use_enhanced": true
+}

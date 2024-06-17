@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "582 Schmidt Mountain Suite 100",
+    "first_name": "Erica",
+    "birthdate": "1949-09-27",
+    "last_name": "Gonzalez",
+    "city": "Whitneyview",
+    "state": "MN",
+    "postalCode": "16075",
+    "country": "USA",
+    "mrn": "397-09-9106"
+  }
+}

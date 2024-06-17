@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "74583 David Brooks Apt. 989",
+    "first_name": "Jennifer",
+    "birthdate": "1978-11-10",
+    "last_name": "Ayala",
+    "city": "South Adamfort",
+    "state": "IL",
+    "postalCode": "9635",
+    "country": "USA",
+    "mrn": "095-76-2222"
+  }
+}

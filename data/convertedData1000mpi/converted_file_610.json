@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7901 Yvonne Ford Apt. 307",
+    "first_name": "Alan",
+    "birthdate": "1950-12-17",
+    "last_name": "Osborne",
+    "city": "Leslieshire",
+    "state": "PA",
+    "postalCode": "47009",
+    "country": "USA",
+    "mrn": "222-17-2321"
+  }
+}

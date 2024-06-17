@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0364 Morales Loaf",
+    "first_name": "Jennifer",
+    "birthdate": "1985-02-28",
+    "last_name": "Turner",
+    "city": "New Danielfort",
+    "state": "MO",
+    "postalCode": "15427",
+    "country": "USA",
+    "mrn": "007-62-9190"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "375 Young Mission Suite 248",
+    "first_name": "Eric",
+    "birthdate": "1979-04-27",
+    "last_name": "Brown",
+    "city": "Richardfurt",
+    "state": "PR",
+    "postalCode": "61482",
+    "country": "USA",
+    "mrn": "647-29-8850"
+  }
+}

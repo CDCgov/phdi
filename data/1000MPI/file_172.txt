@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gregory",
+                            "given": [
+                                "Brandi"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "566 Trevino Cliffs"
+                            ],
+                            "city": "South Markshire",
+                            "state": "MT",
+                            "postalCode": "17394",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "144-85-0427",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1983-08-08"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8311978",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0933 Duffy Island Suite 297",
+    "first_name": "Ethan",
+    "birthdate": "1943-08-11",
+    "last_name": "Dawson",
+    "city": "East Amanda",
+    "state": "NJ",
+    "postalCode": "69829",
+    "country": "USA",
+    "mrn": "171-23-7870"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "575 Christine Path",
+    "first_name": "Jacob",
+    "birthdate": "1971-01-07",
+    "last_name": "Mitchell",
+    "city": "Port Kristopher",
+    "state": "LA",
+    "postalCode": "2567",
+    "country": "USA",
+    "mrn": "249-08-3966"
+  }
+}

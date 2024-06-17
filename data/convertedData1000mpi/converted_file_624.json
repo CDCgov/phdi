@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "75011 Lewis Landing Suite 468",
+    "first_name": "Gina",
+    "birthdate": "1987-08-21",
+    "last_name": "Jones",
+    "city": "Ericafort",
+    "state": "AZ",
+    "postalCode": "81965",
+    "country": "USA",
+    "mrn": "828-62-7004"
+  }
+}

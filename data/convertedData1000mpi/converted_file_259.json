@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "97975 Emma Unions",
+    "first_name": "Elizabeth",
+    "birthdate": "1995-11-28",
+    "last_name": "Collins",
+    "city": "Ericshire",
+    "state": "DE",
+    "postalCode": "78729",
+    "country": "USA",
+    "mrn": "382-04-8336"
+  }
+}

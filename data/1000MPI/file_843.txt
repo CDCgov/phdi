@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Roach",
+                            "given": [
+                                "Carla"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "538 Christine Coves Suite 317"
+                            ],
+                            "city": "New Kayla",
+                            "state": "KY",
+                            "postalCode": "52079",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "764-89-6324",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1992-05-26"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6332406",
+    "use_enhanced": true
+}

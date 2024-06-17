@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "672 Fowler Port Suite 227",
+    "first_name": "Carol",
+    "birthdate": "1977-07-05",
+    "last_name": "Crawford",
+    "city": "Roberthaven",
+    "state": "IL",
+    "postalCode": "98791",
+    "country": "USA",
+    "mrn": "367-11-9296"
+  }
+}

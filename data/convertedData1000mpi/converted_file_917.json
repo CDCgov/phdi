@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "25935 Clark Dale Suite 613",
+    "first_name": "Jerry",
+    "birthdate": "1999-03-09",
+    "last_name": "Robinson",
+    "city": "Torresburgh",
+    "state": "KY",
+    "postalCode": "23500",
+    "country": "USA",
+    "mrn": "585-72-8172"
+  }
+}

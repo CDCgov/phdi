@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "758 Floyd Unions Suite 220",
+    "first_name": "Tiffany",
+    "birthdate": "2000-03-06",
+    "last_name": "Spears",
+    "city": "North David",
+    "state": "MS",
+    "postalCode": "82674",
+    "country": "USA",
+    "mrn": "775-15-6935"
+  }
+}

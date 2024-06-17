@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "00436 Lam Pines",
+    "first_name": "Jeffrey",
+    "birthdate": "1970-01-22",
+    "last_name": "Tyler",
+    "city": "Perezview",
+    "state": "MA",
+    "postalCode": "73792",
+    "country": "USA",
+    "mrn": "452-18-3338"
+  }
+}

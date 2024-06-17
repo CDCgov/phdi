@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "03786 Courtney Burgs",
+    "first_name": "Robert",
+    "birthdate": "1963-02-15",
+    "last_name": "Simpson",
+    "city": "Port Timothyborough",
+    "state": "AL",
+    "postalCode": "93931",
+    "country": "USA",
+    "mrn": "242-77-6683"
+  }
+}

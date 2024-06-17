@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "77844 Adam Loop Suite 792",
+    "first_name": "Linda",
+    "birthdate": "1940-05-04",
+    "last_name": "Diaz",
+    "city": "West Anthony",
+    "state": "OH",
+    "postalCode": "51439",
+    "country": "USA",
+    "mrn": "888-40-3391"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9363 Lisa Rue",
+    "first_name": "Joseph",
+    "birthdate": "1993-09-06",
+    "last_name": "White",
+    "city": "South Kenneth",
+    "state": "AZ",
+    "postalCode": "13453",
+    "country": "USA",
+    "mrn": "093-06-0780"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7524 Mejia Grove, Apt. 708",
+    "first_name": "Sean",
+    "birthdate": "1989-03-20",
+    "last_name": "Scott",
+    "city": "Colemanshire",
+    "state": "NH",
+    "postalCode": "35274",
+    "country": "USA",
+    "mrn": "038-64-6215"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "63590 Robert Dam",
+    "first_name": "Matthew",
+    "birthdate": "1997-08-11",
+    "last_name": "Patel",
+    "city": "West Melissamouth",
+    "state": "VI",
+    "postalCode": "78826",
+    "country": "USA",
+    "mrn": "835-49-0135"
+  }
+}

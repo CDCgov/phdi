@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Jenkins",
+                            "given": [
+                                "Carla"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "708 Johnson Pine Suite 675"
+                            ],
+                            "city": "Lake Heather",
+                            "state": "MO",
+                            "postalCode": "81374",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "110-47-7459",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2001-06-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7441117",
+    "use_enhanced": true
+}

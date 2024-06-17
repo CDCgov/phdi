@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3532 Miller Land Apt. 560",
+    "first_name": "William",
+    "birthdate": "1958-02-08",
+    "last_name": "Richards",
+    "city": "Lake Mackenzie",
+    "state": "OR",
+    "postalCode": "71485",
+    "country": "USA",
+    "mrn": "673-19-6453"
+  }
+}

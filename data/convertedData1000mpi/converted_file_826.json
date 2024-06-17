@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "72723 Jeffrey Ports",
+    "first_name": "Jean",
+    "birthdate": "1942-01-22",
+    "last_name": "Williams",
+    "city": "Lake Jessica",
+    "state": "GA",
+    "postalCode": "13985",
+    "country": "USA",
+    "mrn": "593-36-4631"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Walls",
+                            "given": [
+                                "John"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "95996 Nguyen Village Apt. 967"
+                            ],
+                            "city": "Joseborough",
+                            "state": "NC",
+                            "postalCode": "96554",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "512-56-2814",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1994-11-14"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4826890",
+    "use_enhanced": true
+}

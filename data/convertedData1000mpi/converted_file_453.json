@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "64222 Garrett Plains Suite 711",
+    "first_name": "Lisa",
+    "birthdate": "1946-11-24",
+    "last_name": "Morgan",
+    "city": "North Tamaraborough",
+    "state": "WV",
+    "postalCode": "43124",
+    "country": "USA",
+    "mrn": "482-86-1595"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3140 Shelby Fort Suite 086",
+    "first_name": "Tanya",
+    "birthdate": "1997-01-22",
+    "last_name": "Livingston",
+    "city": "Martinberg",
+    "state": "KY",
+    "postalCode": "96031",
+    "country": "USA",
+    "mrn": "612-44-7132"
+  }
+}

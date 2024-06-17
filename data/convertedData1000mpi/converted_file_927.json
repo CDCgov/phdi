@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "851 Ross Trace Suite 687",
+    "first_name": "Robin",
+    "birthdate": "1974-09-17",
+    "last_name": "Clay",
+    "city": "South Lauraville",
+    "state": "UT",
+    "postalCode": "6374",
+    "country": "USA",
+    "mrn": "155-31-3512"
+  }
+}

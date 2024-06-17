@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Schultz",
+                            "given": [
+                                "Nicole"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "151 Marks Ports"
+                            ],
+                            "city": "West Charlesland",
+                            "state": "MO",
+                            "postalCode": "17883",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "851-16-3842",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1970-11-03"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7088812",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "74559 Keller Mountain Apt. 226",
+    "first_name": "Richard",
+    "birthdate": "2001-12-29",
+    "last_name": "Molina",
+    "city": "Jacobsonchester",
+    "state": "IL",
+    "postalCode": "23453",
+    "country": "USA",
+    "mrn": "082-79-6538"
+  }
+}

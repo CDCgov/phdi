@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "58649 Thomas Drives Apt. 718",
+    "first_name": "Eric",
+    "birthdate": "1933-07-28",
+    "last_name": "Thomas",
+    "city": "Melissaburgh",
+    "state": "ME",
+    "postalCode": "72013",
+    "country": "USA",
+    "mrn": "166-69-9128"
+  }
+}

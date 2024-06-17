@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "80246 Grimes Trafficway",
+    "first_name": "Cynthia",
+    "birthdate": "1935-11-04",
+    "last_name": "Roy",
+    "city": "Austinland",
+    "state": "NE",
+    "postalCode": "94720",
+    "country": "USA",
+    "mrn": "742-10-9576"
+  }
+}

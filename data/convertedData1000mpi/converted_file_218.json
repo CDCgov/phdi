@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1889 Zimmerman Mountain",
+    "first_name": "Daryl",
+    "birthdate": "1969-08-26",
+    "last_name": "Mooney",
+    "city": "West Tammyshire",
+    "state": "CT",
+    "postalCode": "13639",
+    "country": "USA",
+    "mrn": "169-02-4374"
+  }
+}

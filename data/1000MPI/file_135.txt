@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Smith",
+                            "given": [
+                                "Mario"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "55053 Melinda Pass Apt. 207"
+                            ],
+                            "city": "West Seanberg",
+                            "state": "NM",
+                            "postalCode": "20567",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "180-71-8074",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2001-06-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9727741",
+    "use_enhanced": true
+}

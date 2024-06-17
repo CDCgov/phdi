@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "783 Jason Walks Apt. 066",
+    "first_name": "Micheal",
+    "birthdate": "1938-01-25",
+    "last_name": "Robinson",
+    "city": "Rayton",
+    "state": "VT",
+    "postalCode": "14547",
+    "country": "USA",
+    "mrn": "612-23-9079"
+  }
+}

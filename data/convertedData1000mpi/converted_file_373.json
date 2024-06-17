@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "13219 Derrick Alley Suite 360",
+    "first_name": "Mary",
+    "birthdate": "1940-02-04",
+    "last_name": "Duffy",
+    "city": "Lake Marieburgh",
+    "state": "NC",
+    "postalCode": "52485",
+    "country": "USA",
+    "mrn": "532-50-6861"
+  }
+}

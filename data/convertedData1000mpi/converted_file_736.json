@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "38322 Barbara Fields Apt. 130",
+    "first_name": "Erin",
+    "birthdate": "1970-01-01",
+    "last_name": "Salas",
+    "city": "Nicholasfort",
+    "state": "HI",
+    "postalCode": "32094",
+    "country": "USA",
+    "mrn": "840-98-9277"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "65975 Andrews Orchard Apt. 672",
+    "first_name": "Donna",
+    "birthdate": "1969-10-18",
+    "last_name": "Miller",
+    "city": "North Elizabeth",
+    "state": "AS",
+    "postalCode": "98948",
+    "country": "USA",
+    "mrn": "406-16-6717"
+  }
+}

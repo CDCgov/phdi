@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8271 Kerr Lights Apt. 821",
+    "first_name": "Lorraine",
+    "birthdate": "1996-01-22",
+    "last_name": "Anderson",
+    "city": "Josephmouth",
+    "state": "CA",
+    "postalCode": "11082",
+    "country": "USA",
+    "mrn": "499-96-9611"
+  }
+}

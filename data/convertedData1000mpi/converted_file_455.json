@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "45633 Jessica Plaza",
+    "first_name": "Michael",
+    "birthdate": "2005-03-26",
+    "last_name": "Gardner",
+    "city": "North Matthew",
+    "state": "ID",
+    "postalCode": "2848",
+    "country": "USA",
+    "mrn": "202-61-1214"
+  }
+}

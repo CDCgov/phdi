@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "91703 Stephenson Ports",
+    "first_name": "Robert",
+    "birthdate": "2004-12-10",
+    "last_name": "Martinez",
+    "city": "East Jessicaport",
+    "state": "MP",
+    "postalCode": "36612",
+    "country": "USA",
+    "mrn": "475-07-2873"
+  }
+}

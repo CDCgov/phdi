@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Nguyen",
+                            "given": [
+                                "Candace"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "70561 Weber Ports"
+                            ],
+                            "city": "Lindsaybury",
+                            "state": "VA",
+                            "postalCode": "44041",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "881-46-4899",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1979-04-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9548585",
+    "use_enhanced": true
+}

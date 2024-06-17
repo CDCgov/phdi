@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "07139 Samantha Cove Suite 385",
+    "first_name": "Joyce",
+    "birthdate": "2000-04-22",
+    "last_name": "Morris",
+    "city": "Maryside",
+    "state": "VI",
+    "postalCode": "95776",
+    "country": "USA",
+    "mrn": "548-21-8228"
+  }
+}

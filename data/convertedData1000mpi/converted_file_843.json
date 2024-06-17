@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "538 Christine Coves Suite 317",
+    "first_name": "Carla",
+    "birthdate": "1992-05-26",
+    "last_name": "Roach",
+    "city": "New Kayla",
+    "state": "KY",
+    "postalCode": "52079",
+    "country": "USA",
+    "mrn": "764-89-6324"
+  }
+}

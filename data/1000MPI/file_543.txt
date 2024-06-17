@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Bautista",
+                            "given": [
+                                "Bridget"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "957 Steele Estate"
+                            ],
+                            "city": "North Stephanieport",
+                            "state": "PW",
+                            "postalCode": "10881",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "595-95-9667",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2004-11-08"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5519182",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2716 Stanley Harbor Suite 872",
+    "first_name": "Jennifer",
+    "birthdate": "1995-03-12",
+    "last_name": "Smith",
+    "city": "Port Linda",
+    "state": "NM",
+    "postalCode": "59588",
+    "country": "USA",
+    "mrn": "300-13-7720"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "245 Lee Lock",
+    "first_name": "Kenneth",
+    "birthdate": "1977-09-06",
+    "last_name": "Brown",
+    "city": "Bartonland",
+    "state": "UT",
+    "postalCode": "62080",
+    "country": "USA",
+    "mrn": "552-45-1667"
+  }
+}

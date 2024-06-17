@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Pennington",
+                            "given": [
+                                "Whitney"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "448 Jennifer Flat"
+                            ],
+                            "city": "Harmonside",
+                            "state": "TX",
+                            "postalCode": "62482",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "255-96-3668",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1990-04-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9523986",
+    "use_enhanced": true
+}

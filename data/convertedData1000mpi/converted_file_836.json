@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5399 Anthony Grove Apt. 514",
+    "first_name": "Tammy",
+    "birthdate": "1961-07-31",
+    "last_name": "Wilson",
+    "city": "Michaelstad",
+    "state": "NC",
+    "postalCode": "47394",
+    "country": "USA",
+    "mrn": "491-09-2174"
+  }
+}

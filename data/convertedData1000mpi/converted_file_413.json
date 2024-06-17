@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "418 Michael Stravenue Suite 487",
+    "first_name": "Kelly",
+    "birthdate": "1973-06-20",
+    "last_name": "Tucker",
+    "city": "North Brandon",
+    "state": "NM",
+    "postalCode": "93555",
+    "country": "USA",
+    "mrn": "709-62-7701"
+  }
+}

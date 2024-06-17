@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "615 Hawkins Village Apt. 641",
+    "first_name": "Joann",
+    "birthdate": "1976-04-27",
+    "last_name": "Whitaker",
+    "city": "North Ashley",
+    "state": "WI",
+    "postalCode": "67008",
+    "country": "USA",
+    "mrn": "568-99-2354"
+  }
+}

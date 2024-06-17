@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9265 Elliott Brook Suite 541",
+    "first_name": "Megan",
+    "birthdate": "1959-02-20",
+    "last_name": "Morrow",
+    "city": "Patrickchester",
+    "state": "NE",
+    "postalCode": "40561",
+    "country": "USA",
+    "mrn": "879-84-5733"
+  }
+}

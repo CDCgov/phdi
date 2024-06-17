@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0133 Hill Circle Apt. 858",
+    "first_name": "Mike",
+    "birthdate": "1937-12-19",
+    "last_name": "Gonzalez",
+    "city": "Port Thomasview",
+    "state": "SD",
+    "postalCode": "38347",
+    "country": "USA",
+    "mrn": "353-03-5064"
+  }
+}

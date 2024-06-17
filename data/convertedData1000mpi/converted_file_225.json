@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2356 Christopher Wells Suite 747",
+    "first_name": "Vicki",
+    "birthdate": "2005-09-10",
+    "last_name": "Ward",
+    "city": "South Don",
+    "state": "NV",
+    "postalCode": "68532",
+    "country": "USA",
+    "mrn": "755-89-1307"
+  }
+}

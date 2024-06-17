@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Acosta",
+                            "given": [
+                                "Scott"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "003 Lewis Forest Apt. 658"
+                            ],
+                            "city": "West Aprilfurt",
+                            "state": "WA",
+                            "postalCode": "41960",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "623-43-6260",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1954-04-10"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6138993",
+    "use_enhanced": true
+}

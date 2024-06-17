@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3318 Monroe Cliffs Suite 219",
+    "first_name": "Luis",
+    "birthdate": "2004-03-05",
+    "last_name": "Greene",
+    "city": "Matthewside",
+    "state": "DC",
+    "postalCode": "4246",
+    "country": "USA",
+    "mrn": "615-01-9129"
+  }
+}

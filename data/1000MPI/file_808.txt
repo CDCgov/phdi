@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gomez",
+                            "given": [
+                                "Alexander"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "271 Moore Plains"
+                            ],
+                            "city": "Helenton",
+                            "state": "IA",
+                            "postalCode": "35196",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "244-22-9052",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1950-07-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2213928",
+    "use_enhanced": true
+}

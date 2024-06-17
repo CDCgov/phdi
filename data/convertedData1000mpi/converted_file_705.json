@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5305 Brown Forges Suite 926",
+    "first_name": "Hannah",
+    "birthdate": "1977-11-25",
+    "last_name": "Wilson",
+    "city": "Cortezhaven",
+    "state": "NH",
+    "postalCode": "76742",
+    "country": "USA",
+    "mrn": "301-25-7388"
+  }
+}

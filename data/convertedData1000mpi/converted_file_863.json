@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4454 Katherine Alley",
+    "first_name": "Diana",
+    "birthdate": "1940-06-17",
+    "last_name": "Knight",
+    "city": "Mccoyside",
+    "state": "MP",
+    "postalCode": "19854",
+    "country": "USA",
+    "mrn": "211-36-2030"
+  }
+}

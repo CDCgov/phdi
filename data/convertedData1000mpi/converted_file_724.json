@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2598 Janet Burgs Suite 477",
+    "first_name": "Alyssa",
+    "birthdate": "1966-09-17",
+    "last_name": "Walls",
+    "city": "New Sarahtown",
+    "state": "IA",
+    "postalCode": "8764",
+    "country": "USA",
+    "mrn": "557-62-4493"
+  }
+}

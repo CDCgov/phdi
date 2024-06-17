@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3748 Joseph Street",
+    "first_name": "Nathan",
+    "birthdate": "1934-05-27",
+    "last_name": "Jimenez",
+    "city": "East Jacobborough",
+    "state": "CO",
+    "postalCode": "2817",
+    "country": "USA",
+    "mrn": "535-69-6185"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "21130 Richard Loaf",
+    "first_name": "Amanda",
+    "birthdate": "1997-09-06",
+    "last_name": "Jones",
+    "city": "Stephentown",
+    "state": "OR",
+    "postalCode": "74248",
+    "country": "USA",
+    "mrn": "154-20-0425"
+  }
+}

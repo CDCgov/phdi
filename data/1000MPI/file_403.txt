@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hurley",
+                            "given": [
+                                "Brent"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "93638 Wilson Groves"
+                            ],
+                            "city": "South Michael",
+                            "state": "HI",
+                            "postalCode": "88820",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "809-18-6220",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1971-02-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1336019",
+    "use_enhanced": true
+}

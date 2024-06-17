@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "West",
+                            "given": [
+                                "Paula"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "274 Patton Court"
+                            ],
+                            "city": "East Melissabury",
+                            "state": "NE",
+                            "postalCode": "87229",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "601-57-7395",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1968-01-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6721185",
+    "use_enhanced": true
+}

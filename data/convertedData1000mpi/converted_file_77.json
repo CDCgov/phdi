@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "65341 Christine Radial Apt. 648",
+    "first_name": "Laura",
+    "birthdate": "1994-01-09",
+    "last_name": "Daugherty",
+    "city": "North Shannon",
+    "state": "NE",
+    "postalCode": "55544",
+    "country": "USA",
+    "mrn": "350-20-2855"
+  }
+}

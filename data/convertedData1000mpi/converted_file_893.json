@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "22166 Bonnie Neck",
+    "first_name": "Walter",
+    "birthdate": "1934-02-18",
+    "last_name": "Hammond",
+    "city": "East Kellyberg",
+    "state": "PW",
+    "postalCode": "90511",
+    "country": "USA",
+    "mrn": "223-91-0266"
+  }
+}

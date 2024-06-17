@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "273 Hawkins Parkways Suite 613",
+    "first_name": "Taylor",
+    "birthdate": "1960-02-04",
+    "last_name": "Sutton",
+    "city": "South Kellyport",
+    "state": "VI",
+    "postalCode": "42453",
+    "country": "USA",
+    "mrn": "244-28-8974"
+  }
+}

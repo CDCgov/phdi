@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6052 Young Valleys Suite 402",
+    "first_name": "Richard",
+    "birthdate": "1944-06-17",
+    "last_name": "Tyler",
+    "city": "Johnfort",
+    "state": "AR",
+    "postalCode": "44460",
+    "country": "USA",
+    "mrn": "553-56-4534"
+  }
+}

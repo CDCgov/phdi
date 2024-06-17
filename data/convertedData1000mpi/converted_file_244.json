@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "15179 Todd Crossing",
+    "first_name": "Daniel",
+    "birthdate": "1975-12-10",
+    "last_name": "Davis",
+    "city": "West Jennifer",
+    "state": "IL",
+    "postalCode": "59051",
+    "country": "USA",
+    "mrn": "730-80-1858"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7845 Molly Stream",
+    "first_name": "Rachel",
+    "birthdate": "2003-01-25",
+    "last_name": "Daniel",
+    "city": "East Susan",
+    "state": "AK",
+    "postalCode": "10683",
+    "country": "USA",
+    "mrn": "465-66-1995"
+  }
+}

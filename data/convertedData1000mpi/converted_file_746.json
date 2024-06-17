@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0625 Sanchez Spurs",
+    "first_name": "Dustin",
+    "birthdate": "2000-10-11",
+    "last_name": "Davis",
+    "city": "Allisonshire",
+    "state": "VA",
+    "postalCode": "45841",
+    "country": "USA",
+    "mrn": "250-39-7739"
+  }
+}

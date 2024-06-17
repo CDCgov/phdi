@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "466 Michelle Harbors",
+    "first_name": "Chad",
+    "birthdate": "1953-04-26",
+    "last_name": "Rivera",
+    "city": "South Larrystad",
+    "state": "NM",
+    "postalCode": "93858",
+    "country": "USA",
+    "mrn": "107-80-4438"
+  }
+}

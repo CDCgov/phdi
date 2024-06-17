@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3927 White Trafficway",
+    "first_name": "Kelly",
+    "birthdate": "2000-11-18",
+    "last_name": "Webb",
+    "city": "North Sherryport",
+    "state": "MA",
+    "postalCode": "44473",
+    "country": "USA",
+    "mrn": "307-37-8183"
+  }
+}

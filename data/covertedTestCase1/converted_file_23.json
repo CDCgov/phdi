@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1122 davis station apt. 353",
+    "first_name": "Scott",
+    "birthdate": "1970-05-09",
+    "last_name": "Miller",
+    "city": "dayberg",
+    "state": "or",
+    "postalCode": "49165",
+    "country": "USA",
+    "mrn": "632-27-8686"
+  }
+}

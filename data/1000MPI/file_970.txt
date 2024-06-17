@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Blankenship",
+                            "given": [
+                                "Samantha"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "59272 Robertson Greens Apt. 194"
+                            ],
+                            "city": "Ronaldstad",
+                            "state": "MH",
+                            "postalCode": "64638",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "207-87-9104",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1980-07-30"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9740843",
+    "use_enhanced": true
+}

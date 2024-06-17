@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "296 Matthew Locks Apt. 334",
+    "first_name": "Zoe",
+    "birthdate": "1967-09-06",
+    "last_name": "Young",
+    "city": "Marcusfurt",
+    "state": "AZ",
+    "postalCode": "76741",
+    "country": "USA",
+    "mrn": "899-86-7627"
+  }
+}

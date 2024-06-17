@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0199 Johnson Plaza Apt. 550",
+    "first_name": "Angela",
+    "birthdate": "1935-05-02",
+    "last_name": "Harrington",
+    "city": "Juliahaven",
+    "state": "TX",
+    "postalCode": "14156",
+    "country": "USA",
+    "mrn": "327-13-4595"
+  }
+}

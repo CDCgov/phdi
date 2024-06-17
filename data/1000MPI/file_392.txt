@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Montgomery",
+                            "given": [
+                                "Brett"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "843 Karen Villages Suite 851"
+                            ],
+                            "city": "Brownhaven",
+                            "state": "MI",
+                            "postalCode": "92026",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "029-45-3439",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2001-02-03"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4883750",
+    "use_enhanced": true
+}

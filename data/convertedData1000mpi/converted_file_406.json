@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "095 Horn Creek",
+    "first_name": "Carol",
+    "birthdate": "2004-05-25",
+    "last_name": "Holloway",
+    "city": "Josephshire",
+    "state": "ME",
+    "postalCode": "88962",
+    "country": "USA",
+    "mrn": "263-66-8840"
+  }
+}

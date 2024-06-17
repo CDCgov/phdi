@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4885 Karina Gardens Apt. 998",
+    "first_name": "Samuel",
+    "birthdate": "1982-08-10",
+    "last_name": "Johnson",
+    "city": "Richardsfort",
+    "state": "NM",
+    "postalCode": "63091",
+    "country": "USA",
+    "mrn": "317-62-7822"
+  }
+}

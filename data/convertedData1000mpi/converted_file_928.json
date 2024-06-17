@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4768 Philip Radial",
+    "first_name": "Lisa",
+    "birthdate": "1983-01-07",
+    "last_name": "King",
+    "city": "Mitchellmouth",
+    "state": "WV",
+    "postalCode": "36366",
+    "country": "USA",
+    "mrn": "117-56-4311"
+  }
+}

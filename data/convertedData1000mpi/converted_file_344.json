@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "466 Singleton Plaza Suite 533",
+    "first_name": "Brent",
+    "birthdate": "2005-03-30",
+    "last_name": "Davis",
+    "city": "Gallagherfort",
+    "state": "MS",
+    "postalCode": "20558",
+    "country": "USA",
+    "mrn": "225-63-1683"
+  }
+}

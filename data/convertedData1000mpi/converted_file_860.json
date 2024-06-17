@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "369 Huffman Curve Apt. 121",
+    "first_name": "William",
+    "birthdate": "2005-11-23",
+    "last_name": "Smith",
+    "city": "Lake Robertside",
+    "state": "LA",
+    "postalCode": "7580",
+    "country": "USA",
+    "mrn": "308-52-4490"
+  }
+}

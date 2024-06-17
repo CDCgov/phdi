@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "55053 Melinda Pass Apt. 207",
+    "first_name": "Mario",
+    "birthdate": "2001-06-02",
+    "last_name": "Smith",
+    "city": "West Seanberg",
+    "state": "NM",
+    "postalCode": "20567",
+    "country": "USA",
+    "mrn": "180-71-8074"
+  }
+}

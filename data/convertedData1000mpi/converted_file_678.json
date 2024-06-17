@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9822 Geoffrey Mews",
+    "first_name": "Gary",
+    "birthdate": "2004-02-01",
+    "last_name": "Singleton",
+    "city": "Dominiquefort",
+    "state": "ID",
+    "postalCode": "24846",
+    "country": "USA",
+    "mrn": "261-82-6559"
+  }
+}

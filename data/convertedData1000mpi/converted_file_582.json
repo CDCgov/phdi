@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9445 Stevenson Lake",
+    "first_name": "Brittany",
+    "birthdate": "1992-08-12",
+    "last_name": "Johnson",
+    "city": "Wallacefort",
+    "state": "MD",
+    "postalCode": "80527",
+    "country": "USA",
+    "mrn": "554-15-3530"
+  }
+}

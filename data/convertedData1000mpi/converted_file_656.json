@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "396 Donna Mountain Suite 502",
+    "first_name": "Linda",
+    "birthdate": "1985-10-31",
+    "last_name": "Mccarthy",
+    "city": "East Lisaburgh",
+    "state": "VA",
+    "postalCode": "43045",
+    "country": "USA",
+    "mrn": "621-39-1905"
+  }
+}

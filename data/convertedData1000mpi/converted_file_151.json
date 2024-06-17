@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9370 Ramos Land Apt. 145",
+    "first_name": "Daniel",
+    "birthdate": "1956-09-03",
+    "last_name": "James",
+    "city": "Jesseview",
+    "state": "NH",
+    "postalCode": "42780",
+    "country": "USA",
+    "mrn": "573-24-1672"
+  }
+}

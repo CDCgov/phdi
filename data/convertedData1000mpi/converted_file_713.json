@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5302 Bender Village Suite 909",
+    "first_name": "Richard",
+    "birthdate": "2000-03-12",
+    "last_name": "Jackson",
+    "city": "Manuelview",
+    "state": "PA",
+    "postalCode": "76581",
+    "country": "USA",
+    "mrn": "697-83-3950"
+  }
+}

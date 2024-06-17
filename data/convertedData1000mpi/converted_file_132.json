@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9761 Mendez Loop Apt. 908",
+    "first_name": "Nancy",
+    "birthdate": "1947-05-06",
+    "last_name": "Willis",
+    "city": "West Derek",
+    "state": "MS",
+    "postalCode": "37472",
+    "country": "USA",
+    "mrn": "488-03-5002"
+  }
+}

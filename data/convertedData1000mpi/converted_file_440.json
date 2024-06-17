@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "959 Watkins Lakes Suite 348",
+    "first_name": "Michaela",
+    "birthdate": "1957-04-23",
+    "last_name": "Sawyer",
+    "city": "North David",
+    "state": "MO",
+    "postalCode": "28921",
+    "country": "USA",
+    "mrn": "627-03-3631"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "65716 Smith Freeway Apt. 284",
+    "first_name": "Michelle",
+    "birthdate": "1980-12-22",
+    "last_name": "Petersen",
+    "city": "Mindyfort",
+    "state": "FL",
+    "postalCode": "26995",
+    "country": "USA",
+    "mrn": "565-91-3273"
+  }
+}

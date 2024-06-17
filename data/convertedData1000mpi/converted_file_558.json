@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "86393 Candice Port Apt. 264",
+    "first_name": "Jonathan",
+    "birthdate": "1961-11-10",
+    "last_name": "Phillips",
+    "city": "Oliviaport",
+    "state": "VI",
+    "postalCode": "67384",
+    "country": "USA",
+    "mrn": "306-77-4473"
+  }
+}

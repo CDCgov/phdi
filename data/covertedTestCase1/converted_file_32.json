@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "18812 Joshua Fall",
+    "first_name": "Valerie",
+    "birthdate": "1938-08-05",
+    "last_name": "Mann",
+    "city": "Gentryville",
+    "state": "MO",
+    "postalCode": "99832",
+    "country": "USA",
+    "mrn": "49"
+  }
+}

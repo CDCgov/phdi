@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "870 Deborah Meadow Suite 523",
+    "first_name": "Rachel",
+    "birthdate": "1965-09-01",
+    "last_name": "Romero",
+    "city": "North Samantha",
+    "state": "UT",
+    "postalCode": "78320",
+    "country": "USA",
+    "mrn": "720-32-6399"
+  }
+}

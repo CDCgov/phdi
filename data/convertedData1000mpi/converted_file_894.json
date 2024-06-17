@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "061 Brown Street",
+    "first_name": "Anthony",
+    "birthdate": "1999-05-17",
+    "last_name": "Paul",
+    "city": "Ericville",
+    "state": "SC",
+    "postalCode": "58941",
+    "country": "USA",
+    "mrn": "305-57-9487"
+  }
+}

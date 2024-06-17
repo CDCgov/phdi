@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6315 Kaitlin Ville",
+    "first_name": "Billy",
+    "birthdate": "1980-02-17",
+    "last_name": "Davis",
+    "city": "North Alyssa",
+    "state": "AR",
+    "postalCode": "18333",
+    "country": "USA",
+    "mrn": "693-95-2774"
+  }
+}

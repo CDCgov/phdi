@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "340 Sandra Stream",
+    "first_name": "Brandy",
+    "birthdate": "1995-04-08",
+    "last_name": "Lopez",
+    "city": "Swansonshire",
+    "state": "MI",
+    "postalCode": "93849",
+    "country": "USA",
+    "mrn": "499-61-9904"
+  }
+}

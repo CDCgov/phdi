@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "68016 Caitlin Heights Suite 349",
+    "first_name": "Jonathan",
+    "birthdate": "2004-10-22",
+    "last_name": "Flores",
+    "city": "Dianehaven",
+    "state": "NE",
+    "postalCode": "84326",
+    "country": "USA",
+    "mrn": "444-80-0075"
+  }
+}

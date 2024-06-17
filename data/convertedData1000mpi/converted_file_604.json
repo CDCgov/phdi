@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "31267 Victoria Ville",
+    "first_name": "Ashley",
+    "birthdate": "1956-09-21",
+    "last_name": "Reyes",
+    "city": "North Elizabethberg",
+    "state": "CT",
+    "postalCode": "87170",
+    "country": "USA",
+    "mrn": "221-54-4720"
+  }
+}

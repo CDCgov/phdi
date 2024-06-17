@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "72485 Kelly Dr.",
+    "first_name": "Jacob",
+    "birthdate": "1958-01-18",
+    "last_name": "Mejia",
+    "city": "New Ronaldburgh",
+    "state": "OR",
+    "postalCode": "15160",
+    "country": "USA",
+    "mrn": "570-87-8191"
+  }
+}

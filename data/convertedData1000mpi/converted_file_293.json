@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3576 Elizabeth Bridge",
+    "first_name": "Leslie",
+    "birthdate": "2004-11-04",
+    "last_name": "Sanders",
+    "city": "Courtneyside",
+    "state": "AR",
+    "postalCode": "18399",
+    "country": "USA",
+    "mrn": "479-60-6191"
+  }
+}

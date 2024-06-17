@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "928 Thomas Freeway Suite 951",
+    "first_name": "Natasha",
+    "birthdate": "1986-06-02",
+    "last_name": "Morrison",
+    "city": "Mccarthyville",
+    "state": "NY",
+    "postalCode": "23942",
+    "country": "USA",
+    "mrn": "657-63-8214"
+  }
+}

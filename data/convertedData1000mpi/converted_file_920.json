@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "38331 Strickland Meadows",
+    "first_name": "Holly",
+    "birthdate": "1937-02-26",
+    "last_name": "Hoover",
+    "city": "West Frank",
+    "state": "CA",
+    "postalCode": "52404",
+    "country": "USA",
+    "mrn": "610-02-6292"
+  }
+}

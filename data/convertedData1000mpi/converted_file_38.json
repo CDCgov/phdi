@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "59771 Murphy Radial",
+    "first_name": "Jonathan",
+    "birthdate": "1963-06-07",
+    "last_name": "Hall",
+    "city": "Bennettmouth",
+    "state": "MT",
+    "postalCode": "91110",
+    "country": "USA",
+    "mrn": "409-16-1599"
+  }
+}

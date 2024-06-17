@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "09714 Deborah Parkways Apt. 540",
+    "first_name": "Destiny",
+    "birthdate": "1944-10-07",
+    "last_name": "Lopez",
+    "city": "Gabrielleburgh",
+    "state": "AZ",
+    "postalCode": "74592",
+    "country": "USA",
+    "mrn": "882-74-1183"
+  }
+}

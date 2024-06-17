@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "573 Carlson Crossroad Suite 458",
+    "first_name": "Stephanie",
+    "birthdate": "1952-10-22",
+    "last_name": "Baker",
+    "city": "North Normanborough",
+    "state": "VA",
+    "postalCode": "33236",
+    "country": "USA",
+    "mrn": "590-99-2509"
+  }
+}

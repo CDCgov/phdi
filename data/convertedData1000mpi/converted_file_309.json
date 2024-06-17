@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "36775 Price Dale",
+    "first_name": "Michael",
+    "birthdate": "2005-12-01",
+    "last_name": "Rush",
+    "city": "Janeport",
+    "state": "KS",
+    "postalCode": "43394",
+    "country": "USA",
+    "mrn": "618-17-4864"
+  }
+}

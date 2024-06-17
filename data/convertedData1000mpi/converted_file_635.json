@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "894 Jesse Wells",
+    "first_name": "Hayden",
+    "birthdate": "1964-07-08",
+    "last_name": "Ferguson",
+    "city": "Ellenburgh",
+    "state": "NE",
+    "postalCode": "14052",
+    "country": "USA",
+    "mrn": "535-92-3188"
+  }
+}

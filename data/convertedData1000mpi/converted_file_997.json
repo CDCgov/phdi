@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "69726 Jill Ferry Suite 514",
+    "first_name": "Laura",
+    "birthdate": "1985-10-02",
+    "last_name": "Brown",
+    "city": "Patriciafort",
+    "state": "WV",
+    "postalCode": "7219",
+    "country": "USA",
+    "mrn": "832-68-4764"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4200 Spencer Common Apt. 698",
+    "first_name": "Justin",
+    "birthdate": "1952-06-29",
+    "last_name": "Jones",
+    "city": "Scottbury",
+    "state": "DE",
+    "postalCode": "5820",
+    "country": "USA",
+    "mrn": "594-05-7634"
+  }
+}

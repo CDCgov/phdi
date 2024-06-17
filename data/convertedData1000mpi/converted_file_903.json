@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5368 John Lakes Apt. 019",
+    "first_name": "Sheila",
+    "birthdate": "1997-08-04",
+    "last_name": "Heath",
+    "city": "New Sabrinamouth",
+    "state": "MI",
+    "postalCode": "62427",
+    "country": "USA",
+    "mrn": "184-09-0320"
+  }
+}

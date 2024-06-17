@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "07025 Mann Corners",
+    "first_name": "Stephanie",
+    "birthdate": "1962-07-20",
+    "last_name": "Mitchell",
+    "city": "North Suzannetown",
+    "state": "WI",
+    "postalCode": "81049",
+    "country": "USA",
+    "mrn": "466-64-5515"
+  }
+}

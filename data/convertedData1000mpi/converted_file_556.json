@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "59388 Montes Orchard Suite 751",
+    "first_name": "Andrew",
+    "birthdate": "1943-12-05",
+    "last_name": "Graham",
+    "city": "Jessicatown",
+    "state": "ME",
+    "postalCode": "83870",
+    "country": "USA",
+    "mrn": "017-70-3879"
+  }
+}

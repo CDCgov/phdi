@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0256 Levi Tunnel",
+    "first_name": "Raymond",
+    "birthdate": "1935-04-18",
+    "last_name": "Hicks",
+    "city": "Lake Michelle",
+    "state": "FL",
+    "postalCode": "76872",
+    "country": "USA",
+    "mrn": "382-69-5712"
+  }
+}

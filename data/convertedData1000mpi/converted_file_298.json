@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "15656 Haley Turnpike",
+    "first_name": "Jason",
+    "birthdate": "1973-11-14",
+    "last_name": "Conrad",
+    "city": "Lake Kevin",
+    "state": "GA",
+    "postalCode": "98132",
+    "country": "USA",
+    "mrn": "067-20-6905"
+  }
+}

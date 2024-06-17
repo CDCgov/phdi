@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "98974 Jennings Freeway Apt. 840",
+    "first_name": "Kirsten",
+    "birthdate": "1957-04-26",
+    "last_name": "White",
+    "city": "North Jacob",
+    "state": "MP",
+    "postalCode": "59154",
+    "country": "USA",
+    "mrn": "410-48-5149"
+  }
+}

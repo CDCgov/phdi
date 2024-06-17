@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "78422 Duncan Rue",
+    "first_name": "William",
+    "birthdate": "1946-02-24",
+    "last_name": "Collins",
+    "city": "Smithland",
+    "state": "SC",
+    "postalCode": "79337",
+    "country": "USA",
+    "mrn": "650-74-6043"
+  }
+}

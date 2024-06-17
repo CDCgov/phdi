@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4992 Garcia Hill",
+    "first_name": "Veronica",
+    "birthdate": "1939-12-20",
+    "last_name": "Booker",
+    "city": "West Alicia",
+    "state": "MN",
+    "postalCode": "42329",
+    "country": "USA",
+    "mrn": "563-38-8738"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "134 Pamela Hill Apt. 492",
+    "first_name": "Anthony",
+    "birthdate": "1998-07-11",
+    "last_name": "Harrison",
+    "city": "Mackshire",
+    "state": "MD",
+    "postalCode": "18341",
+    "country": "USA",
+    "mrn": "507-31-0334"
+  }
+}

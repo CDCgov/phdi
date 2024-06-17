@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Scott",
+                            "given": [
+                                "Arthur"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "59049 Rachel Trail"
+                            ],
+                            "city": "Benitezchester",
+                            "state": "GU",
+                            "postalCode": "10735",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "026-45-3444",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1952-07-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6624281",
+    "use_enhanced": true
+}

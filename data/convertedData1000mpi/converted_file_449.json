@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "558 Marvin Isle Suite 436",
+    "first_name": "Olivia",
+    "birthdate": "2003-07-07",
+    "last_name": "Brady",
+    "city": "East Elizabeth",
+    "state": "NE",
+    "postalCode": "86911",
+    "country": "USA",
+    "mrn": "605-43-9164"
+  }
+}
