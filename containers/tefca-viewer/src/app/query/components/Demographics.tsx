@@ -68,14 +68,14 @@ function formatDemographics(patient: Patient): DisplayData[] {
       title: "Race",
       value: evaluate(
         patient,
-        "Patient.extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.first().valueCoding.display",
+        "Patient.extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.first().valueCoding.display",
       )[0],
     },
     {
       title: "Ethnicity",
       value: evaluate(
         patient,
-        "Patient.extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.first().valueCoding.display",
+        "Patient.extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.first().valueCoding.display",
       )[0],
     },
     {
