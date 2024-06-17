@@ -54,23 +54,20 @@ export const DataDisplay: React.FC<{
 };
 
 /**
- * Functional component for displaying data in a data table.
+ * Functional component for displaying (a list of) data tables.
  * @param props - Props containing the item to be displayed.
  * @param props.item - The data item to be displayed.
- * @param props.title - (Optional) The overall title to be displayed.
  * @returns The JSX element representing the data table display.
  */
 export const DataTableDisplay: React.FC<{
   item: DisplayDataProps;
-  title?: string;
-}> = ({ item, title }): React.JSX.Element => {
+}> = ({ item }): React.JSX.Element => {
   item.dividerLine =
     item.dividerLine == null || item.dividerLine == undefined
       ? true
       : item.dividerLine;
   return (
     <div>
-      <div className="ecr-summary-title-long">{title}</div>
       <div className="grid-col-auto width-full text-pre-line">{item.value}</div>
       {item.dividerLine ? <div className={"section__line_gray"} /> : ""}
     </div>

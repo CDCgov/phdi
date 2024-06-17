@@ -27,9 +27,6 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
   aboutTheCondition,
   relevantClinical,
 }) => {
-  {
-    console.log(relevantClinical);
-  }
   return (
     <div className={"info-container"}>
       <div
@@ -73,11 +70,11 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {aboutTheCondition.map((item) => (
               <DataDisplay item={item} key={item.title} />
             ))}
+            <div className="ecr-summary-title-long">
+              {"Clinical Sections Relevant to Reportable Condition"}
+            </div>
             {relevantClinical.map((item) => (
-              <DataTableDisplay
-                item={item}
-                title={"Clinical Sections Relevant to Reportable Condition"}
-              />
+              <DataTableDisplay item={item} />
             ))}
           </div>
         </div>

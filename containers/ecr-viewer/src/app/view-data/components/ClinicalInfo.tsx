@@ -5,7 +5,11 @@ import {
 } from "../component-utils";
 import React from "react";
 import { addCaptionToTable } from "@/app/services/formatService";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import {
+  DataDisplay,
+  DataTableDisplay,
+  DisplayDataProps,
+} from "@/app/DataDisplay";
 
 interface ClinicalProps {
   reasonForVisitDetails: DisplayDataProps[];
@@ -15,23 +19,6 @@ interface ClinicalProps {
   treatmentData: DisplayDataProps[];
   clinicalNotes: DisplayDataProps[];
 }
-
-/**
- * Functional component for displaying data in a data table.
- * @param props - Props containing the item to be displayed.
- * @param props.item - The data item to be displayed.
- * @returns The JSX element representing the data table display.
- */
-const DataTableDisplay: React.FC<{ item: DisplayDataProps }> = ({
-  item,
-}): React.JSX.Element => {
-  return (
-    <div className="grid-row">
-      <div className="grid-col-auto width-full text-pre-line">{item.value}</div>
-      <div className={"section__line_gray"} />
-    </div>
-  );
-};
 
 /**
  * Functional component for displaying clinical information.
@@ -160,7 +147,6 @@ export const ClinicalInfo = ({
               <DataTableDisplay item={item} key={index} />
             ))}
           </div>
-          <div className={"section__line_gray margin-y-2"} />
         </AccordionDiv>
       </>
     );
