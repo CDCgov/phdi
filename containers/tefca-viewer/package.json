@@ -14,7 +14,6 @@
     "test:unit": "TZ=America/New_York jest",
     "test:unit:watch": "jest --watch",
     "test:integration": "mocha --timeout 600000 tests/integration/test_tefca-viewer.js",
-    "convert-seed-data": "sh ./seed-scripts/convert.sh",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },

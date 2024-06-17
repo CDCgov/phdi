@@ -22,7 +22,7 @@ Docker version 20.10.21, build baeda1f
 2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/tefca-viewer:latest`.
 3. Run the service with `docker run -p 3000:3000 tefca-viewer:latest`. If you're on a windows machine, you may need to run `docker run -p 3000:3000 ghcr.io/cdcgov/phdi/tefca-viewer:latest` instead.
 
-Congratulations, the TEFCA Viewer app should now be running on `localhost:3000`!
+Congratulations, the TEFCA Viewer app should now be running on `localhost:3000/tefca-viewer`!
 
 #### Running from Node.js Source Code
 
@@ -45,15 +45,7 @@ To build the Docker image for the TEFCA Viewer app from source instead of downlo
 
 ### Running via docker-compose (WIP)
 
-The TEFCA Viewer requires a Postgres database with patient demographic data to render properly. To make local development easier, a docker-compose file has been created that starts a Postgres database, seeds it with TEFCA test data, and starts the Node service. This can be run with `docker compose up`. See the [Docker Compose documentation](https://docs.docker.com/engine/reference/commandline/compose_up/) for additional information.
-
-### Potential Issues
-
-If you have problems connecting your database run this command to see what other postgres databases are running
-`sudo lsof -i :5432`
-
-then kill it
-`kill {pid}`
+The TEFCA Viewer will eventually require other inputs from other DIBBs services. For now, this is a simplified docker compose file that starts the Node service. This can be run with `docker compose up --build`. See the [Docker Compose documentation](https://docs.docker.com/engine/reference/commandline/compose_up/) for additional information.
 
 ### Developer Documentation
 
