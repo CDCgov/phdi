@@ -144,6 +144,42 @@ export const formatDateTime = (dateTimeString: string): string => {
 };
 
 /**
+ * Converts a UTC date time string to the date string in the user's local timezone.
+ * Returned date is in format "MM/DD/YYYY HH:MM AM/PM Z" where "Z" is the timezone abbreviation
+ * @param utcDateString - The date string in UTC to be converted.
+ * @returns The formatted date string converted to the user's local timezone.
+ * @throws {Error} If the input UTC date string is invalid.
+ */
+export function convertUTCToLocalString(utcDateString: string): string {
+  const utcDate = new Date(utcDateString);
+  if (isNaN(utcDate.getTime())) {
+    throw new Error("Invalid UTC date string");
+  }
+
+  const timeZoneAbbr = utcDate
+    .toLocaleString("en-US", {
+      timeZoneName: "short",
+    })
+    .split(" ")[3]; // Extract the third part which is the abbreviated timezone
+
+  const formattedDateString =
+    utcDate
+      .toLocaleString("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      })
+      .replace(",", "") +
+    " " +
+    timeZoneAbbr;
+
+  return formattedDateString;
+}
+
+/**
  * Formats the provided date string into a formatted date string with year, month, and day.
  * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input
  * @returns - The formatted date string, "Invalid Date" if input date was invalid, or undefined if the input date is falsy.
