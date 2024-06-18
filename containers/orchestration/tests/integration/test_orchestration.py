@@ -62,6 +62,12 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
+def test_openapi():
+    actual_response = httpx.get(ORCHESTRATION_URL + "/orchestration/openapi.json")
+    assert actual_response.status_code == 200
+
+
+@pytest.mark.integration
 def test_process_message_endpoint(setup, clean_up_db):
     """
     Tests a basic scenario of accepting an eCR message in XML format and

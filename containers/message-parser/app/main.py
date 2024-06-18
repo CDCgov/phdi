@@ -36,6 +36,7 @@ app = BaseService(
     service_name="DIBBs Message Parser",
     service_path="/message-parser",
     description_path=Path(__file__).parent.parent / "description.md",
+    openapi_url="/message-parser/openapi.json",
 ).start()
 
 # /parse_message endpoint #
