@@ -167,7 +167,6 @@ async function newbornScreeningQuery(
     "73742-9",
     "2708-6",
     "8336-0",
-    "test",
   ];
   const loincFilter: string = "code=" + loincs.join(",");
 
