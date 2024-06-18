@@ -14,6 +14,12 @@ import { useRouter } from "next/navigation";
 export default function LandingPage() {
   const router = useRouter();
 
+  // useEffect(() => {
+  //   if (window.location.pathname === "/" || window.location.pathname === "") {
+  //     router.replace("/tefca-viewer");
+  //   }
+  // }, [router]);
+
   const handleClick = () => {
     router.push("/query");
   };

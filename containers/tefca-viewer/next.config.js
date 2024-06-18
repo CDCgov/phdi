@@ -16,6 +16,15 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/tefca-viewer",
+        permanent: false,
+      },
+    ];
+  },
   output: "standalone",
   basePath: process.env.NODE_ENV === "production" ? "/tefca-viewer" : "",
 };
