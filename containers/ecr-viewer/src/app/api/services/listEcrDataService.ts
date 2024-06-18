@@ -5,7 +5,10 @@ import {
   ListObjectsV2CommandOutput,
 } from "@aws-sdk/client-s3";
 import { database } from "@/app/api/services/db";
-import { formatDateTime } from "@/app/services/formatService";
+import {
+  formatDateTime,
+  convertUTCToLocalString,
+} from "@/app/services/formatService";
 
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
@@ -87,7 +90,9 @@ export const processListPostgres = (responseBody: any[]): ListEcr => {
     return {
       ecrId: object.ecr_id || "",
       dateModified: object.date_created
-        ? formatDateTime(new Date(object.date_created!).toISOString())
+        ? convertUTCToLocalString(
+            formatDateTime(new Date(object.date_created!).toISOString()),
+          )
         : "",
     };
   });
@@ -110,7 +115,9 @@ export const processListS3 = (
       return {
         ecrId: object.Key?.replace(".json", "") || "",
         dateModified: object.LastModified
-          ? formatDateTime(new Date(object.LastModified!).toISOString())
+          ? convertUTCToLocalString(
+              formatDateTime(new Date(object.LastModified!).toISOString()),
+            )
           : "",
       };
     }) || []

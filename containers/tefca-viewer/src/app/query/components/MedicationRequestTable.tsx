@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "@trussworks/react-uswds";
 import { MedicationRequest } from "fhir/r4";
-import { formatCodeableConcept } from "../../format-service";
+import { formatCodeableConcept, formatDate } from "../../format-service";
 
 /**
  * The props for the MedicationRequestTable component.
@@ -23,6 +23,7 @@ const MedicationRequestTable: React.FC<MedicationRequestTableProps> = ({
     <Table>
       <thead>
         <tr>
+          <th>Order Date</th>
           <th>Medication</th>
           <th>Reason Code</th>
           <th>Status</th>
@@ -31,6 +32,7 @@ const MedicationRequestTable: React.FC<MedicationRequestTableProps> = ({
       <tbody>
         {medicationRequests.map((medicationRequest) => (
           <tr key={medicationRequest.id}>
+            <td>{formatDate(medicationRequest.authoredOn)}</td>
             <td>
               {formatCodeableConcept(
                 medicationRequest.medicationCodeableConcept,
