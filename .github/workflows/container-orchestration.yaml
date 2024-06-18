@@ -22,7 +22,7 @@ env:
   CONTAINER: orchestration
 
 jobs:
-  python-linting:
+  orchestration-python-linting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -42,7 +42,7 @@ jobs:
       - name: Run formatter (ruff)
         run: |
           ruff format --check
-  unit-test-python-containers:
+  orchestration-unit-test-python:
     runs-on: ubuntu-latest
     services:
       test-db:
@@ -88,7 +88,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ env.CONTAINER }}
-  integration-test-python-containers:
+  orchestration-integration-test-python:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -125,7 +125,7 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}}/tests/integration
         run: |
           python -m pytest -m "integration"
-  build-container:
+  build-orchestration-container:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
