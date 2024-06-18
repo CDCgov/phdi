@@ -9,7 +9,7 @@ interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
   encounterDetails: DisplayDataProps[];
   aboutTheCondition: DisplayDataProps[];
-  relevantClinical: DisplayDataProps[];
+  relevantClinical?: DisplayDataProps[];
 }
 
 /**
@@ -70,12 +70,16 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {aboutTheCondition.map((item) => (
               <DataDisplay item={item} key={item.title} />
             ))}
-            <div className="ecr-summary-title-long">
-              {"Clinical Sections Relevant to Reportable Condition"}
-            </div>
-            {relevantClinical.map((item) => (
-              <DataTableDisplay item={item} />
-            ))}
+            {relevantClinical && relevantClinical.length > 0 && (
+              <>
+                <div className="ecr-summary-title-long">
+                  {"Clinical Sections Relevant to Reportable Condition"}
+                </div>
+                {relevantClinical.map((item) => (
+                  <DataTableDisplay item={item} />
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -109,11 +109,14 @@ const ECRViewerPage: React.FC = () => {
                       fhirBundle,
                       mappings,
                     )}
-                    relevantClinical={evaluateEcrSummaryRelevantClinicalDetails(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
+                    {...(snomedCode && {
+                      relevantClinical:
+                        evaluateEcrSummaryRelevantClinicalDetails(
+                          fhirBundle,
+                          mappings,
+                          snomedCode,
+                        ),
+                    })}
                   />
                   <div className="margin-top-10">
                     <GridContainer className={"padding-0 margin-bottom-3"}>
