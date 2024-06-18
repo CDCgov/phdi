@@ -1,0 +1,109 @@
+name: Test record-linkage Container
+
+on:
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - containers/record-linkage/**
+      - containers/dibbs/**
+  merge_group:
+    types:
+      - checks_requested
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - pyproject.toml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TEST_RUNNER_PYTHON_VERSION: 3.11
+  CONTAINER: record-linkage
+
+jobs:
+  python-linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install ruff==0.4.3
+      - name: Run linter (ruff)
+        run: |
+          ruff check --output-format=github .
+      - name: Run formatter (ruff)
+        run: |
+          ruff format --check
+  unit-test-python-containers:
+    runs-on: ubuntu-latest
+    services:
+      test-db:
+        image: postgres:13-alpine3.16
+        env:
+          POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name testdb
+        ports:
+          - 5432:5432
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install pytest and pytest-cov
+        run: pip install pytest pytest-cov
+      - name: Install dependencies
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: |
+          commit_hash=$(git rev-parse HEAD)
+          find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
+          pip install -r requirements.txt
+          if [ -f dev-requirements.txt ]; then
+            pip install -r dev-requirements.txt
+          fi
+      - name: Run unit tests for container with coverage
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: |
+          python -m pytest --cov-report xml --cov=. -m "not integration" tests/
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: ${{ env.CONTAINER }}
+  build-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build ${{ env.CONTAINER }} Container
+        uses: docker/build-push-action@v3
+        with:
+          context: ./containers/${{ env.CONTAINER }}
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

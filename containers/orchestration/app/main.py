@@ -62,6 +62,7 @@ app = BaseService(
     service_name="PHDI Orchestration",
     service_path="/orchestration",
     description_path=Path(__file__).parent.parent / "description.md",
+    openapi_url="/orchestration/openapi.json",
 ).start()
 
 

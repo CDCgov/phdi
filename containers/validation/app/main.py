@@ -22,6 +22,7 @@ app = BaseService(
     service_name="DIBBs Validation Service",
     service_path="/validation",
     description_path=Path(__file__).parent.parent / "description.md",
+    openapi_url="/validation/openapi.json",
 ).start()
 
 
