@@ -100,6 +100,17 @@ def test_process_message_success(patched_post_request):
             "entry": [{"resource": {"id": "foo"}}],
         }
     }
+
+    trigger_code_reference_post_request = mock.Mock()
+    trigger_code_reference_post_request.status_code = 200
+    trigger_code_reference_post_request.json.return_value = {
+        "extended_bundle": {
+            "bundle_type": "batch",
+            "placeholder_id": "abcdefg",
+            "entry": [{"resource": {"id": "foo"}}],
+        }
+    }
+
     message_parser_post_request = mock.Mock()
     message_parser_post_request.status_code = 200
     message_parser_post_request.json.return_value = {
@@ -119,6 +130,7 @@ def test_process_message_success(patched_post_request):
         ingestion_post_request,
         ingestion_post_request,
         ingestion_post_request,
+        trigger_code_reference_post_request,
         message_parser_post_request,
         save_bundle_post_request,
     ]
@@ -290,6 +302,15 @@ def test_process_success(patched_post_request):
                 "entry": [{"resource": {"id": "foo"}}],
             }
         }
+        trigger_code_reference_post_request = mock.Mock()
+        trigger_code_reference_post_request.status_code = 200
+        trigger_code_reference_post_request.json.return_value = {
+            "extended_bundle": {
+                "bundle_type": "batch",
+                "placeholder_id": "abcdefg",
+                "entry": [{"resource": {"id": "foo"}}],
+            }
+        }
         message_parser_post_request = mock.Mock()
         message_parser_post_request.status_code = 200
         message_parser_post_request.json.return_value = {
@@ -308,6 +329,7 @@ def test_process_success(patched_post_request):
             ingestion_post_request,
             ingestion_post_request,
             ingestion_post_request,
+            trigger_code_reference_post_request,
             message_parser_post_request,
             save_bundle_post_request,
         ]

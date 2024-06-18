@@ -10,6 +10,7 @@ services:
         validation-service,
         fhir-converter-service,
         ingestion-service,
+        trigger-code-reference-service,
         message-parser-service,
         ecr-viewer,
       ]
