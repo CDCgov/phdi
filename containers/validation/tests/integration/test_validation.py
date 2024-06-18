@@ -16,6 +16,13 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
+def test_openapi():
+    response = httpx.get(f"{VALIDATION_URL}/validation/openapi.json")
+    assert response.status_code == 200
+    assert "openapi" in response.json()
+
+
+@pytest.mark.integration
 def test_successful_ecr_conversion_rr_already_integrated(setup):
     message = open(
         Path(__file__).parent.parent.parent.parent.parent

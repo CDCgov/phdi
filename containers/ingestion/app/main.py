@@ -17,6 +17,7 @@ app = BaseService(
     service_name="DIBBs Ingestion Service",
     service_path="/ingestion",
     description_path=Path(__file__).parent.parent / "description.md",
+    openapi_url="/ingestion/openapi.json",
 ).start()
 
 app.include_router(fhir_harmonization_standardization.router)

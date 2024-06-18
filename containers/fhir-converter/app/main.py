@@ -32,6 +32,7 @@ app = FastAPI(
         "url": "https://creativecommons.org/publicdomain/zero/1.0/",
     },
     description=description,
+    openapi_url="/fhir-converter/openapi.json",
 )
 
 
