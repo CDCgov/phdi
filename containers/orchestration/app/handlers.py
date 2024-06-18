@@ -484,7 +484,21 @@ def build_stamp_condition_extensions_request(
     orchestration_request: OrchestrationRequest,
     workflow_params: dict | None = None,
 ) -> dict:
-    """ """
+    """
+    Helper function for constructing the output payload for an API call to
+    the DIBBs trigger code reference service.
+
+    :param input_msg: The data the user sent for workflow processing, as
+      a string.
+    :param orchestration_request: The request the client initially sent
+      to the orchestration service. This request bundles a number of
+      parameter settings into one dictionary that each handler can
+      accept for consistency.
+    :param workflow_params: Optionally, a set of configuration parameters
+      included in the workflow config for the converter step of a workflow.
+    :return: A dictionary ready to JSON-serialize as a payload to the
+      message parser.
+    """
     with tracer.start_as_current_span(
         "build_stamp_condition_extensions_request",
         kind=trace.SpanKind(0),
@@ -833,7 +847,17 @@ def unpack_save_fhir_data_response(response: Response) -> ServiceHandlerResponse
 def unpack_stamp_condition_extensions_response(
     response: Response,
 ) -> ServiceHandlerResponse:
-    """ """
+    """
+    Helper function for processing a response from trigger code reference service's stamp conditions extension endpoint.
+
+    If the status code of the response the server sent back is OK, return
+    the message from the response body. Otherwise, report what
+    went wrong based on status_code.
+
+    :param response: The response returned by a POST request to the ingestion service.
+    :return: A tuple containing the status code of the response as well as
+      parsed message created by the service.
+    """
     with tracer.start_as_current_span(
         "unpack_stamp_condition_extensions_response",
         kind=trace.SpanKind(0),
