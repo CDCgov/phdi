@@ -11,8 +11,8 @@ import {
   evaluatePatientAddress,
   evaluateFacilityAddress,
 } from "./evaluateFhirDataService";
-import { evaluateClinicalData } from "../view-data/components/common";
-import { DisplayDataProps } from "../DataDisplay";
+import { DisplayDataProps } from "@/app/DataDisplay";
+import { returnProblemsTable } from "@/app/view-data/components/common";
 
 /**
  * Evaluates and retrieves patient details from the FHIR bundle using the provided path mappings.
@@ -119,38 +119,20 @@ export const evaluateEcrSummaryRelevantClinicalDetails = (
 ) => {
   const noData: string = "No matching clinical data found in this eCR";
   let resultsArray: DisplayDataProps[] = [];
-  const clinicalData = evaluateClinicalData(
+
+  // * Problems List
+  const problemsList = returnProblemsTable(
     fhirBundle,
+    evaluate(fhirBundle, fhirPathMappings["activeProblems"]),
     fhirPathMappings,
     snomedCode,
   );
-  console.log("Clinical Data", clinicalData);
-
-  // * PROBLEMS LIST
-  const problemsList = clinicalData.activeProblemsDetails.availableData;
-  if (problemsList.length > 0) {
-    resultsArray.push({ value: problemsList[0].value, dividerLine: false });
+  if (problemsList) {
+    resultsArray.push({ value: problemsList, dividerLine: false });
   }
 
-  // * PLANNED PROCEDURES ONLY
-  const plannedProcedures = clinicalData.treatmentData.availableData.filter(
-    (entry) => entry.title === "Planned Procedures",
-  );
-  if (plannedProcedures.length > 0) {
-    resultsArray.push({
-      value: plannedProcedures[0].value,
-      dividerLine: false,
-    });
-  }
-
-  // * IMMUNIZATIONS
-  const immunizations = clinicalData.immunizationsDetails.availableData;
-  if (immunizations.length > 0) {
-    resultsArray.push({
-      value: immunizations[0].value,
-      dividerLine: false,
-    });
-  }
+  // * Admnistered Medications
+  // Placeholder until it gets converted to FHIR
 
   // * If no data, return noData
   if (resultsArray.length === 0) {
