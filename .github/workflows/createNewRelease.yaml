@@ -23,10 +23,22 @@ jobs:
           else
             echo "contains_release=false" >> $GITHUB_OUTPUT
           fi
+  list-containers:
+    uses: ./.github/workflows/listContainers.yaml
   test-for-release:
-    needs: check-commit-message
+    needs: [check-commit-message, list-containers]
     if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
-    uses: ./.github/workflows/test.yaml
+    strategy:
+      matrix:
+        container: ${{ fromJson(needs.list-containers.outputs.all-containers) }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run ${{ matrix.container }} workflow
+        uses: ./.github/workflows/container-${{ matrix.container }}.yaml
+
   tag-release:
     name: Update phdi init version number
     needs: test-for-release
