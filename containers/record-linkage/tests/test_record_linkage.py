@@ -56,6 +56,11 @@ def test_health_check():
     assert actual_response.json() == {"status": "OK", "mpi_connection_status": "OK"}
 
 
+def test_openapi():
+    actual_response = client.get("/record-linkage/openapi.json")
+    assert actual_response.status_code == 200
+
+
 def test_linkage_bundle_with_no_patient():
     bad_bundle = {"entry": []}
     expected_response = {
