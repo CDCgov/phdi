@@ -24,6 +24,8 @@ jobs:
             echo "contains_release=false" >> $GITHUB_OUTPUT
           fi
   list-containers:
+    needs: check-commit-message
+    if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
     uses: ./.github/workflows/listContainers.yaml
   test-for-release:
     needs: [check-commit-message, list-containers]
@@ -178,10 +180,6 @@ jobs:
           path: ./docs/${{ needs.tag-release.outputs.version }}/sdk
 
   # Create updated container docs for the latest release
-  list-containers:
-    needs: check-commit-message
-    if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
-    uses: ./.github/workflows/listContainers.yaml
   generate-and-update-container-docs:
     needs:
       - tag-release
