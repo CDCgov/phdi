@@ -24,6 +24,12 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
+def test_openapi():
+    actual_response = httpx.get(PARSER_URL + "/message-parser/openapi.json")
+    assert actual_response.status_code == 200
+
+
+@pytest.mark.integration
 def test_parse_message(setup, test_schema, fhir_bundle):
     expected_reference_response = {
         "message": "Parsing succeeded!",

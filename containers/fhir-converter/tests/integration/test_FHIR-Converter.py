@@ -29,6 +29,12 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
+def test_openapi():
+    actual_response = httpx.get(CONVERTER_URL + "/fhir-converter/openapi.json")
+    assert actual_response.status_code == 200
+
+
+@pytest.mark.integration
 def test_vxu_conversion(setup, snapshot):
     input_data = open(
         Path(__file__).parent.parent.parent / "assets" / "sample_request.hl7"
