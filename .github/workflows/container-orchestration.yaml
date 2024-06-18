@@ -22,7 +22,7 @@ env:
   CONTAINER: orchestration
 
 jobs:
-  python-linting:
+  orchestration-python-linting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
