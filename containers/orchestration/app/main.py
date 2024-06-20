@@ -29,6 +29,7 @@ from app.services import call_apis
 from app.utils import _socket_response_is_valid
 from app.utils import load_config_assets
 from app.utils import load_processing_config
+from app.utils import unzip_http
 from app.utils import unzip_ws
 
 # Integrate main app tracer with automatic instrumentation context
@@ -153,6 +154,11 @@ async def process_message_endpoint(
       successful as well as the results of the workflow.
     """
     process_request = dict(request)
+
+    if process_request.get("data_type") == "zip":
+        unzipped_file = unzip_http(process_request.get("message"))
+        process_request.set("message", unzipped_file.get("ecr"))
+        process_request.set("rr_data", unzipped_file.get("rr"))
 
     # Store params as K-V pairs at span creation, and log workflow event
     # This is a `SERVER` span since it receives an inbound remote request
