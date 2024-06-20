@@ -120,6 +120,11 @@ export const evaluateEcrSummaryRelevantClinicalDetails = (
   const noData: string = "No matching clinical data found in this eCR";
   let resultsArray: DisplayDataProps[] = [];
 
+  if (!snomedCode) {
+    resultsArray.push({ value: noData, dividerLine: true });
+    return resultsArray;
+  }
+
   // * Problems List
   const problemsList = returnProblemsTable(
     fhirBundle,
@@ -134,9 +139,8 @@ export const evaluateEcrSummaryRelevantClinicalDetails = (
   // * Admnistered Medications
   // Placeholder until it gets converted to FHIR
 
-  // * If no data, return noData
+  // * If no data matches snomed code, return noData
   if (resultsArray.length === 0) {
-    console.log("No relevant clinical results");
     resultsArray.push({ value: noData, dividerLine: false });
   }
 

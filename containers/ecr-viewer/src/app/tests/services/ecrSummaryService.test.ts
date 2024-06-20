@@ -7,6 +7,18 @@ import { render, screen } from "@testing-library/react";
 const mappings = loadYamlConfig();
 
 describe("Evaluate eCR Summary Relevant Clinical Details", () => {
+  it("should return 'No Data' string when no SNOMED code is provided", () => {
+    const expectedValue = "No matching clinical data found in this eCR";
+    const actual = evaluateEcrSummaryRelevantClinicalDetails(
+      BundleWithClinicalInfo as unknown as Bundle,
+      mappings,
+      "",
+    );
+
+    expect(actual).toHaveLength(1);
+    expect(actual[0]["value"]).toEqual(expectedValue);
+  });
+
   it("should return 'No Data' string when the provided SNOMED code has no matches", () => {
     const expectedValue = "No matching clinical data found in this eCR";
     const actual = evaluateEcrSummaryRelevantClinicalDetails(
