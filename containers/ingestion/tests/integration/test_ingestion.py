@@ -20,6 +20,12 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
+def test_openapi():
+    actual_response = httpx.get(INGESTION_URL + "/ingestion/openapi.json")
+    assert actual_response.status_code == 200
+
+
+@pytest.mark.integration
 def test_standardize_names(setup, fhir_bundle):
     expected_reference_response = {
         "status_code": "200",

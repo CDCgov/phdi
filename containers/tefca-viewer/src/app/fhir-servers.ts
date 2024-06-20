@@ -28,7 +28,7 @@ export const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
     hostname: "https://gw.interop.community/HeliosConnectathonSa/open/",
     init: {} as RequestInit,
   },
-  "HELIOS Meld: eHealthExchange": configureEHX("Meld"),
+  "HELIOS Meld: eHealthExchange": configureEHX("MeldOpen"),
   "JMC Meld: Direct": {
     hostname: "https://gw.interop.community/JMCHeliosSTISandbox/open/",
     init: {} as RequestInit,
