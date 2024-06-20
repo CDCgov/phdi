@@ -24,6 +24,7 @@ jobs:
             echo "contains_release=false" >> $GITHUB_OUTPUT
           fi
   list-containers:
+  list-containers:
     needs: check-commit-message
     if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
     uses: ./.github/workflows/listContainers.yaml
