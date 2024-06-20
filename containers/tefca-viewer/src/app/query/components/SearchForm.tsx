@@ -49,6 +49,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       first_name: firstName,
       last_name: lastName,
       dob: dob,
+      mrn: mrn,
       fhir_server: fhirServer,
       use_case: useCase,
     };

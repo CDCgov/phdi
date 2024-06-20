@@ -77,6 +77,9 @@ h4 {
   border-radius: .25rem;
   overflow: hidden;
   margin-top: 1rem;
+  &:focus-within{
+    border: #2491ff .25rem solid;
+  }
   .usa-accordion__button {
     @include u-text('ink');
     font-size: 1.125rem;
@@ -96,7 +99,7 @@ h4 {
   }
 
   .usa-prose > table {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
     width: calc(100% + 2.5rem);
     margin-right: -1.25rem;
     margin-left: -1.25rem;
@@ -133,6 +136,7 @@ h4 {
 
 .table-homepage-list {
   max-width: 840px !important;
+  font-size: 16px !important;
   thead th {
     background-color: white !important;
   }

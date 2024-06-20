@@ -4,13 +4,9 @@ ARG TRIGGER_CODE_REFERENCE_URL
 ARG SMARTY_AUTH_ID
 ARG SMARTY_AUTH_TOKEN
 
-FROM python:3.11-slim
+FROM ghcr.io/cdcgov/phdi/dibbs
 
 WORKDIR /code
-
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y git build-essential
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt

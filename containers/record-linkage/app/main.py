@@ -32,6 +32,7 @@ app = BaseService(
     service_path="/record-linkage",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
+    openapi_url="/record-linkage/openapi.json",
 ).start()
 
 

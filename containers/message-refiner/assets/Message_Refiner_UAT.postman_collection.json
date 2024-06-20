@@ -1,39 +1,12 @@
 {
   "info": {
-    "_postman_id": "d32cd712-7f80-4453-8de9-85908c6642bc",
-    "name": "Message Refiner UAT",
-    "description": "A collection of 5 requests intended to demonstrate the functionality of the DIBBs Message Refiner service. These requests test the various section-based and condition-based filtering options available through the service, showing them in isolation and in combination on a variety of data. This collection also shows how clinical services related to a particular SNOMED code are queried behind the scenes using the Trigger Code Reference Service. All data featured in these requests comes from anonymized case reports supplied by LAC's Department of Public Health.",
+    "_postman_id": "e4628169-0bda-4264-804e-b61fa0e9c67c",
+    "name": "Message Refiner User Acceptance Testing Guide",
+    "description": "# Overview\n\nThis document offers guidance around using the DIBBs Message Refiner service. It's intended to help you understand what the Message Refiner does (e.g., how it filters for specific sections and conditions) and how to make API requests to refine electronic case reporting (eCR) files using this service.\n\n## What is the Message Refiner?\n\nThe DIBBs Message Refiner is a data processing tool that retains only the most pertinent information from eCR files for a given section or condition. The Message Refiner makes it easier for public health staff to access only the information they need, while also alleviating performance and storage burden on disease surveillance systems.\n\n## How to refine eCR messages\n\nOur team has put together a collection of five API requests to demonstrate the functionality of the Message Refiner. In this guide, you will learn how to refine eCRs based on:\n\n- Filtering by section\n    \n- Filtering by condition\n    \n- Filtering by both section and condition\n    \n\nYou will also learn how clinical services related to a particular SNOMED code are queried behind the scenes using the DIBBs Trigger Code Reference (TCR) service.\n\nEach of the five requests is made up of the request's Body, which consists of the data sent to the API, and Documentation, which explains the possible use cases of the functionality demonstrated in the test. To view the documentation for a test, click the icon of a page with a folded corner near the top of the right-hand bar.\n\nAll data featured in these requests comes from anonymized case reports supplied by Los Angeles County's Department of Public Health.\n\nFind full documentation of the endpoints for the Message Refiner at [https://dibbs.cloud/message-refiner/redoc](https://dibbs.cloud/message-refiner/redoc).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "35978615"
+    "_exporter_id": "35997847"
   },
   "item": [
-    {
-      "name": "TCR Returned Services for Covid SNOMED",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "https://dibbs.cloud/trigger-code-reference/get-value-sets/?condition_code=840539006",
-          "protocol": "https",
-          "host": [
-            "dibbs",
-            "cloud"
-          ],
-          "path": [
-            "trigger-code-reference",
-            "get-value-sets",
-            ""
-          ],
-          "query": [
-            {
-              "key": "condition_code",
-              "value": "840539006"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
     {
       "name": "Section Filter: Problems, Labs, Social History",
       "request": {
@@ -49,7 +22,7 @@
           }
         },
         "url": {
-          "raw": "https://dibbs.cloud/message-refiner/ecr/?sections_to_include=11450-4,30954-2,29762-2",
+          "raw": "https://dibbs.cloud/message-refiner/ecr?sections_to_include=11450-4,30954-2,29762-2",
           "protocol": "https",
           "host": [
             "dibbs",
@@ -57,8 +30,7 @@
           ],
           "path": [
             "message-refiner",
-            "ecr",
-            ""
+            "ecr"
           ],
           "query": [
             {
@@ -66,12 +38,13 @@
               "value": "11450-4,30954-2,29762-2"
             }
           ]
-        }
+        },
+        "description": "# Use Case\nThis API request demonstrates the Message Refiner's ability to filter out sections of an eCR that aren't of interest to users when investigating a particular disease. As an example, an epidemiologist might want to use this call to store and review certain sections of an eCR, such as Results (which contains the patient's diagnostic tests and laboratory data), the patient's Social History, and the patient's Problem List.\n\nThe **Body** tab shows the large eCR to be processed by the Message Refiner. The Message Refiner only requires an XML to be submitted; parameters can then be added to specify how to refine the eCR.\n\nThis API call seeks to use the Message Refiner to refine an eCR based on the `sections_to_include` parameter. Each section of an eCR has a corresponding LOINC code that can be used in the API call. For instance, the Social History section corresponds to LOINC code 29762-2 and the API request would include the following query parameter: `?sections_to_include=29762-2`.\n\nFor this example API call, the user wants to include multiple sections in the refined eCR so the section's LOINCs are comma delimited. To include Results (LOINC 30954-2), the patient's Social History (LOINC 29762-2), and the patient's Problem List (LOINC 11450-4), the API request would include the following query parameter: `?sections_to_include=30954-2,29762-2,11450-4`. This information is also viewable in the **Params** tab.\nThe full list of available LOINC codes, and the section of the eCR to which they correspond, can be found [here](https://dibbs.cloud/message-refiner/redoc#operation/refine_ecr_ecr_post).\n\nAfter hitting **Send** on the request, we can compare the original eCR XML (top) to our refined eCR XML (bottom). The length of the eCR has been reduced by about 30%. Further, if we search the refined eCR XML for specific sections, we can see the section for Results (LOINC 30954-2) is still included, whereas the section for Medications Administered (LOINC 29549-3) has been truncated.\n"
       },
       "response": []
     },
     {
-      "name": "Condition Filter: COVID Code",
+      "name": "Condition Filter: COVID-19 Code",
       "request": {
         "method": "POST",
         "header": [],
@@ -85,7 +58,7 @@
           }
         },
         "url": {
-          "raw": "https://dibbs.cloud/message-refiner/ecr/?conditions_to_include=840539006",
+          "raw": "https://dibbs.cloud/message-refiner/ecr?conditions_to_include=840539006",
           "protocol": "https",
           "host": [
             "dibbs",
@@ -93,8 +66,7 @@
           ],
           "path": [
             "message-refiner",
-            "ecr",
-            ""
+            "ecr"
           ],
           "query": [
             {
@@ -102,12 +74,40 @@
               "value": "840539006"
             }
           ]
-        }
+        },
+        "description": "# Use Case\nThis API request demonstrates the Message Refiner's ability to filter for information pertaining only to certain conditions. As an example, an epidemiologist that receives a large eCR might want to use this call to store and review information pertaining only to COVID-19.\n\nThe **Body** tab shows the large eCR XML, which, in addition to containing information about COVID-19, includes other information not relevant to the current investigation.\n\nThis API request seeks to use the Message Refiner to refine an eCR based on the `conditions_to_include` parameter. The condition code for COVID-19 is `840539006`, so this is the parameter: `?conditions_to_include=840539006`. \nSimilar to the `sections_to_include` section, we can include multiple conditions, delimited by a comma. For example, if the epidemiologist wanted to refine an eCR for data on COVID-19 and Influenza (`6142004`) simultaneously, the parameter would be: `?conditions_to_include=840539006,6142004`. This information is also viewable in the **Params** tab.\n\nThe conditions are based on APHL's Electronic Reporting and Surveillance Distribution (eRSD). This request uses another Building Block, known as the Trigger Code Reference (TCR) to look up any clinical services associated with the COVID-19 condition code. It will then search the eCR to determine if any of those clinical services are in the eCR and return only those entries relevant to a particular condition \u2014 in this case, COVID-19. More information on the TCR is discussed in the next example.\n\nAfter hitting **Send** on the request, we can compare the original eCR XML (top) to our refined eCR XML (bottom).\n\nWe can first compare sections. For example, if we search each eCR XML for the section about Medications Administered (LOINC 29549-3), we see that the new eCR has the following message: \n> \u201cRemoved via PRIME DIBBs Message Refiner API endpoint by Public Health Authority.\u201d \n\nThis informs the epidemiologist that there isn't any relevant information about COVID-19 in this section.\nConversely, if we search each eCR XML for the section about Results (LOINC 30954-2), we see that the new eCR has the following message: \n>\u201cOnly entries that match the corresponding condition code were included in this section via PRIME DIBBs Message Refiner API endpoint by Public Health Authority.\u201d\n\nIf we compare, we see that the original eCR contains information about 21 lab test results. However, in the refined eCR, there are only two entry elements, both of which pertain to the results of a COVID-19 PCR test."
       },
       "response": []
     },
     {
-      "name": "Section + Condition Filter: COVID Labs",
+      "name": "TCR Returned Services for COVID-19 SNOMED",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://dibbs.cloud/trigger-code-reference/get-value-sets?condition_code=840539006",
+          "protocol": "https",
+          "host": [
+            "dibbs",
+            "cloud"
+          ],
+          "path": [
+            "trigger-code-reference",
+            "get-value-sets"
+          ],
+          "query": [
+            {
+              "key": "condition_code",
+              "value": "840539006"
+            }
+          ]
+        },
+        "description": "# Use Case\nThis API request demonstrates how the Trigger Code Reference (TCR) works in concert with the Message Refiner to ensure that an eCR is refined on the most up-to-date codes associated with a particular trigger. Trigger codes correspond to the reason an eCR was ultimately transmitted to a public health authority. \n\nWith the previous example, where an epidemiologist wants to store and review information pertaining only to COVID-19, the TCR uses the `/get-value-sets` endpoint to look up a trigger code and return all data relevant to that particular trigger code, such as lab results, lab orders, organisms tested, medications, and diagnoses.\n\nThe conditions are based on APHL's Electronic Reporting and Surveillance Distribution (eRSD). This API call looks up a particular condition, in this case, COVID-19. More information on eRSD can be found [here](https://ersd.aimsplatform.org/#/home).\n\nThis API request uses the following parameter to return data related to COVID-19: `?condition_code=840539006`. This information is also viewable in the **Params** tab. The TCR can only look up one condition at a time.\n\nOnce hitting **Send** on the request, we can review the response and see that it returns a number of potential codes, organized by value set types as defined by APHL, such as diagnoses (dxtc), lab results (lrtc), organisms tested (ostc), and also by system for that code, such as LOINC, SNOMED, ICD-10. The combination of codes and system are then used in the Message Refiner to refine an eCR.\n"
+      },
+      "response": []
+    },
+    {
+      "name": "Section + Condition Filter: COVID-19 Labs",
       "request": {
         "method": "POST",
         "header": [],
@@ -121,7 +121,7 @@
           }
         },
         "url": {
-          "raw": "https://dibbs.cloud/message-refiner/ecr/?sections_to_include=30954-2&conditions_to_include=840539006",
+          "raw": "https://dibbs.cloud/message-refiner/ecr?sections_to_include=30954-2&conditions_to_include=840539006",
           "protocol": "https",
           "host": [
             "dibbs",
@@ -129,8 +129,7 @@
           ],
           "path": [
             "message-refiner",
-            "ecr",
-            ""
+            "ecr"
           ],
           "query": [
             {
@@ -142,7 +141,8 @@
               "value": "840539006"
             }
           ]
-        }
+        },
+        "description": "# Use Case\nThis API request demonstrates the Message Refiner's ability to both filter out sections that aren't of interest to users and limit those results to information pertaining only to certain conditions. As an example, an epidemiologist might want to use this API call to store and review only Results related to COVID-19.\n\nAs with previous examples, the **Body** tab shows the large eCR XML, which includes other sections besides Results and other information not relevant to an investigation into COVID-19.\n\nThis API request seeks to use the Message Refiner to refine an eCR based on the `sections_to_include` parameter in tandem with the `conditions_to_include` parameter. For this example API call, the user wants to include just Results (LOINC 30954-2) and the condition code for COVID-19 (840539006). We can include both in the query parameter, separating them with an `&`: `?sections_to_include=30954-2&conditions_to_include=840539006`. This information is also viewable in the **Params** tab.\n\nOnce hitting **Send** on the request, we can compare the original eCR XML (top) to our refined eCR XML (bottom).\n\nSimilar to the prior example, we can compare the original and refined eCR XML and see that only the Results section has retained any salient information on COVID-19. When using both filters in tandem, the Message Refiner only conducts condition filtering on the sections specified. In this example, any data relevant to COVID-19 in other sections wouldn't be included in the newly refined eCR. "
       },
       "response": []
     },
@@ -161,7 +161,7 @@
           }
         },
         "url": {
-          "raw": "https://dibbs.cloud/message-refiner/ecr/?conditions_to_include=407479009",
+          "raw": "https://dibbs.cloud/message-refiner/ecr?conditions_to_include=407479009",
           "protocol": "https",
           "host": [
             "dibbs",
@@ -169,8 +169,7 @@
           ],
           "path": [
             "message-refiner",
-            "ecr",
-            ""
+            "ecr"
           ],
           "query": [
             {
@@ -178,7 +177,8 @@
               "value": "407479009"
             }
           ]
-        }
+        },
+        "description": "# Use Case\nThis API request demonstrates how to use the Message Refiner to quickly determine whether data is present for a particular condition. As an example, an epidemiologist might want to use this API call to determine if an eCR contains any data related to Influenza A.\n\nAs with previous examples, the **Body** tab shows the large eCR XML before it goes through the refining process.\n\nThis API request seeks to use the Message Refiner to refine an eCR based on the `conditions_to_include` parameter. The condition code for Influenza A is `407479009`, so this is the parameter: `?conditions_to_include=407479009`. This information is also viewable in the **Params** tab.\n\nOnce hitting **Send** on the request, we can compare the original eCR XML (top) to our refined eCR XML (bottom). In the newly refined XML, which has no information related to Influenza A, we can see that the XML only has demographic data and each section is otherwise empty. This allows an epidemiologist to quickly determine that there isn't data present for a particular condition."
       },
       "response": []
     }

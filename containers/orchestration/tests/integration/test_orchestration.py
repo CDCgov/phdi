@@ -4,11 +4,28 @@ from pathlib import Path
 from unittest.mock import patch
 
 import httpx
+import psycopg2
 import pytest
 from app.config import get_settings
 from app.main import app
 from lxml import etree
 from starlette.testclient import TestClient
+
+
+@pytest.fixture
+def clean_up_db():
+    """
+    Removes the test data that is inserted during testing to ensure idempotency.
+    """
+    connection_string = os.environ.get("DATABASE_URL").replace("@db", "@localhost")
+    dbconn = psycopg2.connect(connection_string)
+    cursor = dbconn.cursor()
+    query = "DELETE FROM fhir;"
+    cursor.execute(query)
+    dbconn.commit()
+    cursor.close()
+    dbconn.close()
+
 
 get_settings()
 
@@ -46,18 +63,18 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
-def test_process_message_endpoint(setup):
+def test_openapi():
+    actual_response = httpx.get(ORCHESTRATION_URL + "/orchestration/openapi.json")
+    assert actual_response.status_code == 200
+
+
+@pytest.mark.integration
+def test_process_message_endpoint(setup, clean_up_db):
     """
     Tests a basic scenario of accepting an eCR message in XML format and
     applying a full validation through parsing workflow.
     """
-    message = open(
-        Path(__file__).parent.parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "CDA_eICR.xml"
-    ).read()
+    message = open(Path(__file__).parent.parent / "assets" / "CDA_eICR.xml").read()
     request = {
         "message_type": "ecr",
         "data_type": "ecr",
@@ -70,17 +87,13 @@ def test_process_message_endpoint(setup):
 
 
 @pytest.mark.integration
-def test_process_endpoint_with_zip(setup):
+def test_process_endpoint_with_zip(setup, clean_up_db):
     """
     Tests full orchestration functionality of an eCR file, but this time,
     the file is zipped rather than raw string.
     """
     with open(
-        Path(__file__).parent.parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "test_zip.zip",
+        Path(__file__).parent.parent / "assets" / "test_zip.zip",
         "rb",
     ) as file:
         form_data = {
@@ -96,17 +109,13 @@ def test_process_endpoint_with_zip(setup):
 
 
 @pytest.mark.integration
-def test_process_endpoint_with_zip_and_rr_data(setup):
+def test_process_endpoint_with_zip_and_rr_data(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
     """
     with open(
-        Path(__file__).parent.parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "eICR_RR_combo.zip",
+        Path(__file__).parent.parent / "assets" / "eICR_RR_combo.zip",
         "rb",
     ) as file:
         form_data = {
@@ -115,7 +124,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
-            PROCESS_ENDPOINT, data=form_data, files=files
+            PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
@@ -123,17 +132,13 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
 
 
 @pytest.mark.integration
-def test_failed_save_to_ecr_viewer(setup):
+def test_failed_save_to_ecr_viewer(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
     """
     with open(
-        Path(__file__).parent.parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "eICR_RR_combo.zip",
+        Path(__file__).parent.parent / "assets" / "eICR_RR_combo.zip",
         "rb",
     ) as file:
         form_data = {
@@ -149,27 +154,25 @@ def test_failed_save_to_ecr_viewer(setup):
 
 
 @pytest.mark.integration
-def test_success_save_to_ecr_viewer(setup):
+def test_success_save_to_ecr_viewer(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
     """
     with open(
-        Path(__file__).parent.parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "test_zip.zip",
+        Path(__file__).parent.parent / "assets" / "test_zip.zip",
         "rb",
     ) as file:
         form_data = {
             "message_type": "ecr",
+            "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
             PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
         )
+
         assert orchestration_response.status_code == 200
 
 
@@ -204,8 +207,7 @@ def test_process_message_fhir_phdc(setup):
     """
     message = json.load(
         open(
-            Path(__file__).parent.parent.parent.parent
-            / "orchestration"
+            Path(__file__).parent.parent.parent
             / "tests"
             / "assets"
             / "demo_phdc_conversion_bundle.json"
@@ -245,12 +247,7 @@ def test_process_message_hl7(setup):
     an eLR HL7v2 message.
     """
     message = open(
-        Path(__file__).parent.parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "fhir-converter"
-        / "hl7v2"
-        / "hl7_with_msh_3_set.hl7"
+        Path(__file__).parent.parent / "assets" / "hl7_with_msh_3_set.hl7"
     ).read()
     request = {
         "message_type": "elr",
@@ -294,11 +291,7 @@ async def test_websocket_process_message_endpoint(setup):
 
     # Pull in and read test zip file
     with open(
-        Path(__file__).parent.parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "test_zip.zip",
+        Path(__file__).parent.parent / "assets" / "test_zip.zip",
         "rb",
     ) as file:
         test_zip = file.read()

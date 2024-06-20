@@ -1160,6 +1160,54 @@
 					</text>
 				</section>
 			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.22.1" extension="2015-08-01"/>
+					<code code="46240-8" codeSystem="2.16.840.1.113883.6.1" displayName="History of encounters"/>
+					<title>Encounters</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.38" extension="2014-06-09"/>
+					<code code="29549-3" codeSystem="2.16.840.1.113883.6.1" displayName="Medications Administered"/>
+					<title>Medications Administered</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.5.1" extension="2015-08-01"/>
+					<code code="11450-4" codeSystem="2.16.840.1.113883.6.1" displayName="Problem List"/>
+					<title>Problem List</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.10" extension="2014-06-09"/>
+					<code code="18776-5" codeSystem="2.16.840.1.113883.6.1" displayName="Plan of Treatment"/>
+					<title>Plan of Treatment</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.17" extension="2015-08-01"/>
+					<code code="29762-2" codeSystem="2.16.840.1.113883.6.1" displayName="Social History"/>
+					<title>Social History</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
+			<component>
+				<section nullFlavor="NI">
+					<templateId root="2.16.840.1.113883.10.20.22.2.20" extension="2015-08-01"/>
+					<code code="10164-2" codeSystem="2.16.840.1.113883.6.1" displayName="History of Present Illness"/>
+					<title>History of Present Illness</title>
+					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
+				</section>
+			</component>
 		</structuredBody>
 	</component>
 </ClinicalDocument>
