@@ -1,83 +1,103 @@
 {
   "46240-8": {
-    "minimal_fields": [
-      "History of encounters",
-      "2.16.840.1.113883.10.20.22.2.22.1",
-      "2015-08-01",
-      "Encounters"
-    ],
-    "required": true
+    "required": true,
+    "minimal_fields": {
+      "template_id_root": "2.16.840.1.113883.10.20.22.2.22.1",
+      "template_id_extension": "2015-08-01",
+      "display_name": "History of encounters",
+      "title": "Encounters"
+    },
+    "trigger_code_template": {
+      "template_id_root": "2.16.840.1.113883.10.20.15.2.3.5",
+      "template_id_extension": "2016-12-01",
+      "description": "Initial Case Manual Initiation Reason Observation"
+    }
   },
   "10164-2": {
-    "minimal_fields": [
-      "History of Present Illness",
-      "2.16.840.1.113883.10.20.22.2.20",
-      "2015-08-01",
-      "History of Present Illness"
-    ],
-    "required": true
-  },
-  "29549-3": {
-    "minimal_fields": [
-      "Medications Administered",
-      "2.16.840.1.113883.10.20.22.2.38",
-      "2014-06-09",
-      "Medications Administered"
-    ],
-    "required": true
-  },
-  "18776-5": {
-    "minimal_fields": [
-      "Plan of Treatment",
-      "2.16.840.1.113883.10.20.22.2.10",
-      "2014-06-09",
-      "Plan of Treatment"
-    ],
-    "required": true
-  },
-  "11450-4": {
-    "minimal_fields": [
-      "Problem List",
-      "2.16.840.1.113883.10.20.22.2.5.1",
-      "2015-08-01",
-      "Problem List"
-    ],
-    "required": true
-  },
-  "29299-5": {
-    "minimal_fields": [
-      "Reason For Visit",
-      "2.16.840.1.113883.10.20.22.2.12",
-      "2015-08-01",
-      "Reason For Visit"
-    ],
-    "required": true
-  },
-  "30954-2": {
-    "minimal_fields": [
-      "Relevant diagnostic tests and/or laboratory data",
-      "2.16.840.1.113883.10.20.22.2.3.1",
-      "2015-08-01",
-      "Results"
-    ],
-    "required": true
-  },
-  "29762-2": {
-    "minimal_fields": [
-      "Social History",
-      "2.16.840.1.113883.10.20.22.2.17",
-      "2015-08-01",
-      "Social History"
-    ],
-    "required": true
+    "required": true,
+    "minimal_fields": {
+      "template_id_root": "2.16.840.1.113883.10.20.22.2.20",
+      "template_id_extension": "2015-08-01",
+      "display_name": "History of Present Illness",
+      "title": "History of Present Illness"
+    }
   },
   "11369-6": {
-    "minimal_fields": [
-      "History of Immunizations",
-      "2.16.840.1.113883.10.20.22.4.52",
-      "2015-08-01",
-      "Immunizations"
-    ],
-    "required": false
+    "required": false,
+    "minimal_fields": {
+      "template_id_root": "2.16.840.1.113883.10.20.22.4.52",
+      "template_id_extension": "2015-08-01",
+      "display_name": "History of Immunizations",
+      "title": "Immunizations"
+    }
+  },
+  "29549-3": {
+    "required": true,
+    "minimal_fields": {
+      "template_id_root": "2.16.840.1.113883.10.20.22.2.38",
+      "template_id_extension": "2014-06-09",
+      "display_name": "Medications Administered",
+      "title": "Medications Administered"
+    }
+  },
+  "18776-5": {
+    "required": true,
+    "minimal_fields": {
+      "template_id_root": "2.16.840.1.113883.10.20.22.2.10",
+      "template_id_extension": "2014-06-09",
+      "display_name": "Plan of Treatment",
+      "title": "Plan of Treatment"
+    },
+    "trigger_code_template": {
+      "template_id_root": "2.16.840.1.113883.10.20.15.2.3.4",
+      "template_id_extension": "2016-12-01",
+      "description": "Initial Case Report Trigger Code Lab Test Order"
+    }
+  },
+  "11450-4": {
+    "required": true,
+    "minimal_fields": {
+      "template_id_root": "2.16.840.1.113883.10.20.22.2.5.1",
+      "template_id_extension": "2015-08-01",
+      "display_name": "Problem List",
+      "title": "Problem List"
+    },
+    "trigger_code_template": {
+      "template_id_root": "2.16.840.1.113883.10.20.15.2.3.3",
+      "template_id_extension": "2016-12-01",
+      "description": "Initial Case Report Trigger Code Problem Observation"
+    }
+  },
+  "29299-5": {
+    "required": true,
+    "minimal_fields": {
+      "template_id_root": "2.16.840.1.113883.10.20.22.2.12",
+      "template_id_extension": "2015-08-01",
+      "display_name": "Reason For Visit",
+      "title": "Reason For Visit"
+    }
+  },
+  "30954-2": {
+    "required": true,
+    "minimal_fields": {
+      "template_id_root": "2.16.840.1.113883.10.20.22.2.3.1",
+      "template_id_extension": "2015-08-01",
+      "display_name": "Relevant diagnostic tests and/or laboratory data",
+      "title": "Results"
+    },
+    "trigger_code_template": {
+      "template_id_root": "2.16.840.1.113883.10.20.15.2.3.2",
+      "template_id_extension": "2016-12-01",
+      "description": "Initial Case Report Trigger Code Result Observation"
+    }
+  },
+  "29762-2": {
+    "required": true,
+    "minimal_fields": {
+      "template_id_root": "2.16.840.1.113883.10.20.22.2.17",
+      "template_id_extension": "2015-08-01",
+      "display_name": "Social History",
+      "title": "Social History"
+    }
   }
 }
