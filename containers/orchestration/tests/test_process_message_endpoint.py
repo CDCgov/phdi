@@ -121,7 +121,9 @@ def test_process_message_zip_success(patched_post_request):
         Path(__file__).parent / "assets" / "eICR_RR_combo.zip", "r"
     ) as zip_ref:
         zip_ref.extractall(extract_dir)
-    message = open(Path(__file__).parent / "assets" / "eICR_RR_combo").read()
+    message = open(
+        Path(__file__).parent / "assets" / "eICR_RR_combo" / "CDA_eICR.xml"
+    ).read()
     request = {
         "message_type": "ecr",
         "data_type": "zip",
