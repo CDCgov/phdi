@@ -1,12 +1,15 @@
 import json
 import os
 from pathlib import Path
+from unittest.mock import Mock
 from zipfile import ZipFile
 
 import pytest
+from app.utils import _combine_response_bundles
 from app.utils import load_processing_config
 from app.utils import replace_env_var_placeholders
 from app.utils import search_for_ecr_data
+from fastapi import Response
 
 
 def test_load_processing_config_success():
@@ -73,3 +76,22 @@ def test_search_for_ecr_data_eicr_not_found_fails():
         search_for_ecr_data(zipfile_without_eicr)
     error_message = str(indexError.value)
     assert "There is no eICR in this zip file." in error_message
+
+
+def test_combine_response_bundles():
+    mock_response = Mock(spec=Response)
+    mock_response.status_code = 200
+    mock_response.json = Mock(return_value={"foo": "bar"})
+
+    mock_response_2 = Mock(spec=Response)
+    mock_response_2.status_code = 200
+    mock_response_2.json = Mock(return_value={"biz": "boo"})
+
+    config = {"workflow": [{"service": "foobar"}], "include": ["foo", "biz"]}
+
+    combined = _combine_response_bundles(
+        mock_response, {"foobar": mock_response_2}, config
+    )
+
+    assert "foo" in combined
+    assert "biz" in combined
