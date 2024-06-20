@@ -6,11 +6,8 @@ from typing import Annotated
 
 from dibbs.base_service import BaseService
 from fastapi import Body
-from fastapi import File
-from fastapi import Form
 from fastapi import Response
 from fastapi import status
-from fastapi import UploadFile
 from fastapi import WebSocket
 from fastapi import WebSocketDisconnect
 from opentelemetry import metrics
@@ -31,9 +28,7 @@ from app.models import PutConfigResponse
 from app.services import call_apis
 from app.utils import _socket_response_is_valid
 from app.utils import load_config_assets
-from app.utils import load_json_from_binary
 from app.utils import load_processing_config
-from app.utils import unzip_http
 from app.utils import unzip_ws
 
 # Integrate main app tracer with automatic instrumentation context
@@ -139,57 +134,6 @@ async def process_message_endpoint_ws(
             )
     finally:
         await websocket.close()
-
-
-# TODO: This method needs request validation on message_type
-# Should make them into Field values and validate with Pydantic
-@app.post("/process", status_code=200, responses=process_message_response_examples)
-async def process_endpoint(
-    message_type: str = Form(None),
-    data_type: str = Form(None),
-    config_file_name: str = Form(None),
-    upload_file: UploadFile = File(None),
-) -> OrchestrationResponse:
-    """
-    Wrapper function for unpacking an uploaded file, determining appropriate
-    parameter and application settings, and applying a config-driven workflow
-    to the data in that file. This is one of two endpoints that can actually
-    invoke and apply a config workflow to data and is meant to be used to
-    process files.
-
-    :param message_type: The type of stream of the uploaded file's underlying
-      data (e.g. ecr, elr, etc.). If the data is in FHIR format, set to FHIR.
-    :param data_type: The type of data held in the uploaded file. Eligible
-      values include `ecr`, `zip`, `fhir`, and `hl7`.
-    :param config_file_name: The name of the configuration file to load on
-      the service's back-end, specifying the workflow to apply.
-    :param upload_file: A file containing clinical health care information.
-    :return: A response holding whether the workflow application was
-      successful as well as the results of the workflow.
-    """
-    rr_content = None
-    if upload_file.content_type == "application/zip":
-        unzipped_file = unzip_http(upload_file)
-        message = unzipped_file.get("ecr")
-        rr_content = unzipped_file.get("rr")
-    elif upload_file.content_type == "application/json":
-        message = load_json_from_binary(upload_file)
-    else:
-        message = upload_file.read()
-
-    building_block_response = await apply_workflow_to_message(
-        message_type,
-        data_type,
-        config_file_name,
-        message,
-        rr_content,
-    )
-
-    # Vacuous addition--if we got here without breaking, it's a 200,
-    # or at least, can be treated as such for MVP metrics purposes
-    process_counter.add(1, {"status_code": 200})
-
-    return building_block_response
 
 
 @app.post(
