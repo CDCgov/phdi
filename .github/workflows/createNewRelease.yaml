@@ -27,18 +27,21 @@ jobs:
     needs: check-commit-message
     if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
     uses: ./.github/workflows/listContainers.yaml
+
   test-for-release:
-    needs: [check-commit-message, list-containers]
+    needs:
+      - check-commit-message
+      - list-containers
     if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        container: ${{ fromJson(needs.list-containers.outputs.all-containers) }}
-    runs-on: ubuntu-22.04
+        container: ${{fromJson(needs.list-containers.outputs.python-containers)}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run ${{ matrix.container }} workflow
+      - name: Run container workflow
         uses: ./.github/workflows/container-${{ matrix.container }}.yaml
 
   tag-release:
