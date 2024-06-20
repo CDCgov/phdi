@@ -226,112 +226,103 @@ def test_process_message_input_validation_with_rr_data():
 # # /process tests
 @mock.patch("app.services.post_request")
 def test_process_success(patched_post_request):
-    with open(
-        Path(__file__).parent / "assets" / "eICR_RR_combo.zip",
-        "rb",
-    ) as f:
-        form_data = {
-            "message_type": "ecr",
-            "data_type": "zip",
-            "config_file_name": "sample-orchestration-config.json",
-        }
-        files = {"upload_file": ("file.zip", f)}
+    message = open(Path(__file__).parent / "assets" / "eICR_RR_combo.zip").read()
+    request = {
+        "message_type": "ecr",
+        "data_type": "zip",
+        "config_file_name": "sample-orchestration-config.json",
+        "message": message,
+    }
 
-        call_post_request = mock.Mock()
-        call_post_request.status_code = 200
-        call_post_request.json.return_value = {
-            "response": {
-                "FhirResource": {"foo": "bar"},
-            },
-            "bundle": {"entry": [{"resource": {"id": "foo"}}]},
-        }
-        validation_post_request = mock.Mock()
-        validation_post_request.status_code = 200
-        validation_post_request.json.return_value = {
-            "validation_results": [],
-            "message_valid": True,
-        }
-        conversion_post_request = mock.Mock()
-        conversion_post_request.status_code = 200
-        conversion_post_request.json.return_value = {
-            "response": {
-                "FhirResource": {
-                    "bundle": {
-                        "bundle_type": "batch",
-                        "placeholder_id": "abcdefg",
-                        "entry": [],
-                    }
+    call_post_request = mock.Mock()
+    call_post_request.status_code = 200
+    call_post_request.json.return_value = {
+        "response": {
+            "FhirResource": {"foo": "bar"},
+        },
+        "bundle": {"entry": [{"resource": {"id": "foo"}}]},
+    }
+    validation_post_request = mock.Mock()
+    validation_post_request.status_code = 200
+    validation_post_request.json.return_value = {
+        "validation_results": [],
+        "message_valid": True,
+    }
+    conversion_post_request = mock.Mock()
+    conversion_post_request.status_code = 200
+    conversion_post_request.json.return_value = {
+        "response": {
+            "FhirResource": {
+                "bundle": {
+                    "bundle_type": "batch",
+                    "placeholder_id": "abcdefg",
+                    "entry": [],
                 }
             }
         }
-        ingestion_post_request = mock.Mock()
-        ingestion_post_request.status_code = 200
-        ingestion_post_request.json.return_value = {
-            "bundle": {
-                "bundle_type": "batch",
-                "placeholder_id": "abcdefg",
-                "entry": [{"resource": {"id": "foo"}}],
-            }
+    }
+    ingestion_post_request = mock.Mock()
+    ingestion_post_request.status_code = 200
+    ingestion_post_request.json.return_value = {
+        "bundle": {
+            "bundle_type": "batch",
+            "placeholder_id": "abcdefg",
+            "entry": [{"resource": {"id": "foo"}}],
         }
-        message_parser_post_request = mock.Mock()
-        message_parser_post_request.status_code = 200
-        message_parser_post_request.json.return_value = {
-            "parsed_values": {"eicr_id": "placeholder_id"}
-        }
-        save_bundle_post_request = mock.Mock()
-        save_bundle_post_request.status_code = 200
-        save_bundle_post_request.headers = {"content-type": "application/json"}
-        save_bundle_post_request.json.return_value = {
-            "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
-        }
+    }
+    message_parser_post_request = mock.Mock()
+    message_parser_post_request.status_code = 200
+    message_parser_post_request.json.return_value = {
+        "parsed_values": {"eicr_id": "placeholder_id"}
+    }
+    save_bundle_post_request = mock.Mock()
+    save_bundle_post_request.status_code = 200
+    save_bundle_post_request.headers = {"content-type": "application/json"}
+    save_bundle_post_request.json.return_value = {
+        "message": "Success. Saved FHIR Bundle to S3: placeholder_id"
+    }
 
-        patched_post_request.side_effect = [
-            validation_post_request,
-            conversion_post_request,
-            ingestion_post_request,
-            ingestion_post_request,
-            ingestion_post_request,
-            message_parser_post_request,
-            save_bundle_post_request,
-        ]
+    patched_post_request.side_effect = [
+        validation_post_request,
+        conversion_post_request,
+        ingestion_post_request,
+        ingestion_post_request,
+        ingestion_post_request,
+        message_parser_post_request,
+        save_bundle_post_request,
+    ]
 
-        actual_response = client.post("/process-message", data=form_data, files=files)
-        assert actual_response.status_code == 200
+    actual_response = client.post("/process-message", json=request)
+    assert actual_response.status_code == 200
 
 
 def test_process_with_empty_zip():
-    with open(
-        Path(__file__).parent / "assets" / "empty.zip",
-        "rb",
-    ) as f:
-        form_data = {
-            "message_type": "ecr",
-            "data_type": "zip",
-            "config_file_name": "sample-orchestration-config.json",
-        }
-        files = {"upload_file": ("file.zip", f)}
+    message = open(Path(__file__).parent / "assets" / "empty.zip").read()
+    request = {
+        "message_type": "ecr",
+        "data_type": "zip",
+        "config_file_name": "sample-orchestration-config.json",
+        "message": message,
+    }
 
-        with pytest.raises(BaseException) as indexError:
-            client.post("/process-message", data=form_data, files=files)
-        error_message = str(indexError)
-        assert "There is no eICR in this zip file." in error_message
+    with pytest.raises(BaseException) as indexError:
+        client.post("/process-message", json=request)
+    error_message = str(indexError)
+    assert "There is no eICR in this zip file." in error_message
 
 
 def test_process_invalid_config():
-    with open(
-        Path(__file__).parent / "assets" / "eICR_RR_combo.zip",
-        "rb",
-    ) as f:
-        form_data = {
-            "message_type": "ecr",
-            "data_type": "zip",
-            "config_file_name": "non_existent_schema.json",
-        }
-        files = {"upload_file": ("file.zip", f)}
+    message = open(Path(__file__).parent / "assets" / "eICR_RR_combo.zip").read()
+    request = {
+        "message_type": "ecr",
+        "data_type": "zip",
+        "config_file_name": "non_existent_schema.json",
+        "message": message,
+    }
 
-        actual_response = client.post("/process-message", data=form_data, files=files)
-        assert actual_response.status_code == 400
-        assert actual_response.json() == {
-            "message": "A config with the name 'non_existent_schema.json' could not be found.",  # noqa
-            "processed_values": {},
-        }
+    actual_response = client.post("/process-message", json=request)
+    assert actual_response.status_code == 400
+    assert actual_response.json() == {
+        "message": "A config with the name 'non_existent_schema.json' could not be found.",  # noqa
+        "processed_values": {},
+    }
