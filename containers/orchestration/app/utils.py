@@ -9,6 +9,7 @@ from typing import Optional
 from zipfile import ZipFile
 
 from dotenv import load_dotenv
+from fastapi import Response
 from fastapi import UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -202,3 +203,25 @@ def _socket_response_is_valid(**kwargs) -> bool:
     if "message_valid" in body:
         return body.get("message_valid")
     return response.status_code == 200
+
+
+def _combine_response_bundles(
+    response: Response, responses: dict, processing_config: dict
+):
+    """
+    Loop through the include element of the config and add them to the
+    response object.
+    """
+    resp_json = response.json()
+    if "include" not in processing_config or "workflow" not in processing_config:
+        return resp_json
+    for include in processing_config["include"]:
+        if include in resp_json:
+            continue
+        for step in reversed(processing_config["workflow"]):
+            service = step["service"]
+            service_response = responses[service].json()
+            if include in service_response:
+                resp_json[include] = service_response[include]
+                break
+    return resp_json

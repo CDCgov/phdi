@@ -29,6 +29,7 @@ from app.models import OrchestrationResponse
 from app.models import ProcessingConfigModel
 from app.models import PutConfigResponse
 from app.services import call_apis
+from app.utils import _combine_response_bundles
 from app.utils import _socket_response_is_valid
 from app.utils import load_config_assets
 from app.utils import load_json_from_binary
@@ -348,7 +349,9 @@ async def apply_workflow_to_message(
                 workflow_content = json.dumps(
                     {
                         "message": "Processing succeeded!",
-                        "processed_values": response.json(),
+                        "processed_values": _combine_response_bundles(
+                            response, responses, processing_config
+                        ),
                     }
                 )
             case _:
