@@ -72,10 +72,8 @@ def refine(
     namespaces = {"hl7": "urn:hl7-org:v3"}
     elements = []
 
-    # TODO: capture sections with trigger code templates before refining
-
-    # if no parameters are provided, return the header with all sections
-    # and do not include trigger_code_sections
+    # if no parameters are provided, return the header with all sections; trigger_code_elements
+    # does not need to be handled in this case
     if not sections_to_include and not clinical_services:
         xpath_expression = "//*[local-name()='section']"
         elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
@@ -113,21 +111,40 @@ def refine(
             # append (<entry>) element to corresponding section key
             services_section_and_elements[code].append(element)
 
+    # capture sections with trigger code templates elements before refining
+    trigger_code_elements = {}
+    for section_code, details in SECTION_DETAILS.items():
+        trigger_code_template = details.get("trigger_code_template")
+        if trigger_code_template:
+            template_id_root = trigger_code_template["template_id_root"]
+            xpath_expression = f"//*[local-name()='section'][.//hl7:templateId[@root='{template_id_root}']]"
+            trigger_code_elements[section_code] = validated_message.xpath(
+                xpath_expression, namespaces=namespaces
+            )
+
     # if we only have sections_to_include then we need to create minimal sections
-    # for the sections not included and if trigger_code_sections overlap with sections_to_include
-    # then we do not need to include trigger_code_sections; however, if trigger_code_sections fall
+    # TODO: for the sections not included and if trigger_code_elements overlap with sections_to_include
+    # then we do not need to include trigger_code_elements; however, if trigger_code_elements fall
     # outside of sections_to_include then we need to append them to the minimal sections
     if sections_to_include and not clinical_services:
         minimal_sections = _create_minimal_sections(sections_to_include)
         xpath_expression = sections_xpath_expression
         elements = validated_message.xpath(xpath_expression, namespaces=namespaces)
+
+        # check for overlap with trigger code elements and add them if not included
+        for section_code, trigger_elements in trigger_code_elements.items():
+            if section_code not in sections_to_include:
+                minimal_sections.extend(trigger_elements)
+
         return _add_root_element(header, elements + minimal_sections)
 
     # if we only have clinical_services then we use the unique sections from the
-    # services_section_and_elements dictionary to include entries to sections + minimal sections
-    # if no sections_to_include are provided and check for overlap with trigger_code_sections
-    # and either remove trigger_code_sections if it already exists, or append to the
-    # correct section of minimal sections or refined section
+    # services_section_and_elements dictionary to include entries to refined sections
+    # and minimal sections.
+    # TODO: then we check for overlap with trigger_code_elements
+    # if the trigger_code_elements elements are present in the refined sections, then
+    # we do not need to include them. if the refined output does not include the trigger_code_elements
+    # then we need to append them to the refined section(s) or the minimal section(s) they belong to
     if clinical_services and not sections_to_include:
         elements = []
         for section_code, entries in services_section_and_elements.items():
@@ -135,17 +152,24 @@ def refine(
             for entry in entries:
                 minimal_section.append(entry)
             elements.append(minimal_section)
+
         minimal_sections = _create_minimal_sections(
             sections_with_conditions=services_section_and_elements.keys(),
             empty_section=True,
         )
+
+        # check for overlap with trigger code elements and add them if not include them
+        for section_code, trigger_elements in trigger_code_elements.items():
+            if section_code not in services_section_and_elements:
+                minimal_sections.extend(trigger_elements)
+
         return _add_root_element(header, elements + minimal_sections)
 
     # if we have both sections_to_include and clinical_services then we need to
-    # prioritize the clinical_services using the sections_to_include as a locus; if
-    # there is overlap with trigger_code_sections, then we do not need to include them.
-    # if there is no overlap, we need to append to either the refined section or the
-    # minimal sections
+    # prioritize the clinical_services using the sections_to_include as a locus;
+    # TODO: if there is overlap with trigger_code_elements, then we do not need to include them.
+    # if there is no overlap, we need to append to either the refined section(s) or the
+    # minimal section(s) they belong to
     if sections_to_include and clinical_services:
         # check if there is match between sections_to_include and conditions  we want to include
         # if there is a match, these are the _only_ sections we want to include
@@ -168,6 +192,11 @@ def refine(
             sections_with_conditions=matching_sections,
             empty_section=True,
         )
+
+        # check for overlap with trigger code elements and add them if not included
+        for section_code, trigger_elements in trigger_code_elements.items():
+            if section_code not in matching_sections:
+                minimal_sections.extend(trigger_elements)
 
         return _add_root_element(header, elements + minimal_sections)
 
