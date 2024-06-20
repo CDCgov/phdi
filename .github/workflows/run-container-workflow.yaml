@@ -6,8 +6,7 @@ inputs:
     description: "The workflow file to run"
     required: true
 
-runs:
-  using: "composite"
+jobs:
   steps:
     - name: Checkout code
       uses: actions/checkout@v2
