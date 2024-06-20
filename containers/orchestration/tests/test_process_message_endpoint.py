@@ -1,5 +1,4 @@
 import json
-import zipfile
 from pathlib import Path
 from unittest import mock
 
@@ -116,14 +115,7 @@ def test_process_message_success(patched_post_request):
 
 @mock.patch("app.services.post_request")
 def test_process_message_zip_success(patched_post_request):
-    extract_dir = Path(__file__).parent / "assets"
-    with zipfile.ZipFile(
-        Path(__file__).parent / "assets" / "eICR_RR_combo.zip", "r"
-    ) as zip_ref:
-        zip_ref.extractall(extract_dir)
-    message = open(
-        Path(__file__).parent / "assets" / "eICR_RR_combo" / "CDA_eICR.xml"
-    ).read()
+    message = open(Path(__file__).parent / "assets" / "eICR_RR_combo.zip").read()
     request = {
         "message_type": "ecr",
         "data_type": "zip",
