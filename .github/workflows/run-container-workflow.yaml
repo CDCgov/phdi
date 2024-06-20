@@ -1,0 +1,17 @@
+name: "Run Container Workflow"
+description: "Runs a specified container workflow"
+
+inputs:
+  workflow:
+    description: "The workflow file to run"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run specified workflow
+      run: |
+        gh workflow run ${{ inputs.workflow }}
