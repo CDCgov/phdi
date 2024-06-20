@@ -1,0 +1,40 @@
+import { loadYamlConfig } from "@/app/api/utils";
+import { evaluateEcrSummaryRelevantClinicalDetails } from "@/app/services/ecrSummaryService";
+import BundleWithClinicalInfo from "@/app/tests/assets/BundleClinicalInfo.json";
+import { Bundle } from "fhir/r4";
+import { render, screen } from "@testing-library/react";
+
+const mappings = loadYamlConfig();
+
+describe("Evaluate eCR Summary Relevant Clinical Details", () => {
+  it("should return 'No Data' string when the provided SNOMED code has no matches", () => {
+    const expectedValue = "No matching clinical data found in this eCR";
+    const actual = evaluateEcrSummaryRelevantClinicalDetails(
+      BundleWithClinicalInfo as unknown as Bundle,
+      mappings,
+      "invalid-snomed-code",
+    );
+
+    expect(actual).toHaveLength(2);
+    expect(actual[0]["value"]).toEqual(expectedValue);
+  });
+
+  it("should return the correct active problem when the provided SNOMED code matches", () => {
+    const result = evaluateEcrSummaryRelevantClinicalDetails(
+      BundleWithClinicalInfo as unknown as Bundle,
+      mappings,
+      "M25.569",
+    );
+    expect(result).toHaveLength(2); // should return 1 result (last item is divider line)
+
+    render(result[0].value);
+    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(screen.getByText("Knee pain")).toBeInTheDocument();
+    expect(screen.getByText("04/29/2019")).toBeInTheDocument();
+
+    // Active problem(s) without a matching SNOMED code should not be included
+    expect(
+      screen.queryByText("Sprain of calcaneofibular ligament of right ankle"),
+    ).not.toBeInTheDocument();
+  });
+});

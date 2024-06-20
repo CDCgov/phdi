@@ -19,3 +19,24 @@ describe("Failing Path", () => {
     cy.contains("Sorry, we couldn't find this eCR ID.");
   });
 });
+
+describe("Snomed code in the URL parameter", () => {
+  it("Should not bubble up relevant sections in eCR Summary when no snomed code param is provided", () => {
+    cy.visit(
+      "http://localhost:3000/view-data?id=6100896d-b520-497c-b2fe-1c111c679274",
+    );
+    cy.get("#about-the-condition")
+      .contains("About the Condition")
+      .should("exist");
+    cy.get("#relevant-clinical").should("not.exist");
+  });
+
+  it("Given a snomed code param, relevant sections should bubble up", () => {
+    cy.visit(
+      "http://localhost:3000/view-data?id=6100896d-b520-497c-b2fe-1c111c679274&snomed-code=test",
+    );
+    cy.get("#relevant-clinical")
+      .contains("Clinical Sections Relevant to Reportable Condition")
+      .should("exist");
+  });
+});

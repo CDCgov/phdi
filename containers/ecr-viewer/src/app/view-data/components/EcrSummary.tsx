@@ -72,7 +72,10 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             ))}
             {relevantClinical && relevantClinical.length > 0 && (
               <>
-                <div className="ecr-summary-title-long">
+                <div
+                  className="ecr-summary-title-long"
+                  id={"relevant-clinical"}
+                >
                   {"Clinical Sections Relevant to Reportable Condition"}
                 </div>
                 {relevantClinical.map((item) => (
