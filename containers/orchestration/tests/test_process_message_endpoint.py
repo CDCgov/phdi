@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 from unittest import mock
-from zipfile import ZipFile
 
 from app.main import app
 from fastapi.testclient import TestClient
@@ -116,7 +115,7 @@ def test_process_message_success(patched_post_request):
 
 @mock.patch("app.services.post_request")
 def test_process_message_zip_success(patched_post_request):
-    message = ZipFile(Path(__file__).parent / "assets" / "eICR_RR_combo.zip")
+    message = open(Path(__file__).parent / "assets" / "eICR_RR_combo.zip").read()
     request = {
         "message_type": "ecr",
         "data_type": "zip",
@@ -180,7 +179,7 @@ def test_process_message_zip_success(patched_post_request):
         save_bundle_post_request,
     ]
 
-    actual_response = client.post("/process-message", json=request)
+    actual_response = client.post("/process-message", json=json.dumps(request))
     assert actual_response.status_code == 200
 
 
