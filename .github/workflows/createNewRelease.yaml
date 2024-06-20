@@ -42,7 +42,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run container workflow
-        uses: ./.github/workflows/container-${{ matrix.container }}.yaml
+        uses: ./.github/actions/run-container-workflow
+        workflow: ${{ matrix.container }}
 
   tag-release:
     name: Update phdi init version number
