@@ -115,7 +115,7 @@ def test_process_message_success(patched_post_request):
 
 @mock.patch("app.services.post_request")
 def test_process_message_zip_success(patched_post_request):
-    message = open(Path(__file__).parent / "assets" / "eICR_RR_combo.zip").read()
+    message = open(Path(__file__).parent / "assets" / "eICR_RR_combo.zip")
     request = {
         "message_type": "ecr",
         "data_type": "zip",
