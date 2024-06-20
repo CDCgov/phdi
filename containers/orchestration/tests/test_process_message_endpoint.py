@@ -295,7 +295,7 @@ def test_process_success(patched_post_request):
             save_bundle_post_request,
         ]
 
-        actual_response = client.post("/process", data=form_data, files=files)
+        actual_response = client.post("/process-message", data=form_data, files=files)
         assert actual_response.status_code == 200
 
 
@@ -312,7 +312,7 @@ def test_process_with_empty_zip():
         files = {"upload_file": ("file.zip", f)}
 
         with pytest.raises(BaseException) as indexError:
-            client.post("/process", data=form_data, files=files)
+            client.post("/process-message", data=form_data, files=files)
         error_message = str(indexError)
         assert "There is no eICR in this zip file." in error_message
 
@@ -329,7 +329,7 @@ def test_process_invalid_config():
         }
         files = {"upload_file": ("file.zip", f)}
 
-        actual_response = client.post("/process", data=form_data, files=files)
+        actual_response = client.post("/process-message", data=form_data, files=files)
         assert actual_response.status_code == 400
         assert actual_response.json() == {
             "message": "A config with the name 'non_existent_schema.json' could not be found.",  # noqa
