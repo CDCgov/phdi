@@ -1,4 +1,3 @@
-import pgPromise from "pg-promise";
 import {
   S3Client,
   ListObjectsV2Command,
@@ -45,10 +44,8 @@ export async function listEcrData() {
  * @returns A promise resolving to a NextResponse object.
  */
 const list_postgres = async () => {
-  const { ParameterizedQuery: PQ } = pgPromise;
-  const listFhir = new PQ({
-    text: "SELECT ecr_id, date_created FROM fhir order by date_created DESC",
-  });
+  const listFhir =
+    "SELECT ecr_id, date_created FROM fhir order by date_created DESC";
   try {
     return await database.manyOrNone(listFhir);
   } catch (error: any) {
