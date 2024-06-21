@@ -93,4 +93,26 @@ describe("listEcrDataService", () => {
     );
     expect(actual).toBeEmpty();
   });
+
+  it("should return data when found and source is postgres", async () => {
+    process.env.SOURCE = "postgres";
+    database.manyOrNone<{ ecr_id: string; date_created: string }> = jest.fn(
+      () =>
+        Promise.resolve([
+          { ecr_id: "1234", date_created: "2024-06-21T12:00:00Z" },
+        ]),
+    );
+
+    const actual = await listEcrData();
+
+    expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
+      "SELECT ecr_id, date_created FROM fhir order by date_created DESC",
+    );
+    expect(actual).toEqual([
+      {
+        dateModified: "06/21/2024 8:00 AM EDT",
+        ecrId: "1234",
+      },
+    ]);
+  });
 });
