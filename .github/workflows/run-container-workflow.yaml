@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Run specified workflow
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
