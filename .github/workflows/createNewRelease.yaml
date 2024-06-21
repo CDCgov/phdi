@@ -33,18 +33,13 @@ jobs:
       - check-commit-message
       - list-containers
     if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
-    runs-on: ubuntu-22.04
     strategy:
       matrix:
         container: ${{fromJson(needs.list-containers.outputs.all-containers)}}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run container workflow
-        uses: ./.github/actions/run-container-workflow
-        with:
-          container: ${{ matrix.container }}
+    uses: ./.github/workflows/run-container-workflow.yaml
+    with:
+      container: ${{ matrix.container }}
+    secrets: inherit
 
   tag-release:
     name: Update phdi init version number
