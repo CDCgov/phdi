@@ -196,8 +196,7 @@ export const evaluateEcrSummaryRelevantLabResults = (
   const relevantLabs = labsWithCode.concat(labsFromObsWithCode);
 
   if (relevantLabs.length === 0) {
-    resultsArray.push({ value: noData, dividerLine: false });
-    return resultsArray;
+    return [{ value: noData, dividerLine: true }];
   }
   const relevantLabElements = evaluateLabInfoData(
     fhirBundle,
