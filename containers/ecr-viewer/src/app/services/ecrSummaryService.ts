@@ -12,6 +12,29 @@ import {
   evaluateFacilityAddress,
 } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "../DataDisplay";
+import { Extension, Observation } from "fhir/r4";
+import { LabReport, evaluateLabInfoData } from "./labsService";
+
+/**
+ * ExtensionConditionCode extends the FHIR Extension interface to include a 'coding' property.
+ * This property aligns with the CDC's ReportStream specifications for condition
+ * to code mappings, using 'coding.code' for descriptive names of testing methods.
+ *
+ * Refer to the ReportStream documentation for details:
+ * https://github.com/CDCgov/prime-reportstream/blob/master/prime-router/docs/design/0023-condition-to-code-mapping.md
+ */
+interface ExtensionConditionCode extends Extension {
+  coding?: { code: string; system: string }[];
+}
+
+interface LabReportStamped extends LabReport {
+  id: string;
+  extension?: ExtensionConditionCode[];
+}
+
+interface ObservationStamped extends Observation {
+  extension?: ExtensionConditionCode[];
+}
 
 /**
  * Evaluates and retrieves patient details from the FHIR bundle using the provided path mappings.
@@ -120,16 +143,74 @@ export const evaluateEcrSummaryRelevantLabResults = (
   let resultsArray: DisplayDataProps[] = [];
 
   if (!snomedCode) {
-    resultsArray.push({ value: noData, dividerLine: true });
+    return [{ value: noData, dividerLine: true }];
+  }
+
+  const labReports: LabReportStamped[] = evaluate(
+    fhirBundle,
+    fhirPathMappings["diagnosticReports"],
+  );
+  const labsWithCode = labReports.filter((entry) =>
+    entry.extension?.some(
+      (ext) =>
+        ext.url ===
+          "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code" &&
+        ext.coding?.some((item) => item.code === snomedCode),
+    ),
+  );
+
+  const obsIdsWithCode: (string | undefined)[] = (
+    evaluate(
+      fhirBundle,
+      fhirPathMappings["observations"],
+    ) as ObservationStamped[]
+  )
+    .filter((entry) =>
+      entry.extension?.some(
+        (ext) =>
+          ext.url ===
+            "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code" &&
+          ext.coding?.some((item) => item.code === snomedCode),
+      ),
+    )
+    .map((entry) => entry.id);
+
+  const labsFromObsWithCode = (() => {
+    const obsIds = new Set(obsIdsWithCode);
+    const labsWithCodeIds = new Set(labsWithCode.map((lab) => lab.id));
+
+    return labReports.filter((lab) => {
+      if (labsWithCodeIds.has(lab.id)) {
+        return false;
+      }
+
+      return lab.result.some((result) => {
+        if (result.reference) {
+          const referenceId = result.reference.replace(/^Observation\//, "");
+          return obsIds.has(referenceId);
+        }
+      });
+    });
+  })();
+
+  const relevantLabs = labsWithCode.concat(labsFromObsWithCode);
+
+  if (relevantLabs.length === 0) {
+    resultsArray.push({ value: noData, dividerLine: false });
     return resultsArray;
   }
+  const relevantLabElements = evaluateLabInfoData(
+    fhirBundle,
+    relevantLabs,
+    fhirPathMappings,
+  );
 
-  // * Lab Results
-
-  // * If no data matches snomed code, return noData
-  if (resultsArray.length === 0) {
-    resultsArray.push({ value: noData, dividerLine: false });
-  }
+  resultsArray = relevantLabElements.flatMap((element) =>
+    element.diagnosticReportDataElements.map((reportElement) => ({
+      value: reportElement,
+      dividerLine: false,
+    })),
+  );
 
   resultsArray.push({ dividerLine: true });
   return resultsArray;
