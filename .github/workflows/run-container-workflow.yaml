@@ -4,6 +4,7 @@ on:
     inputs:
       container:
         required: true
+        type: string
 jobs:
   run-container-workflow:
     runs-on: ubuntu-latest
