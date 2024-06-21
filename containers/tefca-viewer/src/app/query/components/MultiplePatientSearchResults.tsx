@@ -15,7 +15,7 @@ import {
 import { Mode } from "../page";
 
 /**
- * The props for the MultiplePatientSearchResults component.
+ * The props for the MultiplePatientSearchResults componen.
  */
 export interface MultiplePatientSearchResultsProps {
   patients: Patient[];
