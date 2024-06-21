@@ -17,6 +17,12 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
+def test_openapi():
+    actual_response = httpx.get(TCR_URL + "/trigger-code-reference/openapi.json")
+    assert actual_response.status_code == 200
+
+
+@pytest.mark.integration
 def test_tcr_stamping(setup, fhir_bundle):
     reportable_condition_code = "840539006"
     request = {"bundle": fhir_bundle, "conditions": [reportable_condition_code]}

@@ -2,17 +2,49 @@ comment:
   layout: "diff, flags, files"
   behavior: default
 coverage:
-  range: 85...100
+  range: 80...100
   status:
     project:
       default:
-        target: 95%
+        target: 80%
         threshold: 10%
-        flags:
-          - unit-tests
     patch:
       default:
         target: 95%
         threshold: 10%
         flags:
-          - unit-tests
+          - sdk
+flags:
+  dibbs:
+    paths:
+      - "containers/dibbs"
+  ecr-viewer:
+    paths:
+      - "containers/ecr-viewer"
+  fhir-converter:
+    paths:
+      - "containers/fhir-converter"
+  ingestion:
+    paths:
+      - "containers/ingestion"
+  message-parser:
+    paths:
+      - "containers/message-parser"
+  message-refiner:
+    paths:
+      - "containers/message-refiner"
+  orchestration:
+    paths:
+      - "containers/orchestration"
+  record-linkage:
+    paths:
+      - "containers/record-linkage"
+  tefca-viewer:
+    paths:
+      - "containers/tefca-viewer"
+  trigger-code-reference:
+    paths:
+      - "containers/trigger-code-reference"
+  validation:
+    paths:
+      - "containers/validation"

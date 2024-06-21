@@ -1,0 +1,31 @@
+{
+  "ecr_id": {
+    "fhir_path": "Bundle.entry.resource.id[0]",
+    "data_type": "string",
+    "nullable": false
+  },
+  "last_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+    "data_type": "string",
+    "nullable": true,
+    "metadata": {
+      "category": "Personal info"
+    }
+  },
+  "first_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "data_type": "string",
+    "nullable": true,
+    "metadata": {
+      "category": "Personal info"
+    }
+  },
+  "birth_date": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').birthDate",
+    "data_type": "date",
+    "nullable": true,
+    "metadata": {
+      "category": "Personal info"
+    }
+  }
+}
