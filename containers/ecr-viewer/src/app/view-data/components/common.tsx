@@ -32,7 +32,6 @@ import {
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import parse from "html-react-parser";
 import { DisplayDataProps } from "@/app/DataDisplay";
-import { Extension } from "fhir/r4b";
 
 /**
  * Returns a table displaying administered medication information.
@@ -223,43 +222,21 @@ export const returnImmunizations = (
   );
 };
 
-// TODO ANGELA: Temp. Replace/remove after fixing (?) _stamp_resource_with_code_extension
-interface Extension2 extends Extension {
-  coding?: { code: string; system: string }[]; // Simplified for this example
-}
-
-interface ProblemEntry extends Condition {
-  extension?: Extension2[];
-}
-
 /**
  * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
  * @param fhirBundle - The FHIR bundle containing patient information.
- * @param problemsArray - An array containing the list of problems.
+ * @param problemsArray - An array containing the list of Conditions.
  * @param mappings - An object containing the FHIR path mappings.
- * @param snomedCode - (Optional) The SNOMED code used to filter the active problems.
  * @returns - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
  */
 export const returnProblemsTable = (
   fhirBundle: Bundle,
-  problemsArray: ProblemEntry[],
+  problemsArray: Condition[],
   mappings: PathMappings,
-  snomedCode?: string,
 ): React.JSX.Element | undefined => {
   problemsArray = problemsArray.filter(
     (entry) => entry.code?.coding?.[0].display,
   );
-
-  if (snomedCode) {
-    problemsArray = problemsArray.filter((entry) =>
-      entry.extension?.some(
-        (ext) =>
-          ext.url ===
-            "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code" &&
-          ext.coding?.some((item) => item.code === snomedCode),
-      ),
-    );
-  }
 
   if (problemsArray.length === 0) {
     return undefined;
