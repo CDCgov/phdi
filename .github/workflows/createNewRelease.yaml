@@ -36,7 +36,7 @@ jobs:
     strategy:
       matrix:
         container: ${{fromJson(needs.list-containers.outputs.all-containers)}}
-    uses: CDCgov/phdi/.github/actions/run-container-workflow
+    uses: ./.github/workflows/run-container-workflow
     with:
       container: ${{ matrix.container }}
     secrets: inherit
