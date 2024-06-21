@@ -9,12 +9,7 @@ import {
   processListPostgres,
   listEcrData,
 } from "@/app/api/services/listEcrDataService";
-
-jest.mock("../services/db.ts", () => ({
-  database: {
-    manyOrNone: jest.fn(() => []),
-  },
-}));
+import { database } from "../services/db";
 
 describe("listEcrDataService", () => {
   describe("processListS3", () => {
@@ -91,7 +86,11 @@ describe("listEcrDataService", () => {
 
   it("should return empty array when no data is found and source is postgres", async () => {
     process.env.SOURCE = "postgres";
+    database.manyOrNone = jest.fn(() => Promise.resolve([]));
     const actual = await listEcrData();
+    expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
+      "SELECT ecr_id, date_created FROM fhir order by date_created DESC",
+    );
     expect(actual).toBeEmpty();
   });
 });
