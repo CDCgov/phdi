@@ -6,12 +6,14 @@ import BundleLab from "@/app/tests/assets/BundleLab.json";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
 import { evaluateLabInfoData } from "@/app/services/labsService";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 
 const mappings = loadYamlConfig();
 
 describe("LabInfo", () => {
   const labinfoOrg = evaluateLabInfoData(
     BundleLab as unknown as Bundle,
+    evaluate(BundleLab, mappings["diagnosticReports"]),
     mappings,
   );
   const labInfoJsx = <LabInfo labResults={labinfoOrg} />;
