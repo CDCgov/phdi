@@ -13,6 +13,7 @@ import {
   evaluateEcrSummaryPatientDetails,
   evaluateEcrSummaryEncounterDetails,
   evaluateEcrSummaryAboutTheConditionDetails,
+  evaluateEcrSummaryRelevantLabResults,
 } from "../services/ecrSummaryService";
 import { metrics } from "./component-utils";
 
@@ -107,6 +108,11 @@ const ECRViewerPage: React.FC = () => {
                     aboutTheCondition={evaluateEcrSummaryAboutTheConditionDetails(
                       fhirBundle,
                       mappings,
+                    )}
+                    relevantLabs={evaluateEcrSummaryRelevantLabResults(
+                      fhirBundle,
+                      mappings,
+                      snomedCode,
                     )}
                   />
                   <div className="margin-top-10">

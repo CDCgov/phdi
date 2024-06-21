@@ -11,6 +11,7 @@ import {
   evaluatePatientAddress,
   evaluateFacilityAddress,
 } from "./evaluateFhirDataService";
+import { DisplayDataProps } from "../DataDisplay";
 
 /**
  * Evaluates and retrieves patient details from the FHIR bundle using the provided path mappings.
@@ -101,6 +102,37 @@ export const evaluateEcrSummaryAboutTheConditionDetails = (
       value: evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0],
     },
   ];
+};
+
+/**
+ * Evaluates and retrieves relevant lab results from the FHIR bundle using the provided SNOMED code and path mappings.
+ * @param fhirBundle - The FHIR bundle containing patient data.
+ * @param fhirPathMappings - Object containing fhir path mappings.
+ * @param snomedCode - String containing the SNOMED code search parameter.
+ * @returns An array of lab result details objects containing title and value pairs.
+ */
+export const evaluateEcrSummaryRelevantLabResults = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+  snomedCode: string,
+) => {
+  const noData: string = "No matching lab results found in this eCR";
+  let resultsArray: DisplayDataProps[] = [];
+
+  if (!snomedCode) {
+    resultsArray.push({ value: noData, dividerLine: true });
+    return resultsArray;
+  }
+
+  // * Lab Results
+
+  // * If no data matches snomed code, return noData
+  if (resultsArray.length === 0) {
+    resultsArray.push({ value: noData, dividerLine: false });
+  }
+
+  resultsArray.push({ dividerLine: true });
+  return resultsArray;
 };
 
 /**
