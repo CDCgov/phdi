@@ -36,13 +36,15 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        container: ${{fromJson(needs.list-containers.outputs.python-containers)}}
+        container: ${{fromJson(needs.list-containers.outputs.all-containers)}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Run container workflow
-        uses: ./.github/workflows/container-${{ matrix.container }}.yaml
+        uses: ./.github/actions/run-container-workflow
+        with:
+          container: ${{ matrix.container }}
 
   tag-release:
     name: Update phdi init version number
