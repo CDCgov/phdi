@@ -40,7 +40,7 @@ export type QueryResponse = {
   MedicationRequest?: MedicationRequest[];
 };
 
-const useCaseQueryMap: {
+const UseCaseQueryMap: {
   [key in USE_CASES]: (
     patientId: string,
     fhirClient: FHIRClient,
@@ -56,7 +56,7 @@ const useCaseQueryMap: {
 };
 
 // Expected responses from the FHIR server
-export type UseCaseQueryResponse = Awaited<ReturnType<typeof useCaseQuery>>;
+export type UseCaseQueryResponse = Awaited<ReturnType<typeof UseCaseQuery>>;
 
 /**
  * Query a FHIR server for a patient based on demographics provided in the request. If
@@ -85,6 +85,7 @@ async function patientQuery(
   if (request.mrn) {
     query += `identifier=${request.mrn}&`;
   }
+
   const response = await fhirClient.get(query);
 
   // Check for errors
@@ -107,7 +108,7 @@ async function patientQuery(
  * @param queryResponse - The response object to store the query results.
  * @returns - The response object containing the query results.
  */
-export async function useCaseQuery(
+export async function UseCaseQuery(
   request: UseCaseQueryRequest,
   queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
@@ -122,7 +123,7 @@ export async function useCaseQuery(
   }
   const patientId = queryResponse.Patient[0].id ?? "";
 
-  await useCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
+  await UseCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
 
   return queryResponse;
 }
