@@ -37,9 +37,9 @@ jobs:
       matrix:
         container: ${{fromJson(needs.list-containers.outputs.all-containers)}}
     uses: ./.github/actions/run-container-workflow
-      with:
-        container: ${{ matrix.container }}
-      secrets: inherit
+    with:
+      container: ${{ matrix.container }}
+    secrets: inherit
 
   tag-release:
     name: Update phdi init version number
