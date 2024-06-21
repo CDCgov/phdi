@@ -27,7 +27,7 @@ describe("Evaluate eCR Summary Relevant Clinical Details", () => {
       "invalid-snomed-code",
     );
 
-    expect(actual).toHaveLength(2);
+    expect(actual).toHaveLength(1);
     expect(actual[0]["value"]).toEqual(expectedValue);
   });
 
@@ -37,7 +37,7 @@ describe("Evaluate eCR Summary Relevant Clinical Details", () => {
       mappings,
       "263133002",
     );
-    expect(result).toHaveLength(2); // should return 1 result (last item is divider line)
+    expect(result).toHaveLength(1);
 
     render(result[0].value);
     expect(screen.getByRole("table")).toBeInTheDocument();
