@@ -1,11 +1,9 @@
 name: "Run Container Workflow"
-description: "Runs a specified container workflow"
-on: workflow_call
-inputs:
-  container:
-    description: "The name of the container whose workflow file needs to run"
-    required: true
-
+on:
+  workflow_call:
+    inputs:
+      container:
+        required: true
 jobs:
   run-container-workflow:
     runs-on: ubuntu-latest
