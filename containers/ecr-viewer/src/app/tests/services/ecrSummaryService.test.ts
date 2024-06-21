@@ -35,18 +35,18 @@ describe("Evaluate eCR Summary Relevant Clinical Details", () => {
     const result = evaluateEcrSummaryRelevantClinicalDetails(
       BundleWithClinicalInfo as unknown as Bundle,
       mappings,
-      "M25.569",
+      "263133002",
     );
     expect(result).toHaveLength(2); // should return 1 result (last item is divider line)
 
     render(result[0].value);
     expect(screen.getByRole("table")).toBeInTheDocument();
-    expect(screen.getByText("Knee pain")).toBeInTheDocument();
-    expect(screen.getByText("04/29/2019")).toBeInTheDocument();
+    expect(
+      screen.getByText("Sprain of calcaneofibular ligament of right ankle"),
+    ).toBeInTheDocument();
+    expect(screen.getByText("04/16/2019")).toBeInTheDocument();
 
     // Active problem(s) without a matching SNOMED code should not be included
-    expect(
-      screen.queryByText("Sprain of calcaneofibular ligament of right ankle"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Knee pain")).not.toBeInTheDocument();
   });
 });
