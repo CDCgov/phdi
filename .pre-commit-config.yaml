@@ -12,12 +12,11 @@ repos:
     hooks:
       - id: pretty-format-json
         args: [--autofix, --no-sort-keys]
-        exclude: ".*valid.*|containers/ecr-viewer/seed-scripts/fhir_data/.*"
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: "v9.5.0"
     hooks:
       - id: eslint
-        files: containers/ecr-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx in containers/ecr-viewer
+        files: ^containers/ecr-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx in containers/ecr-viewer
         types: [file]
         additional_dependencies:
           - eslint@8.56.0
@@ -34,7 +33,7 @@ repos:
     rev: "v9.5.0"
     hooks:
       - id: eslint
-        files: containers/tefca-viewer/*.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
+        files: ^containers/tefca-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
         types: [file]
         additional_dependencies:
           - eslint@8.56.0
