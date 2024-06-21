@@ -1,0 +1,20 @@
+name: "Run Container Workflow"
+description: "Runs a specified container workflow"
+on: workflow_call
+inputs:
+  container:
+    description: "The name of the container whose workflow file needs to run"
+    required: true
+
+jobs:
+  run-container-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run specified workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run .github/workflows/container-${{ inputs.container }}.yaml
