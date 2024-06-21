@@ -7,7 +7,14 @@ import {
   ListEcr,
   processListS3,
   processListPostgres,
+  listEcrData,
 } from "@/app/api/services/listEcrDataService";
+
+jest.mock("../services/db.ts", () => ({
+  database: {
+    manyOrNone: jest.fn(() => []),
+  },
+}));
 
 describe("listEcrDataService", () => {
   describe("processListS3", () => {
@@ -80,5 +87,11 @@ describe("listEcrDataService", () => {
 
       expect(result).toEqual(expected);
     });
+  });
+
+  it("should return empty array when no data is found and source is postgres", async () => {
+    process.env.SOURCE = "postgres";
+    const actual = await listEcrData();
+    expect(actual).toBeEmpty();
   });
 });
