@@ -33,6 +33,7 @@ def validate_ecr_msg(message: str, include_error_types: list) -> ValidateRespons
     :param message: A string representation of an eCR in XML format to be validated.
     :param include_error_types: A list of the error types to include in validation.
     :return: A dictionary with keys and values described by the ValidateResponse class.
+
     """
 
     response_dict = validate_ecr(
