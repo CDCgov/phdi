@@ -12,6 +12,11 @@ import {
 import { database } from "../services/db";
 
 describe("listEcrDataService", () => {
+  let log = jest.spyOn(console, "log").mockImplementation(() => {});
+  afterEach(() => {
+    log.mockReset();
+  });
+
   describe("processListS3", () => {
     it("should return an empty array when responseBody is empty", () => {
       const responseBody: ListObjectsV2CommandOutput = {
@@ -89,7 +94,7 @@ describe("listEcrDataService", () => {
     database.manyOrNone = jest.fn(() => Promise.resolve([]));
     const actual = await listEcrData();
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-      "SELECT ecr_id, date_created FROM fhir order by date_created DESC",
+      "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
     );
     expect(actual).toBeEmpty();
   });
@@ -106,12 +111,51 @@ describe("listEcrDataService", () => {
     const actual = await listEcrData();
 
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-      "SELECT ecr_id, date_created FROM fhir order by date_created DESC",
+      "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
     );
     expect(actual).toEqual([
       {
         dateModified: "06/21/2024 8:00 AM EDT",
         ecrId: "1234",
+      },
+    ]);
+  });
+
+  it("should console log data from the fhir_metadata table", async () => {
+    process.env.SOURCE = "postgres";
+    database.manyOrNone<{ ecr_id: string; date_created: string }> = jest.fn(
+      () =>
+        Promise.resolve([
+          {
+            ecr_id: "1234",
+            date_created: "2024-06-21T12:00:00Z",
+            patient_name_last: "lnam",
+            patient_birth_date: "1990-01-01T05:00:00.000Z",
+            report_date: "2024-06-20T04:00:00.000Z",
+            reportable_condition: "sick",
+          },
+        ]),
+    );
+
+    const actual = await listEcrData();
+
+    expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
+      "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
+    );
+    expect(actual).toEqual([
+      {
+        dateModified: "06/21/2024 8:00 AM EDT",
+        ecrId: "1234",
+      },
+    ]);
+    expect(log).toHaveBeenCalledExactlyOnceWith([
+      {
+        ecr_id: "1234",
+        date_created: "2024-06-21T12:00:00Z",
+        patient_name_last: "lnam",
+        patient_birth_date: "1990-01-01T05:00:00.000Z",
+        report_date: "2024-06-20T04:00:00.000Z",
+        reportable_condition: "sick",
       },
     ]);
   });

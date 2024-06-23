@@ -33,6 +33,7 @@ export async function listEcrData() {
     return processListS3(data);
   } else if (process.env.SOURCE === POSTGRES_SOURCE) {
     const data = await list_postgres();
+    console.log(data);
     return processListPostgres(data);
   } else {
     throw Error("Invalid Source");
@@ -45,7 +46,7 @@ export async function listEcrData() {
  */
 const list_postgres = async () => {
   const listFhir =
-    "SELECT ecr_id, date_created FROM fhir order by date_created DESC";
+    "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC";
   try {
     return await database.manyOrNone(listFhir);
   } catch (error: any) {
