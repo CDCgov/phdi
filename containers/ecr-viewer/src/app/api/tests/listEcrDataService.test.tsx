@@ -4,10 +4,10 @@
 
 import { ListObjectsV2CommandOutput } from "@aws-sdk/client-s3";
 import {
-  ListEcr,
   processListS3,
   processListPostgres,
   listEcrData,
+  Ecr,
 } from "@/app/api/services/listEcrDataService";
 import { database } from "../services/db";
 
@@ -37,7 +37,7 @@ describe("listEcrDataService", () => {
         ],
       };
 
-      const expected: ListEcr = [
+      const expected: Ecr[] = [
         { ecrId: "ecr1", dateModified: expect.any(String) },
         { ecrId: "ecr2", dateModified: expect.any(String) },
       ];
@@ -79,7 +79,7 @@ describe("listEcrDataService", () => {
         { ecr_id: "ecr2", date_created: new Date() },
       ];
 
-      const expected: ListEcr = [
+      const expected: Ecr[] = [
         { ecrId: "ecr1", dateModified: expect.any(String) },
         { ecrId: "ecr2", dateModified: expect.any(String) },
       ];

@@ -13,10 +13,30 @@ const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
-export type ListEcr = {
+type EcrDataModel = {
+  ecr_id: string;
+  data: any;
+  date_created: string;
+};
+
+type EcrMetadataModel = {
+  ecr_id: string;
+  data_source: "DB" | "S3";
+  data_link: string;
+  patient_first_name: string;
+  patient_last_name: string;
+  patient_date_of_birth: Date;
+  reportable_condition: string;
+  rule_summary: string;
+  report_date: Date;
+};
+
+type CompleteEcrDataModel = EcrDataModel & EcrMetadataModel;
+
+export type Ecr = {
   ecrId: string;
   dateModified: string;
-}[];
+};
 
 /**
  * Handles GET requests by fetching data from different sources based on the environment configuration.
@@ -27,7 +47,7 @@ export type ListEcr = {
  *   The specific return type (e.g., the type returned by `list_s3` or `list_postgres`)
  *   may vary based on the source and is thus marked as `unknown`.
  */
-export async function listEcrData() {
+export async function listEcrData(): Promise<Ecr[]> {
   if (process.env.SOURCE === S3_SOURCE) {
     const data = await list_s3();
     return processListS3(data);
@@ -44,11 +64,11 @@ export async function listEcrData() {
  * Retrieves array of eCR IDs from PostgreSQL database.
  * @returns A promise resolving to a NextResponse object.
  */
-const list_postgres = async () => {
+const list_postgres = async (): Promise<CompleteEcrDataModel[]> => {
   const listFhir =
     "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC";
   try {
-    return await database.manyOrNone(listFhir);
+    return await database.manyOrNone<CompleteEcrDataModel>(listFhir);
   } catch (error: any) {
     console.error("Error fetching data:", error);
     if (error.message == "No data returned from the query.") {
@@ -83,7 +103,9 @@ const list_s3 = async () => {
  * @param responseBody - The response body containing eCR data from Postgres.
  * @returns - The processed list of eCR IDs and dates.
  */
-export const processListPostgres = (responseBody: any[]): ListEcr => {
+export const processListPostgres = (
+  responseBody: CompleteEcrDataModel[],
+): Ecr[] => {
   return responseBody.map((object) => {
     return {
       ecrId: object.ecr_id || "",
@@ -103,7 +125,7 @@ export const processListPostgres = (responseBody: any[]): ListEcr => {
  */
 export const processListS3 = (
   responseBody: ListObjectsV2CommandOutput,
-): ListEcr => {
+): Ecr[] => {
   responseBody.Contents?.sort(
     (a, b) => Number(b.LastModified) - Number(a.LastModified),
   );
