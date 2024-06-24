@@ -33,7 +33,7 @@ describe("Format Date", () => {
   });
 });
 
-describe.only("formatName", () => {
+describe("formatName", () => {
   it("should format a single HumanName correctly", () => {
     const names: HumanName[] = [
       {
