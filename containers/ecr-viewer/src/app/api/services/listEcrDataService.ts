@@ -49,8 +49,10 @@ export type Ecr = {
  */
 export async function listEcrData(): Promise<Ecr[]> {
   if (process.env.SOURCE === S3_SOURCE) {
-    const data = await list_s3();
-    return processListS3(data);
+    const s3Data = await list_s3();
+    const processedData = processListS3(s3Data);
+    await getFhirMetadata(processedData);
+    return processedData;
   } else if (process.env.SOURCE === POSTGRES_SOURCE) {
     const data = await list_postgres();
     console.log(data);
@@ -142,4 +144,23 @@ export const processListS3 = (
       };
     }) || []
   );
+};
+
+/**
+ * Fetches eCR Metadata stored in the fhir_metadata table.
+ * @param processedData - List of eCR IDs.
+ * @returns ecr metadata
+ */
+const getFhirMetadata = async (
+  processedData: Ecr[],
+): Promise<EcrMetadataModel[]> => {
+  const ecrIds = processedData.map((ecr) => ecr.ecrId);
+  const fhirMetadataQuery =
+    "SELECT ecr_id, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir_metadata where ecr_id = $1";
+
+  const data = await database.manyOrNone<EcrMetadataModel>(fhirMetadataQuery, [
+    ecrIds,
+  ]);
+  console.log(data);
+  return data;
 };

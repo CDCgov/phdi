@@ -2,7 +2,11 @@
  * @jest-environment node
  */
 
-import { ListObjectsV2CommandOutput } from "@aws-sdk/client-s3";
+import {
+  ListObjectsV2Command,
+  ListObjectsV2CommandOutput,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import {
   processListS3,
   processListPostgres,
@@ -10,11 +14,15 @@ import {
   Ecr,
 } from "@/app/api/services/listEcrDataService";
 import { database } from "../services/db";
+import { mockClient } from "aws-sdk-client-mock";
+
+const s3Mock = mockClient(S3Client);
 
 describe("listEcrDataService", () => {
   let log = jest.spyOn(console, "log").mockImplementation(() => {});
-  afterEach(() => {
+  beforeEach(() => {
     log.mockReset();
+    s3Mock.reset();
   });
 
   describe("processListS3", () => {
@@ -158,5 +166,64 @@ describe("listEcrDataService", () => {
         reportable_condition: "sick",
       },
     ]);
+  });
+
+  describe("getS3", () => {
+    it("should return data from S3", async () => {
+      process.env.SOURCE = "s3";
+      s3Mock.on(ListObjectsV2Command).resolves({
+        Contents: [
+          { Key: "id1", LastModified: new Date("2024-06-23T12:00:00Z") },
+        ],
+      });
+      const actual = await listEcrData();
+
+      expect(actual).toEqual([
+        {
+          dateModified: "06/23/2024 8:00 AM EDT",
+          ecrId: "id1",
+        },
+      ]);
+    });
+    it("should fetch FHIR Metadata", async () => {
+      process.env.SOURCE = "s3";
+      s3Mock.on(ListObjectsV2Command).resolves({
+        Contents: [
+          { Key: "id1", LastModified: new Date("2024-06-23T12:00:00Z") },
+        ],
+      });
+      database.manyOrNone<{ ecr_id: string; date_created: string }> = jest.fn(
+        () =>
+          Promise.resolve([
+            {
+              ecr_id: "id1",
+              date_created: "2024-06-21T12:00:00Z",
+              patient_name_last: "lnam",
+              patient_birth_date: "1990-01-01T05:00:00.000Z",
+              report_date: "2024-06-20T04:00:00.000Z",
+              reportable_condition: "sick",
+            },
+          ]),
+      );
+
+      const actual = await listEcrData();
+
+      expect(actual).toEqual([
+        {
+          dateModified: "06/23/2024 8:00 AM EDT",
+          ecrId: "id1",
+        },
+      ]);
+      expect(log).toHaveBeenCalledExactlyOnceWith([
+        {
+          ecr_id: "id1",
+          date_created: "2024-06-21T12:00:00Z",
+          patient_name_last: "lnam",
+          patient_birth_date: "1990-01-01T05:00:00.000Z",
+          report_date: "2024-06-20T04:00:00.000Z",
+          reportable_condition: "sick",
+        },
+      ]);
+    });
   });
 });
