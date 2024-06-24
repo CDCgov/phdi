@@ -54,7 +54,9 @@ export function formatCodeableConcept(concept: CodeableConcept | undefined) {
 export function formatName(names: HumanName[]): string {
   let name = "";
   if (names.length > 0) {
-    name = names[0].given?.join(" ") + " " + names[0].family;
+    const givenNames = names[0].given?.filter((n) => n).join(" ") ?? "";
+    const familyName = names[0].family ?? "";
+    name = `${givenNames} ${familyName}`.trim();
   }
   return name;
 }
