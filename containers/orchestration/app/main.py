@@ -446,3 +446,16 @@ async def upload_config(
     else:
         response.status_code = status.HTTP_201_CREATED
         return {"message": "Config uploaded successfully!"}
+
+
+# This block is only executed if the script is run directly, for local development, debugging.
+if "__main__" == __name__:
+    import uvicorn
+
+    uvicorn.run(
+        app="app.main:app",
+        host="0.0.0.0",
+        port=8080,
+        env_file="local-dev.env",
+        reload=True,
+    )
