@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     validation_url: str
     message_parser_url: str
     ingestion_url: str
+    trigger_code_reference_url: str
 
 
 @lru_cache()
