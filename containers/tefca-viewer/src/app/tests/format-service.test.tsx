@@ -88,7 +88,7 @@ describe.only("formatName", () => {
   });
 });
 
-describe("Format Address", () => {
+describe("formatAddress", () => {
   it("should return an empty string when given an empty array", () => {
     const address: Address[] = [];
     const { container } = render(formatAddress(address));
