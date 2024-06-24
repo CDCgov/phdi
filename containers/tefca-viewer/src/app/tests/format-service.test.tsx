@@ -1,7 +1,7 @@
-import { formatDate, formatName } from "@/app/format-service";
+import { formatDate, formatName, formatString } from "@/app/format-service";
 import { HumanName } from "fhir/r4";
 
-describe("Format Date", () => {
+describe.only("Format Date", () => {
   it("should return the correct formatted date", () => {
     const inputDate = "2023-01-15";
     const expectedDate = "01/15/2023";
@@ -84,5 +84,28 @@ describe.only("formatName", () => {
     ];
     const result = formatName(names);
     expect(result).toBe("");
+  });
+});
+
+describe.only("Format String", () => {
+  it("should convert all character to lower case", () => {
+    const inputString = "TestOfSomeCAPITALS";
+    const expectedString = "testofsomecapitals";
+    const result = formatString(inputString);
+    expect(result).toEqual(expectedString);
+  });
+
+  it("should also replace all spaces with underscores", () => {
+    const inputString = "JoHn ShEpArD";
+    const expectedString = "john-shepard";
+    const result = formatString(inputString);
+    expect(result).toEqual(expectedString);
+  });
+
+  it("should remove all non alpha-numeric characters", () => {
+    const inputString = "*C0MPL3X_$TR!NG*";
+    const expectedString = "c0mpl3xtrng";
+    const result = formatString(inputString);
+    expect(result).toEqual(expectedString);
   });
 });

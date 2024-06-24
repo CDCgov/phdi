@@ -14,10 +14,10 @@ export const formatString = (input: string): string => {
   // Convert to lowercase
   let result = input.toLowerCase();
 
-  // Replace spaces with underscores
+  // Replace spaces with dashes
   result = result.replace(/\s+/g, "-");
 
-  // Remove all special characters except underscores
+  // Remove all special characters except dashes
   result = result.replace(/[^a-z0-9\-]/g, "");
 
   return result;
