@@ -9,7 +9,7 @@ import {
 } from "../../format-service";
 import {
   UseCaseQueryResponse,
-  useCaseQuery,
+  UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
 import { Mode } from "../page";
@@ -20,7 +20,7 @@ import { Mode } from "../page";
 export interface MultiplePatientSearchResultsProps {
   patients: Patient[];
   originalRequest: UseCaseQueryRequest;
-  setUseCaseQueryResponse: (useCaseQueryResponse: UseCaseQueryResponse) => void;
+  setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
 }
@@ -167,12 +167,12 @@ async function viewRecord(
   patients: Patient[],
   index: number,
   originalRequest: UseCaseQueryRequest,
-  setUseCaseQueryResponse: (useCaseQueryResponse: UseCaseQueryResponse) => void,
+  setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void,
   setMode: (mode: Mode) => void,
   setLoading: (loading: boolean) => void,
 ): Promise<void> {
   setLoading(true);
-  const queryResponse = await useCaseQuery(originalRequest, {
+  const queryResponse = await UseCaseQuery(originalRequest, {
     Patient: [patients[index]],
   });
   setUseCaseQueryResponse(queryResponse);
