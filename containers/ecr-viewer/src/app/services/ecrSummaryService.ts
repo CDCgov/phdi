@@ -138,7 +138,7 @@ export const evaluateEcrSummaryRelevantLabResults = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
   snomedCode: string,
-) => {
+): DisplayDataProps[] => {
   const noData: string = "No matching lab results found in this eCR";
   let resultsArray: DisplayDataProps[] = [];
 
