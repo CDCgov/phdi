@@ -56,12 +56,20 @@ describe("EcrSummary", () => {
     },
   ];
 
+  const relevantLabs = [
+    {
+      title: "Relevant Labs",
+      value: "Covid 19",
+    },
+  ];
+
   beforeAll(() => {
     container = render(
       <EcrSummary
         patientDetails={patientDetails}
         encounterDetails={encounterDetails}
         aboutTheCondition={aboutTheCondition}
+        relevantLabs={relevantLabs}
       />,
     ).container;
   });
