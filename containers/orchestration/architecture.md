@@ -84,7 +84,6 @@ These steps are repeated for each service specified in the workflow configuratio
 Currently, the Orchestration Service can be accessed via several API endpoints, both with and without a connected websocket. Each endpoint (regardless of whether a websocket is or isn't used) performs the same broad functionality, which is executing a workflow on a given message. Valid endpoints include:
 
 * `/process-message`: The general, typical endpoint-to-use when invoking the service. Parameters are supplied through an ordinary HTTP Request body.
-* `/process`: Similar to the above, but parameters are supplied through `Form` fields, such as with the Demo UI.
 * `/process-message-ws`: Analogous to the `process-message` endpoint, but with an attached websocket.
 * `/process-ws`: Analogous to the `process` endpoint, but with an attached websocket.
 
