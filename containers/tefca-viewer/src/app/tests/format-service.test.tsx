@@ -1,5 +1,6 @@
-import { formatDate, formatName } from "@/app/format-service";
-import { HumanName } from "fhir/r4";
+import { render } from "@testing-library/react";
+import { formatDate, formatName, formatMRN } from "@/app/format-service";
+import { HumanName, Identifier } from "fhir/r4";
 
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
@@ -32,7 +33,7 @@ describe("Format Date", () => {
   });
 });
 
-describe.only("formatName", () => {
+describe("formatName", () => {
   it("should format a single HumanName correctly", () => {
     const names: HumanName[] = [
       {
@@ -84,5 +85,50 @@ describe.only("formatName", () => {
     ];
     const result = formatName(names);
     expect(result).toBe("");
+  });
+});
+
+describe("formatMRN", () => {
+  it("should render the MRN value correctly", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "12345",
+        type: {
+          coding: [
+            {
+              code: "MR",
+            },
+          ],
+        },
+      },
+    ];
+
+    const { getByText } = render(formatMRN(identifiers));
+    expect(getByText("12345")).toBeInTheDocument();
+  });
+
+  it("should return null if no MRN is present", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "67890",
+        type: {
+          coding: [
+            {
+              code: "notMR",
+            },
+          ],
+        },
+      },
+    ];
+
+    const { container } = render(formatMRN(identifiers));
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it("should handle empty identifier array gracefully", () => {
+    const identifiers: Identifier[] = [];
+
+    const { container } = render(formatMRN(identifiers));
+    expect(container).toBeEmptyDOMElement();
   });
 });
