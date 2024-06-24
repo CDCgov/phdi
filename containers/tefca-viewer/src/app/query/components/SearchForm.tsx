@@ -4,14 +4,14 @@ import { USE_CASES } from "../../query-service";
 import { FHIR_SERVERS, fhirServers } from "../../fhir-servers";
 import {
   UseCaseQueryResponse,
-  useCaseQuery,
+  UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
 import { Mode } from "../page";
 
 interface SearchFormProps {
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
-  setUseCaseQueryResponse: (useCaseQueryResponse: UseCaseQueryResponse) => void;
+  setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
 }
@@ -38,7 +38,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [mrn, setMRN] = useState<string>("");
   const [useCase, setUseCase] = useState<USE_CASES>();
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
     if (!useCase || !fhirServer) {
       console.error("Use case and FHIR server are required.");
       return;
@@ -54,7 +54,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       use_case: useCase,
     };
     setOriginalRequest(originalRequest);
-    const queryResponse = await useCaseQuery(originalRequest);
+    const queryResponse = await UseCaseQuery(originalRequest);
     setUseCaseQueryResponse(queryResponse);
     if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
       setMode("no-patients");
@@ -70,7 +70,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   }, []);
   return (
     <>
-      <form className="patient-search-form" onSubmit={handleSubmit}>
+      <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
         <Fieldset>
           <h2 className="font-sans-lg search-form-section-label">
