@@ -35,9 +35,18 @@ export async function GET() {
   return NextResponse.json({ status: "OK" }, { status: 200 });
 }
 
+/**
+ * Handles a POST request to query a given FHIR server for a given use case. The
+ * use_case and fhir_server are provided as query parameters in the request URL. The
+ * request body contains the FHIR patient resource to be queried.
+ *
+ * @param request - The incoming Next.js request object.
+ * @returns Response with UseCaseResponse.
+ */
 export async function POST(request: NextRequest) {
   let requestBody;
   let PatientIdentifiers;
+
   // TODO: Add error handling that checks if the body is a patient resource
   try {
     requestBody = await request.json();
@@ -112,8 +121,6 @@ export async function POST(request: NextRequest) {
     await UseCaseQuery(UseCaseRequest);
 
   return NextResponse.json({
-    message: "success!",
-    UseCaseRequest: UseCaseRequest,
     UseCaseResponse: UseCaseQueryResponse,
   });
 }
