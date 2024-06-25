@@ -9,9 +9,20 @@ import { FHIR_SERVERS } from "../fhir-servers";
 import { parsePatientIdentifiers } from "./parsing-service";
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  let requestBody;
+  // TODO: Make error handling more resource specific
+  try {
+    requestBody = await request.json();
+  } catch (error: any) {
+    console.error("Error reading request body:", error);
+    return NextResponse.json(
+      { message: "Error reading request body. " + error.message },
+      { status: error.status }
+    );
+  }
+
   // TODO: Function to validate body is a valid patient resource
-  const PatientIdentifiers = await parsePatientIdentifiers(body);
+  const PatientIdentifiers = await parsePatientIdentifiers(requestBody);
 
   const params = request.nextUrl.searchParams;
   const use_case = params.get("use_case");
