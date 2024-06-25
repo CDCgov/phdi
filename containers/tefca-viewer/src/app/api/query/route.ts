@@ -1,15 +1,12 @@
 import { NextResponse, NextRequest } from "next/server";
-import {
-  UseCaseQuery,
-  UseCaseQueryRequest,
-  QueryResponse,
-} from "../../query-service";
+import { UseCaseQuery, UseCaseQueryRequest } from "../../query-service";
 import { parsePatientIdentifiers } from "./parsing-service";
 import {
   USE_CASES,
   FHIR_SERVERS,
   FhirServers,
   UseCases,
+  QueryResponse,
 } from "../../constants";
 
 /**
