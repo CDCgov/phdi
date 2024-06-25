@@ -15,7 +15,7 @@ export type PatientIdentifiers = {
  * @returns An array of identifiers extracted from the patient resource.
  */
 export async function parsePatientIdentifiers(
-  patient: Patient
+  patient: Patient,
 ): Promise<PatientIdentifiers> {
   const identifiers: PatientIdentifiers = {};
 
@@ -44,17 +44,20 @@ export async function parsePatientIdentifiers(
   return identifiers;
 }
 
+/**
+ *
+ * @param patient
+ */
 export async function parseMRNs(
-  patient: Patient
+  patient: Patient,
 ): Promise<(string | undefined)[] | undefined> {
   if (patient.identifier) {
-    const mrnIdentifiers = patient.identifier.filter(
-      (id) =>
-        id.type?.coding?.some(
-          (coding) =>
-            coding.system === "http://terminology.hl7.org/CodeSystem/v2-0203" &&
-            coding.code === "MR"
-        )
+    const mrnIdentifiers = patient.identifier.filter((id) =>
+      id.type?.coding?.some(
+        (coding) =>
+          coding.system === "http://terminology.hl7.org/CodeSystem/v2-0203" &&
+          coding.code === "MR",
+      ),
     );
     return mrnIdentifiers.map((id) => id.value);
   }

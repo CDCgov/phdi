@@ -80,7 +80,7 @@ class FHIRClient {
     const fetchPromises = paths.map((path) =>
       fetch(this.hostname + path, this.init).then((response) => {
         return response;
-      })
+      }),
     );
 
     return await Promise.all(fetchPromises);
