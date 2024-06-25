@@ -1,11 +1,12 @@
 import { render } from "@testing-library/react";
 import {
-  formatDate,
   formatAddress,
+  formatContact,
+  formatDate,
   formatName,
   formatString,
 } from "@/app/format-service";
-import { Address, HumanName } from "fhir/r4";
+import { Address, HumanName, ContactPoint } from "fhir/r4";
 
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
@@ -185,5 +186,69 @@ describe("formatAddress", () => {
     ];
     const { getByText } = render(formatAddress(address));
     expect(getByText("123 Main St")).toBeInTheDocument();
+  });
+});
+
+describe("formatContact", () => {
+  it("should format phone contact correctly", () => {
+    const contacts: ContactPoint[] = [
+      {
+        system: "phone",
+        value: "123-456-7890",
+        use: "home",
+      },
+    ];
+
+    const { getByText } = render(formatContact(contacts));
+    expect(getByText("home: 123-456-7890")).toBeInTheDocument();
+  });
+
+  it("should format email contact correctly", () => {
+    const contacts: ContactPoint[] = [
+      {
+        system: "email",
+        value: "test@example.com",
+      },
+    ];
+
+    const { getByText } = render(formatContact(contacts));
+    expect(getByText("test@example.com")).toBeInTheDocument();
+  });
+
+  it("should handle mixed contact types correctly", () => {
+    const contacts: ContactPoint[] = [
+      {
+        system: "phone",
+        value: "123-456-7890",
+        use: "home",
+      },
+      {
+        system: "email",
+        value: "test@example.com",
+      },
+    ];
+
+    const { getByText } = render(formatContact(contacts));
+    expect(getByText(/home:\s123-456-7890/)).toBeInTheDocument();
+    expect(getByText("test@example.com")).toBeInTheDocument();
+  });
+
+  it("should return null for unsupported contact system", () => {
+    const contacts: ContactPoint[] = [
+      {
+        system: "idk",
+        value: "it was on the form",
+      },
+    ];
+
+    const { container } = render(formatContact(contacts));
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it("should handle empty contact array gracefully", () => {
+    const contacts: ContactPoint[] = [];
+
+    const { container } = render(formatContact(contacts));
+    expect(container).toBeEmptyDOMElement();
   });
 });
