@@ -230,7 +230,7 @@ describe("formatContact", () => {
 
     const { getByText } = render(formatContact(contacts));
     expect(getByText(/home:\s123-456-7890/)).toBeInTheDocument();
-    expect(getByText("test@example.com")).toBeInTheDocument();
+    expect(getByText(/test@example.com/)).toBeInTheDocument();
   });
 
   it("should return null for unsupported contact system", () => {
