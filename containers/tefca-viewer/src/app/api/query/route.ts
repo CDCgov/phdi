@@ -4,8 +4,8 @@ import {
   USE_CASES,
   UseCaseQueryRequest,
   QueryResponse,
-} from "../query-service";
-import { FHIR_SERVERS } from "../fhir-servers";
+} from "../../query-service";
+import { FHIR_SERVERS } from "../../fhir-servers";
 import { parsePatientIdentifiers } from "./parsing-service";
 
 const USE_CASES_VALUES: USE_CASES[] = [
