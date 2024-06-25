@@ -8,6 +8,25 @@ import {
 import { FHIR_SERVERS } from "../fhir-servers";
 import { parsePatientIdentifiers } from "./parsing-service";
 
+const USE_CASES_VALUES: USE_CASES[] = [
+  "social-determinants",
+  "newborn-screening",
+  "syphilis",
+  "gonorrhea",
+  "chlamydia",
+  "cancer",
+];
+
+const FHIR_SERVER_VALUES: FHIR_SERVERS[] = [
+  "HELIOS Meld: Direct",
+  "HELIOS Meld: eHealthExchange",
+  "JMC Meld: Direct",
+  "JMC Meld: eHealthExchange",
+  "Public HAPI: eHealthExchange",
+  "OpenEpic: eHealthExchange",
+  "CernerHelios: eHealthExchange",
+];
+
 export async function POST(request: NextRequest) {
   let requestBody;
   let PatientIdentifiers;
@@ -22,6 +41,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Parse patient identifiers from requestBody
   try {
     PatientIdentifiers = await parsePatientIdentifiers(requestBody);
   } catch (error: any) {
@@ -36,6 +56,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Extract use_case and fhir_server from nextUrl
   const params = request.nextUrl.searchParams;
   const use_case = params.get("use_case");
   const fhir_server = params.get("fhir_server");
@@ -47,9 +68,23 @@ export async function POST(request: NextRequest) {
       },
       { status: 400 }
     );
+  } else if (!Object.values(USE_CASES_VALUES).includes(use_case as USE_CASES)) {
+    return NextResponse.json(
+      {
+        message: "Invalid use_case. Please provide a valid use_case.",
+      },
+      { status: 400 }
+    );
+  } else if (
+    !Object.values(FHIR_SERVER_VALUES).includes(fhir_server as FHIR_SERVERS)
+  ) {
+    return NextResponse.json(
+      {
+        message: "Invalid fhir_server. Please provide a valid fhir_server.",
+      },
+      { status: 400 }
+    );
   }
-  // TODO: Function to validate params, e.g., required params are present, usecase is valid, and fhirserver is valid
-  // TODO: Create if/elif/else statement to handle invalid params/body
 
   // Add params & patient identifiers to UseCaseRequest
   const UseCaseRequest: UseCaseQueryRequest = {
