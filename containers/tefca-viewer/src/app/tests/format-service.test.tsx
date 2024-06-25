@@ -1,7 +1,7 @@
 import { formatDate, formatName, formatString } from "@/app/format-service";
 import { HumanName } from "fhir/r4";
 
-describe.only("Format Date", () => {
+describe("Format Date", () => {
   it("should return the correct formatted date", () => {
     const inputDate = "2023-01-15";
     const expectedDate = "01/15/2023";
@@ -32,7 +32,7 @@ describe.only("Format Date", () => {
   });
 });
 
-describe.only("formatName", () => {
+describe("formatName", () => {
   it("should format a single HumanName correctly", () => {
     const names: HumanName[] = [
       {
@@ -87,7 +87,7 @@ describe.only("formatName", () => {
   });
 });
 
-describe.only("Format String", () => {
+describe("Format String", () => {
   it("should convert all character to lower case", () => {
     const inputString = "TestOfSomeCAPITALS";
     const expectedString = "testofsomecapitals";
