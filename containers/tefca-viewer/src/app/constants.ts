@@ -7,7 +7,6 @@ import {
   Medication,
   MedicationAdministration,
   MedicationRequest,
-  Bundle,
 } from "fhir/r4";
 
 /**
@@ -25,7 +24,8 @@ export type USE_CASES = (typeof UseCases)[number];
 
 /**
  * The FHIR servers that can be used in the app
- =*/
+ =
+ */
 export const FhirServers = [
   "HELIOS Meld: Direct",
   "HELIOS Meld: eHealthExchange",
