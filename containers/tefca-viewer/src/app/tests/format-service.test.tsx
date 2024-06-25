@@ -3,15 +3,10 @@ import {
   formatDate,
   formatAddress,
   formatName,
-<<<<<<< rob/1996-write-unit-test-for-formatmrn
   formatMRN,
-} from "@/app/format-service";
-import { Address, HumanName, Identifier } from "fhir/r4";
-=======
   formatString,
 } from "@/app/format-service";
-import { Address, HumanName } from "fhir/r4";
->>>>>>> main
+import { Address, HumanName, Identifier } from "fhir/r4";
 
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
@@ -99,7 +94,6 @@ describe("formatName", () => {
   });
 });
 
-<<<<<<< rob/1996-write-unit-test-for-formatmrn
 describe("formatMRN", () => {
   it("should render the MRN value correctly", () => {
     const identifiers: Identifier[] = [
@@ -142,7 +136,9 @@ describe("formatMRN", () => {
 
     const { container } = render(formatMRN(identifiers));
     expect(container).toBeEmptyDOMElement();
-=======
+  });
+});
+
 describe("Format String", () => {
   it("should convert all character to lower case", () => {
     const inputString = "TestOfSomeCAPITALS";
@@ -163,7 +159,6 @@ describe("Format String", () => {
     const expectedString = "c0mpl3xtrng";
     const result = formatString(inputString);
     expect(result).toEqual(expectedString);
->>>>>>> main
   });
 });
 
