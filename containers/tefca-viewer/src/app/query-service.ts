@@ -123,7 +123,6 @@ export async function UseCaseQuery(
   }
 
   const patientId = queryResponse.Patient[0].id ?? "";
-  console.log("patientId: ", patientId);
 
   await UseCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
 
