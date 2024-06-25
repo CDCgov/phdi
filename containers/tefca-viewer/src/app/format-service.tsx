@@ -88,7 +88,9 @@ export function formatAddress(address: Address[]): JSX.Element {
     <div>
       {addr.line?.map((line, index) => <div key={index}>{line}</div>)}
       <div>
-        {addr.city}, {addr.state} {addr.postalCode}
+        {addr.city}
+        {addr.city && ", "}
+        {addr.state} {addr.postalCode}
       </div>
     </div>
   );
