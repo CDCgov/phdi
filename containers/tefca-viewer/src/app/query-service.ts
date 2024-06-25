@@ -1,36 +1,22 @@
 "use server";
 import fetch from "node-fetch";
-import {
-  Patient,
-  Observation,
-  DiagnosticReport,
-  Condition,
-  Encounter,
-  Medication,
-  MedicationAdministration,
-  MedicationRequest,
-} from "fhir/r4";
+
 import FHIRClient from "./fhir-servers";
-import { USE_CASES, FHIR_SERVERS } from "./constants";
+import {
+  USE_CASES,
+  FHIR_SERVERS,
+  REQUEST_SOURCES,
+  QueryResponse,
+} from "./constants";
 
 export type UseCaseQueryRequest = {
   use_case: USE_CASES;
   fhir_server: FHIR_SERVERS;
+  RequestSource: REQUEST_SOURCES;
   first_name?: string;
   last_name?: string;
   dob?: string;
   mrn?: string;
-};
-
-export type QueryResponse = {
-  Patient?: Patient[];
-  Observation?: Observation[];
-  DiagnosticReport?: DiagnosticReport[];
-  Condition?: Condition[];
-  Encounter?: Encounter[];
-  Medication?: Medication[];
-  MedicationAdministration?: MedicationAdministration[];
-  MedicationRequest?: MedicationRequest[];
 };
 
 const UseCaseQueryMap: {
