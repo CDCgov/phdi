@@ -1,10 +1,15 @@
 import React from "react";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import {
+  DataDisplay,
+  DataTableDisplay,
+  DisplayDataProps,
+} from "@/app/DataDisplay";
 
 interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
   encounterDetails: DisplayDataProps[];
   aboutTheCondition: DisplayDataProps[];
+  relevantClinical: DisplayDataProps[];
 }
 
 /**
@@ -12,13 +17,15 @@ interface EcrSummaryProps {
  * @param props - Properties for the eCR Viewer Summary section
  * @param props.patientDetails - Array of title and values to be displayed in patient details section
  * @param props.encounterDetails - Array of title and values to be displayed in encounter details section
- * @param props.aboutTheCondition - Array of title and values to be displayed in about the condition section
+ * @param props.aboutTheCondition - Array of title and values to be displayed about the condition section
+ * @param props.relevantClinical - Array of title and tables to be displayed about the relevant clinical details
  * @returns a react element for ECR Summary
  */
 const EcrSummary: React.FC<EcrSummaryProps> = ({
   patientDetails,
   encounterDetails,
   aboutTheCondition,
+  relevantClinical,
 }) => {
   return (
     <div className={"info-container"}>
@@ -63,6 +70,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {aboutTheCondition.map((item) => (
               <DataDisplay item={item} key={item.title} />
             ))}
+            <div className="ecr-summary-title-long" id={"relevant-clinical"}>
+              {"Clinical Sections Relevant to Reportable Condition"}
+            </div>
+            {relevantClinical &&
+              relevantClinical.length > 0 &&
+              relevantClinical.map((item) => <DataTableDisplay item={item} />)}
           </div>
         </div>
       </div>
