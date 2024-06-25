@@ -1,6 +1,6 @@
 import fetch, { RequestInit, HeaderInit, Response } from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
-
+import { FHIR_SERVERS } from "./constants";
 /**
  * Defines the model for a FHIR server configuration
  */
