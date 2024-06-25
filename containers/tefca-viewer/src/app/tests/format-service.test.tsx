@@ -1,5 +1,10 @@
 import { render } from "@testing-library/react";
-import { formatDate, formatAddress, formatName, formatString } from "@/app/format-service";
+import {
+  formatDate,
+  formatAddress,
+  formatName,
+  formatString,
+} from "@/app/format-service";
 import { Address, HumanName } from "fhir/r4";
 
 describe("Format Date", () => {
