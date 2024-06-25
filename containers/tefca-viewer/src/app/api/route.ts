@@ -10,7 +10,8 @@ import { parsePatientIdentifiers } from "./parsing-service";
 
 export async function POST(request: NextRequest) {
   let requestBody;
-  // TODO: Make error handling more resource specific
+  let PatientIdentifiers;
+  // TODO: Add error handling that checks if the body is a patient resource
   try {
     requestBody = await request.json();
   } catch (error: any) {
@@ -21,13 +22,32 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // TODO: Function to validate body is a valid patient resource
-  const PatientIdentifiers = await parsePatientIdentifiers(requestBody);
+  try {
+    PatientIdentifiers = await parsePatientIdentifiers(requestBody);
+  } catch (error: any) {
+    console.error("Error parsing patient identifiers from requestBody:", error);
+    return NextResponse.json(
+      {
+        message:
+          "Error parsing patient identifiers from requestBody. " +
+          error.message,
+      },
+      { status: error.status }
+    );
+  }
 
   const params = request.nextUrl.searchParams;
   const use_case = params.get("use_case");
-
   const fhir_server = params.get("fhir_server");
+  if (!use_case || !fhir_server) {
+    return NextResponse.json(
+      {
+        message:
+          "Error reading request params. Please provide valid use_case and fhir_server params.",
+      },
+      { status: 400 }
+    );
+  }
   // TODO: Function to validate params, e.g., required params are present, usecase is valid, and fhirserver is valid
   // TODO: Create if/elif/else statement to handle invalid params/body
 
