@@ -7,6 +7,21 @@ The PHDI Orchestration app offers a REST API for processing messages through a s
 
 The Orchestration app can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Python source code.
 
+### Running Orchestration tests
+#### Running Unit Tests
+1. `cd containers/orchestration`
+2. `eval "$(pyenv init -)"`
+3. `source .venv/bin/activate`
+4. `pip install -r requirements.txt`
+5. `python -m pytest --cov-report xml --cov=. -m "not integration" tests/`
+
+#### Running Integration Tests
+1. `cd containers/orchestration`
+2. `eval "$(pyenv init -)"`
+3. `source .venv/bin/activate`
+4. `pip install -r requirements.txt`
+5. `python -m pytest -m "integration"`
+
 #### Running with Docker (Recommended)
 
 To run the Orchestration app with Docker, follow these steps.
