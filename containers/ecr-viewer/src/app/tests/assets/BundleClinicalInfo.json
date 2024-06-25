@@ -875,6 +875,17 @@
             }
           ]
         },
+        "extension": [
+          {
+            "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+            "coding": [
+              {
+                "code": "263133002",
+                "system": "http://snomed.info/sct"
+              }
+            ]
+          }
+        ],
         "onsetDateTime": "2019-04-16",
         "subject": {
           "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
