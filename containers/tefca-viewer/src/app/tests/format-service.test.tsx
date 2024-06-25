@@ -1,5 +1,10 @@
 import { render } from "@testing-library/react";
-import { formatDate, formatAddress, formatName, formatMRN } from "@/app/format-service";
+import {
+  formatDate,
+  formatAddress,
+  formatName,
+  formatMRN,
+} from "@/app/format-service";
 import { Address, HumanName, Identifier } from "fhir/r4";
 
 describe("Format Date", () => {
@@ -130,6 +135,8 @@ describe("formatMRN", () => {
 
     const { container } = render(formatMRN(identifiers));
     expect(container).toBeEmptyDOMElement();
+  });
+});
 
 describe("formatAddress", () => {
   it("should return an empty string when given an empty array", () => {
