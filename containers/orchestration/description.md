@@ -44,10 +44,10 @@ To build the Docker image for the Orchestration app from source instead of downl
 
 When viewing these docs from the `/redoc` endpoint on a running instance of the Orchestration app or the PHDI website, detailed documentation on the API will be available below. 
 
-### Running the /process endpoint
-When processing an ecr .zip file through the Orchestration app, call the `/process` endpoint to run the file. 
+### Running the /process-zip endpoint
+When processing an ecr .zip file through the Orchestration app, call the `/process-zip` endpoint to run the file. 
 
-The endpoint will be a POST call to the `/process` endpoint with the following parameters in the form body
+The endpoint will be a POST call to the `/process-zip` endpoint with the following parameters in the form body
 
 - `message_type`: The type of stream of the uploaded file's underlying data (e.g. ecr, elr, etc.). If the data is in FHIR format, set to FHIR.
 - `include_error_types`: The type of errors to return (e.g. warnings, errors, fatal).
@@ -58,7 +58,7 @@ The endpoint will be a POST call to the `/process` endpoint with the following p
 An an example of calling this endpoint would look like this 
 
 ```
-curl --location 'https://your_url_here/orchestration/process' \
+curl --location 'https://your_url_here/orchestration/process-zip' \
 --form 'message_type="ecr"' \
 --form 'include_error_types="[errors]"' \
 --form 'config_file_name="sample-orchestration-s3-config.json"' \
