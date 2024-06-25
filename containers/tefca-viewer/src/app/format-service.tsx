@@ -14,10 +14,10 @@ export const formatString = (input: string): string => {
   // Convert to lowercase
   let result = input.toLowerCase();
 
-  // Replace spaces with underscores
+  // Replace spaces with dashes
   result = result.replace(/\s+/g, "-");
 
-  // Remove all special characters except underscores
+  // Remove all special characters except dashes
   result = result.replace(/[^a-z0-9\-]/g, "");
 
   return result;
@@ -67,20 +67,33 @@ export function formatName(names: HumanName[]): string {
  * @returns The formatted address.
  */
 export function formatAddress(address: Address[]): JSX.Element {
-  let formattedAddress = <></>;
-  if (address.length > 0) {
-    formattedAddress = (
-      <>
-        {address[0].line?.map((line) => (
-          <>
-            {line} <br />
-          </>
-        ))}
-        {address[0].city}, {address[0].state} {address[0].postalCode}
-      </>
-    );
+  // return empty if no items in address
+  if (address.length === 0) {
+    return <></>;
   }
-  return formattedAddress;
+
+  const addr = address[0];
+  const allFieldsEmpty = [
+    ...(addr.line || []),
+    addr.city,
+    addr.state,
+    addr.postalCode,
+  ].every((field) => !field);
+  // return empty if all items in address are empty
+  if (allFieldsEmpty) {
+    return <></>;
+  }
+  // else return
+  return (
+    <div>
+      {addr.line?.map((line, index) => <div key={index}>{line}</div>)}
+      <div>
+        {addr.city}
+        {addr.city && ", "}
+        {addr.state} {addr.postalCode}
+      </div>
+    </div>
+  );
 }
 
 /**
