@@ -122,5 +122,6 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     UseCaseResponse: UseCaseQueryResponse,
+    status: 200,
   });
 }
