@@ -12,16 +12,6 @@ import {
   UseCases,
 } from "../../constants";
 
-const FHIR_SERVER_VALUES: FHIR_SERVERS[] = [
-  "HELIOS Meld: Direct",
-  "HELIOS Meld: eHealthExchange",
-  "JMC Meld: Direct",
-  "JMC Meld: eHealthExchange",
-  "Public HAPI: eHealthExchange",
-  "OpenEpic: eHealthExchange",
-  "CernerHelios: eHealthExchange",
-];
-
 /**
  * Health check for TEFCA Viewer
  * @returns Response with status OK.
