@@ -44,6 +44,11 @@ export async function parsePatientIdentifiers(
   return identifiers;
 }
 
+/**
+ * Extracts all MRNs from a patient resource and returns them as an array.
+ * @param patient - The patient resource to parse.
+ * @returns An array of MRNs extracted from the patient resource.
+ */
 export async function parseMRNs(
   patient: Patient
 ): Promise<(string | undefined)[] | undefined> {
