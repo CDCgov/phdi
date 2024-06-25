@@ -27,6 +27,14 @@ const FHIR_SERVER_VALUES: FHIR_SERVERS[] = [
   "CernerHelios: eHealthExchange",
 ];
 
+/**
+ * Health check for TEFCA Viewer
+ * @returns Response with status OK.
+ */
+export async function GET() {
+  return NextResponse.json({ status: "OK" }, { status: 200 });
+}
+
 export async function POST(request: NextRequest) {
   let requestBody;
   let PatientIdentifiers;
