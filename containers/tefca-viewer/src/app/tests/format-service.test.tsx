@@ -1,5 +1,10 @@
 import { render } from "@testing-library/react";
-import { formatDate, formatAddress, formatName } from "@/app/format-service";
+import {
+  formatDate,
+  formatAddress,
+  formatName,
+  formatString,
+} from "@/app/format-service";
 import { Address, HumanName } from "fhir/r4";
 
 describe("Format Date", () => {
@@ -85,6 +90,29 @@ describe("formatName", () => {
     ];
     const result = formatName(names);
     expect(result).toBe("");
+  });
+});
+
+describe("Format String", () => {
+  it("should convert all character to lower case", () => {
+    const inputString = "TestOfSomeCAPITALS";
+    const expectedString = "testofsomecapitals";
+    const result = formatString(inputString);
+    expect(result).toEqual(expectedString);
+  });
+
+  it("should also replace all spaces with underscores", () => {
+    const inputString = "JoHn ShEpArD";
+    const expectedString = "john-shepard";
+    const result = formatString(inputString);
+    expect(result).toEqual(expectedString);
+  });
+
+  it("should remove all non alpha-numeric characters", () => {
+    const inputString = "*C0MPL3X_$TR!NG*";
+    const expectedString = "c0mpl3xtrng";
+    const result = formatString(inputString);
+    expect(result).toEqual(expectedString);
   });
 });
 
