@@ -1,21 +1,16 @@
 import { NextResponse, NextRequest } from "next/server";
 import {
   UseCaseQuery,
-  USE_CASES,
   UseCaseQueryRequest,
   QueryResponse,
 } from "../../query-service";
-import { FHIR_SERVERS } from "../../fhir-servers";
 import { parsePatientIdentifiers } from "./parsing-service";
-
-const USE_CASES_VALUES: USE_CASES[] = [
-  "social-determinants",
-  "newborn-screening",
-  "syphilis",
-  "gonorrhea",
-  "chlamydia",
-  "cancer",
-];
+import {
+  USE_CASES,
+  FHIR_SERVERS,
+  FhirServers,
+  UseCases,
+} from "../../constants";
 
 const FHIR_SERVER_VALUES: FHIR_SERVERS[] = [
   "HELIOS Meld: Direct",
@@ -85,7 +80,7 @@ export async function POST(request: NextRequest) {
       },
       { status: 400 }
     );
-  } else if (!Object.values(USE_CASES_VALUES).includes(use_case as USE_CASES)) {
+  } else if (!Object.values(UseCases).includes(use_case as USE_CASES)) {
     return NextResponse.json(
       {
         message: "Invalid use_case. Please provide a valid use_case.",
@@ -93,7 +88,7 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   } else if (
-    !Object.values(FHIR_SERVER_VALUES).includes(fhir_server as FHIR_SERVERS)
+    !Object.values(FhirServers).includes(fhir_server as FHIR_SERVERS)
   ) {
     return NextResponse.json(
       {

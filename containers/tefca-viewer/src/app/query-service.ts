@@ -10,15 +10,8 @@ import {
   MedicationAdministration,
   MedicationRequest,
 } from "fhir/r4";
-import FHIRClient, { FHIR_SERVERS } from "./fhir-servers";
-
-export type USE_CASES =
-  | "social-determinants"
-  | "newborn-screening"
-  | "syphilis"
-  | "gonorrhea"
-  | "chlamydia"
-  | "cancer";
+import FHIRClient from "./fhir-servers";
+import { USE_CASES, FHIR_SERVERS } from "./constants";
 
 export type UseCaseQueryRequest = {
   use_case: USE_CASES;

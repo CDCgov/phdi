@@ -1,16 +1,5 @@
 import fetch, { RequestInit, HeaderInit, Response } from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
-/**
- * The FHIR servers that can be used in the app
- */
-export type FHIR_SERVERS =
-  | "HELIOS Meld: Direct"
-  | "HELIOS Meld: eHealthExchange"
-  | "JMC Meld: Direct"
-  | "JMC Meld: eHealthExchange"
-  | "Public HAPI: eHealthExchange"
-  | "OpenEpic: eHealthExchange"
-  | "CernerHelios: eHealthExchange";
 
 /**
  * Defines the model for a FHIR server configuration
@@ -91,7 +80,7 @@ class FHIRClient {
     const fetchPromises = paths.map((path) =>
       fetch(this.hostname + path, this.init).then((response) => {
         return response;
-      }),
+      })
     );
 
     return await Promise.all(fetchPromises);
