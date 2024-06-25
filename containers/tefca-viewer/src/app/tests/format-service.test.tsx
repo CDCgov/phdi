@@ -3,9 +3,15 @@ import {
   formatDate,
   formatAddress,
   formatName,
+<<<<<<< rob/1996-write-unit-test-for-formatmrn
   formatMRN,
 } from "@/app/format-service";
 import { Address, HumanName, Identifier } from "fhir/r4";
+=======
+  formatString,
+} from "@/app/format-service";
+import { Address, HumanName } from "fhir/r4";
+>>>>>>> main
 
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
@@ -93,6 +99,7 @@ describe("formatName", () => {
   });
 });
 
+<<<<<<< rob/1996-write-unit-test-for-formatmrn
 describe("formatMRN", () => {
   it("should render the MRN value correctly", () => {
     const identifiers: Identifier[] = [
@@ -135,6 +142,28 @@ describe("formatMRN", () => {
 
     const { container } = render(formatMRN(identifiers));
     expect(container).toBeEmptyDOMElement();
+=======
+describe("Format String", () => {
+  it("should convert all character to lower case", () => {
+    const inputString = "TestOfSomeCAPITALS";
+    const expectedString = "testofsomecapitals";
+    const result = formatString(inputString);
+    expect(result).toEqual(expectedString);
+  });
+
+  it("should also replace all spaces with underscores", () => {
+    const inputString = "JoHn ShEpArD";
+    const expectedString = "john-shepard";
+    const result = formatString(inputString);
+    expect(result).toEqual(expectedString);
+  });
+
+  it("should remove all non alpha-numeric characters", () => {
+    const inputString = "*C0MPL3X_$TR!NG*";
+    const expectedString = "c0mpl3xtrng";
+    const result = formatString(inputString);
+    expect(result).toEqual(expectedString);
+>>>>>>> main
   });
 });
 

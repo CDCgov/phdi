@@ -225,7 +225,7 @@ export const returnImmunizations = (
 /**
  * Generates a formatted table representing the list of problems based on the provided array of problems and mappings.
  * @param fhirBundle - The FHIR bundle containing patient information.
- * @param problemsArray - An array containing the list of problems.
+ * @param problemsArray - An array containing the list of Conditions.
  * @param mappings - An object containing the FHIR path mappings.
  * @returns - A formatted table React element representing the list of problems, or undefined if the problems array is empty.
  */
@@ -463,6 +463,7 @@ export const returnPlannedProceduresTable = (
   carePlanActivities = carePlanActivities.filter(
     (entry) => entry.detail?.code?.coding?.[0]?.display,
   );
+
   if (carePlanActivities.length === 0) {
     return undefined;
   }
