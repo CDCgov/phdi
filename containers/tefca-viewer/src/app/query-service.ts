@@ -9,6 +9,7 @@ import {
   Medication,
   MedicationAdministration,
   MedicationRequest,
+  Bundle,
 } from "fhir/r4";
 
 import FHIRClient from "./fhir-servers";
@@ -28,6 +29,10 @@ export type QueryResponse = {
   MedicationRequest?: MedicationRequest[];
 };
 
+export type APIQueryResponse = {
+  Bundle: Bundle;
+};
+
 export type UseCaseQueryRequest = {
   use_case: USE_CASES;
   fhir_server: FHIR_SERVERS;
@@ -41,7 +46,7 @@ const UseCaseQueryMap: {
   [key in USE_CASES]: (
     patientId: string,
     fhirClient: FHIRClient,
-    queryResponse: QueryResponse,
+    queryResponse: QueryResponse
   ) => Promise<QueryResponse>;
 } = {
   "social-determinants": socialDeterminantsQuery,
@@ -66,7 +71,7 @@ export type UseCaseQueryResponse = Awaited<ReturnType<typeof UseCaseQuery>>;
 async function patientQuery(
   request: UseCaseQueryRequest,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
+  queryResponse: QueryResponse
 ): Promise<void> {
   // Query for patient
   let query = "Patient?";
@@ -91,8 +96,8 @@ async function patientQuery(
       `Patient search failed. Status: ${
         response.status
       } \n Body: ${await response.text} \n Headers: ${JSON.stringify(
-        response.headers.raw(),
-      )}`,
+        response.headers.raw()
+      )}`
     );
   }
   queryResponse = await parseFhirSearch(response, queryResponse);
@@ -107,7 +112,7 @@ async function patientQuery(
  */
 export async function UseCaseQuery(
   request: UseCaseQueryRequest,
-  queryResponse: QueryResponse = {},
+  queryResponse: QueryResponse = {}
 ): Promise<QueryResponse> {
   const fhirClient = new FHIRClient(request.fhir_server);
 
@@ -136,7 +141,7 @@ export async function UseCaseQuery(
 async function socialDeterminantsQuery(
   patientId: string,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
+  queryResponse: QueryResponse
 ): Promise<QueryResponse> {
   const query = `/Observation?subject=${patientId}&category=social-history`;
   const response = await fhirClient.get(query);
@@ -153,7 +158,7 @@ async function socialDeterminantsQuery(
 async function newbornScreeningQuery(
   patientId: string,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
+  queryResponse: QueryResponse
 ): Promise<QueryResponse> {
   const loincs: Array<string> = [
     "73700-7",
@@ -185,7 +190,7 @@ async function newbornScreeningQuery(
 async function syphilisQuery(
   patientId: string,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
+  queryResponse: QueryResponse
 ): Promise<QueryResponse> {
   const loincs: Array<string> = ["LP70657-9", "98212-4", "53605-2"];
   const snomed: Array<string> = ["76272004", "186847001"];
@@ -243,7 +248,7 @@ async function syphilisQuery(
 async function gonorrheaQuery(
   patientId: string,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
+  queryResponse: QueryResponse
 ): Promise<QueryResponse> {
   const loincs: Array<string> = [
     "24111-7", // Neisseria gonorrhoeae DNA [Presence] in Specimen by NAA with probe detection
@@ -315,7 +320,7 @@ async function gonorrheaQuery(
 async function chlamydiaQuery(
   patientId: string,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
+  queryResponse: QueryResponse
 ): Promise<QueryResponse> {
   const loincs: Array<string> = [
     "24111-7", // Neisseria gonorrhoeae DNA [Presence] in Specimen by NAA with probe detection
@@ -389,7 +394,7 @@ async function chlamydiaQuery(
 async function cancerQuery(
   patientId: string,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
+  queryResponse: QueryResponse
 ): Promise<QueryResponse> {
   const snomed: Array<string> = ["92814006"];
   const rxnorm: Array<string> = ["828265"]; // drug codes from NLM/NIH RxNorm
@@ -425,7 +430,7 @@ async function cancerQuery(
  */
 async function parseFhirSearch(
   response: fetch.Response | Array<fetch.Response>,
-  queryResponse: QueryResponse = {},
+  queryResponse: QueryResponse = {}
 ): Promise<QueryResponse> {
   let resourceArray: any[] = [];
 
@@ -467,4 +472,31 @@ async function processResponse(response: fetch.Response): Promise<any[]> {
     }
   }
   return resourceArray;
+}
+
+/**
+ * Create a FHIR Bundle from the query response.
+ * @param queryResponse - The response object to store the results.
+ * @returns - The FHIR Bundle of queried data.
+ */
+export async function createBundle(
+  queryResponse: QueryResponse
+): Promise<APIQueryResponse> {
+  const bundle: Bundle = {
+    resourceType: "Bundle",
+    type: "searchset",
+    total: 0,
+    entry: [],
+  };
+
+  Object.entries(queryResponse).forEach(([key, resources]) => {
+    if (Array.isArray(resources)) {
+      resources.forEach((resource) => {
+        bundle.entry?.push({ resource });
+        bundle.total = (bundle.total || 0) + 1;
+      });
+    }
+  });
+
+  return { Bundle: bundle };
 }
