@@ -9,7 +9,6 @@ import {
 } from "@/app/format-service";
 import { Address, HumanName, ContactPoint, Identifier } from "fhir/r4";
 
-
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
     const inputDate = "2023-01-15";
