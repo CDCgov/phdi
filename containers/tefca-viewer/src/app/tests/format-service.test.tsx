@@ -1,15 +1,16 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import {
   formatAddress,
   formatContact,
   formatDate,
+  formatIdentifier,
   formatName,
   formatMRN,
   formatString,
 } from "@/app/format-service";
 import { Address, HumanName, ContactPoint, Identifier } from "fhir/r4";
 
-describe("Format Date", () => {
+describe("formatDate", () => {
   it("should return the correct formatted date", () => {
     const inputDate = "2023-01-15";
     const expectedDate = "01/15/2023";
@@ -140,7 +141,84 @@ describe("formatMRN", () => {
   });
 });
 
-describe("Format String", () => {
+describe("formatIdentifier", () => {
+  it("should handle fully typed identifiers correctly", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "999-99-9999",
+        type: {
+          coding: [
+            {
+              code: "SSN",
+              system: "http://hl7.org/fhir/sid/us-ssn",
+              display: "Social Security Number",
+            },
+          ],
+        },
+      },
+      {
+        value: "0123456789",
+        type: {
+          coding: [
+            {
+              code: "URI",
+              system: "urn:ietf:rfc:3986",
+              display: "Internal Reference Identifier",
+            },
+          ],
+        },
+      },
+    ];
+
+    const { getByText } = render(formatIdentifier(identifiers));
+    // Turn off exact matching because the presence of the id_type breaks
+    // the value across multiple elements
+    expect(getByText("999-99-9999", { exact: false })).toBeInTheDocument();
+    expect(
+      getByText("Social Security Number", { exact: false }),
+    ).toBeInTheDocument();
+    expect(getByText("0123456789", { exact: false })).toBeInTheDocument();
+    expect(
+      getByText("Internal Reference Identifier", { exact: false }),
+    ).toBeInTheDocument();
+  });
+
+  it("should handle identifiers who lack a coding but have a type", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "999-99-9999",
+        type: {
+          text: "us-ssn",
+        },
+      },
+    ];
+
+    const { getByText } = render(formatIdentifier(identifiers));
+    // Turn off exact matching because the presence of the id_type breaks
+    // the value across multiple elements
+    expect(getByText("999-99-9999", { exact: false })).toBeInTheDocument();
+    expect(getByText("us-ssn", { exact: false })).toBeInTheDocument();
+  });
+
+  it("should handle identifiers who lack both coding and type text", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "999-99-9999",
+      },
+    ];
+
+    render(formatIdentifier(identifiers));
+    expect(screen.getByText(": 999-99-9999")).toBeInTheDocument();
+  });
+
+  it("should handle an empty identifier array without breaking", () => {
+    const identifiers: Identifier[] = [];
+    const { container } = render(formatIdentifier(identifiers));
+    expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe("formatString", () => {
   it("should convert all character to lower case", () => {
     const inputString = "TestOfSomeCAPITALS";
     const expectedString = "testofsomecapitals";
