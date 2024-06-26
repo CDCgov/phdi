@@ -10,25 +10,13 @@ import {
   MedicationAdministration,
   MedicationRequest,
 } from "fhir/r4";
-import FHIRClient, { FHIR_SERVERS } from "./fhir-servers";
 
-export type USE_CASES =
-  | "social-determinants"
-  | "newborn-screening"
-  | "syphilis"
-  | "gonorrhea"
-  | "chlamydia"
-  | "cancer";
+import FHIRClient from "./fhir-servers";
+import { USE_CASES, FHIR_SERVERS } from "./constants";
 
-export type UseCaseQueryRequest = {
-  use_case: USE_CASES;
-  fhir_server: FHIR_SERVERS;
-  first_name?: string;
-  last_name?: string;
-  dob?: string;
-  mrn?: string;
-};
-
+/**
+ * The query response when the request source is from the Viewer UI.
+ */
 export type QueryResponse = {
   Patient?: Patient[];
   Observation?: Observation[];
@@ -38,6 +26,15 @@ export type QueryResponse = {
   Medication?: Medication[];
   MedicationAdministration?: MedicationAdministration[];
   MedicationRequest?: MedicationRequest[];
+};
+
+export type UseCaseQueryRequest = {
+  use_case: USE_CASES;
+  fhir_server: FHIR_SERVERS;
+  first_name?: string;
+  last_name?: string;
+  dob?: string;
+  mrn?: string;
 };
 
 const UseCaseQueryMap: {
@@ -121,6 +118,7 @@ export async function UseCaseQuery(
   if (!queryResponse.Patient || queryResponse.Patient.length !== 1) {
     return queryResponse;
   }
+
   const patientId = queryResponse.Patient[0].id ?? "";
 
   await UseCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
