@@ -144,10 +144,7 @@ export const ClinicalInfo = ({
         <AccordionDiv>
           <div data-testid="treatment-details">
             {data.map((item, index) => (
-              <DataTableDisplay
-                item={{ dividerLine: true, ...item }}
-                key={index}
-              />
+              <DataTableDisplay item={item} key={index} />
             ))}
           </div>
         </AccordionDiv>
