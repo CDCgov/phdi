@@ -18,6 +18,7 @@ import {
 } from "@/app/services/evaluateFhirDataService";
 import { evaluateClinicalData } from "./common";
 import AccordionContainer from "@/app/shared/src/accordion/AccordionContainer";
+import { evaluate } from "@/app/view-data/utils/evaluate";
 
 type AccordionContainerProps = {
   children?: ReactNode;
@@ -45,7 +46,11 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
   const providerData = evaluateProviderData(fhirBundle, fhirPathMappings);
   const clinicalData = evaluateClinicalData(fhirBundle, fhirPathMappings);
   const ecrMetadata = evaluateEcrMetadata(fhirBundle, fhirPathMappings);
-  const labInfoData = evaluateLabInfoData(fhirBundle, fhirPathMappings);
+  const labInfoData = evaluateLabInfoData(
+    fhirBundle,
+    evaluate(fhirBundle, fhirPathMappings["diagnosticReports"]),
+    fhirPathMappings,
+  );
   const accordionItems: any[] = [
     {
       title: "Patient Info",

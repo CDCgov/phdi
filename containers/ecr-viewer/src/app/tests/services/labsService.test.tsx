@@ -460,6 +460,7 @@ describe("Evaluate the lab info section", () => {
   it("should return a list of objects", () => {
     const result = evaluateLabInfoData(
       BundleLab as unknown as Bundle,
+      evaluate(BundleLab, mappings["diagnosticReports"]),
       mappings,
     );
     expect(result[0]).toHaveProperty("diagnosticReportDataElements");
@@ -468,6 +469,7 @@ describe("Evaluate the lab info section", () => {
   it("should properly count the number of labs", () => {
     const result = evaluateLabInfoData(
       BundleLab as unknown as Bundle,
+      evaluate(BundleLab, mappings["diagnosticReports"]),
       mappings,
     );
     expect(result[0].organizationDisplayDataProps[3].title).toEqual(
