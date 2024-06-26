@@ -4,7 +4,7 @@ import {
   UseCaseQueryRequest,
   QueryResponse,
 } from "../../query-service";
-import { parsePatientIdentifiers } from "./parsing-service";
+import { parsePatientDemographics } from "./parsing-service";
 import {
   USE_CASES,
   FHIR_SERVERS,
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
   // Parse patient identifiers from requestBody
   try {
-    PatientIdentifiers = await parsePatientIdentifiers(requestBody);
+    PatientIdentifiers = await parsePatientDemographics(requestBody);
   } catch (error: any) {
     console.error("Error parsing patient identifiers from requestBody:", error);
     return NextResponse.json(
