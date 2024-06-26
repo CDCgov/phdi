@@ -4,9 +4,11 @@ import {
   formatContact,
   formatDate,
   formatName,
+  formatMRN,
   formatString,
 } from "@/app/format-service";
-import { Address, HumanName, ContactPoint } from "fhir/r4";
+import { Address, HumanName, ContactPoint, Identifier } from "fhir/r4";
+
 
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
@@ -91,6 +93,51 @@ describe("formatName", () => {
     ];
     const result = formatName(names);
     expect(result).toBe("");
+  });
+});
+
+describe("formatMRN", () => {
+  it("should render the MRN value correctly", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "12345",
+        type: {
+          coding: [
+            {
+              code: "MR",
+            },
+          ],
+        },
+      },
+    ];
+
+    const { getByText } = render(formatMRN(identifiers));
+    expect(getByText("12345")).toBeInTheDocument();
+  });
+
+  it("should return null if no MRN is present", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "67890",
+        type: {
+          coding: [
+            {
+              code: "notMR",
+            },
+          ],
+        },
+      },
+    ];
+
+    const { container } = render(formatMRN(identifiers));
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it("should handle empty identifier array gracefully", () => {
+    const identifiers: Identifier[] = [];
+
+    const { container } = render(formatMRN(identifiers));
+    expect(container).toBeEmptyDOMElement();
   });
 });
 
