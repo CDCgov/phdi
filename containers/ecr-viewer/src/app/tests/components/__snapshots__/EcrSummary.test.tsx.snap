@@ -266,6 +266,22 @@ End: 05/13/2022 9:57 AM UTC
           </div>
           <div
             class="ecr-summary-title-long"
+            id="relevant-clinical"
+          >
+            Clinical Sections Relevant to Reportable Condition
+          </div>
+          <div>
+            <div
+              class="grid-col-auto width-full text-pre-line"
+            >
+              Cough
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div
+            class="ecr-summary-title-long"
             id="relevant-labs"
           >
             Lab Results Relevant to Reportable Condition

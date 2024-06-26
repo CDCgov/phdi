@@ -9,6 +9,7 @@ interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
   encounterDetails: DisplayDataProps[];
   aboutTheCondition: DisplayDataProps[];
+  relevantClinical: DisplayDataProps[];
   relevantLabs: DisplayDataProps[];
 }
 
@@ -18,6 +19,7 @@ interface EcrSummaryProps {
  * @param props.patientDetails - Array of title and values to be displayed in patient details section
  * @param props.encounterDetails - Array of title and values to be displayed in encounter details section
  * @param props.aboutTheCondition - Array of title and values to be displayed about the condition section
+ * @param props.relevantClinical - Array of title and tables to be displayed about the relevant clinical details
  * @param props.relevantLabs - Array of title and tables to be displayed about the relevant lab results
  * @returns a react element for ECR Summary
  */
@@ -25,6 +27,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
   patientDetails,
   encounterDetails,
   aboutTheCondition,
+  relevantClinical,
   relevantLabs,
 }) => {
   return (
@@ -70,6 +73,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {aboutTheCondition.map((item) => (
               <DataDisplay item={item} key={item.title} />
             ))}
+            <div className="ecr-summary-title-long" id={"relevant-clinical"}>
+              {"Clinical Sections Relevant to Reportable Condition"}
+            </div>
+            {relevantClinical &&
+              relevantClinical.length > 0 &&
+              relevantClinical.map((item) => <DataTableDisplay item={item} />)}
             <div className="ecr-summary-title-long" id={"relevant-labs"}>
               {"Lab Results Relevant to Reportable Condition"}
             </div>

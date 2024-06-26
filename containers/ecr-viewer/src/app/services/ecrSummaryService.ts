@@ -1,4 +1,4 @@
-import { Bundle } from "fhir/r4";
+import { Bundle, Condition, Extension, Observation } from "fhir/r4";
 import { PathMappings } from "@/app/utils";
 import {
   formatDate,
@@ -11,8 +11,8 @@ import {
   evaluatePatientAddress,
   evaluateFacilityAddress,
 } from "./evaluateFhirDataService";
-import { DisplayDataProps } from "../DataDisplay";
-import { Extension, Observation } from "fhir/r4";
+import { DisplayDataProps } from "@/app/DataDisplay";
+import { returnProblemsTable } from "@/app/view-data/components/common";
 import { LabReport, evaluateLabInfoData } from "./labsService";
 
 /**
@@ -25,6 +25,10 @@ import { LabReport, evaluateLabInfoData } from "./labsService";
  */
 interface ExtensionConditionCode extends Extension {
   coding?: { code: string; system: string }[];
+}
+
+interface ConditionStamped extends Condition {
+  extension?: ExtensionConditionCode[];
 }
 
 interface LabReportStamped extends LabReport {
@@ -125,6 +129,49 @@ export const evaluateEcrSummaryAboutTheConditionDetails = (
       value: evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0],
     },
   ];
+};
+
+/**
+ * Evaluates and retrieves relevant clinical details from the FHIR bundle using the provided SNOMED code and path mappings.
+ * @param fhirBundle - The FHIR bundle containing patient data.
+ * @param fhirPathMappings - Object containing fhir path mappings.
+ * @param snomedCode - String containing the SNOMED code search parameter.
+ * @returns An array of condition details objects containing title and value pairs.
+ */
+export const evaluateEcrSummaryRelevantClinicalDetails = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+  snomedCode: string,
+): DisplayDataProps[] => {
+  const noData: string = "No matching clinical data found in this eCR";
+  if (!snomedCode) {
+    return [{ value: noData, dividerLine: true }];
+  }
+
+  const problemsList: ConditionStamped[] = evaluate(
+    fhirBundle,
+    fhirPathMappings["activeProblems"],
+  );
+  const problemsListFiltered = problemsList.filter((entry) =>
+    entry.extension?.some(
+      (ext) =>
+        ext.url ===
+          "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code" &&
+        ext.coding?.some((item) => item.code === snomedCode),
+    ),
+  );
+
+  if (problemsListFiltered.length === 0) {
+    return [{ value: noData, dividerLine: true }];
+  }
+
+  const problemsElement = returnProblemsTable(
+    fhirBundle,
+    problemsListFiltered as Condition[],
+    fhirPathMappings,
+  );
+
+  return [{ value: problemsElement, dividerLine: true }];
 };
 
 /**

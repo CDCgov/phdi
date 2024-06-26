@@ -56,6 +56,13 @@ describe("EcrSummary", () => {
     },
   ];
 
+  const relevantClinical = [
+    {
+      title: "Relevant Clinical",
+      value: "Cough",
+    },
+  ];
+
   const relevantLabs = [
     {
       title: "Relevant Labs",
@@ -69,6 +76,7 @@ describe("EcrSummary", () => {
         patientDetails={patientDetails}
         encounterDetails={encounterDetails}
         aboutTheCondition={aboutTheCondition}
+        relevantClinical={relevantClinical}
         relevantLabs={relevantLabs}
       />,
     ).container;
