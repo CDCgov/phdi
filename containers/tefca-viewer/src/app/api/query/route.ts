@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     console.error("Error reading request body:", error);
     return NextResponse.json(
       { message: "Error reading request body. " + error.message },
-      { status: error.status }
+      { status: error.status },
     );
   }
 
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
           "Error parsing patient identifiers from requestBody. " +
           error.message,
       },
-      { status: error.status }
+      { status: error.status },
     );
   }
 
@@ -67,14 +67,14 @@ export async function POST(request: NextRequest) {
         message:
           "Error reading request params. Please provide valid use_case and fhir_server params.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   } else if (!Object.values(UseCases).includes(use_case as USE_CASES)) {
     return NextResponse.json(
       {
         message: "Invalid use_case. Please provide a valid use_case.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   } else if (
     !Object.values(FhirServers).includes(fhir_server as FHIR_SERVERS)
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       {
         message: "Invalid fhir_server. Please provide a valid fhir_server.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
