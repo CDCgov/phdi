@@ -2,12 +2,19 @@ import { render } from "@testing-library/react";
 import {
   formatAddress,
   formatContact,
+  formatCodeableConcept,
   formatDate,
   formatName,
   formatMRN,
   formatString,
 } from "@/app/format-service";
-import { Address, HumanName, ContactPoint, Identifier } from "fhir/r4";
+import {
+  Address,
+  HumanName,
+  ContactPoint,
+  Identifier,
+  CodeableConcept,
+} from "fhir/r4";
 
 describe("Format Date", () => {
   it("should return the correct formatted date", () => {
@@ -296,5 +303,49 @@ describe("formatContact", () => {
 
     const { container } = render(formatContact(contacts));
     expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe("formatCodeableConcept", () => {
+  it("should return an empty string when concept is undefined", () => {
+    const result = formatCodeableConcept(undefined);
+    expect(result).toBe("");
+  });
+
+  it("should return the text property when coding is not defined", () => {
+    const concept: CodeableConcept = {
+      text: "Example Text",
+    };
+
+    const { getByText } = render(formatCodeableConcept(concept));
+    expect(getByText("Example Text")).toBeInTheDocument();
+  });
+
+  it("should return the text property when coding array is empty", () => {
+    const concept: CodeableConcept = {
+      text: "Example Text",
+      coding: [],
+    };
+
+    const { getByText } = render(formatCodeableConcept(concept));
+    expect(getByText("Example Text")).toBeInTheDocument();
+  });
+
+  it("should return the display, code, and system of the first coding object", () => {
+    const concept: CodeableConcept = {
+      text: "Example Text",
+      coding: [
+        {
+          display: "Example Display",
+          code: "Example Code",
+          system: "Example System",
+        },
+      ],
+    };
+
+    const { getByText } = render(formatCodeableConcept(concept));
+    expect(getByText(/Example Display/)).toBeInTheDocument();
+    expect(getByText(/Example Code/)).toBeInTheDocument();
+    expect(getByText(/Example System/)).toBeInTheDocument();
   });
 });
