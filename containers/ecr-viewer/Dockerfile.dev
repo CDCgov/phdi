@@ -19,4 +19,4 @@ ENV OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://otel-collector:4318/v1/metrics
 ENV OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
 ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4318/v1/traces
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "prod"]
