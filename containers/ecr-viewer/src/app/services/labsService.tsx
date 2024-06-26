@@ -384,14 +384,15 @@ export const evaluateOrganismsReportData = (
 /**
  * Evaluates lab information and RR data from the provided FHIR bundle and mappings.
  * @param fhirBundle - The FHIR bundle containing lab and RR data.
+ * @param labReports - An array of DiagnosticReport objects
  * @param mappings - An object containing the FHIR path mappings.
  * @returns An array of the Diagnostic reports Elements and Organization Display Data
  */
 export const evaluateLabInfoData = (
   fhirBundle: Bundle,
+  labReports: any[],
   mappings: PathMappings,
 ): LabReportElementData[] => {
-  const labReports = evaluate(fhirBundle, mappings["diagnosticReports"]);
   // the keys are the organization id, the value is an array of jsx elements of diagnsotic reports
   let organizationElements: ResultObject = {};
 
