@@ -30,7 +30,7 @@ def clean_up_db():
 get_settings()
 
 ORCHESTRATION_URL = "http://localhost:8080"
-PROCESS_ENDPOINT = ORCHESTRATION_URL + "/process"
+PROCESS_ZIP_ENDPOINT = ORCHESTRATION_URL + "/process-zip"
 PROCESS_MESSAGE_ENDPOINT = ORCHESTRATION_URL + "/process-message"
 
 
@@ -47,6 +47,7 @@ def test_health_check(setup):
         "INGESTION_PORT_NUMBER",
         "MESSAGE_PARSER_PORT_NUMBER",
         "ECR_VIEWER_PORT_NUMBER",
+        "TRIGGER_CODE_REFERENCE_PORT_NUMBER",
     ]
 
     for port_number in port_number_strings:
@@ -86,7 +87,7 @@ def test_process_message_endpoint(setup, clean_up_db):
 
 
 @pytest.mark.integration
-def test_process_endpoint_with_zip(setup, clean_up_db):
+def test_process_zip_endpoint_with_zip(setup, clean_up_db):
     """
     Tests full orchestration functionality of an eCR file, but this time,
     the file is zipped rather than raw string.
@@ -101,14 +102,14 @@ def test_process_endpoint_with_zip(setup, clean_up_db):
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
-            PROCESS_ENDPOINT, data=form_data, files=files
+            PROCESS_ZIP_ENDPOINT, data=form_data, files=files
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
 
 
 @pytest.mark.integration
-def test_process_endpoint_with_zip_and_rr_data(setup, clean_up_db):
+def test_process_zip_endpoint_with_zip_and_rr_data(setup, clean_up_db):
     """
     Full orchestration test of a zip file containing both an eICR and the
     associated RR data.
@@ -123,7 +124,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup, clean_up_db):
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
-            PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
+            PROCESS_ZIP_ENDPOINT, data=form_data, files=files, timeout=60
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
@@ -147,7 +148,7 @@ def test_failed_save_to_ecr_viewer(setup, clean_up_db):
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
-            PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
+            PROCESS_ZIP_ENDPOINT, data=form_data, files=files, timeout=60
         )
         assert orchestration_response.status_code == 400
 
@@ -169,7 +170,7 @@ def test_success_save_to_ecr_viewer(setup, clean_up_db):
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
-            PROCESS_ENDPOINT, data=form_data, files=files, timeout=60
+            PROCESS_ZIP_ENDPOINT, data=form_data, files=files, timeout=60
         )
 
         assert orchestration_response.status_code == 200

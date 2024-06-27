@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "phdi"
-version = "v1.4.5"
+version = "v1.4.8"
 description = "Public health data infrastructure Building Blocks is a library to help public health departments work with their data"
 authors = [
   "Kenneth Chow <kenneth@skylight.digital>",
@@ -56,7 +56,7 @@ faker = "^18.4.0"
 pillow = "^10.3.0"
 
 [tool.poetry.dev-dependencies]
-pdoc = "^13.0.0"
+pdoc = "^14.5.1"
 pytest = "^7.1.0"
 pytest-cov = "^3.0.0"
 toml = "^0.10.2"

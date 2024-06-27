@@ -11,6 +11,7 @@ services:
         validation-service,
         fhir-converter-service,
         ingestion-service,
+        trigger-code-reference-service,
         message-parser-service,
         ecr-viewer,
       ]
@@ -53,6 +54,13 @@ services:
       context: ../message-parser
     ports:
       - "${MESSAGE_PARSER_PORT_NUMBER}:8080"
+    logging:
+      driver: "json-file"
+  trigger-code-reference-service:
+    build:
+      context: ../trigger-code-reference
+    ports:
+      - "${TRIGGER_CODE_REFERENCE_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
   jaeger:

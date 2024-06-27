@@ -1,9 +1,12 @@
-name: Test orchestration Container
+name: Test validation Container
 
 on:
   pull_request:
     branches:
       - "**"
+    paths:
+      - containers/validation/**
+      - containers/dibbs/**
   merge_group:
     types:
       - checks_requested
@@ -20,10 +23,10 @@ concurrency:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.11
-  CONTAINER: orchestration
+  CONTAINER: validation
 
 jobs:
-  orchestration-python-linting:
+  python-linting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,24 +46,8 @@ jobs:
       - name: Run formatter (ruff)
         run: |
           ruff format --check
-  orchestration-unit-test-python:
+  unit-test-python-containers:
     runs-on: ubuntu-latest
-    services:
-      test-db:
-        image: postgres:13-alpine3.16
-        env:
-          POSTGRES_PASSWORD: pw
-          POSTGRES_DB: testdb
-          POSTGRES_USER: postgres
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --name testdb
-        ports:
-          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -87,9 +74,9 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          toekn: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ env.CONTAINER }}
-  orchestration-integration-test-python:
+  integration-test-python-containers:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -116,17 +103,10 @@ jobs:
             pip install -r dev-requirements.txt
           fi
       - name: Run integration tests for containers
-        env:
-          MPI_DBNAME: testdb
-          MPI_PASSWORD: pw
-          MPI_DB_TYPE: postgres
-          MPI_HOST: localhost
-          MPI_USER: postgres
-          MPI_PORT: 5432
         working-directory: ./containers/${{env.CONTAINER}}/tests/integration
         run: |
           python -m pytest -m "integration"
-  build-orchestration-container:
+  build-container:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -142,8 +122,3 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            "INGESTION_URL=${{secrets.INGESTION_URL}}"
-            "MESSAGE_PARSER_URL=${{secrets.MESSAGE_PARSER_URL}}"
-            "SMARTY_AUTH_ID=${{secrets.SMARTY_AUTH_ID}}"
-            "SMARTY_AUTH_TOKEN=${{secrets.SMARTY_AUTH_TOKEN}}"

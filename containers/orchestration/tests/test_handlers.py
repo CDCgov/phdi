@@ -11,11 +11,13 @@ from app.handlers import build_ingestion_name_request
 from app.handlers import build_ingestion_phone_request
 from app.handlers import build_message_parser_message_request
 from app.handlers import build_message_parser_phdc_request
+from app.handlers import build_stamp_condition_extensions_request
 from app.handlers import build_validation_request
 from app.handlers import unpack_fhir_converter_response
 from app.handlers import unpack_fhir_to_phdc_response
 from app.handlers import unpack_ingestion_standardization
 from app.handlers import unpack_parsed_message_response
+from app.handlers import unpack_stamp_condition_extensions_response
 from app.handlers import unpack_validation_response
 from lxml import etree
 
@@ -572,4 +574,82 @@ def test_unpack_ingestion_geocoding():
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 400
     assert "Smarty raised the following exception" in result.msg_content
+    assert not result.should_continue
+
+
+def test_build_stamp_condition_extensions_request():
+    input_msg = json.load(
+        open(
+            Path(__file__).parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
+    )
+    orchestration_request = input_msg
+
+    # Test with no workflow_params
+    result = build_stamp_condition_extensions_request(input_msg, orchestration_request)
+    assert result == {
+        "bundle": input_msg,
+        "conditions": None,
+    }
+
+    # Test with changed workflow_params
+    workflow_params = {"conditions": ["840539006"]}
+    result = build_stamp_condition_extensions_request(
+        input_msg, orchestration_request, workflow_params
+    )
+    assert result == {
+        "bundle": input_msg,
+        "conditions": ["840539006"],
+    }
+
+
+def test_unpack_stamp_condition_extensions_response():
+    data = json.load(
+        open(
+            Path(__file__).parent.parent.parent
+            / "trigger-code-reference"
+            / "assets"
+            / "sample_stamp_condition_extensions_responses.json"
+        )
+    )
+    sample_json = data["content"]["application/json"]["examples"]["Stamping an eICR"][
+        "value"
+    ]["extended_bundle"]
+
+    # Mock a JSON response
+    response_content = sample_json
+
+    response = MagicMock()
+    response.json.return_value = response_content
+    response.status_code = 200
+    result = unpack_stamp_condition_extensions_response(response)
+    assert result.msg_content == sample_json.get("bundle")
+    assert result.should_continue
+
+    # Test failure case - 422
+    error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
+    response = MagicMock()
+    response.status_code = 422
+    response.json.return_value = error_message
+    result = unpack_stamp_condition_extensions_response(response)
+    assert result.status_code == 422
+    assert "detail" in result.msg_content.keys()
+    assert not result.should_continue
+
+    # Test failure case - 400
+    error_message = {
+        "status_code": 400,
+        "bundle": sample_json,
+        "message": "Standardization Error: Dates of Birth",
+    }
+    response = MagicMock()
+    response.status_code = 400
+    response.json.return_value = error_message
+    result = unpack_stamp_condition_extensions_response(response)
+    assert result.status_code == 400
+    assert "Standardization Error" in result.msg_content
     assert not result.should_continue
