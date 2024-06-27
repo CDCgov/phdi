@@ -14,7 +14,6 @@ import {
 
 import FHIRClient from "./fhir-servers";
 import { USE_CASES, FHIR_SERVERS } from "./constants";
-import { BundleClass } from "./classes";
 
 /**
  * The query response when the request source is from the Viewer UI.
@@ -481,7 +480,12 @@ async function processResponse(response: fetch.Response): Promise<any[]> {
 export async function createBundle(
   queryResponse: QueryResponse
 ): Promise<APIQueryResponse> {
-  const bundle = new BundleClass();
+  const bundle: Bundle = {
+    resourceType: "Bundle",
+    type: "searchset",
+    total: 0,
+    entry: [],
+  };
 
   Object.entries(queryResponse).forEach(([key, resources]) => {
     if (Array.isArray(resources)) {
