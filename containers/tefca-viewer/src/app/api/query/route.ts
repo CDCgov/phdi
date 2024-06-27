@@ -14,8 +14,6 @@ import {
   UseCases,
 } from "../../constants";
 
-import { Bundle } from "fhir/r4";
-
 /**
  * Health check for TEFCA Viewer
  * @returns Response with status OK.
