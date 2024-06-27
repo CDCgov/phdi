@@ -1,10 +1,28 @@
 import json
 import os
+import time
 
 import requests
 
 URL = "http://orchestration-service:8080"
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def wait_for_service(url):
+    """
+    Wait for the URL to become available up to 30 seconds
+    :param url: URL of the service:
+    :return:
+    """
+    cur = 0
+    while cur < 10:
+        try:
+            requests.get(url)
+            break
+        except requests.exceptions.RequestException:
+            print("Waiting for service to start")
+            time.sleep(3)
+            cur += 1
 
 
 def save_sql_insert(fhir_bundles):
@@ -55,5 +73,6 @@ def convert_files():
     return fhir_bundles
 
 
+wait_for_service(URL)
 bundle_arr = convert_files()
 save_sql_insert(bundle_arr)
