@@ -114,6 +114,15 @@
                     {% endif -%}
                     "entry": 
                     [
+                        {% if component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.38" or component.section.templateId[0].root == "2.16.840.1.113883.10.20.22.2.38" %}
+                            {% for entry in component.section.entry %}
+                                {% assign medicationAdministrationId = entry.substanceAdministration | to_json_string | generate_uuid -%}
+                                {% assign fullMedicationAdministrationId = medicationAdministrationId | prepend: 'MedicationAdministration/' -%}
+                                {
+                                    "reference": "{{ fullMedicationAdministrationId }}",
+                                },
+                            {% endfor %}
+                        {% endif %}
                         {% if component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.10" or component.section.templateId[0].root == "2.16.840.1.113883.10.20.22.2.10" %}
                             {% assign carePlanId = component.section | to_json_string | generate_uuid -%}
                             {% assign fullCarePlanId = carePlanId | prepend: 'CarePlan/' -%}
