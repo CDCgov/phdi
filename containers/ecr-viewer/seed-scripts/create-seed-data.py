@@ -80,7 +80,6 @@ def convert_files():
                     responses_json = response.json()["processed_values"]["responses"]
                     for response in responses_json:
                         if "fhir_bundle" in response:
-                            # print(f"fhir_bundle  -  {response}")
                             fhir_bundles.append(response["fhir_bundle"]["bundle"])
                         if "message_parser_values" in response:
                             metadata.append(
