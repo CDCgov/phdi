@@ -110,7 +110,6 @@ def test_combine_response_bundles_with_outputs():
         config,
     )
     responses = combined["responses"]
-    print(f"combined = {responses}")
     assert combined["foo"] == "bar"
     assert "foo" in responses[0]
     assert "biz" in responses[1]
@@ -159,7 +158,6 @@ def test_combine_response_bundles_with_default_response_off():
         config,
     )
     responses = combined["responses"]
-    print(f"combined = {responses}")
     assert "foo" not in combined
     assert "foo" in responses[0]
     assert "biz" in responses[1]
