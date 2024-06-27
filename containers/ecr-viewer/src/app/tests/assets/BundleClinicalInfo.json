@@ -202,7 +202,12 @@
                 }
               ]
             },
-            "mode": "snapshot"
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "MedicationAdministration/367be6b3-75f2-2053-63e4-f0a6f1d6bff1"
+              }
+            ]
           },
           {
             "id": "dd08df91-869b-46df-dd36-c5c0f2ad2eae",
@@ -1055,6 +1060,87 @@
       "request": {
         "method": "PUT",
         "url": "CarePlan/360f0f52-0434-58ee-1e51-e093e4cf4847"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:367be6b3-75f2-2053-63e4-f0a6f1d6bff1",
+      "resource": {
+        "resourceType": "MedicationAdministration",
+        "id": "367be6b3-75f2-2053-63e4-f0a6f1d6bff1",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.202.3.7.2.798268",
+            "value": "476858947"
+          }
+        ],
+        "status": "completed",
+        "effectivePeriod": {
+          "start": "2022-09-29T04:00:00Z",
+          "end": "2022-09-29T03:37:00Z"
+        },
+        "dosage": {
+          "route": {
+            "coding": [
+              {
+                "code": "C38288",
+                "display": "Oral",
+                "system": "urn:oid:2.16.840.1.113883.3.26.1.1"
+              }
+            ]
+          },
+          "dose": {
+            "value": 325,
+            "unit": "mg"
+          }
+        },
+        "subject": {
+          "reference": "Patient/ae8e3ddc-1bac-4d08-a932-36e7b3b42581"
+        },
+        "medicationReference": {
+          "reference": "Medication/be901c69-c202-4d67-105a-b728c2618183"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "MedicationAdministration/367be6b3-75f2-2053-63e4-f0a6f1d6bff1"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:be901c69-c202-4d67-105a-b728c2618183",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "be901c69-c202-4d67-105a-b728c2618183",
+        "code": {
+          "coding": [
+            {
+              "code": "212033",
+              "display": "aspirin tablet 325 mg",
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm"
+            },
+            {
+              "code": "10135-150-01",
+              "system": "urn:oid:2.16.840.1.113883.6.69"
+            },
+            {
+              "code": "172480",
+              "system": "urn:oid:2.16.840.1.113883.6.208"
+            }
+          ]
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Medication/be901c69-c202-4d67-105a-b728c2618183"
       }
     }
   ]
