@@ -46,10 +46,8 @@ def convert_files():
 
                 print(f"{URL}/process-message")
                 response = requests.post(f"{URL}/process-message", json=payload)
-                print(f"response = {response.json()}")
                 if response.status_code == 200:
                     resp_json = response.json()
-                    print(f"response = {resp_json}")
                     fhir_bundles.append(resp_json["processed_values"]["bundle"])
                     print(f"Converted {folder} successfully.")
                 else:
