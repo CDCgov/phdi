@@ -1,0 +1,179 @@
+{
+  "resourceType": "Bundle",
+  "type": "batch",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:1dd10047-2207-4eac-a993-0f706c88be5d",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "1dd10047-2207-4eac-a993-0f706c88be5d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "code": "55751-2",
+                  "display": "Initial Public Health Case Report",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "value": "36959489|65117030"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+            "valueString": "2"
+          }
+        ],
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "code": "55751-2",
+              "display": "Initial Public Health Case Report",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "date": "2022-05-14T12:56:38Z",
+        "title": "Initial Public Health Case Report",
+        "confidentiality": "N",
+        "section": [
+          {
+            "id": "b4994b93-a4e6-b688-1327-a65a269c568d",
+            "title": "Medications Administered",
+            "text": {
+              "status": "generated",
+              "div": "<table><thead><tr><th>Medication Name</th><th>Medication Start Date</th></tr></thead><tbody><tr><td>docusate (Colace)</td><td>20220413132200+0000</td></tr><tr><td>acetaminophen (Tylenol)</td><td>20220413132200+0000</td></tr><tr><td>hydrocodone-acetaminophen (Norco 5 mg-325 mg oral tablet)</td><td>20220413132200+0000</td></tr><tr><td>ipratropium-albuterol (DuoNeb)</td><td>20220413132200+0000</td></tr><tr><td>hydrALAZINE</td><td>20220413132200+0000</td></tr><tr><td>labetalol</td><td>20220413132200+0000</td></tr><tr><td>levETIRAcetam (Keppra)</td><td>Unknown</td></tr><tr><td>meclizine</td><td>20220413113800+0000</td></tr><tr><td>melatonin (melatonin 3 mg oral tablet)</td><td>20220413132200+0000</td></tr><tr><td>morphine</td><td>20220413132200+0000</td></tr><tr><td>ondansetron (Zofran)</td><td>20220413132200+0000</td></tr><tr><td>simethicone (Mylicon)</td><td>20220413132200+0000</td></tr><tr><td>heparin</td><td>20220413170000+0000</td></tr><tr><td>famotidine (Pepcid)</td><td>Unknown</td></tr><tr><td>Sodium Chloride 0.9% intravenous solution 1,000 mL</td><td>20220413110600+0000</td></tr><tr><td>acetaminophen (Tylenol)</td><td>20220413110600+0000</td></tr><tr><td>heparin</td><td>20220413130000+0000</td></tr><tr><td>morphine</td><td>20220413113700+0000</td></tr><tr><td>ondansetron (Zofran)</td><td>20220413110600+0000</td></tr><tr><td>morphine</td><td>20220413105900+0000</td></tr><tr><td>prochlorperazine (Compazine)</td><td>20220413120000+0000</td></tr><tr><td>diphenhydrAMINE (Benadryl)</td><td>20220413105900+0000</td></tr><tr><td>ketorolac (Toradol)</td><td>20220413105900+0000</td></tr></tbody></table>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29549-3",
+                  "display": "Medications Administered",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "MedicationAdministration/367be6b3-75f2-2053-63e4-f0a6f1d6bff1"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+        },
+        "encounter": {
+          "reference": "Encounter/1a016589-f03e-c216-eb37-306903e8f437"
+        },
+        "custodian": {
+          "reference": "Organization/91c4d2ba-e324-5b1a-a4cb-84d9690511d3"
+        },
+        "author": [
+          {
+            "reference": "Practitioner/79842b6e-724b-8d57-dd2a-8d4b915f0558"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Composition/1dd10047-2207-4eac-a993-0f706c88be5d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:367be6b3-75f2-2053-63e4-f0a6f1d6bff1",
+      "resource": {
+        "resourceType": "MedicationAdministration",
+        "id": "367be6b3-75f2-2053-63e4-f0a6f1d6bff1",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.202.3.7.2.798268",
+            "value": "476858947"
+          }
+        ],
+        "status": "completed",
+        "effectivePeriod": {
+          "start": "2022-09-29T04:00:00Z",
+          "end": "2022-09-29T03:37:00Z"
+        },
+        "dosage": {
+          "route": {
+            "coding": [
+              {
+                "code": "C38288",
+                "display": "Oral",
+                "system": "urn:oid:2.16.840.1.113883.3.26.1.1"
+              }
+            ]
+          },
+          "dose": {
+            "value": 325,
+            "unit": "mg"
+          }
+        },
+        "subject": {
+          "reference": "Patient/ae8e3ddc-1bac-4d08-a932-36e7b3b42581"
+        },
+        "medicationReference": {
+          "reference": "Medication/be901c69-c202-4d67-105a-b728c2618183"
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "MedicationAdministration/367be6b3-75f2-2053-63e4-f0a6f1d6bff1"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:be901c69-c202-4d67-105a-b728c2618183",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "be901c69-c202-4d67-105a-b728c2618183",
+        "code": {
+          "coding": [
+            {
+              "code": "212033",
+              "display": "aspirin tablet 325 mg",
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm"
+            },
+            {
+              "code": "10135-150-01",
+              "system": "urn:oid:2.16.840.1.113883.6.69"
+            },
+            {
+              "code": "172480",
+              "system": "urn:oid:2.16.840.1.113883.6.208"
+            }
+          ]
+        },
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Medication/be901c69-c202-4d67-105a-b728c2618183"
+      }
+    }
+  ]
+}
