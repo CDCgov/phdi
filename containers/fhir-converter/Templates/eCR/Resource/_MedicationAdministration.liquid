@@ -11,12 +11,13 @@
             {% endfor -%}
         ],
         "status":"{{ medicationAdministration.statusCode.code | get_property: 'ValueSet/MedicationAdministrationStatus' }}",
+        {% assign effectiveTimes = medicationAdministration.effectiveTime | to_array -%}
         "effectivePeriod":
         {
-            {% assign effectiveTimes = medicationAdministration.effectiveTime | to_array -%}
             "start":"{{ effectiveTimes.first.low.value | format_as_date_time }}",
             "end":"{{ effectiveTimes.first.high.value | format_as_date_time }}",
         },
+        "effectiveDateTime": "{{ effectiveTimes.first.value | format_as_date_time}}",
         "dosage":
         {
             "route":
