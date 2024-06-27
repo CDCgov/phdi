@@ -209,19 +209,24 @@ def _combine_response_bundles(
     response: Response, responses: dict, processing_config: dict
 ):
     """
-    Loop through the include element of the config and add them to the
-    response object.
+    Loop through the output element of the config and add them to the
+    response object. If output element isn't in config, just return default
     """
-    resp_json = response.json()
-    if "include" not in processing_config or "workflow" not in processing_config:
-        return resp_json
-    for include in processing_config["include"]:
-        if include in resp_json:
-            continue
-        for step in reversed(processing_config["workflow"]):
-            service = step["service"]
-            service_response = responses[service].json()
-            if include in service_response:
-                resp_json[include] = service_response[include]
-                break
-    return resp_json
+    default_response = response.json()
+    if "outputs" not in processing_config:
+        return default_response
+    resp = []
+    config = [
+        obj
+        for obj in processing_config["workflow"]
+        if "name" in obj and obj["name"] in processing_config["outputs"]
+    ]
+    for step in config:
+        resp.append({step["name"]: responses[step["service"]].json()})
+
+    if ("default-response" in processing_config) and (
+        not processing_config["default-response"]
+    ):
+        return {"responses": resp}
+    else:
+        return {**default_response, "responses": resp}

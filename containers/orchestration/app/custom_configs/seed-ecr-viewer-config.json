@@ -16,10 +16,12 @@
       }
     },
     {
+      "name": "fhir_bundle",
       "service": "ingestion",
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     },
     {
+      "name": "message_parser_values",
       "service": "message_parser",
       "endpoint": "/parse_message",
       "params": {
@@ -29,8 +31,9 @@
       }
     }
   ],
-  "include": [
-    "bundle",
-    "parsed_values"
-  ]
+  "outputs": [
+    "message_parser_values",
+    "fhir_bundle"
+  ],
+  "default-response": false
 }
