@@ -1,4 +1,4 @@
-import { Bundle, Condition, Extension } from "fhir/r4";
+import { Bundle, Condition, Extension, Observation } from "fhir/r4";
 import { PathMappings } from "@/app/utils";
 import {
   formatDate,
@@ -13,6 +13,7 @@ import {
 } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/DataDisplay";
 import { returnProblemsTable } from "@/app/view-data/components/common";
+import { LabReport, evaluateLabInfoData } from "./labsService";
 
 /**
  * ExtensionConditionCode extends the FHIR Extension interface to include a 'coding' property.
@@ -27,6 +28,15 @@ interface ExtensionConditionCode extends Extension {
 }
 
 interface ConditionStamped extends Condition {
+  extension?: ExtensionConditionCode[];
+}
+
+interface LabReportStamped extends LabReport {
+  id: string;
+  extension?: ExtensionConditionCode[];
+}
+
+interface ObservationStamped extends Observation {
   extension?: ExtensionConditionCode[];
 }
 
@@ -162,6 +172,94 @@ export const evaluateEcrSummaryRelevantClinicalDetails = (
   );
 
   return [{ value: problemsElement, dividerLine: true }];
+};
+
+/**
+ * Evaluates and retrieves relevant lab results from the FHIR bundle using the provided SNOMED code and path mappings.
+ * @param fhirBundle - The FHIR bundle containing patient data.
+ * @param fhirPathMappings - Object containing fhir path mappings.
+ * @param snomedCode - String containing the SNOMED code search parameter.
+ * @returns An array of lab result details objects containing title and value pairs.
+ */
+export const evaluateEcrSummaryRelevantLabResults = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+  snomedCode: string,
+): DisplayDataProps[] => {
+  const noData: string = "No matching lab results found in this eCR";
+  let resultsArray: DisplayDataProps[] = [];
+
+  if (!snomedCode) {
+    return [{ value: noData, dividerLine: true }];
+  }
+
+  const labReports: LabReportStamped[] = evaluate(
+    fhirBundle,
+    fhirPathMappings["diagnosticReports"],
+  );
+  const labsWithCode = labReports.filter((entry) =>
+    entry.extension?.some(
+      (ext) =>
+        ext.url ===
+          "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code" &&
+        ext.coding?.some((item) => item.code === snomedCode),
+    ),
+  );
+
+  const obsIdsWithCode: (string | undefined)[] = (
+    evaluate(
+      fhirBundle,
+      fhirPathMappings["observations"],
+    ) as ObservationStamped[]
+  )
+    .filter((entry) =>
+      entry.extension?.some(
+        (ext) =>
+          ext.url ===
+            "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code" &&
+          ext.coding?.some((item) => item.code === snomedCode),
+      ),
+    )
+    .map((entry) => entry.id);
+
+  const labsFromObsWithCode = (() => {
+    const obsIds = new Set(obsIdsWithCode);
+    const labsWithCodeIds = new Set(labsWithCode.map((lab) => lab.id));
+
+    return labReports.filter((lab) => {
+      if (labsWithCodeIds.has(lab.id)) {
+        return false;
+      }
+
+      return lab.result.some((result) => {
+        if (result.reference) {
+          const referenceId = result.reference.replace(/^Observation\//, "");
+          return obsIds.has(referenceId);
+        }
+      });
+    });
+  })();
+
+  const relevantLabs = labsWithCode.concat(labsFromObsWithCode);
+
+  if (relevantLabs.length === 0) {
+    return [{ value: noData, dividerLine: true }];
+  }
+  const relevantLabElements = evaluateLabInfoData(
+    fhirBundle,
+    relevantLabs,
+    fhirPathMappings,
+  );
+
+  resultsArray = relevantLabElements.flatMap((element) =>
+    element.diagnosticReportDataElements.map((reportElement) => ({
+      value: reportElement,
+      dividerLine: false,
+    })),
+  );
+
+  resultsArray.push({ dividerLine: true });
+  return resultsArray;
 };
 
 /**
