@@ -4,7 +4,7 @@ Test cases for the seed_rckms_database.py script.
 
 import bs4
 
-from .. import seed_rckms_database as srd
+import seed_rckms_database as srd
 
 
 def test_extract_identifiers_from_rckms_doc():
