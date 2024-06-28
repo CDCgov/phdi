@@ -9,7 +9,7 @@ NIH UMLS API to retrieve the specific CodeSets related to the ValueSets.  Which
 are then stored in a SQLite database for use in the API.
 
 The RCKMS reporting specifications archive can be manually downloaded from the
-following sharepoint website (hover over the directory and its associated 
+following sharepoint website (hover over the directory and its associated
 ellipses, then click the download icon).
 
 https://cste-my.sharepoint.com/personal/dbarter_cste_org/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fdbarter%5Fcste%5Forg%2FDocuments%2FRCKMS%2FContent%20Releases%2FRCKMS%20Content%20Release%2011
@@ -20,6 +20,7 @@ https://cste-my.sharepoint.com/personal/dbarter_cste_org/_layouts/15/onedrive.as
 Example:
     $ python seed_rckms_database.py archive.zip
 """
+
 import dataclasses
 import os
 import sys
@@ -35,13 +36,16 @@ class Identifiers:
     """
     Summary identifiers extracted from an RCKMS docx file
     """
+
     data: dict[str, str]
+
 
 @dataclasses.dataclass
 class ValueSet:
     """
     A ValueSet extracted from an RCKMS docx file
     """
+
     oid: str
     category: str
     in_trigger_set: bool
@@ -65,7 +69,9 @@ def list_condition_files(
                     yield name, f
 
 
-def extract_identifiers_from_rckms_doc(filename: str, tree: bs4.BeautifulSoup) -> Identifiers:
+def extract_identifiers_from_rckms_doc(
+    filename: str, tree: bs4.BeautifulSoup
+) -> Identifiers:
     """
     Given a RCKMS docx file, iterate through items specified in the summary and extract the identifiers.
 
@@ -75,19 +81,19 @@ def extract_identifiers_from_rckms_doc(filename: str, tree: bs4.BeautifulSoup) -
     :return: An Identifiers object.
     """
     # extract the condition from the filename
-    condition = os.path.basename(filename).rsplit('.', 2)[0]
+    condition = os.path.basename(filename).rsplit(".", 2)[0]
     # add a default condition, in case its not found in the identifiers list
     result: typing.Dict[str, str] = {"condition": condition}
     # for each item in the summary list (first ul in the document)
-    for ident in tree.find('ul').find_all('li'):
+    for ident in tree.find("ul").find_all("li"):
         # split the key and value, using the first '=' as the delimiter
-        parts = ident.text.split('=', 1)
+        parts = ident.text.split("=", 1)
         # some items may not have a '=' delimiter, so skip them
         if len(parts) == 2:
             # convert the key to lowercase and strip any whitespace
             key = parts[0].strip().lower()
             # split the value and take the first part, then strip any whitespace
-            val = parts[1].strip().lower().split('|')[0].strip()
+            val = parts[1].strip().lower().split("|")[0].strip()
             # if the first part of the value is numeric, use only that
             if val.split()[0].isnumeric():
                 val = val.split()[0]
@@ -105,23 +111,28 @@ def extract_valuesets_from_rckms_doc(tree: bs4.BeautifulSoup) -> typing.List[Val
     :return: A list of ValueSet objects.
     """
     results: typing.List[ValueSet] = []
-    for table in tree.find_all('table'):
+    for table in tree.find_all("table"):
         category = ""
-        headers = [th.text.strip() for th in table.find_all('th')]
+        headers = [th.text.strip() for th in table.find_all("th")]
         # only process tables with the first header of 'Value Set Name'
-        if headers and headers[0] == 'Value Set Name':
-            for row in table.find_all('tr'):
-                cells = row.find_all('td')
+        if headers and headers[0] == "Value Set Name":
+            for row in table.find_all("tr"):
+                cells = row.find_all("td")
                 # only process rows with the same number of cells as headers
                 if len(cells) == len(headers):
                     # create a dictionary of the row data, mapping the header to the cell value
-                    data = {header: cell.text for header, cell in zip(headers, row.find_all('td'))}
+                    data = {
+                        header: cell.text
+                        for header, cell in zip(headers, row.find_all("td"))
+                    }
                     # find the first key that contains 'trigger set'
-                    trigger_key = next((s for s in data.keys() if "trigger set" in s.lower()), None)
+                    trigger_key = next(
+                        (s for s in data.keys() if "trigger set" in s.lower()), None
+                    )
                     # check if the valueset is included in the trigger set
-                    in_trigger_set = data.get(trigger_key, '').lower().startswith('yes')
+                    in_trigger_set = data.get(trigger_key, "").lower().startswith("yes")
                     # store the row data in a dictionary, using the OID as the key
-                    results.append(ValueSet(data['OID'], category, in_trigger_set))
+                    results.append(ValueSet(data["OID"], category, in_trigger_set))
                 elif cells:
                     # if the row has cells, but not the same number as headers, set the category
                     # based on the first word of the first cell
@@ -129,7 +140,9 @@ def extract_valuesets_from_rckms_doc(tree: bs4.BeautifulSoup) -> typing.List[Val
     return results
 
 
-def parse_archive(archive: str) -> dict[str, typing.Tuple[Identifiers, typing.List[ValueSet]]]:
+def parse_archive(
+    archive: str,
+) -> dict[str, typing.Tuple[Identifiers, typing.List[ValueSet]]]:
     """
     Given an archive of RCKMS reporting specifications, extract the ValueSets for each condition.
 
@@ -142,7 +155,7 @@ def parse_archive(archive: str) -> dict[str, typing.Tuple[Identifiers, typing.Li
         # convert microsoft docx to html
         html = mammoth.convert_to_html(fobj)
         # convert HTML string into a BeautifulSoup tree
-        tree = bs4.BeautifulSoup(html.value, 'lxml')
+        tree = bs4.BeautifulSoup(html.value, "lxml")
         identifiers = extract_identifiers_from_rckms_doc(fname, tree)
         valuesets = extract_valuesets_from_rckms_doc(tree)
         results[fname] = (identifiers, valuesets)
