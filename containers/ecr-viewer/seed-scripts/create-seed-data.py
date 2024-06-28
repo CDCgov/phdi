@@ -6,6 +6,7 @@ import requests
 URL = "http://orchestration-service:8080"
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 
+
 def save_sql_insert_fhir(fhir_bundles):
     """
     Save FHIR bundles as SQL INSERT queries to a file.
