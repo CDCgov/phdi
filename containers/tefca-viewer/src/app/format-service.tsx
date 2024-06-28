@@ -1,3 +1,4 @@
+import React from "react";
 import {
   CodeableConcept,
   HumanName,
@@ -104,18 +105,18 @@ export function formatAddress(address: Address[]): JSX.Element {
 export function formatContact(contacts: ContactPoint[]): JSX.Element {
   return (
     <>
-      {contacts.map((contact) => {
+      {contacts.map((contact, index) => {
         if (contact.system === "phone") {
           return (
-            <>
+            <React.Fragment key={index}>
               {contact.use}: {contact.value} <br />
-            </>
+            </React.Fragment>
           );
         } else if (contact.system === "email") {
           return (
-            <>
+            <React.Fragment key={index}>
               {contact.value} <br />
-            </>
+            </React.Fragment>
           );
         }
         return null;

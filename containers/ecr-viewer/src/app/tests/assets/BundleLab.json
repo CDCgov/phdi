@@ -447,6 +447,15 @@
                 "valueString": "#Result.1.2.840.114350.1.13.297.3.7.2.798268.1670844.Comp1"
               }
             ]
+          },
+          {
+            "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+            "coding": [
+              {
+                "code": "test-snomed",
+                "system": "http://snomed.info/sct"
+              }
+            ]
           }
         ],
         "subject": {
@@ -781,6 +790,15 @@
               {
                 "url": "observation entry reference value",
                 "valueString": "#Result.1.2.840.114350.1.13.478.3.7.2.798268.2061347.Narrative"
+              }
+            ]
+          },
+          {
+            "url": "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code",
+            "coding": [
+              {
+                "code": "test-snomed",
+                "system": "http://snomed.info/sct"
               }
             ]
           }

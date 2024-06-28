@@ -1,13 +1,23 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import {
-  formatDate,
   formatAddress,
+  formatContact,
+  formatCodeableConcept,
+  formatDate,
+  formatIdentifier,
   formatName,
+  formatMRN,
   formatString,
 } from "@/app/format-service";
-import { Address, HumanName } from "fhir/r4";
+import {
+  Address,
+  HumanName,
+  ContactPoint,
+  Identifier,
+  CodeableConcept,
+} from "fhir/r4";
 
-describe("Format Date", () => {
+describe("formatDate", () => {
   it("should return the correct formatted date", () => {
     const inputDate = "2023-01-15";
     const expectedDate = "01/15/2023";
@@ -93,7 +103,129 @@ describe("formatName", () => {
   });
 });
 
-describe("Format String", () => {
+describe("formatMRN", () => {
+  it("should render the MRN value correctly", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "12345",
+        type: {
+          coding: [
+            {
+              code: "MR",
+            },
+          ],
+        },
+      },
+    ];
+
+    const { getByText } = render(formatMRN(identifiers));
+    expect(getByText("12345")).toBeInTheDocument();
+  });
+
+  it("should return null if no MRN is present", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "67890",
+        type: {
+          coding: [
+            {
+              code: "notMR",
+            },
+          ],
+        },
+      },
+    ];
+
+    const { container } = render(formatMRN(identifiers));
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it("should handle empty identifier array gracefully", () => {
+    const identifiers: Identifier[] = [];
+
+    const { container } = render(formatMRN(identifiers));
+    expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe("formatIdentifier", () => {
+  it("should handle fully typed identifiers correctly", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "999-99-9999",
+        type: {
+          coding: [
+            {
+              code: "SSN",
+              system: "http://hl7.org/fhir/sid/us-ssn",
+              display: "Social Security Number",
+            },
+          ],
+        },
+      },
+      {
+        value: "0123456789",
+        type: {
+          coding: [
+            {
+              code: "URI",
+              system: "urn:ietf:rfc:3986",
+              display: "Internal Reference Identifier",
+            },
+          ],
+        },
+      },
+    ];
+
+    const { getByText } = render(formatIdentifier(identifiers));
+    // Turn off exact matching because the presence of the id_type breaks
+    // the value across multiple elements
+    expect(getByText("999-99-9999", { exact: false })).toBeInTheDocument();
+    expect(
+      getByText("Social Security Number", { exact: false }),
+    ).toBeInTheDocument();
+    expect(getByText("0123456789", { exact: false })).toBeInTheDocument();
+    expect(
+      getByText("Internal Reference Identifier", { exact: false }),
+    ).toBeInTheDocument();
+  });
+
+  it("should handle identifiers who lack a coding but have a type", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "999-99-9999",
+        type: {
+          text: "us-ssn",
+        },
+      },
+    ];
+
+    const { getByText } = render(formatIdentifier(identifiers));
+    // Turn off exact matching because the presence of the id_type breaks
+    // the value across multiple elements
+    expect(getByText("999-99-9999", { exact: false })).toBeInTheDocument();
+    expect(getByText("us-ssn", { exact: false })).toBeInTheDocument();
+  });
+
+  it("should handle identifiers who lack both coding and type text", () => {
+    const identifiers: Identifier[] = [
+      {
+        value: "999-99-9999",
+      },
+    ];
+
+    render(formatIdentifier(identifiers));
+    expect(screen.getByText(": 999-99-9999")).toBeInTheDocument();
+  });
+
+  it("should handle an empty identifier array without breaking", () => {
+    const identifiers: Identifier[] = [];
+    const { container } = render(formatIdentifier(identifiers));
+    expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe("formatString", () => {
   it("should convert all character to lower case", () => {
     const inputString = "TestOfSomeCAPITALS";
     const expectedString = "testofsomecapitals";
@@ -185,5 +317,113 @@ describe("formatAddress", () => {
     ];
     const { getByText } = render(formatAddress(address));
     expect(getByText("123 Main St")).toBeInTheDocument();
+  });
+});
+
+describe("formatContact", () => {
+  it("should format phone contact correctly", () => {
+    const contacts: ContactPoint[] = [
+      {
+        system: "phone",
+        value: "123-456-7890",
+        use: "home",
+      },
+    ];
+
+    const { getByText } = render(formatContact(contacts));
+    expect(getByText("home: 123-456-7890")).toBeInTheDocument();
+  });
+
+  it("should format email contact correctly", () => {
+    const contacts: ContactPoint[] = [
+      {
+        system: "email",
+        value: "test@example.com",
+      },
+    ];
+
+    const { getByText } = render(formatContact(contacts));
+    expect(getByText("test@example.com")).toBeInTheDocument();
+  });
+
+  it("should handle mixed contact types correctly", () => {
+    const contacts: ContactPoint[] = [
+      {
+        system: "phone",
+        value: "123-456-7890",
+        use: "home",
+      },
+      {
+        system: "email",
+        value: "test@example.com",
+      },
+    ];
+
+    const { getByText } = render(formatContact(contacts));
+    expect(getByText(/home:\s123-456-7890/)).toBeInTheDocument();
+    expect(getByText(/test@example.com/)).toBeInTheDocument();
+  });
+
+  it("should return null for unsupported contact system", () => {
+    const contacts: ContactPoint[] = [
+      {
+        system: "idk",
+        value: "it was on the form",
+      },
+    ];
+
+    const { container } = render(formatContact(contacts));
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it("should handle empty contact array gracefully", () => {
+    const contacts: ContactPoint[] = [];
+
+    const { container } = render(formatContact(contacts));
+    expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe("formatCodeableConcept", () => {
+  it("should return an empty string when concept is undefined", () => {
+    const result = formatCodeableConcept(undefined);
+    expect(result).toBe("");
+  });
+
+  it("should return the text property when coding is not defined", () => {
+    const concept: CodeableConcept = {
+      text: "Example Text",
+    };
+
+    const { getByText } = render(formatCodeableConcept(concept));
+    expect(getByText("Example Text")).toBeInTheDocument();
+  });
+
+  it("should return the text property when coding array is empty", () => {
+    const concept: CodeableConcept = {
+      text: "Example Text",
+      coding: [],
+    };
+
+    const { getByText } = render(formatCodeableConcept(concept));
+    expect(getByText("Example Text")).toBeInTheDocument();
+  });
+
+  it("should return the display, code, and system of the first coding object", () => {
+    const concept: CodeableConcept = {
+      text: "Example Text",
+      coding: [
+        {
+          display: "Example Display",
+          code: "Example Code",
+          system: "Example System",
+        },
+      ],
+    };
+
+    const { getByText } = render(formatCodeableConcept(concept));
+    expect(getByText(/Example Display/)).toBeInTheDocument();
+    expect(getByText(/Example Code/)).toBeInTheDocument();
+    expect(getByText(/Example System/)).toBeInTheDocument();
   });
 });

@@ -1,17 +1,6 @@
 import fetch, { RequestInit, HeaderInit, Response } from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
-/**
- * The FHIR servers that can be used in the app
- */
-export type FHIR_SERVERS =
-  | "HELIOS Meld: Direct"
-  | "HELIOS Meld: eHealthExchange"
-  | "JMC Meld: Direct"
-  | "JMC Meld: eHealthExchange"
-  | "Public HAPI: eHealthExchange"
-  | "OpenEpic: eHealthExchange"
-  | "CernerHelios: eHealthExchange";
-
+import { FHIR_SERVERS } from "./constants";
 /**
  * Defines the model for a FHIR server configuration
  */

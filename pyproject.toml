@@ -56,7 +56,7 @@ faker = "^18.4.0"
 pillow = "^10.3.0"
 
 [tool.poetry.dev-dependencies]
-pdoc = "^13.0.0"
+pdoc = "^14.5.1"
 pytest = "^7.1.0"
 pytest-cov = "^3.0.0"
 toml = "^0.10.2"
