@@ -1,5 +1,5 @@
 export { TooltipElement } from "./tooltip/TooltipElement";
-export type { Metadata, TableRow, TableJson } from "./services/formatService";
+export type { TableRow, TableJson } from "./services/formatService";
 export {
   formatName,
   formatAddress,
