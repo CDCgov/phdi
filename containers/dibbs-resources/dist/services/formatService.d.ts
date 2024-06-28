@@ -1,5 +1,5 @@
 import React from "react";
-interface Metadata {
+export interface Metadata {
   [key: string]: string;
 }
 export interface TableRow {
@@ -173,4 +173,3 @@ export declare const addCaptionToTable: (
  * @returns - A string with all HTML tags removed.
  */
 export declare const removeHtmlElements: (element: string) => string;
-export {};
