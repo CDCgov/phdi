@@ -9,6 +9,7 @@ import {
   Medication,
   MedicationAdministration,
   MedicationRequest,
+  Bundle,
 } from "fhir/r4";
 
 import FHIRClient from "./fhir-servers";
@@ -27,6 +28,8 @@ export type QueryResponse = {
   MedicationAdministration?: MedicationAdministration[];
   MedicationRequest?: MedicationRequest[];
 };
+
+export type APIQueryResponse = Bundle;
 
 export type UseCaseQueryRequest = {
   use_case: USE_CASES;
@@ -467,4 +470,31 @@ async function processResponse(response: fetch.Response): Promise<any[]> {
     }
   }
   return resourceArray;
+}
+
+/**
+ * Create a FHIR Bundle from the query response.
+ * @param queryResponse - The response object to store the results.
+ * @returns - The FHIR Bundle of queried data.
+ */
+export async function createBundle(
+  queryResponse: QueryResponse,
+): Promise<APIQueryResponse> {
+  const bundle: Bundle = {
+    resourceType: "Bundle",
+    type: "searchset",
+    total: 0,
+    entry: [],
+  };
+
+  Object.entries(queryResponse).forEach(([key, resources]) => {
+    if (Array.isArray(resources)) {
+      resources.forEach((resource) => {
+        bundle.entry?.push({ resource });
+        bundle.total = (bundle.total || 0) + 1;
+      });
+    }
+  });
+
+  return bundle;
 }
