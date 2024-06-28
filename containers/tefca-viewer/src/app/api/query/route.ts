@@ -3,6 +3,8 @@ import {
   UseCaseQuery,
   UseCaseQueryRequest,
   QueryResponse,
+  createBundle,
+  APIQueryResponse,
 } from "../../query-service";
 import { parsePatientDemographics } from "./parsing-service";
 import {
@@ -64,15 +66,14 @@ export async function POST(request: NextRequest) {
   if (!use_case || !fhir_server) {
     return NextResponse.json(
       {
-        message:
-          "Error reading request params. Please provide valid use_case and fhir_server params.",
+        message: `Error reading request params. Please provide valid use_case and fhir_server params.`,
       },
       { status: 400 },
     );
   } else if (!Object.values(UseCases).includes(use_case as USE_CASES)) {
     return NextResponse.json(
       {
-        message: "Invalid use_case. Please provide a valid use_case.",
+        message: `Invalid use_case. Please provide a valid use_case. Valid use_cases include ${UseCases}.`,
       },
       { status: 400 },
     );
@@ -81,7 +82,7 @@ export async function POST(request: NextRequest) {
   ) {
     return NextResponse.json(
       {
-        message: "Invalid fhir_server. Please provide a valid fhir_server.",
+        message: `Invalid fhir_server. Please provide a valid fhir_server. Valid fhir_servers include ${FhirServers}.`,
       },
       { status: 400 },
     );
@@ -104,8 +105,8 @@ export async function POST(request: NextRequest) {
   const UseCaseQueryResponse: QueryResponse =
     await UseCaseQuery(UseCaseRequest);
 
-  return NextResponse.json({
-    UseCaseResponse: UseCaseQueryResponse,
-    status: 200,
-  });
+  // Bundle data
+  const bundle: APIQueryResponse = await createBundle(UseCaseQueryResponse);
+
+  return NextResponse.json(bundle);
 }
