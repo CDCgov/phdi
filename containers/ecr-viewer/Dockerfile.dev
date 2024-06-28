@@ -1,7 +1,9 @@
 FROM node:18-alpine
 
 WORKDIR /code
-COPY . .
+COPY /ecr-viewer ecr-viewer
+COPY /dibbs-resources dibbs-resources
+WORKDIR /code/ecr-viewer/
 RUN npm install
 
 
