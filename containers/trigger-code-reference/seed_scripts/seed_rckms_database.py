@@ -8,6 +8,14 @@ the ValueSets for each condition.  The ValueSets are then queried against the
 NIH UMLS API to retrieve the specific CodeSets related to the ValueSets.  Which
 are then stored in a SQLite database for use in the API.
 
+The RCKMS reporting specifications archive can be manually downloaded from the
+following sharepoint website (hover over the directory and its associated 
+ellipses, then click the download icon).
+
+https://cste-my.sharepoint.com/personal/dbarter_cste_org/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fdbarter%5Fcste%5Forg%2FDocuments%2FRCKMS%2FContent%20Releases%2FRCKMS%20Content%20Release%2011
+
+# FIXME: Determine a way to download the archive programmatically
+
 
 Example:
     $ python seed_rckms_database.py archive.zip
