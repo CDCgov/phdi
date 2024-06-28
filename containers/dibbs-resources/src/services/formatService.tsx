@@ -1,7 +1,7 @@
 import React from "react";
 import { TooltipElement } from "../tooltip/TooltipElement";
 
-interface Metadata {
+export interface Metadata {
   [key: string]: string;
 }
 
