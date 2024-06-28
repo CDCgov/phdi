@@ -3,7 +3,6 @@ Test cases for the seed_rckms_database.py script.
 """
 
 import bs4
-
 import seed_rckms_database as srd
 
 
