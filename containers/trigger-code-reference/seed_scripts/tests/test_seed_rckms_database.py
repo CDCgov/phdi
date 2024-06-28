@@ -1,16 +1,19 @@
 """
 Test cases for the seed_rckms_database.py script.
 """
+
 import bs4
 
 from .. import seed_rckms_database as srd
+
 
 def test_extract_identifiers_from_rckms_doc():
     """
     Test the extract_identifiers_from_rckms_doc function.
     """
     # Create a mock docx file
-    docx = bs4.BeautifulSoup("""
+    docx = bs4.BeautifulSoup(
+        """
     <html>
         <body>
             <ul>
@@ -22,7 +25,9 @@ def test_extract_identifiers_from_rckms_doc():
             </ul>
         </body>
     </html>
-    """, "lxml")
+    """,
+        "lxml",
+    )
 
     result = srd.extract_identifiers_from_rckms_doc("test.docx", docx)
     assert result.data == {
@@ -38,7 +43,8 @@ def test_extract_valuesets_from_rckms_doc_skip_table():
     Test the extract_valuesets_from_rckms_doc function with a table that should be skipped.
     """
     # Create a mock docx file
-    docx = bs4.BeautifulSoup("""
+    docx = bs4.BeautifulSoup(
+        """
     <html>
         <body>
             <table>
@@ -56,7 +62,9 @@ def test_extract_valuesets_from_rckms_doc_skip_table():
             </table>
         </body>
     </html>
-    """, "lxml")
+    """,
+        "lxml",
+    )
 
     result = srd.extract_valuesets_from_rckms_doc(docx)
     assert result == []
@@ -67,7 +75,8 @@ def test_extract_valuesets_from_rckms_doc():
     Test the extract_valuesets_from_rckms_doc function.
     """
     # Create a mock docx file
-    docx = bs4.BeautifulSoup("""
+    docx = bs4.BeautifulSoup(
+        """
     <html>
         <body>
             <table>
@@ -151,14 +160,40 @@ def test_extract_valuesets_from_rckms_doc():
             </table>
         </body>
     </html>
-    """, "lxml")
+    """,
+        "lxml",
+    )
 
     result = srd.extract_valuesets_from_rckms_doc(docx)
     assert result == [
-        srd.ValueSet(oid='2.16.840.1.113762.1.4.1146.1418', category='clinical', in_trigger_set=True),
-        srd.ValueSet(oid='2.16.840.1.113762.1.4.1146.1419', category='clinical', in_trigger_set=True),
-        srd.ValueSet(oid='2.16.840.1.113762.1.4.1146.1420', category='laboratory', in_trigger_set=True),
-        srd.ValueSet(oid='Not implemented – No codes available', category='laboratory', in_trigger_set=False),
-        srd.ValueSet(oid='2.16.840.1.113762.1.4.1146.272', category='laboratory', in_trigger_set=False),
-        srd.ValueSet(oid='2.16.840.1.113762.1.4.1146.295', category='laboratory', in_trigger_set=False),
+        srd.ValueSet(
+            oid="2.16.840.1.113762.1.4.1146.1418",
+            category="clinical",
+            in_trigger_set=True,
+        ),
+        srd.ValueSet(
+            oid="2.16.840.1.113762.1.4.1146.1419",
+            category="clinical",
+            in_trigger_set=True,
+        ),
+        srd.ValueSet(
+            oid="2.16.840.1.113762.1.4.1146.1420",
+            category="laboratory",
+            in_trigger_set=True,
+        ),
+        srd.ValueSet(
+            oid="Not implemented – No codes available",
+            category="laboratory",
+            in_trigger_set=False,
+        ),
+        srd.ValueSet(
+            oid="2.16.840.1.113762.1.4.1146.272",
+            category="laboratory",
+            in_trigger_set=False,
+        ),
+        srd.ValueSet(
+            oid="2.16.840.1.113762.1.4.1146.295",
+            category="laboratory",
+            in_trigger_set=False,
+        ),
     ]
