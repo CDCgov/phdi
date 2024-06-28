@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS fhir (
 
 CREATE TABLE IF NOT EXISTS fhir_metadata(
   ecr_id VARCHAR(200) NOT NULL,
-  data_source VARCHAR(2), -- S3 or DB
+  data_source VARCHAR(2) NOT NULL, -- S3 or DB
   data_link VARCHAR(500), -- Link to the data
   patient_name_first VARCHAR(100) NOT NULL,
   patient_name_last VARCHAR(100) NOT NULL,
