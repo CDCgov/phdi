@@ -14,7 +14,7 @@ type AccordionContainerProps = {
  * @param props.accordionItems - The list of accordion items.
  * @returns The JSX element representing the accordion container.
  */
-const AccordionContainer: React.FC<AccordionContainerProps> = ({
+export const AccordionContainer: React.FC<AccordionContainerProps> = ({
   accordionItems,
 }) => {
   //Add id, adjust title
@@ -35,4 +35,3 @@ const AccordionContainer: React.FC<AccordionContainerProps> = ({
     />
   );
 };
-export default AccordionContainer;
