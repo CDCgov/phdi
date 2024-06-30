@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "091 Beltran Mills Apt. 595",
+    "first_name": "Crystal",
+    "birthdate": "1993-09-07",
+    "last_name": "Walker",
+    "city": "Clarkberg",
+    "state": "MT",
+    "postalCode": "17989",
+    "country": "USA",
+    "mrn": "854-03-4641"
+  }
+}

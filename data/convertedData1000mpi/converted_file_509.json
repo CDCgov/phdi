@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0818 Todd Plaza",
+    "first_name": "Anthony",
+    "birthdate": "1981-10-31",
+    "last_name": "Hurst",
+    "city": "Guerrashire",
+    "state": "MA",
+    "postalCode": "23778",
+    "country": "USA",
+    "mrn": "034-79-8382"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "05287 Jeffrey Islands Apt. 411",
+    "first_name": "Cheryl",
+    "birthdate": "1948-01-30",
+    "last_name": "Norris",
+    "city": "Lindseyside",
+    "state": "AZ",
+    "postalCode": "36872",
+    "country": "USA",
+    "mrn": "261-27-9120"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Jones",
+                            "given": [
+                                "Erik"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "55381 Hopkins Union"
+                            ],
+                            "city": "Jamesfort",
+                            "state": "ID",
+                            "postalCode": "23974",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "763-01-4065",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1996-03-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8266263",
+    "use_enhanced": true
+}

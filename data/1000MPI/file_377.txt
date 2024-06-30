@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Stephens",
+                            "given": [
+                                "Jasmine"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "7399 Santiago Neck"
+                            ],
+                            "city": "Hannahfort",
+                            "state": "CO",
+                            "postalCode": "44078",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "293-85-2385",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2004-07-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7758442",
+    "use_enhanced": true
+}

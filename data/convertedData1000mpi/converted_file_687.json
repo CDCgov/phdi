@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "001 Alyssa Estate",
+    "first_name": "Gregory",
+    "birthdate": "1937-10-11",
+    "last_name": "Roth",
+    "city": "New Micheal",
+    "state": "UT",
+    "postalCode": "15668",
+    "country": "USA",
+    "mrn": "260-35-5385"
+  }
+}

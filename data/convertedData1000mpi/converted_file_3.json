@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "631 Fowler Causeway",
+    "first_name": "Singleton",
+    "birthdate": "1942-08-03",
+    "last_name": "Jose",
+    "city": "Port Williamfurt",
+    "state": "IN",
+    "postalCode": "90637",
+    "country": "USA",
+    "mrn": "587-60-3668"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "52460 Hill Orchard",
+    "first_name": "Donald",
+    "birthdate": "1954-07-31",
+    "last_name": "Harris",
+    "city": "Lake Johnhaven",
+    "state": "IN",
+    "postalCode": "59260",
+    "country": "USA",
+    "mrn": "480-56-0136"
+  }
+}

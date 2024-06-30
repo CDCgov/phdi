@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Webster",
+                            "given": [
+                                "Amanda"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "688 Ford Cape"
+                            ],
+                            "city": "East Brandonmouth",
+                            "state": "GA",
+                            "postalCode": "68004",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "731-43-2935",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1956-07-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8734022",
+    "use_enhanced": true
+}

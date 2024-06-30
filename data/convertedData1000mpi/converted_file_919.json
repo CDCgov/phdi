@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "834 Adams Pike Suite 777",
+    "first_name": "Jackie",
+    "birthdate": "1951-10-21",
+    "last_name": "Garcia",
+    "city": "Deanstad",
+    "state": "ME",
+    "postalCode": "25904",
+    "country": "USA",
+    "mrn": "780-77-6337"
+  }
+}

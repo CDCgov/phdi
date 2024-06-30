@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8550 Thomas Summit Suite 439",
+    "first_name": "Michael",
+    "birthdate": "1990-07-18",
+    "last_name": "Boyd",
+    "city": "West Michaelmouth",
+    "state": "TN",
+    "postalCode": "16051",
+    "country": "USA",
+    "mrn": "470-04-8968"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Pena",
+                            "given": [
+                                "Kathleen"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "772 Sergio Junctions"
+                            ],
+                            "city": "Robinsonborough",
+                            "state": "CT",
+                            "postalCode": "78884",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "002-33-5927",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1979-01-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4690541",
+    "use_enhanced": true
+}

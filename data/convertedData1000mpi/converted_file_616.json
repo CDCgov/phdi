@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "535 Mcgrath Vista Suite 816",
+    "first_name": "Julie",
+    "birthdate": "1955-12-09",
+    "last_name": "Harper",
+    "city": "New Joannahaven",
+    "state": "NY",
+    "postalCode": "95825",
+    "country": "USA",
+    "mrn": "847-53-2805"
+  }
+}

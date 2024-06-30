@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Vazquez",
+                            "given": [
+                                "Felicia"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "92830 Smith Crossing Apt. 593"
+                            ],
+                            "city": "Ethanview",
+                            "state": "PA",
+                            "postalCode": "44257",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "688-56-9915",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1942-05-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6423141",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "724 Wright Loaf Suite 957",
+    "first_name": "Susan",
+    "birthdate": "1991-10-17",
+    "last_name": "Smith",
+    "city": "Lake Elizabeth",
+    "state": "MA",
+    "postalCode": "70241",
+    "country": "USA",
+    "mrn": "063-69-7168"
+  }
+}

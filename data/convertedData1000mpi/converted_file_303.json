@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "41444 Ryan Mountains Suite 222",
+    "first_name": "Joshua",
+    "birthdate": "1961-08-30",
+    "last_name": "Jordan",
+    "city": "South Michael",
+    "state": "TX",
+    "postalCode": "19120",
+    "country": "USA",
+    "mrn": "876-63-7614"
+  }
+}

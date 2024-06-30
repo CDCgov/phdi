@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hunter",
+                            "given": [
+                                "Crystal"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "498 Morgan Mission"
+                            ],
+                            "city": "Matthewside",
+                            "state": "IN",
+                            "postalCode": "11598",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "266-27-6485",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1938-09-25"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2055599",
+    "use_enhanced": true
+}

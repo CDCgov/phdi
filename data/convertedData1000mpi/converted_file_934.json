@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "15191 Bradley Garden",
+    "first_name": "Clayton",
+    "birthdate": "1961-04-09",
+    "last_name": "Nichols",
+    "city": "Kelleyfort",
+    "state": "MN",
+    "postalCode": "4921",
+    "country": "USA",
+    "mrn": "703-50-1045"
+  }
+}

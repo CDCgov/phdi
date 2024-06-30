@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8961 Michael Estates",
+    "first_name": "Daniel",
+    "birthdate": "1935-03-19",
+    "last_name": "Hudson",
+    "city": "South Jesse",
+    "state": "VI",
+    "postalCode": "10991",
+    "country": "USA",
+    "mrn": "561-23-7526"
+  }
+}

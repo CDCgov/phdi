@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "56208 Spencer Pike Suite 995",
+    "first_name": "Tina",
+    "birthdate": "1956-12-01",
+    "last_name": "Hernandez",
+    "city": "Dominiquestad",
+    "state": "HI",
+    "postalCode": "65184",
+    "country": "USA",
+    "mrn": "817-23-5808"
+  }
+}

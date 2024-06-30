@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "94234 Theresa Springs",
+    "first_name": "Regina",
+    "birthdate": "1959-12-23",
+    "last_name": "Ware",
+    "city": "East Tracey",
+    "state": "ID",
+    "postalCode": "6873",
+    "country": "USA",
+    "mrn": "791-87-4332"
+  }
+}

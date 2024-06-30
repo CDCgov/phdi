@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "271 Bethany Orchard Suite 797",
+    "first_name": "Gregory",
+    "birthdate": "1950-07-29",
+    "last_name": "Clay",
+    "city": "Port Josemouth",
+    "state": "HI",
+    "postalCode": "3442",
+    "country": "USA",
+    "mrn": "074-57-3275"
+  }
+}

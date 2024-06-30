@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "70412 Lisa Bridge Suite 165",
+    "first_name": "David",
+    "birthdate": "1971-05-17",
+    "last_name": "Peterson",
+    "city": "Josephton",
+    "state": "CT",
+    "postalCode": "8210",
+    "country": "USA",
+    "mrn": "706-32-8442"
+  }
+}

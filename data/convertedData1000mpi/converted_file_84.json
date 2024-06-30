@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8683 Johnson Radial Apt. 443",
+    "first_name": "Bradley",
+    "birthdate": "1975-02-10",
+    "last_name": "Gonzalez",
+    "city": "Wagnerbury",
+    "state": "CT",
+    "postalCode": "4046",
+    "country": "USA",
+    "mrn": "803-47-1758"
+  }
+}

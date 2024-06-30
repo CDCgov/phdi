@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0714 Davidson Knolls",
+    "first_name": "Michelle",
+    "birthdate": "1966-12-07",
+    "last_name": "Jones",
+    "city": "New Steven",
+    "state": "MD",
+    "postalCode": "5955",
+    "country": "USA",
+    "mrn": "552-94-9472"
+  }
+}

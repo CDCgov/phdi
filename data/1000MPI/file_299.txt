@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Patel",
+                            "given": [
+                                "Nicole"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "104 James Orchard Suite 201"
+                            ],
+                            "city": "Ryanside",
+                            "state": "WY",
+                            "postalCode": "29523",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "473-27-5553",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2002-05-10"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8013586",
+    "use_enhanced": true
+}

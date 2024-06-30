@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Conley",
+                            "given": [
+                                "Christopher"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "810 Barton Fall"
+                            ],
+                            "city": "North Kenneth",
+                            "state": "AK",
+                            "postalCode": "81511",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "672-35-0636",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1964-06-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9218838",
+    "use_enhanced": true
+}

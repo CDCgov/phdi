@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "39416 Davidson Springs Suite 916",
+    "first_name": "Brooke",
+    "birthdate": "1976-04-27",
+    "last_name": "Lee",
+    "city": "Wayneburgh",
+    "state": "WI",
+    "postalCode": "80305",
+    "country": "USA",
+    "mrn": "881-33-2683"
+  }
+}

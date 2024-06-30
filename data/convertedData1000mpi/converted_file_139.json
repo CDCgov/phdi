@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "76928 Johnson Pines Suite 475",
+    "first_name": "Sheri",
+    "birthdate": "1975-06-19",
+    "last_name": "Hernandez",
+    "city": "East Scott",
+    "state": "MS",
+    "postalCode": "84513",
+    "country": "USA",
+    "mrn": "670-03-1010"
+  }
+}

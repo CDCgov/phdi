@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Duffy",
+                            "given": [
+                                "Jacqueline"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "774 Kimberly Parks Suite 252"
+                            ],
+                            "city": "Lake Johnfurt",
+                            "state": "AZ",
+                            "postalCode": "93190",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "755-82-2968",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1964-07-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5740675",
+    "use_enhanced": true
+}

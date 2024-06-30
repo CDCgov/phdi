@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wolf",
+                            "given": [
+                                "Eric"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "2169 Zuniga Pike"
+                            ],
+                            "city": "Sarachester",
+                            "state": "MA",
+                            "postalCode": "91919",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "321-25-2464",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1937-12-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2322677",
+    "use_enhanced": true
+}

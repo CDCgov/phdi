@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Johnson",
+                            "given": [
+                                "Nicholas"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "17219 Wyatt Dale Suite 703"
+                            ],
+                            "city": "Coxfort",
+                            "state": "PR",
+                            "postalCode": "34875",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "204-72-8029",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1943-02-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2965827",
+    "use_enhanced": true
+}

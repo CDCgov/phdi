@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "77578 Kim Shoals",
+    "first_name": "Katherine",
+    "birthdate": "2002-05-04",
+    "last_name": "Nguyen",
+    "city": "Port Patrickstad",
+    "state": "NV",
+    "postalCode": "3723",
+    "country": "USA",
+    "mrn": "383-37-4755"
+  }
+}

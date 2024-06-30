@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Williams",
+                            "given": [
+                                "Stacey"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "3258 Alex Fort Apt. 657"
+                            ],
+                            "city": "Garrettshire",
+                            "state": "CA",
+                            "postalCode": "16949",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "681-71-7015",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1935-08-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4994691",
+    "use_enhanced": true
+}

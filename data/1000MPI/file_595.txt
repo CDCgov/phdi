@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Price",
+                            "given": [
+                                "Wendy"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "10993 Harvey Mountain"
+                            ],
+                            "city": "Salazartown",
+                            "state": "PA",
+                            "postalCode": "30362",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "777-34-5506",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1936-08-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7682467",
+    "use_enhanced": true
+}

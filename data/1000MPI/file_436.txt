@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Kerr",
+                            "given": [
+                                "Jessica"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "044 Anderson Prairie Apt. 164"
+                            ],
+                            "city": "Jonathanburgh",
+                            "state": "NH",
+                            "postalCode": "43620",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "190-17-2998",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1975-05-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2852436",
+    "use_enhanced": true
+}

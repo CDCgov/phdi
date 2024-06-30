@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wallace",
+                            "given": [
+                                "Grant"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "9531 Diaz Valley"
+                            ],
+                            "city": "Tracyfurt",
+                            "state": "IN",
+                            "postalCode": "44025",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "178-04-6741",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1960-06-10"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5982185",
+    "use_enhanced": true
+}

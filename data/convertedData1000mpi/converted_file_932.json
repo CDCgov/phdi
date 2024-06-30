@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7294 Clark Lakes Apt. 816",
+    "first_name": "Catherine",
+    "birthdate": "1972-03-28",
+    "last_name": "Scott",
+    "city": "Everettville",
+    "state": "VT",
+    "postalCode": "54236",
+    "country": "USA",
+    "mrn": "143-78-9074"
+  }
+}

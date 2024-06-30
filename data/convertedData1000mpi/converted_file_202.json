@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3547 Carolyn Highway",
+    "first_name": "Danielle",
+    "birthdate": "1967-11-21",
+    "last_name": "Robertson",
+    "city": "Smithport",
+    "state": "PW",
+    "postalCode": "37678",
+    "country": "USA",
+    "mrn": "098-94-2376"
+  }
+}

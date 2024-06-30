@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "840 Ebony Isle",
+    "first_name": "Nicole",
+    "birthdate": "1967-01-14",
+    "last_name": "Washington",
+    "city": "North Emilytown",
+    "state": "WY",
+    "postalCode": "84080",
+    "country": "USA",
+    "mrn": "516-68-9415"
+  }
+}

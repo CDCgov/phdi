@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Martin",
+                            "given": [
+                                "Dana"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "986 Nancy Expressway Suite 513"
+                            ],
+                            "city": "Walkerport",
+                            "state": "AL",
+                            "postalCode": "90298",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "394-33-0868",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1971-02-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7197928",
+    "use_enhanced": true
+}

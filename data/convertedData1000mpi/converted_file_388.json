@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9700 Justin Islands Suite 572",
+    "first_name": "Maria",
+    "birthdate": "1957-08-07",
+    "last_name": "Johnson",
+    "city": "East Angelaview",
+    "state": "CO",
+    "postalCode": "94893",
+    "country": "USA",
+    "mrn": "378-51-1338"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7106 Ryan Pike",
+    "first_name": "Natalie",
+    "birthdate": "1998-12-15",
+    "last_name": "Bryant",
+    "city": "East Luiston",
+    "state": "MS",
+    "postalCode": "62579",
+    "country": "USA",
+    "mrn": "481-89-8600"
+  }
+}

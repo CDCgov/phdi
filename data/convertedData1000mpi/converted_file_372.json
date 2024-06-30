@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2419 Mitchell Cove",
+    "first_name": "Joseph",
+    "birthdate": "1976-02-19",
+    "last_name": "Adkins",
+    "city": "Jonathanfort",
+    "state": "GU",
+    "postalCode": "42517",
+    "country": "USA",
+    "mrn": "055-76-2066"
+  }
+}

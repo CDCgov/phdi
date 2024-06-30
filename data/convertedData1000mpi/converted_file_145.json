@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "958 Michelle Causeway Apt. 897",
+    "first_name": "Sierra",
+    "birthdate": "1970-11-18",
+    "last_name": "Hensley",
+    "city": "New Pamela",
+    "state": "SC",
+    "postalCode": "25444",
+    "country": "USA",
+    "mrn": "820-30-0786"
+  }
+}

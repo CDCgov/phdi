@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1270 Destiny Stravenue",
+    "first_name": "Louis",
+    "birthdate": "1980-04-08",
+    "last_name": "Jones",
+    "city": "Carrollland",
+    "state": "CO",
+    "postalCode": "88774",
+    "country": "USA",
+    "mrn": "095-92-5154"
+  }
+}

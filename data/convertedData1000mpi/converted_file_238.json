@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6792 Miller Roads Apt. 373",
+    "first_name": "Karl",
+    "birthdate": "1973-11-08",
+    "last_name": "Ball",
+    "city": "Nelsonland",
+    "state": "NM",
+    "postalCode": "14875",
+    "country": "USA",
+    "mrn": "288-46-4592"
+  }
+}

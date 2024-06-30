@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "55584 Scott Pine",
+    "first_name": "Anthony",
+    "birthdate": "1985-04-25",
+    "last_name": "Owens",
+    "city": "South Julieview",
+    "state": "RI",
+    "postalCode": "38256",
+    "country": "USA",
+    "mrn": "169-95-3981"
+  }
+}

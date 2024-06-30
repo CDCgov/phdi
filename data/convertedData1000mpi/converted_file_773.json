@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0887 Krista Ridge Apt. 965",
+    "first_name": "Angelica",
+    "birthdate": "2004-09-05",
+    "last_name": "Benitez",
+    "city": "Kristiestad",
+    "state": "LA",
+    "postalCode": "18100",
+    "country": "USA",
+    "mrn": "173-41-9697"
+  }
+}

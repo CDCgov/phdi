@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6581 Robert Way Apt. 902",
+    "first_name": "Willie",
+    "birthdate": "1940-12-05",
+    "last_name": "Price",
+    "city": "Jacobtown",
+    "state": "NE",
+    "postalCode": "40077",
+    "country": "USA",
+    "mrn": "352-79-0962"
+  }
+}

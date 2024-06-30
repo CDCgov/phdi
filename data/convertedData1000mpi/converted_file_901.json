@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "58869 Noble Knolls Apt. 136",
+    "first_name": "Kyle",
+    "birthdate": "1991-01-18",
+    "last_name": "Perez",
+    "city": "Wardfurt",
+    "state": "WY",
+    "postalCode": "63780",
+    "country": "USA",
+    "mrn": "140-70-9939"
+  }
+}

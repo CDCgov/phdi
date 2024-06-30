@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Walsh",
+                            "given": [
+                                "Jaime"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "3245 Jodi Knolls"
+                            ],
+                            "city": "South Roy",
+                            "state": "MT",
+                            "postalCode": "23837",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "200-80-5046",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1967-09-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5286051",
+    "use_enhanced": true
+}

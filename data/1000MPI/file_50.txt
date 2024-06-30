@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Bruce",
+                            "given": [
+                                "Crystal"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "478 Candice Ville Apt. 581"
+                            ],
+                            "city": "Debbieville",
+                            "state": "AZ",
+                            "postalCode": "54102",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "798-50-6675",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1959-12-03"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6844410",
+    "use_enhanced": true
+}

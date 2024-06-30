@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Tyler",
+                            "given": [
+                                "Richard"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "6052 Young Valleys Suite 402"
+                            ],
+                            "city": "Johnfort",
+                            "state": "AR",
+                            "postalCode": "44460",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "553-56-4534",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1944-06-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1747307",
+    "use_enhanced": true
+}

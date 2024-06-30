@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Fletcher",
+                            "given": [
+                                "Tracy"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "1317 Rebecca Rue"
+                            ],
+                            "city": "North Teresa",
+                            "state": "MD",
+                            "postalCode": "15163",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "050-39-1426",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1996-07-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8585703",
+    "use_enhanced": true
+}

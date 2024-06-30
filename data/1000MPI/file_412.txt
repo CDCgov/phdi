@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gallagher",
+                            "given": [
+                                "Tara"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "4442 Cody Garden"
+                            ],
+                            "city": "Stevenville",
+                            "state": "NY",
+                            "postalCode": "15530",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "084-86-6027",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1968-10-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9615545",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "313 Eric Road",
+    "first_name": "Steven",
+    "birthdate": "1937-03-28",
+    "last_name": "Gomez",
+    "city": "Port Matthew",
+    "state": "MO",
+    "postalCode": "69114",
+    "country": "USA",
+    "mrn": "398-13-2645"
+  }
+}

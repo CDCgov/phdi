@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Brown",
+                            "given": [
+                                "Mark"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "4111 Richards Roads Apt. 883"
+                            ],
+                            "city": "Jameston",
+                            "state": "VT",
+                            "postalCode": "75556",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "890-67-9373",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1943-07-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4718318",
+    "use_enhanced": true
+}

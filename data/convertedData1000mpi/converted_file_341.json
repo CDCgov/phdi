@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9158 Julie Mills",
+    "first_name": "Sarah",
+    "birthdate": "1953-11-25",
+    "last_name": "Holmes",
+    "city": "Williamsburgh",
+    "state": "NE",
+    "postalCode": "57208",
+    "country": "USA",
+    "mrn": "612-01-2701"
+  }
+}

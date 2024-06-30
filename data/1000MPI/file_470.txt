@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wells",
+                            "given": [
+                                "Joshua"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "803 Moore Rest Suite 171"
+                            ],
+                            "city": "Fernandoburgh",
+                            "state": "DE",
+                            "postalCode": "38521",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "486-59-9208",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2004-09-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8043615",
+    "use_enhanced": true
+}

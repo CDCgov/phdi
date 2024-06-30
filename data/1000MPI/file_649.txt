@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Trujillo",
+                            "given": [
+                                "Jacob"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "2654 Shaffer Landing"
+                            ],
+                            "city": "Powersburgh",
+                            "state": "MN",
+                            "postalCode": "6338",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "054-49-6891",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1956-03-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5409593",
+    "use_enhanced": true
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Solomon",
+                            "given": [
+                                "Rebecca"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "701 Gallagher Inlet Suite 984"
+                            ],
+                            "city": "Chadberg",
+                            "state": "PR",
+                            "postalCode": "10340",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "324-45-3325",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1971-03-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1700987",
+    "use_enhanced": true
+}

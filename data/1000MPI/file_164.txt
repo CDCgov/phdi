@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Campbell",
+                            "given": [
+                                "Anne"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "8351 Andrew Springs"
+                            ],
+                            "city": "South Shelby",
+                            "state": "NM",
+                            "postalCode": "21014",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "644-73-2420",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1936-08-31"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7945927",
+    "use_enhanced": true
+}

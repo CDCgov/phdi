@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "400 Joseph Rest Suite 441",
+    "first_name": "Donald",
+    "birthdate": "1972-10-08",
+    "last_name": "May",
+    "city": "Port William",
+    "state": "NE",
+    "postalCode": "57253",
+    "country": "USA",
+    "mrn": "570-24-3529"
+  }
+}

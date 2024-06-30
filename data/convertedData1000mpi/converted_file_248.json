@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "286 Michael Parkway Apt. 546",
+    "first_name": "Diana",
+    "birthdate": "1965-05-28",
+    "last_name": "Kennedy",
+    "city": "Port Michelle",
+    "state": "ME",
+    "postalCode": "95212",
+    "country": "USA",
+    "mrn": "015-81-9809"
+  }
+}

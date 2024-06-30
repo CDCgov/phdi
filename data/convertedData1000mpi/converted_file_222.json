@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "672 Amanda Terrace Suite 420",
+    "first_name": "Nicholas",
+    "birthdate": "1958-05-29",
+    "last_name": "Fisher",
+    "city": "Davidburgh",
+    "state": "DE",
+    "postalCode": "71498",
+    "country": "USA",
+    "mrn": "552-26-6792"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5389 Clinton Lights Apt. 574",
+    "first_name": "Gordon",
+    "birthdate": "1940-02-06",
+    "last_name": "Hodges",
+    "city": "Dodsonside",
+    "state": "OR",
+    "postalCode": "63999",
+    "country": "USA",
+    "mrn": "420-54-4757"
+  }
+}

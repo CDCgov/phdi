@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "50602 Mays Grove Suite 497",
+    "first_name": "Daniel",
+    "birthdate": "1959-10-18",
+    "last_name": "Jones",
+    "city": "Vaughnland",
+    "state": "WI",
+    "postalCode": "81775",
+    "country": "USA",
+    "mrn": "103-43-8891"
+  }
+}

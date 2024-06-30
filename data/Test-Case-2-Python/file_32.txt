@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Madel",
+                            "given": [
+                                "Daniel"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "USPS Store\n4225 Chambers Park Suite 455"
+                            ],
+                            "city": "Smithside",
+                            "state": "NV",
+                            "postalCode": "29621",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "596-06-8041",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1953-09-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3361996",
+    "use_enhanced": true
+}

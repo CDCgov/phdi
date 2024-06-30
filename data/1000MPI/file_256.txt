@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Harris",
+                            "given": [
+                                "Jennifer"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "47490 Nicole Spring"
+                            ],
+                            "city": "New Elizabeth",
+                            "state": "VA",
+                            "postalCode": "82283",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "512-73-8847",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1947-08-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3231265",
+    "use_enhanced": true
+}

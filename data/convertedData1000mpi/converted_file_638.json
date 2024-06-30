@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "89626 Jones Point",
+    "first_name": "Christine",
+    "birthdate": "1972-01-09",
+    "last_name": "Whitney",
+    "city": "West Anthony",
+    "state": "WA",
+    "postalCode": "76951",
+    "country": "USA",
+    "mrn": "202-60-5433"
+  }
+}

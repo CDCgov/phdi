@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7735 Brian Islands",
+    "first_name": "Melanie",
+    "birthdate": "1962-08-05",
+    "last_name": "Rogers",
+    "city": "South Loriborough",
+    "state": "MA",
+    "postalCode": "15781",
+    "country": "USA",
+    "mrn": "757-27-2048"
+  }
+}

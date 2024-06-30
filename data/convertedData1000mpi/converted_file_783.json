@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7654 Parks Ford Suite 522",
+    "first_name": "Walter",
+    "birthdate": "1990-12-02",
+    "last_name": "Bell",
+    "city": "West William",
+    "state": "ME",
+    "postalCode": "39181",
+    "country": "USA",
+    "mrn": "198-83-7480"
+  }
+}

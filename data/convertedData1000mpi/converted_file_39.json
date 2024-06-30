@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6368 Smith Plains Apt. 780",
+    "first_name": "Paul",
+    "birthdate": "1987-09-23",
+    "last_name": "Paul",
+    "city": "Nicholasmouth",
+    "state": "WV",
+    "postalCode": "5508",
+    "country": "USA",
+    "mrn": "059-57-6953"
+  }
+}

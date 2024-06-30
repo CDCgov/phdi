@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "214 Robert Meadows Apt. 576",
+    "first_name": "Lauren",
+    "birthdate": "1969-08-18",
+    "last_name": "Phillips",
+    "city": "Grantland",
+    "state": "WV",
+    "postalCode": "29826",
+    "country": "USA",
+    "mrn": "090-62-3873"
+  }
+}

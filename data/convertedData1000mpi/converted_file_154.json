@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "32263 Mark Forks Apt. 557",
+    "first_name": "Jennifer",
+    "birthdate": "1947-08-13",
+    "last_name": "Williams",
+    "city": "Richardbury",
+    "state": "IL",
+    "postalCode": "46079",
+    "country": "USA",
+    "mrn": "340-90-2645"
+  }
+}

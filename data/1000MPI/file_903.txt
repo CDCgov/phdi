@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Heath",
+                            "given": [
+                                "Sheila"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "5368 John Lakes Apt. 019"
+                            ],
+                            "city": "New Sabrinamouth",
+                            "state": "MI",
+                            "postalCode": "62427",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "184-09-0320",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1997-08-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9209372",
+    "use_enhanced": true
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Duran",
+                            "given": [
+                                "John"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "19430 Garrett Mountain Apt. 415"
+                            ],
+                            "city": "New Charlotteburgh",
+                            "state": "MA",
+                            "postalCode": "45700",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "316-46-3544",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1969-05-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3680436",
+    "use_enhanced": true
+}

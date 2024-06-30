@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "928 Brown Mountain Suite 514",
+    "first_name": "Shelly",
+    "birthdate": "1940-09-25",
+    "last_name": "Willis",
+    "city": "Colemanstad",
+    "state": "NJ",
+    "postalCode": "25324",
+    "country": "USA",
+    "mrn": "496-28-4301"
+  }
+}

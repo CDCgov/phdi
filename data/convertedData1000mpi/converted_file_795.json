@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "915 Timothy Roads",
+    "first_name": "Audrey",
+    "birthdate": "1991-09-22",
+    "last_name": "Mckinney",
+    "city": "West Christinechester",
+    "state": "NJ",
+    "postalCode": "10756",
+    "country": "USA",
+    "mrn": "478-76-8468"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "72292 Alexander Fork",
+    "first_name": "Lisa",
+    "birthdate": "1967-02-04",
+    "last_name": "Ford",
+    "city": "Edwardsview",
+    "state": "SD",
+    "postalCode": "84598",
+    "country": "USA",
+    "mrn": "400-81-4573"
+  }
+}

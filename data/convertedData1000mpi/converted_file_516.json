@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "68717 Bell Manors",
+    "first_name": "Jeff",
+    "birthdate": "1947-06-06",
+    "last_name": "Kramer",
+    "city": "Lisamouth",
+    "state": "MN",
+    "postalCode": "59917",
+    "country": "USA",
+    "mrn": "820-15-3705"
+  }
+}

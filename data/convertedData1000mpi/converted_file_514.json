@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "746 Jesse Isle",
+    "first_name": "Carmen",
+    "birthdate": "1982-10-19",
+    "last_name": "Lawrence",
+    "city": "Mcdanielbury",
+    "state": "OK",
+    "postalCode": "83116",
+    "country": "USA",
+    "mrn": "598-77-8266"
+  }
+}

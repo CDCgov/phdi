@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "75426 Mitchell Oval",
+    "first_name": "Randy",
+    "birthdate": "1933-08-09",
+    "last_name": "Farmer",
+    "city": "Hodgesmouth",
+    "state": "VI",
+    "postalCode": "96369",
+    "country": "USA",
+    "mrn": "662-53-5282"
+  }
+}

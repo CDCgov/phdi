@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "281 Johnson Ports Apt. 089",
+    "first_name": "Christopher",
+    "birthdate": "1982-09-17",
+    "last_name": "Harris",
+    "city": "Rubenmouth",
+    "state": "KS",
+    "postalCode": "33575",
+    "country": "USA",
+    "mrn": "173-98-6323"
+  }
+}

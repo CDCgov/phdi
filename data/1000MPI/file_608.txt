@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wong",
+                            "given": [
+                                "Veronica"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "569 Walton Junctions"
+                            ],
+                            "city": "New Traciefurt",
+                            "state": "MI",
+                            "postalCode": "8293",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "318-93-5803",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1941-01-14"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3685690",
+    "use_enhanced": true
+}

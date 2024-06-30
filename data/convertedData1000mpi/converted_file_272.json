@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "55704 Frances Neck Suite 918",
+    "first_name": "Shannon",
+    "birthdate": "1987-07-09",
+    "last_name": "Rogers",
+    "city": "Brandyville",
+    "state": "IA",
+    "postalCode": "35826",
+    "country": "USA",
+    "mrn": "053-34-7011"
+  }
+}

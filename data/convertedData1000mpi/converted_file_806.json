@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "20146 Williams Springs Suite 830",
+    "first_name": "Beth",
+    "birthdate": "2000-10-31",
+    "last_name": "Davis",
+    "city": "Sandovalland",
+    "state": "ND",
+    "postalCode": "917",
+    "country": "USA",
+    "mrn": "576-54-9566"
+  }
+}

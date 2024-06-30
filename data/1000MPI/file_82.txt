@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Watson",
+                            "given": [
+                                "Ashley"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "63226 Martin Freeway Suite 535"
+                            ],
+                            "city": "West James",
+                            "state": "WI",
+                            "postalCode": "99818",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "234-71-9897",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1994-09-16"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3057730",
+    "use_enhanced": true
+}

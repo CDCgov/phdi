@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0730 Melanie Garden",
+    "first_name": "Robert",
+    "birthdate": "1956-07-20",
+    "last_name": "Lowery",
+    "city": "Martinmouth",
+    "state": "TN",
+    "postalCode": "33404",
+    "country": "USA",
+    "mrn": "210-56-7289"
+  }
+}

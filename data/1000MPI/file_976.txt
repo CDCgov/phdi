@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Benitez",
+                            "given": [
+                                "Jenna"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "2013 Matthew Trail"
+                            ],
+                            "city": "South Albert",
+                            "state": "DC",
+                            "postalCode": "53047",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "762-89-7458",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1988-08-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3412657",
+    "use_enhanced": true
+}

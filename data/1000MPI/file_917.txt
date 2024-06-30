@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Robinson",
+                            "given": [
+                                "Jerry"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "25935 Clark Dale Suite 613"
+                            ],
+                            "city": "Torresburgh",
+                            "state": "KY",
+                            "postalCode": "23500",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "585-72-8172",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1999-03-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8702742",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "36214 Anna Key Apt. 768",
+    "first_name": "Jeremy",
+    "birthdate": "1943-02-18",
+    "last_name": "Barnett",
+    "city": "West Nicole",
+    "state": "ME",
+    "postalCode": "34952",
+    "country": "USA",
+    "mrn": "042-24-2988"
+  }
+}

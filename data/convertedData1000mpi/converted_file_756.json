@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "480 Wiley Freeway Suite 619",
+    "first_name": "Jessica",
+    "birthdate": "1964-08-18",
+    "last_name": "Garcia",
+    "city": "West Jose",
+    "state": "MD",
+    "postalCode": "38723",
+    "country": "USA",
+    "mrn": "461-88-9453"
+  }
+}

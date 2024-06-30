@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "998 Heather Fort Apt. 896",
+    "first_name": "Wyatt",
+    "birthdate": "1945-04-29",
+    "last_name": "Hamilton",
+    "city": "Lewisstad",
+    "state": "DE",
+    "postalCode": "23350",
+    "country": "USA",
+    "mrn": "401-75-4926"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "West",
+                            "given": [
+                                "Daniel"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "60919 Williams Run Apt. 114"
+                            ],
+                            "city": "Lake Jessica",
+                            "state": "LA",
+                            "postalCode": "26584",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "101-08-6752",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1959-11-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3520571",
+    "use_enhanced": true
+}

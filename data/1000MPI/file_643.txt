@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Williamson",
+                            "given": [
+                                "Audrey"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "1339 Moore Alley"
+                            ],
+                            "city": "Wagnerborough",
+                            "state": "FM",
+                            "postalCode": "63946",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "740-94-8486",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1973-08-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1246706",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "279 Becker Grove Apt. 953",
+    "first_name": "Valerie",
+    "birthdate": "1991-10-03",
+    "last_name": "Collins",
+    "city": "Amandaburgh",
+    "state": "MP",
+    "postalCode": "79544",
+    "country": "USA",
+    "mrn": "667-27-3432"
+  }
+}

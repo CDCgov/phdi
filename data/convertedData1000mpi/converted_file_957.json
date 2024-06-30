@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8743 Neil Common",
+    "first_name": "Phillip",
+    "birthdate": "1934-03-19",
+    "last_name": "Murray",
+    "city": "Mortonshire",
+    "state": "WI",
+    "postalCode": "62992",
+    "country": "USA",
+    "mrn": "211-34-3833"
+  }
+}

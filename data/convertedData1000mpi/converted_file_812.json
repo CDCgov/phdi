@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "684 Mike Mall Apt. 391",
+    "first_name": "Larry",
+    "birthdate": "1951-06-12",
+    "last_name": "Lee",
+    "city": "Greenville",
+    "state": "AK",
+    "postalCode": "64572",
+    "country": "USA",
+    "mrn": "140-87-3692"
+  }
+}

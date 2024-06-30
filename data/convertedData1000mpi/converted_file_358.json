@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "47679 Torres Hill",
+    "first_name": "Ryan",
+    "birthdate": "1992-03-21",
+    "last_name": "Santos",
+    "city": "Danielfurt",
+    "state": "CO",
+    "postalCode": "76380",
+    "country": "USA",
+    "mrn": "650-52-0800"
+  }
+}

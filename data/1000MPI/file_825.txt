@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Abbott",
+                            "given": [
+                                "Steven"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "80782 Daniel Rest Apt. 931"
+                            ],
+                            "city": "Garybury",
+                            "state": "NM",
+                            "postalCode": "59802",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "787-12-7626",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1999-08-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8613726",
+    "use_enhanced": true
+}

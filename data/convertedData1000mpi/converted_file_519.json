@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "40513 Robert Villages",
+    "first_name": "Kelly",
+    "birthdate": "1939-10-05",
+    "last_name": "Daniels",
+    "city": "South Justin",
+    "state": "KS",
+    "postalCode": "4349",
+    "country": "USA",
+    "mrn": "446-10-3798"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8363 Williams Junctions",
+    "first_name": "David",
+    "birthdate": "1996-04-23",
+    "last_name": "Armstrong",
+    "city": "Lake Janemouth",
+    "state": "FL",
+    "postalCode": "40800",
+    "country": "USA",
+    "mrn": "458-68-6891"
+  }
+}

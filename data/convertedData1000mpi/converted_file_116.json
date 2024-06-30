@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9955 Vargas Way Suite 723",
+    "first_name": "Thomas",
+    "birthdate": "2000-01-18",
+    "last_name": "Brock",
+    "city": "Staceytown",
+    "state": "MT",
+    "postalCode": "92847",
+    "country": "USA",
+    "mrn": "305-13-1149"
+  }
+}

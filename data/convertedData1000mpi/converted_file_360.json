@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "015 Morton Lake Apt. 516",
+    "first_name": "Patrick",
+    "birthdate": "1960-02-24",
+    "last_name": "Lowe",
+    "city": "North Anthony",
+    "state": "CA",
+    "postalCode": "30395",
+    "country": "USA",
+    "mrn": "550-19-4119"
+  }
+}

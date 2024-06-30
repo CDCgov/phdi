@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "289 David Lakes",
+    "first_name": "Emily",
+    "birthdate": "1974-01-13",
+    "last_name": "Marks",
+    "city": "Garyville",
+    "state": "CO",
+    "postalCode": "5789",
+    "country": "USA",
+    "mrn": "882-67-5521"
+  }
+}

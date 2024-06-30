@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Russell",
+                            "given": [
+                                "Steven"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "876 Rivera Fords Suite 940"
+                            ],
+                            "city": "New Wandaberg",
+                            "state": "VA",
+                            "postalCode": "96980",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "336-65-4420",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1939-10-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8664724",
+    "use_enhanced": true
+}

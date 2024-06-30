@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wilson",
+                            "given": [
+                                "Erika"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "25899 Nguyen Road Apt. 679"
+                            ],
+                            "city": "Edwardhaven",
+                            "state": "NE",
+                            "postalCode": "96456",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "110-29-2224",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1957-08-03"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8246553",
+    "use_enhanced": true
+}

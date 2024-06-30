@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "189 Smith Bridge Apt. 637",
+    "first_name": "Connie",
+    "birthdate": "2004-10-22",
+    "last_name": "Ramos",
+    "city": "Harriston",
+    "state": "MD",
+    "postalCode": "981",
+    "country": "USA",
+    "mrn": "610-61-8170"
+  }
+}

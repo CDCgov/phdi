@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "882 Tina Prairie",
+    "first_name": "Richard",
+    "birthdate": "1979-03-17",
+    "last_name": "Roman",
+    "city": "Jenniferberg",
+    "state": "IA",
+    "postalCode": "54115",
+    "country": "USA",
+    "mrn": "068-74-2636"
+  }
+}

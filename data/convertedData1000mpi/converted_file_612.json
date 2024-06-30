@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "058 Ramos Fields",
+    "first_name": "Brandon",
+    "birthdate": "1989-09-09",
+    "last_name": "Mitchell",
+    "city": "Andreaview",
+    "state": "AL",
+    "postalCode": "30260",
+    "country": "USA",
+    "mrn": "247-99-4842"
+  }
+}

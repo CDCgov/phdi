@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Green",
+                            "given": [
+                                "Vanessa"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "54218 Kathy Skyway"
+                            ],
+                            "city": "Jacobsport",
+                            "state": "NY",
+                            "postalCode": "31409",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "651-15-2038",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1935-08-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6238532",
+    "use_enhanced": true
+}

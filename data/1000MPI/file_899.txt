@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Kerr",
+                            "given": [
+                                "Jonathan"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "289 Christina Extensions Apt. 151"
+                            ],
+                            "city": "Brittanyfort",
+                            "state": "NM",
+                            "postalCode": "68424",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "039-78-0925",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1993-12-14"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5371385",
+    "use_enhanced": true
+}

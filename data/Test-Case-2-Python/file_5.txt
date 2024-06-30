@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Anonymous",
+                            "given": [
+                                "Anonymous"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "968 King Port Suite 566"
+                            ],
+                            "city": "Port Jesse",
+                            "state": "ME",
+                            "postalCode": "90185",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "646-04-4566",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1942-09-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1730241",
+    "use_enhanced": true
+}

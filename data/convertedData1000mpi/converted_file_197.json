@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "19276 Mendez View",
+    "first_name": "Sean",
+    "birthdate": "1985-07-12",
+    "last_name": "Torres",
+    "city": "Loganbury",
+    "state": "RI",
+    "postalCode": "75911",
+    "country": "USA",
+    "mrn": "276-41-1178"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1775 Stephens Summit",
+    "first_name": "Samuel",
+    "birthdate": "1949-12-23",
+    "last_name": "Kane",
+    "city": "Gardnerberg",
+    "state": "MD",
+    "postalCode": "82955",
+    "country": "USA",
+    "mrn": "258-10-2772"
+  }
+}

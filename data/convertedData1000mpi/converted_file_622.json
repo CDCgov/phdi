@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1490 Robinson Parkways",
+    "first_name": "Christian",
+    "birthdate": "1934-07-09",
+    "last_name": "Wagner",
+    "city": "New Anthonyport",
+    "state": "RI",
+    "postalCode": "52652",
+    "country": "USA",
+    "mrn": "195-88-6346"
+  }
+}

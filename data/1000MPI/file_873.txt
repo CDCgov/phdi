@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hamilton",
+                            "given": [
+                                "Wyatt"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "998 Heather Fort Apt. 896"
+                            ],
+                            "city": "Lewisstad",
+                            "state": "DE",
+                            "postalCode": "23350",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "401-75-4926",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1945-04-29"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2384408",
+    "use_enhanced": true
+}

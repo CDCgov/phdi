@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "71020 Anne Prairie Apt. 691",
+    "first_name": "Luis",
+    "birthdate": "1977-07-29",
+    "last_name": "Morris",
+    "city": "Boydport",
+    "state": "ND",
+    "postalCode": "69680",
+    "country": "USA",
+    "mrn": "782-32-7093"
+  }
+}

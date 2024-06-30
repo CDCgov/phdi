@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "265 Amy Flats",
+    "first_name": "Sherry",
+    "birthdate": "1970-03-17",
+    "last_name": "Perez",
+    "city": "South Markton",
+    "state": "NE",
+    "postalCode": "82732",
+    "country": "USA",
+    "mrn": "052-34-2524"
+  }
+}

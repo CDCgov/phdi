@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Brock",
+                            "given": [
+                                "Thomas"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "9955 Vargas Way Suite 723"
+                            ],
+                            "city": "Staceytown",
+                            "state": "MT",
+                            "postalCode": "92847",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "305-13-1149",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2000-01-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9915839",
+    "use_enhanced": true
+}

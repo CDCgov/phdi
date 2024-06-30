@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gray",
+                            "given": [
+                                "Mary"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "73824 Mary Estate"
+                            ],
+                            "city": "Lake Haileyton",
+                            "state": "NY",
+                            "postalCode": "77049",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "299-38-7156",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1959-06-29"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4243673",
+    "use_enhanced": true
+}

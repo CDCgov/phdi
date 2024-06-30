@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "10993 Harvey Mountain",
+    "first_name": "Wendy",
+    "birthdate": "1936-08-18",
+    "last_name": "Price",
+    "city": "Salazartown",
+    "state": "PA",
+    "postalCode": "30362",
+    "country": "USA",
+    "mrn": "777-34-5506"
+  }
+}

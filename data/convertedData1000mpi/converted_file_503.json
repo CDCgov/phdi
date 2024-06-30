@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "76712 Cheyenne Island Suite 421",
+    "first_name": "Brian",
+    "birthdate": "1976-08-26",
+    "last_name": "Cooper",
+    "city": "Port Calvinhaven",
+    "state": "VI",
+    "postalCode": "69417",
+    "country": "USA",
+    "mrn": "882-42-9595"
+  }
+}

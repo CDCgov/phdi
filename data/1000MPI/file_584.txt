@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Reed",
+                            "given": [
+                                "Kevin"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "857 Katherine Via"
+                            ],
+                            "city": "Port Anthony",
+                            "state": "OK",
+                            "postalCode": "31731",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "857-22-5903",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1938-04-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2151806",
+    "use_enhanced": true
+}

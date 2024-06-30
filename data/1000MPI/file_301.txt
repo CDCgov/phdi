@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Johnson",
+                            "given": [
+                                "George"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "1630 Smith Estate Suite 384"
+                            ],
+                            "city": "Rebeccachester",
+                            "state": "CO",
+                            "postalCode": "17629",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "762-94-8321",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1958-10-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3173386",
+    "use_enhanced": true
+}

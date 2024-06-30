@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "163 Manning Bypass",
+    "first_name": "Daniel",
+    "birthdate": "1974-06-04",
+    "last_name": "Goodman",
+    "city": "Galvanbury",
+    "state": "OH",
+    "postalCode": "95289",
+    "country": "USA",
+    "mrn": "388-60-5854"
+  }
+}

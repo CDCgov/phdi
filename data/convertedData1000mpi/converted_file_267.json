@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8545 Mosley Isle Suite 968",
+    "first_name": "Raven",
+    "birthdate": "1997-02-14",
+    "last_name": "Miller",
+    "city": "Brianport",
+    "state": "ID",
+    "postalCode": "45124",
+    "country": "USA",
+    "mrn": "004-95-4659"
+  }
+}

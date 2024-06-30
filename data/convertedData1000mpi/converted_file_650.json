@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2555 Kathryn Trace Apt. 225",
+    "first_name": "Tyler",
+    "birthdate": "1991-05-01",
+    "last_name": "Hernandez",
+    "city": "South Stevenmouth",
+    "state": "WY",
+    "postalCode": "99165",
+    "country": "USA",
+    "mrn": "044-05-2028"
+  }
+}

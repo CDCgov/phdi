@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "394 Cohen Expressway",
+    "first_name": "Ralph",
+    "birthdate": "1990-11-28",
+    "last_name": "Orr",
+    "city": "Howardbury",
+    "state": "VT",
+    "postalCode": "31084",
+    "country": "USA",
+    "mrn": "082-32-0185"
+  }
+}

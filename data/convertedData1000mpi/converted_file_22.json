@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "04877 WHITE FERRY",
+    "first_name": "Morgan",
+    "birthdate": "1965-08-03",
+    "last_name": "White",
+    "city": "NORTH REBEKAHMOUTH",
+    "state": "SD",
+    "postalCode": "16256",
+    "country": "USA",
+    "mrn": "041-96-1240"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "973 Kathy Junctions Suite 933",
+    "first_name": "Patricia",
+    "birthdate": "1976-06-08",
+    "last_name": "Fletcher",
+    "city": "Joneschester",
+    "state": "PR",
+    "postalCode": "50203",
+    "country": "USA",
+    "mrn": "605-13-7829"
+  }
+}

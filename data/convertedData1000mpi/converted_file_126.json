@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7796 Strong Ridge Suite 166",
+    "first_name": "Kelly",
+    "birthdate": "1970-10-23",
+    "last_name": "Shields",
+    "city": "East Jasonmouth",
+    "state": "WI",
+    "postalCode": "93786",
+    "country": "USA",
+    "mrn": "357-38-0675"
+  }
+}

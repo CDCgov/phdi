@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "316 Kennedy Skyway Suite 694",
+    "first_name": "Andrew",
+    "birthdate": "1945-05-15",
+    "last_name": "Montgomery",
+    "city": "Aliciaberg",
+    "state": "MI",
+    "postalCode": "96485",
+    "country": "USA",
+    "mrn": "712-63-7275"
+  }
+}

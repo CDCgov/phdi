@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5061 Suarez Square Apt. 638",
+    "first_name": "Christopher",
+    "birthdate": "2005-04-26",
+    "last_name": "Kerr",
+    "city": "South Mitchell",
+    "state": "GA",
+    "postalCode": "23587",
+    "country": "USA",
+    "mrn": "183-49-8590"
+  }
+}

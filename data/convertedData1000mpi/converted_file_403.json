@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "93638 Wilson Groves",
+    "first_name": "Brent",
+    "birthdate": "1971-02-04",
+    "last_name": "Hurley",
+    "city": "South Michael",
+    "state": "HI",
+    "postalCode": "88820",
+    "country": "USA",
+    "mrn": "809-18-6220"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Cohen",
+                            "given": [
+                                "Megan"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "332 Stevens Mills"
+                            ],
+                            "city": "East Amy",
+                            "state": "CT",
+                            "postalCode": "49435",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "264-93-0554",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1956-10-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1852825",
+    "use_enhanced": true
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Martinez",
+                            "given": [
+                                "Travis"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "6202 Strickland Harbors Suite 860"
+                            ],
+                            "city": "Carterville",
+                            "state": "NY",
+                            "postalCode": "81556",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "053-56-6714",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2001-12-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2916453",
+    "use_enhanced": true
+}

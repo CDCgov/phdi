@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "62286 Mathews Squares Apt. 526",
+    "first_name": "Robin",
+    "birthdate": "1973-05-31",
+    "last_name": "Bradley",
+    "city": "East Colleenside",
+    "state": "MN",
+    "postalCode": "39324",
+    "country": "USA",
+    "mrn": "713-25-3966"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9106 Woodard Haven Apt. 765",
+    "first_name": "James",
+    "birthdate": "1939-06-13",
+    "last_name": "Smith",
+    "city": "West Nathanburgh",
+    "state": "CT",
+    "postalCode": "40361",
+    "country": "USA",
+    "mrn": "628-08-0592"
+  }
+}

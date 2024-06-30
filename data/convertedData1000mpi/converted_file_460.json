@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "75385 Ross Orchard",
+    "first_name": "Sean",
+    "birthdate": "1938-11-23",
+    "last_name": "Trevino",
+    "city": "Lindachester",
+    "state": "NJ",
+    "postalCode": "93279",
+    "country": "USA",
+    "mrn": "070-34-6946"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17834 Meadows Keys",
+    "first_name": "James",
+    "birthdate": "1970-03-12",
+    "last_name": "Morrison",
+    "city": "Brianfort",
+    "state": "RI",
+    "postalCode": "79026",
+    "country": "USA",
+    "mrn": "207-06-1000"
+  }
+}

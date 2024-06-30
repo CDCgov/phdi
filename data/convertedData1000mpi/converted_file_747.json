@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "57910 Sarah Throughway",
+    "first_name": "Frank",
+    "birthdate": "1947-11-26",
+    "last_name": "Wilson",
+    "city": "New Curtiston",
+    "state": "IN",
+    "postalCode": "57347",
+    "country": "USA",
+    "mrn": "292-28-4115"
+  }
+}

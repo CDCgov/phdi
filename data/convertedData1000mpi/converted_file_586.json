@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7993 Jessica Freeway",
+    "first_name": "Christina",
+    "birthdate": "1966-01-24",
+    "last_name": "Garza",
+    "city": "East Katiechester",
+    "state": "MP",
+    "postalCode": "50576",
+    "country": "USA",
+    "mrn": "300-43-7486"
+  }
+}

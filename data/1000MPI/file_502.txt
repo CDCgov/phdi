@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Garcia",
+                            "given": [
+                                "Donald"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "259 Andrew Mill"
+                            ],
+                            "city": "West Matthew",
+                            "state": "NM",
+                            "postalCode": "3491",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "291-48-3928",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1949-08-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1145945",
+    "use_enhanced": true
+}

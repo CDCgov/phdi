@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2087 Farmer Greens Suite 494",
+    "first_name": "Stephanie",
+    "birthdate": "1995-03-26",
+    "last_name": "Smith",
+    "city": "Erinstad",
+    "state": "AL",
+    "postalCode": "86783",
+    "country": "USA",
+    "mrn": "025-30-0206"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "169 Boyer Valleys",
+    "first_name": "James",
+    "birthdate": "1939-09-27",
+    "last_name": "Pacheco",
+    "city": "Theresachester",
+    "state": "HI",
+    "postalCode": "68763",
+    "country": "USA",
+    "mrn": "584-79-2335"
+  }
+}

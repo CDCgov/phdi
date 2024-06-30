@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Herring",
+                            "given": [
+                                "Michael"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "7712 Hawkins Mountain Suite 081"
+                            ],
+                            "city": "West Melissachester",
+                            "state": "MS",
+                            "postalCode": "48680",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "634-07-6958",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2006-02-20"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8590133",
+    "use_enhanced": true
+}

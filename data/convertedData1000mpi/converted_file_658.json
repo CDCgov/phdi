@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0933 Jeremiah Stravenue",
+    "first_name": "Tamara",
+    "birthdate": "1972-04-02",
+    "last_name": "Mcintyre",
+    "city": "Andrewport",
+    "state": "WV",
+    "postalCode": "49540",
+    "country": "USA",
+    "mrn": "219-55-8849"
+  }
+}

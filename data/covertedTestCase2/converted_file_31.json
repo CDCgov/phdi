@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "USPS Store\n2094 Kyle Mills  Suite 983",
+    "first_name": "Tony",
+    "birthdate": "11/11/1897",
+    "last_name": "Nelson",
+    "city": "East Meghan",
+    "state": "PA",
+    "postalCode": "65583",
+    "country": "USA",
+    "mrn": "668-20-2517"
+  }
+}

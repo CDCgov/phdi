@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0265 Joseph Course",
+    "first_name": "Angelica",
+    "birthdate": "1993-03-17",
+    "last_name": "Jones",
+    "city": "Lake Angelafurt",
+    "state": "MH",
+    "postalCode": "12168",
+    "country": "USA",
+    "mrn": "453-74-2131"
+  }
+}

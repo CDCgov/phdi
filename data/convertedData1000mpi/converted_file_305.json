@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "733 Wilson Stream Apt. 364",
+    "first_name": "Angel",
+    "birthdate": "1982-08-18",
+    "last_name": "Wilson",
+    "city": "Victoriachester",
+    "state": "HI",
+    "postalCode": "67839",
+    "country": "USA",
+    "mrn": "725-38-5681"
+  }
+}

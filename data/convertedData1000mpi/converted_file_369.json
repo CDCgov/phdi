@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7838 Hoover Loop",
+    "first_name": "Jacob",
+    "birthdate": "1990-06-12",
+    "last_name": "Moore",
+    "city": "East Tinafurt",
+    "state": "ME",
+    "postalCode": "12269",
+    "country": "USA",
+    "mrn": "708-05-3628"
+  }
+}

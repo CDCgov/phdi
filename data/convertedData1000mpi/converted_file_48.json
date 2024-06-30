@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6372 Gary Port",
+    "first_name": "Kenneth",
+    "birthdate": "1995-06-25",
+    "last_name": "Bailey",
+    "city": "New Saraborough",
+    "state": "MN",
+    "postalCode": "20486",
+    "country": "USA",
+    "mrn": "828-87-5634"
+  }
+}

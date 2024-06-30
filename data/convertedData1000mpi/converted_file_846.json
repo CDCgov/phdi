@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "396 Sheila Green Apt. 807",
+    "first_name": "Katherine",
+    "birthdate": "1947-03-22",
+    "last_name": "Blankenship",
+    "city": "New Taylor",
+    "state": "WV",
+    "postalCode": "82292",
+    "country": "USA",
+    "mrn": "439-72-4595"
+  }
+}

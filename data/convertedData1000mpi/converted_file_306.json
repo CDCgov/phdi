@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "986 Nancy Expressway Suite 513",
+    "first_name": "Dana",
+    "birthdate": "1971-02-06",
+    "last_name": "Martin",
+    "city": "Walkerport",
+    "state": "AL",
+    "postalCode": "90298",
+    "country": "USA",
+    "mrn": "394-33-0868"
+  }
+}

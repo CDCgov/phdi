@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Garza",
+                            "given": [
+                                "Joseph"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "971 Scott Mills"
+                            ],
+                            "city": "Campbellmouth",
+                            "state": "LA",
+                            "postalCode": "26254",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "116-47-3752",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1996-11-10"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9679539",
+    "use_enhanced": true
+}

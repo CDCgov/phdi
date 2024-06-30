@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Fisher",
+                            "given": [
+                                "Andrew"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "495 Roberts Highway"
+                            ],
+                            "city": "East Colleen",
+                            "state": "LA",
+                            "postalCode": "66846",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "289-71-2070",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1945-10-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9377798",
+    "use_enhanced": true
+}

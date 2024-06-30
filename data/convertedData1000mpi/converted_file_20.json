@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3705 Tristan Mill Suite 210",
+    "first_name": "Pamela",
+    "birthdate": "",
+    "last_name": "Flores",
+    "city": "Sherryhaven",
+    "state": "NC",
+    "postalCode": "72414",
+    "country": "USA",
+    "mrn": "009-71-9954"
+  }
+}

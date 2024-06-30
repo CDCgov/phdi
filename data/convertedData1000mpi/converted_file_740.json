@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "105 Sims Crescent Apt. 556",
+    "first_name": "Susan",
+    "birthdate": "1971-11-25",
+    "last_name": "Garcia",
+    "city": "North Jodimouth",
+    "state": "ND",
+    "postalCode": "24314",
+    "country": "USA",
+    "mrn": "638-87-4512"
+  }
+}

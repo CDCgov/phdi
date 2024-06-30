@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Ball",
+                            "given": [
+                                "Karl"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "6792 Miller Roads Apt. 373"
+                            ],
+                            "city": "Nelsonland",
+                            "state": "NM",
+                            "postalCode": "14875",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "288-46-4592",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1973-11-08"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2096699",
+    "use_enhanced": true
+}

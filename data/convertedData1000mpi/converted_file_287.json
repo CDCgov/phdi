@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "57481 Mcclain Circles",
+    "first_name": "Donald",
+    "birthdate": "1962-07-05",
+    "last_name": "Welch",
+    "city": "South Jared",
+    "state": "TX",
+    "postalCode": "56073",
+    "country": "USA",
+    "mrn": "867-79-8519"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lopez",
+                            "given": [
+                                "Christopher"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "3056 Martin Summit"
+                            ],
+                            "city": "East Craigmouth",
+                            "state": "RI",
+                            "postalCode": "74282",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "814-30-0441",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1967-05-26"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1824747",
+    "use_enhanced": true
+}

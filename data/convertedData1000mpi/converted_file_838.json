@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5529 Michael Mills Apt. 727",
+    "first_name": "Jay",
+    "birthdate": "1936-03-28",
+    "last_name": "Campos",
+    "city": "Chambersshire",
+    "state": "OR",
+    "postalCode": "2403",
+    "country": "USA",
+    "mrn": "762-86-1624"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "53380 Cole Causeway",
+    "first_name": "Latoya",
+    "birthdate": "1998-10-03",
+    "last_name": "Burke",
+    "city": "Hartmanview",
+    "state": "HI",
+    "postalCode": "1936",
+    "country": "USA",
+    "mrn": "722-41-2099"
+  }
+}

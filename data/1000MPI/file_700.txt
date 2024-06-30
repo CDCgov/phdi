@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Kim",
+                            "given": [
+                                "Tamara"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "55801 Nguyen Pike Suite 632"
+                            ],
+                            "city": "Calebville",
+                            "state": "WY",
+                            "postalCode": "28796",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "718-19-9842",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1956-01-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6724020",
+    "use_enhanced": true
+}

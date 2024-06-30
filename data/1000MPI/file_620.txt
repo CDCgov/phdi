@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Boyd",
+                            "given": [
+                                "Edward"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "881 Joshua Cliffs Suite 250"
+                            ],
+                            "city": "Lake Christinemouth",
+                            "state": "GU",
+                            "postalCode": "41342",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "069-76-7080",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1993-10-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9566752",
+    "use_enhanced": true
+}

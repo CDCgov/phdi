@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "781 Sanchez Spur",
+    "first_name": "Janet",
+    "birthdate": "1950-02-27",
+    "last_name": "Nielsen",
+    "city": "West Sarashire",
+    "state": "IL",
+    "postalCode": "46771",
+    "country": "USA",
+    "mrn": "242-22-0409"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "796 Anthony Isle",
+    "first_name": "Douglas",
+    "birthdate": "1943-04-27",
+    "last_name": "Harris",
+    "city": "Margaretview",
+    "state": "CO",
+    "postalCode": "52494",
+    "country": "USA",
+    "mrn": "457-28-7379"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Riley",
+                            "given": [
+                                "Charles"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "58973 Gina Inlet Suite 454"
+                            ],
+                            "city": "North Joshuaville",
+                            "state": "VA",
+                            "postalCode": "64177",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "124-25-3564",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1967-03-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1254432",
+    "use_enhanced": true
+}

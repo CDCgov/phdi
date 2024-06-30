@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "34359 Stone Trail Suite 618",
+    "first_name": "Vicki",
+    "birthdate": "1983-10-23",
+    "last_name": "Moore",
+    "city": "Sherribury",
+    "state": "DC",
+    "postalCode": "20755",
+    "country": "USA",
+    "mrn": "462-38-4828"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "687 Darlene Mews Apt. 961",
+    "first_name": "Julie",
+    "birthdate": "1979-12-30",
+    "last_name": "Logan",
+    "city": "Christinaton",
+    "state": "AK",
+    "postalCode": "20204",
+    "country": "USA",
+    "mrn": "214-50-7338"
+  }
+}

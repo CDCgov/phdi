@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "201 Short Ports Apt. 693",
+    "first_name": "Sandra",
+    "birthdate": "1981-06-23",
+    "last_name": "Prince",
+    "city": "West Thomasview",
+    "state": "AK",
+    "postalCode": "24717",
+    "country": "USA",
+    "mrn": "101-80-2253"
+  }
+}

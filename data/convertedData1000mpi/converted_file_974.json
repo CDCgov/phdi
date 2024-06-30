@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6934 Deborah Trace",
+    "first_name": "Doris",
+    "birthdate": "1974-08-21",
+    "last_name": "Norman",
+    "city": "Lake Kimberly",
+    "state": "NC",
+    "postalCode": "95265",
+    "country": "USA",
+    "mrn": "228-78-6898"
+  }
+}

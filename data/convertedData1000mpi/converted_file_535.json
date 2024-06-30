@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "59096 Garcia Trace Apt. 051",
+    "first_name": "Brandon",
+    "birthdate": "1987-05-14",
+    "last_name": "Williams",
+    "city": "Port Linda",
+    "state": "MA",
+    "postalCode": "1329",
+    "country": "USA",
+    "mrn": "236-80-5214"
+  }
+}

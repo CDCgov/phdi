@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7293 Underwood River Apt. 822",
+    "first_name": "Jay",
+    "birthdate": "1967-08-26",
+    "last_name": "Cook",
+    "city": "Lake Teresa",
+    "state": "RI",
+    "postalCode": "38407",
+    "country": "USA",
+    "mrn": "514-86-3799"
+  }
+}

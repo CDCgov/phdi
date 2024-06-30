@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Campos",
+                            "given": [
+                                "Jay"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "5529 Michael Mills Apt. 727"
+                            ],
+                            "city": "Chambersshire",
+                            "state": "OR",
+                            "postalCode": "2403",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "762-86-1624",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1936-03-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6029117",
+    "use_enhanced": true
+}

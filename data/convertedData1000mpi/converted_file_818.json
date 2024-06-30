@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "015 John Cliff",
+    "first_name": "Karen",
+    "birthdate": "1973-12-30",
+    "last_name": "Ross",
+    "city": "Lake Deborahberg",
+    "state": "MN",
+    "postalCode": "72806",
+    "country": "USA",
+    "mrn": "238-55-3434"
+  }
+}

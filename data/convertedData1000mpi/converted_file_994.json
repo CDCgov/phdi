@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "74358 Kevin Harbor",
+    "first_name": "Stacy",
+    "birthdate": "1965-08-14",
+    "last_name": "Freeman",
+    "city": "West Olivia",
+    "state": "AK",
+    "postalCode": "79078",
+    "country": "USA",
+    "mrn": "625-41-2476"
+  }
+}

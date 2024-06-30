@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "01542 Horn Lodge",
+    "first_name": "Laura",
+    "birthdate": "1997-12-01",
+    "last_name": "Mcdonald",
+    "city": "Georgeberg",
+    "state": "MH",
+    "postalCode": "56783",
+    "country": "USA",
+    "mrn": "674-11-1854"
+  }
+}

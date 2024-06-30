@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "15956 Edwards Rest",
+    "first_name": "John",
+    "birthdate": "1954-07-15",
+    "last_name": "Barr",
+    "city": "Smithmouth",
+    "state": "AR",
+    "postalCode": "93067",
+    "country": "USA",
+    "mrn": "470-04-3360"
+  }
+}

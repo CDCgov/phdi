@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Williams",
+                            "given": [
+                                "Brandon"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "59096 Garcia Trace Apt. 051"
+                            ],
+                            "city": "Port Linda",
+                            "state": "MA",
+                            "postalCode": "1329",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "236-80-5214",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1987-05-14"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9344517",
+    "use_enhanced": true
+}

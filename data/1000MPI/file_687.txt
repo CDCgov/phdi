@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Roth",
+                            "given": [
+                                "Gregory"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "001 Alyssa Estate"
+                            ],
+                            "city": "New Micheal",
+                            "state": "UT",
+                            "postalCode": "15668",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "260-35-5385",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1937-10-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8112897",
+    "use_enhanced": true
+}

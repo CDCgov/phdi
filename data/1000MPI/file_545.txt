@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Fowler",
+                            "given": [
+                                "Jennifer"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "95477 Parker Valley"
+                            ],
+                            "city": "North Michaelburgh",
+                            "state": "NJ",
+                            "postalCode": "29040",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "765-74-2018",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1952-11-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8398428",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "708 Johnson Pine Suite 675",
+    "first_name": "Carla",
+    "birthdate": "2001-06-04",
+    "last_name": "Jenkins",
+    "city": "Lake Heather",
+    "state": "MO",
+    "postalCode": "81374",
+    "country": "USA",
+    "mrn": "110-47-7459"
+  }
+}

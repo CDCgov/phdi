@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Garcia",
+                            "given": [
+                                "Calvin"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "4199 Johnson Hills"
+                            ],
+                            "city": "Youngland",
+                            "state": "WI",
+                            "postalCode": "86330",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "711-35-2636",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1940-03-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4319532",
+    "use_enhanced": true
+}

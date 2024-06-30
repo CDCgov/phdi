@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Landry",
+                            "given": [
+                                "Ashley"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "36308 Brown Estates Apt. 031"
+                            ],
+                            "city": "Jackview",
+                            "state": "WA",
+                            "postalCode": "57019",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "452-50-0020",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1987-06-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5845133",
+    "use_enhanced": true
+}

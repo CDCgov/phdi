@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Webb",
+                            "given": [
+                                "Nancy"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "8701 Cook Oval"
+                            ],
+                            "city": "Port Bryanfurt",
+                            "state": "HI",
+                            "postalCode": "7249",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "595-82-7578",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1934-05-10"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7316868",
+    "use_enhanced": true
+}

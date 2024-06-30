@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Clay",
+                            "given": [
+                                "Robin"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "851 Ross Trace Suite 687"
+                            ],
+                            "city": "South Lauraville",
+                            "state": "UT",
+                            "postalCode": "6374",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "155-31-3512",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1974-09-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2524140",
+    "use_enhanced": true
+}

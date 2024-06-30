@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Levine",
+                            "given": [
+                                "Rebecca"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "472 Mason Meadow Suite 294"
+                            ],
+                            "city": "Lake Brittany",
+                            "state": "PA",
+                            "postalCode": "12039",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "351-98-1661",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1960-12-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8255706",
+    "use_enhanced": true
+}

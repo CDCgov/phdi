@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hart",
+                            "given": [
+                                "Karla"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "95317 Elizabeth Garden"
+                            ],
+                            "city": "Port Casey",
+                            "state": "GU",
+                            "postalCode": "69387",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "605-31-5581",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1951-06-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3544395",
+    "use_enhanced": true
+}

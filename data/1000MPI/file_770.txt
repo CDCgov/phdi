@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Peters",
+                            "given": [
+                                "Daniel"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "9084 Anna Viaduct"
+                            ],
+                            "city": "Ortizmouth",
+                            "state": "CA",
+                            "postalCode": "34045",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "618-41-9600",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1949-08-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9015059",
+    "use_enhanced": true
+}

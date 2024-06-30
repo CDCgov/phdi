@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "596 Martin Summit",
+    "first_name": "Lisa",
+    "birthdate": "1972-11-16",
+    "last_name": "Henry",
+    "city": "Amandastad",
+    "state": "KS",
+    "postalCode": "91143",
+    "country": "USA",
+    "mrn": "742-43-1839"
+  }
+}

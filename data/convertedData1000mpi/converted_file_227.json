@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "644 Cruz Keys",
+    "first_name": "Brenda",
+    "birthdate": "1959-01-01",
+    "last_name": "Moses",
+    "city": "Andrewberg",
+    "state": "DC",
+    "postalCode": "44093",
+    "country": "USA",
+    "mrn": "520-80-6614"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Flores",
+                            "given": [
+                                "Sandra"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "7173 Bell Square Apt. 874"
+                            ],
+                            "city": "East Georgeport",
+                            "state": "CA",
+                            "postalCode": "24869",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "293-32-7148",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1966-01-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5410544",
+    "use_enhanced": true
+}

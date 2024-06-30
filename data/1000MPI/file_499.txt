@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hernandez",
+                            "given": [
+                                "Tina"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "56208 Spencer Pike Suite 995"
+                            ],
+                            "city": "Dominiquestad",
+                            "state": "HI",
+                            "postalCode": "65184",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "817-23-5808",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1956-12-01"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5984197",
+    "use_enhanced": true
+}

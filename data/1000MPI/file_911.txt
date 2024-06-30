@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Boyer",
+                            "given": [
+                                "Tamara"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "626 Clark Throughway Apt. 957"
+                            ],
+                            "city": "Ericfort",
+                            "state": "WV",
+                            "postalCode": "94733",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "562-07-8435",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1955-04-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2401900",
+    "use_enhanced": true
+}

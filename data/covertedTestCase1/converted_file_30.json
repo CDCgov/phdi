@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "42771 Christina St.",
+    "first_name": "Misty",
+    "birthdate": "1969-04-12",
+    "last_name": "Martin",
+    "city": "Port Williamchester",
+    "state": "NY",
+    "postalCode": "88690",
+    "country": "USA",
+    "mrn": "181-75-8017"
+  }
+}

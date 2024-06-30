@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Krueger",
+                            "given": [
+                                "Patricia"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "957 Jessica Walk Apt. 588"
+                            ],
+                            "city": "Tashahaven",
+                            "state": "NJ",
+                            "postalCode": "30877",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "539-30-2558",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1991-08-26"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7242364",
+    "use_enhanced": true
+}

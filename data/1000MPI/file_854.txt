@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wolfe",
+                            "given": [
+                                "Mariah"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "356 Logan Crossing Suite 530"
+                            ],
+                            "city": "Jamesbury",
+                            "state": "GU",
+                            "postalCode": "29093",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "010-36-2326",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1989-02-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6716559",
+    "use_enhanced": true
+}

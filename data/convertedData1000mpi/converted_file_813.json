@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5261 Catherine Hill",
+    "first_name": "Alyssa",
+    "birthdate": "1953-05-11",
+    "last_name": "Mcintosh",
+    "city": "Lake Jameshaven",
+    "state": "PA",
+    "postalCode": "32651",
+    "country": "USA",
+    "mrn": "559-44-9616"
+  }
+}

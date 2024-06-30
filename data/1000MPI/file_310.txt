@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Brooks",
+                            "given": [
+                                "Leslie"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "525 Daniel Village Suite 654"
+                            ],
+                            "city": "Kinghaven",
+                            "state": "CT",
+                            "postalCode": "13574",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "758-73-1731",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2005-02-05"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6712775",
+    "use_enhanced": true
+}

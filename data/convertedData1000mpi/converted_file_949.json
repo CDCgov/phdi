@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "926 Jacobs View",
+    "first_name": "Patrick",
+    "birthdate": "1941-12-11",
+    "last_name": "Jackson",
+    "city": "Chapmanside",
+    "state": "NY",
+    "postalCode": "54117",
+    "country": "USA",
+    "mrn": "627-83-6055"
+  }
+}

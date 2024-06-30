@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "06187 Caitlyn Locks",
+    "first_name": "Glen",
+    "birthdate": "1996-02-24",
+    "last_name": "Romero",
+    "city": "Arthurmouth",
+    "state": "TN",
+    "postalCode": "60732",
+    "country": "USA",
+    "mrn": "078-21-9100"
+  }
+}

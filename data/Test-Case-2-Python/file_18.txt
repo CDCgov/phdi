@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Mills",
+                            "given": [
+                                "Valerie"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "PO BOX 7091"
+                            ],
+                            "city": "Carterport",
+                            "state": "VT",
+                            "postalCode": "59672",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "446-25-5155",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1948-06-08"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2593549",
+    "use_enhanced": true
+}

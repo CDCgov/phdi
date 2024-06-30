@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "65854 Clarke Islands",
+    "first_name": "Timothy",
+    "birthdate": "1990-07-11",
+    "last_name": "Green",
+    "city": "North Stephen",
+    "state": "KS",
+    "postalCode": "4639",
+    "country": "USA",
+    "mrn": "818-54-1645"
+  }
+}

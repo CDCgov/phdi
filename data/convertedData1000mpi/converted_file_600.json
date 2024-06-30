@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "026 Henderson Causeway Apt. 890",
+    "first_name": "Emma",
+    "birthdate": "1958-04-24",
+    "last_name": "Caldwell",
+    "city": "Port Judith",
+    "state": "ID",
+    "postalCode": "68347",
+    "country": "USA",
+    "mrn": "128-09-6628"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9474 Derek Crossing Suite 655",
+    "first_name": "Keith",
+    "birthdate": "1974-12-20",
+    "last_name": "Adams",
+    "city": "West Kellyside",
+    "state": "MI",
+    "postalCode": "17457",
+    "country": "USA",
+    "mrn": "887-70-7723"
+  }
+}

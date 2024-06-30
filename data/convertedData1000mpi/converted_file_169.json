@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2132 Rodriguez Roads",
+    "first_name": "Laura",
+    "birthdate": "2003-08-02",
+    "last_name": "Garcia",
+    "city": "East Krystalview",
+    "state": "NJ",
+    "postalCode": "45272",
+    "country": "USA",
+    "mrn": "593-34-8115"
+  }
+}

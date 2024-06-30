@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "24362 Mary Forges",
+    "first_name": "Ariel",
+    "birthdate": "1956-09-02",
+    "last_name": "Diaz",
+    "city": "Lake Richard",
+    "state": "DC",
+    "postalCode": "46013",
+    "country": "USA",
+    "mrn": "311-21-0690"
+  }
+}

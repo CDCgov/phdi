@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "895 Alexis Streets",
+    "first_name": "Michael",
+    "birthdate": "1943-03-08",
+    "last_name": "Baker",
+    "city": "North Micheleville",
+    "state": "SD",
+    "postalCode": "96155",
+    "country": "USA",
+    "mrn": "371-96-3621"
+  }
+}

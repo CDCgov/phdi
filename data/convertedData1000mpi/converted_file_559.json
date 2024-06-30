@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "352 Wendy Circle",
+    "first_name": "Paul",
+    "birthdate": "1941-02-02",
+    "last_name": "Gonzalez",
+    "city": "Wangland",
+    "state": "VA",
+    "postalCode": "51781",
+    "country": "USA",
+    "mrn": "639-86-5655"
+  }
+}

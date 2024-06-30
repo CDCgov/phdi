@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2498 Bradley Harbor",
+    "first_name": "Evan",
+    "birthdate": "2000-03-23",
+    "last_name": "Wall",
+    "city": "Matthewville",
+    "state": "TX",
+    "postalCode": "63855",
+    "country": "USA",
+    "mrn": "893-68-5183"
+  }
+}

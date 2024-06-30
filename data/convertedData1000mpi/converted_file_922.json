@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "66637 Schroeder Brooks Suite 296",
+    "first_name": "Michael",
+    "birthdate": "2002-12-02",
+    "last_name": "Stewart",
+    "city": "North Melissastad",
+    "state": "RI",
+    "postalCode": "41809",
+    "country": "USA",
+    "mrn": "798-28-6240"
+  }
+}

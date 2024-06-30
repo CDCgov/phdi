@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7899 Duane Forest",
+    "first_name": "Steven",
+    "birthdate": "2004-05-14",
+    "last_name": "James",
+    "city": "Stephenmouth",
+    "state": "MH",
+    "postalCode": "31402",
+    "country": "USA",
+    "mrn": "478-75-0769"
+  }
+}

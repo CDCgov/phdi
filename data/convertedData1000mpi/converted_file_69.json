@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "82603 Austin Station",
+    "first_name": "Darius",
+    "birthdate": "1933-11-26",
+    "last_name": "Wilson",
+    "city": "Floresside",
+    "state": "MN",
+    "postalCode": "62769",
+    "country": "USA",
+    "mrn": "535-20-6861"
+  }
+}

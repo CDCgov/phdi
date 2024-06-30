@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2169 Zuniga Pike",
+    "first_name": "Eric",
+    "birthdate": "1937-12-11",
+    "last_name": "Wolf",
+    "city": "Sarachester",
+    "state": "MA",
+    "postalCode": "91919",
+    "country": "USA",
+    "mrn": "321-25-2464"
+  }
+}

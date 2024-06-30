@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3941 David Cliff Suite 724",
+    "first_name": "Gary",
+    "birthdate": "1969-07-04",
+    "last_name": "Kelly",
+    "city": "South Johnnymouth",
+    "state": "TN",
+    "postalCode": "52404",
+    "country": "USA",
+    "mrn": "362-79-8207"
+  }
+}

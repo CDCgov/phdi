@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "146 Charlotte Drives Apt. 032",
+    "first_name": "Stephen",
+    "birthdate": "1939-04-16",
+    "last_name": "Simpson",
+    "city": "Fullerton",
+    "state": "CT",
+    "postalCode": "70305",
+    "country": "USA",
+    "mrn": "385-18-6911"
+  }
+}

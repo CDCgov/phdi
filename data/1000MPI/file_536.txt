@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Watson",
+                            "given": [
+                                "Paul"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "971 Steven Village"
+                            ],
+                            "city": "East Jonathanport",
+                            "state": "SD",
+                            "postalCode": "17228",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "433-17-7025",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1982-08-29"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9273076",
+    "use_enhanced": true
+}

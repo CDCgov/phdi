@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1339 Moore Alley",
+    "first_name": "Audrey",
+    "birthdate": "1973-08-24",
+    "last_name": "Williamson",
+    "city": "Wagnerborough",
+    "state": "FM",
+    "postalCode": "63946",
+    "country": "USA",
+    "mrn": "740-94-8486"
+  }
+}

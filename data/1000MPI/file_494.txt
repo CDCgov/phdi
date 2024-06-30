@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Ayala",
+                            "given": [
+                                "Jennifer"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "74583 David Brooks Apt. 989"
+                            ],
+                            "city": "South Adamfort",
+                            "state": "IL",
+                            "postalCode": "9635",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "095-76-2222",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1978-11-10"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7673303",
+    "use_enhanced": true
+}

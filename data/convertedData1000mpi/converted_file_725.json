@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "52166 Julie Road Apt. 894",
+    "first_name": "Jason",
+    "birthdate": "1987-10-23",
+    "last_name": "Weeks",
+    "city": "Hurleyhaven",
+    "state": "MS",
+    "postalCode": "75041",
+    "country": "USA",
+    "mrn": "391-73-3727"
+  }
+}

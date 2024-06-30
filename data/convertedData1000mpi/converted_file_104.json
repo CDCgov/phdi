@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7269 Campbell Fork",
+    "first_name": "Monica",
+    "birthdate": "1937-01-04",
+    "last_name": "Garcia",
+    "city": "North Holly",
+    "state": "CO",
+    "postalCode": "35897",
+    "country": "USA",
+    "mrn": "031-28-1060"
+  }
+}

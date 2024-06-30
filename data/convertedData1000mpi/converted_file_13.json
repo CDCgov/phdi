@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "60015 Edward Vista Suite 518",
+    "first_name": "Angie",
+    "birthdate": "1972-08-26",
+    "last_name": "Johnson",
+    "city": "Lake Andreaview",
+    "state": "UT",
+    "postalCode": "46540",
+    "country": "USA",
+    "mrn": "740-16-5170"
+  }
+}

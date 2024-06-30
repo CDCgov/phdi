@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Anderson",
+                            "given": [
+                                "Lorraine"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "8271 Kerr Lights Apt. 821"
+                            ],
+                            "city": "Josephmouth",
+                            "state": "CA",
+                            "postalCode": "11082",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "499-96-9611",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1996-01-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8100526",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "63338 Adams Locks Apt. 252",
+    "first_name": "James",
+    "birthdate": "1978-04-23",
+    "last_name": "Brown",
+    "city": "Gordonhaven",
+    "state": "WI",
+    "postalCode": "56132",
+    "country": "USA",
+    "mrn": "305-82-8667"
+  }
+}

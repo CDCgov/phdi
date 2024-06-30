@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9061 Brandi Mission",
+    "first_name": "Sara",
+    "birthdate": "1963-03-26",
+    "last_name": "Benton",
+    "city": "Johnsview",
+    "state": "MP",
+    "postalCode": "51270",
+    "country": "USA",
+    "mrn": "266-75-5134"
+  }
+}

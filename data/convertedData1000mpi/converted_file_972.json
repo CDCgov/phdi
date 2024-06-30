@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "882 Michael Mountains",
+    "first_name": "Michelle",
+    "birthdate": "1936-04-30",
+    "last_name": "Peterson",
+    "city": "Robertside",
+    "state": "OK",
+    "postalCode": "41224",
+    "country": "USA",
+    "mrn": "141-69-6060"
+  }
+}

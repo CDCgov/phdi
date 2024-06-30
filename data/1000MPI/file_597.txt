@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Turner",
+                            "given": [
+                                "Jennifer"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "0364 Morales Loaf"
+                            ],
+                            "city": "New Danielfort",
+                            "state": "MO",
+                            "postalCode": "15427",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "007-62-9190",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1985-02-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7381478",
+    "use_enhanced": true
+}

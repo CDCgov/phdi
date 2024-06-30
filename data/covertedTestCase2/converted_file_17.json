@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1140 Sunset Boulevard",
+    "first_name": "Minnie",
+    "birthdate": "1938-05-14",
+    "last_name": "Torres",
+    "city": "Amberville",
+    "state": "LA",
+    "postalCode": "38790",
+    "country": "USA",
+    "mrn": "359-41-7516"
+  }
+}

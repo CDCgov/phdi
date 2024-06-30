@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "575 Mcknight Lake",
+    "first_name": "Amber",
+    "birthdate": "1964-01-05",
+    "last_name": "Brown",
+    "city": "North Craigberg",
+    "state": "ID",
+    "postalCode": "91956",
+    "country": "USA",
+    "mrn": "043-48-6969"
+  }
+}

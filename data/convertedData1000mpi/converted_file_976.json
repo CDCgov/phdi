@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2013 Matthew Trail",
+    "first_name": "Jenna",
+    "birthdate": "1988-08-23",
+    "last_name": "Benitez",
+    "city": "South Albert",
+    "state": "DC",
+    "postalCode": "53047",
+    "country": "USA",
+    "mrn": "762-89-7458"
+  }
+}

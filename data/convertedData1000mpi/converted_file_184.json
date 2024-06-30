@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "21968 James Springs",
+    "first_name": "Dylan",
+    "birthdate": "1999-04-23",
+    "last_name": "Jones",
+    "city": "Michaelmouth",
+    "state": "MN",
+    "postalCode": "42145",
+    "country": "USA",
+    "mrn": "394-04-2639"
+  }
+}

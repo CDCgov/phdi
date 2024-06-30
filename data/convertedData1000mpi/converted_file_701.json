@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4278 Nicole Gateway Suite 134",
+    "first_name": "Shannon",
+    "birthdate": "1963-09-24",
+    "last_name": "Mcguire",
+    "city": "Hodgefurt",
+    "state": "TN",
+    "postalCode": "31549",
+    "country": "USA",
+    "mrn": "369-82-4972"
+  }
+}

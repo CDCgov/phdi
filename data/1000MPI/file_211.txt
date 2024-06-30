@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Rogers",
+                            "given": [
+                                "Meghan"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "27100 Lauren Mountain Suite 536"
+                            ],
+                            "city": "North Aaronhaven",
+                            "state": "CA",
+                            "postalCode": "72091",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "867-23-8642",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1936-09-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6308089",
+    "use_enhanced": true
+}

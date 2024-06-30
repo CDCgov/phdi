@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "01816 Robin Falls",
+    "first_name": "Xavier",
+    "birthdate": "1971-07-21",
+    "last_name": "Hall",
+    "city": "Georgeville",
+    "state": "NY",
+    "postalCode": "95719",
+    "country": "USA",
+    "mrn": "856-01-3884"
+  }
+}

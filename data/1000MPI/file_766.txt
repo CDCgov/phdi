@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Porter",
+                            "given": [
+                                "Robert"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "4134 Timothy Hills Suite 606"
+                            ],
+                            "city": "Sandraview",
+                            "state": "PW",
+                            "postalCode": "66526",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "542-20-1775",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1957-08-30"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6883276",
+    "use_enhanced": true
+}

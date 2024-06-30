@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Dawson",
+                            "given": [
+                                "Ethan"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "0933 Duffy Island Suite 297"
+                            ],
+                            "city": "East Amanda",
+                            "state": "NJ",
+                            "postalCode": "69829",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "171-23-7870",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1943-08-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3468741",
+    "use_enhanced": true
+}

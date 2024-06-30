@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Moore",
+                            "given": [
+                                "Daniel"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "570 Christopher Ridges"
+                            ],
+                            "city": "Ferrellstad",
+                            "state": "ND",
+                            "postalCode": "29524",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "303-60-8796",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2005-08-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5103131",
+    "use_enhanced": true
+}

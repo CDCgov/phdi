@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "957 Jessica Walk Apt. 588",
+    "first_name": "Patricia",
+    "birthdate": "1991-08-26",
+    "last_name": "Krueger",
+    "city": "Tashahaven",
+    "state": "NJ",
+    "postalCode": "30877",
+    "country": "USA",
+    "mrn": "539-30-2558"
+  }
+}

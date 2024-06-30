@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "42520 Giles Views Suite 414",
+    "first_name": "Alicia",
+    "birthdate": "1990-07-29",
+    "last_name": "Jackson",
+    "city": "Dannyfort",
+    "state": "MI",
+    "postalCode": "61195",
+    "country": "USA",
+    "mrn": "063-56-7993"
+  }
+}

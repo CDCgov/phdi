@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Ross",
+                            "given": [
+                                "Christopher"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "534 Michelle Isle Suite 567"
+                            ],
+                            "city": "Samanthaville",
+                            "state": "NJ",
+                            "postalCode": "99159",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "200-94-9730",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1941-08-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1999002",
+    "use_enhanced": true
+}

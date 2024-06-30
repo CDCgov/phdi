@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6225 Peterson Vista Suite 868",
+    "first_name": "Jimmy",
+    "birthdate": "1987-09-30",
+    "last_name": "Arnold",
+    "city": "Floreston",
+    "state": "CO",
+    "postalCode": "10284",
+    "country": "USA",
+    "mrn": "691-69-0729"
+  }
+}

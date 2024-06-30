@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Miller",
+                            "given": [
+                                "Nancy"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "73425 Williams Spur Suite 786"
+                            ],
+                            "city": "New Joelland",
+                            "state": "LA",
+                            "postalCode": "83935",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "588-76-1820",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2003-11-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8488099",
+    "use_enhanced": true
+}

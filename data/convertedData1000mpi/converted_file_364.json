@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "45850 Meghan Ports Apt. 511",
+    "first_name": "Bryan",
+    "birthdate": "1944-06-17",
+    "last_name": "Hardin",
+    "city": "West Kathleen",
+    "state": "AL",
+    "postalCode": "24285",
+    "country": "USA",
+    "mrn": "139-39-8461"
+  }
+}

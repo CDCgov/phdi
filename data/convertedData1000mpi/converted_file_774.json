@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "689 Moore Ridges",
+    "first_name": "Deborah",
+    "birthdate": "1961-09-14",
+    "last_name": "Lindsey",
+    "city": "Justinville",
+    "state": "KY",
+    "postalCode": "13380",
+    "country": "USA",
+    "mrn": "741-66-8556"
+  }
+}

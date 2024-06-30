@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "57396 Kendra Lights Apt. 454",
+    "first_name": "Joshua",
+    "birthdate": "1992-10-15",
+    "last_name": "Roberts",
+    "city": "West Christopherport",
+    "state": "MD",
+    "postalCode": "79641",
+    "country": "USA",
+    "mrn": "550-23-9848"
+  }
+}

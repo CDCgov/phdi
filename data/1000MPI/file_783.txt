@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Bell",
+                            "given": [
+                                "Walter"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "7654 Parks Ford Suite 522"
+                            ],
+                            "city": "West William",
+                            "state": "ME",
+                            "postalCode": "39181",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "198-83-7480",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1990-12-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9942424",
+    "use_enhanced": true
+}

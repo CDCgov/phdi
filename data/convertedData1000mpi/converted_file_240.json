@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "189 Parker Divide Suite 270",
+    "first_name": "Mary",
+    "birthdate": "1938-01-30",
+    "last_name": "Scott",
+    "city": "Port Jennifer",
+    "state": "WV",
+    "postalCode": "89207",
+    "country": "USA",
+    "mrn": "196-78-0197"
+  }
+}

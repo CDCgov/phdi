@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "49984 Sanchez Rue",
+    "first_name": "Zachary",
+    "birthdate": "1993-06-26",
+    "last_name": "Johnson",
+    "city": "South Adrian",
+    "state": "NE",
+    "postalCode": "97208",
+    "country": "USA",
+    "mrn": "168-25-2575"
+  }
+}

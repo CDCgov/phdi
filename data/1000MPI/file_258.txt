@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Roberts",
+                            "given": [
+                                "Joshua"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "57396 Kendra Lights Apt. 454"
+                            ],
+                            "city": "West Christopherport",
+                            "state": "MD",
+                            "postalCode": "79641",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "550-23-9848",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1992-10-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9126710",
+    "use_enhanced": true
+}

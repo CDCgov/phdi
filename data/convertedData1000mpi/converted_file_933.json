@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "487 Morgan Track Suite 521",
+    "first_name": "Maria",
+    "birthdate": "1993-09-24",
+    "last_name": "Mitchell",
+    "city": "North Maria",
+    "state": "VT",
+    "postalCode": "21519",
+    "country": "USA",
+    "mrn": "651-22-2694"
+  }
+}

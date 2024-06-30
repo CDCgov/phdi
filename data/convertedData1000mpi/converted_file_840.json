@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "332 Stevens Mills",
+    "first_name": "Megan",
+    "birthdate": "1956-10-19",
+    "last_name": "Cohen",
+    "city": "East Amy",
+    "state": "CT",
+    "postalCode": "49435",
+    "country": "USA",
+    "mrn": "264-93-0554"
+  }
+}

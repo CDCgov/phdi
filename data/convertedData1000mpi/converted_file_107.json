@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2040 Daniel Terrace",
+    "first_name": "Michelle",
+    "birthdate": "1978-07-02",
+    "last_name": "Jones",
+    "city": "East Davidtown",
+    "state": "CO",
+    "postalCode": "99246",
+    "country": "USA",
+    "mrn": "195-50-0508"
+  }
+}

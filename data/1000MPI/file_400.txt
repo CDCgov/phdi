@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "White",
+                            "given": [
+                                "Joseph"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "9363 Lisa Rue"
+                            ],
+                            "city": "South Kenneth",
+                            "state": "AZ",
+                            "postalCode": "13453",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "093-06-0780",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1993-09-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9582385",
+    "use_enhanced": true
+}

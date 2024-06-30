@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "436 Daniels Knolls Suite 294",
+    "first_name": "Taylor",
+    "birthdate": "1998-01-30",
+    "last_name": "Watkins",
+    "city": "New Roberthaven",
+    "state": "MI",
+    "postalCode": "78373",
+    "country": "USA",
+    "mrn": "044-56-8723"
+  }
+}

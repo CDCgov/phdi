@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "39978 Angelica Pines",
+    "first_name": "Courtney",
+    "birthdate": "1941-08-27",
+    "last_name": "Miller",
+    "city": "Lake Graceberg",
+    "state": "AR",
+    "postalCode": "82016",
+    "country": "USA",
+    "mrn": "150-81-0908"
+  }
+}

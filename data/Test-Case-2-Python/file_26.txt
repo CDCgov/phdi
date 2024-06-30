@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lin",
+                            "given": [
+                                "Jasmine"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "c/o Emergency Mail Program\n22401 Christine Island Apt. 660"
+                            ],
+                            "city": "Lake Brian",
+                            "state": "UT",
+                            "postalCode": "11296",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "232-98-7615",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1958-10-16"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9556562",
+    "use_enhanced": true
+}

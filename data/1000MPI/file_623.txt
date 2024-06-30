@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Miller",
+                            "given": [
+                                "Karen"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "585 Ortiz Streets Suite 575"
+                            ],
+                            "city": "Fitzgeraldstad",
+                            "state": "GU",
+                            "postalCode": "76415",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "218-97-4693",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1997-09-26"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1046631",
+    "use_enhanced": true
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gonzalez",
+                            "given": [
+                                "Mike"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "0133 Hill Circle Apt. 858"
+                            ],
+                            "city": "Port Thomasview",
+                            "state": "SD",
+                            "postalCode": "38347",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "353-03-5064",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1937-12-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3798785",
+    "use_enhanced": true
+}

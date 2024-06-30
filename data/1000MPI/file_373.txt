@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Duffy",
+                            "given": [
+                                "Mary"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "13219 Derrick Alley Suite 360"
+                            ],
+                            "city": "Lake Marieburgh",
+                            "state": "NC",
+                            "postalCode": "52485",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "532-50-6861",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1940-02-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6643710",
+    "use_enhanced": true
+}

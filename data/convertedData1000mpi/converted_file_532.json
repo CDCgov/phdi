@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6031 Ochoa Crescent",
+    "first_name": "Dennis",
+    "birthdate": "1981-12-27",
+    "last_name": "Nichols",
+    "city": "Port Erinfurt",
+    "state": "WI",
+    "postalCode": "81953",
+    "country": "USA",
+    "mrn": "623-80-5876"
+  }
+}

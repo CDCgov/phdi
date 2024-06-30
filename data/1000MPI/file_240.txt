@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Scott",
+                            "given": [
+                                "Mary"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "189 Parker Divide Suite 270"
+                            ],
+                            "city": "Port Jennifer",
+                            "state": "WV",
+                            "postalCode": "89207",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "196-78-0197",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1938-01-30"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7657808",
+    "use_enhanced": true
+}

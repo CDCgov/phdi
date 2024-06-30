@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "20103 Strickland Spurs Suite 208",
+    "first_name": "John",
+    "birthdate": "2003-12-21",
+    "last_name": "Rodriguez",
+    "city": "Lake Audreystad",
+    "state": "MN",
+    "postalCode": "69056",
+    "country": "USA",
+    "mrn": "543-72-5219"
+  }
+}

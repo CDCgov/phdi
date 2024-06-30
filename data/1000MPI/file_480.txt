@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Ashley",
+                            "given": [
+                                "Robin"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "57599 Garcia Center"
+                            ],
+                            "city": "Kevinstad",
+                            "state": "CO",
+                            "postalCode": "56896",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "276-20-3409",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1976-10-16"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1709712",
+    "use_enhanced": true
+}

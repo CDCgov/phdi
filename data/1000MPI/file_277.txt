@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Coleman",
+                            "given": [
+                                "Brian"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "603 Cox Underpass"
+                            ],
+                            "city": "East Heathershire",
+                            "state": "CA",
+                            "postalCode": "75083",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "768-16-8938",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1983-10-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5919466",
+    "use_enhanced": true
+}

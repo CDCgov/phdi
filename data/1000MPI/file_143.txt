@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lopez",
+                            "given": [
+                                "Brandy"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "340 Sandra Stream"
+                            ],
+                            "city": "Swansonshire",
+                            "state": "MI",
+                            "postalCode": "93849",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "499-61-9904",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1995-04-08"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5360869",
+    "use_enhanced": true
+}

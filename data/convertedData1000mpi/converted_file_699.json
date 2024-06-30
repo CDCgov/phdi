@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "701 Gallagher Inlet Suite 984",
+    "first_name": "Rebecca",
+    "birthdate": "1971-03-17",
+    "last_name": "Solomon",
+    "city": "Chadberg",
+    "state": "PR",
+    "postalCode": "10340",
+    "country": "USA",
+    "mrn": "324-45-3325"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "54326 Diaz Terrace",
+    "first_name": "Adam",
+    "birthdate": "1997-05-24",
+    "last_name": "Meyers",
+    "city": "Thomasshire",
+    "state": "WA",
+    "postalCode": "50527",
+    "country": "USA",
+    "mrn": "370-81-4235"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Chavez",
+                            "given": [
+                                "Diana"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "22805 Hanna Terrace"
+                            ],
+                            "city": "Shannonburgh",
+                            "state": "ID",
+                            "postalCode": "46081",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "302-15-9568",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1993-02-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2736155",
+    "use_enhanced": true
+}

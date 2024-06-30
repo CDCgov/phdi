@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Galloway",
+                            "given": [
+                                "Joshua"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "462 Patricia Fall Suite 236"
+                            ],
+                            "city": "Natashaside",
+                            "state": "VI",
+                            "postalCode": "64361",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "131-41-7785",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1995-03-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3876940",
+    "use_enhanced": true
+}

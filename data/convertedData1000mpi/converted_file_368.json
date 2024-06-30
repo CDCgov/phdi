@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "634 Harrington Spur Suite 346",
+    "first_name": "Deborah",
+    "birthdate": "1945-03-13",
+    "last_name": "Moore",
+    "city": "East Dakota",
+    "state": "WV",
+    "postalCode": "89296",
+    "country": "USA",
+    "mrn": "883-71-2067"
+  }
+}

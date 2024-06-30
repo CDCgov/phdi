@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "16960 Olson Ville Apt. 676",
+    "first_name": "Erik",
+    "birthdate": "1981-06-20",
+    "last_name": "Anderson",
+    "city": "Lake Meghan",
+    "state": "MH",
+    "postalCode": "66681",
+    "country": "USA",
+    "mrn": "645-39-4563"
+  }
+}

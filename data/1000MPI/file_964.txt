@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Jones",
+                            "given": [
+                                "Paul"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "81865 Thomas Lodge"
+                            ],
+                            "city": "East Mariaview",
+                            "state": "ID",
+                            "postalCode": "4073",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "345-40-6789",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2002-03-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6818427",
+    "use_enhanced": true
+}

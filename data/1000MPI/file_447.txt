@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Patel",
+                            "given": [
+                                "Gregory"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "930 Cook Lakes"
+                            ],
+                            "city": "Bullockhaven",
+                            "state": "FM",
+                            "postalCode": "43745",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "528-79-9189",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1949-06-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7832687",
+    "use_enhanced": true
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Warren",
+                            "given": [
+                                "Jordan"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "5353 Kristy Keys Suite 508"
+                            ],
+                            "city": "South Donna",
+                            "state": "AL",
+                            "postalCode": "16859",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "527-07-8606",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1967-10-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4159187",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "USPS Store\n32329 Amber Well Suite 892",
+    "first_name": "David",
+    "birthdate": "1948-11-24",
+    "last_name": "Spencer",
+    "city": "Jamesbury",
+    "state": "CA",
+    "postalCode": "87967",
+    "country": "USA",
+    "mrn": "247-01-0718"
+  }
+}

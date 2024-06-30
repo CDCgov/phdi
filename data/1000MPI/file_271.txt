@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Diaz",
+                            "given": [
+                                "Patricia"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "0108 David Expressway Apt. 807"
+                            ],
+                            "city": "Kristinabury",
+                            "state": "DC",
+                            "postalCode": "57783",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "097-14-9180",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1993-09-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4880592",
+    "use_enhanced": true
+}

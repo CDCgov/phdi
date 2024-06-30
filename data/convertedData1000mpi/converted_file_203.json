@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "354 May Pass",
+    "first_name": "Kayla",
+    "birthdate": "1966-08-20",
+    "last_name": "Chan",
+    "city": "Bradleyshire",
+    "state": "FM",
+    "postalCode": "79476",
+    "country": "USA",
+    "mrn": "741-66-3845"
+  }
+}

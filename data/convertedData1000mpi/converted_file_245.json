@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "476 Brendan Pine Apt. 904",
+    "first_name": "Michelle",
+    "birthdate": "1955-09-27",
+    "last_name": "Cummings",
+    "city": "Christinaview",
+    "state": "WV",
+    "postalCode": "77588",
+    "country": "USA",
+    "mrn": "324-24-2020"
+  }
+}

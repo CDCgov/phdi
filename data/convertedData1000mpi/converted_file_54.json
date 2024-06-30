@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "92435 Logan Harbors",
+    "first_name": "Edwin",
+    "birthdate": "1949-02-01",
+    "last_name": "Hart",
+    "city": "Taylorview",
+    "state": "MD",
+    "postalCode": "88909",
+    "country": "USA",
+    "mrn": "717-75-3375"
+  }
+}

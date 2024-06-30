@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2776 Vincent Haven Apt. 366",
+    "first_name": "Shelby",
+    "birthdate": "1961-08-20",
+    "last_name": "Weber",
+    "city": "Lindsayport",
+    "state": "NY",
+    "postalCode": "32995",
+    "country": "USA",
+    "mrn": "421-70-9007"
+  }
+}

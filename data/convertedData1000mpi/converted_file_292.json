@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "03567 Emily Roads",
+    "first_name": "Charles",
+    "birthdate": "1942-04-24",
+    "last_name": "Valdez",
+    "city": "North Jennifer",
+    "state": "PA",
+    "postalCode": "75416",
+    "country": "USA",
+    "mrn": "381-25-7713"
+  }
+}

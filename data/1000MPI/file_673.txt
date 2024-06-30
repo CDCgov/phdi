@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Thomas",
+                            "given": [
+                                "Lynn"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "281 Melissa Inlet"
+                            ],
+                            "city": "Port Paulville",
+                            "state": "VI",
+                            "postalCode": "5967",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "219-97-0007",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1993-10-30"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6977715",
+    "use_enhanced": true
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Daugherty",
+                            "given": [
+                                "Laura"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "65341 Christine Radial Apt. 648"
+                            ],
+                            "city": "North Shannon",
+                            "state": "NE",
+                            "postalCode": "55544",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "350-20-2855",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1994-01-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5023763",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "31556 Glenn Greens",
+    "first_name": "Riley",
+    "birthdate": "2004-11-25",
+    "last_name": "Sexton",
+    "city": "North Brianland",
+    "state": "MH",
+    "postalCode": "34251",
+    "country": "USA",
+    "mrn": "316-22-2539"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4434 Wilcox Brooks",
+    "first_name": "Connie",
+    "birthdate": "1937-05-29",
+    "last_name": "Graham",
+    "city": "West Michaelchester",
+    "state": "MS",
+    "postalCode": "27933",
+    "country": "USA",
+    "mrn": "296-43-3778"
+  }
+}

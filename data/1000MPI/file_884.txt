@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Carpenter",
+                            "given": [
+                                "Michael"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "3275 Lucas Highway Suite 077"
+                            ],
+                            "city": "New Lee",
+                            "state": "GU",
+                            "postalCode": "69626",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "192-45-6073",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1985-12-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1827383",
+    "use_enhanced": true
+}

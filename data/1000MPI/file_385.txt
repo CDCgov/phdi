@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lee",
+                            "given": [
+                                "James"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "4178 Brian Square Apt. 788"
+                            ],
+                            "city": "East Jose",
+                            "state": "GU",
+                            "postalCode": "78310",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "646-78-0010",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1951-03-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5485526",
+    "use_enhanced": true
+}

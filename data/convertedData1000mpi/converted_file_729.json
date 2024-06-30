@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "449 Melton Mill",
+    "first_name": "Debra",
+    "birthdate": "1960-04-01",
+    "last_name": "Hill",
+    "city": "East Gregorymouth",
+    "state": "AL",
+    "postalCode": "25341",
+    "country": "USA",
+    "mrn": "667-35-7878"
+  }
+}

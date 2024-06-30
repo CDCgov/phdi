@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Davis",
+                            "given": [
+                                "Dustin"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "0625 Sanchez Spurs"
+                            ],
+                            "city": "Allisonshire",
+                            "state": "VA",
+                            "postalCode": "45841",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "250-39-7739",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2000-10-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2411798",
+    "use_enhanced": true
+}

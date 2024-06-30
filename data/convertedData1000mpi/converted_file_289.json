@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "263 Ryan Course",
+    "first_name": "James",
+    "birthdate": "1958-03-13",
+    "last_name": "Jacobs",
+    "city": "New Ashley",
+    "state": "RI",
+    "postalCode": "61143",
+    "country": "USA",
+    "mrn": "833-17-2576"
+  }
+}

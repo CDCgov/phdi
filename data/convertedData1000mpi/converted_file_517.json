@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "78387 Carroll Village",
+    "first_name": "Julia",
+    "birthdate": "1980-12-02",
+    "last_name": "Salazar",
+    "city": "East Ronald",
+    "state": "MI",
+    "postalCode": "41655",
+    "country": "USA",
+    "mrn": "601-48-8014"
+  }
+}

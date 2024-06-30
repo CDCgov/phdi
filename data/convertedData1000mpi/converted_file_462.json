@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7036 Amy Knoll",
+    "first_name": "Cory",
+    "birthdate": "1965-10-23",
+    "last_name": "Mcbride",
+    "city": "Danielport",
+    "state": "RI",
+    "postalCode": "40771",
+    "country": "USA",
+    "mrn": "313-39-2660"
+  }
+}

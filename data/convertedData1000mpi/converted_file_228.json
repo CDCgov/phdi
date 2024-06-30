@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "88960 Wesley Overpass",
+    "first_name": "Christina",
+    "birthdate": "1992-12-17",
+    "last_name": "Roth",
+    "city": "Williamton",
+    "state": "WA",
+    "postalCode": "46711",
+    "country": "USA",
+    "mrn": "279-37-5611"
+  }
+}

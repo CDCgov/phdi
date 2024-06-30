@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3716 Kayla Stream",
+    "first_name": "Scott",
+    "birthdate": "1992-11-17",
+    "last_name": "Kelley",
+    "city": "Cassandramouth",
+    "state": "AZ",
+    "postalCode": "32445",
+    "country": "USA",
+    "mrn": "787-87-7536"
+  }
+}

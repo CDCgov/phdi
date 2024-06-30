@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Blackburn",
+                            "given": [
+                                "Stefanie"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "5047 Payne Forge Apt. 331"
+                            ],
+                            "city": "Port Savannahfurt",
+                            "state": "MI",
+                            "postalCode": "6359",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "691-12-2437",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1977-01-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1400893",
+    "use_enhanced": true
+}

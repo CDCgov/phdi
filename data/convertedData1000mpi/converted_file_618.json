@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1446 Rachel Unions Suite 735",
+    "first_name": "Amanda",
+    "birthdate": "1950-03-24",
+    "last_name": "Hunt",
+    "city": "New Vanessa",
+    "state": "WI",
+    "postalCode": "7208",
+    "country": "USA",
+    "mrn": "590-63-3251"
+  }
+}

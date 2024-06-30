@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Miller",
+                            "given": [
+                                "Donna"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "65975 Andrews Orchard Apt. 672"
+                            ],
+                            "city": "North Elizabeth",
+                            "state": "AS",
+                            "postalCode": "98948",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "406-16-6717",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1969-10-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7713384",
+    "use_enhanced": true
+}

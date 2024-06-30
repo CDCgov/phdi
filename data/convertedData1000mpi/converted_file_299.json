@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "104 James Orchard Suite 201",
+    "first_name": "Nicole",
+    "birthdate": "2002-05-10",
+    "last_name": "Patel",
+    "city": "Ryanside",
+    "state": "WY",
+    "postalCode": "29523",
+    "country": "USA",
+    "mrn": "473-27-5553"
+  }
+}

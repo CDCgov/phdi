@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "50110 Jonathan Crossroad Suite 271",
+    "first_name": "Nathaniel",
+    "birthdate": "1985-07-15",
+    "last_name": "Brown",
+    "city": "New Kelly",
+    "state": "WI",
+    "postalCode": "69736",
+    "country": "USA",
+    "mrn": "554-11-1415"
+  }
+}

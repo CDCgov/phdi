@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Paul",
+                            "given": [
+                                "Anthony"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "061 Brown Street"
+                            ],
+                            "city": "Ericville",
+                            "state": "SC",
+                            "postalCode": "58941",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "305-57-9487",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1999-05-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4657020",
+    "use_enhanced": true
+}

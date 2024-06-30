@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Williams",
+                            "given": [
+                                "Jean"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "72723 Jeffrey Ports"
+                            ],
+                            "city": "Lake Jessica",
+                            "state": "GA",
+                            "postalCode": "13985",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "593-36-4631",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1942-01-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3652938",
+    "use_enhanced": true
+}

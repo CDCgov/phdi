@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "356 Boyle Terrace",
+    "first_name": "Sandra",
+    "birthdate": "1939-08-08",
+    "last_name": "Lewis",
+    "city": "West Kevin",
+    "state": "MT",
+    "postalCode": "1666",
+    "country": "USA",
+    "mrn": "882-33-1209"
+  }
+}

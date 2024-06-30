@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Meyers",
+                            "given": [
+                                "David"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "9216 Patrick Branch"
+                            ],
+                            "city": "Joyfurt",
+                            "state": "FM",
+                            "postalCode": "66844",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "259-70-8422",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1987-10-03"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1481733",
+    "use_enhanced": true
+}

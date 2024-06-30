@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8245 Pamela Lodge",
+    "first_name": "Courtney",
+    "birthdate": "1939-05-29",
+    "last_name": "Kemp",
+    "city": "West Debbie",
+    "state": "PR",
+    "postalCode": "39572",
+    "country": "USA",
+    "mrn": "335-19-5605"
+  }
+}

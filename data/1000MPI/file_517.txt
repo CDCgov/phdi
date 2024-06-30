@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Salazar",
+                            "given": [
+                                "Julia"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "78387 Carroll Village"
+                            ],
+                            "city": "East Ronald",
+                            "state": "MI",
+                            "postalCode": "41655",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "601-48-8014",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1980-12-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8683382",
+    "use_enhanced": true
+}

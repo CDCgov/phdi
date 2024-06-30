@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3345 Davidson Valley Suite 354",
+    "first_name": "Elizabeth",
+    "birthdate": "1994-03-31",
+    "last_name": "Cantrell",
+    "city": "Edwardfort",
+    "state": "AK",
+    "postalCode": "83492",
+    "country": "USA",
+    "mrn": "779-58-2583"
+  }
+}

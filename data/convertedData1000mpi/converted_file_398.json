@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7712 Hawkins Mountain Suite 081",
+    "first_name": "Michael",
+    "birthdate": "2006-02-20",
+    "last_name": "Herring",
+    "city": "West Melissachester",
+    "state": "MS",
+    "postalCode": "48680",
+    "country": "USA",
+    "mrn": "634-07-6958"
+  }
+}

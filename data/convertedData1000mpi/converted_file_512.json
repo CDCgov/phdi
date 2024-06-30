@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "66931 Waller Points",
+    "first_name": "Jody",
+    "birthdate": "1981-10-30",
+    "last_name": "Young",
+    "city": "Johnmouth",
+    "state": "IA",
+    "postalCode": "61232",
+    "country": "USA",
+    "mrn": "262-46-5354"
+  }
+}

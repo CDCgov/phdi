@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "964 Mendez Parks",
+    "first_name": "Stephanie",
+    "birthdate": "1970-12-12",
+    "last_name": "Rogers",
+    "city": "Conwayburgh",
+    "state": "KY",
+    "postalCode": "51541",
+    "country": "USA",
+    "mrn": "485-06-4330"
+  }
+}

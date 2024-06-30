@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Boy",
+                            "given": [
+                                "Baby"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "968 King Port Suite 567"
+                            ],
+                            "city": "Alexisberg",
+                            "state": "VA",
+                            "postalCode": "87477",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "501-42-8781",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1943-07-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5950629",
+    "use_enhanced": true
+}

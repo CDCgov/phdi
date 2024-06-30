@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Ritter",
+                            "given": [
+                                "Glen"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "050 Amanda Valleys Suite 628"
+                            ],
+                            "city": "East Guyfurt",
+                            "state": "AZ",
+                            "postalCode": "18901",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "286-83-2522",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2005-10-31"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1926156",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3088 Adam Lane",
+    "first_name": "Sarah",
+    "birthdate": "1993-05-20",
+    "last_name": "King",
+    "city": "Millerborough",
+    "state": "WY",
+    "postalCode": "85550",
+    "country": "USA",
+    "mrn": "275-29-4416"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8216 Branch Mountains",
+    "first_name": "Jamie",
+    "birthdate": "1951-04-16",
+    "last_name": "Griffin",
+    "city": "Montgomeryfurt",
+    "state": "WA",
+    "postalCode": "69851",
+    "country": "USA",
+    "mrn": "154-18-2188"
+  }
+}

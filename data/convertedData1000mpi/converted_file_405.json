@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0004 Daniel Estates Apt. 609",
+    "first_name": "Marco",
+    "birthdate": "1943-12-30",
+    "last_name": "Warren",
+    "city": "West Arthurburgh",
+    "state": "DE",
+    "postalCode": "54961",
+    "country": "USA",
+    "mrn": "458-20-9223"
+  }
+}

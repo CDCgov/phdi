@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "286 Barber River",
+    "first_name": "John",
+    "birthdate": "1952-07-09",
+    "last_name": "Howe",
+    "city": "Heatherfort",
+    "state": "CT",
+    "postalCode": "88058",
+    "country": "USA",
+    "mrn": "379-97-9983"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wilson",
+                            "given": [
+                                "Kara"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "5549 Martinez Square Apt. 746"
+                            ],
+                            "city": "Lake Nicolas",
+                            "state": "NV",
+                            "postalCode": "65924",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "239-68-7500",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1986-10-25"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1814487",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "944 Hayes Port",
+    "first_name": "ThoMas",
+    "birthdate": "1950-08-10",
+    "last_name": "Brady",
+    "city": "Jonesville",
+    "state": "FM",
+    "postalCode": "6015",
+    "country": "USA",
+    "mrn": "272-78-9905"
+  }
+}

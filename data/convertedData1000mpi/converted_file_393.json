@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "222 Leah Vista Apt. 840",
+    "first_name": "Jeffrey",
+    "birthdate": "1956-05-05",
+    "last_name": "Hernandez",
+    "city": "Port Kimberly",
+    "state": "FM",
+    "postalCode": "51066",
+    "country": "USA",
+    "mrn": "301-95-8896"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "305 Poole Mill",
+    "first_name": "Kelly",
+    "birthdate": "1958-12-22",
+    "last_name": "Orr",
+    "city": "Christianton",
+    "state": "NJ",
+    "postalCode": "16645",
+    "country": "USA",
+    "mrn": "217-08-5766"
+  }
+}

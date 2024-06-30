@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "West",
+                            "given": [
+                                "Tyler"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "30252 Wendy Locks"
+                            ],
+                            "city": "South Seth",
+                            "state": "CO",
+                            "postalCode": "14413",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "626-14-4939",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1957-02-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7197108",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6710 Clark Cove",
+    "first_name": "Tara",
+    "birthdate": "1967-02-11",
+    "last_name": "Wilson",
+    "city": "North Triciaville",
+    "state": "MH",
+    "postalCode": "81928",
+    "country": "USA",
+    "mrn": "226-18-7591"
+  }
+}

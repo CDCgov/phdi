@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "06818 George Springs",
+    "first_name": "Tiffany",
+    "birthdate": "1939-01-30",
+    "last_name": "Burch",
+    "city": "Blevinsville",
+    "state": "CT",
+    "postalCode": "9225",
+    "country": "USA",
+    "mrn": "736-42-4686"
+  }
+}

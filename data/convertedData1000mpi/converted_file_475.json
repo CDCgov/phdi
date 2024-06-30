@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "84067 Ross Circle Suite 461",
+    "first_name": "James",
+    "birthdate": "1985-02-19",
+    "last_name": "Lopez",
+    "city": "Amyfort",
+    "state": "GA",
+    "postalCode": "2148",
+    "country": "USA",
+    "mrn": "561-93-0412"
+  }
+}

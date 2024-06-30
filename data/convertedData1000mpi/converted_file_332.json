@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "50892 Jennifer Valley",
+    "first_name": "Erica",
+    "birthdate": "1966-03-22",
+    "last_name": "Hayes",
+    "city": "South Alicia",
+    "state": "IN",
+    "postalCode": "64588",
+    "country": "USA",
+    "mrn": "393-90-9855"
+  }
+}

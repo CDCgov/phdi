@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "02277 Buckley Lane",
+    "first_name": "Bethany",
+    "birthdate": "1934-03-14",
+    "last_name": "Johnston",
+    "city": "Jodimouth",
+    "state": "FM",
+    "postalCode": "76285",
+    "country": "USA",
+    "mrn": "259-11-5780"
+  }
+}

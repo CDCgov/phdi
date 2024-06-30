@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "956 Brown Curve Suite 418",
+    "first_name": "Sherry",
+    "birthdate": "1961-04-24",
+    "last_name": "Riley",
+    "city": "East Jason",
+    "state": "LA",
+    "postalCode": "31792",
+    "country": "USA",
+    "mrn": "380-86-9644"
+  }
+}

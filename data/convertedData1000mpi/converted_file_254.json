@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "85353 Michael Cape",
+    "first_name": "Ashley",
+    "birthdate": "1968-03-24",
+    "last_name": "Rowe",
+    "city": "Hernandezborough",
+    "state": "CT",
+    "postalCode": "52964",
+    "country": "USA",
+    "mrn": "697-64-5519"
+  }
+}

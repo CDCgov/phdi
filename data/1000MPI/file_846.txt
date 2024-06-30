@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Blankenship",
+                            "given": [
+                                "Katherine"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "396 Sheila Green Apt. 807"
+                            ],
+                            "city": "New Taylor",
+                            "state": "WV",
+                            "postalCode": "82292",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "439-72-4595",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1947-03-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4631745",
+    "use_enhanced": true
+}

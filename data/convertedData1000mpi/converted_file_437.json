@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "013 Sarah Fall Apt. 790",
+    "first_name": "Ashley",
+    "birthdate": "2001-04-10",
+    "last_name": "Bernard",
+    "city": "Port Samantha",
+    "state": "GU",
+    "postalCode": "45340",
+    "country": "USA",
+    "mrn": "344-33-5493"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "59272 Robertson Greens Apt. 194",
+    "first_name": "Samantha",
+    "birthdate": "1980-07-30",
+    "last_name": "Blankenship",
+    "city": "Ronaldstad",
+    "state": "MH",
+    "postalCode": "64638",
+    "country": "USA",
+    "mrn": "207-87-9104"
+  }
+}

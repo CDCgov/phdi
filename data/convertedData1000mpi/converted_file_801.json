@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4187 Mark Ville",
+    "first_name": "Ann",
+    "birthdate": "1993-02-21",
+    "last_name": "Vasquez",
+    "city": "Lake Georgeside",
+    "state": "MA",
+    "postalCode": "14542",
+    "country": "USA",
+    "mrn": "078-17-0717"
+  }
+}

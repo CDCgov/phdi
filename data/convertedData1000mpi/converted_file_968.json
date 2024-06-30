@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "707 Danny Hill Apt. 615",
+    "first_name": "Rhonda",
+    "birthdate": "2003-12-22",
+    "last_name": "Orozco",
+    "city": "Johnshire",
+    "state": "PW",
+    "postalCode": "67248",
+    "country": "USA",
+    "mrn": "054-59-9411"
+  }
+}

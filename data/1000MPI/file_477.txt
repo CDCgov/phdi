@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wilson",
+                            "given": [
+                                "Nicholas"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "314 Fuller Flat"
+                            ],
+                            "city": "Longstad",
+                            "state": "ND",
+                            "postalCode": "96324",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "622-36-7166",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1958-05-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3253781",
+    "use_enhanced": true
+}

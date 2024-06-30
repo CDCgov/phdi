@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7102 Connie River Suite 873",
+    "first_name": "Abigail",
+    "birthdate": "1957-11-11",
+    "last_name": "King",
+    "city": "Stevenburgh",
+    "state": "AS",
+    "postalCode": "58750",
+    "country": "USA",
+    "mrn": "691-84-9244"
+  }
+}

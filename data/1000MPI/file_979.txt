@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Taylor",
+                            "given": [
+                                "Robert"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "550 Patricia Common Suite 176"
+                            ],
+                            "city": "Leeside",
+                            "state": "ME",
+                            "postalCode": "98480",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "145-15-8825",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1997-09-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6145192",
+    "use_enhanced": true
+}

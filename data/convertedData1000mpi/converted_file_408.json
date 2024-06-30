@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "60939 Terry Extension Suite 449",
+    "first_name": "Nathaniel",
+    "birthdate": "1935-05-06",
+    "last_name": "Bowman",
+    "city": "South Tracy",
+    "state": "DC",
+    "postalCode": "72113",
+    "country": "USA",
+    "mrn": "733-90-9096"
+  }
+}

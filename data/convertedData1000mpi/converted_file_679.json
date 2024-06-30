@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9637 Peterson Estates Apt. 576",
+    "first_name": "Michael",
+    "birthdate": "1979-10-23",
+    "last_name": "Walters",
+    "city": "Josephshire",
+    "state": "WY",
+    "postalCode": "53436",
+    "country": "USA",
+    "mrn": "479-68-1317"
+  }
+}

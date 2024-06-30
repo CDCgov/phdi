@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "34314 Shannon Underpass Suite 634",
+    "first_name": "Kristina",
+    "birthdate": "1998-01-23",
+    "last_name": "Thomas",
+    "city": "Blakeshire",
+    "state": "TX",
+    "postalCode": "38861",
+    "country": "USA",
+    "mrn": "426-78-7229"
+  }
+}

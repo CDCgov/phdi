@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Collins",
+                            "given": [
+                                "Elizabeth"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "97975 Emma Unions"
+                            ],
+                            "city": "Ericshire",
+                            "state": "DE",
+                            "postalCode": "78729",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "382-04-8336",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1995-11-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3209337",
+    "use_enhanced": true
+}

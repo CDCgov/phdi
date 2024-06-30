@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0336 Owen Fort Apt. 205",
+    "first_name": "Jennifer",
+    "birthdate": "2001-07-06",
+    "last_name": "Williams",
+    "city": "Veronicachester",
+    "state": "FL",
+    "postalCode": "9671",
+    "country": "USA",
+    "mrn": "303-76-6166"
+  }
+}

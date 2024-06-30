@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0378 Traci Extensions Apt. 050",
+    "first_name": "Unk",
+    "birthdate": "1976-02-15",
+    "last_name": "Unk",
+    "city": "West Elizabeth",
+    "state": "FM",
+    "postalCode": "54435",
+    "country": "USA",
+    "mrn": "641-84-2152"
+  }
+}

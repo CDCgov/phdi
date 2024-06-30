@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "079 Oconnor Bypass",
+    "first_name": "Tiffany",
+    "birthdate": "1967-08-16",
+    "last_name": "Kelly",
+    "city": "Floresberg",
+    "state": "MN",
+    "postalCode": "88761",
+    "country": "USA",
+    "mrn": "553-50-1938"
+  }
+}

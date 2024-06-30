@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3999 Sandra Wells",
+    "first_name": "Kevin",
+    "birthdate": "1978-05-15",
+    "last_name": "Oneal",
+    "city": "New Stephanie",
+    "state": "DE",
+    "postalCode": "17225",
+    "country": "USA",
+    "mrn": "672-31-8129"
+  }
+}

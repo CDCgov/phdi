@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "27100 Lauren Mountain Suite 536",
+    "first_name": "Meghan",
+    "birthdate": "1936-09-09",
+    "last_name": "Rogers",
+    "city": "North Aaronhaven",
+    "state": "CA",
+    "postalCode": "72091",
+    "country": "USA",
+    "mrn": "867-23-8642"
+  }
+}

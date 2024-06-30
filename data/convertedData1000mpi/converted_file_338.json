@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "31445 Daniels Center Apt. 344",
+    "first_name": "Taylor",
+    "birthdate": "1973-03-19",
+    "last_name": "Ford",
+    "city": "Timothyburgh",
+    "state": "OK",
+    "postalCode": "3735",
+    "country": "USA",
+    "mrn": "603-56-0302"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Johnson",
+                            "given": [
+                                "David"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "11734 Julia Burgs"
+                            ],
+                            "city": "New Zacharyborough",
+                            "state": "NV",
+                            "postalCode": "56873",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "503-89-8634",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1979-02-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4017713",
+    "use_enhanced": true
+}

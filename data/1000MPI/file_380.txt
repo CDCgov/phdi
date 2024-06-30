@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hull",
+                            "given": [
+                                "Jacob"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "860 Bush Mountains Apt. 443"
+                            ],
+                            "city": "North Lindsey",
+                            "state": "FL",
+                            "postalCode": "27942",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "644-98-0234",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1980-10-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2490258",
+    "use_enhanced": true
+}

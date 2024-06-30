@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "60723 Lopez Road Apt. 354",
+    "first_name": "James",
+    "birthdate": "1988-06-16",
+    "last_name": "Collins",
+    "city": "North Wayne",
+    "state": "PA",
+    "postalCode": "65927",
+    "country": "USA",
+    "mrn": "132-39-1007"
+  }
+}

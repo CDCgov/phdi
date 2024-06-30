@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "54806 Martin Parkway Apt. 283",
+    "first_name": "Joan",
+    "birthdate": "1935-07-02",
+    "last_name": "Harris",
+    "city": "New Sue",
+    "state": "MI",
+    "postalCode": "13039",
+    "country": "USA",
+    "mrn": "152-31-3566"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "036 Traci Extensions Apt. 050",
+    "first_name": "Jane",
+    "birthdate": "2020-01-16",
+    "last_name": "Doe",
+    "city": "Hendersonburgh",
+    "state": "NY",
+    "postalCode": "93225",
+    "country": "USA",
+    "mrn": "500-94-2504"
+  }
+}

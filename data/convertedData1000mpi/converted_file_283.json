@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5531 Giles Road",
+    "first_name": "Matthew",
+    "birthdate": "1948-11-02",
+    "last_name": "Lin",
+    "city": "East Katherinestad",
+    "state": "MS",
+    "postalCode": "63777",
+    "country": "USA",
+    "mrn": "430-23-7399"
+  }
+}

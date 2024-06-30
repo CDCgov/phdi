@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "31307 Rogers Isle Suite 458",
+    "first_name": "Heather",
+    "birthdate": "1998-02-11",
+    "last_name": "Montoya",
+    "city": "Port Jeffrey",
+    "state": "MA",
+    "postalCode": "91933",
+    "country": "USA",
+    "mrn": "774-87-1669"
+  }
+}

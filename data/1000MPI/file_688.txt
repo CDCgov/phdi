@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Terry",
+                            "given": [
+                                "Larry"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "7375 Ashley Brook"
+                            ],
+                            "city": "Andersonberg",
+                            "state": "NV",
+                            "postalCode": "48768",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "133-90-2810",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2006-02-16"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5514967",
+    "use_enhanced": true
+}

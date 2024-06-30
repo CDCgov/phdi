@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "117 Vaughn Coves",
+    "first_name": "Daniel",
+    "birthdate": "1983-01-23",
+    "last_name": "Mitchell",
+    "city": "Michelleport",
+    "state": "MI",
+    "postalCode": "46338",
+    "country": "USA",
+    "mrn": "697-19-5100"
+  }
+}

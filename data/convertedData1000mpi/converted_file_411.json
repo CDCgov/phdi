@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "834 Lee Mountains Apt. 187",
+    "first_name": "Daniel",
+    "birthdate": "1968-10-31",
+    "last_name": "Morgan",
+    "city": "New Eric",
+    "state": "RI",
+    "postalCode": "80849",
+    "country": "USA",
+    "mrn": "091-67-5034"
+  }
+}

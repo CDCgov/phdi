@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "95996 Nguyen Village Apt. 967",
+    "first_name": "John",
+    "birthdate": "1994-11-14",
+    "last_name": "Walls",
+    "city": "Joseborough",
+    "state": "NC",
+    "postalCode": "96554",
+    "country": "USA",
+    "mrn": "512-56-2814"
+  }
+}

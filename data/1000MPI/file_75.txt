@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Cain",
+                            "given": [
+                                "Jeff"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "3229 Savage Canyon"
+                            ],
+                            "city": "South Sarah",
+                            "state": "WA",
+                            "postalCode": "40914",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "092-98-6466",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1960-09-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1836313",
+    "use_enhanced": true
+}

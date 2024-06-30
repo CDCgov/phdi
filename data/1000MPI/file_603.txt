@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Foster",
+                            "given": [
+                                "Roberta"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "8667 Villa Hill Suite 631"
+                            ],
+                            "city": "Jordanshire",
+                            "state": "KS",
+                            "postalCode": "78586",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "506-04-3291",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1962-01-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1458883",
+    "use_enhanced": true
+}

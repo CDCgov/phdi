@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3786 Kerr Ridges Apt. 549",
+    "first_name": "Rebecca",
+    "birthdate": "1955-05-26",
+    "last_name": "Tucker",
+    "city": "South Jeremiah",
+    "state": "TX",
+    "postalCode": "77408",
+    "country": "USA",
+    "mrn": "795-79-0039"
+  }
+}

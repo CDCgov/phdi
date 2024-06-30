@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1659 Zavala Port Suite 560",
+    "first_name": "Lynn",
+    "birthdate": "1935-04-07",
+    "last_name": "Guerrero",
+    "city": "Pinedaborough",
+    "state": "OR",
+    "postalCode": "25267",
+    "country": "USA",
+    "mrn": "010-33-8857"
+  }
+}

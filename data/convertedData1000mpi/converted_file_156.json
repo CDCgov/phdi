@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8723 Hailey Vista Apt. 036",
+    "first_name": "Chad",
+    "birthdate": "1946-06-07",
+    "last_name": "Kaiser",
+    "city": "Joneshaven",
+    "state": "ME",
+    "postalCode": "8024",
+    "country": "USA",
+    "mrn": "780-44-3807"
+  }
+}

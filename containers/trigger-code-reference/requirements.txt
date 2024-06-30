@@ -1,5 +1,0 @@
-../dibbs
-pathlib
-httpx
-requests
-python-multipart

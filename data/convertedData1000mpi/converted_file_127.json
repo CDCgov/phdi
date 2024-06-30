@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "58319 Evans Lane",
+    "first_name": "Debra",
+    "birthdate": "1991-10-26",
+    "last_name": "Lam",
+    "city": "Lake David",
+    "state": "MT",
+    "postalCode": "30356",
+    "country": "USA",
+    "mrn": "160-52-7709"
+  }
+}

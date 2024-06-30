@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Cuevas",
+                            "given": [
+                                "David"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "455 Lee Greens"
+                            ],
+                            "city": "New Joshua",
+                            "state": "CA",
+                            "postalCode": "95182",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "290-76-1266",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1983-08-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7037731",
+    "use_enhanced": true
+}

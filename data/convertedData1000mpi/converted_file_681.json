@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "927 Lisa Overpass",
+    "first_name": "Patricia",
+    "birthdate": "2003-04-08",
+    "last_name": "Smith",
+    "city": "Danielside",
+    "state": "OR",
+    "postalCode": "91533",
+    "country": "USA",
+    "mrn": "475-36-9644"
+  }
+}

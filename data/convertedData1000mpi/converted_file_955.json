@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4159 Stephanie Spurs",
+    "first_name": "Michael",
+    "birthdate": "1934-09-18",
+    "last_name": "Anderson",
+    "city": "New Richard",
+    "state": "PA",
+    "postalCode": "17974",
+    "country": "USA",
+    "mrn": "670-77-1464"
+  }
+}

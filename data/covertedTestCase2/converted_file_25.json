@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "GENERAL DELIVERY",
+    "first_name": "David",
+    "birthdate": "1966-02-14",
+    "last_name": "Nor",
+    "city": "Lake Jennaview",
+    "state": "KS",
+    "postalCode": "30613",
+    "country": "USA",
+    "mrn": "280-24-0951"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7130 Joel Burgs Suite 154",
+    "first_name": "Lorraine",
+    "birthdate": "1957-01-07",
+    "last_name": "Jenkins",
+    "city": "Santiagofurt",
+    "state": "NY",
+    "postalCode": "80462",
+    "country": "USA",
+    "mrn": "219-19-7069"
+  }
+}

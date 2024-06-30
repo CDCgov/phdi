@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Griffith",
+                            "given": [
+                                "Karen"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "454 Ruiz Extensions"
+                            ],
+                            "city": "Andreside",
+                            "state": "OH",
+                            "postalCode": "72559",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "794-06-6437",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1958-10-31"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2470824",
+    "use_enhanced": true
+}

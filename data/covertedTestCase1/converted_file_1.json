@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2115 Elizabeth Way",
+    "first_name": "Joe",
+    "birthdate": "1977-04-20",
+    "last_name": "Morales",
+    "city": "East Allisonhaven",
+    "state": "VI",
+    "postalCode": "5308",
+    "country": "USA",
+    "mrn": "540-12- 2324"
+  }
+}

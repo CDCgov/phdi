@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "60646 Sabrina Dam",
+    "first_name": "Christopher",
+    "birthdate": "1943-09-11",
+    "last_name": "Jones",
+    "city": "Amandahaven",
+    "state": "UT",
+    "postalCode": "35756",
+    "country": "USA",
+    "mrn": "882-05-2218"
+  }
+}

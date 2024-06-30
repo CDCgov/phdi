@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Ware",
+                            "given": [
+                                "Regina"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "94234 Theresa Springs"
+                            ],
+                            "city": "East Tracey",
+                            "state": "ID",
+                            "postalCode": "6873",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "791-87-4332",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1959-12-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9028280",
+    "use_enhanced": true
+}

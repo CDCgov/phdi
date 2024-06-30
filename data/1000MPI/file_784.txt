@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Smith",
+                            "given": [
+                                "Jacob"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "78275 John Islands"
+                            ],
+                            "city": "West Lisaville",
+                            "state": "SC",
+                            "postalCode": "12448",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "419-88-9123",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1961-05-05"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8249822",
+    "use_enhanced": true
+}

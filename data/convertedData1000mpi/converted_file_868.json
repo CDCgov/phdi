@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9356 Kevin Ferry Suite 928",
+    "first_name": "Kristin",
+    "birthdate": "1993-05-22",
+    "last_name": "Morales",
+    "city": "Wilsonberg",
+    "state": "UT",
+    "postalCode": "39702",
+    "country": "USA",
+    "mrn": "899-47-9660"
+  }
+}

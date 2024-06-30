@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17905 Payne Plain Apt. 390",
+    "first_name": "Alexander",
+    "birthdate": "1993-04-28",
+    "last_name": "Smith",
+    "city": "Fergusonhaven",
+    "state": "MN",
+    "postalCode": "8929",
+    "country": "USA",
+    "mrn": "362-44-7575"
+  }
+}

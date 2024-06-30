@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Mclaughlin",
+                            "given": [
+                                "Mark"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "1823 West Street"
+                            ],
+                            "city": "Brooksstad",
+                            "state": "RI",
+                            "postalCode": "4127",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "655-98-6289",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1970-08-29"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3198153",
+    "use_enhanced": true
+}

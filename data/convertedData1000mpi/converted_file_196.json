@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "59412 Escobar Forest Suite 431",
+    "first_name": "Charles",
+    "birthdate": "1973-11-01",
+    "last_name": "Anderson",
+    "city": "West Kaitlinshire",
+    "state": "VI",
+    "postalCode": "15116",
+    "country": "USA",
+    "mrn": "314-25-6069"
+  }
+}

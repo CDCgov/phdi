@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wilson",
+                            "given": [
+                                "Veronica"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "640 Jose Haven"
+                            ],
+                            "city": "Bryantton",
+                            "state": "NE",
+                            "postalCode": "38590",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "594-93-3913",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1994-02-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9661420",
+    "use_enhanced": true
+}

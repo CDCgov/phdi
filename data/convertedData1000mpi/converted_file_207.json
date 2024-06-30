@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0634 Moreno Knolls Suite 526",
+    "first_name": "Frank",
+    "birthdate": "1943-08-05",
+    "last_name": "Taylor",
+    "city": "North Tracey",
+    "state": "MN",
+    "postalCode": "24026",
+    "country": "USA",
+    "mrn": "289-97-1647"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "314 Fuller Flat",
+    "first_name": "Nicholas",
+    "birthdate": "1958-05-28",
+    "last_name": "Wilson",
+    "city": "Longstad",
+    "state": "ND",
+    "postalCode": "96324",
+    "country": "USA",
+    "mrn": "622-36-7166"
+  }
+}

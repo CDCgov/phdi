@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "736 Peter Village",
+    "first_name": "Calvin",
+    "birthdate": "1976-06-12",
+    "last_name": "Smith",
+    "city": "Medinatown",
+    "state": "MN",
+    "postalCode": "3110",
+    "country": "USA",
+    "mrn": "727-97-3274"
+  }
+}

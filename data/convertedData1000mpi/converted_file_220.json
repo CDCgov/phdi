@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "68641 Allen Ramp",
+    "first_name": "Alexa",
+    "birthdate": "2003-03-11",
+    "last_name": "Herman",
+    "city": "East Tracyborough",
+    "state": "OH",
+    "postalCode": "14062",
+    "country": "USA",
+    "mrn": "242-81-0488"
+  }
+}

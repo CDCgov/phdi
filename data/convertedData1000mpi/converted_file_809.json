@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "03287 Thompson Passage Suite 579",
+    "first_name": "Robert",
+    "birthdate": "1995-10-10",
+    "last_name": "Foster",
+    "city": "West Nicole",
+    "state": "WA",
+    "postalCode": "54534",
+    "country": "USA",
+    "mrn": "824-05-4661"
+  }
+}

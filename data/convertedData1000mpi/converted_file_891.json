@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "53132 Hebert Unions",
+    "first_name": "Edward",
+    "birthdate": "1944-09-15",
+    "last_name": "Wallace",
+    "city": "Mosleyport",
+    "state": "MH",
+    "postalCode": "28766",
+    "country": "USA",
+    "mrn": "053-22-7243"
+  }
+}

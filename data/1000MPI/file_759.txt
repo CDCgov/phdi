@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Parker",
+                            "given": [
+                                "Erica"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "48358 Moody Greens Apt. 048"
+                            ],
+                            "city": "North Triciaside",
+                            "state": "AR",
+                            "postalCode": "6465",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "878-51-0895",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1957-09-05"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3245746",
+    "use_enhanced": true
+}

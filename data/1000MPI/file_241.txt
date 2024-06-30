@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Kennedy",
+                            "given": [
+                                "Christopher"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "898 Melendez Pass Suite 853"
+                            ],
+                            "city": "East Shawnatown",
+                            "state": "FM",
+                            "postalCode": "62330",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "613-41-8184",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2005-09-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5135766",
+    "use_enhanced": true
+}

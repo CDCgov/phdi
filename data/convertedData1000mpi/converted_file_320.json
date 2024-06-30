@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "254 Jeffrey Vista Suite 879",
+    "first_name": "James",
+    "birthdate": "1983-07-09",
+    "last_name": "Coleman",
+    "city": "East Heather",
+    "state": "AK",
+    "postalCode": "95573",
+    "country": "USA",
+    "mrn": "626-17-0633"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5050 Jeff Loaf",
+    "first_name": "Brianna",
+    "birthdate": "1945-05-15",
+    "last_name": "Smith",
+    "city": "Lake Scott",
+    "state": "MA",
+    "postalCode": "96662",
+    "country": "USA",
+    "mrn": "104-80-4832"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "751 Johnson Meadow Suite 008",
+    "first_name": "Edward",
+    "birthdate": "1988-12-07",
+    "last_name": "Moreno",
+    "city": "Jonathanborough",
+    "state": "KS",
+    "postalCode": "53433",
+    "country": "USA",
+    "mrn": "863-44-7798"
+  }
+}

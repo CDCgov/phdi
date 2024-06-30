@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "667 Martin Ridges Apt. 263",
+    "first_name": "Lonnie",
+    "birthdate": "1934-08-28",
+    "last_name": "Ryan",
+    "city": "Maxwellport",
+    "state": "LA",
+    "postalCode": "8308",
+    "country": "USA",
+    "mrn": "043-83-6230"
+  }
+}

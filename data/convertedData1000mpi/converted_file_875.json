@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "34397 Brenda Estate Suite 533",
+    "first_name": "Michael",
+    "birthdate": "1960-08-27",
+    "last_name": "Wilcox",
+    "city": "Thomasbury",
+    "state": "HI",
+    "postalCode": "46424",
+    "country": "USA",
+    "mrn": "504-84-8512"
+  }
+}

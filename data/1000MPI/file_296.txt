@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hendricks",
+                            "given": [
+                                "Joyce"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "8020 Lucas Street"
+                            ],
+                            "city": "Cruzmouth",
+                            "state": "TN",
+                            "postalCode": "75981",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "243-18-2121",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1981-10-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4767251",
+    "use_enhanced": true
+}

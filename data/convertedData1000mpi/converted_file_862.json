@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "003 Lewis Forest Apt. 658",
+    "first_name": "Scott",
+    "birthdate": "1954-04-10",
+    "last_name": "Acosta",
+    "city": "West Aprilfurt",
+    "state": "WA",
+    "postalCode": "41960",
+    "country": "USA",
+    "mrn": "623-43-6260"
+  }
+}

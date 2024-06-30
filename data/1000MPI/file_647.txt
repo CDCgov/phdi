@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Washington",
+                            "given": [
+                                "Kristina"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "94190 Martinez Trail"
+                            ],
+                            "city": "Port Carlosside",
+                            "state": "SC",
+                            "postalCode": "41706",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "736-74-6054",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1963-01-26"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8011439",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "47490 Nicole Spring",
+    "first_name": "Jennifer",
+    "birthdate": "1947-08-06",
+    "last_name": "Harris",
+    "city": "New Elizabeth",
+    "state": "VA",
+    "postalCode": "82283",
+    "country": "USA",
+    "mrn": "512-73-8847"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17211 Tyler Summit Apt. 582",
+    "first_name": "Lauren",
+    "birthdate": "1977-01-03",
+    "last_name": "Smith",
+    "city": "Port Ronaldburgh",
+    "state": "NH",
+    "postalCode": "47254",
+    "country": "USA",
+    "mrn": "400-32-3081"
+  }
+}

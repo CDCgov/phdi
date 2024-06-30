@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "22805 Hanna Terrace",
+    "first_name": "Diana",
+    "birthdate": "1993-02-17",
+    "last_name": "Chavez",
+    "city": "Shannonburgh",
+    "state": "ID",
+    "postalCode": "46081",
+    "country": "USA",
+    "mrn": "302-15-9568"
+  }
+}

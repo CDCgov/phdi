@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Petersen",
+                            "given": [
+                                "Michelle"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "65716 Smith Freeway Apt. 284"
+                            ],
+                            "city": "Mindyfort",
+                            "state": "FL",
+                            "postalCode": "26995",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "565-91-3273",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1980-12-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8825032",
+    "use_enhanced": true
+}

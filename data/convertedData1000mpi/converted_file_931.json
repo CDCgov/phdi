@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "040 Jason Locks Apt. 902",
+    "first_name": "Chris",
+    "birthdate": "1970-12-29",
+    "last_name": "Hayes",
+    "city": "South James",
+    "state": "PR",
+    "postalCode": "16214",
+    "country": "USA",
+    "mrn": "158-11-3130"
+  }
+}

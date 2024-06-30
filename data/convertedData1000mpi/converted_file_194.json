@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1862 Morgan Park",
+    "first_name": "John",
+    "birthdate": "1995-10-10",
+    "last_name": "Davis",
+    "city": "Carolland",
+    "state": "SC",
+    "postalCode": "31995",
+    "country": "USA",
+    "mrn": "640-36-1794"
+  }
+}

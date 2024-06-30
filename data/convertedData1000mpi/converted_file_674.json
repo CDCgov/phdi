@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "721 Silva Squares",
+    "first_name": "Nicholas",
+    "birthdate": "1946-09-26",
+    "last_name": "Franco",
+    "city": "Lovemouth",
+    "state": "MO",
+    "postalCode": "75065",
+    "country": "USA",
+    "mrn": "769-48-0886"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Reyes",
+                            "given": [
+                                "Ashley"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "31267 Victoria Ville"
+                            ],
+                            "city": "North Elizabethberg",
+                            "state": "CT",
+                            "postalCode": "87170",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "221-54-4720",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1956-09-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5904272",
+    "use_enhanced": true
+}

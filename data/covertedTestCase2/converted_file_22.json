@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "GENERAL DELIVERY",
+    "first_name": "Melvin",
+    "birthdate": "2001-10-01",
+    "last_name": "Hernandez",
+    "city": "East Eduardofurt",
+    "state": "WI",
+    "postalCode": "51286",
+    "country": "USA",
+    "mrn": "356-36-6513"
+  }
+}

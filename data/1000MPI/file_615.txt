@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Downs",
+                            "given": [
+                                "Kathleen"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "251 Patrick Walks Apt. 934"
+                            ],
+                            "city": "West Christina",
+                            "state": "MP",
+                            "postalCode": "52408",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "595-58-2787",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1998-10-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8890290",
+    "use_enhanced": true
+}

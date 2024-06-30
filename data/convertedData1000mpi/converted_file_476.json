@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "190 Brandt Path",
+    "first_name": "Steven",
+    "birthdate": "1965-11-30",
+    "last_name": "Whitney",
+    "city": "Larrybury",
+    "state": "AR",
+    "postalCode": "83327",
+    "country": "USA",
+    "mrn": "354-01-2434"
+  }
+}

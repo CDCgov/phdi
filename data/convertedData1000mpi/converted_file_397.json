@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "656 Cheyenne Corner Apt. 083",
+    "first_name": "Bill",
+    "birthdate": "1968-07-29",
+    "last_name": "Richards",
+    "city": "Shannonberg",
+    "state": "VI",
+    "postalCode": "78138",
+    "country": "USA",
+    "mrn": "702-69-5297"
+  }
+}

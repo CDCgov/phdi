@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gonzales",
+                            "given": [
+                                "George"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "85366 Robert Walks Apt. 348"
+                            ],
+                            "city": "Emilyton",
+                            "state": "VT",
+                            "postalCode": "24834",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "302-49-4441",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1934-06-29"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7941835",
+    "use_enhanced": true
+}

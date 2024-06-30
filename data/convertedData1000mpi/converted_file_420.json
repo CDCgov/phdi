@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "999 Victoria Spur",
+    "first_name": "Mark",
+    "birthdate": "1939-08-15",
+    "last_name": "Cox",
+    "city": "Triciashire",
+    "state": "PR",
+    "postalCode": "51349",
+    "country": "USA",
+    "mrn": "077-25-9769"
+  }
+}

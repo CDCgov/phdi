@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8949 Brown Lane",
+    "first_name": "Wendy",
+    "birthdate": "1940-12-17",
+    "last_name": "Allison",
+    "city": "Dillontown",
+    "state": "IA",
+    "postalCode": "3259",
+    "country": "USA",
+    "mrn": "461-75-0625"
+  }
+}

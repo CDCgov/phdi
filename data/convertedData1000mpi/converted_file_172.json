@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "566 Trevino Cliffs",
+    "first_name": "Brandi",
+    "birthdate": "1983-08-08",
+    "last_name": "Gregory",
+    "city": "South Markshire",
+    "state": "MT",
+    "postalCode": "17394",
+    "country": "USA",
+    "mrn": "144-85-0427"
+  }
+}

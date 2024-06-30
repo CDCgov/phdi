@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Allen",
+                            "given": [
+                                "Joseph"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "15500 Nichols Shores Suite 889"
+                            ],
+                            "city": "Melissatown",
+                            "state": "PA",
+                            "postalCode": "49030",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "420-88-7320",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1990-04-05"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4226441",
+    "use_enhanced": true
+}

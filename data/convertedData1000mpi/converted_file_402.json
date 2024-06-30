@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "897 Hannah Extensions",
+    "first_name": "Erin",
+    "birthdate": "1934-09-25",
+    "last_name": "Rivera",
+    "city": "Robynstad",
+    "state": "VT",
+    "postalCode": "68445",
+    "country": "USA",
+    "mrn": "079-81-6331"
+  }
+}

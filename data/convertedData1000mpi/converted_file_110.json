@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "725 Lawrence Extensions",
+    "first_name": "Joseph",
+    "birthdate": "1972-08-11",
+    "last_name": "Nelson",
+    "city": "Martinbury",
+    "state": "MN",
+    "postalCode": "28719",
+    "country": "USA",
+    "mrn": "705-36-6294"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Graham",
+                            "given": [
+                                "Patrick"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "32555 Moore Corners"
+                            ],
+                            "city": "West Curtisland",
+                            "state": "IL",
+                            "postalCode": "34251",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "729-02-1120",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1980-05-01"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8345325",
+    "use_enhanced": true
+}

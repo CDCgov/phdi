@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4199 Johnson Hills",
+    "first_name": "Calvin",
+    "birthdate": "1940-03-22",
+    "last_name": "Garcia",
+    "city": "Youngland",
+    "state": "WI",
+    "postalCode": "86330",
+    "country": "USA",
+    "mrn": "711-35-2636"
+  }
+}

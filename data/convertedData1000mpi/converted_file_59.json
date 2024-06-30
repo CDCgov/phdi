@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "49787 Hall Ranch",
+    "first_name": "Ashley",
+    "birthdate": "1990-12-31",
+    "last_name": "Hall",
+    "city": "Garnerbury",
+    "state": "AK",
+    "postalCode": "80781",
+    "country": "USA",
+    "mrn": "138-89-4850"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0191 Justin Falls Apt. 087",
+    "first_name": "Michael",
+    "birthdate": "1976-04-15",
+    "last_name": "Barnett",
+    "city": "Manninghaven",
+    "state": "NV",
+    "postalCode": "16546",
+    "country": "USA",
+    "mrn": "840-54-7923"
+  }
+}

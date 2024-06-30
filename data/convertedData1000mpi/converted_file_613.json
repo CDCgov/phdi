@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3949 Amanda Manors Suite 386",
+    "first_name": "Christopher",
+    "birthdate": "1976-02-15",
+    "last_name": "Singleton",
+    "city": "New Ian",
+    "state": "CO",
+    "postalCode": "16762",
+    "country": "USA",
+    "mrn": "538-07-0196"
+  }
+}

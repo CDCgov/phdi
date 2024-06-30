@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5551 Andrea Port Apt. 883",
+    "first_name": "Adam",
+    "birthdate": "1944-12-03",
+    "last_name": "Barker",
+    "city": "New Stephen",
+    "state": "IN",
+    "postalCode": "90489",
+    "country": "USA",
+    "mrn": "187-12-4178"
+  }
+}

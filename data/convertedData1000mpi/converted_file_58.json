@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "85366 Robert Walks Apt. 348",
+    "first_name": "George",
+    "birthdate": "1934-06-29",
+    "last_name": "Gonzales",
+    "city": "Emilyton",
+    "state": "VT",
+    "postalCode": "24834",
+    "country": "USA",
+    "mrn": "302-49-4441"
+  }
+}

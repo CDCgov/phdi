@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "54602 Vincent Courts Suite 454",
+    "first_name": "Bill",
+    "birthdate": "1969-07-09",
+    "last_name": "Morris",
+    "city": "Lake Sethhaven",
+    "state": "NV",
+    "postalCode": "33681",
+    "country": "USA",
+    "mrn": "413-70-5454"
+  }
+}

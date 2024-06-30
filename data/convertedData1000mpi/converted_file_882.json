@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3837 Hurst Mount",
+    "first_name": "Stacie",
+    "birthdate": "1947-02-02",
+    "last_name": "Durham",
+    "city": "Johnchester",
+    "state": "CA",
+    "postalCode": "30718",
+    "country": "USA",
+    "mrn": "383-10-0994"
+  }
+}

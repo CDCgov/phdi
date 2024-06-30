@@ -1,8 +1,0 @@
-version: "3.3"
-
-services:
-  trigger-code-reference-service:
-    build:
-      context: ../..
-    ports:
-      - "8080:8080"

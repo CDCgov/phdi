@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "73936 Becker Cliff",
+    "first_name": "Desiree",
+    "birthdate": "1984-04-06",
+    "last_name": "Henderson",
+    "city": "Lake Richard",
+    "state": "DE",
+    "postalCode": "14045",
+    "country": "USA",
+    "mrn": "468-14-2701"
+  }
+}

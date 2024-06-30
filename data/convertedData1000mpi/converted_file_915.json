@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3818 Anthony Lodge",
+    "first_name": "Alec",
+    "birthdate": "1940-04-29",
+    "last_name": "Mullen",
+    "city": "Galvanton",
+    "state": "MS",
+    "postalCode": "19763",
+    "country": "USA",
+    "mrn": "725-38-4681"
+  }
+}

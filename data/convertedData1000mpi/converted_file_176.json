@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4886 Roberts Ports Apt. 771",
+    "first_name": "Kelli",
+    "birthdate": "1980-11-25",
+    "last_name": "Roberts",
+    "city": "Cindytown",
+    "state": "KY",
+    "postalCode": "71204",
+    "country": "USA",
+    "mrn": "162-82-4718"
+  }
+}

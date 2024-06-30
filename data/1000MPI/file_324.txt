@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Cowan",
+                            "given": [
+                                "Ronald"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "58285 Walter Isle"
+                            ],
+                            "city": "Gregorymouth",
+                            "state": "MP",
+                            "postalCode": "93222",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "321-88-4451",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1973-07-08"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9722581",
+    "use_enhanced": true
+}

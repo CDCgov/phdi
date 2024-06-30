@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Manning",
+                            "given": [
+                                "Julia"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "1611 Allison Lake Suite 083"
+                            ],
+                            "city": "New Nicole",
+                            "state": "MO",
+                            "postalCode": "59748",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "783-42-9023",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1961-10-30"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3872049",
+    "use_enhanced": true
+}

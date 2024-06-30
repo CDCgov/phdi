@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0074 Elizabeth Forest",
+    "first_name": "Virginia",
+    "birthdate": "1994-04-19",
+    "last_name": "Martinez",
+    "city": "Kimborough",
+    "state": "FM",
+    "postalCode": "60365",
+    "country": "USA",
+    "mrn": "473-05-1095"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "55381 Hopkins Union",
+    "first_name": "Erik",
+    "birthdate": "1996-03-04",
+    "last_name": "Jones",
+    "city": "Jamesfort",
+    "state": "ID",
+    "postalCode": "23974",
+    "country": "USA",
+    "mrn": "763-01-4065"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "498 William Manor",
+    "first_name": "Michael",
+    "birthdate": "1977-03-15",
+    "last_name": "Davis",
+    "city": "West Shellyside",
+    "state": "CT",
+    "postalCode": "78077",
+    "country": "USA",
+    "mrn": "895-12-4683"
+  }
+}

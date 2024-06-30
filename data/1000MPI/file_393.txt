@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hernandez",
+                            "given": [
+                                "Jeffrey"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "222 Leah Vista Apt. 840"
+                            ],
+                            "city": "Port Kimberly",
+                            "state": "FM",
+                            "postalCode": "51066",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "301-95-8896",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1956-05-05"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7508450",
+    "use_enhanced": true
+}

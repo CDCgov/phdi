@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3056 Martin Summit",
+    "first_name": "Christopher",
+    "birthdate": "1967-05-26",
+    "last_name": "Lopez",
+    "city": "East Craigmouth",
+    "state": "RI",
+    "postalCode": "74282",
+    "country": "USA",
+    "mrn": "814-30-0441"
+  }
+}

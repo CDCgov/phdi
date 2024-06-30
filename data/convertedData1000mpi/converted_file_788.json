@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "337 Smith Rue",
+    "first_name": "Katelyn",
+    "birthdate": "1937-06-06",
+    "last_name": "Hale",
+    "city": "East Sarah",
+    "state": "WA",
+    "postalCode": "55013",
+    "country": "USA",
+    "mrn": "046-11-8131"
+  }
+}

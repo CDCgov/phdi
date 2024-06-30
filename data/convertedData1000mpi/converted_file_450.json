@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "81300 Holly Club",
+    "first_name": "Donald",
+    "birthdate": "2003-03-29",
+    "last_name": "Castaneda",
+    "city": "Lake Danielle",
+    "state": "VA",
+    "postalCode": "21585",
+    "country": "USA",
+    "mrn": "213-16-8596"
+  }
+}

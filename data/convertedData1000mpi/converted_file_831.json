@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3740 Sarah Via Suite 952",
+    "first_name": "Debbie",
+    "birthdate": "1964-03-28",
+    "last_name": "Chang",
+    "city": "Connieberg",
+    "state": "ID",
+    "postalCode": "74660",
+    "country": "USA",
+    "mrn": "437-06-3215"
+  }
+}

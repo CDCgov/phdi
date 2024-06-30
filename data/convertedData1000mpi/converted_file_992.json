@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "260 Eric Meadow Apt. 465",
+    "first_name": "Jeanette",
+    "birthdate": "1974-09-27",
+    "last_name": "Kennedy",
+    "city": "Deborahburgh",
+    "state": "LA",
+    "postalCode": "33439",
+    "country": "USA",
+    "mrn": "682-47-7204"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "330 Samantha Divide Apt. 833",
+    "first_name": "Krystal",
+    "birthdate": "1962-04-05",
+    "last_name": "Graham",
+    "city": "West Joseph",
+    "state": "MP",
+    "postalCode": "40650",
+    "country": "USA",
+    "mrn": "257-96-2391"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7790 Davidson Island",
+    "first_name": "Melissa",
+    "birthdate": "1995-07-01",
+    "last_name": "King",
+    "city": "Lake Christine",
+    "state": "PW",
+    "postalCode": "87378",
+    "country": "USA",
+    "mrn": "291-03-5106"
+  }
+}

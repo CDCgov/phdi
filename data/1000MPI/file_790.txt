@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Salinas",
+                            "given": [
+                                "Shannon"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "86268 Rose Run"
+                            ],
+                            "city": "New Christopher",
+                            "state": "MH",
+                            "postalCode": "10810",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "325-05-5025",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1952-01-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1611009",
+    "use_enhanced": true
+}

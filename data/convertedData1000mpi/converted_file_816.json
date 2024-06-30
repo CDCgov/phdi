@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6103 Jason Fall",
+    "first_name": "Kenneth",
+    "birthdate": "1977-06-28",
+    "last_name": "Leach",
+    "city": "North Mariaborough",
+    "state": "NJ",
+    "postalCode": "74488",
+    "country": "USA",
+    "mrn": "254-89-3448"
+  }
+}

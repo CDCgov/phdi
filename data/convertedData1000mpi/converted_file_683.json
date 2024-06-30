@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "53554 Smith Forges Suite 009",
+    "first_name": "Tammy",
+    "birthdate": "1943-03-06",
+    "last_name": "White",
+    "city": "East John",
+    "state": "WA",
+    "postalCode": "99657",
+    "country": "USA",
+    "mrn": "304-13-4028"
+  }
+}

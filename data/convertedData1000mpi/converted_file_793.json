@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "46943 Tonya Forge",
+    "first_name": "Tara",
+    "birthdate": "1969-04-12",
+    "last_name": "Howard",
+    "city": "North Jenniferborough",
+    "state": "DC",
+    "postalCode": "52618",
+    "country": "USA",
+    "mrn": "011-56-3018"
+  }
+}

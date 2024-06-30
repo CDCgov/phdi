@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "48246 Christina Expressway Apt. 940",
+    "first_name": "Sarah",
+    "birthdate": "1964-01-12",
+    "last_name": "Coleman",
+    "city": "Port Alexashire",
+    "state": "OR",
+    "postalCode": "79446",
+    "country": "USA",
+    "mrn": "849-01-7405"
+  }
+}

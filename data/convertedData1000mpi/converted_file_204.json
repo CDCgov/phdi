@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4229 Cardenas Cape Suite 918",
+    "first_name": "Jill",
+    "birthdate": "1951-09-12",
+    "last_name": "Carroll",
+    "city": "South Charles",
+    "state": "LA",
+    "postalCode": "96636",
+    "country": "USA",
+    "mrn": "600-11-9636"
+  }
+}

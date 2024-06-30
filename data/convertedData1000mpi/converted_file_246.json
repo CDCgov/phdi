@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "38960 Kevin Street Suite 488",
+    "first_name": "Anne",
+    "birthdate": "1990-07-18",
+    "last_name": "Rice",
+    "city": "South Courtney",
+    "state": "IN",
+    "postalCode": "42628",
+    "country": "USA",
+    "mrn": "255-17-1494"
+  }
+}

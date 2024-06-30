@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Palmer",
+                            "given": [
+                                "Cody"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "80443 Fleming Crossroad"
+                            ],
+                            "city": "South Keithton",
+                            "state": "OK",
+                            "postalCode": "15531",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "540-35-2129",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1975-03-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8262024",
+    "use_enhanced": true
+}

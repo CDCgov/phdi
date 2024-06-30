@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "603 Cox Underpass",
+    "first_name": "Brian",
+    "birthdate": "1983-10-18",
+    "last_name": "Coleman",
+    "city": "East Heathershire",
+    "state": "CA",
+    "postalCode": "75083",
+    "country": "USA",
+    "mrn": "768-16-8938"
+  }
+}

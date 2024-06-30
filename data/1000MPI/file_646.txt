@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lewis",
+                            "given": [
+                                "Sandra"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "356 Boyle Terrace"
+                            ],
+                            "city": "West Kevin",
+                            "state": "MT",
+                            "postalCode": "1666",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "882-33-1209",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1939-08-08"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4281544",
+    "use_enhanced": true
+}

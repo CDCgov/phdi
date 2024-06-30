@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "16492 Davis Turnpike Suite 828",
+    "first_name": "Evelyn",
+    "birthdate": "1979-05-15",
+    "last_name": "Taylor",
+    "city": "East Kevinborough",
+    "state": "DE",
+    "postalCode": "31782",
+    "country": "USA",
+    "mrn": "685-18-1355"
+  }
+}

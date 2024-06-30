@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Ford",
+                            "given": [
+                                "Taylor"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "31445 Daniels Center Apt. 344"
+                            ],
+                            "city": "Timothyburgh",
+                            "state": "OK",
+                            "postalCode": "3735",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "603-56-0302",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1973-03-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6248401",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "051 Amanda Fort",
+    "first_name": "Carl",
+    "birthdate": "1999-10-06",
+    "last_name": "Vance",
+    "city": "Huangland",
+    "state": "OH",
+    "postalCode": "24484",
+    "country": "USA",
+    "mrn": "291-86-6595"
+  }
+}

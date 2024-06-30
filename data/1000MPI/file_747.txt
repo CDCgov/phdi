@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wilson",
+                            "given": [
+                                "Frank"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "57910 Sarah Throughway"
+                            ],
+                            "city": "New Curtiston",
+                            "state": "IN",
+                            "postalCode": "57347",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "292-28-4115",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1947-11-26"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9438979",
+    "use_enhanced": true
+}

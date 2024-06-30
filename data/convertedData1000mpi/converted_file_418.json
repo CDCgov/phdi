@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "821 Graham Ports Apt. 518",
+    "first_name": "Kathryn",
+    "birthdate": "1947-04-05",
+    "last_name": "Smith",
+    "city": "West Karenhaven",
+    "state": "MD",
+    "postalCode": "66039",
+    "country": "USA",
+    "mrn": "609-30-9842"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "78275 John Islands",
+    "first_name": "Jacob",
+    "birthdate": "1961-05-05",
+    "last_name": "Smith",
+    "city": "West Lisaville",
+    "state": "SC",
+    "postalCode": "12448",
+    "country": "USA",
+    "mrn": "419-88-9123"
+  }
+}

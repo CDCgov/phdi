@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "264 Jeffrey Ramp",
+    "first_name": "Annette",
+    "birthdate": "1933-06-17",
+    "last_name": "Gomez",
+    "city": "North Johnside",
+    "state": "MA",
+    "postalCode": "67854",
+    "country": "USA",
+    "mrn": "554-66-4086"
+  }
+}

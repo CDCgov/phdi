@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3864 Kane Row Suite 601",
+    "first_name": "Matthew",
+    "birthdate": "1905-04-28",
+    "last_name": "Palmer",
+    "city": "Samuelberg",
+    "state": "ME",
+    "postalCode": "92416",
+    "country": "USA",
+    "mrn": "137-23-5176"
+  }
+}

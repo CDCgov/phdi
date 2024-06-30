@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Trevino",
+                            "given": [
+                                "Sean"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "75385 Ross Orchard"
+                            ],
+                            "city": "Lindachester",
+                            "state": "NJ",
+                            "postalCode": "93279",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "070-34-6946",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1938-11-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3366492",
+    "use_enhanced": true
+}

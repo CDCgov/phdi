@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3170 Nguyen Falls Apt. 139",
+    "first_name": "Cassandra",
+    "birthdate": "1944-06-29",
+    "last_name": "Baker",
+    "city": "Bauerfort",
+    "state": "VT",
+    "postalCode": "65516",
+    "country": "USA",
+    "mrn": "263-27-4814"
+  }
+}

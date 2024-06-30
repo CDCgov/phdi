@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7219 Janet Shore Apt. 684",
+    "first_name": "Erin",
+    "birthdate": "2004-02-07",
+    "last_name": "Smith",
+    "city": "West Tara",
+    "state": "SD",
+    "postalCode": "15881",
+    "country": "USA",
+    "mrn": "770-70-8767"
+  }
+}

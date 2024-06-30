@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Vasquez",
+                            "given": [
+                                "Heather"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "13258 Foster Flat Suite 870"
+                            ],
+                            "city": "Ashleychester",
+                            "state": "MS",
+                            "postalCode": "96364",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "864-19-5182",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1970-07-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4197121",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "050 Amanda Valleys Suite 628",
+    "first_name": "Glen",
+    "birthdate": "2005-10-31",
+    "last_name": "Ritter",
+    "city": "East Guyfurt",
+    "state": "AZ",
+    "postalCode": "18901",
+    "country": "USA",
+    "mrn": "286-83-2522"
+  }
+}

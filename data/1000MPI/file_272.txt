@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Rogers",
+                            "given": [
+                                "Shannon"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "55704 Frances Neck Suite 918"
+                            ],
+                            "city": "Brandyville",
+                            "state": "IA",
+                            "postalCode": "35826",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "053-34-7011",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1987-07-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6092465",
+    "use_enhanced": true
+}

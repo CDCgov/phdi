@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7986 Lauren Union",
+    "first_name": "Daniel",
+    "birthdate": "1959-07-07",
+    "last_name": "Obrien",
+    "city": "Lake Andreashire",
+    "state": "KS",
+    "postalCode": "47107",
+    "country": "USA",
+    "mrn": "756-07-5045"
+  }
+}

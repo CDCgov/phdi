@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "30832 Stephenson Rapids",
+    "first_name": "Michael",
+    "birthdate": "1941-02-14",
+    "last_name": "Hahn",
+    "city": "Michaelfurt",
+    "state": "NE",
+    "postalCode": "99497",
+    "country": "USA",
+    "mrn": "394-14-5489"
+  }
+}

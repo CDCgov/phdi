@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "281 Melissa Inlet",
+    "first_name": "Lynn",
+    "birthdate": "1993-10-30",
+    "last_name": "Thomas",
+    "city": "Port Paulville",
+    "state": "VI",
+    "postalCode": "5967",
+    "country": "USA",
+    "mrn": "219-97-0007"
+  }
+}

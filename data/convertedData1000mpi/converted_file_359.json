@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "70056 Suzanne Fields",
+    "first_name": "Christopher",
+    "birthdate": "1975-04-03",
+    "last_name": "Stewart",
+    "city": "West Denise",
+    "state": "KY",
+    "postalCode": "97572",
+    "country": "USA",
+    "mrn": "481-72-0917"
+  }
+}

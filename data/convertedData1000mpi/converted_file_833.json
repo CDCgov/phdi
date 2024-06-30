@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9455 Jesus Islands",
+    "first_name": "Matthew",
+    "birthdate": "1965-03-13",
+    "last_name": "Meyers",
+    "city": "Wolfefurt",
+    "state": "CA",
+    "postalCode": "46250",
+    "country": "USA",
+    "mrn": "257-62-2655"
+  }
+}

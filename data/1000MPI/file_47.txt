@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Harris",
+                            "given": [
+                                "Christopher"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "281 Johnson Ports Apt. 089"
+                            ],
+                            "city": "Rubenmouth",
+                            "state": "KS",
+                            "postalCode": "33575",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "173-98-6323",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1982-09-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8586897",
+    "use_enhanced": true
+}

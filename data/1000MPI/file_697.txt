@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "May",
+                            "given": [
+                                "Jacqueline"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "194 Hester Estate Apt. 935"
+                            ],
+                            "city": "West Timothyville",
+                            "state": "AZ",
+                            "postalCode": "3521",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "408-41-4573",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1944-12-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4726798",
+    "use_enhanced": true
+}

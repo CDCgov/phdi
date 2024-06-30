@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5256 Lisa Light",
+    "first_name": "Ryan",
+    "birthdate": "1963-01-29",
+    "last_name": "Law-rence",
+    "city": "Port Monica",
+    "state": "GA",
+    "postalCode": "51813",
+    "country": "USA",
+    "mrn": "371-33-0433"
+  }
+}

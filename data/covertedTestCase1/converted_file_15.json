@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2920 Kayla Stream",
+    "first_name": "Mary",
+    "birthdate": "1964-10",
+    "last_name": "Sanders",
+    "city": "North Alice",
+    "state": "CO",
+    "postalCode": "85485",
+    "country": "USA",
+    "mrn": "320-46-8857"
+  }
+}

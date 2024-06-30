@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "887 Troy Plains Suite 927",
+    "first_name": "Zachary",
+    "birthdate": "2004-11-22",
+    "last_name": "Brown",
+    "city": "Port Brendastad",
+    "state": "NJ",
+    "postalCode": "14189",
+    "country": "USA",
+    "mrn": "338-53-9254"
+  }
+}

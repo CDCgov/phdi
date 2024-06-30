@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "36621 Paul Manors",
+    "first_name": "Anon",
+    "birthdate": "1981-12-25",
+    "last_name": "Anon",
+    "city": "New Donna",
+    "state": "FL",
+    "postalCode": "11155",
+    "country": "USA",
+    "mrn": "230-27-3224"
+  }
+}

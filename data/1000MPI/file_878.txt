@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Suarez",
+                            "given": [
+                                "Patrick"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "152 Charles Estate Apt. 776"
+                            ],
+                            "city": "East Michael",
+                            "state": "TX",
+                            "postalCode": "62840",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "166-59-8477",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1967-08-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8596407",
+    "use_enhanced": true
+}

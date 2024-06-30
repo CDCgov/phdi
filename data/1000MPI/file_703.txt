@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Roman",
+                            "given": [
+                                "Richard"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "882 Tina Prairie"
+                            ],
+                            "city": "Jenniferberg",
+                            "state": "IA",
+                            "postalCode": "54115",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "068-74-2636",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1979-03-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9243206",
+    "use_enhanced": true
+}

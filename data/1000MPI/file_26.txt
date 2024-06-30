@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Klein",
+                            "given": [
+                                "William"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "709 Hoover Prairie"
+                            ],
+                            "city": "East Dylan",
+                            "state": "PA",
+                            "postalCode": "59332",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "555-54-4262",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1995-03-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3103702",
+    "use_enhanced": true
+}

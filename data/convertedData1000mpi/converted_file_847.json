@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "187 Roth Grove Suite 715",
+    "first_name": "Jessica",
+    "birthdate": "1989-10-17",
+    "last_name": "Hudson",
+    "city": "South Christopher",
+    "state": "GU",
+    "postalCode": "54699",
+    "country": "USA",
+    "mrn": "417-63-7710"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9118 Beverly Court Apt. 939",
+    "first_name": "Raven",
+    "birthdate": "1941-02-05",
+    "last_name": "Moore",
+    "city": "Tonyside",
+    "state": "VI",
+    "postalCode": "3296",
+    "country": "USA",
+    "mrn": "877-77-9159"
+  }
+}

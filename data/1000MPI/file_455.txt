@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gardner",
+                            "given": [
+                                "Michael"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "45633 Jessica Plaza"
+                            ],
+                            "city": "North Matthew",
+                            "state": "ID",
+                            "postalCode": "2848",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "202-61-1214",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2005-03-26"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4237105",
+    "use_enhanced": true
+}

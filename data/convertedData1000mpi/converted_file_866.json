@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "999 Branch Burgs",
+    "first_name": "Alexis",
+    "birthdate": "2005-10-12",
+    "last_name": "Hall",
+    "city": "Port Paul",
+    "state": "WA",
+    "postalCode": "25703",
+    "country": "USA",
+    "mrn": "313-62-4903"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17920 Kyle Knolls",
+    "first_name": "Donna",
+    "birthdate": "1986-12-27",
+    "last_name": "Lopez",
+    "city": "New Lindamouth",
+    "state": "CT",
+    "postalCode": "90805",
+    "country": "USA",
+    "mrn": "739-31-6605"
+  }
+}

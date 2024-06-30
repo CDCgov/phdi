@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "52577 Anthony Valleys",
+    "first_name": "Tanya",
+    "birthdate": "2003-05-25",
+    "last_name": "Webb",
+    "city": "South Dillon",
+    "state": "MI",
+    "postalCode": "13725",
+    "country": "USA",
+    "mrn": "619-27-3571"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "902 Murphy Vista",
+    "first_name": "Sean",
+    "birthdate": "2002-04-16",
+    "last_name": "Sheppard",
+    "city": "East Andrea",
+    "state": "TN",
+    "postalCode": "95385",
+    "country": "USA",
+    "mrn": "331-40-4931"
+  }
+}

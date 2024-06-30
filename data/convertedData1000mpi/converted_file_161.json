@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3048 Fuller Ridges Suite 714",
+    "first_name": "David",
+    "birthdate": "1973-05-13",
+    "last_name": "Payne",
+    "city": "Kennethburgh",
+    "state": "NE",
+    "postalCode": "44163",
+    "country": "USA",
+    "mrn": "635-13-9068"
+  }
+}

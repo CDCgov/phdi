@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hawkins",
+                            "given": [
+                                "Jerry"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "51153 Mark Village Apt. 739"
+                            ],
+                            "city": "New Russell",
+                            "state": "HI",
+                            "postalCode": "47181",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "029-29-0754",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1980-09-20"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2348694",
+    "use_enhanced": true
+}

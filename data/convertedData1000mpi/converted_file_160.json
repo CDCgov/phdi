@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "646 Douglas Trafficway",
+    "first_name": "Joseph",
+    "birthdate": "2001-06-18",
+    "last_name": "Kramer",
+    "city": "Taylorbury",
+    "state": "MS",
+    "postalCode": "65525",
+    "country": "USA",
+    "mrn": "745-05-2768"
+  }
+}

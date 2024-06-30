@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "78028 Nicole Square Apt. 928",
+    "first_name": "Lisa",
+    "birthdate": "1954-11-21",
+    "last_name": "Singleton",
+    "city": "East Amy",
+    "state": "MD",
+    "postalCode": "6397",
+    "country": "USA",
+    "mrn": "053-92-9413"
+  }
+}

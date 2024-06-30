@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4804 Cooper Common Apt. 477",
+    "first_name": "Alicia",
+    "birthdate": "1974-01-29",
+    "last_name": "Mcdowell",
+    "city": "Owensbury",
+    "state": "CO",
+    "postalCode": "94338",
+    "country": "USA",
+    "mrn": "694-92-8303"
+  }
+}

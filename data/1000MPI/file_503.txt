@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Cooper",
+                            "given": [
+                                "Brian"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "76712 Cheyenne Island Suite 421"
+                            ],
+                            "city": "Port Calvinhaven",
+                            "state": "VI",
+                            "postalCode": "69417",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "882-42-9595",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1976-08-26"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2881388",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "41376 Nicholas Pine Apt. 547",
+    "first_name": "Christy",
+    "birthdate": "1948-05-06",
+    "last_name": "Butler",
+    "city": "West Kellyville",
+    "state": "LA",
+    "postalCode": "59959",
+    "country": "USA",
+    "mrn": "051-09-9986"
+  }
+}

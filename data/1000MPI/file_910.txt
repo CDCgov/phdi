@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Porter",
+                            "given": [
+                                "Miranda"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "082 Brooks Mews Suite 373"
+                            ],
+                            "city": "Figueroaville",
+                            "state": "MD",
+                            "postalCode": "73415",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "199-97-4085",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1988-04-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5480399",
+    "use_enhanced": true
+}

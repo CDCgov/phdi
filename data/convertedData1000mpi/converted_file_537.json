@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "772 Sergio Junctions",
+    "first_name": "Kathleen",
+    "birthdate": "1979-01-23",
+    "last_name": "Pena",
+    "city": "Robinsonborough",
+    "state": "CT",
+    "postalCode": "78884",
+    "country": "USA",
+    "mrn": "002-33-5927"
+  }
+}

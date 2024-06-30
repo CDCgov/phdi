@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6499 Kimberly Trail",
+    "first_name": "Daniel",
+    "birthdate": "1986-05-28",
+    "last_name": "Taylor",
+    "city": "Daltonburgh",
+    "state": "GA",
+    "postalCode": "24357",
+    "country": "USA",
+    "mrn": "635-33-2234"
+  }
+}

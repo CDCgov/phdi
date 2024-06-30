@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Smith",
+                            "given": [
+                                "Stephanie"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "31272 Howard Shore Apt. 129"
+                            ],
+                            "city": "Martinezmouth",
+                            "state": "PA",
+                            "postalCode": "48072",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "553-58-0973",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1955-07-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5871431",
+    "use_enhanced": true
+}

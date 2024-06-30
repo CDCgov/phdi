@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "25899 Nguyen Road Apt. 679",
+    "first_name": "Erika",
+    "birthdate": "1957-08-03",
+    "last_name": "Wilson",
+    "city": "Edwardhaven",
+    "state": "NE",
+    "postalCode": "96456",
+    "country": "USA",
+    "mrn": "110-29-2224"
+  }
+}

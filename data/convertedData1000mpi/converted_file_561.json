@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5932 Jennifer Knolls",
+    "first_name": "Jonathan",
+    "birthdate": "1991-01-23",
+    "last_name": "Gray",
+    "city": "East Jessica",
+    "state": "WY",
+    "postalCode": "69559",
+    "country": "USA",
+    "mrn": "360-34-0548"
+  }
+}

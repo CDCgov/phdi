@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Banks",
+                            "given": [
+                                "Pamela"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "13067 Gregory Mall Suite 796"
+                            ],
+                            "city": "Taylorland",
+                            "state": "NC",
+                            "postalCode": "49416",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "430-18-3074",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1945-10-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5568559",
+    "use_enhanced": true
+}

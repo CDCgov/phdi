@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "898 Melendez Pass Suite 853",
+    "first_name": "Christopher",
+    "birthdate": "2005-09-22",
+    "last_name": "Kennedy",
+    "city": "East Shawnatown",
+    "state": "FM",
+    "postalCode": "62330",
+    "country": "USA",
+    "mrn": "613-41-8184"
+  }
+}

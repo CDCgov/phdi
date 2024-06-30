@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "46271 Holly Shoal",
+    "first_name": "Amanda",
+    "birthdate": "1971-03-14",
+    "last_name": "Moore",
+    "city": "West Richard",
+    "state": "MI",
+    "postalCode": "74066",
+    "country": "USA",
+    "mrn": "555-28-5056"
+  }
+}

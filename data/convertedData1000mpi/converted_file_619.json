@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2548 Brown Shoal",
+    "first_name": "Neil",
+    "birthdate": "1942-05-15",
+    "last_name": "Torres",
+    "city": "North Vanessa",
+    "state": "MI",
+    "postalCode": "95217",
+    "country": "USA",
+    "mrn": "897-42-1850"
+  }
+}

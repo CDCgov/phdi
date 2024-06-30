@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "769 Peter Freeway Apt. 329",
+    "first_name": "Jessica",
+    "birthdate": "1951-09-27",
+    "last_name": "Holmes",
+    "city": "Lynnstad",
+    "state": "TX",
+    "postalCode": "65384",
+    "country": "USA",
+    "mrn": "213-48-2475"
+  }
+}

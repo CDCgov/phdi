@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "267 Catherine Inlet Apt. 275",
+    "first_name": "Robert",
+    "birthdate": "1969-02-20",
+    "last_name": "Marsh",
+    "city": "West Johntown",
+    "state": "VA",
+    "postalCode": "32587",
+    "country": "USA",
+    "mrn": "267-03-8856"
+  }
+}

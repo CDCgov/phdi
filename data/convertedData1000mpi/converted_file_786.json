@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "496 Phelps Groves",
+    "first_name": "Lisa",
+    "birthdate": "1939-04-07",
+    "last_name": "Cooper",
+    "city": "Lake Deannashire",
+    "state": "GA",
+    "postalCode": "82901",
+    "country": "USA",
+    "mrn": "028-86-5356"
+  }
+}

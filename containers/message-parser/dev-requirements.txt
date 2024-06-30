@@ -1,3 +1,0 @@
-pytest
-rich     
-testcontainers[compose]==3.7.1

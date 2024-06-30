@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "52957 Devin Cliff",
+    "first_name": "Brittany",
+    "birthdate": "1969-04-22",
+    "last_name": "Robinson",
+    "city": "Robertamouth",
+    "state": "FL",
+    "postalCode": "77724",
+    "country": "USA",
+    "mrn": "368-57-1422"
+  }
+}

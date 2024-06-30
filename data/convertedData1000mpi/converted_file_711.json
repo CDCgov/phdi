@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0692 Kimberly Shore",
+    "first_name": "Michael",
+    "birthdate": "1955-04-20",
+    "last_name": "Neal",
+    "city": "Ashleyport",
+    "state": "MT",
+    "postalCode": "36007",
+    "country": "USA",
+    "mrn": "103-54-4898"
+  }
+}

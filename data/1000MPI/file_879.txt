@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Powell",
+                            "given": [
+                                "Marcus"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "19428 Cooper Springs Suite 380"
+                            ],
+                            "city": "Scottside",
+                            "state": "AZ",
+                            "postalCode": "28464",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "220-47-4101",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1951-08-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9787058",
+    "use_enhanced": true
+}

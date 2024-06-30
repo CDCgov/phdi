@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "510 Thomas Ports",
+    "first_name": "Kimberly",
+    "birthdate": "1967-12-13",
+    "last_name": "Walker",
+    "city": "Jeffreyfort",
+    "state": "ND",
+    "postalCode": "56856",
+    "country": "USA",
+    "mrn": "756-39-2707"
+  }
+}

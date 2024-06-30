@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "63173 Simpson Coves Apt. 051",
+    "first_name": "Rachael",
+    "birthdate": "1995-09-20",
+    "last_name": "Solomon",
+    "city": "North Charles",
+    "state": "OK",
+    "postalCode": "31367",
+    "country": "USA",
+    "mrn": "751-85-7403"
+  }
+}

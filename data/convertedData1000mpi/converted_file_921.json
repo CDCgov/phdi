@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "876 Rivera Fords Suite 940",
+    "first_name": "Steven",
+    "birthdate": "1939-10-19",
+    "last_name": "Russell",
+    "city": "New Wandaberg",
+    "state": "VA",
+    "postalCode": "96980",
+    "country": "USA",
+    "mrn": "336-65-4420"
+  }
+}

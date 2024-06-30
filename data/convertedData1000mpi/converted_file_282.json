@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "21947 Rachel Flat",
+    "first_name": "Michael",
+    "birthdate": "1991-02-04",
+    "last_name": "Holland",
+    "city": "Devintown",
+    "state": "RI",
+    "postalCode": "15876",
+    "country": "USA",
+    "mrn": "275-66-1341"
+  }
+}

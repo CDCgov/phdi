@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "95814 Mary Street",
+    "first_name": "Steven",
+    "birthdate": "1960-12-03",
+    "last_name": "Hardin",
+    "city": "Lake Melissa",
+    "state": "MH",
+    "postalCode": "50153",
+    "country": "USA",
+    "mrn": "614-39-2721"
+  }
+}

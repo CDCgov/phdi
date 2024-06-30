@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9216 Patrick Branch",
+    "first_name": "David",
+    "birthdate": "1987-10-03",
+    "last_name": "Meyers",
+    "city": "Joyfurt",
+    "state": "FM",
+    "postalCode": "66844",
+    "country": "USA",
+    "mrn": "259-70-8422"
+  }
+}

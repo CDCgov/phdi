@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "501 Henderson Square",
+    "first_name": "John",
+    "birthdate": "1976-01-21",
+    "last_name": "Williams",
+    "city": "Gavinhaven",
+    "state": "MP",
+    "postalCode": "86403",
+    "country": "USA",
+    "mrn": "396-82-4153"
+  }
+}

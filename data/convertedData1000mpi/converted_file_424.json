@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8859 Lucas Lane",
+    "first_name": "Lawrence",
+    "birthdate": "1941-08-06",
+    "last_name": "Fitzgerald",
+    "city": "Taylorborough",
+    "state": "NC",
+    "postalCode": "80573",
+    "country": "USA",
+    "mrn": "141-47-4770"
+  }
+}

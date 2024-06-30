@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "418 Victoria Plains Suite 512",
+    "first_name": "Molly",
+    "birthdate": "1974-03-04",
+    "last_name": "Miller",
+    "city": "North John",
+    "state": "OR",
+    "postalCode": "52014",
+    "country": "USA",
+    "mrn": "364-77-7124"
+  }
+}

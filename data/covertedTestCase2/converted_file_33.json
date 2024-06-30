@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "USPS Store\n9705 Ashley Cape  Suite 699",
+    "first_name": "Patricia",
+    "birthdate": "1934-04-15",
+    "last_name": "Jackson",
+    "city": "Alexanderport",
+    "state": "WY",
+    "postalCode": "82669",
+    "country": "USA",
+    "mrn": "466-59-4124"
+  }
+}

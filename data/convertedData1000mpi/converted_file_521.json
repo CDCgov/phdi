@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "59049 Rachel Trail",
+    "first_name": "Arthur",
+    "birthdate": "1952-07-22",
+    "last_name": "Scott",
+    "city": "Benitezchester",
+    "state": "GU",
+    "postalCode": "10735",
+    "country": "USA",
+    "mrn": "026-45-3444"
+  }
+}

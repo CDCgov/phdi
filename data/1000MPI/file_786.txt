@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Cooper",
+                            "given": [
+                                "Lisa"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "496 Phelps Groves"
+                            ],
+                            "city": "Lake Deannashire",
+                            "state": "GA",
+                            "postalCode": "82901",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "028-86-5356",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1939-04-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2800825",
+    "use_enhanced": true
+}

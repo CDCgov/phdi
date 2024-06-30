@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "89061 Christopher Streets",
+    "first_name": "Joshua",
+    "birthdate": "1953-08-09",
+    "last_name": "Daniel",
+    "city": "North Shane",
+    "state": "MT",
+    "postalCode": "52877",
+    "country": "USA",
+    "mrn": "802-91-1454"
+  }
+}

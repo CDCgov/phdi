@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "70248 Conner Well Apt. 537",
+    "first_name": "William",
+    "birthdate": "1994-08-12",
+    "last_name": "Miller",
+    "city": "New Wendymouth",
+    "state": "IN",
+    "postalCode": "89683",
+    "country": "USA",
+    "mrn": "778-22-2001"
+  }
+}

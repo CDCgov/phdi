@@ -1,0 +1,5 @@
+Faker==25.4.0
+pandas
+numpy
+Soundex
+Metaphone

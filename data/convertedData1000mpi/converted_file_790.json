@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "86268 Rose Run",
+    "first_name": "Shannon",
+    "birthdate": "1952-01-02",
+    "last_name": "Salinas",
+    "city": "New Christopher",
+    "state": "MH",
+    "postalCode": "10810",
+    "country": "USA",
+    "mrn": "325-05-5025"
+  }
+}

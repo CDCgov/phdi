@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Chandler",
+                            "given": [
+                                "Nicole"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "93924 Moore Parks"
+                            ],
+                            "city": "Jaystad",
+                            "state": "AL",
+                            "postalCode": "45899",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "710-45-5676",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1974-11-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6922142",
+    "use_enhanced": true
+}

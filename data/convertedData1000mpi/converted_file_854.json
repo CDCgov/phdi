@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "356 Logan Crossing Suite 530",
+    "first_name": "Mariah",
+    "birthdate": "1989-02-19",
+    "last_name": "Wolfe",
+    "city": "Jamesbury",
+    "state": "GU",
+    "postalCode": "29093",
+    "country": "USA",
+    "mrn": "010-36-2326"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8976 Jimenez Cliff",
+    "first_name": "Lisa",
+    "birthdate": "1974-07-07",
+    "last_name": "Herrera",
+    "city": "Johnmouth",
+    "state": "CT",
+    "postalCode": "28376",
+    "country": "USA",
+    "mrn": "389-77-5104"
+  }
+}

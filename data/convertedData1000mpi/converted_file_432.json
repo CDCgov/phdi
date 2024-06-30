@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "603 Catherine Path",
+    "first_name": "Clarence",
+    "birthdate": "1993-07-23",
+    "last_name": "Lopez",
+    "city": "North Vickiside",
+    "state": "KY",
+    "postalCode": "66707",
+    "country": "USA",
+    "mrn": "715-66-6997"
+  }
+}

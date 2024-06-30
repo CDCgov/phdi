@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "11734 Julia Burgs",
+    "first_name": "David",
+    "birthdate": "1979-02-12",
+    "last_name": "Johnson",
+    "city": "New Zacharyborough",
+    "state": "NV",
+    "postalCode": "56873",
+    "country": "USA",
+    "mrn": "503-89-8634"
+  }
+}

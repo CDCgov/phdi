@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5133 Heather Rapids Suite 261",
+    "first_name": "Debra",
+    "birthdate": "1945-03-07",
+    "last_name": "Wagner",
+    "city": "Lake Caroline",
+    "state": "WI",
+    "postalCode": "6102",
+    "country": "USA",
+    "mrn": "017-29-4481"
+  }
+}

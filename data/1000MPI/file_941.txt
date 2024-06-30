@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Singleton",
+                            "given": [
+                                "Lisa"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "78028 Nicole Square Apt. 928"
+                            ],
+                            "city": "East Amy",
+                            "state": "MD",
+                            "postalCode": "6397",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "053-92-9413",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1954-11-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1737199",
+    "use_enhanced": true
+}

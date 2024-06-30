@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "478 Candice Ville Apt. 581",
+    "first_name": "Crystal",
+    "birthdate": "1959-12-03",
+    "last_name": "Bruce",
+    "city": "Debbieville",
+    "state": "AZ",
+    "postalCode": "54102",
+    "country": "USA",
+    "mrn": "798-50-6675"
+  }
+}

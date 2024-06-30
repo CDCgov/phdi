@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17838 Freeman Shoals",
+    "first_name": "Chad",
+    "birthdate": "1952-02-05",
+    "last_name": "Wood",
+    "city": "Port Michaeltown",
+    "state": "DC",
+    "postalCode": "76262",
+    "country": "USA",
+    "mrn": "733-01-2474"
+  }
+}

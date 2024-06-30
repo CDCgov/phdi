@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "184 Gregory Land Suite 561",
+    "first_name": "Patrick",
+    "birthdate": "1942-01-23",
+    "last_name": "Butler",
+    "city": "Melissahaven",
+    "state": "GU",
+    "postalCode": "31110",
+    "country": "USA",
+    "mrn": "310-15-2429"
+  }
+}

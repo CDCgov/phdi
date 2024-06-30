@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "274 Smith Corner",
+    "first_name": "Carrie",
+    "birthdate": "1968-09-19",
+    "last_name": "Ponce",
+    "city": "South Philip",
+    "state": "FL",
+    "postalCode": "41818",
+    "country": "USA",
+    "mrn": "504-16-4346"
+  }
+}

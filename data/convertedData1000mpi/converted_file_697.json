@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "194 Hester Estate Apt. 935",
+    "first_name": "Jacqueline",
+    "birthdate": "1944-12-15",
+    "last_name": "May",
+    "city": "West Timothyville",
+    "state": "AZ",
+    "postalCode": "3521",
+    "country": "USA",
+    "mrn": "408-41-4573"
+  }
+}

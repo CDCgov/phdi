@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "151 Marks Ports",
+    "first_name": "Nicole",
+    "birthdate": "1970-11-03",
+    "last_name": "Schultz",
+    "city": "West Charlesland",
+    "state": "MO",
+    "postalCode": "17883",
+    "country": "USA",
+    "mrn": "851-16-3842"
+  }
+}

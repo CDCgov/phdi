@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Bowman",
+                            "given": [
+                                "Lisa"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "2609 Larson Coves Apt. 281"
+                            ],
+                            "city": "Huertaview",
+                            "state": "NJ",
+                            "postalCode": "72003",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "195-07-4296",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1982-08-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7069211",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4339 Trevino Well Apt. 262",
+    "first_name": "Shawn",
+    "birthdate": "1983-05-05",
+    "last_name": "Juarez",
+    "city": "North Claireside",
+    "state": "IN",
+    "postalCode": "36528",
+    "country": "USA",
+    "mrn": "831-30-5835"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Orr",
+                            "given": [
+                                "Ralph"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "394 Cohen Expressway"
+                            ],
+                            "city": "Howardbury",
+                            "state": "VT",
+                            "postalCode": "31084",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "082-32-0185",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1990-11-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8959596",
+    "use_enhanced": true
+}

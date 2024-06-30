@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1630 Smith Estate Suite 384",
+    "first_name": "George",
+    "birthdate": "1958-10-15",
+    "last_name": "Johnson",
+    "city": "Rebeccachester",
+    "state": "CO",
+    "postalCode": "17629",
+    "country": "USA",
+    "mrn": "762-94-8321"
+  }
+}

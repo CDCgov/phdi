@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "67936 Sandy Stravenue Suite 400",
+    "first_name": "Norman",
+    "birthdate": "1972-06-22",
+    "last_name": "Scott",
+    "city": "West Shelby",
+    "state": "HI",
+    "postalCode": "28359",
+    "country": "USA",
+    "mrn": "162-88-0658"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "31272 Howard Shore Apt. 129",
+    "first_name": "Stephanie",
+    "birthdate": "1955-07-02",
+    "last_name": "Smith",
+    "city": "Martinezmouth",
+    "state": "PA",
+    "postalCode": "48072",
+    "country": "USA",
+    "mrn": "553-58-0973"
+  }
+}

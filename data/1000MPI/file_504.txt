@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Moreno",
+                            "given": [
+                                "Edward"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "751 Johnson Meadow Suite 008"
+                            ],
+                            "city": "Jonathanborough",
+                            "state": "KS",
+                            "postalCode": "53433",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "863-44-7798",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1988-12-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8861681",
+    "use_enhanced": true
+}

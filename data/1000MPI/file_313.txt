@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Anderson",
+                            "given": [
+                                "Erik"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "16960 Olson Ville Apt. 676"
+                            ],
+                            "city": "Lake Meghan",
+                            "state": "MH",
+                            "postalCode": "66681",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "645-39-4563",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1981-06-20"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2575798",
+    "use_enhanced": true
+}

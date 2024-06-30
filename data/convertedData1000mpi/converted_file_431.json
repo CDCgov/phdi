@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5067 Michael Trail",
+    "first_name": "Mary",
+    "birthdate": "1957-04-03",
+    "last_name": "Berry",
+    "city": "North Caseystad",
+    "state": "NV",
+    "postalCode": "78787",
+    "country": "USA",
+    "mrn": "859-03-9034"
+  }
+}

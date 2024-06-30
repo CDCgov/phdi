@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hall",
+                            "given": [
+                                "Xavier"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "01816 Robin Falls"
+                            ],
+                            "city": "Georgeville",
+                            "state": "NY",
+                            "postalCode": "95719",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "856-01-3884",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1971-07-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2519263",
+    "use_enhanced": true
+}

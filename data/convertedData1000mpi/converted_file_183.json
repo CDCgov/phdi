@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7311 Lin Parkway",
+    "first_name": "Stacey",
+    "birthdate": "1953-12-23",
+    "last_name": "Wong",
+    "city": "South Michael",
+    "state": "AS",
+    "postalCode": "68898",
+    "country": "USA",
+    "mrn": "150-61-7763"
+  }
+}

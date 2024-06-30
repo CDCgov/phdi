@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "572 Frank Neck Apt. 327",
+    "first_name": "Julie",
+    "birthdate": "1965-06-14",
+    "last_name": "Luna",
+    "city": "West Zachary",
+    "state": "AL",
+    "postalCode": "86136",
+    "country": "USA",
+    "mrn": "381-60-6643"
+  }
+}

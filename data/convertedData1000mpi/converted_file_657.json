@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "779 Jason Lock",
+    "first_name": "Nicholas",
+    "birthdate": "1992-11-04",
+    "last_name": "Gomez",
+    "city": "Robertberg",
+    "state": "WY",
+    "postalCode": "54686",
+    "country": "USA",
+    "mrn": "736-15-7008"
+  }
+}

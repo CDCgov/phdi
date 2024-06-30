@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gomez",
+                            "given": [
+                                "Steven"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "313 Eric Road"
+                            ],
+                            "city": "Port Matthew",
+                            "state": "MO",
+                            "postalCode": "69114",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "398-13-2645",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1937-03-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4394579",
+    "use_enhanced": true
+}

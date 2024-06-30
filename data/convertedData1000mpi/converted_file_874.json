@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3141 Dawn Freeway",
+    "first_name": "Charlotte",
+    "birthdate": "1997-06-25",
+    "last_name": "Johnson",
+    "city": "South Christinechester",
+    "state": "NY",
+    "postalCode": "68359",
+    "country": "USA",
+    "mrn": "662-99-7321"
+  }
+}

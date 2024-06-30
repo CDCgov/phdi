@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Scott",
+                            "given": [
+                                "Norman"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "67936 Sandy Stravenue Suite 400"
+                            ],
+                            "city": "West Shelby",
+                            "state": "HI",
+                            "postalCode": "28359",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "162-88-0658",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1972-06-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8420522",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "373 Wagner Forge",
+    "first_name": "Jean",
+    "birthdate": "1941-06-07",
+    "last_name": "Stanton",
+    "city": "West Andreaborough",
+    "state": "MO",
+    "postalCode": "82374",
+    "country": "USA",
+    "mrn": "164-65-0869"
+  }
+}

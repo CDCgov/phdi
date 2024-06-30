@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "270 Allen Path Suite 966",
+    "first_name": "Richard",
+    "birthdate": "1970-11-25",
+    "last_name": "Evans",
+    "city": "Gregorybury",
+    "state": "SD",
+    "postalCode": "36762",
+    "country": "USA",
+    "mrn": "454-37-4700"
+  }
+}

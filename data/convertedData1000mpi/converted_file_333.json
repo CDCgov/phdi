@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0844 Danielle Expressway",
+    "first_name": "Barry",
+    "birthdate": "1968-07-22",
+    "last_name": "Leonard",
+    "city": "Holthaven",
+    "state": "MP",
+    "postalCode": "94106",
+    "country": "USA",
+    "mrn": "310-85-9152"
+  }
+}

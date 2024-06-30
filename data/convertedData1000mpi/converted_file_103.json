@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "016 Pamela Wells Apt. 952",
+    "first_name": "Jessica",
+    "birthdate": "1936-09-25",
+    "last_name": "Foster",
+    "city": "Lake Paulport",
+    "state": "AK",
+    "postalCode": "40602",
+    "country": "USA",
+    "mrn": "406-20-3481"
+  }
+}

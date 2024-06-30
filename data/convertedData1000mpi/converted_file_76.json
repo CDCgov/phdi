@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "306 Houston Spurs",
+    "first_name": "Samantha",
+    "birthdate": "1933-12-18",
+    "last_name": "Lozano",
+    "city": "North Christineburgh",
+    "state": "AS",
+    "postalCode": "43451",
+    "country": "USA",
+    "mrn": "647-81-4532"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2075 Brian Grove",
+    "first_name": "Stephen",
+    "birthdate": "1992-04-14",
+    "last_name": "Thompson",
+    "city": "Michaelland",
+    "state": "TN",
+    "postalCode": "69117",
+    "country": "USA",
+    "mrn": "469-20-0631"
+  }
+}

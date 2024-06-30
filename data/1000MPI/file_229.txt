@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Chavez",
+                            "given": [
+                                "Andrew"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "53066 Rhonda Garden Apt. 436"
+                            ],
+                            "city": "West Johnhaven",
+                            "state": "CT",
+                            "postalCode": "51241",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "837-51-9394",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1986-12-20"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4690658",
+    "use_enhanced": true
+}

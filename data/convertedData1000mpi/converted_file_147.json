@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "825 Foster Islands",
+    "first_name": "Ryan",
+    "birthdate": "1961-10-20",
+    "last_name": "Holland",
+    "city": "Port Eric",
+    "state": "OH",
+    "postalCode": "3593",
+    "country": "USA",
+    "mrn": "379-24-2535"
+  }
+}

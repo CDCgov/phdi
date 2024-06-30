@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9206 Ronald Radial Suite 069",
+    "first_name": "Ronnie",
+    "birthdate": "1969-06-28",
+    "last_name": "Fields",
+    "city": "New Melissa",
+    "state": "CT",
+    "postalCode": "86828",
+    "country": "USA",
+    "mrn": "380-23-4090"
+  }
+}

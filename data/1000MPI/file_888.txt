@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Williams",
+                            "given": [
+                                "George"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "10667 Fisher Coves"
+                            ],
+                            "city": "Amandaborough",
+                            "state": "LA",
+                            "postalCode": "96005",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "779-95-7759",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1989-11-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6139619",
+    "use_enhanced": true
+}

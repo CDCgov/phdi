@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "32932 William Park Suite 624",
+    "first_name": "Claudia",
+    "birthdate": "1988-05-15",
+    "last_name": "Rose",
+    "city": "South Jack",
+    "state": "VT",
+    "postalCode": "56258",
+    "country": "USA",
+    "mrn": "773-75-0944"
+  }
+}

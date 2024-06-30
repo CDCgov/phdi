@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0828 Mary River",
+    "first_name": "Amanda",
+    "birthdate": "1977-07-31",
+    "last_name": "Bonilla",
+    "city": "Port Jasmine",
+    "state": "MS",
+    "postalCode": "31479",
+    "country": "USA",
+    "mrn": "473-98-8310"
+  }
+}

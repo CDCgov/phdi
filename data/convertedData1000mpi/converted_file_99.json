@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4542 Porter Ports",
+    "first_name": "Janet",
+    "birthdate": "1990-05-05",
+    "last_name": "Booth",
+    "city": "Porterland",
+    "state": "MI",
+    "postalCode": "23388",
+    "country": "USA",
+    "mrn": "267-61-0725"
+  }
+}

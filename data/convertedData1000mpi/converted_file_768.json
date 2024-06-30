@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "44603 Bradley Forge",
+    "first_name": "Kevin",
+    "birthdate": "1950-06-29",
+    "last_name": "Brooks",
+    "city": "Isaacville",
+    "state": "WI",
+    "postalCode": "15184",
+    "country": "USA",
+    "mrn": "816-06-2290"
+  }
+}

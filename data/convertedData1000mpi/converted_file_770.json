@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9084 Anna Viaduct",
+    "first_name": "Daniel",
+    "birthdate": "1949-08-02",
+    "last_name": "Peters",
+    "city": "Ortizmouth",
+    "state": "CA",
+    "postalCode": "34045",
+    "country": "USA",
+    "mrn": "618-41-9600"
+  }
+}

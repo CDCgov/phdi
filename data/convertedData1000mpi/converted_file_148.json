@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5047 Payne Forge Apt. 331",
+    "first_name": "Stefanie",
+    "birthdate": "1977-01-04",
+    "last_name": "Blackburn",
+    "city": "Port Savannahfurt",
+    "state": "MI",
+    "postalCode": "6359",
+    "country": "USA",
+    "mrn": "691-12-2437"
+  }
+}

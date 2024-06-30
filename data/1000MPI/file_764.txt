@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wagner",
+                            "given": [
+                                "Sean"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "28708 Diana Trail"
+                            ],
+                            "city": "Santanamouth",
+                            "state": "WY",
+                            "postalCode": "68284",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "448-67-9790",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1962-02-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1248249",
+    "use_enhanced": true
+}

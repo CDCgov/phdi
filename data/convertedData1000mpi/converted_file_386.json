@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "94527 Wade Pass Apt. 109",
+    "first_name": "Matthew",
+    "birthdate": "1995-07-20",
+    "last_name": "Stevens",
+    "city": "South Jenniferview",
+    "state": "VI",
+    "postalCode": "62876",
+    "country": "USA",
+    "mrn": "594-11-2570"
+  }
+}

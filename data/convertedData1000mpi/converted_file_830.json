@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3113 Kaitlin Fort Suite 555",
+    "first_name": "Gloria",
+    "birthdate": "1966-10-18",
+    "last_name": "Wright",
+    "city": "Lowebury",
+    "state": "IA",
+    "postalCode": "27884",
+    "country": "USA",
+    "mrn": "454-38-9048"
+  }
+}

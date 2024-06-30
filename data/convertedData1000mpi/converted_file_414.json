@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1386 Figueroa Parkway",
+    "first_name": "Darren",
+    "birthdate": "1954-06-10",
+    "last_name": "Green",
+    "city": "New Michelle",
+    "state": "NY",
+    "postalCode": "51199",
+    "country": "USA",
+    "mrn": "361-81-7602"
+  }
+}

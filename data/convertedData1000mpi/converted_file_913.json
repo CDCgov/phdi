@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "71300 Carlos Forks",
+    "first_name": "Colin",
+    "birthdate": "1961-01-14",
+    "last_name": "Wu",
+    "city": "Matthewburgh",
+    "state": "VI",
+    "postalCode": "14711",
+    "country": "USA",
+    "mrn": "129-59-6120"
+  }
+}

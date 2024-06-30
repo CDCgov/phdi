@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "602 Wilson Walks Suite 325",
+    "first_name": "Nicholas",
+    "birthdate": "1982-06-23",
+    "last_name": "Bush",
+    "city": "Chavezborough",
+    "state": "SC",
+    "postalCode": "18471",
+    "country": "USA",
+    "mrn": "377-91-9278"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "512 Lynn Crest",
+    "first_name": "George",
+    "birthdate": "1960-02-14",
+    "last_name": "Padilla",
+    "city": "Kingview",
+    "state": "MH",
+    "postalCode": "49649",
+    "country": "USA",
+    "mrn": "804-80-0189"
+  }
+}

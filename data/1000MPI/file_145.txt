@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hensley",
+                            "given": [
+                                "Sierra"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "958 Michelle Causeway Apt. 897"
+                            ],
+                            "city": "New Pamela",
+                            "state": "SC",
+                            "postalCode": "25444",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "820-30-0786",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1970-11-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3794265",
+    "use_enhanced": true
+}

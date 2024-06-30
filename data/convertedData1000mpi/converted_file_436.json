@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "044 Anderson Prairie Apt. 164",
+    "first_name": "Jessica",
+    "birthdate": "1975-05-18",
+    "last_name": "Kerr",
+    "city": "Jonathanburgh",
+    "state": "NH",
+    "postalCode": "43620",
+    "country": "USA",
+    "mrn": "190-17-2998"
+  }
+}

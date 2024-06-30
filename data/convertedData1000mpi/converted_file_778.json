@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5172 Newman Crossing",
+    "first_name": "Laura",
+    "birthdate": "1962-12-17",
+    "last_name": "Boone",
+    "city": "South Dorothyfurt",
+    "state": "LA",
+    "postalCode": "60736",
+    "country": "USA",
+    "mrn": "247-99-8214"
+  }
+}

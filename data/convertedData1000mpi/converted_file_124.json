@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8608 Jennifer Center",
+    "first_name": "Christopher",
+    "birthdate": "1959-04-10",
+    "last_name": "Stevenson",
+    "city": "South Emily",
+    "state": "HI",
+    "postalCode": "58588",
+    "country": "USA",
+    "mrn": "489-80-4049"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "498 Morgan Mission",
+    "first_name": "Crystal",
+    "birthdate": "1938-09-25",
+    "last_name": "Hunter",
+    "city": "Matthewside",
+    "state": "IN",
+    "postalCode": "11598",
+    "country": "USA",
+    "mrn": "266-27-6485"
+  }
+}

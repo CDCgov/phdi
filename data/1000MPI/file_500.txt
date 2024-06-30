@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Martinez",
+                            "given": [
+                                "Mary"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "825 Robert Turnpike"
+                            ],
+                            "city": "West John",
+                            "state": "SD",
+                            "postalCode": "18108",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "340-06-4735",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1983-10-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4211780",
+    "use_enhanced": true
+}

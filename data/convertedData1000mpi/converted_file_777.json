@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "890 Christopher Dam Suite 824",
+    "first_name": "Anthony",
+    "birthdate": "1936-09-08",
+    "last_name": "Stephens",
+    "city": "South Danielland",
+    "state": "WA",
+    "postalCode": "66609",
+    "country": "USA",
+    "mrn": "691-89-5932"
+  }
+}

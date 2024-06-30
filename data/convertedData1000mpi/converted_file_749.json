@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "51897 Jennifer Roads Apt. 474",
+    "first_name": "Trevor",
+    "birthdate": "1991-10-23",
+    "last_name": "Benitez",
+    "city": "Edgarfort",
+    "state": "SC",
+    "postalCode": "54245",
+    "country": "USA",
+    "mrn": "735-23-2786"
+  }
+}

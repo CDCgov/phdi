@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3245 Jodi Knolls",
+    "first_name": "Jaime",
+    "birthdate": "1967-09-19",
+    "last_name": "Walsh",
+    "city": "South Roy",
+    "state": "MT",
+    "postalCode": "23837",
+    "country": "USA",
+    "mrn": "200-80-5046"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Davis",
+                            "given": [
+                                "Michael"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "498 William Manor"
+                            ],
+                            "city": "West Shellyside",
+                            "state": "CT",
+                            "postalCode": "78077",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "895-12-4683",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1977-03-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1582808",
+    "use_enhanced": true
+}

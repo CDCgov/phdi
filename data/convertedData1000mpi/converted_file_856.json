@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "86398 Randall Forks",
+    "first_name": "Michael",
+    "birthdate": "1947-11-18",
+    "last_name": "Elliott",
+    "city": "New Bettyport",
+    "state": "TX",
+    "postalCode": "5914",
+    "country": "USA",
+    "mrn": "207-73-8517"
+  }
+}

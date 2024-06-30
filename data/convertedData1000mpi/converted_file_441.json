@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "00338 Phillip Ports",
+    "first_name": "April",
+    "birthdate": "1947-11-09",
+    "last_name": "Scott",
+    "city": "East Timothyfurt",
+    "state": "CA",
+    "postalCode": "45047",
+    "country": "USA",
+    "mrn": "892-28-8839"
+  }
+}

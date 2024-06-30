@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3275 Lucas Highway Suite 077",
+    "first_name": "Michael",
+    "birthdate": "1985-12-13",
+    "last_name": "Carpenter",
+    "city": "New Lee",
+    "state": "GU",
+    "postalCode": "69626",
+    "country": "USA",
+    "mrn": "192-45-6073"
+  }
+}

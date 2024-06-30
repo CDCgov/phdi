@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8916 Simmons View",
+    "first_name": "Erin",
+    "birthdate": "1954-10-09",
+    "last_name": "Mcdaniel",
+    "city": "Warrenchester",
+    "state": "NY",
+    "postalCode": "84684",
+    "country": "USA",
+    "mrn": "255-15-1391"
+  }
+}

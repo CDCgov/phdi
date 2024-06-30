@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "12441 Thomas View",
+    "first_name": "Jodi",
+    "birthdate": "1998-04-17",
+    "last_name": "Cobb",
+    "city": "Lake Christopherton",
+    "state": "MS",
+    "postalCode": "42641",
+    "country": "USA",
+    "mrn": "135-66-8946"
+  }
+}

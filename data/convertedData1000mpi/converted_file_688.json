@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7375 Ashley Brook",
+    "first_name": "Larry",
+    "birthdate": "2006-02-16",
+    "last_name": "Terry",
+    "city": "Andersonberg",
+    "state": "NV",
+    "postalCode": "48768",
+    "country": "USA",
+    "mrn": "133-90-2810"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "381 James Highway Suite 099",
+    "first_name": "Andrea",
+    "birthdate": "1959-09-26",
+    "last_name": "Mckenzie",
+    "city": "North Kristenshire",
+    "state": "DE",
+    "postalCode": "26383",
+    "country": "USA",
+    "mrn": "010-07-5399"
+  }
+}

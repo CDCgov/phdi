@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8783 Dixon Trace Apt. 380",
+    "first_name": "Michael",
+    "birthdate": "1966-12-04",
+    "last_name": "Diaz",
+    "city": "Francistown",
+    "state": "CA",
+    "postalCode": "18626",
+    "country": "USA",
+    "mrn": "185-91-1594"
+  }
+}

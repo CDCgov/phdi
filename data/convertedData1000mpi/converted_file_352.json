@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "95195 Jason River Apt. 258",
+    "first_name": "Sarah",
+    "birthdate": "1987-09-28",
+    "last_name": "Matthews",
+    "city": "Nicholston",
+    "state": "SC",
+    "postalCode": "7521",
+    "country": "USA",
+    "mrn": "266-32-1003"
+  }
+}

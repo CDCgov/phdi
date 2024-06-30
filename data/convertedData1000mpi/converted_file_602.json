@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "63295 Deborah Burg Suite 974",
+    "first_name": "James",
+    "birthdate": "1939-11-01",
+    "last_name": "Rogers",
+    "city": "Mendezton",
+    "state": "ID",
+    "postalCode": "44503",
+    "country": "USA",
+    "mrn": "678-41-8170"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "968 Gonzalez Mount",
+    "first_name": "Linda",
+    "birthdate": "1951-06-02",
+    "last_name": "Nash",
+    "city": "South Emilybury",
+    "state": "GU",
+    "postalCode": "93236",
+    "country": "USA",
+    "mrn": "675-79-1449"
+  }
+}

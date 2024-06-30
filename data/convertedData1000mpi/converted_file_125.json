@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6272 Johnson Harbor",
+    "first_name": "Erik",
+    "birthdate": "2006-04-18",
+    "last_name": "Rodriguez",
+    "city": "Lake James",
+    "state": "NE",
+    "postalCode": "19887",
+    "country": "USA",
+    "mrn": "879-43-0136"
+  }
+}

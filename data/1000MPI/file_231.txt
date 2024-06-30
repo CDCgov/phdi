@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Mcdonald",
+                            "given": [
+                                "Laura"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "01542 Horn Lodge"
+                            ],
+                            "city": "Georgeberg",
+                            "state": "MH",
+                            "postalCode": "56783",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "674-11-1854",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1997-12-01"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7340082",
+    "use_enhanced": true
+}

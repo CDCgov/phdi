@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "09357 George Path",
+    "first_name": "Rachel",
+    "birthdate": "2005-06-12",
+    "last_name": "Ellis",
+    "city": "Dukemouth",
+    "state": "AK",
+    "postalCode": "42507",
+    "country": "USA",
+    "mrn": "337-90-8336"
+  }
+}

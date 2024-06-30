@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "968 King Port Suite 567",
+    "first_name": "Baby",
+    "birthdate": "1943-07-19",
+    "last_name": "Boy",
+    "city": "Alexisberg",
+    "state": "VA",
+    "postalCode": "87477",
+    "country": "USA",
+    "mrn": "501-42-8781"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "728 Coleman Stream Apt. 829",
+    "first_name": "Jade",
+    "birthdate": "2004-10-06",
+    "last_name": "Howard",
+    "city": "Jamesfurt",
+    "state": "TN",
+    "postalCode": "73090",
+    "country": "USA",
+    "mrn": "042-14-2945"
+  }
+}

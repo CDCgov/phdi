@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Noble",
+                            "given": [
+                                "Whitney"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "56287 Courtney Shoal Apt. 328"
+                            ],
+                            "city": "North Lisa",
+                            "state": "MT",
+                            "postalCode": "6122",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "657-04-2492",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1973-03-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1682151",
+    "use_enhanced": true
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Dalton",
+                            "given": [
+                                "Kyle"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "12845 Joshua Plaza"
+                            ],
+                            "city": "East Stephanieview",
+                            "state": "OR",
+                            "postalCode": "17977",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "158-31-7157",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1976-09-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9519822",
+    "use_enhanced": true
+}

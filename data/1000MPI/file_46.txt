@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Thompson",
+                            "given": [
+                                "Gina"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "27559 Good Motorway Suite 257"
+                            ],
+                            "city": "Lake Samantha",
+                            "state": "OH",
+                            "postalCode": "55070",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "650-86-7189",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1970-04-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2464429",
+    "use_enhanced": true
+}

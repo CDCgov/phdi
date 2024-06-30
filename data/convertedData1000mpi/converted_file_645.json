@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "963 Marissa Prairie Suite 259",
+    "first_name": "Peter",
+    "birthdate": "1980-01-18",
+    "last_name": "Freeman",
+    "city": "Harveyfurt",
+    "state": "PR",
+    "postalCode": "15970",
+    "country": "USA",
+    "mrn": "803-93-5628"
+  }
+}

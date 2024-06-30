@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Russell",
+                            "given": [
+                                "Victor"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "18563 Williams Circle"
+                            ],
+                            "city": "Lake Haroldland",
+                            "state": "MN",
+                            "postalCode": "13322",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "716-57-3933",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1992-08-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9025841",
+    "use_enhanced": true
+}

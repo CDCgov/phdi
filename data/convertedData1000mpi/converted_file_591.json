@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "640 Jose Haven",
+    "first_name": "Veronica",
+    "birthdate": "1994-02-11",
+    "last_name": "Wilson",
+    "city": "Bryantton",
+    "state": "NE",
+    "postalCode": "38590",
+    "country": "USA",
+    "mrn": "594-93-3913"
+  }
+}

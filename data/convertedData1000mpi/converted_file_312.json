@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2751 Brown Heights",
+    "first_name": "Marilyn",
+    "birthdate": "1938-05-12",
+    "last_name": "Brown",
+    "city": "East Steven",
+    "state": "MS",
+    "postalCode": "90220",
+    "country": "USA",
+    "mrn": "350-40-6662"
+  }
+}

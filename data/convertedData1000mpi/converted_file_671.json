@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0864 Gregory Trace Apt. 409",
+    "first_name": "Erin",
+    "birthdate": "1983-05-16",
+    "last_name": "Nguyen",
+    "city": "Anthonyshire",
+    "state": "NE",
+    "postalCode": "66382",
+    "country": "USA",
+    "mrn": "302-04-8335"
+  }
+}

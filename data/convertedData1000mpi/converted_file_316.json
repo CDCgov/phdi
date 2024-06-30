@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "123 Kathleen Island Suite 884",
+    "first_name": "Kelly",
+    "birthdate": "1990-03-16",
+    "last_name": "Mcconnell",
+    "city": "Lake Susan",
+    "state": "FL",
+    "postalCode": "82801",
+    "country": "USA",
+    "mrn": "458-06-1044"
+  }
+}

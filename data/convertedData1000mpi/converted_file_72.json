@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9264 Scott Viaduct",
+    "first_name": "Kristi",
+    "birthdate": "1976-05-11",
+    "last_name": "Norris",
+    "city": "New Meganstad",
+    "state": "MD",
+    "postalCode": "70887",
+    "country": "USA",
+    "mrn": "314-89-1648"
+  }
+}

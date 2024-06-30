@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Crawford",
+                            "given": [
+                                "Carol"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "672 Fowler Port Suite 227"
+                            ],
+                            "city": "Roberthaven",
+                            "state": "IL",
+                            "postalCode": "98791",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "367-11-9296",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1977-07-05"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5771259",
+    "use_enhanced": true
+}

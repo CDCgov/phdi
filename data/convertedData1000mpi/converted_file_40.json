@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0263 Sanchez Well Suite 245",
+    "first_name": "Briana",
+    "birthdate": "1978-03-24",
+    "last_name": "Wiley",
+    "city": "Harmonton",
+    "state": "WI",
+    "postalCode": "22564",
+    "country": "USA",
+    "mrn": "411-01-8157"
+  }
+}

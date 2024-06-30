@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9531 Diaz Valley",
+    "first_name": "Grant",
+    "birthdate": "1960-06-10",
+    "last_name": "Wallace",
+    "city": "Tracyfurt",
+    "state": "IN",
+    "postalCode": "44025",
+    "country": "USA",
+    "mrn": "178-04-6741"
+  }
+}

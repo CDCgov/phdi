@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hayes",
+                            "given": [
+                                "Chris"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "040 Jason Locks Apt. 902"
+                            ],
+                            "city": "South James",
+                            "state": "PR",
+                            "postalCode": "16214",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "158-11-3130",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1970-12-29"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5035731",
+    "use_enhanced": true
+}

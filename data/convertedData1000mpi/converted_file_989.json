@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "346 Greg Forks Apt. 065",
+    "first_name": "Derrick",
+    "birthdate": "1971-10-14",
+    "last_name": "Williams",
+    "city": "Burchburgh",
+    "state": "OH",
+    "postalCode": "44303",
+    "country": "USA",
+    "mrn": "517-64-0504"
+  }
+}

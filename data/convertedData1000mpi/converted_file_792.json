@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "964 Tommy Meadows",
+    "first_name": "Ashley",
+    "birthdate": "1950-10-02",
+    "last_name": "Williams",
+    "city": "East Johnathan",
+    "state": "CA",
+    "postalCode": "35293",
+    "country": "USA",
+    "mrn": "139-60-3616"
+  }
+}

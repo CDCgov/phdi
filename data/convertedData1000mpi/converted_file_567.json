@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "941 Erica Causeway",
+    "first_name": "Peter",
+    "birthdate": "1979-03-05",
+    "last_name": "Medina",
+    "city": "Port Brittanyside",
+    "state": "IA",
+    "postalCode": "6657",
+    "country": "USA",
+    "mrn": "378-27-6191"
+  }
+}

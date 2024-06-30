@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Jones",
+                            "given": [
+                                "Amanda"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "624 Lawrence Tunnel Suite 882"
+                            ],
+                            "city": "Isaiahborough",
+                            "state": "NH",
+                            "postalCode": "50602",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "011-72-6168",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1987-02-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6235835",
+    "use_enhanced": true
+}

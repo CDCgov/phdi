@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9339 Jonathan Grove",
+    "first_name": "Vanessa",
+    "birthdate": "2001-12-14",
+    "last_name": "Bryant",
+    "city": "Port Teresaville",
+    "state": "WV",
+    "postalCode": "54422",
+    "country": "USA",
+    "mrn": "581-18-4030"
+  }
+}

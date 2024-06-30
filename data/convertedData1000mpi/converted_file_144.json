@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4111 Richards Roads Apt. 883",
+    "first_name": "Mark",
+    "birthdate": "1943-07-19",
+    "last_name": "Brown",
+    "city": "Jameston",
+    "state": "VT",
+    "postalCode": "75556",
+    "country": "USA",
+    "mrn": "890-67-9373"
+  }
+}

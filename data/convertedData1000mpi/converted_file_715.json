@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "37183 Jeremy Spring Apt. 565",
+    "first_name": "Jocelyn",
+    "birthdate": "1959-08-21",
+    "last_name": "Ross",
+    "city": "Lake Christinaburgh",
+    "state": "OR",
+    "postalCode": "84233",
+    "country": "USA",
+    "mrn": "569-51-6172"
+  }
+}
