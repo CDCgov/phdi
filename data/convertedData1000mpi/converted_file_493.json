@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "624 Lawrence Tunnel Suite 882",
+    "first_name": "Amanda",
+    "birthdate": "1987-02-24",
+    "last_name": "Jones",
+    "city": "Isaiahborough",
+    "state": "NH",
+    "postalCode": "50602",
+    "country": "USA",
+    "mrn": "011-72-6168"
+  }
+}

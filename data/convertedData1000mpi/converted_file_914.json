@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2602 Spencer Key Apt. 127",
+    "first_name": "John",
+    "birthdate": "1967-10-05",
+    "last_name": "Smith",
+    "city": "Beardmouth",
+    "state": "SC",
+    "postalCode": "73560",
+    "country": "USA",
+    "mrn": "520-53-3648"
+  }
+}

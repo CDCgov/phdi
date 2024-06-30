@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "488 Santiago Gardens",
+    "first_name": "Thomas",
+    "birthdate": "1990-08-29",
+    "last_name": "Shea",
+    "city": "Brennanmouth",
+    "state": "MH",
+    "postalCode": "6753",
+    "country": "USA",
+    "mrn": "513-20-4169"
+  }
+}

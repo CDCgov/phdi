@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "810 Barton Fall",
+    "first_name": "Christopher",
+    "birthdate": "1964-06-23",
+    "last_name": "Conley",
+    "city": "North Kenneth",
+    "state": "AK",
+    "postalCode": "81511",
+    "country": "USA",
+    "mrn": "672-35-0636"
+  }
+}

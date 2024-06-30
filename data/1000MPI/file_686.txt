@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Whitaker",
+                            "given": [
+                                "Joann"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "615 Hawkins Village Apt. 641"
+                            ],
+                            "city": "North Ashley",
+                            "state": "WI",
+                            "postalCode": "67008",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "568-99-2354",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1976-04-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3235512",
+    "use_enhanced": true
+}

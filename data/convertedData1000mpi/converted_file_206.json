@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "70403 Thomas Vista Suite 348",
+    "first_name": "Susan",
+    "birthdate": "1962-05-30",
+    "last_name": "Diaz",
+    "city": "Lake Ashley",
+    "state": "NM",
+    "postalCode": "6232",
+    "country": "USA",
+    "mrn": "394-11-3364"
+  }
+}

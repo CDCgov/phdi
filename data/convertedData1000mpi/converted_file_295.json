@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9412 Rodriguez Island",
+    "first_name": "Mary",
+    "birthdate": "1937-07-27",
+    "last_name": "Riley",
+    "city": "Rubenborough",
+    "state": "GA",
+    "postalCode": "8429",
+    "country": "USA",
+    "mrn": "064-33-6796"
+  }
+}

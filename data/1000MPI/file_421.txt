@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Scott",
+                            "given": [
+                                "Jesus"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "30210 Jenkins Stream Apt. 683"
+                            ],
+                            "city": "East Lindsey",
+                            "state": "RI",
+                            "postalCode": "89905",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "546-67-2900",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1968-01-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7218805",
+    "use_enhanced": true
+}

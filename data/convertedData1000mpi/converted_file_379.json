@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "432 April Valley",
+    "first_name": "Matthew",
+    "birthdate": "1989-02-24",
+    "last_name": "Rodriguez",
+    "city": "West Adamchester",
+    "state": "MH",
+    "postalCode": "90530",
+    "country": "USA",
+    "mrn": "140-08-1324"
+  }
+}

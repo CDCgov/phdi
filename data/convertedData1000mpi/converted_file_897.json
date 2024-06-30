@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "98378 Thompson Coves",
+    "first_name": "Wanda",
+    "birthdate": "2000-01-02",
+    "last_name": "Johnson",
+    "city": "New Christopherburgh",
+    "state": "NC",
+    "postalCode": "10154",
+    "country": "USA",
+    "mrn": "562-95-8233"
+  }
+}

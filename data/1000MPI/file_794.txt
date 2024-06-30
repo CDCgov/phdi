@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Medina",
+                            "given": [
+                                "Gregory"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "75375 Cassandra Skyway"
+                            ],
+                            "city": "East Terri",
+                            "state": "TN",
+                            "postalCode": "95527",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "011-56-9749",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1944-07-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9256581",
+    "use_enhanced": true
+}

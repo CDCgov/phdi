@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "00459 Traci Lodge",
+    "first_name": "Catherine",
+    "birthdate": "1981-05-09",
+    "last_name": "Robinson",
+    "city": "Isaacfurt",
+    "state": "ND",
+    "postalCode": "4728",
+    "country": "USA",
+    "mrn": "584-01-3333"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "801 Joshua Rue Suite 256",
+    "first_name": "Mitchell",
+    "birthdate": "1963-11-28",
+    "last_name": "Ramsey",
+    "city": "Williamsfurt",
+    "state": "FM",
+    "postalCode": "74979",
+    "country": "USA",
+    "mrn": "657-63-1288"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "654 Joshua Rapid Suite 010",
+    "first_name": "William",
+    "birthdate": "1978-04-07",
+    "last_name": "Lee",
+    "city": "Russellhaven",
+    "state": "NV",
+    "postalCode": "11433",
+    "country": "USA",
+    "mrn": "659-08-4309"
+  }
+}

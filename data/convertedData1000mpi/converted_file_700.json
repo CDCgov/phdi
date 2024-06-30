@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "55801 Nguyen Pike Suite 632",
+    "first_name": "Tamara",
+    "birthdate": "1956-01-11",
+    "last_name": "Kim",
+    "city": "Calebville",
+    "state": "WY",
+    "postalCode": "28796",
+    "country": "USA",
+    "mrn": "718-19-9842"
+  }
+}

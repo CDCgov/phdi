@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "58973 Gina Inlet Suite 454",
+    "first_name": "Charles",
+    "birthdate": "1967-03-13",
+    "last_name": "Riley",
+    "city": "North Joshuaville",
+    "state": "VA",
+    "postalCode": "64177",
+    "country": "USA",
+    "mrn": "124-25-3564"
+  }
+}

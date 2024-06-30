@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "177 Christopher Isle Suite 243",
+    "first_name": "Christina",
+    "birthdate": "1940-03-15",
+    "last_name": "Moran",
+    "city": "New Patrick",
+    "state": "GA",
+    "postalCode": "970",
+    "country": "USA",
+    "mrn": "497-78-3466"
+  }
+}

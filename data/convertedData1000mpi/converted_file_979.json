@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "550 Patricia Common Suite 176",
+    "first_name": "Robert",
+    "birthdate": "1997-09-04",
+    "last_name": "Taylor",
+    "city": "Leeside",
+    "state": "ME",
+    "postalCode": "98480",
+    "country": "USA",
+    "mrn": "145-15-8825"
+  }
+}

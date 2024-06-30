@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "66337 Donald Lodge",
+    "first_name": "Christopher",
+    "birthdate": "1936-08-06",
+    "last_name": "Stephenson",
+    "city": "Ryanmouth",
+    "state": "VT",
+    "postalCode": "89433",
+    "country": "USA",
+    "mrn": "038-81-6933"
+  }
+}

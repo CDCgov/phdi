@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "30694 Daniel Inlet Suite 199",
+    "first_name": "Dillon",
+    "birthdate": "1934-08-12",
+    "last_name": "Schultz",
+    "city": "Chanton",
+    "state": "NE",
+    "postalCode": "7047",
+    "country": "USA",
+    "mrn": "856-80-5741"
+  }
+}

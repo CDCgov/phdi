@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "288 Nicholas Brook Apt. 527",
+    "first_name": "Chad",
+    "birthdate": "2004-05-31",
+    "last_name": "Cook",
+    "city": "Nunezbury",
+    "state": "WY",
+    "postalCode": "31081",
+    "country": "USA",
+    "mrn": "195-20-8391"
+  }
+}

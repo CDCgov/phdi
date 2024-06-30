@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Reid",
+                            "given": [
+                                "Kelly"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "13218 Lucas Bridge"
+                            ],
+                            "city": "West Kyle",
+                            "state": "AL",
+                            "postalCode": "3089",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "061-64-7605",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1993-06-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1535461",
+    "use_enhanced": true
+}

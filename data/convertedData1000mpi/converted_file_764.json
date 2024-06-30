@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "28708 Diana Trail",
+    "first_name": "Sean",
+    "birthdate": "1962-02-22",
+    "last_name": "Wagner",
+    "city": "Santanamouth",
+    "state": "WY",
+    "postalCode": "68284",
+    "country": "USA",
+    "mrn": "448-67-9790"
+  }
+}

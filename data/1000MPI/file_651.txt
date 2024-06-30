@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Miller",
+                            "given": [
+                                "William"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "70248 Conner Well Apt. 537"
+                            ],
+                            "city": "New Wendymouth",
+                            "state": "IN",
+                            "postalCode": "89683",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "778-22-2001",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1994-08-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7492761",
+    "use_enhanced": true
+}

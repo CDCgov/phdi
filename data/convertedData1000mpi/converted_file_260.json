@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "202 Miranda Coves Apt. 634",
+    "first_name": "Amber",
+    "birthdate": "1981-12-08",
+    "last_name": "Ramirez",
+    "city": "South Amy",
+    "state": "MD",
+    "postalCode": "59458",
+    "country": "USA",
+    "mrn": "277-77-9286"
+  }
+}

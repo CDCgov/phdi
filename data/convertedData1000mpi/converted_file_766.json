@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4134 Timothy Hills Suite 606",
+    "first_name": "Robert",
+    "birthdate": "1957-08-30",
+    "last_name": "Porter",
+    "city": "Sandraview",
+    "state": "PW",
+    "postalCode": "66526",
+    "country": "USA",
+    "mrn": "542-20-1775"
+  }
+}

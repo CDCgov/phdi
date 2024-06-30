@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Valentine",
+                            "given": [
+                                "Todd"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "660 Patrick Ridges"
+                            ],
+                            "city": "North Amy",
+                            "state": "GA",
+                            "postalCode": "74566",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "391-81-6915",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1948-03-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1686060",
+    "use_enhanced": true
+}

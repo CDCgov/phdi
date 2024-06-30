@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "495 Roberts Highway",
+    "first_name": "Andrew",
+    "birthdate": "1945-10-02",
+    "last_name": "Fisher",
+    "city": "East Colleen",
+    "state": "LA",
+    "postalCode": "66846",
+    "country": "USA",
+    "mrn": "289-71-2070"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Clay",
+                            "given": [
+                                "Gregory"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "271 Bethany Orchard Suite 797"
+                            ],
+                            "city": "Port Josemouth",
+                            "state": "HI",
+                            "postalCode": "3442",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "074-57-3275",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1950-07-29"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1461256",
+    "use_enhanced": true
+}

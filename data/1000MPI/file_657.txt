@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gomez",
+                            "given": [
+                                "Nicholas"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "779 Jason Lock"
+                            ],
+                            "city": "Robertberg",
+                            "state": "WY",
+                            "postalCode": "54686",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "736-15-7008",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1992-11-04"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7596969",
+    "use_enhanced": true
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hernandez",
+                            "given": [
+                                "Sheri"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "76928 Johnson Pines Suite 475"
+                            ],
+                            "city": "East Scott",
+                            "state": "MS",
+                            "postalCode": "84513",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "670-03-1010",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1975-06-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8434928",
+    "use_enhanced": true
+}

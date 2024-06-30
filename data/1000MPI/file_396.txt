@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Perez",
+                            "given": [
+                                "Sherry"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "265 Amy Flats"
+                            ],
+                            "city": "South Markton",
+                            "state": "NE",
+                            "postalCode": "82732",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "052-34-2524",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1970-03-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3998494",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "490 Christine Hills",
+    "first_name": "Sara",
+    "birthdate": "1974-06-28",
+    "last_name": "Farmer",
+    "city": "Bellborough",
+    "state": "OK",
+    "postalCode": "9315",
+    "country": "USA",
+    "mrn": "727-53-4594"
+  }
+}

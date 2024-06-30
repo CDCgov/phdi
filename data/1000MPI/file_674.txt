@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Franco",
+                            "given": [
+                                "Nicholas"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "721 Silva Squares"
+                            ],
+                            "city": "Lovemouth",
+                            "state": "MO",
+                            "postalCode": "75065",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "769-48-0886",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1946-09-26"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6019422",
+    "use_enhanced": true
+}

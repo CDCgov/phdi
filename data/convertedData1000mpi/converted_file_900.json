@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "973 King Creek Apt. 697",
+    "first_name": "Annette",
+    "birthdate": "1983-08-11",
+    "last_name": "Little",
+    "city": "Steeletown",
+    "state": "AL",
+    "postalCode": "21494",
+    "country": "USA",
+    "mrn": "330-78-7306"
+  }
+}

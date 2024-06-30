@@ -1,0 +1,43 @@
+﻿Match Id,ID,BIRTHDATE,FIRST,LAST,SUFFIX,MAIDEN,RACE,ETHNICITY,GENDER,ADDRESS,CITY,STATE,COUNTY,ZIP,SSN,Scenario,Notes,Expected Result
+1001,5732092,1972-01-17,Anonymous,Anonymous,,Skinner,Black,Unknown,M,9488 Welch Center,Shawnburgh,OH,Port Monicaton County,41959,682-52-1603,Anon/unknown name,"Slightly changed ID, Address, SSN",Should Not be a Match
+1002,8396459,1995-07-16,Anonymous,Anonymous,,Sims,Other,Non-Hispanic,F,9592 Charles Groves Apt. 122,Port Jeffrey,ME,New Richardland County,27691,215-81-0959,Anon/unknown name,Slightly changed ID only,Should be a match 
+1003,9989926,1981-12-25,Anon,Anon,,Robinson,Black,Non-Hispanic,M,36621 Paul Manors,New Donna,FL,Port Janetshire County,11155,230-27-3224,Anon/unknown name,Changed first name last name.,Should be a match
+1004,1730261,1942-09-28,Unknown,Unknown,,Walsh,Hispanic,Unknown,M,968 King Port Suite 568,Port Jesse,ME,West Brandonmouth County,90185,646-04-4866,Anon/unknown name,"Slightly changed ID, Address, SSN",Should Not be a Match
+1004,1730241,1942-09-28,Unk,Unk,,Walsh,Hispanic,Unknown,M,968 King Port Suite 566,Port Jesse,ME,West Brandonmouth County,90185,646-04-4566,Anon/unknown name,Change first name last name.,Should be a match
+1004,1730241,1942-09-28,Anonymous,Anonymous,,Walsh,Hispanic,Unknown,M,968 King Port Suite 566,Port Jesse,ME,West Brandonmouth County,90185,646-04-4566,Anon/unknown name,Change first name last name.,Should be a match
+1005,6861088,1975-02-15,Anonymous,Anonymous,,Garcia,Black,Hispanic,F,036 Traci Extensions Apt. 050,West Elizabeth,FM,Roblesmouth County,54435,641-84-2151,Anon/unknown name,Change first name last name.,Should be a match
+1005,6861088,1975-02-15,Unknown,Unknown,,Garcia,Black,Hispanic,F,036 Traci Extensions Apt. 050,West Elizabeth,FM,Roblesmouth County,54435,641-84-2151,Anon/unknown name,Change first name last name.,Should be a match
+1005,6861089,1976-02-15,Unk,Unk,,Garcia,Black,Hispanic,F,0378 Traci Extensions Apt. 050,West Elizabeth,FM,Roblesmouth County,54435,641-84-2152,Anon/unknown name,"Change ID, DOB, Address, SSN.",Should Not be a Match
+1006,1648024,1961-12-16,O Bailey,Dorsey,,Garcia,Black,Hispanic,F,9592 Ortega Groves Apt. 737,Barrfurt,VT,North Justinport County,29032,237-97-8467,Punctuated name,Removed punctuation and added a space,Should be a match
+1013,5262117,1934-02-27,OHahn,Mora,,Williamson,Other,Hispanic,M,621 Meadowbrook Drive,Sullivanburgh,KY,Lake Stevenborough County,69945,180-81-5534,Punctuated name,Removed punctuation,Should be a match
+1019,2565549,1948-06-08,Valerie,D Dougherty,III,Silva,Hispanic,Unknown,F,055 Wyatt Ferry,Carterport,VT,Julieton County,59672,446-25-5155,Punctuated last name,Removed punctuation and added a space,Should be a match
+1020,4673398,1949-09-13,Mark,DJones,III,Skinner,Black,Unknown,M,9489 Welch Center,Dustinshire,UT,North Daniel County,33258,133-55-2860,Punctuated last name,Removed punctuation,Should be a match
+1009,1513596,2020-01-16,Jane,Doe,,Garcia,Black,Hispanic,F,036 Traci Extensions Apt. 050,Hendersonburgh,NY,New Joshuaburgh County,93225,500-94-2504,"Placeholder names: baby girl/boy, jane/john doe","Changed ID, DOB, SSN",Should Not be a Match
+1016,2374638,1937-05-16,John,Doe,,Jordan,Asian,Non-Hispanic,M,221 Baker Street,North Andrew,SD,Richardsontown County,42851,214-80-2852,"Placeholder names: baby girl/boy, jane/john doe","Changed ID, SSN",Should Not be a Match
+1022,1017678,1991-06-03,Baby,Girl,Sr,Robinson,Black,Non-Hispanic,F,361 Paul Manors,Port Lisa,OR,South Sherylside County,35657,794-02-8452,"Placeholder names: baby girl/boy, jane/john doe","Changed ID, Address, SSN",Should Not be a Match
+1023,5950629,1943-07-19,Baby,Boy,Sr,Walsh,Hispanic,Unknown,M,968 King Port Suite 567,Alexisberg,VA,West Heather County,87477,501-42-8781,"Placeholder names: baby girl/boy, jane/john doe","Changed ID, Address, SSN",Should Not be a Match
+1014,5594815,1938-05-14,Minnie,Torres,,Jordan,Asian,Non-Hispanic,F,1140 Sunset Boulevard,Amberville,LA,South Crystal County,38790,359-41-7516,Short names (2-3 letters),Changed first name,Should be a match
+1024,2593549,1948-06-08,Valerie,Mills,III,Silva,Hispanic,Unknown,F,PO BOX 7091,Carterport,VT,Julieton County,59672,446-25-5155,PO Box Address,Changed address,Should be a match
+1025,4673331,1949-09-12,Mark,Doe,III,Skinner,Black,Unknown,M,PO BOX 1600,Dustinshire,UT,North Daniel County,33258,133-55-2860,PO Box Address,"Changed ID, DOB, Last name",Should be a match
+1026,4985289,1942-09-10,Karen,Lloyd,Jr,Sims,Other,Non-Hispanic,F,PO BOX 2425,New Gregorymouth,GA,Lake Erica County,27333,669-78-0106,PO Box Address,"Changed ID,DOB, SSN",Should Not be a Match
+1026,4981789,1962-09-10,Karen,Doe,Jr,Sims,Other,Non-Hispanic,F,PO BOX 2425,New Gregorymouth,GA,Lake Erica County,27333,669-78-6106,PO Box Address,"Changed ID, Last name, SSN",Should Not be a Match
+1028,1507236,2001-10-01,Melvin,Hernandez,II,Barker,Asian,Unknown,F,GENERAL DELIVERY,East Eduardofurt,WI,Timothymouth County,51286,356-36-6513,General Delivery Address,"Changed ID,DOB, SSN",Should Not be a Match
+1029,1563279,1936-03-07,Adam,Smithsonia,III,Ballard,White,Hispanic,M,GENERAL DELIVERY,Allenchester,ME,Angelamouth County,17547,500-77-4015,General Delivery Address,"Changed ID, Last name, SSN",Should Not be a Match
+1030,1679963,1976-02-14,David,Norman,Sr,Johnson,Other,Non-Hispanic,M,GENERAL DELIVERY,Lake Jennaview,KS,Port Wendymouth County,30623,280-24-0951,General Delivery Address,Changed zip,Should be a match
+1030,1670963,1966-02-14,David,Nor,Sr,Johnson,Other,Non-Hispanic,M,GENERAL DELIVERY,Lake Jennaview,KS,Port Wendymouth County,30613,280-24-0951,General Delivery Address,"Changed ID, DOB, Last name",Should be a match
+1031,9556562,1958-10-16,Jasmine,Lin,II,Baker,White,Hispanic,F,"c/o Emergency Mail Program
+22401 Christine Island Apt. 660",Lake Brian,UT,Francismouth County,11296,232-98-7615,Emergency Mail Program Address,"Changed ID,DOB, SSN",Should Not be a Match
+1032,9585958,1962-10-10,Mike,Schmidt,II,Moore,Asian,Unknown,F,"c/o Emergency Mail Program
+27518 Frazier Isle Suite 990",Edwardshire,GU,Williamsport County,81524,177-78-8241,Emergency Mail Program Address,"Changed ID,DOB, first name",Should be a match
+1032,9582558,1952-10-10,Michael,Smith,II,Moore,Asian,Unknown,F,"c/o Emergency Mail Program
+27518 Frazier Isle Suite 990",Edwardshire,GU,Williamsport County,81524,177-78-7241,Emergency Mail Program Address,"Changed ID, Last name, SSN",Should Not be a Match
+1032,9582958,1952-10-10,Michael,Schmidt,II,Moore,Asian,Unknown,F,"c/o Emergency Mail Program
+27518 Frazier Isle Suite 999",Edwardshire,GU,Williamsport County,81524,177-78-8241,Emergency Mail Program Address,Changed address,Should be a match
+1033,1229335,1948-11-24,David,Spencer,Jr,Henson,Other,Hispanic,F,"USPS Store
+32329 Amber Well Suite 892",Jamesbury,CA,West Kimberly County,87967,247-01-0718,USPS Location Address,"Changed ID,DOB, SSN",Should Not be a Match
+1034,3302426,11/11/1897,Tony,Nelson,IV,Gardner,Other,Non-Hispanic,M,"USPS Store
+2094 Kyle Mills  Suite 983",East Meghan,PA,New Christian County,65583,668-20-2517,USPS Location Address,"Changed ID,DOB, first name",Should be a match
+1035,3361996,1953-09-13,Daniel,Madel,Sr,Winters,Asian,Non-Hispanic,F,"USPS Store
+4225 Chambers Park Suite 455",Smithside,NV,Robertsborough County,29621,596-06-8041,USPS Location Address,"Changed ID, Last name, SSN",Should Not be a Match
+1036,3858020,1934-04-15,Patricia,Jackson,IV,Walton,Black,Hispanic,M,"USPS Store
+9705 Ashley Cape  Suite 699",Alexanderport,WY,Kristenbury County,82669,466-59-4124,USPS Location Address,Changed address,Should be a match

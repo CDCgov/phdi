@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Johnston",
+                            "given": [
+                                "Richard"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "026 Baldwin Forest"
+                            ],
+                            "city": "Lake Hollyton",
+                            "state": "SD",
+                            "postalCode": "18720",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "301-02-1632",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1970-06-03"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3133242",
+    "use_enhanced": true
+}

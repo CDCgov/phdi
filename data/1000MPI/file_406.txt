@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Holloway",
+                            "given": [
+                                "Carol"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "095 Horn Creek"
+                            ],
+                            "city": "Josephshire",
+                            "state": "ME",
+                            "postalCode": "88962",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "263-66-8840",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2004-05-25"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2916667",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "91986 Schneider Islands",
+    "first_name": "Tom",
+    "birthdate": "1943-02-13",
+    "last_name": "Martin",
+    "city": "East Brookemouth",
+    "state": "NH",
+    "postalCode": "23956",
+    "country": "USA",
+    "mrn": "013-22-4628"
+  }
+}

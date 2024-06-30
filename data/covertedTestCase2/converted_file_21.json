@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "PO BOX 2425",
+    "first_name": "Karen",
+    "birthdate": "1962-09-10",
+    "last_name": "Doe",
+    "city": "New Gregorymouth",
+    "state": "GA",
+    "postalCode": "27333",
+    "country": "USA",
+    "mrn": "669-78-6106"
+  }
+}

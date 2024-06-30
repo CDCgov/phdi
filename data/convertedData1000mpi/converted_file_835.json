@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1222 Jacob Overpass",
+    "first_name": "Christian",
+    "birthdate": "1938-05-31",
+    "last_name": "Good",
+    "city": "Howardhaven",
+    "state": "ME",
+    "postalCode": "60251",
+    "country": "USA",
+    "mrn": "145-51-2175"
+  }
+}

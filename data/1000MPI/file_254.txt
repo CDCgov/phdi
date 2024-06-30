@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Rowe",
+                            "given": [
+                                "Ashley"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "85353 Michael Cape"
+                            ],
+                            "city": "Hernandezborough",
+                            "state": "CT",
+                            "postalCode": "52964",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "697-64-5519",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1968-03-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7796480",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1879 Ruben Mission Suite 573",
+    "first_name": "Allison",
+    "birthdate": "2006-04-15",
+    "last_name": "Walton",
+    "city": "Edwardtown",
+    "state": "IA",
+    "postalCode": "53535",
+    "country": "USA",
+    "mrn": "169-30-2021"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "67293 Marie Rapid",
+    "first_name": "Kim",
+    "birthdate": "1976-10-27",
+    "last_name": "Moss",
+    "city": "Cochranmouth",
+    "state": "FL",
+    "postalCode": "47411",
+    "country": "USA",
+    "mrn": "160-47-9035"
+  }
+}

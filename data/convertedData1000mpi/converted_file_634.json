@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "880 Swanson Bypass Apt. 534",
+    "first_name": "Daniel",
+    "birthdate": "1982-06-21",
+    "last_name": "Thomas",
+    "city": "Hansonmouth",
+    "state": "CO",
+    "postalCode": "65944",
+    "country": "USA",
+    "mrn": "410-88-3138"
+  }
+}

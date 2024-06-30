@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "110 Villa Brook",
+    "first_name": "Jackie",
+    "birthdate": "1983-03-03",
+    "last_name": "Snyder",
+    "city": "Lake Kathy",
+    "state": "MO",
+    "postalCode": "34164",
+    "country": "USA",
+    "mrn": "235-53-1180"
+  }
+}

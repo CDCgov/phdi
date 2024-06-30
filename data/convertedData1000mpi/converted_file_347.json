@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "462 Mcdonald Overpass Apt. 966",
+    "first_name": "William",
+    "birthdate": "1938-05-25",
+    "last_name": "Morgan",
+    "city": "Armstrongton",
+    "state": "CO",
+    "postalCode": "78438",
+    "country": "USA",
+    "mrn": "532-18-2670"
+  }
+}

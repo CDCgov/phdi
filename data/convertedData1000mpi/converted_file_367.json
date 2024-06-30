@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5040 Howell Stream",
+    "first_name": "Aaron",
+    "birthdate": "1941-05-27",
+    "last_name": "Hanson",
+    "city": "Lake Kaylaland",
+    "state": "NH",
+    "postalCode": "45702",
+    "country": "USA",
+    "mrn": "865-03-4441"
+  }
+}

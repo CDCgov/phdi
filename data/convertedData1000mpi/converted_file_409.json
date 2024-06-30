@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "766 Riley Forges Apt. 029",
+    "first_name": "Donald",
+    "birthdate": "1965-11-06",
+    "last_name": "Anderson",
+    "city": "Port Johnborough",
+    "state": "LA",
+    "postalCode": "13744",
+    "country": "USA",
+    "mrn": "628-35-8361"
+  }
+}

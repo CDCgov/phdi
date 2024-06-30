@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "83949 Johnson Loaf Apt. 644",
+    "first_name": "Cole",
+    "birthdate": "2000-12-21",
+    "last_name": "Green",
+    "city": "Port Ryanstad",
+    "state": "MN",
+    "postalCode": "59739",
+    "country": "USA",
+    "mrn": "251-64-3736"
+  }
+}

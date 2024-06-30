@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "305 Amber Key",
+    "first_name": "James",
+    "birthdate": "1973-04-12",
+    "last_name": "Arnold",
+    "city": "Scottborough",
+    "state": "VI",
+    "postalCode": "9255",
+    "country": "USA",
+    "mrn": "238-07-7300"
+  }
+}

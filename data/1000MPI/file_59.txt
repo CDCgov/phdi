@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Hall",
+                            "given": [
+                                "Ashley"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "49787 Hall Ranch"
+                            ],
+                            "city": "Garnerbury",
+                            "state": "AK",
+                            "postalCode": "80781",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "138-89-4850",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1990-12-31"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9737695",
+    "use_enhanced": true
+}

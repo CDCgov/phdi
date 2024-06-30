@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3555 Sullivan Meadow Apt. 606",
+    "first_name": "Amy",
+    "birthdate": "1971-08-27",
+    "last_name": "Barnes",
+    "city": "Hallmouth",
+    "state": "PR",
+    "postalCode": "6242",
+    "country": "USA",
+    "mrn": "182-87-4509"
+  }
+}

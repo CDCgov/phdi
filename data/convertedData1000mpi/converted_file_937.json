@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7373 Morales Mission",
+    "first_name": "Jessica",
+    "birthdate": "1984-01-11",
+    "last_name": "Delacruz",
+    "city": "Curtismouth",
+    "state": "TN",
+    "postalCode": "83521",
+    "country": "USA",
+    "mrn": "073-55-2711"
+  }
+}

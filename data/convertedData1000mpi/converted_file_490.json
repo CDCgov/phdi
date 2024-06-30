@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "864 Lindsey Prairie Suite 508",
+    "first_name": "Joseph",
+    "birthdate": "1970-03-08",
+    "last_name": "Davenport",
+    "city": "Gregoryhaven",
+    "state": "FM",
+    "postalCode": "85436",
+    "country": "USA",
+    "mrn": "286-16-0323"
+  }
+}

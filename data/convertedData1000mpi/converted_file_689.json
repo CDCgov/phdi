@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "577 Walton Pike",
+    "first_name": "Andrew",
+    "birthdate": "1999-05-26",
+    "last_name": "Vasquez",
+    "city": "Michaeltown",
+    "state": "VA",
+    "postalCode": "65311",
+    "country": "USA",
+    "mrn": "845-05-6216"
+  }
+}

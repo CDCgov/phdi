@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "748 Hayes Trail",
+    "first_name": "Elizabeth",
+    "birthdate": "1980-11-07",
+    "last_name": "Hughes",
+    "city": "Heathside",
+    "state": "SC",
+    "postalCode": "26565",
+    "country": "USA",
+    "mrn": "468-74-8110"
+  }
+}

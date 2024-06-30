@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Brown",
+                            "given": [
+                                "Eric"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "375 Young Mission Suite 248"
+                            ],
+                            "city": "Richardfurt",
+                            "state": "PR",
+                            "postalCode": "61482",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "647-29-8850",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1979-04-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6801269",
+    "use_enhanced": true
+}

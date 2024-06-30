@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5362 Hamilton Ramp",
+    "first_name": "Alexis",
+    "birthdate": "2000-11-27",
+    "last_name": "Rangel",
+    "city": "East Richardfurt",
+    "state": "ND",
+    "postalCode": "29706",
+    "country": "USA",
+    "mrn": "727-18-6132"
+  }
+}

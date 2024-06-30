@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "121 James Flat Suite 377",
+    "first_name": "Madison",
+    "birthdate": "1942-12-23",
+    "last_name": "Hull",
+    "city": "Davisshire",
+    "state": "ND",
+    "postalCode": "36545",
+    "country": "USA",
+    "mrn": "375-15-8433"
+  }
+}

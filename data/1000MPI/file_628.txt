@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Orr",
+                            "given": [
+                                "Kelly"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "305 Poole Mill"
+                            ],
+                            "city": "Christianton",
+                            "state": "NJ",
+                            "postalCode": "16645",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "217-08-5766",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1958-12-22"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6744434",
+    "use_enhanced": true
+}

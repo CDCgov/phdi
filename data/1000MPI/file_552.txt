@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Harrison",
+                            "given": [
+                                "Anthony"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "134 Pamela Hill Apt. 492"
+                            ],
+                            "city": "Mackshire",
+                            "state": "MD",
+                            "postalCode": "18341",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "507-31-0334",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1998-07-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2336059",
+    "use_enhanced": true
+}

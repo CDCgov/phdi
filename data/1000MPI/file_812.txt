@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lee",
+                            "given": [
+                                "Larry"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "684 Mike Mall Apt. 391"
+                            ],
+                            "city": "Greenville",
+                            "state": "AK",
+                            "postalCode": "64572",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "140-87-3692",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1951-06-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7552548",
+    "use_enhanced": true
+}

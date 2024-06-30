@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "19428 Cooper Springs Suite 380",
+    "first_name": "Marcus",
+    "birthdate": "1951-08-22",
+    "last_name": "Powell",
+    "city": "Scottside",
+    "state": "AZ",
+    "postalCode": "28464",
+    "country": "USA",
+    "mrn": "220-47-4101"
+  }
+}

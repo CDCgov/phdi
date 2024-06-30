@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Rodriguez",
+                            "given": [
+                                "John"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "20103 Strickland Spurs Suite 208"
+                            ],
+                            "city": "Lake Audreystad",
+                            "state": "MN",
+                            "postalCode": "69056",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "543-72-5219",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2003-12-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5643410",
+    "use_enhanced": true
+}

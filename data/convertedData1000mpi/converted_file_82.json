@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "63226 Martin Freeway Suite 535",
+    "first_name": "Ashley",
+    "birthdate": "1994-09-16",
+    "last_name": "Watson",
+    "city": "West James",
+    "state": "WI",
+    "postalCode": "99818",
+    "country": "USA",
+    "mrn": "234-71-9897"
+  }
+}

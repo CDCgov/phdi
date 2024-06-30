@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0766 Keller Rue Suite 710",
+    "first_name": "Jason",
+    "birthdate": "1964-09-20",
+    "last_name": "Lewis",
+    "city": "Susanfort",
+    "state": "TX",
+    "postalCode": "8871",
+    "country": "USA",
+    "mrn": "395-10-6843"
+  }
+}

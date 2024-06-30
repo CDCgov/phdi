@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "224 Renee Crest Apt. 243",
+    "first_name": "Michael",
+    "birthdate": "1938-06-17",
+    "last_name": "Luna",
+    "city": "Brianfort",
+    "state": "MO",
+    "postalCode": "68001",
+    "country": "USA",
+    "mrn": "044-32-5160"
+  }
+}

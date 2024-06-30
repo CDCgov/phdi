@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17164 Dylan Centers",
+    "first_name": "Peter",
+    "birthdate": "1993-04-21",
+    "last_name": "Jimenez",
+    "city": "East Stephen",
+    "state": "DE",
+    "postalCode": "62715",
+    "country": "USA",
+    "mrn": "741-78-1363"
+  }
+}

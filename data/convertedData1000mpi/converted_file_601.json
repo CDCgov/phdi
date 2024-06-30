@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8475 Erin Mission",
+    "first_name": "Dawn",
+    "birthdate": "1980-12-15",
+    "last_name": "Williams",
+    "city": "Fisherton",
+    "state": "HI",
+    "postalCode": "67996",
+    "country": "USA",
+    "mrn": "490-63-3497"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9359 Campbell Orchard Suite 142",
+    "first_name": "Carol",
+    "birthdate": "1985-04-09",
+    "last_name": "Briggs",
+    "city": "South Latashaton",
+    "state": "NV",
+    "postalCode": "72964",
+    "country": "USA",
+    "mrn": "896-74-0971"
+  }
+}

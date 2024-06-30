@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lamb",
+                            "given": [
+                                "Glenn"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "33681 Joann Fort Suite 827"
+                            ],
+                            "city": "Lisamouth",
+                            "state": "AK",
+                            "postalCode": "63078",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "716-50-1208",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1987-11-30"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1121257",
+    "use_enhanced": true
+}

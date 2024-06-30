@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "71969 Benjamin Rapids Apt. 265",
+    "first_name": "Jeffrey",
+    "birthdate": "1991-01-14",
+    "last_name": "Brown",
+    "city": "Valentineside",
+    "state": "DC",
+    "postalCode": "91320",
+    "country": "USA",
+    "mrn": "703-60-7334"
+  }
+}

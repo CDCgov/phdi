@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wright",
+                            "given": [
+                                "Kenneth"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "30722 Heather Gardens Apt. 631"
+                            ],
+                            "city": "Donnachester",
+                            "state": "OR",
+                            "postalCode": "65565",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "464-67-1499",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1937-08-09"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9052255",
+    "use_enhanced": true
+}

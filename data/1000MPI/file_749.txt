@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Benitez",
+                            "given": [
+                                "Trevor"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "51897 Jennifer Roads Apt. 474"
+                            ],
+                            "city": "Edgarfort",
+                            "state": "SC",
+                            "postalCode": "54245",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "735-23-2786",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1991-10-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4579541",
+    "use_enhanced": true
+}

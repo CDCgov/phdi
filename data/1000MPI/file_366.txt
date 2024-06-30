@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Watkins",
+                            "given": [
+                                "Taylor"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "436 Daniels Knolls Suite 294"
+                            ],
+                            "city": "New Roberthaven",
+                            "state": "MI",
+                            "postalCode": "78373",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "044-56-8723",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1998-01-30"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8512130",
+    "use_enhanced": true
+}

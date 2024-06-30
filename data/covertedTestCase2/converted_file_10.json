@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "621 Meadowbrook Drive",
+    "first_name": "OHahn",
+    "birthdate": "1934-02-27",
+    "last_name": "Mora",
+    "city": "Sullivanburgh",
+    "state": "KY",
+    "postalCode": "69945",
+    "country": "USA",
+    "mrn": "180-81-5534"
+  }
+}

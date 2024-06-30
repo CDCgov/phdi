@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Becker",
+                            "given": [
+                                "Clinton"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "066 Mark Island Suite 115"
+                            ],
+                            "city": "Carolberg",
+                            "state": "MN",
+                            "postalCode": "16075",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "376-97-0618",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1946-02-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1389251",
+    "use_enhanced": true
+}

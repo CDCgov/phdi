@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lopez",
+                            "given": [
+                                "James"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "84067 Ross Circle Suite 461"
+                            ],
+                            "city": "Amyfort",
+                            "state": "GA",
+                            "postalCode": "2148",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "561-93-0412",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1985-02-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9775428",
+    "use_enhanced": true
+}

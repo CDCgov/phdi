@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "72399 Spencer Brooks Apt. 913",
+    "first_name": "Christie",
+    "birthdate": "1942-10-30",
+    "last_name": "Moore",
+    "city": "Lake Heatherchester",
+    "state": "FM",
+    "postalCode": "39644",
+    "country": "USA",
+    "mrn": "040-63-7763"
+  }
+}

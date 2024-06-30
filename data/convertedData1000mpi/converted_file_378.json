@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "88330 Lewis Burgs",
+    "first_name": "Michael",
+    "birthdate": "1997-03-16",
+    "last_name": "Mitchell",
+    "city": "Johnsborough",
+    "state": "HI",
+    "postalCode": "63273",
+    "country": "USA",
+    "mrn": "503-34-5627"
+  }
+}

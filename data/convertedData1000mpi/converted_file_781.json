@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "692 Henry Extension Suite 898",
+    "first_name": "Jonathan",
+    "birthdate": "1994-05-06",
+    "last_name": "White",
+    "city": "East Elizabeth",
+    "state": "LA",
+    "postalCode": "81774",
+    "country": "USA",
+    "mrn": "117-56-0765"
+  }
+}

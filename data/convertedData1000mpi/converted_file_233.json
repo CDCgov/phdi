@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "02669 Kimberly Squares Suite 871",
+    "first_name": "Erin",
+    "birthdate": "1941-12-01",
+    "last_name": "Myers",
+    "city": "Gardnerside",
+    "state": "VT",
+    "postalCode": "2504",
+    "country": "USA",
+    "mrn": "585-20-6949"
+  }
+}

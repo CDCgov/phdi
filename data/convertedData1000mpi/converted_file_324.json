@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "58285 Walter Isle",
+    "first_name": "Ronald",
+    "birthdate": "1973-07-08",
+    "last_name": "Cowan",
+    "city": "Gregorymouth",
+    "state": "MP",
+    "postalCode": "93222",
+    "country": "USA",
+    "mrn": "321-88-4451"
+  }
+}

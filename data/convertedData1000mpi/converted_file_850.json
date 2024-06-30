@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "63599 Eric Mill",
+    "first_name": "William",
+    "birthdate": "1987-03-06",
+    "last_name": "Greene",
+    "city": "North Sheilamouth",
+    "state": "MH",
+    "postalCode": "94654",
+    "country": "USA",
+    "mrn": "226-33-9721"
+  }
+}

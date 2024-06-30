@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "651 Bennett Route",
+    "first_name": "David",
+    "birthdate": "1966-09-11",
+    "last_name": "Mccarty",
+    "city": "Lake Toni",
+    "state": "MP",
+    "postalCode": "47156",
+    "country": "USA",
+    "mrn": "612-73-1564"
+  }
+}

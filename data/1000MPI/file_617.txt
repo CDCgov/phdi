@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Arias",
+                            "given": [
+                                "Jay"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "92897 Klein Mountain Suite 417"
+                            ],
+                            "city": "Howellfort",
+                            "state": "HI",
+                            "postalCode": "8349",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "485-34-1845",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1966-05-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7366794",
+    "use_enhanced": true
+}

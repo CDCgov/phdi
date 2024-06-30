@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "36308 Brown Estates Apt. 031",
+    "first_name": "Ashley",
+    "birthdate": "1987-06-22",
+    "last_name": "Landry",
+    "city": "Jackview",
+    "state": "WA",
+    "postalCode": "57019",
+    "country": "USA",
+    "mrn": "452-50-0020"
+  }
+}

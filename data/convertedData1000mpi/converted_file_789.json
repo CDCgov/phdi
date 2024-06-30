@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "056 Powell Ramp Suite 042",
+    "first_name": "Cynthia",
+    "birthdate": "1981-05-08",
+    "last_name": "Carlson",
+    "city": "Barbaraland",
+    "state": "GU",
+    "postalCode": "48118",
+    "country": "USA",
+    "mrn": "175-50-4760"
+  }
+}

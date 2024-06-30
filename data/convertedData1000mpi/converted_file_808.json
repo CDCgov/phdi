@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "271 Moore Plains",
+    "first_name": "Alexander",
+    "birthdate": "1950-07-19",
+    "last_name": "Gomez",
+    "city": "Helenton",
+    "state": "IA",
+    "postalCode": "35196",
+    "country": "USA",
+    "mrn": "244-22-9052"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "140 Robles Springs Suite 805",
+    "first_name": "Andrew",
+    "birthdate": "1972-10-13",
+    "last_name": "Mack",
+    "city": "Bakerburgh",
+    "state": "OH",
+    "postalCode": "61324",
+    "country": "USA",
+    "mrn": "779-39-7629"
+  }
+}

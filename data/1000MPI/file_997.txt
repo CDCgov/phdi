@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Brown",
+                            "given": [
+                                "Laura"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "69726 Jill Ferry Suite 514"
+                            ],
+                            "city": "Patriciafort",
+                            "state": "WV",
+                            "postalCode": "7219",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "832-68-4764",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1985-10-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5410630",
+    "use_enhanced": true
+}

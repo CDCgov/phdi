@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Phillips",
+                            "given": [
+                                "Lauren"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "214 Robert Meadows Apt. 576"
+                            ],
+                            "city": "Grantland",
+                            "state": "WV",
+                            "postalCode": "29826",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "090-62-3873",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1969-08-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8736891",
+    "use_enhanced": true
+}

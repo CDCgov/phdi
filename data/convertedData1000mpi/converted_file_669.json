@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2926 Blankenship Crescent Suite 491",
+    "first_name": "Dylan",
+    "birthdate": "1957-09-05",
+    "last_name": "Burgess",
+    "city": "Port Debra",
+    "state": "MH",
+    "postalCode": "1590",
+    "country": "USA",
+    "mrn": "532-13-1327"
+  }
+}

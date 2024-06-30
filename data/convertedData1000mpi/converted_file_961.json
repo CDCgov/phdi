@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "72388 Casey Estate Apt. 133",
+    "first_name": "Christine",
+    "birthdate": "1939-09-12",
+    "last_name": "Kline",
+    "city": "Barnesborough",
+    "state": "KY",
+    "postalCode": "72228",
+    "country": "USA",
+    "mrn": "071-09-3951"
+  }
+}

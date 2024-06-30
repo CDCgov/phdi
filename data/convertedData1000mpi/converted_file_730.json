@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7825 Watson Club",
+    "first_name": "Kiara",
+    "birthdate": "2000-01-16",
+    "last_name": "Jenkins",
+    "city": "North Christinamouth",
+    "state": "KY",
+    "postalCode": "33430",
+    "country": "USA",
+    "mrn": "862-07-0443"
+  }
+}

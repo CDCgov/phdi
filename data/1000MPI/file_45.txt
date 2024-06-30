@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Herring",
+                            "given": [
+                                "Dakota"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "43479 Collier Stravenue"
+                            ],
+                            "city": "South Richardhaven",
+                            "state": "UT",
+                            "postalCode": "14389",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "154-52-5027",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1948-11-08"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4770300",
+    "use_enhanced": true
+}

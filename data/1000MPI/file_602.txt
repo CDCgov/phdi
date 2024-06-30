@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Rogers",
+                            "given": [
+                                "James"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "63295 Deborah Burg Suite 974"
+                            ],
+                            "city": "Mendezton",
+                            "state": "ID",
+                            "postalCode": "44503",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "678-41-8170",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1939-11-01"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6432948",
+    "use_enhanced": true
+}

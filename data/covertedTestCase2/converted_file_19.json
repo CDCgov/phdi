@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "PO BOX 1600",
+    "first_name": "Mark",
+    "birthdate": "1949-09-12",
+    "last_name": "Doe",
+    "city": "Dustinshire",
+    "state": "UT",
+    "postalCode": "33258",
+    "country": "USA",
+    "mrn": "133-55-2860"
+  }
+}

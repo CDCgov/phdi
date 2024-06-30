@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17523 King Squares Suite 375",
+    "first_name": "Michael",
+    "birthdate": "1953-04-07",
+    "last_name": "Price",
+    "city": "Leeton",
+    "state": "VA",
+    "postalCode": "60892",
+    "country": "USA",
+    "mrn": "588-20-0407"
+  }
+}

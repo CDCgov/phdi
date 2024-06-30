@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "33681 Joann Fort Suite 827",
+    "first_name": "Glenn",
+    "birthdate": "1987-11-30",
+    "last_name": "Lamb",
+    "city": "Lisamouth",
+    "state": "AK",
+    "postalCode": "63078",
+    "country": "USA",
+    "mrn": "716-50-1208"
+  }
+}

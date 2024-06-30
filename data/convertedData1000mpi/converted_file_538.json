@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1663 Sampson Hills Apt. 013",
+    "first_name": "Elizabeth",
+    "birthdate": "1947-10-22",
+    "last_name": "Palmer",
+    "city": "North Donna",
+    "state": "CO",
+    "postalCode": "74383",
+    "country": "USA",
+    "mrn": "597-38-6771"
+  }
+}

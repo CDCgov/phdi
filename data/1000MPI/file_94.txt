@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Fowler",
+                            "given": [
+                                "Dana"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "317 Tricia Prairie"
+                            ],
+                            "city": "Ryanborough",
+                            "state": "MN",
+                            "postalCode": "54861",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "785-03-3575",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1963-07-16"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3452382",
+    "use_enhanced": true
+}

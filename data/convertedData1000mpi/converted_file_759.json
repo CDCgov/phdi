@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "48358 Moody Greens Apt. 048",
+    "first_name": "Erica",
+    "birthdate": "1957-09-05",
+    "last_name": "Parker",
+    "city": "North Triciaside",
+    "state": "AR",
+    "postalCode": "6465",
+    "country": "USA",
+    "mrn": "878-51-0895"
+  }
+}

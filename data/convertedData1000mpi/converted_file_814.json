@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "660 Nguyen Rapid",
+    "first_name": "Robert",
+    "birthdate": "1970-10-02",
+    "last_name": "Contreras",
+    "city": "West Kayla",
+    "state": "VT",
+    "postalCode": "84770",
+    "country": "USA",
+    "mrn": "818-58-7929"
+  }
+}

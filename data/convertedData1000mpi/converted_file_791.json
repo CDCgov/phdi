@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "024 Brandi Brook",
+    "first_name": "Robert",
+    "birthdate": "1955-05-02",
+    "last_name": "Clark",
+    "city": "Millershire",
+    "state": "NC",
+    "postalCode": "61768",
+    "country": "USA",
+    "mrn": "272-05-8702"
+  }
+}

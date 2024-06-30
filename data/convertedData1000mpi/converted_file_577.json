@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "402 Houston Rest",
+    "first_name": "Devin",
+    "birthdate": "1950-11-08",
+    "last_name": "Stuart",
+    "city": "Sherritown",
+    "state": "CA",
+    "postalCode": "28469",
+    "country": "USA",
+    "mrn": "159-77-8772"
+  }
+}

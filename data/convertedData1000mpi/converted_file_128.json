@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "713 Morris Walks",
+    "first_name": "Victoria",
+    "birthdate": "1951-04-16",
+    "last_name": "Maldonado",
+    "city": "Brendahaven",
+    "state": "MT",
+    "postalCode": "31017",
+    "country": "USA",
+    "mrn": "751-93-5368"
+  }
+}

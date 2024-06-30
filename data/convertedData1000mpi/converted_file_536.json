@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "971 Steven Village",
+    "first_name": "Paul",
+    "birthdate": "1982-08-29",
+    "last_name": "Watson",
+    "city": "East Jonathanport",
+    "state": "SD",
+    "postalCode": "17228",
+    "country": "USA",
+    "mrn": "433-17-7025"
+  }
+}

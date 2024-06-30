@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Ward",
+                            "given": [
+                                "Alex"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "260 Colton Flats Suite 434"
+                            ],
+                            "city": "New Susan",
+                            "state": "TN",
+                            "postalCode": "2246",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "728-80-5012",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1957-03-10"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2604132",
+    "use_enhanced": true
+}

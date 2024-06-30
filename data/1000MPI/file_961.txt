@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Kline",
+                            "given": [
+                                "Christine"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "72388 Casey Estate Apt. 133"
+                            ],
+                            "city": "Barnesborough",
+                            "state": "KY",
+                            "postalCode": "72228",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "071-09-3951",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1939-09-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2818385",
+    "use_enhanced": true
+}

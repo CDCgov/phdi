@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "71535 John Parkway",
+    "first_name": "Ashley",
+    "birthdate": "1980-01-10",
+    "last_name": "Smith",
+    "city": "New Ashley",
+    "state": "CT",
+    "postalCode": "70714",
+    "country": "USA",
+    "mrn": "628-48-5168"
+  }
+}

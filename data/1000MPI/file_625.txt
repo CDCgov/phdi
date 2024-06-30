@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Thomas",
+                            "given": [
+                                "James"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "751 Jamie Well"
+                            ],
+                            "city": "Port David",
+                            "state": "TN",
+                            "postalCode": "78441",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "495-16-5172",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1957-01-21"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9194464",
+    "use_enhanced": true
+}

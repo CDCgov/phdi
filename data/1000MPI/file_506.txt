@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Williams",
+                            "given": [
+                                "Robert"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "24053 Leonard Creek Apt. 161"
+                            ],
+                            "city": "Andrewville",
+                            "state": "NE",
+                            "postalCode": "83235",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "841-62-6665",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1971-08-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7876775",
+    "use_enhanced": true
+}

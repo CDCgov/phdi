@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "938 Michael Groves",
+    "first_name": "Natasha",
+    "birthdate": "1953-04-25",
+    "last_name": "Wood",
+    "city": "Floresshire",
+    "state": "AZ",
+    "postalCode": "17194",
+    "country": "USA",
+    "mrn": "300-41-5181"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5182 Wade Gardens",
+    "first_name": "Brandy",
+    "birthdate": "1941-07-10",
+    "last_name": "Conner",
+    "city": "Port Paige",
+    "state": "MD",
+    "postalCode": "6374",
+    "country": "USA",
+    "mrn": "353-47-2386"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "64651 April River",
+    "first_name": "Jason",
+    "birthdate": "1961-06-26",
+    "last_name": "Tran",
+    "city": "Jessefurt",
+    "state": "WY",
+    "postalCode": "46735",
+    "country": "USA",
+    "mrn": "335-17-8337"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Walker",
+                            "given": [
+                                "Kimberly"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "510 Thomas Ports"
+                            ],
+                            "city": "Jeffreyfort",
+                            "state": "ND",
+                            "postalCode": "56856",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "756-39-2707",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1967-12-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7855413",
+    "use_enhanced": true
+}

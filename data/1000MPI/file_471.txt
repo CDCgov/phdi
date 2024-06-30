@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Nguyen",
+                            "given": [
+                                "Tracey"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "758 Ray Field"
+                            ],
+                            "city": "North Beth",
+                            "state": "MH",
+                            "postalCode": "66262",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "548-59-1094",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1987-11-01"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9681115",
+    "use_enhanced": true
+}

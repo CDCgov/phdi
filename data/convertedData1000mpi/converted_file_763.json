@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "94348 Meza Dale",
+    "first_name": "James",
+    "birthdate": "1951-11-17",
+    "last_name": "Bush",
+    "city": "Brianberg",
+    "state": "GA",
+    "postalCode": "67108",
+    "country": "USA",
+    "mrn": "629-60-7368"
+  }
+}

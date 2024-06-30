@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "58660 Jennifer Green",
+    "first_name": "Samuel",
+    "birthdate": "2000-01-13",
+    "last_name": "Parker",
+    "city": "Lake Theresa",
+    "state": "MP",
+    "postalCode": "80510",
+    "country": "USA",
+    "mrn": "463-13-1166"
+  }
+}

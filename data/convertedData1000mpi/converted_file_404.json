@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "779 Rebecca Crest Suite 036",
+    "first_name": "Brenda",
+    "birthdate": "1979-01-24",
+    "last_name": "Walker",
+    "city": "Andersonfort",
+    "state": "VI",
+    "postalCode": "85215",
+    "country": "USA",
+    "mrn": "743-59-3435"
+  }
+}

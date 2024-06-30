@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "67640 Robert Lodge Apt. 379",
+    "first_name": "Shane",
+    "birthdate": "1979-06-13",
+    "last_name": "Pope",
+    "city": "New James",
+    "state": "MD",
+    "postalCode": "30937",
+    "country": "USA",
+    "mrn": "019-77-3962"
+  }
+}

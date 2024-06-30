@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "488 Philip Fork",
+    "first_name": "Peggy",
+    "birthdate": "2005-05-26",
+    "last_name": "Conway",
+    "city": "West Jose",
+    "state": "WA",
+    "postalCode": "38148",
+    "country": "USA",
+    "mrn": "781-63-8055"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6587 Deleon Alley Suite 881",
+    "first_name": "Rachel",
+    "birthdate": "1936-02-13",
+    "last_name": "Jones",
+    "city": "Thomaston",
+    "state": "VA",
+    "postalCode": "11162",
+    "country": "USA",
+    "mrn": "363-40-4447"
+  }
+}

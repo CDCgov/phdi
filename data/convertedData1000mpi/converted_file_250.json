@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "874 Michael Corners",
+    "first_name": "David",
+    "birthdate": "1959-08-08",
+    "last_name": "Ramirez",
+    "city": "West Meganmouth",
+    "state": "SD",
+    "postalCode": "82642",
+    "country": "USA",
+    "mrn": "654-26-6384"
+  }
+}

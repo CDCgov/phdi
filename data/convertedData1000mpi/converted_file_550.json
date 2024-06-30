@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "14795 Kaitlyn Fall Apt. 949",
+    "first_name": "Cynthia",
+    "birthdate": "1967-03-13",
+    "last_name": "Rodriguez",
+    "city": "Lake Brian",
+    "state": "IL",
+    "postalCode": "98645",
+    "country": "USA",
+    "mrn": "768-76-8565"
+  }
+}

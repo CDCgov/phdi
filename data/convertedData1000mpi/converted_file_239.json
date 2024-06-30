@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6774 Tina Mission",
+    "first_name": "Rebecca",
+    "birthdate": "1948-09-15",
+    "last_name": "Li",
+    "city": "North Garyshire",
+    "state": "MN",
+    "postalCode": "71011",
+    "country": "USA",
+    "mrn": "456-85-9961"
+  }
+}

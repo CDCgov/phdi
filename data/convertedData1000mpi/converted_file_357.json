@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "13218 Lucas Bridge",
+    "first_name": "Kelly",
+    "birthdate": "1993-06-28",
+    "last_name": "Reid",
+    "city": "West Kyle",
+    "state": "AL",
+    "postalCode": "3089",
+    "country": "USA",
+    "mrn": "061-64-7605"
+  }
+}

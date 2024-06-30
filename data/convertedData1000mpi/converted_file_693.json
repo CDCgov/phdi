@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17219 Wyatt Dale Suite 703",
+    "first_name": "Nicholas",
+    "birthdate": "1943-02-07",
+    "last_name": "Johnson",
+    "city": "Coxfort",
+    "state": "PR",
+    "postalCode": "34875",
+    "country": "USA",
+    "mrn": "204-72-8029"
+  }
+}

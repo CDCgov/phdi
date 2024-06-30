@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5915 Watson Lock Suite 835",
+    "first_name": "Matthew",
+    "birthdate": "1937-01-21",
+    "last_name": "Moore",
+    "city": "Port Alejandrofurt",
+    "state": "VA",
+    "postalCode": "75910",
+    "country": "USA",
+    "mrn": "671-43-5945"
+  }
+}

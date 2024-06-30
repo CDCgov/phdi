@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Burns",
+                            "given": [
+                                "Anna"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "242 Andrew Stream Apt. 917"
+                            ],
+                            "city": "North Carriemouth",
+                            "state": "IN",
+                            "postalCode": "52385",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "222-53-6726",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1952-03-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6053850",
+    "use_enhanced": true
+}

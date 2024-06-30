@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "814 Megan Parks",
+    "first_name": "Alex",
+    "birthdate": "1991-01-19",
+    "last_name": "Frank",
+    "city": "Burgessmouth",
+    "state": "AZ",
+    "postalCode": "68649",
+    "country": "USA",
+    "mrn": "450-29-8345"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9592 Charles Groves Apt. 122",
+    "first_name": "Anonymous",
+    "birthdate": "1995-07-16",
+    "last_name": "Anonymous",
+    "city": "Port Jeffrey",
+    "state": "ME",
+    "postalCode": "27691",
+    "country": "USA",
+    "mrn": "215-81-0959"
+  }
+}

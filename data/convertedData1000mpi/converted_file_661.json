@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4892 Sims Forks",
+    "first_name": "William",
+    "birthdate": "1962-11-05",
+    "last_name": "Spencer",
+    "city": "Lake Carolyn",
+    "state": "OR",
+    "postalCode": "38021",
+    "country": "USA",
+    "mrn": "889-03-8143"
+  }
+}

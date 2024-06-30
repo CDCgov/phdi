@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "967 Johnson Wall Apt. 699",
+    "first_name": "Colleen",
+    "birthdate": "1988-08-15",
+    "last_name": "Lawson",
+    "city": "South David",
+    "state": "WY",
+    "postalCode": "94473",
+    "country": "USA",
+    "mrn": "813-79-6841"
+  }
+}

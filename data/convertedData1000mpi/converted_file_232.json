@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "50800 Karen Villages",
+    "first_name": "Jessica",
+    "birthdate": "1970-08-26",
+    "last_name": "Booth",
+    "city": "Whiteheadfort",
+    "state": "IA",
+    "postalCode": "61563",
+    "country": "USA",
+    "mrn": "262-15-9306"
+  }
+}

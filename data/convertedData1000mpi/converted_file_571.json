@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3586 Diane Parks",
+    "first_name": "Richard",
+    "birthdate": "1984-03-30",
+    "last_name": "Bryant",
+    "city": "Veronicahaven",
+    "state": "NM",
+    "postalCode": "34976",
+    "country": "USA",
+    "mrn": "072-19-1563"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Mitchell",
+                            "given": [
+                                "Maria"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "487 Morgan Track Suite 521"
+                            ],
+                            "city": "North Maria",
+                            "state": "VT",
+                            "postalCode": "21519",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "651-22-2694",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1993-09-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9324076",
+    "use_enhanced": true
+}

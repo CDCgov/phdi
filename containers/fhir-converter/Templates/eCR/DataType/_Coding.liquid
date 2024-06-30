@@ -1,9 +1,0 @@
-"code":"{{ Coding.code }}",
-{% if Coding.displayName -%}
-  "display": "{{ Coding.displayName | strip }}",
-{% elsif Coding.originalText._ -%}
-  "display": "{{ Coding.originalText._ | strip }}",
-{% elsif Coding.code %}
-  "display": "{{ Coding.code | get_loinc_name }}",
-{% endif -%}
-"system":{% include 'ValueSet/SystemReference' code: Coding.codeSystem -%},

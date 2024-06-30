@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gomez",
+                            "given": [
+                                "Linda"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "66504 Jennifer Lakes"
+                            ],
+                            "city": "North Jamie",
+                            "state": "AL",
+                            "postalCode": "39438",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "292-79-7944",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1963-12-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4810213",
+    "use_enhanced": true
+}

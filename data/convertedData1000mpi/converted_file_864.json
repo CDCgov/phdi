@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "19430 Garrett Mountain Apt. 415",
+    "first_name": "John",
+    "birthdate": "1969-05-23",
+    "last_name": "Duran",
+    "city": "New Charlotteburgh",
+    "state": "MA",
+    "postalCode": "45700",
+    "country": "USA",
+    "mrn": "316-46-3544"
+  }
+}

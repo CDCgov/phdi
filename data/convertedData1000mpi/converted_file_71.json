@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "97153 Pearson Islands",
+    "first_name": "Randy",
+    "birthdate": "1993-06-29",
+    "last_name": "Brown",
+    "city": "Jasonstad",
+    "state": "FM",
+    "postalCode": "42815",
+    "country": "USA",
+    "mrn": "786-45-1266"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "857 Katherine Via",
+    "first_name": "Kevin",
+    "birthdate": "1938-04-17",
+    "last_name": "Reed",
+    "city": "Port Anthony",
+    "state": "OK",
+    "postalCode": "31731",
+    "country": "USA",
+    "mrn": "857-22-5903"
+  }
+}

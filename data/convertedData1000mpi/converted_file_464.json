@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "99346 Kimberly Shores",
+    "first_name": "Mary",
+    "birthdate": "1935-10-03",
+    "last_name": "Medina",
+    "city": "Lake Stephenburgh",
+    "state": "CA",
+    "postalCode": "74206",
+    "country": "USA",
+    "mrn": "074-19-8170"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Caldwell",
+                            "given": [
+                                "Emma"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "026 Henderson Causeway Apt. 890"
+                            ],
+                            "city": "Port Judith",
+                            "state": "ID",
+                            "postalCode": "68347",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "128-09-6628",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1958-04-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5172040",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "908 Jordan Parkway Apt. 006",
+    "first_name": "Vincent",
+    "birthdate": "1967-03-29",
+    "last_name": "Ramirez",
+    "city": "New Kevin",
+    "state": "WY",
+    "postalCode": "47096",
+    "country": "USA",
+    "mrn": "617-33-7311"
+  }
+}

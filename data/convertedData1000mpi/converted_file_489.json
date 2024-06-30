@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "74668 Morris Station",
+    "first_name": "Kevin",
+    "birthdate": "1988-03-20",
+    "last_name": "Jones",
+    "city": "Ortizchester",
+    "state": "PW",
+    "postalCode": "19426",
+    "country": "USA",
+    "mrn": "542-13-7661"
+  }
+}

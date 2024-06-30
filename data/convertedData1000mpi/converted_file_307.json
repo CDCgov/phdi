@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "04216 Chavez Glen Suite 374",
+    "first_name": "Krystal",
+    "birthdate": "1992-11-29",
+    "last_name": "Lee",
+    "city": "Port Loriville",
+    "state": "OH",
+    "postalCode": "6039",
+    "country": "USA",
+    "mrn": "631-56-7038"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3454 Navarro Villages",
+    "first_name": "Gary",
+    "birthdate": "1986-10-07",
+    "last_name": "Mcdonald",
+    "city": "Coreyborough",
+    "state": "MD",
+    "postalCode": "52215",
+    "country": "USA",
+    "mrn": "360-03-4121"
+  }
+}

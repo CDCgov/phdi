@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Little",
+                            "given": [
+                                "Annette"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "973 King Creek Apt. 697"
+                            ],
+                            "city": "Steeletown",
+                            "state": "AL",
+                            "postalCode": "21494",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "330-78-7306",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1983-08-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2602101",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "150 Amy Orchard",
+    "first_name": "Peggy",
+    "birthdate": "1948-01-02",
+    "last_name": "Cole",
+    "city": "East Sandra",
+    "state": "WI",
+    "postalCode": "57073",
+    "country": "USA",
+    "mrn": "718-89-6265"
+  }
+}

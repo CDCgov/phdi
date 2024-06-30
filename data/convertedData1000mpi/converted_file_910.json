@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "082 Brooks Mews Suite 373",
+    "first_name": "Miranda",
+    "birthdate": "1988-04-09",
+    "last_name": "Porter",
+    "city": "Figueroaville",
+    "state": "MD",
+    "postalCode": "73415",
+    "country": "USA",
+    "mrn": "199-97-4085"
+  }
+}

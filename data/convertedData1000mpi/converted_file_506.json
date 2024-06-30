@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "24053 Leonard Creek Apt. 161",
+    "first_name": "Robert",
+    "birthdate": "1971-08-24",
+    "last_name": "Williams",
+    "city": "Andrewville",
+    "state": "NE",
+    "postalCode": "83235",
+    "country": "USA",
+    "mrn": "841-62-6665"
+  }
+}

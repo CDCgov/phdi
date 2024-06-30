@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Parker",
+                            "given": [
+                                "William"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "314 Megan Hills Suite 081"
+                            ],
+                            "city": "Sharonfurt",
+                            "state": "PA",
+                            "postalCode": "63534",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "243-28-7825",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1996-06-11"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2811475",
+    "use_enhanced": true
+}

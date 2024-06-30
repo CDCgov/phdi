@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7657 Hoffman Ridges",
+    "first_name": "Monique",
+    "birthdate": "1935-10-11",
+    "last_name": "Singh",
+    "city": "Port Alicia",
+    "state": "ME",
+    "postalCode": "7204",
+    "country": "USA",
+    "mrn": "648-30-6326"
+  }
+}

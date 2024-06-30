@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7182 Holly Inlet Apt. 533",
+    "first_name": "Denise",
+    "birthdate": "1941-04-08",
+    "last_name": "Bowen",
+    "city": "Port Ashley",
+    "state": "ID",
+    "postalCode": "76990",
+    "country": "USA",
+    "mrn": "067-51-9093"
+  }
+}

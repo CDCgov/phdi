@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "80443 Fleming Crossroad",
+    "first_name": "Cody",
+    "birthdate": "1975-03-12",
+    "last_name": "Palmer",
+    "city": "South Keithton",
+    "state": "OK",
+    "postalCode": "15531",
+    "country": "USA",
+    "mrn": "540-35-2129"
+  }
+}

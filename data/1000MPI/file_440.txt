@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Sawyer",
+                            "given": [
+                                "Michaela"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "959 Watkins Lakes Suite 348"
+                            ],
+                            "city": "North David",
+                            "state": "MO",
+                            "postalCode": "28921",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "627-03-3631",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1957-04-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1810807",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "825 Robert Turnpike",
+    "first_name": "Mary",
+    "birthdate": "1983-10-15",
+    "last_name": "Martinez",
+    "city": "West John",
+    "state": "SD",
+    "postalCode": "18108",
+    "country": "USA",
+    "mrn": "340-06-4735"
+  }
+}

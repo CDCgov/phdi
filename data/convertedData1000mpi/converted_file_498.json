@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "661 Joseph Ville",
+    "first_name": "Chelsea",
+    "birthdate": "1966-05-18",
+    "last_name": "Rios",
+    "city": "Port Christopher",
+    "state": "PW",
+    "postalCode": "49651",
+    "country": "USA",
+    "mrn": "402-93-2215"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Marshall",
+                            "given": [
+                                "Jason"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "49704 Stacy Meadows Suite 741"
+                            ],
+                            "city": "Reneechester",
+                            "state": "FM",
+                            "postalCode": "18420",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "553-48-9782",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1947-10-19"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5491612",
+    "use_enhanced": true
+}

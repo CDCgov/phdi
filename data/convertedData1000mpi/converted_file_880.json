@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9744 Hobbs Mill",
+    "first_name": "Debra",
+    "birthdate": "1961-02-02",
+    "last_name": "Jones",
+    "city": "Whiteton",
+    "state": "VI",
+    "postalCode": "28754",
+    "country": "USA",
+    "mrn": "523-52-9937"
+  }
+}

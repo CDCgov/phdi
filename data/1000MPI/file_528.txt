@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wilson",
+                            "given": [
+                                "Robert"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "366 Mejia Branch Suite 087"
+                            ],
+                            "city": "North Jesse",
+                            "state": "MD",
+                            "postalCode": "50993",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "508-68-5820",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1997-02-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "8802240",
+    "use_enhanced": true
+}

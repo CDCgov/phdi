@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0173 Murray Spurs Suite 482",
+    "first_name": "Daniel",
+    "birthdate": "1955-11-10",
+    "last_name": "Walsh",
+    "city": "South Ericland",
+    "state": "HI",
+    "postalCode": "60017",
+    "country": "USA",
+    "mrn": "397-24-4518"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "65683 Smith Shore",
+    "first_name": "Kenneth",
+    "birthdate": "1992-07-02",
+    "last_name": "Taylor",
+    "city": "South Christine",
+    "state": "DE",
+    "postalCode": "64865",
+    "country": "USA",
+    "mrn": "565-59-4145"
+  }
+}

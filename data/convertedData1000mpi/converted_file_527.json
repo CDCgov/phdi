@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "82457 Edward Keys Apt. 973",
+    "first_name": "Joseph",
+    "birthdate": "1953-12-31",
+    "last_name": "Stone",
+    "city": "West Patriciashire",
+    "state": "PR",
+    "postalCode": "62095",
+    "country": "USA",
+    "mrn": "528-12-9945"
+  }
+}

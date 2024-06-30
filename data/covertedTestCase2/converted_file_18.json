@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "PO BOX 7091",
+    "first_name": "Valerie",
+    "birthdate": "1948-06-08",
+    "last_name": "Mills",
+    "city": "Carterport",
+    "state": "VT",
+    "postalCode": "59672",
+    "country": "USA",
+    "mrn": "446-25-5155"
+  }
+}

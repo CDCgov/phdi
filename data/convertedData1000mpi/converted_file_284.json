@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "834 Aguilar Views Apt. 532",
+    "first_name": "Johnathan",
+    "birthdate": "1957-03-26",
+    "last_name": "Peterson",
+    "city": "East Carl",
+    "state": "TN",
+    "postalCode": "57575",
+    "country": "USA",
+    "mrn": "060-05-0043"
+  }
+}

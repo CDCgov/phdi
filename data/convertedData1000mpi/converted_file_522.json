@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6102 Guzman Street Apt. 502",
+    "first_name": "Candace",
+    "birthdate": "2001-10-16",
+    "last_name": "Howard",
+    "city": "North Brianview",
+    "state": "NH",
+    "postalCode": "40225",
+    "country": "USA",
+    "mrn": "410-31-3359"
+  }
+}

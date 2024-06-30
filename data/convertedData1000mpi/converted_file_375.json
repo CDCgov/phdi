@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "824 Woodard Pine Suite 354",
+    "first_name": "Samuel",
+    "birthdate": "1981-06-06",
+    "last_name": "Davidson",
+    "city": "Vaughnland",
+    "state": "AZ",
+    "postalCode": "18325",
+    "country": "USA",
+    "mrn": "195-97-8113"
+  }
+}

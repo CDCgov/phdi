@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Harrison",
+                            "given": [
+                                "Jeremiah"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "506 Jordan Harbors"
+                            ],
+                            "city": "Geraldport",
+                            "state": "OH",
+                            "postalCode": "34046",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "147-04-6980",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1946-01-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4268220",
+    "use_enhanced": true
+}

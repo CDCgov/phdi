@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4726 Bailey Ville Apt. 380",
+    "first_name": "Sarah",
+    "birthdate": "1951-01-19",
+    "last_name": "Lopez",
+    "city": "Robertsfurt",
+    "state": "MH",
+    "postalCode": "31412",
+    "country": "USA",
+    "mrn": "779-80-1584"
+  }
+}

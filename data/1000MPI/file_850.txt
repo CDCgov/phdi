@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Greene",
+                            "given": [
+                                "William"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "63599 Eric Mill"
+                            ],
+                            "city": "North Sheilamouth",
+                            "state": "MH",
+                            "postalCode": "94654",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "226-33-9721",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1987-03-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5413146",
+    "use_enhanced": true
+}

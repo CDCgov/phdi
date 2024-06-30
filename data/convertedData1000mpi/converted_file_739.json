@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "60206 Adam Stravenue Apt. 728",
+    "first_name": "Kristin",
+    "birthdate": "1946-02-26",
+    "last_name": "Harris",
+    "city": "West Jason",
+    "state": "MD",
+    "postalCode": "69771",
+    "country": "USA",
+    "mrn": "459-87-0399"
+  }
+}

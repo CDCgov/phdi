@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "31105 David Ridges",
+    "first_name": "Alexander",
+    "birthdate": "1970-03-09",
+    "last_name": "Pham",
+    "city": "Teresabury",
+    "state": "VA",
+    "postalCode": "47783",
+    "country": "USA",
+    "mrn": "543-20-2718"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Cox",
+                            "given": [
+                                "Mark"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "999 Victoria Spur"
+                            ],
+                            "city": "Triciashire",
+                            "state": "PR",
+                            "postalCode": "51349",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "077-25-9769",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1939-08-15"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3350755",
+    "use_enhanced": true
+}

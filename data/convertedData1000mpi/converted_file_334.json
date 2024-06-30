@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3445 Adams Estate Suite 185",
+    "first_name": "Brianna",
+    "birthdate": "1958-01-08",
+    "last_name": "Mayer",
+    "city": "South Stacybury",
+    "state": "MN",
+    "postalCode": "72025",
+    "country": "USA",
+    "mrn": "183-88-4753"
+  }
+}

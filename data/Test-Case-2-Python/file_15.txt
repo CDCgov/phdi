@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Girl",
+                            "given": [
+                                "Baby"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "361 Paul Manors"
+                            ],
+                            "city": "Port Lisa",
+                            "state": "OR",
+                            "postalCode": "35657",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "794-02-8452",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1991-06-03"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1017678",
+    "use_enhanced": true
+}

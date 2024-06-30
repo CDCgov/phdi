@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Johnson",
+                            "given": [
+                                "Todd"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "56968 Joshua Wells"
+                            ],
+                            "city": "Duartebury",
+                            "state": "SC",
+                            "postalCode": "53041",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "597-77-9034",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1994-02-25"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1086343",
+    "use_enhanced": true
+}

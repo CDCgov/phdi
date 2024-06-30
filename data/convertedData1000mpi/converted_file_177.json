@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "296 Gould Route",
+    "first_name": "Bradley",
+    "birthdate": "1960-07-21",
+    "last_name": "Ward",
+    "city": "South Karen",
+    "state": "OK",
+    "postalCode": "24884",
+    "country": "USA",
+    "mrn": "472-89-9340"
+  }
+}

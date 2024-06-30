@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Sanchez",
+                            "given": [
+                                "Shari"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "595 Mark Meadows Suite 518"
+                            ],
+                            "city": "South Mirandamouth",
+                            "state": "GU",
+                            "postalCode": "64483",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "867-63-0121",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1935-11-28"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1759847",
+    "use_enhanced": true
+}

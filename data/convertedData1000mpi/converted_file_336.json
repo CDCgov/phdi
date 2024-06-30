@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "17592 Jennifer Trail",
+    "first_name": "Anthony",
+    "birthdate": "1963-05-03",
+    "last_name": "Cox",
+    "city": "Woodville",
+    "state": "NH",
+    "postalCode": "22009",
+    "country": "USA",
+    "mrn": "342-38-0574"
+  }
+}

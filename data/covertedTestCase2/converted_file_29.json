@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "c/o Emergency Mail Program\n27518 Frazier Isle Suite 999",
+    "first_name": "Michael",
+    "birthdate": "1952-10-10",
+    "last_name": "Schmidt",
+    "city": "Edwardshire",
+    "state": "GU",
+    "postalCode": "81524",
+    "country": "USA",
+    "mrn": "177-78-8241"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Johnson",
+                            "given": [
+                                "Wanda"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "98378 Thompson Coves"
+                            ],
+                            "city": "New Christopherburgh",
+                            "state": "NC",
+                            "postalCode": "10154",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "562-95-8233",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2000-01-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3292988",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "361 Paul Manors",
+    "first_name": "Baby",
+    "birthdate": "1991-06-03",
+    "last_name": "Girl",
+    "city": "Port Lisa",
+    "state": "OR",
+    "postalCode": "35657",
+    "country": "USA",
+    "mrn": "794-02-8452"
+  }
+}

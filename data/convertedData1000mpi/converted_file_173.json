@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "595 Mark Meadows Suite 518",
+    "first_name": "Shari",
+    "birthdate": "1935-11-28",
+    "last_name": "Sanchez",
+    "city": "South Mirandamouth",
+    "state": "GU",
+    "postalCode": "64483",
+    "country": "USA",
+    "mrn": "867-63-0121"
+  }
+}

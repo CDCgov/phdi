@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4442 Cody Garden",
+    "first_name": "Tara",
+    "birthdate": "1968-10-21",
+    "last_name": "Gallagher",
+    "city": "Stevenville",
+    "state": "NY",
+    "postalCode": "15530",
+    "country": "USA",
+    "mrn": "084-86-6027"
+  }
+}

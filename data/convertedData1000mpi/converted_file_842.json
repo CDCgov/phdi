@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "810 White Neck",
+    "first_name": "Kristi",
+    "birthdate": "1976-09-21",
+    "last_name": "Cervantes",
+    "city": "Vasqueztown",
+    "state": "CA",
+    "postalCode": "97741",
+    "country": "USA",
+    "mrn": "119-51-4021"
+  }
+}

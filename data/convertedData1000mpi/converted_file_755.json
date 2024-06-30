@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "69938 Kevin Junction",
+    "first_name": "Kelly",
+    "birthdate": "1944-06-05",
+    "last_name": "Mckee",
+    "city": "East Kirk",
+    "state": "ME",
+    "postalCode": "17560",
+    "country": "USA",
+    "mrn": "242-67-4477"
+  }
+}

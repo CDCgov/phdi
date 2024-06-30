@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "32555 Moore Corners",
+    "first_name": "Patrick",
+    "birthdate": "1980-05-01",
+    "last_name": "Graham",
+    "city": "West Curtisland",
+    "state": "IL",
+    "postalCode": "34251",
+    "country": "USA",
+    "mrn": "729-02-1120"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "67402 Hernandez Village",
+    "first_name": "Michelle",
+    "birthdate": "1948-12-30",
+    "last_name": "Smith",
+    "city": "East Melissa",
+    "state": "AZ",
+    "postalCode": "95492",
+    "country": "USA",
+    "mrn": "458-64-4681"
+  }
+}

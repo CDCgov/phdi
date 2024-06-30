@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "590 Kim Fork",
+    "first_name": "Jacob",
+    "birthdate": "1980-09-19",
+    "last_name": "Knight",
+    "city": "Hernandezmouth",
+    "state": "SD",
+    "postalCode": "32046",
+    "country": "USA",
+    "mrn": "186-34-2723"
+  }
+}

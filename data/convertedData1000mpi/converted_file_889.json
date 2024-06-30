@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "579 Neal Shoals",
+    "first_name": "Ashley",
+    "birthdate": "1944-09-28",
+    "last_name": "Marshall",
+    "city": "Lake Rebekah",
+    "state": "PR",
+    "postalCode": "45903",
+    "country": "USA",
+    "mrn": "889-29-4861"
+  }
+}

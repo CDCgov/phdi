@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7452 Frank Mill Suite 358",
+    "first_name": "Lisa",
+    "birthdate": "2004-05-13",
+    "last_name": "Hull",
+    "city": "Lake Nathan",
+    "state": "RI",
+    "postalCode": "7459",
+    "country": "USA",
+    "mrn": "504-82-7986"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Gregory",
+                            "given": [
+                                "Laura"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "54377 Francisco Mountain Apt. 546"
+                            ],
+                            "city": "West Alyssa",
+                            "state": "OH",
+                            "postalCode": "11826",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "629-68-1335",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1981-08-12"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5879959",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "928 Long Passage",
+    "first_name": "Jennifer",
+    "birthdate": "1957-05-21",
+    "last_name": "Dennis",
+    "city": "Roseton",
+    "state": "WY",
+    "postalCode": "19480",
+    "country": "USA",
+    "mrn": "057-22-4877"
+  }
+}

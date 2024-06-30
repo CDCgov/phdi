@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5552 Smith Well Suite 509",
+    "first_name": "George",
+    "birthdate": "1935-01-21",
+    "last_name": "Krause",
+    "city": "Lake Jadebury",
+    "state": "MD",
+    "postalCode": "44152",
+    "country": "USA",
+    "mrn": "336-28-7203"
+  }
+}

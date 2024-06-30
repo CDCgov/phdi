@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "530 Katie Mount Suite 221",
+    "first_name": "Arthur",
+    "birthdate": "1950-04-17",
+    "last_name": "Woods",
+    "city": "Courtneymouth",
+    "state": "MI",
+    "postalCode": "1460",
+    "country": "USA",
+    "mrn": "758-44-4478"
+  }
+}

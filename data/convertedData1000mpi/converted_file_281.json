@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5244 Ryan Via",
+    "first_name": "Candace",
+    "birthdate": "1991-09-04",
+    "last_name": "Shaffer",
+    "city": "Flemingstad",
+    "state": "CA",
+    "postalCode": "34712",
+    "country": "USA",
+    "mrn": "288-57-2722"
+  }
+}

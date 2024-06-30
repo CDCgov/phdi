@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4178 Brian Square Apt. 788",
+    "first_name": "James",
+    "birthdate": "1951-03-06",
+    "last_name": "Lee",
+    "city": "East Jose",
+    "state": "GU",
+    "postalCode": "78310",
+    "country": "USA",
+    "mrn": "646-78-0010"
+  }
+}

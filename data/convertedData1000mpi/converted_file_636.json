@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5549 Martinez Square Apt. 746",
+    "first_name": "Kara",
+    "birthdate": "1986-10-25",
+    "last_name": "Wilson",
+    "city": "Lake Nicolas",
+    "state": "NV",
+    "postalCode": "65924",
+    "country": "USA",
+    "mrn": "239-68-7500"
+  }
+}

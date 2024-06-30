@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "289 Christina Extensions Apt. 151",
+    "first_name": "Jonathan",
+    "birthdate": "1993-12-14",
+    "last_name": "Kerr",
+    "city": "Brittanyfort",
+    "state": "NM",
+    "postalCode": "68424",
+    "country": "USA",
+    "mrn": "039-78-0925"
+  }
+}

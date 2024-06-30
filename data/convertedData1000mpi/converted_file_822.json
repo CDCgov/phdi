@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "294 Gomez Rapids Apt. 937",
+    "first_name": "Andrew",
+    "birthdate": "1945-02-14",
+    "last_name": "Powers",
+    "city": "Byrdton",
+    "state": "ID",
+    "postalCode": "93094",
+    "country": "USA",
+    "mrn": "606-11-2645"
+  }
+}

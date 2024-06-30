@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9488 Welch Center",
+    "first_name": "Anonymous",
+    "birthdate": "1972-01-17",
+    "last_name": "Anonymous",
+    "city": "Shawnburgh",
+    "state": "OH",
+    "postalCode": "41959",
+    "country": "USA",
+    "mrn": "682-52-1603"
+  }
+}

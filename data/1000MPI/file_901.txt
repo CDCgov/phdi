@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Perez",
+                            "given": [
+                                "Kyle"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "58869 Noble Knolls Apt. 136"
+                            ],
+                            "city": "Wardfurt",
+                            "state": "WY",
+                            "postalCode": "63780",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "140-70-9939",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1991-01-18"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2148990",
+    "use_enhanced": true
+}

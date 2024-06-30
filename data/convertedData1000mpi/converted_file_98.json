@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6606 Kristin Trail Suite 398",
+    "first_name": "Jessica",
+    "birthdate": "1954-07-28",
+    "last_name": "Gilmore",
+    "city": "Allisonmouth",
+    "state": "MH",
+    "postalCode": "21858",
+    "country": "USA",
+    "mrn": "814-98-2956"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3258 Alex Fort Apt. 657",
+    "first_name": "Stacey",
+    "birthdate": "1935-08-21",
+    "last_name": "Williams",
+    "city": "Garrettshire",
+    "state": "CA",
+    "postalCode": "16949",
+    "country": "USA",
+    "mrn": "681-71-7015"
+  }
+}

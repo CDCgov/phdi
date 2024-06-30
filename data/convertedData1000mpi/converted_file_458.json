@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "3767 Angela Station Suite 211",
+    "first_name": "Donald",
+    "birthdate": "1949-04-12",
+    "last_name": "Young",
+    "city": "North Andrewberg",
+    "state": "NY",
+    "postalCode": "52784",
+    "country": "USA",
+    "mrn": "131-08-2918"
+  }
+}

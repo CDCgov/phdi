@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "46306 Nicole Route",
+    "first_name": "Andrew",
+    "birthdate": "1977-05-13",
+    "last_name": "Roth",
+    "city": "New Rebeccaville",
+    "state": "IN",
+    "postalCode": "31001",
+    "country": "USA",
+    "mrn": "261-42-3726"
+  }
+}

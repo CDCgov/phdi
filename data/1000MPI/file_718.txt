@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Stanton",
+                            "given": [
+                                "Jean"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "373 Wagner Forge"
+                            ],
+                            "city": "West Andreaborough",
+                            "state": "MO",
+                            "postalCode": "82374",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "164-65-0869",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1941-06-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1859869",
+    "use_enhanced": true
+}

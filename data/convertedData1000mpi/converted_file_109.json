@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9888 Peter Causeway",
+    "first_name": "Robin",
+    "birthdate": "1996-01-02",
+    "last_name": "Rose",
+    "city": "Whiteton",
+    "state": "UT",
+    "postalCode": "39154",
+    "country": "USA",
+    "mrn": "371-57-6566"
+  }
+}

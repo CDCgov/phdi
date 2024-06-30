@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "56968 Joshua Wells",
+    "first_name": "Todd",
+    "birthdate": "1994-02-25",
+    "last_name": "Johnson",
+    "city": "Duartebury",
+    "state": "SC",
+    "postalCode": "53041",
+    "country": "USA",
+    "mrn": "597-77-9034"
+  }
+}

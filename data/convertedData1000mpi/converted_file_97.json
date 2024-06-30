@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "12845 Joshua Plaza",
+    "first_name": "Kyle",
+    "birthdate": "1976-09-22",
+    "last_name": "Dalton",
+    "city": "East Stephanieview",
+    "state": "OR",
+    "postalCode": "17977",
+    "country": "USA",
+    "mrn": "158-31-7157"
+  }
+}

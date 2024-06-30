@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0653 Mark Circle",
+    "first_name": "Angela",
+    "birthdate": "1983-09-18",
+    "last_name": "Russell",
+    "city": "West Michelleborough",
+    "state": "FL",
+    "postalCode": "56665",
+    "country": "USA",
+    "mrn": "263-82-6416"
+  }
+}

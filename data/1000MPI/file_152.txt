@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Roman",
+                            "given": [
+                                "Paul"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "301 Rhonda Forest Apt. 454"
+                            ],
+                            "city": "Reedton",
+                            "state": "NV",
+                            "postalCode": "69499",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "757-53-9068",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1991-11-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7469124",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5619 Bond Views Suite 449",
+    "first_name": "Tony",
+    "birthdate": "1944-04-09",
+    "last_name": "Burton",
+    "city": "Kristamouth",
+    "state": "PA",
+    "postalCode": "54833",
+    "country": "USA",
+    "mrn": "093-31-1494"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "89115 Moran Light",
+    "first_name": "Colleen",
+    "birthdate": "1961-08-25",
+    "last_name": "Tran",
+    "city": "Lake Michael",
+    "state": "DC",
+    "postalCode": "84740",
+    "country": "USA",
+    "mrn": "634-85-1019"
+  }
+}

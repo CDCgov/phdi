@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7245 Brown Course",
+    "first_name": "Tiffany",
+    "birthdate": "1978-11-22",
+    "last_name": "Wilkins",
+    "city": "New Joshua",
+    "state": "OH",
+    "postalCode": "32208",
+    "country": "USA",
+    "mrn": "611-38-7968"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Moss",
+                            "given": [
+                                "Kim"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "67293 Marie Rapid"
+                            ],
+                            "city": "Cochranmouth",
+                            "state": "FL",
+                            "postalCode": "47411",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "160-47-9035",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1976-10-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5223641",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "02805 Nathaniel Summit Suite 484",
+    "first_name": "Jason",
+    "birthdate": "1967-11-18",
+    "last_name": "Hanson",
+    "city": "Edwardsfort",
+    "state": "FM",
+    "postalCode": "71624",
+    "country": "USA",
+    "mrn": "530-31-6556"
+  }
+}

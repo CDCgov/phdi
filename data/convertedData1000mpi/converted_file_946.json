@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "12690 Young Terrace",
+    "first_name": "Andrea",
+    "birthdate": "1968-12-08",
+    "last_name": "Glover",
+    "city": "Wadeside",
+    "state": "MP",
+    "postalCode": "22477",
+    "country": "USA",
+    "mrn": "583-43-2583"
+  }
+}

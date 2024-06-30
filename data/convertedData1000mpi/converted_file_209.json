@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "257 Amy Mill",
+    "first_name": "Jennifer",
+    "birthdate": "1993-12-22",
+    "last_name": "Lawrence",
+    "city": "Lake Andreaton",
+    "state": "NH",
+    "postalCode": "97455",
+    "country": "USA",
+    "mrn": "233-86-9422"
+  }
+}

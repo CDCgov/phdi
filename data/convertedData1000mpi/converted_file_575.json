@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "026 Baldwin Forest",
+    "first_name": "Richard",
+    "birthdate": "1970-06-03",
+    "last_name": "Johnston",
+    "city": "Lake Hollyton",
+    "state": "SD",
+    "postalCode": "18720",
+    "country": "USA",
+    "mrn": "301-02-1632"
+  }
+}

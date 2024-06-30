@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "15500 Nichols Shores Suite 889",
+    "first_name": "Joseph",
+    "birthdate": "1990-04-05",
+    "last_name": "Allen",
+    "city": "Melissatown",
+    "state": "PA",
+    "postalCode": "49030",
+    "country": "USA",
+    "mrn": "420-88-7320"
+  }
+}

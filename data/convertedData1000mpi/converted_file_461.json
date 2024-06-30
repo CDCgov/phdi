@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0078 Morales Lights",
+    "first_name": "Cynthia",
+    "birthdate": "1945-03-25",
+    "last_name": "Mejia",
+    "city": "Joshuaview",
+    "state": "ME",
+    "postalCode": "52107",
+    "country": "USA",
+    "mrn": "063-58-5540"
+  }
+}

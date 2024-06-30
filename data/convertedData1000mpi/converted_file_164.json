@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8351 Andrew Springs",
+    "first_name": "Anne",
+    "birthdate": "1936-08-31",
+    "last_name": "Campbell",
+    "city": "South Shelby",
+    "state": "NM",
+    "postalCode": "21014",
+    "country": "USA",
+    "mrn": "644-73-2420"
+  }
+}

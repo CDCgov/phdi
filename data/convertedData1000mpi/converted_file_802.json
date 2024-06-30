@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9373 Sanchez Hill Suite 499",
+    "first_name": "Julie",
+    "birthdate": "1943-07-07",
+    "last_name": "Hernandez",
+    "city": "South Melanie",
+    "state": "DE",
+    "postalCode": "74879",
+    "country": "USA",
+    "mrn": "181-34-5083"
+  }
+}

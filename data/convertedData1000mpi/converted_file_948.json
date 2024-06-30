@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "88936 Smith Fields",
+    "first_name": "Joan",
+    "birthdate": "1973-04-23",
+    "last_name": "Lloyd",
+    "city": "North Corey",
+    "state": "MN",
+    "postalCode": "80592",
+    "country": "USA",
+    "mrn": "728-19-4178"
+  }
+}

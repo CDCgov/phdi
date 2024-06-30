@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2304 Clifford Crescent",
+    "first_name": "Cynthia",
+    "birthdate": "1976-09-30",
+    "last_name": "Terry",
+    "city": "East Susanview",
+    "state": "WA",
+    "postalCode": "66882",
+    "country": "USA",
+    "mrn": "059-12-8179"
+  }
+}

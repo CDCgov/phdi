@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "168 Howe Parkway Suite 955",
+    "first_name": "Karen",
+    "birthdate": "1962-01-26",
+    "last_name": "Henson",
+    "city": "Port Victoria",
+    "state": "NV",
+    "postalCode": "69022",
+    "country": "USA",
+    "mrn": "441-11-3847"
+  }
+}

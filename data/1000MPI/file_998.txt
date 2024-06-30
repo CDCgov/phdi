@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Wood",
+                            "given": [
+                                "Natasha"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "938 Michael Groves"
+                            ],
+                            "city": "Floresshire",
+                            "state": "AZ",
+                            "postalCode": "17194",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "300-41-5181",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1953-04-25"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2742733",
+    "use_enhanced": true
+}

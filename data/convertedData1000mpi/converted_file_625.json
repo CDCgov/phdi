@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "751 Jamie Well",
+    "first_name": "James",
+    "birthdate": "1957-01-21",
+    "last_name": "Thomas",
+    "city": "Port David",
+    "state": "TN",
+    "postalCode": "78441",
+    "country": "USA",
+    "mrn": "495-16-5172"
+  }
+}

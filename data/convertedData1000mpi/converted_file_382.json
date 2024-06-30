@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "71582 Stephanie Mall Suite 115",
+    "first_name": "Matthew",
+    "birthdate": "1977-05-18",
+    "last_name": "Meyer",
+    "city": "Hansenfort",
+    "state": "NY",
+    "postalCode": "5727",
+    "country": "USA",
+    "mrn": "012-85-0479"
+  }
+}

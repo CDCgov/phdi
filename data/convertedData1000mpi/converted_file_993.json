@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "60919 Williams Run Apt. 114",
+    "first_name": "Daniel",
+    "birthdate": "1959-11-21",
+    "last_name": "West",
+    "city": "Lake Jessica",
+    "state": "LA",
+    "postalCode": "26584",
+    "country": "USA",
+    "mrn": "101-08-6752"
+  }
+}

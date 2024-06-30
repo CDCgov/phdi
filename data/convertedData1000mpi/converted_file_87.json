@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "155 Lynch Corners",
+    "first_name": "James",
+    "birthdate": "1938-09-29",
+    "last_name": "Franklin",
+    "city": "East Amandashire",
+    "state": "OK",
+    "postalCode": "56222",
+    "country": "USA",
+    "mrn": "403-42-8030"
+  }
+}

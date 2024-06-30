@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "520 Watson Place",
+    "first_name": "Tyler",
+    "birthdate": "1969-04-03",
+    "last_name": "Garcia",
+    "city": "Alvaradoshire",
+    "state": "FM",
+    "postalCode": "58762",
+    "country": "USA",
+    "mrn": "470-97-1207"
+  }
+}

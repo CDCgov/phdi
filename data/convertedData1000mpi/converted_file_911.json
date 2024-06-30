@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "626 Clark Throughway Apt. 957",
+    "first_name": "Tamara",
+    "birthdate": "1955-04-11",
+    "last_name": "Boyer",
+    "city": "Ericfort",
+    "state": "WV",
+    "postalCode": "94733",
+    "country": "USA",
+    "mrn": "562-07-8435"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Spencer",
+                            "given": [
+                                "David"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "USPS Store\n32329 Amber Well Suite 892"
+                            ],
+                            "city": "Jamesbury",
+                            "state": "CA",
+                            "postalCode": "87967",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "247-01-0718",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1948-11-24"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1229335",
+    "use_enhanced": true
+}

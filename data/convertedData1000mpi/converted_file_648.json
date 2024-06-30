@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "0426 William Summit",
+    "first_name": "Laurie",
+    "birthdate": "1981-04-14",
+    "last_name": "Lewis",
+    "city": "North Jennifer",
+    "state": "MH",
+    "postalCode": "14777",
+    "country": "USA",
+    "mrn": "045-93-4029"
+  }
+}

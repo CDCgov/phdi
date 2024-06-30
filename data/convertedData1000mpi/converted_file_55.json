@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4042 Davis Dale Suite 322",
+    "first_name": "Paula",
+    "birthdate": "1941-12-28",
+    "last_name": "Sanchez",
+    "city": "Jasmineland",
+    "state": "NY",
+    "postalCode": "60658",
+    "country": "USA",
+    "mrn": "114-83-7375"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1420 Cook Run Apt. 766",
+    "first_name": "Teresa",
+    "birthdate": "1949-07-07",
+    "last_name": "Johnson",
+    "city": "Jessicachester",
+    "state": "KS",
+    "postalCode": "4140",
+    "country": "USA",
+    "mrn": "336-56-8918"
+  }
+}

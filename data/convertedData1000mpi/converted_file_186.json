@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "70415 Jennings Extensions Suite 637",
+    "first_name": "Charles",
+    "birthdate": "1988-07-17",
+    "last_name": "Smith",
+    "city": "Daviesstad",
+    "state": "VT",
+    "postalCode": "66412",
+    "country": "USA",
+    "mrn": "460-32-6411"
+  }
+}

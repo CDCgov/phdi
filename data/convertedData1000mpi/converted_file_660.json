@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "13369 Espinoza Drives Apt. 238",
+    "first_name": "Victor",
+    "birthdate": "1997-08-29",
+    "last_name": "Harrison",
+    "city": "Russellborough",
+    "state": "OK",
+    "postalCode": "59127",
+    "country": "USA",
+    "mrn": "533-98-3175"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "251 Patrick Walks Apt. 934",
+    "first_name": "Kathleen",
+    "birthdate": "1998-10-07",
+    "last_name": "Downs",
+    "city": "West Christina",
+    "state": "MP",
+    "postalCode": "52408",
+    "country": "USA",
+    "mrn": "595-58-2787"
+  }
+}

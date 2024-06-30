@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "29103 Evans Route",
+    "first_name": "Keith",
+    "birthdate": "1998-02-13",
+    "last_name": "Banks",
+    "city": "Hodgeview",
+    "state": "CO",
+    "postalCode": "23776",
+    "country": "USA",
+    "mrn": "788-19-7383"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1011 Timothy Forest Suite 246",
+    "first_name": "Robert",
+    "birthdate": "1937-10-19",
+    "last_name": "Case",
+    "city": "Patriciashire",
+    "state": "SD",
+    "postalCode": "25844",
+    "country": "USA",
+    "mrn": "280-80-8589"
+  }
+}

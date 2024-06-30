@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4586 Moore Estate",
+    "first_name": "Erica",
+    "birthdate": "1972-09-06",
+    "last_name": "Johnson",
+    "city": "Flemingburgh",
+    "state": "IL",
+    "postalCode": "79764",
+    "country": "USA",
+    "mrn": "063-74-7997"
+  }
+}

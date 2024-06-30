@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "221 Baker Street",
+    "first_name": "John",
+    "birthdate": "1937-05-16",
+    "last_name": "Doe",
+    "city": "North Andrew",
+    "state": "SD",
+    "postalCode": "42851",
+    "country": "USA",
+    "mrn": "214-80-2852"
+  }
+}

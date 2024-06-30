@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4952 Cuevas Points",
+    "first_name": "Laura",
+    "birthdate": "1973-08-02",
+    "last_name": "Kemp",
+    "city": "Lake Lisaburgh",
+    "state": "MS",
+    "postalCode": "91308",
+    "country": "USA",
+    "mrn": "882-73-6937"
+  }
+}

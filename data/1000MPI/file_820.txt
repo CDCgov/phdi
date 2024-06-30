@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Romero",
+                            "given": [
+                                "Jason"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "977 Serrano Island"
+                            ],
+                            "city": "Port Cindy",
+                            "state": "ND",
+                            "postalCode": "6623",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "585-94-0311",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1951-04-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "4312933",
+    "use_enhanced": true
+}

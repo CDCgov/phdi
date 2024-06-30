@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1990 Calderon Parkway Suite 668",
+    "first_name": "Matthew",
+    "birthdate": "1949-01-24",
+    "last_name": "Stewart",
+    "city": "North Nicholas",
+    "state": "NM",
+    "postalCode": "50077",
+    "country": "USA",
+    "mrn": "759-80-4905"
+  }
+}

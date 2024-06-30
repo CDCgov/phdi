@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "81865 Thomas Lodge",
+    "first_name": "Paul",
+    "birthdate": "2002-03-13",
+    "last_name": "Jones",
+    "city": "East Mariaview",
+    "state": "ID",
+    "postalCode": "4073",
+    "country": "USA",
+    "mrn": "345-40-6789"
+  }
+}

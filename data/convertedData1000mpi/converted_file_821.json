@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "540 Catherine Parks",
+    "first_name": "Steven",
+    "birthdate": "2005-04-17",
+    "last_name": "Kirby",
+    "city": "Traviston",
+    "state": "IA",
+    "postalCode": "89659",
+    "country": "USA",
+    "mrn": "071-25-6135"
+  }
+}

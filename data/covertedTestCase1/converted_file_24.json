@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "27559 Good Motor Way Suite 257",
+    "first_name": "Gina",
+    "birthdate": "1970-04-15",
+    "last_name": "Thompson",
+    "city": "Lake Samantha",
+    "state": "OH",
+    "postalCode": "55070",
+    "country": "USA",
+    "mrn": "650-86-7189"
+  }
+}

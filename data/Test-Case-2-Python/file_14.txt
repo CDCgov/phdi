@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Doe",
+                            "given": [
+                                "John"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "221 Baker Street"
+                            ],
+                            "city": "North Andrew",
+                            "state": "SD",
+                            "postalCode": "42851",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "214-80-2852",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1937-05-16"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2374638",
+    "use_enhanced": true
+}

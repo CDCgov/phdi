@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Padilla",
+                            "given": [
+                                "George"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "512 Lynn Crest"
+                            ],
+                            "city": "Kingview",
+                            "state": "MH",
+                            "postalCode": "49649",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "804-80-0189",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1960-02-14"
+                }
+            }
+        ]
+    },
+    "external_person_id": "7711409",
+    "use_enhanced": true
+}

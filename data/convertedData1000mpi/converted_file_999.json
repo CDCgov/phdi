@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "03605 Mitchell Ways Apt. 546",
+    "first_name": "Richard",
+    "birthdate": "1941-06-14",
+    "last_name": "Vaughn",
+    "city": "Lucaston",
+    "state": "MH",
+    "postalCode": "63346",
+    "country": "USA",
+    "mrn": "583-06-8442"
+  }
+}

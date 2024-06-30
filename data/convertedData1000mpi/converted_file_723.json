@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "281 Beck Fall",
+    "first_name": "Troy",
+    "birthdate": "1950-06-13",
+    "last_name": "Mendoza",
+    "city": "Tuckerside",
+    "state": "NY",
+    "postalCode": "42026",
+    "country": "USA",
+    "mrn": "793-78-8051"
+  }
+}

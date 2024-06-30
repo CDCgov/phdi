@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "98984 Parrish Junction",
+    "first_name": "Jenna",
+    "birthdate": "1980-08-05",
+    "last_name": "Garza",
+    "city": "North Sonyafurt",
+    "state": "KS",
+    "postalCode": "95549",
+    "country": "USA",
+    "mrn": "862-78-1332"
+  }
+}

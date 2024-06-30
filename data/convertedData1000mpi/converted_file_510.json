@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "2824 Sarah Bypass Suite 045",
+    "first_name": "Jessica",
+    "birthdate": "2004-10-04",
+    "last_name": "Thomas",
+    "city": "North Laura",
+    "state": "WY",
+    "postalCode": "64002",
+    "country": "USA",
+    "mrn": "674-91-5321"
+  }
+}

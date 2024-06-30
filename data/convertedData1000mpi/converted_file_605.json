@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "242 Andrew Stream Apt. 917",
+    "first_name": "Anna",
+    "birthdate": "1952-03-07",
+    "last_name": "Burns",
+    "city": "North Carriemouth",
+    "state": "IN",
+    "postalCode": "52385",
+    "country": "USA",
+    "mrn": "222-53-6726"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "56116 Johnny Junctions Apt. 036",
+    "first_name": "Elijah",
+    "birthdate": "1996-08-18",
+    "last_name": "Ibarra",
+    "city": "Heidiville",
+    "state": "MP",
+    "postalCode": "20627",
+    "country": "USA",
+    "mrn": "118-14-8399"
+  }
+}

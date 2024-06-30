@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lopez",
+                            "given": [
+                                "Clarence"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "603 Catherine Path"
+                            ],
+                            "city": "North Vickiside",
+                            "state": "KY",
+                            "postalCode": "66707",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "715-66-6997",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1993-07-23"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1927925",
+    "use_enhanced": true
+}

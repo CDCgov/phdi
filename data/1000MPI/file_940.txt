@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lopez",
+                            "given": [
+                                "Destiny"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "09714 Deborah Parkways Apt. 540"
+                            ],
+                            "city": "Gabrielleburgh",
+                            "state": "AZ",
+                            "postalCode": "74592",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "882-74-1183",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1944-10-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3494533",
+    "use_enhanced": true
+}

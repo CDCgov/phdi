@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Mack",
+                            "given": [
+                                "Andrew"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "140 Robles Springs Suite 805"
+                            ],
+                            "city": "Bakerburgh",
+                            "state": "OH",
+                            "postalCode": "61324",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "779-39-7629",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1972-10-13"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1314914",
+    "use_enhanced": true
+}

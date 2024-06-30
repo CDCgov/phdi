@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Nielsen",
+                            "given": [
+                                "Janet"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "781 Sanchez Spur"
+                            ],
+                            "city": "West Sarashire",
+                            "state": "IL",
+                            "postalCode": "46771",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "242-22-0409",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1950-02-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1790173",
+    "use_enhanced": true
+}

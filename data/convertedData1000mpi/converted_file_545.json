@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "95477 Parker Valley",
+    "first_name": "Jennifer",
+    "birthdate": "1952-11-12",
+    "last_name": "Fowler",
+    "city": "North Michaelburgh",
+    "state": "NJ",
+    "postalCode": "29040",
+    "country": "USA",
+    "mrn": "765-74-2018"
+  }
+}

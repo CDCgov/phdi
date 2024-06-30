@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1611 Allison Lake Suite 083",
+    "first_name": "Julia",
+    "birthdate": "1961-10-30",
+    "last_name": "Manning",
+    "city": "New Nicole",
+    "state": "MO",
+    "postalCode": "59748",
+    "country": "USA",
+    "mrn": "783-42-9023"
+  }
+}

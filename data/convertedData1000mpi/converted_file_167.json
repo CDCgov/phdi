@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "63556 Madison Island",
+    "first_name": "Isabel",
+    "birthdate": "1984-02-29",
+    "last_name": "Thomas",
+    "city": "Charlesstad",
+    "state": "AS",
+    "postalCode": "15239",
+    "country": "USA",
+    "mrn": "305-84-8030"
+  }
+}

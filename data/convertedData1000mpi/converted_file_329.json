@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "454 Ruiz Extensions",
+    "first_name": "Karen",
+    "birthdate": "1958-10-31",
+    "last_name": "Griffith",
+    "city": "Andreside",
+    "state": "OH",
+    "postalCode": "72559",
+    "country": "USA",
+    "mrn": "794-06-6437"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "88513 White Branch Apt. 621",
+    "first_name": "Natalie",
+    "birthdate": "1984-10-27",
+    "last_name": "Clark",
+    "city": "South David",
+    "state": "FL",
+    "postalCode": "51539",
+    "country": "USA",
+    "mrn": "524-86-0031"
+  }
+}

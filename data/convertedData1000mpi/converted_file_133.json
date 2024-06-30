@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "92830 Smith Crossing Apt. 593",
+    "first_name": "Felicia",
+    "birthdate": "1942-05-02",
+    "last_name": "Vazquez",
+    "city": "Ethanview",
+    "state": "PA",
+    "postalCode": "44257",
+    "country": "USA",
+    "mrn": "688-56-9915"
+  }
+}

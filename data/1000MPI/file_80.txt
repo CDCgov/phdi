@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Garcia",
+                            "given": [
+                                "Krystal"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "79278 Velasquez Camp"
+                            ],
+                            "city": "Jonathanland",
+                            "state": "FM",
+                            "postalCode": "46305",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "472-42-8343",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1948-05-16"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5571533",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7014 King Shore Apt. 619",
+    "first_name": "Vincent",
+    "birthdate": "1982-02-17",
+    "last_name": "Davis",
+    "city": "Lake Amandaborough",
+    "state": "KY",
+    "postalCode": "54406",
+    "country": "USA",
+    "mrn": "155-66-3533"
+  }
+}

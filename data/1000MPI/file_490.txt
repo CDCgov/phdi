@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Davenport",
+                            "given": [
+                                "Joseph"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "864 Lindsey Prairie Suite 508"
+                            ],
+                            "city": "Gregoryhaven",
+                            "state": "FM",
+                            "postalCode": "85436",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "286-16-0323",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1970-03-08"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9925503",
+    "use_enhanced": true
+}

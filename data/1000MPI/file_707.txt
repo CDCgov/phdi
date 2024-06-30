@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lopez",
+                            "given": [
+                                "Donna"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "17920 Kyle Knolls"
+                            ],
+                            "city": "New Lindamouth",
+                            "state": "CT",
+                            "postalCode": "90805",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "739-31-6605",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1986-12-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5321558",
+    "use_enhanced": true
+}

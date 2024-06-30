@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6202 Strickland Harbors Suite 860",
+    "first_name": "Travis",
+    "birthdate": "2001-12-06",
+    "last_name": "Martinez",
+    "city": "Carterville",
+    "state": "NY",
+    "postalCode": "81556",
+    "country": "USA",
+    "mrn": "053-56-6714"
+  }
+}

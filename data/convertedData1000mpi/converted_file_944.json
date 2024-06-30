@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "55139 Morris Drives Apt. 870",
+    "first_name": "Jacob",
+    "birthdate": "1968-07-18",
+    "last_name": "Campbell",
+    "city": "Robertland",
+    "state": "MT",
+    "postalCode": "58091",
+    "country": "USA",
+    "mrn": "623-93-3402"
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Lee",
+                            "given": [
+                                "Brooke"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "39416 Davidson Springs Suite 916"
+                            ],
+                            "city": "Wayneburgh",
+                            "state": "WI",
+                            "postalCode": "80305",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "881-33-2683",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1976-04-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "5189918",
+    "use_enhanced": true
+}

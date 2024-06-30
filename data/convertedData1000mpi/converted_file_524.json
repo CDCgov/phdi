@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "1173 Michael Manor Suite 401",
+    "first_name": "Richard",
+    "birthdate": "1980-07-07",
+    "last_name": "Mccoy",
+    "city": "Foxburgh",
+    "state": "LA",
+    "postalCode": "6857",
+    "country": "USA",
+    "mrn": "350-72-9782"
+  }
+}

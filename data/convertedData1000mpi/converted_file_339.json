@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "5296 Mora Union Suite 395",
+    "first_name": "Melissa",
+    "birthdate": "1945-08-27",
+    "last_name": "Harrington",
+    "city": "Marychester",
+    "state": "MA",
+    "postalCode": "52105",
+    "country": "USA",
+    "mrn": "181-21-6248"
+  }
+}

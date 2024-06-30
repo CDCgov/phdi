@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "93341 Eric Drive",
+    "first_name": "Kevin",
+    "birthdate": "1972-04-10",
+    "last_name": "Martinez",
+    "city": "Andreshire",
+    "state": "NV",
+    "postalCode": "57240",
+    "country": "USA",
+    "mrn": "490-15-4496"
+  }
+}

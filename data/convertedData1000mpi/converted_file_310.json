@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "525 Daniel Village Suite 654",
+    "first_name": "Leslie",
+    "birthdate": "2005-02-05",
+    "last_name": "Brooks",
+    "city": "Kinghaven",
+    "state": "CT",
+    "postalCode": "13574",
+    "country": "USA",
+    "mrn": "758-73-1731"
+  }
+}

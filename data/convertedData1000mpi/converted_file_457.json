@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "045 Scott Green Suite 866",
+    "first_name": "Eric",
+    "birthdate": "1953-06-15",
+    "last_name": "Lamb",
+    "city": "Port Annaton",
+    "state": "TN",
+    "postalCode": "3909",
+    "country": "USA",
+    "mrn": "801-22-8995"
+  }
+}

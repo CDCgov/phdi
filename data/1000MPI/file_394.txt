@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Williams",
+                            "given": [
+                                "Kimberly"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "858 Antonio Spurs"
+                            ],
+                            "city": "Joeborough",
+                            "state": "CA",
+                            "postalCode": "64796",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "321-20-7334",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2001-06-30"
+                }
+            }
+        ]
+    },
+    "external_person_id": "6494171",
+    "use_enhanced": true
+}

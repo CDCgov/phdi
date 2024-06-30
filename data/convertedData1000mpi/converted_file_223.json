@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "30722 Heather Gardens Apt. 631",
+    "first_name": "Kenneth",
+    "birthdate": "1937-08-09",
+    "last_name": "Wright",
+    "city": "Donnachester",
+    "state": "OR",
+    "postalCode": "65565",
+    "country": "USA",
+    "mrn": "464-67-1499"
+  }
+}

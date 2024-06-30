@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "55530 Patrick Branch Suite 590",
+    "first_name": "Vincent",
+    "birthdate": "1938-01-24",
+    "last_name": "Rice",
+    "city": "East Stacey",
+    "state": "NM",
+    "postalCode": "22719",
+    "country": "USA",
+    "mrn": "087-35-5013"
+  }
+}

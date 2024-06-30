@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "950 Underwood Hills Suite 223",
+    "first_name": "Ryan",
+    "birthdate": "1938-10-27",
+    "last_name": "Hamilton",
+    "city": "North Melvinville",
+    "state": "WA",
+    "postalCode": "60192",
+    "country": "USA",
+    "mrn": "221-72-7548"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7399 Santiago Neck",
+    "first_name": "Jasmine",
+    "birthdate": "2004-07-24",
+    "last_name": "Stephens",
+    "city": "Hannahfort",
+    "state": "CO",
+    "postalCode": "44078",
+    "country": "USA",
+    "mrn": "293-85-2385"
+  }
+}

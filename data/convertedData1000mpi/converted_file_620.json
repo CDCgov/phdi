@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "881 Joshua Cliffs Suite 250",
+    "first_name": "Edward",
+    "birthdate": "1993-10-04",
+    "last_name": "Boyd",
+    "city": "Lake Christinemouth",
+    "state": "GU",
+    "postalCode": "41342",
+    "country": "USA",
+    "mrn": "069-76-7080"
+  }
+}

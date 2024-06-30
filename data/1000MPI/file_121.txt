@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Taylor",
+                            "given": [
+                                "Kenneth"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "65683 Smith Shore"
+                            ],
+                            "city": "South Christine",
+                            "state": "DE",
+                            "postalCode": "64865",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "565-59-4145",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1992-07-02"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9317573",
+    "use_enhanced": true
+}

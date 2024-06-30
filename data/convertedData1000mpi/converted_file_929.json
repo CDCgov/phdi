@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8587 John Track Suite 907",
+    "first_name": "Joanne",
+    "birthdate": "1983-06-26",
+    "last_name": "Solis",
+    "city": "North Patricia",
+    "state": "WI",
+    "postalCode": "69591",
+    "country": "USA",
+    "mrn": "534-15-3963"
+  }
+}

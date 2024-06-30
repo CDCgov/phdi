@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Woods",
+                            "given": [
+                                "Arthur"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "530 Katie Mount Suite 221"
+                            ],
+                            "city": "Courtneymouth",
+                            "state": "MI",
+                            "postalCode": "1460",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "758-44-4478",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1950-04-17"
+                }
+            }
+        ]
+    },
+    "external_person_id": "2893323",
+    "use_enhanced": true
+}

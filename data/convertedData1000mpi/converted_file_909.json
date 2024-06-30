@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "769 Sherry Freeway",
+    "first_name": "Roy",
+    "birthdate": "1948-05-20",
+    "last_name": "Barrett",
+    "city": "West Ryan",
+    "state": "AZ",
+    "postalCode": "99761",
+    "country": "USA",
+    "mrn": "108-65-3983"
+  }
+}

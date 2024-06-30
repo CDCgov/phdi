@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "9489 Welch Center",
+    "first_name": "Mark",
+    "birthdate": "1949-09-13",
+    "last_name": "DJones",
+    "city": "Dustinshire",
+    "state": "UT",
+    "postalCode": "33258",
+    "country": "USA",
+    "mrn": "133-55-2860"
+  }
+}

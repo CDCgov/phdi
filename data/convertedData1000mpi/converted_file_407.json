@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4599 Derrick Street",
+    "first_name": "Heather",
+    "birthdate": "1987-08-24",
+    "last_name": "Blackwell",
+    "city": "North Lindsey",
+    "state": "FM",
+    "postalCode": "54073",
+    "country": "USA",
+    "mrn": "217-18-6821"
+  }
+}

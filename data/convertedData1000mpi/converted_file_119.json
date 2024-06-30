@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "84569 Rowe Center",
+    "first_name": "Tony",
+    "birthdate": "1950-12-06",
+    "last_name": "Thompson",
+    "city": "Port Barbarafort",
+    "state": "OH",
+    "postalCode": "54284",
+    "country": "USA",
+    "mrn": "858-69-0576"
+  }
+}

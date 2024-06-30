@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "21699 Murphy Isle Apt. 832",
+    "first_name": "Crystal",
+    "birthdate": "1944-03-14",
+    "last_name": "Taylor",
+    "city": "Lake Tinamouth",
+    "state": "WI",
+    "postalCode": "2783",
+    "country": "USA",
+    "mrn": "893-71-4723"
+  }
+}

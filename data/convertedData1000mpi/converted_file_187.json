@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "455 Lee Greens",
+    "first_name": "David",
+    "birthdate": "1983-08-02",
+    "last_name": "Cuevas",
+    "city": "New Joshua",
+    "state": "CA",
+    "postalCode": "95182",
+    "country": "USA",
+    "mrn": "290-76-1266"
+  }
+}

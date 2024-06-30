@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "212 Christine Shores",
+    "first_name": "Ruth",
+    "birthdate": "1941-06-16",
+    "last_name": "King",
+    "city": "West Charlesshire",
+    "state": "AZ",
+    "postalCode": "46375",
+    "country": "USA",
+    "mrn": "511-17-0833"
+  }
+}

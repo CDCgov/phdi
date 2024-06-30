@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Chaney",
+                            "given": [
+                                "Jim"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "484 Brandi Islands"
+                            ],
+                            "city": "Gonzaleshaven",
+                            "state": "NJ",
+                            "postalCode": "24882",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "468-24-9333",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1937-06-05"
+                }
+            }
+        ]
+    },
+    "external_person_id": "3731233",
+    "use_enhanced": true
+}

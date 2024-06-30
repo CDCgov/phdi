@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "7294 Mason Corners Apt. 527",
+    "first_name": "Rachel",
+    "birthdate": "1976-04-11",
+    "last_name": "Santos",
+    "city": "Port Andrea",
+    "state": "MH",
+    "postalCode": "43714",
+    "country": "USA",
+    "mrn": "791-09-2158"
+  }
+}

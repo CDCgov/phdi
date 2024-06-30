@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8973 Thompson Turnpike",
+    "first_name": "James",
+    "birthdate": "2004-07-29",
+    "last_name": "White",
+    "city": "Maxwellmouth",
+    "state": "NV",
+    "postalCode": "68458",
+    "country": "USA",
+    "mrn": "470-23-9361"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "652 Joshua Rapid",
+    "first_name": "Karen",
+    "birthdate": "1934-10-31",
+    "last_name": "Harrington",
+    "city": "Stephenville",
+    "state": "MN",
+    "postalCode": "4586",
+    "country": "USA",
+    "mrn": "770-64-4835"
+  }
+}

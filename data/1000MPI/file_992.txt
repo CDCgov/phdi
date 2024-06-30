@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Kennedy",
+                            "given": [
+                                "Jeanette"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "260 Eric Meadow Apt. 465"
+                            ],
+                            "city": "Deborahburgh",
+                            "state": "LA",
+                            "postalCode": "33439",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "682-47-7204",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1974-09-27"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1587125",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "c/o Emergency Mail Program\n22401 Christine Island Apt. 660",
+    "first_name": "Jasmine",
+    "birthdate": "1958-10-16",
+    "last_name": "Lin",
+    "city": "Lake Brian",
+    "state": "UT",
+    "postalCode": "11296",
+    "country": "USA",
+    "mrn": "232-98-7615"
+  }
+}

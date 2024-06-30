@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Weber",
+                            "given": [
+                                "Emily"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "23018 Morgan Lane Apt. 896"
+                            ],
+                            "city": "Trevinoside",
+                            "state": "GA",
+                            "postalCode": "7141",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "523-44-1472",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1943-01-06"
+                }
+            }
+        ]
+    },
+    "external_person_id": "9497558",
+    "use_enhanced": true
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "109 Calvin Land Apt. 532",
+    "first_name": "Kathleen",
+    "birthdate": "1999-10-15",
+    "last_name": "Jordan",
+    "city": "East Christy",
+    "state": "TN",
+    "postalCode": "92343",
+    "country": "USA",
+    "mrn": "537-18-4967"
+  }
+}

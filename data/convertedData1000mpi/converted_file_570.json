@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "8766 Rollins Track Suite 613",
+    "first_name": "Susan",
+    "birthdate": "1956-01-21",
+    "last_name": "Mendez",
+    "city": "North Mark",
+    "state": "CT",
+    "postalCode": "42457",
+    "country": "USA",
+    "mrn": "673-60-3986"
+  }
+}

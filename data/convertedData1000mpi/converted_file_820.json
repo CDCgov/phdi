@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "977 Serrano Island",
+    "first_name": "Jason",
+    "birthdate": "1951-04-27",
+    "last_name": "Romero",
+    "city": "Port Cindy",
+    "state": "ND",
+    "postalCode": "6623",
+    "country": "USA",
+    "mrn": "585-94-0311"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "6528 Dennis Tunnel",
+    "first_name": "Anthony",
+    "birthdate": "1991-06-23",
+    "last_name": "Nielsen",
+    "city": "Kevinborough",
+    "state": "VT",
+    "postalCode": "13574",
+    "country": "USA",
+    "mrn": "092-02-9615"
+  }
+}

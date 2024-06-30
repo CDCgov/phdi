@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Doe",
+                            "given": [
+                                "Jane"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "036 Traci Extensions Apt. 050"
+                            ],
+                            "city": "Hendersonburgh",
+                            "state": "NY",
+                            "postalCode": "93225",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "500-94-2504",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "2020-01-16"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1513596",
+    "use_enhanced": true
+}

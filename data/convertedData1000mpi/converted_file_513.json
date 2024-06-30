@@ -1,0 +1,17 @@
+{
+  "algorithmId": [
+    1,
+    2
+  ],
+  "patientRecord": {
+    "address": "4752 Lucas Lake Suite 378",
+    "first_name": "Thomas",
+    "birthdate": "1935-07-10",
+    "last_name": "Mann",
+    "city": "Port Jennifer",
+    "state": "NY",
+    "postalCode": "28227",
+    "country": "USA",
+    "mrn": "476-75-9982"
+  }
+}

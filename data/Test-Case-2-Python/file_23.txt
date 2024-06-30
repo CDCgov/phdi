@@ -1,0 +1,50 @@
+{
+    "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                        {
+                            "family": "Smithsonia",
+                            "given": [
+                                "Adam"
+                            ]
+                        }
+                    ],
+                    "address": [
+                        {
+                            "line": [
+                                "GENERAL DELIVERY"
+                            ],
+                            "city": "Allenchester",
+                            "state": "ME",
+                            "postalCode": "17547",
+                            "country": "USA"
+                        }
+                    ],
+                    "identifier": [
+                        {
+                            "system": "http://hospital.com/mrn",
+                            "value": "500-77-4015",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/v2/0203",
+                                        "code": "MR",
+                                        "display": "Medical Record Number"
+                                    }
+                                ],
+                                "text": "MRN"
+                            }
+                        }
+                    ],
+                    "birthDate": "1936-03-07"
+                }
+            }
+        ]
+    },
+    "external_person_id": "1563279",
+    "use_enhanced": true
+}
