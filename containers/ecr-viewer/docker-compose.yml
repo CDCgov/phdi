@@ -19,6 +19,11 @@ services:
       retries: 20
 
   # Next.js app
+  dibbs-resources:
+    build:
+      context: ./dibbs-resources
+    container_name: dibbs-resources
+
   ecr-viewer:
     build:
       context: ..
@@ -30,6 +35,8 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
     depends_on:
+      dibbs-resources:
+        condition: service_started
       db:
         condition: service_healthy
   jaeger:
