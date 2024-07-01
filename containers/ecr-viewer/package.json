@@ -17,7 +17,6 @@
     "cypress:run": "cypress run"
   },
   "dependencies": {
-    "dibbs-resources": "file:../dibbs-resources/",
     "@aws-sdk/client-s3": "^3.515.0",
     "@opentelemetry/api": "^1.7.0",
     "@opentelemetry/auto-instrumentations-node": "^0.46.1",
@@ -37,14 +36,15 @@
     "@vercel/otel": "^1.8.2",
     "classnames": "^2.5.1",
     "date-fns": "^3.4.0",
+    "dibbs-resources": "file:../dibbs-resources/",
     "fhirpath": "^3.10.4",
     "html-react-parser": "^5.1.4",
     "jose": "5.2.2",
     "js-yaml": "4.1.0",
-    "next": "14.0.3",
+    "next": "^14.2.4",
     "next-auth": "^4.24.7",
     "pg-promise": "^11.6.0",
-    "react": "^18",
+    "react": "^18.3.1",
     "react-dom": "^18"
   },
   "devDependencies": {
