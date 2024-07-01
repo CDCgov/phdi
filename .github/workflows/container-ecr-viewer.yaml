@@ -52,6 +52,7 @@ jobs:
         run: npm test
   cypress-e2e-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -95,7 +96,7 @@ jobs:
       - name: Build ${{ env.CONTAINER }} Container
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./containers/${{ env.CONTAINER }}
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
