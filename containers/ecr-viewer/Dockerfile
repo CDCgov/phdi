@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY ecr-viewer/package.json ecr-viewer/package-lock.json* ./
-COPY dibbs-resources ../dibbs-resources
+COPY dibbs-resources ./dibbs-resources
 RUN npm ci
 
 
@@ -16,7 +16,7 @@ RUN npm ci
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY ecr-viewer ./
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
