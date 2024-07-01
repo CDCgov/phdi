@@ -27,7 +27,10 @@ const nextConfig = {
     ];
   },
   output: "standalone",
-  basePath: process.env.NODE_ENV === "production" ? "/ecr-viewer" : "",
+  basePath:
+    process.env.NODE_ENV === "production" && process.env.IS_DEPLOYED !== "false"
+      ? "/ecr-viewer"
+      : "",
 };
 
 module.exports = nextConfig;
