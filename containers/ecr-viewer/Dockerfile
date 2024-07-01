@@ -7,8 +7,9 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY ecr-viewer/package.json ecr-viewer/package-lock.json* ./
-COPY dibbs-resources ./dibbs-resources
+COPY ecr-viewer/package.json ecr-viewer/package-lock.json* /app/ecr-viewer/
+COPY dibbs-resources/package.json dibbs-resources/package-lock.json* /app/dibbs-resources/
+WORKDIR /app/ecr-viewer
 RUN npm ci
 
 
