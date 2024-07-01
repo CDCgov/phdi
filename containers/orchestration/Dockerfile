@@ -33,6 +33,8 @@ ENV OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://otel-collector:4318/v1/metrics
 ENV OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
 ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4317/v1/traces
 
+# Install curl for health check
+RUN apt-get update && apt-get install -y curl
 
 EXPOSE 8080
 RUN export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
