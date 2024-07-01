@@ -46,7 +46,7 @@ jobs:
         with:
           node-version: ${{env.NODE_VERSION}}
       - name: Install dependencies
-        working-directory: ./containers # Navigate to your Node.js app directory
+        working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
         run: npm install
       - name: Run tests
         working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
