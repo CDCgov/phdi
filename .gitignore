@@ -80,3 +80,6 @@ build/
 
 ## ECR Viewer Seed data
 /containers/ecr-viewer/seed-scripts/fhir_data/
+
+.turbo
+out
