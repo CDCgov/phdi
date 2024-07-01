@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.10
+    rev: v0.5.0
     hooks:
       # Run the linter.
       - id: ruff
@@ -13,7 +13,7 @@ repos:
       - id: pretty-format-json
         args: [--autofix, --no-sort-keys]
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: "v9.5.0"
+    rev: "v9.6.0"
     hooks:
       - id: eslint
         files: ^containers/ecr-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx in containers/ecr-viewer
@@ -30,7 +30,7 @@ repos:
           - eslint-plugin-jsdoc
         args: ["--config=./containers/ecr-viewer/.eslintrc.json", "--fix"]
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: "v9.5.0"
+    rev: "v9.6.0"
     hooks:
       - id: eslint
         files: ^containers/tefca-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
