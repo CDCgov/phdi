@@ -86,19 +86,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Check Out Changes
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: Build ${{ env.CONTAINER }} Container
         uses: docker/build-push-action@v3
         with:
-          context: ./containers/${{ env.CONTAINER }}
+          context: .
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          file: ./containers/${{ env.CONTAINER }}/Dockerfile
-          build-args: |
-            NODE_VERSION=${{ env.NODE_VERSION }}
+          file: ./containers/ecr-viewer/Dockerfile
+          build-args: NODE_VERSION=18
