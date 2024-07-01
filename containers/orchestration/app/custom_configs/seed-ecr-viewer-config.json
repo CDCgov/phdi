@@ -16,8 +16,24 @@
       }
     },
     {
+      "name": "fhir_bundle",
       "service": "ingestion",
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
+    },
+    {
+      "name": "message_parser_values",
+      "service": "message_parser",
+      "endpoint": "/parse_message",
+      "params": {
+        "message_format": "fhir",
+        "parsing_schema_name": "ecr_viewer_metadata.json",
+        "credential_manager": "azure"
+      }
     }
-  ]
+  ],
+  "outputs": [
+    "message_parser_values",
+    "fhir_bundle"
+  ],
+  "default-response": false
 }
