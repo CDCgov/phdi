@@ -270,12 +270,7 @@ def feature_match_fuzzy_string(
     if record_i[idx] is None and record_j[idx] is None:
         return True
 
-    similarity_measure = "JaroWinkler"
-    if "similarity_measure" in kwargs:
-        similarity_measure = kwargs["similarity_measure"]
-    threshold = 0.7
-    if "threshold" in kwargs:
-        threshold = kwargs["threshold"]
+    similarity_measure, threshold = _get_fuzzy_params(feature_col, **kwargs)
     score = compare_strings(record_i[idx], record_j[idx], similarity_measure)
     return score >= threshold
 
@@ -334,9 +329,6 @@ def feature_match_log_odds_fuzzy_compare(
     """
     if "log_odds" not in kwargs:
         raise KeyError("Mapping of columns to m/u log-odds must be provided.")
-    threshold = 0.7
-    if "threshold" in kwargs:
-        threshold = kwargs["threshold"]
     col_odds = kwargs["log_odds"][feature_col]
     idx = col_to_idx[feature_col]
 
@@ -345,7 +337,8 @@ def feature_match_log_odds_fuzzy_compare(
         record_i[idx] = datetime_to_str(record_i[idx])
         record_j[idx] = datetime_to_str(record_j[idx])
 
-    score = compare_strings(record_i[idx], record_j[idx], "JaroWinkler")
+    similarity_measure, threshold = _get_fuzzy_params(feature_col, **kwargs)
+    score = compare_strings(record_i[idx], record_j[idx], similarity_measure)
     if score < threshold:
         score = 0.0
     return score * col_odds
@@ -1005,6 +998,33 @@ def _flatten_patient_field_helper(resource: dict, field: str) -> any:
             resource, LINKING_FIELDS_TO_FHIRPATHS[field], selection_criteria="first"
         )
         return val if val is not None else ""
+
+
+def _get_fuzzy_params(col: str, **kwargs) -> tuple[str, str]:
+    """
+    Helper method to quickly determine the appropriate similarity measure
+    and fuzzy matching threshold to use for fuzzy-comparing a particular
+    field between two records.
+
+    :param col: The string name of the column being used in a fuzzy
+      comparison.
+    :param kwargs: Optionally, a dictionary of keyword arguments containing
+      values for a similarity metric and appropriate fuzzy thresholds.
+    :return: A tuple containing the similarity metric to use and the
+      fuzzy comparison threshold to measure against.
+    """
+    similarity_measure = "JaroWinkler"
+    if "similarity_measure" in kwargs:
+        similarity_measure = kwargs["similarity_measure"]
+
+    threshold = 0.7
+    if "thresholds" in kwargs:
+        if col in kwargs["thresholds"]:
+            threshold = kwargs["thresholds"][col]
+    elif "threshold" in kwargs:
+        threshold = kwargs["threshold"]
+
+    return similarity_measure, threshold
 
 
 def _group_patient_block_by_person(data_block: List[list]) -> dict[str, List]:
