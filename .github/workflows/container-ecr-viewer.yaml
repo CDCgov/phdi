@@ -5,6 +5,7 @@ on:
     branches:
       - "**"
     paths:
+      # - containers/dibbs-resource/**
       - containers/ecr-viewer/**
   merge_group:
     types:
