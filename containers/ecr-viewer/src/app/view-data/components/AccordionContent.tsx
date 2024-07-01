@@ -17,7 +17,7 @@ import {
   evaluateProviderData,
 } from "@/app/services/evaluateFhirDataService";
 import { evaluateClinicalData } from "./common";
-import AccordionContainer from "@/app/shared/src/accordion/AccordionContainer";
+import AccordionContainer from "@repo/ui/accordionContainer";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 
 type AccordionContainerProps = {

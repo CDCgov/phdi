@@ -1,4 +1,10 @@
-import { evaluate as fhirPathEvaluate } from "fhirpath";
+import {
+  evaluate as fhirPathEvaluate,
+  type Model,
+  type Path,
+  type UserInvocationTable,
+} from "fhirpath";
+import { Context } from "node:vm";
 
 let cache: { [key: string]: any } = {};
 
