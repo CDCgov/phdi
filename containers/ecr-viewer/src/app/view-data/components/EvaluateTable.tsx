@@ -4,6 +4,7 @@ import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
 import { evaluateValue } from "../../services/evaluateFhirDataService";
+import DOMPurify from "dompurify";
 
 interface BuildRowProps {
   mappings: PathMappings;
@@ -98,13 +99,30 @@ const BuildRow: React.FC<BuildRowProps> = ({
     if (column?.value) {
       rowCellData = column.value;
     } else if (column?.infoPath) {
-      rowCellData = evaluateValue(entry, mappings[column.infoPath]);
+      rowCellData = (
+        <span
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(
+              evaluateValue(entry, mappings[column.infoPath]),
+            ),
+          }}
+        />
+      );
     }
+
     if (rowCellData && column.applyToValue) {
       rowCellData = column.applyToValue(rowCellData);
-    } else if (!rowCellData) {
+    }
+
+    if (!rowCellData) {
       rowCellData = <span className={"text-italic text-base"}>No data</span>;
-    } else if (column.hiddenBaseText) {
+    }
+
+    // rowCellData = (
+    //   <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rowCellData) }} />
+    // );
+
+    if (rowCellData && column.hiddenBaseText) {
       hiddenRows.push(
         <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
           <td colSpan={columns.length} className={"hideableData"}>
