@@ -1,0 +1,11 @@
+{
+  "name": "phdi",
+  "packageManager": "^npm@10.8.1",
+  "workspaces": [
+    "containers/*",
+    "shared-resources"
+  ],
+  "devDependencies": {
+    "turbo": "^2.0.5"
+  }
+}
