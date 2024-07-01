@@ -30,8 +30,8 @@ jobs:
         run: cd containers/ecr-viewer
 
       - name: Build app
-        run: docker compose up -d
         working-directory: ./containers/ecr-viewer
+        run: docker compose --env-file .env.e2e.test up -d
 
       - name: Wait for Application to be ready
         run: |
