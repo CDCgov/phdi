@@ -99,3 +99,6 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          file: ./containers/${{ env.CONTAINER }}/Dockerfile
+          build-args: |
+            NODE_VERSION=${{ env.NODE_VERSION }}
