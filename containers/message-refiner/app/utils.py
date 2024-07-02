@@ -79,10 +79,13 @@ def load_section_loincs(loinc_json: dict) -> tuple[list, dict]:
     section_list = list(loinc_json.keys())
 
     # dictionary of the required eICR sections'
-    # LOINC code, displayName, templateId, extension, and title
-    # to be used to create minimal sections and to support validation
+    # LOINC section code, root templateId and extension, displayName, and title
+    # to be used to create minimal sections and trigger code templates to support validation
     section_details = {
-        loinc: details.get("minimal_fields")
+        loinc: {
+            "minimal_fields": details.get("minimal_fields"),
+            "trigger_code_template": details.get("trigger_code_template"),
+        }
         for loinc, details in loinc_json.items()
         if details.get("required")
     }

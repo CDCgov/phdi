@@ -53,33 +53,63 @@ def test_load_section_loincs():
     and that a dictionary of required sections can be generated.
     """
     loinc_json = {
-        "29762-2": {
-            "minimal_fields": [
-                "Social History",
-                "2.16.840.1.113883.10.20.22.2.17",
-                "2015-08-01",
-                "Social History",
-            ],
+        "46240-8": {
             "required": True,
+            "minimal_fields": {
+                "template_id_root": "2.16.840.1.113883.10.20.22.2.22.1",
+                "template_id_extension": "2015-08-01",
+                "display_name": "History of encounters",
+                "title": "Encounters",
+            },
+            "trigger_code_template": {
+                "template_id_root": "2.16.840.1.113883.10.20.15.2.3.5",
+                "template_id_extension": "2016-12-01",
+                "description": "Initial Case Manual Initiation Reason Observation",
+            },
         },
         "11369-6": {
-            "minimal_fields": [
-                "History of Immunizations",
-                "2.16.840.1.113883.10.20.22.4.52",
-                "2015-08-01",
-                "Immunizations",
-            ],
             "required": False,
+            "minimal_fields": {
+                "template_id_root": "2.16.840.1.113883.10.20.22.4.52",
+                "template_id_extension": "2015-08-01",
+                "display_name": "History of Immunizations",
+                "title": "Immunizations",
+            },
+        },
+        "29762-2": {
+            "required": True,
+            "minimal_fields": {
+                "template_id_root": "2.16.840.1.113883.10.20.22.2.17",
+                "template_id_extension": "2015-08-01",
+                "display_name": "Social History",
+                "title": "Social History",
+            },
         },
     }
-    expected_section_loincs = ["29762-2", "11369-6"]
+    expected_section_loincs = ["46240-8", "11369-6", "29762-2"]
     expected_section_details = {
-        "29762-2": [
-            "Social History",
-            "2.16.840.1.113883.10.20.22.2.17",
-            "2015-08-01",
-            "Social History",
-        ]
+        "46240-8": {
+            "minimal_fields": {
+                "template_id_root": "2.16.840.1.113883.10.20.22.2.22.1",
+                "template_id_extension": "2015-08-01",
+                "display_name": "History of encounters",
+                "title": "Encounters",
+            },
+            "trigger_code_template": {
+                "template_id_root": "2.16.840.1.113883.10.20.15.2.3.5",
+                "template_id_extension": "2016-12-01",
+                "description": "Initial Case Manual Initiation Reason Observation",
+            },
+        },
+        "29762-2": {
+            "minimal_fields": {
+                "template_id_root": "2.16.840.1.113883.10.20.22.2.17",
+                "template_id_extension": "2015-08-01",
+                "display_name": "Social History",
+                "title": "Social History",
+            },
+            "trigger_code_template": None,
+        },
     }
     section_loincs, section_details = load_section_loincs(loinc_json)
     assert section_loincs == expected_section_loincs
