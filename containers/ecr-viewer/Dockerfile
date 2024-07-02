@@ -7,7 +7,9 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json package-lock.json* ./
+COPY ecr-viewer/package.json ecr-viewer/package-lock.json* /app/ecr-viewer/
+COPY dibbs-resources/package.json dibbs-resources/package-lock.json* /app/dibbs-resources/
+WORKDIR /app/ecr-viewer
 RUN npm ci
 
 
@@ -15,7 +17,7 @@ RUN npm ci
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY ecr-viewer ./
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

@@ -5,8 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "local-dev": "npm run check-shared-resources && npm run setup-local-env && docker compose up db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
-    "check-shared-resources": "if [ ! -d ../../shared-resources/node_modules ]; then (cd ../../shared-resources && npm install) fi",
+    "local-dev": "npm run setup-local-env && docker compose up db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
     "setup-local-env": "./setup-env.sh",
     "build": "next build",
     "start": "next start",
@@ -37,14 +36,15 @@
     "@vercel/otel": "^1.8.2",
     "classnames": "^2.5.1",
     "date-fns": "^3.4.0",
+    "dibbs-resources": "file:../dibbs-resources/",
     "fhirpath": "^3.10.4",
     "html-react-parser": "^5.1.4",
     "jose": "5.2.2",
     "js-yaml": "4.1.0",
-    "next": "14.0.3",
+    "next": "^14.2.4",
     "next-auth": "^4.24.7",
     "pg-promise": "^11.6.0",
-    "react": "^18",
+    "react": "^18.3.1",
     "react-dom": "^18"
   },
   "devDependencies": {
