@@ -257,7 +257,7 @@ You can see an example of this being used below in the Problem Observation (V3).
 
 #### How to return
 
-This will depend on the `typeCode` of the `<entryRelationship>` element. In the example above we have nested `<entryRelationship>` tags with a `typeCode="SUBJ"`, which means that as you continue to navigate towards the last child `<entryRelationship>` tag you end up with the subject (`SUBJ`) of the `<entry>`. This means that there may need to be either some cleaning out of additional `<entryRelationship>` blocks that are merely referenced (`REFE`) or a part of/component of (`COMP`) and `<entry>` rather than the main reason for the data.
+This will depend on the `typeCode` of the `<entryRelationship>` element. In the example above we have nested `<entryRelationship>` tags with a `typeCode="SUBJ"`, which means that as you continue to navigate towards the last child `<entryRelationship>` tag you end up with the subject (`SUBJ`) of the `<entry>`. This means that there may need to be either some cleaning out of additional `<entryRelationship>` blocks that are merely referenced (`typeCode="REFE"`) or a part of/component of (`typeCode="COMP"`) an `<entry>` rather than the main reason for the observation.
 
 ```xml
 <entry>
