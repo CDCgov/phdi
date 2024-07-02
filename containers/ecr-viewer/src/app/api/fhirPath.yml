@@ -122,7 +122,7 @@ specimenReceivedTime: "Observation.extension[0].extension.where(url = 'specimen 
 specimenSource: "Observation.extension[0].extension.where(url = 'specimen source').valueString"
 observationReferenceValue: "Observation.extension[0].extension.where(url = 'observation entry reference value').valueString"
 observationComponent: "code.coding.display"
-observationValue: "value"
+observationValue: (valueQuantity.value.toString() | valueString | iif(interpretation.coding.display.exists(), ' (' | interpretation.coding.display | ')', '')).join('')
 observationReferenceRange: "referenceRange.text"
 observationNote: "note.text"
 observationMethod: "method"
