@@ -85,7 +85,7 @@
                         {% elsif valueStringObject.content != null %}
                             {% assign valueString = valueStringObject.content | concat_strings %}
                         {% endif %}
-                    "valueString": "{{ valueString }}",
+                    "valueString": "{{ valueString | replace: '\n', '\\n'  }}",
                 {% endif %}
             {% endif %}
         {% endif -%}

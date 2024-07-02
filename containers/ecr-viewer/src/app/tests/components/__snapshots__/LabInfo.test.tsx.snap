@@ -201,6 +201,27 @@ Burbank, CA
                       <td
                         class="text-top"
                       >
+                        <button
+                          aria-controls="hidden-comment-4"
+                          aria-expanded="false"
+                          class="usa-button usa-button--unstyled"
+                          data-testid="button"
+                          type="button"
+                        >
+                          View
+                           
+                          comment
+                        </button>
+                      </td>
+                    </tr>
+                    <tr
+                      hidden=""
+                      id="hidden-comment-4"
+                    >
+                      <td
+                        class="hideableData"
+                        colspan="5"
+                      >
                         <span
                           class="text-italic text-base"
                         >
@@ -231,6 +252,27 @@ Burbank, CA
                       </td>
                       <td
                         class="text-top"
+                      >
+                        <button
+                          aria-controls="hidden-comment-4"
+                          aria-expanded="false"
+                          class="usa-button usa-button--unstyled"
+                          data-testid="button"
+                          type="button"
+                        >
+                          View
+                           
+                          comment
+                        </button>
+                      </td>
+                    </tr>
+                    <tr
+                      hidden=""
+                      id="hidden-comment-4"
+                    >
+                      <td
+                        class="hideableData"
+                        colspan="5"
                       >
                         <span
                           class="text-italic text-base"
@@ -531,6 +573,27 @@ Burbank, CA
                       <td
                         class="text-top"
                       >
+                        <button
+                          aria-controls="hidden-comment-4"
+                          aria-expanded="false"
+                          class="usa-button usa-button--unstyled"
+                          data-testid="button"
+                          type="button"
+                        >
+                          View
+                           
+                          comment
+                        </button>
+                      </td>
+                    </tr>
+                    <tr
+                      hidden=""
+                      id="hidden-comment-4"
+                    >
+                      <td
+                        class="hideableData"
+                        colspan="5"
+                      >
                         <span
                           class="text-italic text-base"
                         >
@@ -561,6 +624,27 @@ Burbank, CA
                       </td>
                       <td
                         class="text-top"
+                      >
+                        <button
+                          aria-controls="hidden-comment-4"
+                          aria-expanded="false"
+                          class="usa-button usa-button--unstyled"
+                          data-testid="button"
+                          type="button"
+                        >
+                          View
+                           
+                          comment
+                        </button>
+                      </td>
+                    </tr>
+                    <tr
+                      hidden=""
+                      id="hidden-comment-4"
+                    >
+                      <td
+                        class="hideableData"
+                        colspan="5"
                       >
                         <span
                           class="text-italic text-base"

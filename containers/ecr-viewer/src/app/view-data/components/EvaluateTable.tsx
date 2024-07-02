@@ -98,13 +98,21 @@ const BuildRow: React.FC<BuildRowProps> = ({
     if (column?.value) {
       rowCellData = column.value;
     } else if (column?.infoPath) {
-      rowCellData = evaluateValue(entry, mappings[column.infoPath]);
+      rowCellData = splitStringWith(
+        evaluateValue(entry, mappings[column.infoPath]),
+        "<br/>",
+      );
     }
+
     if (rowCellData && column.applyToValue) {
       rowCellData = column.applyToValue(rowCellData);
-    } else if (!rowCellData) {
+    }
+
+    if (!rowCellData) {
       rowCellData = <span className={"text-italic text-base"}>No data</span>;
-    } else if (column.hiddenBaseText) {
+    }
+
+    if (rowCellData && column.hiddenBaseText) {
       hiddenRows.push(
         <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
           <td colSpan={columns.length} className={"hideableData"}>
@@ -141,6 +149,30 @@ const BuildRow: React.FC<BuildRowProps> = ({
   } else {
     return <tr>{rowCells}</tr>;
   }
+};
+
+const splitStringWith = (
+  input: string,
+  splitter: string,
+): (string | JSX.Element)[] | string => {
+  // Split the input string by <br/> tag
+  const parts = input.split(splitter);
+
+  // If there is no <br/> in the input string, return the string as a single element array
+  if (parts.length === 1) {
+    return input;
+  }
+
+  // Create an array with strings and JSX <br /> elements
+  const result: (string | JSX.Element)[] = [];
+  parts.forEach((part, index) => {
+    result.push(part);
+    if (index < parts.length - 1) {
+      result.push(<br key={index} />);
+    }
+  });
+
+  return result;
 };
 
 export default EvaluateTable;
