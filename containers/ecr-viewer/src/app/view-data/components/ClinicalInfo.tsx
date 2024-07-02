@@ -4,6 +4,7 @@ import {
   AccordionDiv,
 } from "../component-utils";
 import React from "react";
+import classNames from "classnames";
 import { addCaptionToTable } from "@/app/services/formatService";
 import {
   DataDisplay,
@@ -41,13 +42,15 @@ export const ClinicalInfo = ({
 }: ClinicalProps) => {
   const renderTableDetails = (
     tableDetails: DisplayDataProps[],
-    className: string = "",
+    className?: string,
   ) => {
     return (
       <div>
         {tableDetails.map((item, index) => (
           <div key={index}>
-            <div className={`grid-col-auto text-pre-line ${className}`}>
+            <div
+              className={classNames("grid-col-auto text-pre-line", className)}
+            >
               {item.value}
             </div>
             <div className={"section__line_gray"} />

@@ -71,7 +71,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
           <div>
             <div>
               <div
-                class="grid-col-auto text-pre-line "
+                class="grid-col-auto text-pre-line"
               >
                 <table>
                   <caption>
