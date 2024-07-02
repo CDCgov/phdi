@@ -129,7 +129,7 @@ h4 {
 }
 
 .usa-table {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   thead th {
     background-color: #F0F0F0;
     vertical-align: top;
@@ -148,6 +148,15 @@ h4 {
 
   tbody td:first-child {
     width: 644px;
+  }
+}
+
+.table-clinical-problems {
+  tbody td:nth-child(2) {
+    min-width: 130px;
+  }
+  tbody td:nth-child(3) {
+    min-width: 100px;
   }
 }
 

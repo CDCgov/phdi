@@ -39,12 +39,17 @@ export const ClinicalInfo = ({
   treatmentData,
   clinicalNotes,
 }: ClinicalProps) => {
-  const renderTableDetails = (tableDetails: DisplayDataProps[]) => {
+  const renderTableDetails = (
+    tableDetails: DisplayDataProps[],
+    className: string = "",
+  ) => {
     return (
       <div>
         {tableDetails.map((item, index) => (
           <div key={index}>
-            <div className="grid-col-auto text-pre-line">{item.value}</div>
+            <div className={`grid-col-auto text-pre-line ${className}`}>
+              {item.value}
+            </div>
             <div className={"section__line_gray"} />
           </div>
         ))}
@@ -96,7 +101,10 @@ export const ClinicalInfo = ({
             ))}
           </div>
           <div data-testid="active-problems">
-            {renderTableDetails(activeProblemsDetails)}
+            {renderTableDetails(
+              activeProblemsDetails,
+              "table-clinical-problems",
+            )}
           </div>
         </AccordionDiv>
       </>
