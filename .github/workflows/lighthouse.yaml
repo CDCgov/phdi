@@ -33,9 +33,6 @@ jobs:
         working-directory: ./containers/ecr-viewer
         run: cp -r ../../shared-resources/src/ ./src/app/shared/
 
-      - name: Change to the correct directory
-        run: cd containers/ecr-viewer
-
       - name: Build app
         run: docker-compose up -d
         working-directory: ./containers/ecr-viewer
