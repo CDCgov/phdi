@@ -5,8 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "local-dev": "npm run check-shared-resources && npm run setup-local-env && docker compose up db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
-    "check-shared-resources": "if [ ! -d ../../shared-resources/node_modules ]; then (cd ../../shared-resources && npm install) fi",
+    "local-dev": "npm run setup-local-env && docker compose up db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
     "setup-local-env": "./setup-env.sh",
     "build": "next build",
     "start": "next start",
@@ -31,6 +30,7 @@
     "@opentelemetry/sdk-node": "^0.51.1",
     "@opentelemetry/sdk-trace-node": "^1.24.1",
     "@opentelemetry/semantic-conventions": "^1.24.1",
+    "@repo/ui": "*",
     "@testing-library/user-event": "^14.5.2",
     "@trussworks/react-uswds": "6.1.0",
     "@uswds/uswds": "3.7.0",
