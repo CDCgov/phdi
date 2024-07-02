@@ -17,6 +17,7 @@ import {
   evaluateEcrSummaryRelevantLabResults,
 } from "../services/ecrSummaryService";
 import { metrics } from "./component-utils";
+import { EcrLoadingSkeleton } from "./components/LoadingComponent";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -159,7 +160,7 @@ const ECRViewerPage: React.FC = () => {
   } else {
     return (
       <div>
-        <h1>Loading...</h1>
+        <EcrLoadingSkeleton />
       </div>
     );
   }
