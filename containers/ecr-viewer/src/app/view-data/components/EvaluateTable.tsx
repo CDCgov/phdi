@@ -1,5 +1,5 @@
 import { Element } from "fhir/r4";
-import { ColumnInfoInput, PathMappings } from "@/app/utils";
+import { ColumnInfoInput, PathMappings, noData } from "@/app/utils";
 import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
@@ -97,7 +97,9 @@ const BuildRow: React.FC<BuildRowProps> = ({
     let rowCellData: ReactNode;
     if (column?.value) {
       rowCellData = column.value;
-    } else if (column?.infoPath) {
+    }
+
+    if (!column?.value && column?.infoPath) {
       rowCellData = splitStringWith(
         evaluateValue(entry, mappings[column.infoPath]),
         "<br/>",
@@ -108,15 +110,11 @@ const BuildRow: React.FC<BuildRowProps> = ({
       rowCellData = column.applyToValue(rowCellData);
     }
 
-    if (!rowCellData) {
-      rowCellData = <span className={"text-italic text-base"}>No data</span>;
-    }
-
-    if (rowCellData && column.hiddenBaseText) {
+    if (column.hiddenBaseText) {
       hiddenRows.push(
         <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
           <td colSpan={columns.length} className={"hideableData"}>
-            {rowCellData}
+            {rowCellData ? rowCellData : noData}
           </td>
         </tr>,
       );
@@ -134,7 +132,7 @@ const BuildRow: React.FC<BuildRowProps> = ({
     }
     return (
       <td key={`row-data-${index}`} className="text-top">
-        {rowCellData}
+        {rowCellData ? rowCellData : noData}
       </td>
     );
   });
