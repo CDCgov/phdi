@@ -131,6 +131,17 @@
 {% assign carePlanId = carePlanResource | to_json_string | generate_uuid %}
 {% include 'Resource/CarePlan' carePlan: carePlanResource ID: carePlanId patientReference: fullPatientId  %}
 
+{% assign medicationsAdministered = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.38' %}
+{% for entry in medicationsAdministered.2_16_840_1_113883_10_20_22_2_38.entry %}
+  {% assign substanceAdministrationId = entry.substanceAdministration | to_json_string | generate_uuid -%}
+  {% include 'Resource/MedicationAdministration', medicationAdministration: entry.substanceAdministration, ID: substanceAdministrationId -%}
+  {% assign manufacturedMaterialId = entry.substanceAdministration.consumable.manufacturedProduct.manufacturedMaterial | to_json_string | generate_uuid -%}
+  {% include 'Resource/Medication', medication: entry.substanceAdministration.consumable.manufacturedProduct.manufacturedMaterial, ID: manufacturedMaterialId -%}
+  {% include 'Reference/MedicationAdministration/Subject', ID: substanceAdministrationId, REF: fullPatientId -%}
+  {% assign fullManufacturedMaterialId = manufacturedMaterialId | prepend: 'Medication/' -%}
+  {% include 'Reference/MedicationAdministration/MedicationReference', ID: substanceAdministrationId, REF: fullManufacturedMaterialId -%}
+{% endfor %}
+
 {% if msg.ClinicalDocument.recordTarget.patientRole.patient.guardian -%}
   {% assign relatedPersonId = msg.ClinicalDocument.recordTarget.patientRole.patient.guardian | to_json_string | generate_uuid -%}
   {% include 'Resource/RelatedPerson' relatedPerson: msg.ClinicalDocument.recordTarget.patientRole.patient.guardian ID: relatedPersonId -%}

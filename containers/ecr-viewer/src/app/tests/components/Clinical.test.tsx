@@ -224,7 +224,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     testClinicalData.reasonForVisitDetails.availableData;
   const testTreatmentData = testClinicalData.treatmentData.availableData;
 
-  test("eCR Viewer renders immunization table given FHIR bundle with immunization info", () => {
+  it("eCR Viewer renders immunization table given FHIR bundle with immunization info", () => {
     const clinicalInfo = render(
       <ClinicalInfo
         immunizationsDetails={testImmunizationsData}
@@ -248,7 +248,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     expect(expectedTable.length).toEqual(1);
   });
 
-  test("eCR Viewer renders active problems table given FHIR bundle with active problems info", () => {
+  it("eCR Viewer renders active problems table given FHIR bundle with active problems info", () => {
     const clinicalInfo = render(
       <ClinicalInfo
         immunizationsDetails={[]}
@@ -270,7 +270,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     expect(expectedTable.length).toEqual(1);
   });
 
-  test("eCR Viewer renders vital signs given FHIR bundle with vital signs info", () => {
+  it("eCR Viewer renders vital signs given FHIR bundle with vital signs info", () => {
     const clinicalInfo = render(
       <ClinicalInfo
         immunizationsDetails={[]}
@@ -286,7 +286,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     expect(expectedVitalSignsElement).toBeInTheDocument();
   });
 
-  test("eCR Viewer renders reason for visit given FHIR bundle with reason for visit info", () => {
+  it("eCR Viewer renders reason for visit given FHIR bundle with reason for visit info", () => {
     const clinicalInfo = render(
       <ClinicalInfo
         immunizationsDetails={[]}
@@ -303,7 +303,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     expect(expectedReasonForVisitElement).toBeInTheDocument();
   });
 
-  test("eCR Viewer renders treatment data given FHIR bundle with treatment data info", () => {
+  it("eCR Viewer renders treatment data given FHIR bundle with treatment data info", () => {
     const clinicalInfo = render(
       <ClinicalInfo
         immunizationsDetails={[]}
@@ -324,7 +324,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
     expect(expectedTable.length).toEqual(4);
   });
 
-  test("eCR Viewer renders all Clinical Info sections", () => {
+  it("eCR Viewer renders all Clinical Info sections", () => {
     const clinicalInfo = render(
       <ClinicalInfo
         immunizationsDetails={testImmunizationsData}
