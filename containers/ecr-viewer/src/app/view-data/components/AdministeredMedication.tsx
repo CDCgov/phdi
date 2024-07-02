@@ -24,63 +24,60 @@ export const AdministeredMedication = ({
     fhirBundle,
     mappings["adminMedicationsRefs"],
   );
-
-  if (administeredMedicationReferences?.length > 0) {
-    const administeredMedications: MedicationAdministration[] =
-      administeredMedicationReferences.map((ref) =>
-        evaluateReference(fhirBundle, mappings, ref),
-      );
-
-    const tableValues = administeredMedications.map(
-      (administeredMedication) => {
-        if (administeredMedication?.medicationReference?.reference) {
-          const medication: Medication = evaluateReference(
-            fhirBundle,
-            mappings,
-            administeredMedication.medicationReference.reference,
-          );
-          return {
-            date:
-              administeredMedication.effectiveDateTime ??
-              administeredMedication.effectivePeriod?.start,
-            medicine: medication?.code?.coding?.[0]?.display,
-          };
-        }
-      },
-    );
-
-    const header = ["Medication Name", "Medication Start Date"];
-    return (
-      <Table
-        bordered={false}
-        fullWidth={true}
-        caption="Administered Medications"
-        className={
-          "table-caption-margin margin-y-0 border-top border-left border-right"
-        }
-        data-testid="table"
-      >
-        <thead>
-          <tr>
-            {header.map((column) => (
-              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {tableValues.map((entry, index: number) => {
-            return (
-              <tr key={`table-row-${index}`}>
-                <td>{entry?.medicine ?? noData}</td>
-                <td>{formatDate(entry?.date) ?? noData}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-    );
+  if (!administeredMedicationReferences?.length) {
+    return null;
   }
-  return undefined;
+  const administeredMedications: MedicationAdministration[] =
+    administeredMedicationReferences.map((ref) =>
+      evaluateReference(fhirBundle, mappings, ref),
+    );
+
+  const tableValues = administeredMedications.map((administeredMedication) => {
+    if (administeredMedication?.medicationReference?.reference) {
+      const medication: Medication = evaluateReference(
+        fhirBundle,
+        mappings,
+        administeredMedication.medicationReference.reference,
+      );
+      return {
+        date:
+          administeredMedication.effectiveDateTime ??
+          administeredMedication.effectivePeriod?.start,
+        medicine: medication?.code?.coding?.[0]?.display,
+      };
+    }
+  });
+
+  const header = ["Medication Name", "Medication Start Date"];
+  return (
+    <Table
+      bordered={false}
+      fullWidth={true}
+      caption="Administered Medications"
+      className={
+        "table-caption-margin margin-y-0 border-top border-left border-right"
+      }
+      data-testid="table"
+    >
+      <thead>
+        <tr>
+          {header.map((column) => (
+            <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
+              {column}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {tableValues.map((entry, index: number) => {
+          return (
+            <tr key={`table-row-${index}`}>
+              <td>{entry?.medicine ?? noData}</td>
+              <td>{formatDate(entry?.date) ?? noData}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </Table>
+  );
 };
