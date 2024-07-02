@@ -65,7 +65,6 @@ services:
     logging:
       driver: "json-file"
   jaeger:
-    platform: linux/amd64
     image: jaegertracing/all-in-one:latest
     container_name: "jaeger"
     volumes:
