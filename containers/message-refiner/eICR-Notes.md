@@ -1,12 +1,14 @@
-# eICR Spec 1.1 Notes
+# eICR Specification Notes (CDA-phcaserpt-1.1.1)
 
-For the purpose of this documentation we'll be specifically focus on the contents of the `<structuredBody>` and how the various section-level and entry-level components are composed to create the body of an eICR document.
+The purpose of this documentation is to focus on the contents of the `<structuredBody>` and how the various section-level and entry-level components are composed to create the body of an eICR document.
 
 ## Section-level vs entry-level components
 
-In vol. 2 of the eICR 1.1 spec there are tables that explain the hierarchical relationship that comprises an eICR document. There are specific blocks of elements that are named and these names have associated metadata that both signal and connect them to other nested named blocks of elements. You can think of these named blocks of elements almost like classes in object oriented programming but without inheritance in a strict sense. Rather than inheritance they signal the hierarchical relationship between the named block of elements. Each named block of elements is governed by a template that describes what metadata it must, should, or may contain as well as the order of these metadata.
+In volume 2 of the CDA-phcaserpt-1.1.1 specification there are tables that explain the hierarchical relationship that comprises an eICR document. There are specific blocks of elements that are named and these names have associated metadata that both signal and connect them to other nested named blocks of elements. You can think of these named blocks of elements almost like classes in object oriented programming but without inheritance in a strict sense. Rather than inheritance they signal the hierarchical relationship between the named block of elements. Each named block of elements is governed by a template that describes what metadata it must, should, or may contain as well as the order of these metadata.
 
-Section-level templates are higher up the hierarchy while entry-level templates are children of section-level templates. Some sections are **required** in order for an eICR document to be valid based on the associated schematron. Every single template has an id that is used to test each row of the template; these rules all have unique ids that are called conf numbers (`CONF#`). When validating an eICR document against the schematron the messages coming back are based on the `CONF#` and whether or not this is a fatal error, and error, or a warning.
+> the `root` value of a `templateId`, which is an OID, is the _best_ way to find a specific named block of elements within a CDA broadly and eICR specifically. Every single named block of elements has a unique `templateId` that can be queried via XPath.
+
+Section-level templates are higher up the hierarchy while entry-level templates are children of section-level templates. Some sections are **required** in order for an eICR document to be valid based on the associated schematron found on the spcification's [GitHub repositry](https://github.com/HL7/CDA-phcaserpt-1.1.1/tree/main/validation). Every single template has a unique id that is used to track and test each row of a template; these rules are called conf numbers (`CONF#`). When validating an eICR document against the schematron the messages coming back are based on the `CONF#` and whether or not this is a fatal error, an error, or a warning. Our goal in this work is to not introduce additional errors or warnings given that the eICR messages have likely already undergone validation on the AIMS platform.
 
 Additionally there are some section-level templates that have templates for both:
 
@@ -21,12 +23,12 @@ This might seem confusing, but the "entries required" vs "entries optional" deal
 
 Structure:
 
-- Encounters Section (V3) `<section>`
-  - Encounter Activity (V3) `<encounter>`
-    - Encounter Diagnosis (V3) `<act>`
-      - Problem Observation (V3) `<observation>`
-      - Initial Case Report Manual Initiation Reason Observation `<observation>`
-      - Initial Case Report Trigger Code Problem Observation `<observation>`
+- Encounters Section (V3) `<section>` ➡️ `<entry>`
+  - Encounter Activity (V3) `<encounter>` ➡️ `<entryRelationship>`
+    - Encounter Diagnosis (V3) `<act>` ➡️ `<entryRelationship>`
+      - Problem Observation (V3) `<observation>` ➡️ `<entryRelationship>`
+      - Initial Case Report Manual Initiation Reason Observation `<observation>` ➡️ `<entryRelationship>`
+      - Initial Case Report Trigger Code Problem Observation `<observation>` ➡️ `<entryRelationship>`
 
 ### History of Present Illness Section
 
@@ -36,34 +38,34 @@ Structure:
 
 Structure:
 
-- Immunizations Section (V3) `<section>`
-  - Immunization Activity (V3) `<substanceAdministration>`
+- Immunizations Section (V3) `<section>` ➡️ `<entry>`
+  - Immunization Activity (V3) `<substanceAdministration>` ➡️ `<consumable>`
     - Immunization Medication Information (V2) `<manufacturedProduct>`
 
 ### Medications Administered Section (V2)
 
 Structure:
 
-- Medications Administered Section (V2) `<section>`
-  - Medication Activity (V2) `<substanceAdministration>`
+- Medications Administered Section (V2) `<section>` ➡️ `<entry>`
+  - Medication Activity (V2) `<substanceAdministration>` ➡️ `<consumable>`
     - Medication Information (V2) `<manufacturedProduct>`
 
 ### Plan of Treatment Section (V2)
 
 Structure:
 
-- Plan of Treatment Section (V2) `<section>`
-  - Planned Observation (V2) `<observation>`
-  - Initial Case Report Trigger Code Lab Test Order `<observation>`
+- Plan of Treatment Section (V2) `<section>` ➡️ `<entry>`
+  - Planned Observation (V2) `<observation>` ➡️ `<entryRelationship>`
+  - Initial Case Report Trigger Code Lab Test Order `<observation>` ➡️ `<entryRelationship>`
 
 ### Problem Section (V3)
 
 Structure:
 
-- Problem Section (V3) `<section>`
-  - Problem Concern Act (V3) `<act>`
-    - Problem Observation (V3) `<observation>`
-    - Initial Case Report Trigger Code Problem Observation `<observation>`
+- Problem Section (V3) `<section>` ➡️ `<entry>`
+  - Problem Concern Act (V3) `<act>` ➡️ `<entryRelationship>`
+    - Problem Observation (V3) `<observation>` ➡️ `<entryRelationship>`
+    - Initial Case Report Trigger Code Problem Observation `<observation>` ➡️ `<entryRelationship>`
 
 ### Reason for Visit Section
 
@@ -73,8 +75,8 @@ Structure:
 
 Structure:
 
-- Results Section (V3) `<section>`
-  - Result Organizer (V3) `<organizer>`
+- Results Section (V3) `<section>` ➡️ `<entry>`
+  - Result Organizer (V3) `<organizer>` ➡️ `<component>`
     - Result Observation (V3) `<observation>`
     - Initial Case Report Trigger Code Result Observation `<observation>`
 
@@ -82,9 +84,9 @@ Structure:
 
 Structure:
 
-- Social History Section (V3) `<section>`
+- Social History Section (V3) `<section>` ➡️ `<entry>`
   - Social History Observation (V3) `<observation>`
-  - Pregnanacy Observation `<observation>`
+  - Pregnancy Observation `<observation>` ➡️ `<entryRelationship>`
     - Estimated Date of Delivery `<observation>`
 
 ## Trigger Code Templates
@@ -97,11 +99,11 @@ Structure:
 | ----------------------- | ---------- |
 | Encounters Section (V3) | 46240-8    |
 
-- Encounters Section (V3) `<section>`
-  - Encounter Activity (V3) `<encounter>`
-    - Encounter Diagnosis (V3) `<act>`
-      - Problem Observation (V3) `<observation>`
-      - **Initial Case Report Manual Initiation Reason Observation `<observation>`**
+- Encounters Section (V3) `<section>` ➡️ `<entry>`
+  - Encounter Activity (V3) `<encounter>` ➡️ `<entryRelationship>`
+    - Encounter Diagnosis (V3) `<act>` ➡️ `<entryRelationship>`
+      - Problem Observation (V3) `<observation>` ➡️ `<entryRelationship>`
+      - **Initial Case Report Manual Initiation Reason Observation `<observation>` ➡️ `<entryRelationship>`**
 
 Manually triggered eICRs have the following `templateId`:
 
@@ -154,9 +156,9 @@ You can see an example of this being used below in the Problem Observation (V3).
 | ------------------------------ | ---------- |
 | Plan of Treatment Section (V2) | 18776-5    |
 
-- Plan of Treatment Section (V2) `<section>`
-  - Planned Observation (V2) `<observation>`
-  - Initial Case Report Trigger Code Lab Test Order `<observation>`
+- Plan of Treatment Section (V2) `<section>` ➡️ `<entry>`
+  - Planned Observation (V2) `<observation>` ➡️ `<entryRelationship>`
+  - **Initial Case Report Trigger Code Lab Test Order `<observation>` ➡️ `<entryRelationship>`**
 
 Lab test order triggered eICRs have the following `templateId`:
 
@@ -206,18 +208,18 @@ You can see an example of this being used below in the Planned Observation (V3).
 | Encounter Section (V3) | 46240-8    |
 | Problem Section (V3)   | 11450-4    |
 
-- Encounters Section (V3) `<section>`
-  - Encounter Activity (V3) `<encounter>`
-    - Encounter Diagnosis (V3) `<act>`
-      - Problem Observation (V3) `<observation>`
-      - **Initial Case Report Trigger Code Problem Observation `<observation>`**
+- Encounters Section (V3) `<section>` ➡️ `<entry>`
+  - Encounter Activity (V3) `<encounter>` ➡️ `<entryRelationship>`
+    - Encounter Diagnosis (V3) `<act>` ➡️ `<entryRelationship>`
+      - Problem Observation (V3) `<observation>` ➡️ `<entryRelationship>`
+      - **Initial Case Report Trigger Code Problem Observation `<observation>` ➡️ `<entryRelationship>`**
 
 **Or:**
 
-- Problem Section (V3) `<section>`
-  - Problem Concern Act (V3) `<act>`
-    - Problem Observation (V3) `<observation>`
-    - Initial Case Report Trigger Code Problem Observation `<observation>`
+- Problem Section (V3) `<section>` ➡️ `<entry>`
+  - Problem Concern Act (V3) `<act>` ➡️ `<entryRelationship>`
+    - Problem Observation (V3) `<observation>` ➡️ `<entryRelationship>`
+    - **Initial Case Report Trigger Code Problem Observation `<observation>` ➡️ `<entryRelationship>`**
 
 Problem observation triggered eICRs have the following `templateId`:
 
@@ -264,9 +266,7 @@ This will depend on the `typeCode` of the `<entryRelationship>` element. In the 
       <act>
         <entryRelationship>
           <observation>
-            <entryRelationship>
-              Data we want
-            </entryRelationship>
+            Data we want
           </observation>
         </entryRelationship>
       </act>
@@ -281,8 +281,8 @@ This will depend on the `typeCode` of the `<entryRelationship>` element. In the 
 | -------------------- | ---------- |
 | Results Section (V3) | 30954-2    |
 
-- Results Section (V3) `<section>`
-  - Result Organizer (V3) `<organizer>`
+- Results Section (V3) `<section>` ➡️ `<entry>`
+  - Result Organizer (V3) `<organizer>` ➡️ `<component>`
     - Result Observation (V3) `<observation>`
     - **Initial Case Report Trigger Code Result Observation `<observation>`**
 
