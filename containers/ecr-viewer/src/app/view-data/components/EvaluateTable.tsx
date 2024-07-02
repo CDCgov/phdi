@@ -4,7 +4,6 @@ import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
 import { evaluateValue } from "../../services/evaluateFhirDataService";
-// import DOMPurify from "dompurify";
 
 interface BuildRowProps {
   mappings: PathMappings;
