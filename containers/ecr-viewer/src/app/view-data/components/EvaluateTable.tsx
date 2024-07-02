@@ -4,7 +4,7 @@ import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
 import { evaluateValue } from "../../services/evaluateFhirDataService";
-import DOMPurify from "dompurify";
+// import DOMPurify from "dompurify";
 
 interface BuildRowProps {
   mappings: PathMappings;
@@ -99,14 +99,9 @@ const BuildRow: React.FC<BuildRowProps> = ({
     if (column?.value) {
       rowCellData = column.value;
     } else if (column?.infoPath) {
-      rowCellData = (
-        <span
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(
-              evaluateValue(entry, mappings[column.infoPath]),
-            ),
-          }}
-        />
+      rowCellData = splitStringWith(
+        evaluateValue(entry, mappings[column.infoPath]),
+        "<br/>",
       );
     }
 
@@ -117,10 +112,6 @@ const BuildRow: React.FC<BuildRowProps> = ({
     if (!rowCellData) {
       rowCellData = <span className={"text-italic text-base"}>No data</span>;
     }
-
-    // rowCellData = (
-    //   <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rowCellData) }} />
-    // );
 
     if (rowCellData && column.hiddenBaseText) {
       hiddenRows.push(
@@ -159,6 +150,30 @@ const BuildRow: React.FC<BuildRowProps> = ({
   } else {
     return <tr>{rowCells}</tr>;
   }
+};
+
+const splitStringWith = (
+  input: string,
+  splitter: string,
+): (string | JSX.Element)[] | string => {
+  // Split the input string by <br/> tag
+  const parts = input.split(splitter);
+
+  // If there is no <br/> in the input string, return the string as a single element array
+  if (parts.length === 1) {
+    return input;
+  }
+
+  // Create an array with strings and JSX <br /> elements
+  const result: (string | JSX.Element)[] = [];
+  parts.forEach((part, index) => {
+    result.push(part);
+    if (index < parts.length - 1) {
+      result.push(<br key={index} />);
+    }
+  });
+
+  return result;
 };
 
 export default EvaluateTable;
