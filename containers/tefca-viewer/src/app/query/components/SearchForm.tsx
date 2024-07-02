@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
-import { USE_CASES } from "../../query-service";
-import { FHIR_SERVERS, fhirServers } from "../../fhir-servers";
+import { fhirServers } from "../../fhir-servers";
+import { USE_CASES, FHIR_SERVERS } from "../../constants";
 import {
   UseCaseQueryResponse,
   UseCaseQuery,

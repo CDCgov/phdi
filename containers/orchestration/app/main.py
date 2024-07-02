@@ -29,6 +29,7 @@ from app.models import OrchestrationResponse
 from app.models import ProcessingConfigModel
 from app.models import PutConfigResponse
 from app.services import call_apis
+from app.utils import _combine_response_bundles
 from app.utils import _socket_response_is_valid
 from app.utils import load_config_assets
 from app.utils import load_json_from_binary
@@ -143,15 +144,15 @@ async def process_message_endpoint_ws(
 
 # TODO: This method needs request validation on message_type
 # Should make them into Field values and validate with Pydantic
-@app.post("/process", status_code=200, responses=process_message_response_examples)
-async def process_endpoint(
+@app.post("/process-zip", status_code=200, responses=process_message_response_examples)
+async def process_zip_endpoint(
     message_type: str = Form(None),
     data_type: str = Form(None),
     config_file_name: str = Form(None),
     upload_file: UploadFile = File(None),
 ) -> OrchestrationResponse:
     """
-    Wrapper function for unpacking an uploaded file, determining appropriate
+    Wrapper function for unpacking an uploaded zip file, determining appropriate
     parameter and application settings, and applying a config-driven workflow
     to the data in that file. This is one of two endpoints that can actually
     invoke and apply a config workflow to data and is meant to be used to
@@ -348,7 +349,9 @@ async def apply_workflow_to_message(
                 workflow_content = json.dumps(
                     {
                         "message": "Processing succeeded!",
-                        "processed_values": response.json(),
+                        "processed_values": _combine_response_bundles(
+                            response, responses, processing_config
+                        ),
                     }
                 )
             case _:
