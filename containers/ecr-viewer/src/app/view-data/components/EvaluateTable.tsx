@@ -110,11 +110,11 @@ const BuildRow: React.FC<BuildRowProps> = ({
       rowCellData = column.applyToValue(rowCellData);
     }
 
-    if (column.hiddenBaseText) {
+    if (rowCellData && column.hiddenBaseText) {
       hiddenRows.push(
         <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
           <td colSpan={columns.length} className={"hideableData"}>
-            {rowCellData ? rowCellData : noData}
+            {rowCellData}
           </td>
         </tr>,
       );

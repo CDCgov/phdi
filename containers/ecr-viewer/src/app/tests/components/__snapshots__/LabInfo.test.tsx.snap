@@ -201,29 +201,8 @@ Burbank, CA
                       <td
                         class="text-top"
                       >
-                        <button
-                          aria-controls="hidden-comment-4"
-                          aria-expanded="false"
-                          class="usa-button usa-button--unstyled"
-                          data-testid="button"
-                          type="button"
-                        >
-                          View
-                           
-                          comment
-                        </button>
-                      </td>
-                    </tr>
-                    <tr
-                      hidden=""
-                      id="hidden-comment-4"
-                    >
-                      <td
-                        class="hideableData"
-                        colspan="5"
-                      >
                         <span
-                          class="text-italic text-base"
+                          class="no-data text-italic text-base"
                         >
                           No data
                         </span>
@@ -253,29 +232,8 @@ Burbank, CA
                       <td
                         class="text-top"
                       >
-                        <button
-                          aria-controls="hidden-comment-4"
-                          aria-expanded="false"
-                          class="usa-button usa-button--unstyled"
-                          data-testid="button"
-                          type="button"
-                        >
-                          View
-                           
-                          comment
-                        </button>
-                      </td>
-                    </tr>
-                    <tr
-                      hidden=""
-                      id="hidden-comment-4"
-                    >
-                      <td
-                        class="hideableData"
-                        colspan="5"
-                      >
                         <span
-                          class="text-italic text-base"
+                          class="no-data text-italic text-base"
                         >
                           No data
                         </span>
@@ -573,29 +531,8 @@ Burbank, CA
                       <td
                         class="text-top"
                       >
-                        <button
-                          aria-controls="hidden-comment-4"
-                          aria-expanded="false"
-                          class="usa-button usa-button--unstyled"
-                          data-testid="button"
-                          type="button"
-                        >
-                          View
-                           
-                          comment
-                        </button>
-                      </td>
-                    </tr>
-                    <tr
-                      hidden=""
-                      id="hidden-comment-4"
-                    >
-                      <td
-                        class="hideableData"
-                        colspan="5"
-                      >
                         <span
-                          class="text-italic text-base"
+                          class="no-data text-italic text-base"
                         >
                           No data
                         </span>
@@ -625,29 +562,8 @@ Burbank, CA
                       <td
                         class="text-top"
                       >
-                        <button
-                          aria-controls="hidden-comment-4"
-                          aria-expanded="false"
-                          class="usa-button usa-button--unstyled"
-                          data-testid="button"
-                          type="button"
-                        >
-                          View
-                           
-                          comment
-                        </button>
-                      </td>
-                    </tr>
-                    <tr
-                      hidden=""
-                      id="hidden-comment-4"
-                    >
-                      <td
-                        class="hideableData"
-                        colspan="5"
-                      >
                         <span
-                          class="text-italic text-base"
+                          class="no-data text-italic text-base"
                         >
                           No data
                         </span>
@@ -1036,7 +952,7 @@ NASHVILLE, TN
                         class="text-top"
                       >
                         <span
-                          class="text-italic text-base"
+                          class="no-data text-italic text-base"
                         >
                           No data
                         </span>
