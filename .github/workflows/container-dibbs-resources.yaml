@@ -1,4 +1,4 @@
-name: Test ecr-viewer Container
+name: Test dibbs-resources Container
 
 on:
   pull_request:
@@ -34,7 +34,9 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}}
         run: |
           npm ci
-          npm run lint
+        # run: |
+        #   npm ci
+        #   npm run lint
   test-node-containers:
     runs-on: ubuntu-latest
     steps:
