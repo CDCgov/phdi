@@ -95,7 +95,7 @@ jobs:
       - name: Build ${{ env.CONTAINER }} Container
         uses: docker/build-push-action@v3
         with:
-          context: ./containers/${{ env.CONTAINER }}
-          push: false
+          context: ../..
+          file: containers/{{ env.CONTAINER }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
