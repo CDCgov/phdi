@@ -1,6 +1,6 @@
 import React from "react";
 import { Bundle, Observation, Organization, Reference } from "fhir/r4";
-import { PathMappings, ColumnInfoInput, noData } from "@/app/utils";
+import { PathMappings, noData } from "@/app/utils";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
@@ -12,7 +12,9 @@ import {
   TableJson,
 } from "@/app/services/formatService";
 import { ObservationComponent } from "fhir/r4b";
-import EvaluateTable from "@/app/view-data/components/EvaluateTable";
+import EvaluateTable, {
+  ColumnInfoInput,
+} from "@/app/view-data/components/EvaluateTable";
 import { evaluateReference, evaluateValue } from "./evaluateFhirDataService";
 import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 

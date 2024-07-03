@@ -2,7 +2,9 @@ import {
   calculatePatientAge,
   evaluateReference,
 } from "@/app/services/evaluateFhirDataService";
-import EvaluateTable from "@/app/view-data/components/EvaluateTable";
+import EvaluateTable, {
+  ColumnInfoInput,
+} from "@/app/view-data/components/EvaluateTable";
 import {
   TableRow,
   formatName,
@@ -11,12 +13,7 @@ import {
   toSentenceCase,
   formatDate,
 } from "@/app/services/formatService";
-import {
-  ColumnInfoInput,
-  PathMappings,
-  evaluateData,
-  noData,
-} from "@/app/utils";
+import { PathMappings, evaluateData, noData } from "@/app/utils";
 import { Table } from "@trussworks/react-uswds";
 import {
   Bundle,
