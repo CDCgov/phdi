@@ -12,6 +12,7 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   const isDevelopment = process.env.NODE_ENV === "development";
   const isTest = process.env.APP_ENV === "test";
+  console.log("test: " + isTest);
   const needsAuth = !isDevelopment && !isTest;
 
   const oauthToken = await getToken({

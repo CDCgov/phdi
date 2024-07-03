@@ -1,5 +1,8 @@
 FROM node:18-alpine AS base
 
+ARG APP_ENV
+ENV APP_ENV=${APP_ENV}
+
 # Install dependencies only when needed
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
@@ -28,7 +31,6 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
-ENV APP_ENV test
 # Uncomment the following line in case you want to disable telemetry during runtime.
 ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -68,5 +70,4 @@ ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4318/v1/traces
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-
-CMD ["node", "server.js"]
+CMD node server.js
