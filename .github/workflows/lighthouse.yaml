@@ -34,7 +34,7 @@ jobs:
         run: cp -r ../../shared-resources/src/ ./src/app/shared/src
 
       - name: Build app
-        run: docker-compose up
+        run: docker-compose up -d
         working-directory: ./containers/ecr-viewer
 
       - name: Wait for Application to be ready
