@@ -14,8 +14,6 @@ ellipses, then click the download icon).
 
 https://cste-my.sharepoint.com/personal/dbarter_cste_org/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fdbarter%5Fcste%5Forg%2FDocuments%2FRCKMS%2FContent%20Releases%2FRCKMS%20Content%20Release%2011
 
-# FIXME: Determine a way to download the archive programmatically
-
 
 Example:
     $ python seed_rckms_database.py archive.zip
@@ -43,6 +41,7 @@ OID_RE = re.compile(r"^(?:[0-9]+\.)+[0-9]+$")
 CONCURRENT_REQUESTS = 20
 
 
+# FIXME: Determine a way to download the archive programmatically
 # TODO: store the CodeSets in a SQLite database
 
 
