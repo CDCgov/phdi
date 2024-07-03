@@ -18,6 +18,9 @@ flags:
   dibbs:
     paths:
       - "containers/dibbs"
+  dibbs-resources:
+    paths:
+      - "containers/dibbs-resources"
   ecr-viewer:
     paths:
       - "containers/ecr-viewer"
