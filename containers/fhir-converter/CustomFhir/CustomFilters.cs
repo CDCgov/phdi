@@ -249,7 +249,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       loincDict.TryGetValue(loinc, out string? element);
       return element;
     }
-    
+
     /// <summary>
     /// Searches for an object with a specified ID within a given data structure.
     /// </summary>
@@ -332,7 +332,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         bool allElementsAreStrings = list.Cast<object>().All(row => row is string);
         if (allElementsAreStrings)
         {
-          return string.Join(" ", list.Cast<object>().Reverse().ToList());
+          return string.Join("<br/>", list.Cast<object>().Reverse().ToList());
         }
         else
         {
@@ -356,7 +356,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
               result.Add(item.ToString() ?? "");
             }
           }
-          return string.Join(" ", result); 
+          return string.Join("<br/>", result);
         }
       }
 
@@ -364,10 +364,10 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       {
         List<string> result = new List<string>();
         foreach (var kvp in dictObject)
-          {
-            result.Add(kvp.Value.ToString() ?? "");
-          }
-        return string.Join(" ", result);
+        {
+          result.Add(kvp.Value.ToString() ?? "");
+        }
+        return string.Join("<br/>", result);
       }
       return string.Empty;
     }
