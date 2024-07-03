@@ -78,13 +78,21 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             </div>
             {relevantClinical &&
               relevantClinical.length > 0 &&
-              relevantClinical.map((item) => <DataTableDisplay item={item} />)}
+              relevantClinical.map((item, index) => (
+                <div key={index}>
+                  <DataTableDisplay item={item} />
+                </div>
+              ))}
             <div className="ecr-summary-title-long" id={"relevant-labs"}>
               {"Lab Results Relevant to Reportable Condition"}
             </div>
             {relevantLabs &&
               relevantLabs.length > 0 &&
-              relevantLabs.map((item) => <DataTableDisplay item={item} />)}
+              relevantLabs.map((item, index) => (
+                <div key={index}>
+                  <DataTableDisplay item={item} />
+                </div>
+              ))}
           </div>
         </div>
       </div>
