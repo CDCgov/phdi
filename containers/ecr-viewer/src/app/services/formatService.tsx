@@ -187,6 +187,7 @@ export function convertUTCToLocalString(utcDateString: string): string {
 export const formatDate = (dateString?: string): string | undefined => {
   if (dateString) {
     let date = new Date(dateString);
+
     if (date.toString() == "Invalid Date") {
       const formattedDate = `${dateString.substring(
         0,
