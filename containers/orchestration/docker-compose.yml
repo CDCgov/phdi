@@ -57,6 +57,7 @@ services:
     logging:
       driver: "json-file"
   trigger-code-reference-service:
+    platform: linux/amd64
     build:
       context: ../trigger-code-reference
     ports:
