@@ -73,7 +73,6 @@ services:
     ports:
       - "16686:16686" # serves frontend and queries
   prometheus:
-    platform: linux/amd64
     image: prom/prometheus:latest
     ports:
       - "9090:9090"
@@ -81,7 +80,6 @@ services:
       - "./prometheus.yml:/etc/prometheus/prometheus.yml"
       - "prom_data:/prometheus"
   otel-collector:
-    platform: linux/amd64
     image: otel/opentelemetry-collector-contrib:latest
     container_name: "otel-collector"
     volumes:
