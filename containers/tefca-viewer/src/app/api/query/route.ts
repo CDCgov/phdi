@@ -39,11 +39,17 @@ export async function POST(request: NextRequest) {
   try {
     requestBody = await request.json();
   } catch (error: any) {
-    console.error("Error reading request body:", error);
-    return NextResponse.json(
-      { message: "Error reading request body. " + error.message },
-      { status: error.status }
-    );
+    const OperationOutcome: OperationOutcome = {
+      resourceType: "OperationOutcome",
+      issue: [
+        {
+          severity: "error",
+          code: "invalid",
+          diagnostics: `Error reading request body. ${error.message}`,
+        },
+      ],
+    };
+    return NextResponse.json(OperationOutcome);
   }
 
   // Parse patient identifiers from requestBody
