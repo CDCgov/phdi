@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 [**ecr-viewer**](../../../README.md) • **Docs**
 
 ***
 
 [ecr-viewer](../../../README.md) / [metrics/route](../README.md) / POST
+=======
+[**ecr-viewer**](../../../../README.md) • **Docs**
+
+***
+
+[ecr-viewer](../../../../README.md) / [api/metrics/route](../README.md) / POST
+>>>>>>> b91b512a (docs)
 
 # Function: POST()
 
@@ -29,4 +37,8 @@ A promise that resolves to a `NextResponse` object
 
 ## Defined in
 
+<<<<<<< HEAD
 [metrics/route.ts:14](https://github.com/CDCgov/phdi/blob/dbe13517da6c10296fb0f8b7c72a5ebb1d47f2c7/containers/ecr-viewer/src/app/api/metrics/route.ts#L14)
+=======
+[src/app/api/metrics/route.ts:14](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/api/metrics/route.ts#L14)
+>>>>>>> b91b512a (docs)
