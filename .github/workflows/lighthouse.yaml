@@ -31,10 +31,10 @@ jobs:
 
       - name: Copy shared-resources (if needed)
         working-directory: ./containers/ecr-viewer
-        run: cp -r ../../shared-resources/src/ ./src/app/shared/
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/src
 
       - name: Build app
-        run: docker-compose up -d
+        run: docker-compose up
         working-directory: ./containers/ecr-viewer
 
       - name: Wait for Application to be ready

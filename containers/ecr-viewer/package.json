@@ -11,7 +11,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prod": "next build && next start",
     "test": "TZ=America/New_York jest",
     "test:watch": "TZ=America/New_York jest --watch",
     "convert-seed-data": "docker compose -f ./seed-scripts/docker-compose.yml up --abort-on-container-exit",
