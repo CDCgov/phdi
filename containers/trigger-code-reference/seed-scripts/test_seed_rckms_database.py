@@ -1,14 +1,13 @@
 """
 Test cases for the seed_rckms_database.py script.
 """
+
 import unittest
 import unittest.mock
 import urllib.request
-import xml.etree.ElementTree
 
 import bs4
 import seed_rckms_database as srd
-
 
 
 def test_extract_condition_from_rckms_doc():
@@ -41,7 +40,7 @@ def test_extract_condition_from_rckms_doc():
 
 def test_extract_condition_from_rckms_doc_with_underscore():
     """
-    Test the extract_condition_from_rckms_doc function with 
+    Test the extract_condition_from_rckms_doc function with
     a file name that contains an underscore.
     """
     # Create a mock docx file
@@ -54,9 +53,10 @@ def test_extract_condition_from_rckms_doc_with_underscore():
         snomed="",
     )
 
+
 def test_extract_condition_from_rckms_doc_with_multiple_periods():
     """
-    Test the extract_condition_from_rckms_doc function with 
+    Test the extract_condition_from_rckms_doc function with
     a file name that contains mukltiple periods.
     """
     # Create a mock docx file
@@ -239,13 +239,14 @@ class TestQueryValueSetAPI(unittest.TestCase):
         assert req.get_header("Accept") == "application/fhir+json; fhirVersion=4.0.1"
         assert req.get_full_url() == "https://cts.nlm.nih.gov/fhir/ValueSet/1/$expand"
 
-
     @unittest.mock.patch("seed_rckms_database.UMLS_API_KEY", new="key")
     @unittest.mock.patch("urllib.request.urlopen")
     def test_query_valueset_api_404(self, mock_urlopen):
         """Test the query_valueset_api function when a 404 error is returned."""
         # Create a mock for the urlopen function
-        mock_urlopen.side_effect = urllib.error.HTTPError('http://example.com', 404, 'Not Found', {}, None)
+        mock_urlopen.side_effect = urllib.error.HTTPError(
+            "http://example.com", 404, "Not Found", {}, None
+        )
         result = srd.query_valueset_api("1")
         assert result == {}
 
@@ -260,12 +261,14 @@ class TestQueryValueSetAPI(unittest.TestCase):
         # Have the mock function raise an exception the first time it is called
         # and then return a valid response the second time it is called
         mock_urlopen.side_effect = [
-            urllib.error.HTTPError('http://example.com', 500, 'Error', {}, None),
-            mock_response
+            urllib.error.HTTPError("http://example.com", 500, "Error", {}, None),
+            mock_response,
         ]
         result = srd.query_valueset_api("1", retries=1)
         assert result == {"key": "value"}
         # Have the mock function always raise an exception
-        mock_urlopen.side_effect = urllib.error.HTTPError('http://example.com', 500, 'Error', {}, None)
+        mock_urlopen.side_effect = urllib.error.HTTPError(
+            "http://example.com", 500, "Error", {}, None
+        )
         with self.assertRaises(urllib.error.HTTPError):
             srd.query_valueset_api("1", retries=2)

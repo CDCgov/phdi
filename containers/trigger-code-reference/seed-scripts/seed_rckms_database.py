@@ -39,7 +39,7 @@ import bs4
 import mammoth
 
 UMLS_API_KEY = os.getenv("UMLS_API_KEY", default=None)
-OID_RE = re.compile(r'^(?:[0-9]+\.)+[0-9]+$')
+OID_RE = re.compile(r"^(?:[0-9]+\.)+[0-9]+$")
 CONCURRENT_REQUESTS = 20
 
 
@@ -84,6 +84,7 @@ class CodeSet:
     """
     A CodeSet retrieved from the NIH UMLS API
     """
+
     code: str
     display: str
     system: str
@@ -100,7 +101,7 @@ def batched(iterable, n):
     Backport of the itertools 'batched' function from Python 3.12.
     """
     if n < 1:
-        raise ValueError('n must be at least one')
+        raise ValueError("n must be at least one")
     iterator = iter(iterable)
     while batch := tuple(itertools.islice(iterator, n)):
         yield batch
@@ -137,9 +138,11 @@ def list_docx_files(archive: str) -> typing.Iterable[tuple[str, typing.IO[bytes]
                     yield name, f
 
 
-def extract_condition_from_rckms_doc(filename: str, tree: bs4.BeautifulSoup) -> Condition:
+def extract_condition_from_rckms_doc(
+    filename: str, tree: bs4.BeautifulSoup
+) -> Condition:
     """
-    Given a RCKMS docx file, iterate through items specified in the summary and extract 
+    Given a RCKMS docx file, iterate through items specified in the summary and extract
     data from the file name to construct a Condition object.
 
     :param filename: The filename of the docx file.
@@ -254,7 +257,9 @@ def query_valueset_api(oid: str, retries: int = 2) -> dict:
         raise
 
 
-def parse_archive(archive: str, limit: int | None = None) -> tuple[list[Condition], dict[str, ValueSet]]:
+def parse_archive(
+    archive: str, limit: int | None = None
+) -> tuple[list[Condition], dict[str, ValueSet]]:
     """
     Given an archive of RCKMS reporting specifications, extract the ValueSets for
     each condition.
@@ -303,7 +308,7 @@ def retrieve_codesets(data: dict[str, ValueSet]) -> dict[str, list[CodeSet]]:
 
     async def retrieve_codesets(oids: typing.Iterable[str]):
         """
-        Retrieve the CodeSets for the given OIDs asynchronously.  Async calls are 
+        Retrieve the CodeSets for the given OIDs asynchronously.  Async calls are
         preferred since the API calls are I/O bound, and we should be able to increase
         performance by making multiple requests concurrently.
 
@@ -322,13 +327,12 @@ def retrieve_codesets(data: dict[str, ValueSet]) -> dict[str, list[CodeSet]]:
             responses = await asyncio.gather(*tasks)
         return responses
 
-
     # process the OIDs in batches to avoid making too many requests at once
     for oids in batched(data.keys(), CONCURRENT_REQUESTS):
         # run the async function to retrieve the CodeSets for the OIDs
         for response in asyncio.run(retrieve_codesets(oids)):
             try:
-                # attempt to parse the OID, version, author and concept list from 
+                # attempt to parse the OID, version, author and concept list from
                 # the response. If any of these keys are missing, skip the response.
                 oid = response["id"]
                 version = response["version"]
