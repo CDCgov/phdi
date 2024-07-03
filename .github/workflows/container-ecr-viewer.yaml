@@ -95,8 +95,7 @@ jobs:
       - name: Build ${{ env.CONTAINER }} Container
         uses: docker/build-push-action@v3
         with:
-          context: ../..
-          dockerfile: containers/ecr-viewer/Dockerfile.dev
+          context: ./containers/${{ env.CONTAINER }}
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
