@@ -1,9 +1,4 @@
 "use strict";
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccordionContainer =
   exports.removeHtmlElements =
@@ -118,6 +113,6 @@ var AccordionContainer_1 = require("./accordion/AccordionContainer");
 Object.defineProperty(exports, "AccordionContainer", {
   enumerable: true,
   get: function () {
-    return __importDefault(AccordionContainer_1).default;
+    return AccordionContainer_1.AccordionContainer;
   },
 });
