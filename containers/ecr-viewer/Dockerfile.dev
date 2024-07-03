@@ -1,9 +1,27 @@
 FROM node:18-alpine
 
 WORKDIR /code
-COPY . .
+
+# Copy package.json and package-lock.json files
+COPY containers/ecr-viewer/package.json containers/ecr-viewer/package-lock.json /code/ecr-viewer/
+COPY shared-resources/package.json shared-resources/package-lock.json /code/shared-resources/
+
+# Install dependencies for shared-resources
+WORKDIR /code/shared-resources
+RUN npm ci
+
+# Install dependencies for ecr-viewer
+WORKDIR /code/ecr-viewer
 RUN npm install
 
+# Copy the application code
+COPY containers/ecr-viewer /code/ecr-viewer
+COPY shared-resources /code/shared-resources
+
+# Remove any existing data in the shared folder and copy the shared resources
+RUN rm -rf /code/ecr-viewer/src/app/shared/* && cp -r /code/shared-resources/src/* /code/ecr-viewer/src/app/shared/
+
+WORKDIR /code/ecr-viewer
 
 EXPOSE 3000
 

@@ -7,21 +7,33 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json package-lock.json* ./
+COPY containers/ecr-viewer/package.json containers/ecr-viewer/package-lock.json /app/ecr-viewer/
+COPY shared-resources/package.json shared-resources/package-lock.json /app/shared-resources/
+
+# Install dependencies for shared-resources
+WORKDIR /app/shared-resources
 RUN npm ci
 
+# Install dependencies for ecr-viewer
+WORKDIR /app/ecr-viewer
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY --from=deps /app/ecr-viewer/node_modules /app/node_modules
+COPY containers/ecr-viewer /app/ecr-viewer
+COPY shared-resources /app/shared-resources
+
+# Remove any existing data in the shared folder and copy the shared resources
+RUN rm -rf /app/ecr-viewer/src/app/shared/* && cp -r /app/shared-resources/src/* /app/ecr-viewer/src/app/shared/
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+WORKDIR /app/ecr-viewer
 RUN npm run build
 
 # Production image, copy all the files and run next
@@ -43,8 +55,8 @@ RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/ecr-viewer/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/ecr-viewer/.next/static ./.next/static
 
 USER nextjs
 
