@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 [**ecr-viewer**](../../../README.md) • **Docs**
 
 ***
 
 [ecr-viewer](../../../README.md) / [fhir-data/route](../README.md) / GET
+=======
+[**ecr-viewer**](../../../../README.md) • **Docs**
+
+***
+
+[ecr-viewer](../../../../README.md) / [api/fhir-data/route](../README.md) / GET
+>>>>>>> b91b512a (docs)
 
 # Function: GET()
 
@@ -29,4 +37,8 @@ A promise that resolves to a `NextResponse` object
 
 ## Defined in
 
+<<<<<<< HEAD
 [fhir-data/route.ts:17](https://github.com/CDCgov/phdi/blob/dbe13517da6c10296fb0f8b7c72a5ebb1d47f2c7/containers/ecr-viewer/src/app/api/fhir-data/route.ts#L17)
+=======
+[src/app/api/fhir-data/route.ts:17](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/api/fhir-data/route.ts#L17)
+>>>>>>> b91b512a (docs)
