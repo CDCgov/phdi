@@ -190,7 +190,7 @@ async function syphilisQuery(
   fhirClient: FHIRClient,
   queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
-  const loincs: Array<string> = ["LP70657-9", "98212-4", "53605-2"];
+  const loincs: Array<string> = ["LP70657-9", "53605-2"];
   const snomed: Array<string> = ["76272004", "186847001"];
   const rxnorm: Array<string> = ["2671695"]; // drug codes from NLM/NIH RxNorm
   const classType: Array<string> = [
