@@ -7,7 +7,7 @@ import { OperationOutcome } from "fhir/r4";
  * @returns OperationOutcome with the included error message.
  */
 export async function handleRequestError(
-  diagnostics_message: string
+  diagnostics_message: string,
 ): Promise<OperationOutcome> {
   const OperationOutcome: OperationOutcome = {
     resourceType: "OperationOutcome",
