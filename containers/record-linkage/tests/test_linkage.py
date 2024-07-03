@@ -16,6 +16,7 @@ from app.linkage.link import _compare_name_elements
 from app.linkage.link import _condense_extract_address_from_resource
 from app.linkage.link import _convert_given_name_to_first_name
 from app.linkage.link import _flatten_patient_resource
+from app.linkage.link import _get_fuzzy_params
 from app.linkage.link import _match_within_block_cluster_ratio
 from app.linkage.link import add_person_resource
 from app.linkage.link import eval_log_odds_cutoff
@@ -179,6 +180,21 @@ def test_feature_match_exact():
 
     # Special case for matching None--None == None is vacuous
     assert feature_match_exact([None], [None], "col_7", {"col_7": 0})
+
+
+def test_get_fuzzy_params():
+    kwargs = {
+        "similarity_measure": "Levenshtein",
+        "thresholds": {"city": 0.95, "address": 0.98},
+    }
+
+    assert _get_fuzzy_params("city", **kwargs) == ("Levenshtein", 0.95)
+    assert _get_fuzzy_params("address", **kwargs) == ("Levenshtein", 0.98)
+    assert _get_fuzzy_params("first_name", **kwargs) == ("Levenshtein", 0.7)
+
+    del kwargs["similarity_measure"]
+
+    assert _get_fuzzy_params("last_name", **kwargs) == ("JaroWinkler", 0.7)
 
 
 def test_feature_match_fuzzy_string():
