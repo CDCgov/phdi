@@ -16,4 +16,4 @@ export {
   addCaptionToTable,
   removeHtmlElements,
 } from "./services/formatService";
-export { default as AccordionContainer } from "./accordion/AccordionContainer";
+export { AccordionContainer } from "./accordion/AccordionContainer";

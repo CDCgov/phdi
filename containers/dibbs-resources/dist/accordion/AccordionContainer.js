@@ -5,6 +5,7 @@ var __importDefault =
     return mod && mod.__esModule ? mod : { default: mod };
   };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AccordionContainer = void 0;
 const react_1 = __importDefault(require("react"));
 const react_uswds_1 = require("@trussworks/react-uswds");
 const formatService_1 = require("../services/formatService");
@@ -33,4 +34,4 @@ const AccordionContainer = ({ accordionItems }) => {
     multiselectable: true,
   });
 };
-exports.default = AccordionContainer;
+exports.AccordionContainer = AccordionContainer;

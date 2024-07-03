@@ -10,5 +10,5 @@ type AccordionContainerProps = {
  * @param props.accordionItems - The list of accordion items.
  * @returns The JSX element representing the accordion container.
  */
-declare const AccordionContainer: React.FC<AccordionContainerProps>;
-export default AccordionContainer;
+export declare const AccordionContainer: React.FC<AccordionContainerProps>;
+export {};
