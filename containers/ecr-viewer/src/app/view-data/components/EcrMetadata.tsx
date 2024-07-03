@@ -5,7 +5,7 @@ import {
 } from "../component-utils";
 import { Table } from "@trussworks/react-uswds";
 import { ToolTipElement } from "@/app/ToolTipElement";
-import { ReportableConditions } from "../../services/ecrMetadataService";
+import { ReportableConditions } from "@/app/services/ecrMetadataService";
 import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 import React from "react";
 

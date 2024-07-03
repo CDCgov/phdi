@@ -1,0 +1,16 @@
+{
+  "entryPoints": [
+    "src/app"
+  ],
+  "out": "docs",
+  "exclude": [
+    "**/__tests__/**/*",
+    "**/*.spec.ts"
+  ],
+  "plugin": [
+    "typedoc-plugin-markdown"
+  ],
+  "readme": "none",
+  "tsconfig": "tsconfig.json",
+  "entryPointStrategy": "expand"
+}
