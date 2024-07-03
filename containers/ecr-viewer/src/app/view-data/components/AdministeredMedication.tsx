@@ -1,29 +1,27 @@
 import { noData, PathMappings } from "@/app/utils";
 import { Bundle, Medication, MedicationAdministration } from "fhir/r4";
 import { evaluateReference } from "@/app/services/evaluateFhirDataService";
-import { evaluate } from "@/app/view-data/utils/evaluate";
 import { Table } from "@trussworks/react-uswds";
 import { formatDate } from "@/app/services/formatService";
 
 type AdministeredMedicationProps = {
   fhirBundle: Bundle;
   mappings: PathMappings;
+  administeredMedicationReferences?: string[];
 };
 /**
  * Returns a table displaying administered medication information.
  * @param props - Props for the component.
  * @param props.fhirBundle - The FHIR bundle containing care team data.
  * @param props.mappings - The object containing the fhir paths.
+ * @param props.administeredMedicationReferences - The object containing administered medication references
  * @returns The JSX element representing the table, or undefined if no administered medications are found.
  */
 export const AdministeredMedication = ({
   fhirBundle,
   mappings,
+  administeredMedicationReferences,
 }: AdministeredMedicationProps) => {
-  const administeredMedicationReferences: string[] | undefined = evaluate(
-    fhirBundle,
-    mappings["adminMedicationsRefs"],
-  );
   if (!administeredMedicationReferences?.length) {
     return null;
   }

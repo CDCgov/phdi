@@ -29,6 +29,9 @@ describe("AdminMedTable", () => {
       <AdministeredMedication
         fhirBundle={BundleMedication as unknown as Bundle}
         mappings={fhirPathMappings}
+        administeredMedicationReferences={[
+          "MedicationAdministration/367be6b3-75f2-2053-63e4-f0a6f1d6bff1",
+        ]}
       />,
     );
 

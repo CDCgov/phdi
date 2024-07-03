@@ -489,6 +489,10 @@ export const evaluateClinicalData = (
       </>
     );
   }
+  const administeredMedicationReferences: string[] | undefined = evaluate(
+    fhirBundle,
+    mappings["adminMedicationsRefs"],
+  );
 
   const treatmentData: DisplayDataProps[] = [
     {
@@ -511,8 +515,12 @@ export const evaluateClinicalData = (
     },
     {
       title: "Administered Medications",
-      value: (
-        <AdministeredMedication fhirBundle={fhirBundle} mappings={mappings} />
+      value: administeredMedicationReferences?.length && (
+        <AdministeredMedication
+          administeredMedicationReferences={administeredMedicationReferences}
+          fhirBundle={fhirBundle}
+          mappings={mappings}
+        />
       ),
     },
     {
