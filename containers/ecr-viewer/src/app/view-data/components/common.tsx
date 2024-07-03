@@ -566,6 +566,12 @@ export const evaluateClinicalData = (
   };
 };
 
+/**
+ * Find administered medication in a fhir bundle
+ * @param fhirBundle - The FHIR bundle containing administered medication.
+ * @param mappings - The object containing the fhir paths.
+ * @returns - Administered data array
+ */
 const evaluateAdministeredMedication = (
   fhirBundle: Bundle,
   mappings: PathMappings,
