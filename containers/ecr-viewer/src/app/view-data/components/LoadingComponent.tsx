@@ -1,12 +1,12 @@
 "use client";
 import { Accordion, Grid, GridContainer } from "@trussworks/react-uswds";
-import {
-  AccordionSection,
-  AccordionH4,
-  AccordionDiv,
-} from "../component-utils";
 import { ExpandCollapseButtons } from "./ExpandCollapseButtons";
 import SideNav from "./SideNav";
+import {
+  AccordionDiv,
+  AccordionH4,
+  AccordionSection,
+} from "../component-utils";
 
 /**
  * Renders the loading blobs in gray or in blue
