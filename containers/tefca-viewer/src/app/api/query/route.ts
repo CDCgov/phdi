@@ -14,7 +14,7 @@ import {
   UseCases,
 } from "../../constants";
 
-import { OperationOutcome } from "fhir/r4";
+import { handleRequestError } from "./error-handling-service";
 
 /**
  * Health check for TEFCA Viewer
@@ -39,16 +39,8 @@ export async function POST(request: NextRequest) {
   try {
     requestBody = await request.json();
   } catch (error: any) {
-    const OperationOutcome: OperationOutcome = {
-      resourceType: "OperationOutcome",
-      issue: [
-        {
-          severity: "error",
-          code: "invalid",
-          diagnostics: `Error reading request body. ${error.message}`,
-        },
-      ],
-    };
+    const diagnostics_message = `Error reading request body. ${error.message}`;
+    const OperationOutcome = await handleRequestError(diagnostics_message);
     return NextResponse.json(OperationOutcome);
   }
 
@@ -56,16 +48,9 @@ export async function POST(request: NextRequest) {
   try {
     PatientIdentifiers = await parsePatientDemographics(requestBody);
   } catch (error: any) {
-    const OperationOutcome: OperationOutcome = {
-      resourceType: "OperationOutcome",
-      issue: [
-        {
-          severity: "error",
-          code: "invalid",
-          diagnostics: "Error parsing patient identifiers from requestBody.",
-        },
-      ],
-    };
+    const diagnostics_message =
+      "Error parsing patient identifiers from requestBody.";
+    const OperationOutcome = await handleRequestError(diagnostics_message);
     return NextResponse.json(OperationOutcome);
   }
 
@@ -75,43 +60,18 @@ export async function POST(request: NextRequest) {
   const fhir_server = params.get("fhir_server");
 
   if (!use_case || !fhir_server) {
-    const OperationOutcome: OperationOutcome = {
-      resourceType: "OperationOutcome",
-      issue: [
-        {
-          severity: "error",
-          code: "invalid",
-          diagnostics: "Invalid use_case or fhir_server.",
-        },
-      ],
-    };
+    const diagnostics_message = "Missing use_case or fhir_server.";
+    const OperationOutcome = await handleRequestError(diagnostics_message);
     return NextResponse.json(OperationOutcome);
   } else if (!Object.values(UseCases).includes(use_case as USE_CASES)) {
-    const OperationOutcome: OperationOutcome = {
-      resourceType: "OperationOutcome",
-      issue: [
-        {
-          severity: "error",
-          code: "invalid",
-          diagnostics: `Invalid use_case. Please provide a valid use_case. Valid use_cases include ${UseCases}.`,
-        },
-      ],
-    };
-
+    const diagnostics_message = `Invalid use_case. Please provide a valid use_case. Valid use_cases include ${UseCases}.`;
+    const OperationOutcome = await handleRequestError(diagnostics_message);
     return NextResponse.json(OperationOutcome);
   } else if (
     !Object.values(FhirServers).includes(fhir_server as FHIR_SERVERS)
   ) {
-    const OperationOutcome: OperationOutcome = {
-      resourceType: "OperationOutcome",
-      issue: [
-        {
-          severity: "error",
-          code: "invalid",
-          diagnostics: `Invalid fhir_server. Please provide a valid fhir_server. Valid fhir_servers include ${FhirServers}.`,
-        },
-      ],
-    };
+    const diagnostics_message = `Invalid fhir_server. Please provide a valid fhir_server. Valid fhir_servers include ${FhirServers}.`;
+    const OperationOutcome = await handleRequestError(diagnostics_message);
     return NextResponse.json(OperationOutcome);
   }
 
