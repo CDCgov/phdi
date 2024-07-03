@@ -22,6 +22,8 @@ import {
   Condition,
   FhirResource,
   Immunization,
+  Medication,
+  MedicationAdministration,
   Organization,
   Practitioner,
   Procedure,
@@ -29,7 +31,10 @@ import {
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import parse from "html-react-parser";
 import { DisplayDataProps } from "@/app/DataDisplay";
-import { AdministeredMedication } from "@/app/view-data/components/AdministeredMedication";
+import {
+  AdministeredMedication,
+  AdministeredMedicationData,
+} from "@/app/view-data/components/AdministeredMedication";
 
 /**
  * Returns a table displaying care team information.
@@ -489,10 +494,13 @@ export const evaluateClinicalData = (
       </>
     );
   }
-  const administeredMedicationReferences: string[] | undefined = evaluate(
+
+  const administeredMedication = evaluateAdministeredMedication(
     fhirBundle,
-    mappings["adminMedicationsRefs"],
+    mappings,
   );
+
+  console.log(administeredMedication);
 
   const treatmentData: DisplayDataProps[] = [
     {
@@ -515,12 +523,8 @@ export const evaluateClinicalData = (
     },
     {
       title: "Administered Medications",
-      value: administeredMedicationReferences?.length && (
-        <AdministeredMedication
-          administeredMedicationReferences={administeredMedicationReferences}
-          fhirBundle={fhirBundle}
-          mappings={mappings}
-        />
+      value: administeredMedication?.length && (
+        <AdministeredMedication medicationData={administeredMedication} />
       ),
     },
     {
@@ -560,4 +564,43 @@ export const evaluateClinicalData = (
     vitalData: evaluateData(vitalData),
     immunizationsDetails: evaluateData(immunizationsData),
   };
+};
+
+const evaluateAdministeredMedication = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): AdministeredMedicationData[] | null => {
+  const administeredMedicationReferences: string[] | undefined = evaluate(
+    fhirBundle,
+    mappings["adminMedicationsRefs"],
+  );
+  if (!administeredMedicationReferences?.length) {
+    return null;
+  }
+  const administeredMedications: MedicationAdministration[] =
+    administeredMedicationReferences.map((ref) =>
+      evaluateReference(fhirBundle, mappings, ref),
+    );
+
+  return administeredMedications
+    .map((administeredMedication): AdministeredMedicationData | null => {
+      if (administeredMedication?.medicationReference?.reference) {
+        const medication: Medication = evaluateReference(
+          fhirBundle,
+          mappings,
+          administeredMedication.medicationReference.reference,
+        );
+
+        if (medication?.code?.coding?.[0]?.display) {
+          return {
+            date:
+              administeredMedication.effectiveDateTime ??
+              administeredMedication.effectivePeriod?.start,
+            name: medication?.code?.coding?.[0]?.display,
+          };
+        }
+      }
+      return null;
+    })
+    .filter((medicationData) => medicationData !== null);
 };
