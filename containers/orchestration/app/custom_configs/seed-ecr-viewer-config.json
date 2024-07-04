@@ -29,6 +29,15 @@
         "parsing_schema_name": "ecr_viewer_metadata.json",
         "credential_manager": "azure"
       }
+    },
+    {
+      "service": "trigger_code_reference",
+      "endpoint": "/stamp-condition-extensions",
+      "params": {
+        "conditions": [
+          "840539006"
+        ]
+      }
     }
   ],
   "outputs": [
