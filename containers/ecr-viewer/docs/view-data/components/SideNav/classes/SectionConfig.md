@@ -24,7 +24,7 @@
 
 #### Defined in
 
-[src/app/view-data/components/SideNav.tsx:10](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/view-data/components/SideNav.tsx#L10)
+[src/app/view-data/components/SideNav.tsx:10](https://github.com/CDCgov/phdi/blob/fa63a85e5b4651bdfc0d25ecc23a67e11fbcba18/containers/ecr-viewer/src/app/view-data/components/SideNav.tsx#L10)
 
 ## Properties
 
@@ -34,7 +34,7 @@
 
 #### Defined in
 
-[src/app/view-data/components/SideNav.tsx:7](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/view-data/components/SideNav.tsx#L7)
+[src/app/view-data/components/SideNav.tsx:7](https://github.com/CDCgov/phdi/blob/fa63a85e5b4651bdfc0d25ecc23a67e11fbcba18/containers/ecr-viewer/src/app/view-data/components/SideNav.tsx#L7)
 
 ***
 
@@ -44,7 +44,7 @@
 
 #### Defined in
 
-[src/app/view-data/components/SideNav.tsx:8](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/view-data/components/SideNav.tsx#L8)
+[src/app/view-data/components/SideNav.tsx:8](https://github.com/CDCgov/phdi/blob/fa63a85e5b4651bdfc0d25ecc23a67e11fbcba18/containers/ecr-viewer/src/app/view-data/components/SideNav.tsx#L8)
 
 ***
 
@@ -54,4 +54,4 @@
 
 #### Defined in
 
-[src/app/view-data/components/SideNav.tsx:6](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/view-data/components/SideNav.tsx#L6)
+[src/app/view-data/components/SideNav.tsx:6](https://github.com/CDCgov/phdi/blob/fa63a85e5b4651bdfc0d25ecc23a67e11fbcba18/containers/ecr-viewer/src/app/view-data/components/SideNav.tsx#L6)

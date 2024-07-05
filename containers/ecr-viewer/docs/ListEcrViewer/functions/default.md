@@ -24,4 +24,4 @@ The JSX element (table) representing the rendered list of eCRs.
 
 ## Defined in
 
-[src/app/ListEcrViewer.tsx:18](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/ListEcrViewer.tsx#L18)
+[src/app/ListEcrViewer.tsx:18](https://github.com/CDCgov/phdi/blob/fa63a85e5b4651bdfc0d25ecc23a67e11fbcba18/containers/ecr-viewer/src/app/ListEcrViewer.tsx#L18)
