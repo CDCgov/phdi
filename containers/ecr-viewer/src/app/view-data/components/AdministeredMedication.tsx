@@ -3,9 +3,9 @@ import { Table } from "@trussworks/react-uswds";
 import { formatDate } from "@/app/services/formatService";
 
 type AdministeredMedicationProps = {
-  medicationData: AdministeredMedicationData[];
+  medicationData: AdministeredMedicationTableData[];
 };
-export type AdministeredMedicationData = {
+export type AdministeredMedicationTableData = {
   name: string;
   date?: string;
 };

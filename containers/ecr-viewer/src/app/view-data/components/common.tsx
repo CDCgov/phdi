@@ -33,7 +33,7 @@ import parse from "html-react-parser";
 import { DisplayDataProps } from "@/app/DataDisplay";
 import {
   AdministeredMedication,
-  AdministeredMedicationData,
+  AdministeredMedicationTableData,
 } from "@/app/view-data/components/AdministeredMedication";
 
 /**
@@ -565,7 +565,7 @@ export const evaluateClinicalData = (
 };
 
 /**
- * Find administered medication in a fhir bundle
+ * Evaluate administered medications to create AdministeredMedicationTableData
  * @param fhirBundle - The FHIR bundle containing administered medication.
  * @param mappings - The object containing the fhir paths.
  * @returns - Administered data array
@@ -573,38 +573,40 @@ export const evaluateClinicalData = (
 const evaluateAdministeredMedication = (
   fhirBundle: Bundle,
   mappings: PathMappings,
-): AdministeredMedicationData[] | null => {
+): AdministeredMedicationTableData[] => {
   const administeredMedicationReferences: string[] | undefined = evaluate(
     fhirBundle,
     mappings["adminMedicationsRefs"],
   );
   if (!administeredMedicationReferences?.length) {
-    return null;
+    return [];
   }
   const administeredMedications: MedicationAdministration[] =
     administeredMedicationReferences.map((ref) =>
       evaluateReference(fhirBundle, mappings, ref),
     );
 
-  return administeredMedications
-    .map((administeredMedication): AdministeredMedicationData | null => {
-      if (administeredMedication?.medicationReference?.reference) {
-        const medication: Medication = evaluateReference(
+  return administeredMedications.reduce<AdministeredMedicationTableData[]>(
+    (data, medicationAdministration) => {
+      let medication: Medication | undefined;
+      if (medicationAdministration?.medicationReference?.reference) {
+        medication = evaluateReference(
           fhirBundle,
           mappings,
-          administeredMedication.medicationReference.reference,
+          medicationAdministration.medicationReference.reference,
         );
-
-        if (medication?.code?.coding?.[0]?.display) {
-          return {
-            date:
-              administeredMedication.effectiveDateTime ??
-              administeredMedication.effectivePeriod?.start,
-            name: medication?.code?.coding?.[0]?.display,
-          };
-        }
       }
-      return null;
-    })
-    .filter((medicationData) => medicationData !== null);
+
+      if (medication?.code?.coding?.[0]?.display) {
+        data.push({
+          date:
+            medicationAdministration.effectiveDateTime ??
+            medicationAdministration.effectivePeriod?.start,
+          name: medication?.code?.coding?.[0]?.display,
+        });
+      }
+      return data;
+    },
+    [],
+  );
 };
