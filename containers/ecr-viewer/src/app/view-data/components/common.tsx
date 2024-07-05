@@ -500,8 +500,6 @@ export const evaluateClinicalData = (
     mappings,
   );
 
-  console.log(administeredMedication);
-
   const treatmentData: DisplayDataProps[] = [
     {
       title: "Procedures",
