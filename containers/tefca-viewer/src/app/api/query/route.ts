@@ -14,6 +14,8 @@ import {
   UseCases,
 } from "../../constants";
 
+import { handleRequestError } from "./error-handling-service";
+
 /**
  * Health check for TEFCA Viewer
  * @returns Response with status OK.
@@ -37,55 +39,40 @@ export async function POST(request: NextRequest) {
   try {
     requestBody = await request.json();
   } catch (error: any) {
-    console.error("Error reading request body:", error);
-    return NextResponse.json(
-      { message: "Error reading request body. " + error.message },
-      { status: error.status },
-    );
+    const diagnostics_message = `Error reading request body. ${error.message}`;
+    const OperationOutcome = await handleRequestError(diagnostics_message);
+    return NextResponse.json(OperationOutcome);
   }
 
   // Parse patient identifiers from requestBody
   try {
     PatientIdentifiers = await parsePatientDemographics(requestBody);
   } catch (error: any) {
-    console.error("Error parsing patient identifiers from requestBody:", error);
-    return NextResponse.json(
-      {
-        message:
-          "Error parsing patient identifiers from requestBody. " +
-          error.message,
-      },
-      { status: error.status },
-    );
+    const diagnostics_message =
+      "Error parsing patient identifiers from requestBody.";
+    const OperationOutcome = await handleRequestError(diagnostics_message);
+    return NextResponse.json(OperationOutcome);
   }
 
   // Extract use_case and fhir_server from nextUrl
   const params = request.nextUrl.searchParams;
   const use_case = params.get("use_case");
   const fhir_server = params.get("fhir_server");
+
   if (!use_case || !fhir_server) {
-    return NextResponse.json(
-      {
-        message: `Error reading request params. Please provide valid use_case and fhir_server params.`,
-      },
-      { status: 400 },
-    );
+    const diagnostics_message = "Missing use_case or fhir_server.";
+    const OperationOutcome = await handleRequestError(diagnostics_message);
+    return NextResponse.json(OperationOutcome);
   } else if (!Object.values(UseCases).includes(use_case as USE_CASES)) {
-    return NextResponse.json(
-      {
-        message: `Invalid use_case. Please provide a valid use_case. Valid use_cases include ${UseCases}.`,
-      },
-      { status: 400 },
-    );
+    const diagnostics_message = `Invalid use_case. Please provide a valid use_case. Valid use_cases include ${UseCases}.`;
+    const OperationOutcome = await handleRequestError(diagnostics_message);
+    return NextResponse.json(OperationOutcome);
   } else if (
     !Object.values(FhirServers).includes(fhir_server as FHIR_SERVERS)
   ) {
-    return NextResponse.json(
-      {
-        message: `Invalid fhir_server. Please provide a valid fhir_server. Valid fhir_servers include ${FhirServers}.`,
-      },
-      { status: 400 },
-    );
+    const diagnostics_message = `Invalid fhir_server. Please provide a valid fhir_server. Valid fhir_servers include ${FhirServers}.`;
+    const OperationOutcome = await handleRequestError(diagnostics_message);
+    return NextResponse.json(OperationOutcome);
   }
 
   // Add params & patient identifiers to UseCaseRequest
