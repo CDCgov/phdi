@@ -9,7 +9,6 @@
 - [DataDisplay](DataDisplay/README.md)
 - [ListEcrViewer](ListEcrViewer/README.md)
 - [ToolTipElement](ToolTipElement/README.md)
-- [api/auth/\[...nextauth\]/route](api/auth/%5B...nextauth%5D/route/README.md)
 - [api/fhir-data/db](api/fhir-data/db/README.md)
 - [api/fhir-data/fhir-data-service](api/fhir-data/fhir-data-service/README.md)
 - [api/fhir-data/route](api/fhir-data/route/README.md)

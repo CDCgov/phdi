@@ -24,4 +24,4 @@ The converted sentence-case string. If the input is empty or not a string, the o
 
 ## Defined in
 
-[src/app/services/formatService.tsx:451](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/services/formatService.tsx#L451)
+[src/app/services/formatService.tsx:451](https://github.com/CDCgov/phdi/blob/fa63a85e5b4651bdfc0d25ecc23a67e11fbcba18/containers/ecr-viewer/src/app/services/formatService.tsx#L451)

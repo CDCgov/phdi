@@ -28,4 +28,4 @@ The home page JSX component.
 
 ## Defined in
 
-[src/app/page.tsx:11](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/page.tsx#L11)
+[src/app/page.tsx:11](https://github.com/CDCgov/phdi/blob/fa63a85e5b4651bdfc0d25ecc23a67e11fbcba18/containers/ecr-viewer/src/app/page.tsx#L11)
