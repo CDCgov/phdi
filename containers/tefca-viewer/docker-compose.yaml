@@ -8,7 +8,18 @@ services:
     environment:
       NODE_ENV: production
   tefca-fhir-server:
-    container_name: tefca-fhir-server
     image: "hapiproject/hapi:latest"
     ports:
       - "8080:8080"
+    volumes:
+      - "./src/app/tests/assets/BundleHAPIServer.json:/etc/BundleHAPIServer.json"
+      - "./post_request.sh:/post_request.sh"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:8080/"]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+    # command: " catalina.sh run && sleep 10 && curl -X POST -H \"Content-Type: application/json\" -d @/etc/BundleHAPIServer.json http://localhost:8080/fhir/"
+    # command: ["curl", "-X"," POST","-H","'Content-Type: application/json'", "-d", "@/etc/BundleHAPIServer.json", "http://localhost:8080/fhir/"]
+    command: ["/post_request.sh"]
+

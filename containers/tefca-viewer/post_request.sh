@@ -1,0 +1,1 @@
+curl -X POST -H "Content-Type: application/json" -d @/etc/BundleHAPIServer.json http://0.0.0.0:8080/fhir/
