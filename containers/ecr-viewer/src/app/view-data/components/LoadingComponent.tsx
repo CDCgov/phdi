@@ -1,12 +1,12 @@
 "use client";
 import { Accordion, Grid, GridContainer } from "@trussworks/react-uswds";
-import {
-  AccordionSection,
-  AccordionH4,
-  AccordionDiv,
-} from "../component-utils";
 import { ExpandCollapseButtons } from "./ExpandCollapseButtons";
 import SideNav from "./SideNav";
+import {
+  AccordionDiv,
+  AccordionH4,
+  AccordionSection,
+} from "../component-utils";
 
 /**
  * Renders the loading blobs in gray or in blue
@@ -50,18 +50,18 @@ const EcrSummaryLoadingSkeleton = () => {
   return (
     <div className={"info-container"}>
       <div
-        className="usa-summary-box padding-3"
+        className="usa-summary-box padding-x-3 padding-y-0"
         aria-labelledby="summary-box-key-information"
       >
-        <h3 className="summary-box-key-information side-nav-ignore">
+        <h3 className="summary-box-key-information side-nav-ignore font-sans-lg">
           About the Patient
         </h3>
         {renderLoadingBlobs(4, false)}
-        <h3 className="summary-box-key-information side-nav-ignore">
+        <h3 className="summary-box-key-information side-nav-ignore font-sans-lg">
           About the Encounter
         </h3>
         {renderLoadingBlobs(4, false)}
-        <h3 className="summary-box-key-information side-nav-ignore">
+        <h3 className="summary-box-key-information side-nav-ignore font-sans-lg">
           About the Condition
         </h3>
         {renderLoadingBlobs(4, false)}

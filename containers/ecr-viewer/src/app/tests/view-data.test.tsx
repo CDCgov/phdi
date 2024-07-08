@@ -6,6 +6,10 @@ jest.mock("../view-data/component-utils", () => ({
   metrics: jest.fn(),
 }));
 
+jest.mock("../view-data/components/LoadingComponent", () => ({
+  EcrLoadingSkeleton: () => <div>Loading...</div>,
+}));
+
 import { metrics } from "../view-data/component-utils";
 
 describe("ECRViewerPage", () => {
