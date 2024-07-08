@@ -49,7 +49,7 @@ The eCR Viewer requires a Postgres database with FHIR bundles to render properly
 
 ### Standalone Viewer 
 
-To enable the Standlone viewer homepage, set the environment variable `STANDALONE_VIEWER` to `true`. This will enable the Standalone viewer homepage at `localhost:8080`.
+To enable the Standlone viewer homepage, set the environment variable `STANDALONE_VIEWER` to `true`. This will enable the Standalone viewer homepage at `localhost:3000`.
 
 For local development, if `STANDALONE_VIEWER` is not set to `true` on `.env.local`, convert-seed-data will not seed the metadata.
 

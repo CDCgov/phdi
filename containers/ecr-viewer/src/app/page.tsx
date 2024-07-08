@@ -10,17 +10,13 @@ export const dynamic = "force-dynamic";
  */
 const HomePage: React.FC = async () => {
   let listFhirData: Ecr[] = [];
-  if (
-    process.env.STANDALONE_VIEWER &&
-    process.env.STANDALONE_VIEWER === "true"
-  ) {
+  if (process.env.STANDALONE_VIEWER === "true") {
     listFhirData = await listEcrData();
   }
 
   return (
     <main>
-      {process.env.STANDALONE_VIEWER &&
-      process.env.STANDALONE_VIEWER === "true" ? (
+      {process.env.STANDALONE_VIEWER === "true" ? (
         <ListECRViewer listFhirData={listFhirData} />
       ) : (
         <div>

@@ -51,10 +51,7 @@ export async function listEcrData(): Promise<Ecr[]> {
   if (process.env.SOURCE === S3_SOURCE) {
     const s3Data = await list_s3();
     const processedData = processListS3(s3Data);
-    if (
-      process.env.STANDALONE_VIEWER &&
-      process.env.STANDALONE_VIEWER === "true"
-    ) {
+    if (process.env.STANDALONE_VIEWER === "true") {
       await getFhirMetadata(processedData);
     }
     return processedData;
@@ -73,10 +70,7 @@ export async function listEcrData(): Promise<Ecr[]> {
  */
 const list_postgres = async () => {
   let listFhir;
-  if (
-    process.env.STANDALONE_VIEWER &&
-    process.env.STANDALONE_VIEWER === "true"
-  ) {
+  if (process.env.STANDALONE_VIEWER === "true") {
     listFhir =
       "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC";
   } else {
@@ -84,10 +78,7 @@ const list_postgres = async () => {
       "SELECT ecr_id, date_created FROM fhir order by date_created DESC";
   }
   try {
-    if (
-      process.env.STANDALONE_VIEWER &&
-      process.env.STANDALONE_VIEWER === "true"
-    ) {
+    if (process.env.STANDALONE_VIEWER === "true") {
       return await database.manyOrNone<CompleteEcrDataModel>(listFhir);
     } else {
       return await database.manyOrNone<EcrDataModel>(listFhir);
@@ -173,10 +164,7 @@ export const processListS3 = (
 const getFhirMetadata = async (
   processedData: Ecr[],
 ): Promise<EcrMetadataModel[]> => {
-  if (
-    process.env.STANDALONE_VIEWER &&
-    process.env.STANDALONE_VIEWER === "true"
-  ) {
+  if (process.env.STANDALONE_VIEWER === "true") {
     const ecrIds = processedData.map((ecr) => ecr.ecrId);
     const fhirMetadataQuery =
       "SELECT ecr_id, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir_metadata where ecr_id = $1";
