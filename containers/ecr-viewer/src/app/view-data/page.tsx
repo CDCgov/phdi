@@ -97,9 +97,12 @@ const ECRViewerPage: React.FC = () => {
               </div>
               <div className={"ecr-viewer-container"}>
                 <div className="ecr-content">
-                  <h1 className="margin-bottom-3" id="ecr-summary">
+                  <h2
+                    className="margin-bottom-3 side-nav-ignore"
+                    id="ecr-summary"
+                  >
                     eCR Summary
-                  </h1>
+                  </h2>
                   <EcrSummary
                     patientDetails={evaluateEcrSummaryPatientDetails(
                       fhirBundle,
