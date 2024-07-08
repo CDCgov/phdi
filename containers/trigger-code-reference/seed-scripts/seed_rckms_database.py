@@ -14,6 +14,10 @@ ellipses, then click the download icon).
 
 https://cste-my.sharepoint.com/personal/dbarter_cste_org/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fdbarter%5Fcste%5Forg%2FDocuments%2FRCKMS%2FContent%20Releases%2FRCKMS%20Content%20Release%2011
 
+The NIH UMLS API key is required to query the API.  The key can be obtained by
+registering at the following website using your CDC email address:
+    https://uts.nlm.nih.gov/uts/login
+
 
 Example:
     $ python seed_rckms_database.py archive.zip
