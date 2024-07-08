@@ -29,7 +29,7 @@ RUN npm i
 # Build the project
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npx turbo build --filter=ecr-viewer...
 
@@ -64,4 +64,4 @@ ENV OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
 # Contrary to orchestration, this must be 4318
 ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4318/v1/traces
 
-CMD node containers/ecr-viewer/server.js
+CMD ["node", "containers/ecr-viewer/server.js"]
