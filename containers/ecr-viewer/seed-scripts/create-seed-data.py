@@ -91,6 +91,15 @@ def convert_files():
     return fhir_bundles, metadata
 
 
-bundle_arr, metadata = convert_files()
-save_sql_insert_fhir(bundle_arr)
-save_sql_insert_metadata(metadata)
+if (
+    os.environ.get("STANDALONE_VIEWER")
+    and os.environ.get("STANDALONE_VIEWER") == "true"
+):
+    print("Running standalone viewer")
+    bundle_arr, metadata = convert_files()
+    save_sql_insert_fhir(bundle_arr)
+    save_sql_insert_metadata(metadata)
+else:
+    print("Running non standalone viewer")
+    bundle_arr = convert_files()
+    save_sql_insert_fhir(bundle_arr)

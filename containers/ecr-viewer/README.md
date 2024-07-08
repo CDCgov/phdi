@@ -51,6 +51,8 @@ The eCR Viewer requires a Postgres database with FHIR bundles to render properly
 
 To enable the Standlone viewer homepage, set the environment variable `STANDALONE_VIEWER` to `true`. This will enable the Standalone viewer homepage at `localhost:8080`.
 
+For local development, if `STANDALONE_VIEWER` is not set to `true`, convert-seed-data will not seed the metadata.
+
 ### Updating Seed Data
 
 Occasionally, the FHIR Converter will be updated requiring new seed data to be regenerated. This can be done by running `npm run convert-seed-data`. To load the new data you will have to delete the current volume used by your DB.
