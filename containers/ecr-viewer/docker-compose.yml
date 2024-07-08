@@ -23,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile.dev
+      volumes:
+        - ./src/app:/app
     ports:
       - "3000:3000"
     environment:
