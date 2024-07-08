@@ -124,6 +124,7 @@ observationReferenceValue: "Observation.extension[0].extension.where(url = 'obse
 observationComponent: "code.coding.display"
 observationValue: "value"
 observationReferenceRange: "referenceRange.text"
+observationDeviceReference: "device.reference"
 observationNote: "note.text"
 observationMethod: "method"
 observationOrganism: "code.coding.display"

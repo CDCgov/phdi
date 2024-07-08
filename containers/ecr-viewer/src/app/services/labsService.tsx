@@ -1,5 +1,5 @@
 import React from "react";
-import { Bundle, Observation, Organization, Reference } from "fhir/r4";
+import { Bundle, Device, Observation, Organization, Reference } from "fhir/r4";
 import { PathMappings, ColumnInfoInput, noData } from "@/app/utils";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
@@ -21,7 +21,7 @@ export interface LabReport {
 }
 
 export interface ResultObject {
-  [key: string]: JSX.Element[];
+  [key: string]: React.JSX.Element[];
 }
 
 export interface LabReportElementData {
@@ -315,10 +315,11 @@ export const evaluateDiagnosticReportData = (
     { columnName: "Ref Range", infoPath: "observationReferenceRange" },
     {
       columnName: "Test Method",
-      value: returnFieldValueFromLabHtmlString(
-        labReportJson,
-        "Test Method",
-      ) as string,
+      infoPath: "observationDeviceReference",
+      applyToValue: (ref) => {
+        const device = evaluateReference(fhirBundle, mappings, ref) as Device;
+        return device.deviceName?.[0]?.name;
+      },
     },
     {
       columnName: "Lab Comment",
