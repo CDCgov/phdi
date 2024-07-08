@@ -21,8 +21,8 @@ services:
   # Next.js app
   ecr-viewer:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../../
+      dockerfile: ./containers/ecr-viewer/Dockerfile
       args:
         APP_ENV: "test"
     ports:
