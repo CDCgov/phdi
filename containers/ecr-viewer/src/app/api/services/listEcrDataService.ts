@@ -71,11 +71,27 @@ export async function listEcrData(): Promise<Ecr[]> {
  * Retrieves array of eCR IDs from PostgreSQL database.
  * @returns A promise resolving to a NextResponse object.
  */
-const list_postgres = async (): Promise<CompleteEcrDataModel[]> => {
-  const listFhir =
-    "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC";
+const list_postgres = async () => {
+  let listFhir;
+  if (
+    process.env.STANDALONE_VIEWER &&
+    process.env.STANDALONE_VIEWER === "true"
+  ) {
+    listFhir =
+      "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC";
+  } else {
+    listFhir =
+      "SELECT ecr_id, date_created FROM fhir order by date_created DESC";
+  }
   try {
-    return await database.manyOrNone<CompleteEcrDataModel>(listFhir);
+    if (
+      process.env.STANDALONE_VIEWER &&
+      process.env.STANDALONE_VIEWER === "true"
+    ) {
+      return await database.manyOrNone<CompleteEcrDataModel>(listFhir);
+    } else {
+      return await database.manyOrNone<EcrDataModel>(listFhir);
+    }
   } catch (error: any) {
     console.error("Error fetching data:", error);
     if (error.message == "No data returned from the query.") {
@@ -110,9 +126,7 @@ const list_s3 = async () => {
  * @param responseBody - The response body containing eCR data from Postgres.
  * @returns - The processed list of eCR IDs and dates.
  */
-export const processListPostgres = (
-  responseBody: CompleteEcrDataModel[],
-): Ecr[] => {
+export const processListPostgres = (responseBody: any[]): Ecr[] => {
   return responseBody.map((object) => {
     return {
       ecrId: object.ecr_id || "",
