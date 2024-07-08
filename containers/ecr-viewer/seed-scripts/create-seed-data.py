@@ -88,7 +88,13 @@ def convert_files():
                     print(f"Converted {folder} successfully.")
                 else:
                     print(f"Failed to convert {folder}. Response: {response.text}")
-    return fhir_bundles, metadata
+    if (
+        os.environ.get("STANDALONE_VIEWER")
+        and os.environ.get("STANDALONE_VIEWER") == "true"
+    ):
+        return fhir_bundles, metadata
+    else:
+        return fhir_bundles
 
 
 if (
