@@ -294,10 +294,10 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
             >
               <div
                 aria-labelledby="summary-box-key-information"
-                class="usa-summary-box padding-3"
+                class="usa-summary-box padding-x-3 padding-y-0"
               >
                 <h3
-                  class="summary-box-key-information side-nav-ignore"
+                  class="summary-box-key-information side-nav-ignore font-sans-lg"
                 >
                   About the Patient
                 </h3>
@@ -394,7 +394,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   />
                 </div>
                 <h3
-                  class="summary-box-key-information side-nav-ignore"
+                  class="summary-box-key-information side-nav-ignore font-sans-lg"
                 >
                   About the Encounter
                 </h3>
@@ -491,7 +491,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   />
                 </div>
                 <h3
-                  class="summary-box-key-information side-nav-ignore"
+                  class="summary-box-key-information side-nav-ignore font-sans-lg"
                 >
                   About the Condition
                 </h3>

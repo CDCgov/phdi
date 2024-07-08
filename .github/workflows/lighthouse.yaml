@@ -30,12 +30,12 @@ jobs:
         run: cd containers/ecr-viewer
 
       - name: Build app
+        run: docker-compose -f docker-compose-staging.yml up -d
         working-directory: ./containers/ecr-viewer
-        run: docker compose --env-file .env.e2e.test up -d
 
       - name: Wait for Application to be ready
         run: |
-          until curl --output /dev/null --silent --head --fail http://localhost:3000; do
+          until curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer; do
             printf '.'
             sleep 5
           done

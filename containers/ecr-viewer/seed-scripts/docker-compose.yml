@@ -6,6 +6,7 @@ services:
     depends_on:
       - fhir-converter-service
       - ingestion-service
+      - message-parser-service
     ports:
       - "8080:8080"
     logging:
@@ -36,13 +37,23 @@ services:
       SMARTY_AUTH_ID: ${SMARTY_AUTH_ID}
       SMARTY_AUTH_TOKEN: ${SMARTY_AUTH_TOKEN}
 
+  message-parser-service:
+    platform: linux/amd64
+    build:
+      context: ../../message-parser
+    ports:
+      - "8085:8080"
+    logging:
+      driver: "json-file"
+
   convert-data:
     build: .
     depends_on:
-      # orchestration-service:
-      #   condition: service_healthy
-      - orchestration-service
+      orchestration-service:
+        condition: service_healthy
     ports:
       - "8081:8081"
+    env_file:
+      - ../../ecr-viewer/.env.local
     volumes:
       - ./sql:/code/sql

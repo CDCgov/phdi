@@ -1,4 +1,3 @@
-import pgPromise from "pg-promise";
 import {
   S3Client,
   ListObjectsV2Command,
@@ -14,10 +13,30 @@ const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
-export type ListEcr = {
+type EcrDataModel = {
+  ecr_id: string;
+  data: any;
+  date_created: string;
+};
+
+type EcrMetadataModel = {
+  ecr_id: string;
+  data_source: "DB" | "S3";
+  data_link: string;
+  patient_first_name: string;
+  patient_last_name: string;
+  patient_date_of_birth: Date;
+  reportable_condition: string;
+  rule_summary: string;
+  report_date: Date;
+};
+
+type CompleteEcrDataModel = EcrDataModel & EcrMetadataModel;
+
+export type Ecr = {
   ecrId: string;
   dateModified: string;
-}[];
+};
 
 /**
  * Handles GET requests by fetching data from different sources based on the environment configuration.
@@ -28,12 +47,17 @@ export type ListEcr = {
  *   The specific return type (e.g., the type returned by `list_s3` or `list_postgres`)
  *   may vary based on the source and is thus marked as `unknown`.
  */
-export async function listEcrData() {
+export async function listEcrData(): Promise<Ecr[]> {
   if (process.env.SOURCE === S3_SOURCE) {
-    const data = await list_s3();
-    return processListS3(data);
+    const s3Data = await list_s3();
+    const processedData = processListS3(s3Data);
+    if (process.env.STANDALONE_VIEWER === "true") {
+      await getFhirMetadata(processedData);
+    }
+    return processedData;
   } else if (process.env.SOURCE === POSTGRES_SOURCE) {
     const data = await list_postgres();
+    console.log(data);
     return processListPostgres(data);
   } else {
     throw Error("Invalid Source");
@@ -45,12 +69,20 @@ export async function listEcrData() {
  * @returns A promise resolving to a NextResponse object.
  */
 const list_postgres = async () => {
-  const { ParameterizedQuery: PQ } = pgPromise;
-  const listFhir = new PQ({
-    text: "SELECT ecr_id, date_created FROM fhir order by date_created DESC",
-  });
+  let listFhir;
+  if (process.env.STANDALONE_VIEWER === "true") {
+    listFhir =
+      "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC";
+  } else {
+    listFhir =
+      "SELECT ecr_id, date_created FROM fhir order by date_created DESC";
+  }
   try {
-    return await database.manyOrNone(listFhir);
+    if (process.env.STANDALONE_VIEWER === "true") {
+      return await database.manyOrNone<CompleteEcrDataModel>(listFhir);
+    } else {
+      return await database.manyOrNone<EcrDataModel>(listFhir);
+    }
   } catch (error: any) {
     console.error("Error fetching data:", error);
     if (error.message == "No data returned from the query.") {
@@ -85,7 +117,7 @@ const list_s3 = async () => {
  * @param responseBody - The response body containing eCR data from Postgres.
  * @returns - The processed list of eCR IDs and dates.
  */
-export const processListPostgres = (responseBody: any[]): ListEcr => {
+export const processListPostgres = (responseBody: any[]): Ecr[] => {
   return responseBody.map((object) => {
     return {
       ecrId: object.ecr_id || "",
@@ -105,7 +137,7 @@ export const processListPostgres = (responseBody: any[]): ListEcr => {
  */
 export const processListS3 = (
   responseBody: ListObjectsV2CommandOutput,
-): ListEcr => {
+): Ecr[] => {
   responseBody.Contents?.sort(
     (a, b) => Number(b.LastModified) - Number(a.LastModified),
   );
@@ -122,4 +154,28 @@ export const processListS3 = (
       };
     }) || []
   );
+};
+
+/**
+ * Fetches eCR Metadata stored in the fhir_metadata table.
+ * @param processedData - List of eCR IDs.
+ * @returns ecr metadata
+ */
+const getFhirMetadata = async (
+  processedData: Ecr[],
+): Promise<EcrMetadataModel[]> => {
+  if (process.env.STANDALONE_VIEWER === "true") {
+    const ecrIds = processedData.map((ecr) => ecr.ecrId);
+    const fhirMetadataQuery =
+      "SELECT ecr_id, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir_metadata where ecr_id = $1";
+
+    const data = await database.manyOrNone<EcrMetadataModel>(
+      fhirMetadataQuery,
+      [ecrIds],
+    );
+    console.log(data);
+    return data;
+  } else {
+    return [];
+  }
 };
