@@ -297,14 +297,12 @@ export function evaluateObservationTable(
 
 /**
  * Evaluates diagnostic report data and generates the lab observations for each report.
- * @param labReportJson - A JSON object representing the lab report HTML string
  * @param report - An object containing an array of result references.
  * @param fhirBundle - The FHIR bundle containing diagnostic report data.
  * @param mappings - An object containing the FHIR path mappings.
  * @returns - An array of React elements representing the lab observations.
  */
 export const evaluateDiagnosticReportData = (
-  labReportJson: TableJson,
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -400,7 +398,6 @@ export const evaluateLabInfoData = (
   labReports.map((report) => {
     const labReportJson = getLabJsonObject(report, fhirBundle, mappings);
     const labTableDiagnostic = evaluateDiagnosticReportData(
-      labReportJson,
       report,
       fhirBundle,
       mappings,

@@ -314,13 +314,7 @@ describe("Labs Utils", () => {
 describe("Evaluate Diagnostic Report", () => {
   it("should evaluate diagnostic report title", () => {
     const report = evaluate(BundleLab, mappings["diagnosticReports"])[0];
-    const labReportJson = getLabJsonObject(
-      report,
-      BundleLab as unknown as Bundle,
-      mappings,
-    );
     const actual = evaluateDiagnosticReportData(
-      labReportJson,
       report,
       BundleLab as unknown as Bundle,
       mappings,
@@ -340,13 +334,7 @@ describe("Evaluate Diagnostic Report", () => {
   });
   it("should evaluate diagnostic report results", () => {
     const report = evaluate(BundleLab, mappings["diagnosticReports"])[0];
-    const labReportJson = getLabJsonObject(
-      report,
-      BundleLab as unknown as Bundle,
-      mappings,
-    );
     const actual = evaluateDiagnosticReportData(
-      labReportJson,
       report,
       BundleLab as unknown as Bundle,
       mappings,
@@ -388,13 +376,7 @@ describe("Evaluate Diagnostic Report", () => {
   });
   it("should evaluate test method results", () => {
     const report = evaluate(BundleLab, mappings["diagnosticReports"])[0];
-    const labReportJson = getLabJsonObject(
-      report,
-      BundleLab as unknown as Bundle,
-      mappings,
-    );
     const actual = evaluateDiagnosticReportData(
-      labReportJson,
       report,
       BundleLab as unknown as Bundle,
       mappings,
@@ -416,13 +398,7 @@ describe("Evaluate Diagnostic Report", () => {
   });
   it("should display comment", () => {
     const report = evaluate(BundleLab, mappings["diagnosticReports"])[2];
-    const labReportJson = getLabJsonObject(
-      report,
-      BundleLab as unknown as Bundle,
-      mappings,
-    );
     const actual = evaluateDiagnosticReportData(
-      labReportJson,
       report,
       BundleLab as unknown as Bundle,
       mappings,
