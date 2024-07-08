@@ -1,10 +1,10 @@
 ci:
   collect:
-    numberOfRuns: 1
+    numberOfRuns: 5
     url:
-      - http://localhost:3000/view-data?id=cf9e1db8-fcc5-4cbc-96cd-043d3fd65bac
-      - http://localhost:3000/view-data?id=1dd10047-2207-4eac-a993-0f706c88be5d
-      - http://localhost:3000/view-data?id=1.2.840.114350.1.13.297.3.7.8.688883.567479
+      - http://localhost:3000/ecr-viewer/view-data?id=cf9e1db8-fcc5-4cbc-96cd-043d3fd65bac
+      - http://localhost:3000/ecr-viewer/view-data?id=1dd10047-2207-4eac-a993-0f706c88be5d
+      - http://localhost:3000/ecr-viewer/view-data?id=1.2.840.114350.1.13.297.3.7.8.688883.567479
     settings:
       chromeFlags:
         - "--ignore-certificate-errors"
@@ -16,6 +16,5 @@ ci:
     githubToken: ${{ secrets.GITHUB_TOKEN }}
   assert:
     assertions:
-      categories:performance: [error, { minScore: 0.4 }]
+      categories:performance: [error, { minScore: 0.44 }]
       categories:accessibility: [error, { minScore: 1 }]
-      includePassedAssertions: true
