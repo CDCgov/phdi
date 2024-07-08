@@ -18,6 +18,7 @@ import {
 } from "../services/ecrSummaryService";
 import { metrics } from "./component-utils";
 import { EcrLoadingSkeleton } from "./components/LoadingComponent";
+import Header from "../Header";
 
 // string constants to match with possible .env values
 const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
@@ -85,6 +86,7 @@ const ECRViewerPage: React.FC = () => {
   } else if (fhirBundle && mappings) {
     return (
       <main>
+        <Header />
         <div>
           <div className="main-container">
             <div className="content-wrapper">

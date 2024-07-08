@@ -1,5 +1,4 @@
 import "../styles/styles.scss";
-import Header from "./Header";
 export const metadata = {
   title: "DIBBs eCR Viewer",
   description: "View your eCR data in an easy-to-understand format.",
@@ -20,10 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <Header />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
