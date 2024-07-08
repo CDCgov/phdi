@@ -1,6 +1,5 @@
 import React from "react";
 import ListECRViewer from "@/app/ListEcrViewer";
-import { listEcrData } from "@/app/api/services/listEcrDataService";
 import Header from "./Header";
 import { Ecr, listEcrData } from "@/app/api/services/listEcrDataService";
 
