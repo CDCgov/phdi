@@ -2,6 +2,7 @@ import React from "react";
 import ListECRViewer from "@/app/ListEcrViewer";
 import { listEcrData } from "@/app/api/services/listEcrDataService";
 import Header from "./Header";
+import { Ecr, listEcrData } from "@/app/api/services/listEcrDataService";
 
 export const dynamic = "force-dynamic";
 
@@ -10,12 +11,21 @@ export const dynamic = "force-dynamic";
  * @returns The home page JSX component.
  */
 const HomePage: React.FC = async () => {
-  const listFhirData = await listEcrData();
+  let listFhirData: Ecr[] = [];
+  if (process.env.STANDALONE_VIEWER === "true") {
+    listFhirData = await listEcrData();
+  }
 
   return (
     <main>
       <Header />
-      <ListECRViewer listFhirData={listFhirData} />
+      {process.env.STANDALONE_VIEWER === "true" ? (
+        <ListECRViewer listFhirData={listFhirData} />
+      ) : (
+        <div>
+          <h1>Sorry, this page is not available.</h1>
+        </div>
+      )}
     </main>
   );
 };
