@@ -2,33 +2,25 @@ services:
   tefca-viewer:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: production
-  busybox:
-    build:
-      context: .
-      dockerfile: dockerfile.busy
-    volumes:
-      - "./src/app/tests/assets/BundleHAPIServer.json:/etc/BundleHAPIServer.json"
-      - "/home/alis/skylight/dibbs/phdi/containers/tefca-viewer/post_request.sh:/post_request.sh"
-    command: ["sh", "post_request.sh"]
-    depends_on:
-      - tefca-fhir-server
+      NODE_ENV: development
   tefca-fhir-server:
+    build:
+        context: .
+        dockerfile: Dockerfile.dev
     image: "hapiproject/hapi:latest"
     ports:
       - "8080:8080"
+  tefca-data-loader:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     volumes:
       - "./src/app/tests/assets/BundleHAPIServer.json:/etc/BundleHAPIServer.json"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://0.0.0.0:8080/"]
-      interval: 10s
-      timeout: 20s
-      retries: 5
-    # command: " catalina.sh run && sleep 10 && curl -X POST -H \"Content-Type: application/json\" -d @/etc/BundleHAPIServer.json http://localhost:8080/fhir/"
-    # command: ["curl", "-X"," POST","-H","'Content-Type: application/json'", "-d", "@/etc/BundleHAPIServer.json", "http://localhost:8080/fhir/"]
-    # command: ["/post_request.sh"]
-
+      - "./post_request.sh:/post_request.sh"
+    command: ["sh", "post_request.sh"]
+    depends_on:
+      - tefca-fhir-server

@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM ubuntu:22.04
 
 WORKDIR /code
 COPY . .
