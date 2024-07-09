@@ -26,7 +26,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
+      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/ecr_viewer_db}
+      - APP_ENV=${APP_ENV:-prod}
     depends_on:
       db:
         condition: service_healthy
