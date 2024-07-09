@@ -1,5 +1,6 @@
 import React from "react";
 import ListECRViewer from "@/app/ListEcrViewer";
+import Header from "./Header";
 import { Ecr, listEcrData } from "@/app/api/services/listEcrDataService";
 
 export const dynamic = "force-dynamic";
@@ -16,6 +17,7 @@ const HomePage: React.FC = async () => {
 
   return (
     <main>
+      <Header />
       {process.env.STANDALONE_VIEWER === "true" ? (
         <ListECRViewer listFhirData={listFhirData} />
       ) : (

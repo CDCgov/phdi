@@ -24,16 +24,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
               >
                 <a
                   class=""
-                  href="#ecr-summary"
-                >
-                  eCR Summary
-                </a>
-              </li>
-              <li
-                class="usa-sidenav__item"
-              >
-                <a
-                  class=""
                   href="#ecr-document"
                 >
                   eCR Document
@@ -283,8 +273,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
             class="ecr-content"
           >
             <h2
-              class="margin-bottom-3"
-              data-sectionid="ecr-summary"
+              class="margin-bottom-3 side-nav-ignore"
               id="ecr-summary"
             >
               eCR Summary
