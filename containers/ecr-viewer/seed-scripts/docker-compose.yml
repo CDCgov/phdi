@@ -64,12 +64,3 @@ services:
       - "8081:8081"
     volumes:
       - ./sql:/code/sql
-
-  trigger-code-reference-service:
-    platform: linux/amd64
-    build:
-      context: ../../trigger-code-reference
-    ports:
-      - "${TRIGGER_CODE_REFERENCE_PORT_NUMBER}:8080"
-    logging:
-      driver: "json-file"
