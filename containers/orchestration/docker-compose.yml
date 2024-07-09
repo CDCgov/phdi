@@ -1,7 +1,14 @@
-include:
-  - ../ecr-viewer/docker-compose-orchestration.yml
-
 services:
+  ecr-viewer-db:
+    extends:
+      file: ../ecr-viewer/docker-compose.yml
+      service: db
+  ecr-viewer:
+    extends:
+      file: ../ecr-viewer/docker-compose.yml
+      service: ecr-viewer
+    env_file:
+      - ../ecr-viewer/.env.test
   orchestration-service:
     platform: linux/amd64
     build:

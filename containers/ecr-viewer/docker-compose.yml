@@ -28,9 +28,7 @@ services:
     environment:
       - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/ecr_viewer_db}
       - APP_ENV=${APP_ENV:-prod}
-    depends_on:
-      db:
-        condition: service_healthy
+
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: "jaeger"
