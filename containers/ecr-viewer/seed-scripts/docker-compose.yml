@@ -46,6 +46,15 @@ services:
     logging:
       driver: "json-file"
 
+  trigger-code-reference-service:
+    platform: linux/amd64
+    build:
+      context: ../../trigger-code-reference
+    ports:
+      - "8086:8080"
+    logging:
+      driver: "json-file"
+
   convert-data:
     build: .
     depends_on:
