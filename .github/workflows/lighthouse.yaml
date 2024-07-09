@@ -35,7 +35,7 @@ jobs:
 
       - name: Wait for Application to be ready
         run: |
-          until curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer; do
+          until curl --output /dev/null --silent --head --fail http://localhost:3000; do
             printf '.'
             sleep 5
           done

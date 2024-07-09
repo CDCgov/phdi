@@ -19,9 +19,6 @@ import {
 import { metrics } from "./component-utils";
 import { EcrLoadingSkeleton } from "./components/LoadingComponent";
 
-// string constants to match with possible .env values
-const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
-
 /**
  * Functional component for rendering the eCR Viewer page.
  * @returns The main eCR Viewer JSX component.
@@ -42,7 +39,7 @@ const ECRViewerPage: React.FC = () => {
   useEffect(() => {
     const startTime = performance.now();
     window.addEventListener("beforeunload", function (_e) {
-      metrics(basePath, {
+      metrics("", {
         startTime: startTime,
         endTime: performance.now(),
         fhirId: `${fhirId}`,
@@ -50,7 +47,7 @@ const ECRViewerPage: React.FC = () => {
     });
     const fetchData = async () => {
       try {
-        const response = await fetch(`${basePath}/api/fhir-data?id=${fhirId}`);
+        const response = await fetch(`api/fhir-data?id=${fhirId}`);
         if (!response.ok) {
           if (response.status == 404) {
             throw new Error(
