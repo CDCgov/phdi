@@ -170,7 +170,7 @@ export const EcrLoadingSkeleton = () => {
           </div>
           <div className={"ecr-viewer-container"}>
             <div className="ecr-content">
-              <h2 className="margin-bottom-3" id="ecr-summary">
+              <h2 className="margin-bottom-3 side-nav-ignore" id="ecr-summary">
                 eCR Summary
               </h2>
               <EcrSummaryLoadingSkeleton />
