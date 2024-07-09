@@ -9,8 +9,8 @@ services:
       NODE_ENV: development
   tefca-fhir-server:
     build:
-        context: .
-        dockerfile: Dockerfile.dev
+      context: .
+      dockerfile: Dockerfile.dev
     image: "hapiproject/hapi:latest"
     ports:
       - "8080:8080"
