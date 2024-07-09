@@ -7,8 +7,9 @@ services:
     extends:
       file: ../ecr-viewer/docker-compose.yml
       service: ecr-viewer
-    env_file:
-      - ../ecr-viewer/.env.test
+    environment:
+      - DATABASE_URL=postgres://postgres:pw@ecr-viewer-db:5432/ecr_viewer_db
+      - APP_ENV=test
   orchestration-service:
     platform: linux/amd64
     build:
