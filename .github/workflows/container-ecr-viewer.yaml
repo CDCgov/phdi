@@ -66,11 +66,11 @@ jobs:
 
       - name: Start ${{env.CONTAINER}}
         working-directory: ./containers/${{env.CONTAINER}}
-        run: docker compose --env-file .env.e2e.test up -d
+        run: docker compose --env-file .env.test up -d
 
       - name: Wait for server to be ready
         run: |
-          until $(curl --output /dev/null --silent --head --fail http://localhost:3000); do
+          until $(curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer); do
             echo "Waiting for server to be ready..."
             sleep 5
           done
