@@ -133,17 +133,17 @@ export function formatContact(contacts: ContactPoint[]): JSX.Element {
 export function formatIdentifier(identifier: Identifier[]): JSX.Element {
   return (
     <>
-      {identifier.map((id) => {
-        let idType = id.type?.coding?.[0].display ?? "";
+      {identifier.map((id, index) => {
+        let idType = id.type?.coding?.[0]?.display ?? "";
         if (idType === "") {
           idType = id.type?.text ?? "";
         }
 
         return (
-          <>
+          <React.Fragment key={index}>
             {" "}
             {idType}: {id.value} <br />{" "}
-          </>
+          </React.Fragment>
         );
       })}
     </>
@@ -155,10 +155,15 @@ export function formatIdentifier(identifier: Identifier[]): JSX.Element {
  * @param identifier - The Identifier object to format.
  * @returns The formatted MRN.
  */
+/**
+ * Formats the MRN of a FHIR Identifier object.
+ * @param identifier - The Identifier object to format.
+ * @returns The formatted MRN.
+ */
 export function formatMRN(identifier: Identifier[]): JSX.Element {
   return (
     <>
-      {identifier.map((id) => {
+      {identifier.map((id, index) => {
         let mrnFlag = false;
         id.type?.coding?.forEach((code) => {
           if (code.code === "MR") {
@@ -167,10 +172,10 @@ export function formatMRN(identifier: Identifier[]): JSX.Element {
         });
         if (mrnFlag) {
           return (
-            <>
+            <React.Fragment key={index}>
               {" "}
               {id.value} <br />{" "}
-            </>
+            </React.Fragment>
           );
         }
 
@@ -179,7 +184,6 @@ export function formatMRN(identifier: Identifier[]): JSX.Element {
     </>
   );
 }
-
 /**
  * Formats the provided date string into a formatted date string with year, month, and day.
  * @param dateString - The date string to be formatted. formatDate will also be able to take 'yyyymmdd' as input.
