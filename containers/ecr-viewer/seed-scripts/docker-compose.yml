@@ -62,5 +62,7 @@ services:
         condition: service_healthy
     ports:
       - "8081:8081"
+    env_file:
+      - ../../ecr-viewer/.env.local
     volumes:
       - ./sql:/code/sql

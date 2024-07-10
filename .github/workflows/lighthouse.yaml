@@ -31,18 +31,15 @@ jobs:
 
       - name: Copy shared-resources (if needed)
         working-directory: ./containers/ecr-viewer
-        run: cp -r ../../shared-resources/src/ ./src/app/shared/
-
-      - name: Change to the correct directory
-        run: cd containers/ecr-viewer
+        run: cp -r ../../shared-resources/src/ ./src/app/shared/src
 
       - name: Build app
-        run: docker-compose up -d
+        run: docker-compose -f docker-compose-staging.yml up -d
         working-directory: ./containers/ecr-viewer
 
       - name: Wait for Application to be ready
         run: |
-          until curl --output /dev/null --silent --head --fail http://localhost:3000; do
+          until curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer; do
             printf '.'
             sleep 5
           done

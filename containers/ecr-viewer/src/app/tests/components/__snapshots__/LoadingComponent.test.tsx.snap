@@ -24,16 +24,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
               >
                 <a
                   class=""
-                  href="#ecr-summary"
-                >
-                  eCR Summary
-                </a>
-              </li>
-              <li
-                class="usa-sidenav__item"
-              >
-                <a
-                  class=""
                   href="#ecr-document"
                 >
                   eCR Document
@@ -283,8 +273,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
             class="ecr-content"
           >
             <h2
-              class="margin-bottom-3"
-              data-sectionid="ecr-summary"
+              class="margin-bottom-3 side-nav-ignore"
               id="ecr-summary"
             >
               eCR Summary
@@ -294,10 +283,10 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
             >
               <div
                 aria-labelledby="summary-box-key-information"
-                class="usa-summary-box padding-3"
+                class="usa-summary-box padding-x-3 padding-y-0"
               >
                 <h3
-                  class="summary-box-key-information side-nav-ignore"
+                  class="summary-box-key-information side-nav-ignore font-sans-lg"
                 >
                   About the Patient
                 </h3>
@@ -394,7 +383,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   />
                 </div>
                 <h3
-                  class="summary-box-key-information side-nav-ignore"
+                  class="summary-box-key-information side-nav-ignore font-sans-lg"
                 >
                   About the Encounter
                 </h3>
@@ -491,7 +480,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   />
                 </div>
                 <h3
-                  class="summary-box-key-information side-nav-ignore"
+                  class="summary-box-key-information side-nav-ignore font-sans-lg"
                 >
                   About the Condition
                 </h3>
