@@ -21,7 +21,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TEST_RUNNER_PYTHON_VERSION: 3.11
   CONTAINER: ecr-viewer
   NODE_VERSION: 18 # Adjust the Node.js version as needed
 
@@ -41,7 +40,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{env.NODE_VERSION}}
       - name: Install dependencies
@@ -57,7 +56,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{env.NODE_VERSION}}
       - name: Install dependencies
@@ -78,6 +77,36 @@ jobs:
       - name: Run cypress tests
         working-directory: ./containers/${{env.CONTAINER}}
         run: npm run cypress:run
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{env.NODE_VERSION}}
+
+      - name: Build app
+        run: docker compose --env-file .env.test up -d
+        working-directory: ./containers/${{env.CONTAINER}}
+
+      - name: Wait for Application to be ready
+        run: |
+          until curl --output /dev/null --silent --head --fail http://localhost:3000; do
+            printf '.'
+            sleep 5
+          done
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: "./lighthouserc.yaml"
+          uploadArtifacts: true
+
   build-container:
     runs-on: ubuntu-latest
     steps:
