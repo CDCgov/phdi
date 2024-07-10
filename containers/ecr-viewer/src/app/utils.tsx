@@ -6,15 +6,6 @@ export interface PathMappings {
   [key: string]: string;
 }
 
-export interface ColumnInfoInput {
-  columnName: string;
-  infoPath?: string;
-  value?: string;
-  className?: string;
-  hiddenBaseText?: string;
-  applyToValue?: (value: any) => any;
-}
-
 export interface CompleteData {
   availableData: DisplayDataProps[];
   unavailableData: DisplayDataProps[];

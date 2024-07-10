@@ -2,7 +2,9 @@ import {
   calculatePatientAge,
   evaluateReference,
 } from "@/app/services/evaluateFhirDataService";
-import EvaluateTable from "@/app/view-data/components/EvaluateTable";
+import EvaluateTable, {
+  ColumnInfoInput,
+} from "@/app/view-data/components/EvaluateTable";
 import {
   TableRow,
   formatName,
@@ -11,12 +13,7 @@ import {
   toSentenceCase,
   formatDate,
 } from "@/app/services/formatService";
-import {
-  ColumnInfoInput,
-  PathMappings,
-  evaluateData,
-  noData,
-} from "@/app/utils";
+import { PathMappings, evaluateData, noData } from "@/app/utils";
 import { Table } from "@trussworks/react-uswds";
 import {
   Bundle,
@@ -25,6 +22,8 @@ import {
   Condition,
   FhirResource,
   Immunization,
+  Medication,
+  MedicationAdministration,
   Organization,
   Practitioner,
   Procedure,
@@ -32,62 +31,10 @@ import {
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import parse from "html-react-parser";
 import { DisplayDataProps } from "@/app/DataDisplay";
-
-/**
- * Returns a table displaying administered medication information.
- * @param fhirBundle - The FHIR bundle containing care team data.
- * @param mappings - The object containing the fhir paths.
- * @returns The JSX element representing the table, or undefined if no administed medications are found.
- */
-export const returnAdminMedTable = (
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-) => {
-  const adminMedTables = formatTablesToJSON(
-    evaluate(fhirBundle, mappings["administeredMedications"])[0]?.div,
-  );
-  const adminMedJson = adminMedTables[0]?.tables?.[0];
-  if (
-    adminMedJson &&
-    adminMedJson[0]["Medication Name"] &&
-    adminMedJson[0]["Medication Start Date"]
-  ) {
-    const header = ["Medication Name", "Medication Start Date"];
-    return (
-      <Table
-        bordered={false}
-        fullWidth={true}
-        caption="Administered Medications"
-        className={
-          "table-caption-margin margin-y-0 border-top border-left border-right"
-        }
-        data-testid="table"
-      >
-        <thead>
-          <tr>
-            {header.map((column) => (
-              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {adminMedJson.map((entry: TableRow, index: number) => {
-            const entryDate = entry["Medication Start Date"].value;
-            const formattedDate = formatDate(entryDate);
-            return (
-              <tr key={`table-row-${index}`}>
-                <td>{entry["Medication Name"]?.value ?? noData}</td>
-                <td>{formattedDate ?? noData}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-    );
-  }
-};
+import {
+  AdministeredMedication,
+  AdministeredMedicationTableData,
+} from "@/app/view-data/components/AdministeredMedication";
 
 /**
  * Returns a table displaying care team information.
@@ -548,10 +495,10 @@ export const evaluateClinicalData = (
     );
   }
 
-  const adminMedResults = returnAdminMedTable(fhirBundle, mappings);
-  let adminMedElement: React.JSX.Element | undefined = adminMedResults ? (
-    <>{adminMedResults}</>
-  ) : undefined;
+  const administeredMedication = evaluateAdministeredMedication(
+    fhirBundle,
+    mappings,
+  );
 
   const treatmentData: DisplayDataProps[] = [
     {
@@ -574,7 +521,9 @@ export const evaluateClinicalData = (
     },
     {
       title: "Administered Medications",
-      value: adminMedElement,
+      value: administeredMedication?.length && (
+        <AdministeredMedication medicationData={administeredMedication} />
+      ),
     },
     {
       title: "Care Team",
@@ -613,4 +562,51 @@ export const evaluateClinicalData = (
     vitalData: evaluateData(vitalData),
     immunizationsDetails: evaluateData(immunizationsData),
   };
+};
+
+/**
+ * Evaluate administered medications to create AdministeredMedicationTableData
+ * @param fhirBundle - The FHIR bundle containing administered medication.
+ * @param mappings - The object containing the fhir paths.
+ * @returns - Administered data array
+ */
+const evaluateAdministeredMedication = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): AdministeredMedicationTableData[] => {
+  const administeredMedicationReferences: string[] | undefined = evaluate(
+    fhirBundle,
+    mappings["adminMedicationsRefs"],
+  );
+  if (!administeredMedicationReferences?.length) {
+    return [];
+  }
+  const administeredMedications: MedicationAdministration[] =
+    administeredMedicationReferences.map((ref) =>
+      evaluateReference(fhirBundle, mappings, ref),
+    );
+
+  return administeredMedications.reduce<AdministeredMedicationTableData[]>(
+    (data, medicationAdministration) => {
+      let medication: Medication | undefined;
+      if (medicationAdministration?.medicationReference?.reference) {
+        medication = evaluateReference(
+          fhirBundle,
+          mappings,
+          medicationAdministration.medicationReference.reference,
+        );
+      }
+
+      if (medication?.code?.coding?.[0]?.display) {
+        data.push({
+          date:
+            medicationAdministration.effectiveDateTime ??
+            medicationAdministration.effectivePeriod?.start,
+          name: medication?.code?.coding?.[0]?.display,
+        });
+      }
+      return data;
+    },
+    [],
+  );
 };
