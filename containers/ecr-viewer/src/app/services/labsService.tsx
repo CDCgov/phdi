@@ -606,7 +606,7 @@ const findIdenticalOrg = (
   orgMappings = orgMappings.filter(
     (organization) => organization?.id !== matchedOrg?.id,
   );
-  orgMappings.filter((organization) => {
+  orgMappings.forEach((organization) => {
     if (
       organization?.address?.[0]?.line?.[0] ===
         matchedOrg?.address?.[0]?.line?.[0] &&
