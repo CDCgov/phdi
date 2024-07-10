@@ -593,7 +593,7 @@ export const evaluateLabOrganizationData = (
 /**
  * Finds an identical organization based on address and assigns the telecom to the matched organization
  * First filters out matchedOrg from orgMappings to avoid comparing to itself
- * Checks if addrress line 0, address line 1, city, state, and postal code are the same, if so
+ * Checks if address line 0, address line 1, city, state, and postal code are the same, if so
  * it assigns the telecom to the matchedOrg
  * @param orgMappings all the organizations found in the fhir bundle
  * @param matchedOrg the org that matches the id of the lab
