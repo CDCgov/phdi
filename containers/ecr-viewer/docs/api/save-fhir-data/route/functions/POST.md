@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 [**ecr-viewer**](../../../README.md) • **Docs**
 
 ***
@@ -11,6 +12,13 @@
 
 [ecr-viewer](../../../../README.md) / [api/save-fhir-data/route](../README.md) / POST
 >>>>>>> b91b512a (docs)
+=======
+[**ecr-viewer**](../../../README.md) • **Docs**
+
+***
+
+[ecr-viewer](../../../README.md) / [save-fhir-data/route](../README.md) / POST
+>>>>>>> ff62fb0f (fix)
 
 # Function: POST()
 
@@ -33,7 +41,11 @@ A `NextResponse` object with a JSON payload indicating the success message and t
 ## Defined in
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 [save-fhir-data/route.ts:12](https://github.com/CDCgov/phdi/blob/dbe13517da6c10296fb0f8b7c72a5ebb1d47f2c7/containers/ecr-viewer/src/app/api/save-fhir-data/route.ts#L12)
 =======
 [src/app/api/save-fhir-data/route.ts:12](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/api/save-fhir-data/route.ts#L12)
 >>>>>>> b91b512a (docs)
+=======
+[save-fhir-data/route.ts:12](https://github.com/CDCgov/phdi/blob/dbe13517da6c10296fb0f8b7c72a5ebb1d47f2c7/containers/ecr-viewer/src/app/api/save-fhir-data/route.ts#L12)
+>>>>>>> ff62fb0f (fix)
