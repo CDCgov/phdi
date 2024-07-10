@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
-import { formatString } from "../services/formatService";
+import { formatString } from "@/services/formatService";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 
 type AccordionContainerProps = {
