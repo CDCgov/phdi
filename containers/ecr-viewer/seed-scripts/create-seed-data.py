@@ -79,8 +79,10 @@ def convert_files():
                 if response.status_code == 200:
                     responses_json = response.json()["processed_values"]["responses"]
                     for response in responses_json:
-                        if "fhir_bundle" in response:
-                            fhir_bundles.append(response["fhir_bundle"]["bundle"])
+                        if "stamped_ecr" in response:
+                            fhir_bundles.append(
+                                response["stamped_ecr"]["extended_bundle"]
+                            )
                         if "message_parser_values" in response:
                             metadata.append(
                                 response["message_parser_values"]["parsed_values"]
