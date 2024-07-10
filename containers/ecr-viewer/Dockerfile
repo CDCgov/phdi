@@ -9,6 +9,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 RUN npm i -g turbo
 COPY . .
+ENV TURBO_TELEMETRY_DISABLED=1
 RUN turbo prune ecr-viewer --docker
 
 # Add lockfile and package.json's of isolated subworkspace
@@ -27,6 +28,7 @@ RUN npm i
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV TURBO_TELEMETRY_DISABLED=1
 
 RUN npx turbo build --filter=ecr-viewer...
 
@@ -47,6 +49,7 @@ COPY --from=installer --chown=nextjs:nodejs /app/containers/ecr-viewer/.next/sta
 COPY --from=installer --chown=nextjs:nodejs /app/containers/ecr-viewer/.next/static ./containers/ecr-viewer/.next/static
 #COPY --from=installer --chown=nextjs:nodejs /app/containers/ecr-viewer/public ./containers/ecr-viewer/public
 
+ENV TURBO_TELEMETRY_DISABLED=1
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV OTEL_TRACES_EXPORTER=otlp
 ENV OTEL_METRICS_EXPORTER=otlp
