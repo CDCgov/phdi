@@ -26,9 +26,6 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Change to the correct directory
-        run: cd containers/ecr-viewer
-
       - name: Build app
         run: docker compose --env-file .env.test up -d
         working-directory: ./containers/ecr-viewer
