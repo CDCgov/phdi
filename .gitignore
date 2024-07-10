@@ -84,3 +84,4 @@ build/
 .turbo
 out
 tsconfig.tsbuildinfo
+.env.local
