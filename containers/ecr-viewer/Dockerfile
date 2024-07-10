@@ -47,7 +47,6 @@ COPY --from=installer /app/containers/ecr-viewer/package.json .
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nextjs:nodejs /app/containers/ecr-viewer/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/containers/ecr-viewer/.next/static ./containers/ecr-viewer/.next/static
-#COPY --from=installer --chown=nextjs:nodejs /app/containers/ecr-viewer/public ./containers/ecr-viewer/public
 
 ENV TURBO_TELEMETRY_DISABLED=1
 ENV NEXT_TELEMETRY_DISABLED=1
