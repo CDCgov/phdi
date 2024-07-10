@@ -1,10 +1,10 @@
-[**ecr-viewer**](../../../README.md) • **Docs**
+[**ecr-viewer**](../../README.md) • **Docs**
 
 ***
 
-[ecr-viewer](../../../README.md) / api/fhir-data/route
+[ecr-viewer](../../README.md) / fhir-data/route
 
-# api/fhir-data/route
+# fhir-data/route
 
 ## Index
 

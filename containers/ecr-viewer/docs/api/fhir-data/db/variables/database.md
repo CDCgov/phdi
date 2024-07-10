@@ -1,8 +1,8 @@
-[**ecr-viewer**](../../../../README.md) • **Docs**
+[**ecr-viewer**](../../../README.md) • **Docs**
 
 ***
 
-[ecr-viewer](../../../../README.md) / [api/fhir-data/db](../README.md) / database
+[ecr-viewer](../../../README.md) / [fhir-data/db](../README.md) / database
 
 # Variable: database
 
@@ -10,4 +10,4 @@
 
 ## Defined in
 
-[src/app/api/fhir-data/db.ts:4](https://github.com/CDCgov/phdi/blob/fa63a85e5b4651bdfc0d25ecc23a67e11fbcba18/containers/ecr-viewer/src/app/api/fhir-data/db.ts#L4)
+[fhir-data/db.ts:4](https://github.com/CDCgov/phdi/blob/dbe13517da6c10296fb0f8b7c72a5ebb1d47f2c7/containers/ecr-viewer/src/app/api/fhir-data/db.ts#L4)
