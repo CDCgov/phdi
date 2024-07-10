@@ -1,11 +1,15 @@
 {
   "entryPoints": [
-    "src/app"
+    "src/app/api"
   ],
-  "out": "docs",
+  "out": "docs/api",
   "exclude": [
     "**/__tests__/**/*",
-    "**/*.spec.ts"
+    "**/*n.spec.ts",
+    "**/api/services/**/*",
+    "**/api/tests/**/*",
+    "**/api/fhirPath.yml",
+    "**/api/utils.ts"
   ],
   "plugin": [
     "typedoc-plugin-markdown"

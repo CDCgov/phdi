@@ -1,8 +1,8 @@
-[**ecr-viewer**](../../../README.md) • **Docs**
+[**ecr-viewer**](../../README.md) • **Docs**
 
 ***
 
-[ecr-viewer](../../../README.md) / [api/route](../README.md) / GET
+[ecr-viewer](../../README.md) / [route](../README.md) / GET
 
 # Function: GET()
 
@@ -18,4 +18,4 @@ Response with status OK.
 
 ## Defined in
 
-[src/app/api/route.ts:7](https://github.com/CDCgov/phdi/blob/fa63a85e5b4651bdfc0d25ecc23a67e11fbcba18/containers/ecr-viewer/src/app/api/route.ts#L7)
+[route.ts:7](https://github.com/CDCgov/phdi/blob/dbe13517da6c10296fb0f8b7c72a5ebb1d47f2c7/containers/ecr-viewer/src/app/api/route.ts#L7)
