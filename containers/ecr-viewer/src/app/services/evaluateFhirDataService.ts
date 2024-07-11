@@ -279,7 +279,7 @@ export const evaluateDemographicsData = (
       title: "Patient IDs",
       toolTip:
         "Unique patient identifier(s) from their medical record. For example, a patient's social security number or medical record number.",
-      value: evaluate(fhirBundle, mappings.patientId)[0],
+      value: evaluateIdentifiers(fhirBundle, mappings.patientIds),
     },
   ];
   return evaluateData(demographicsData);
@@ -464,4 +464,21 @@ export const evaluateValue = (entry: Element, path: string): string => {
     console.log(`Not implemented for ${originalValue.__path__}`);
   }
   return value.trim();
+};
+
+/**
+ *
+ * @param fhirBundle The FHIR resource to evaluate.
+ * @param path The path within the resource to extract the value from.
+ * @returns Formatted string of identifiers
+ */
+export const evaluateIdentifiers = (fhirBundle: Bundle, path: string) => {
+  const identifiers = evaluate(fhirBundle, path);
+
+  return identifiers.map((identifier) => {
+    const splitIdentifierSystem = identifier.system.split(":");
+    const namespaceIdentifier = splitIdentifierSystem[1].toUpperCase();
+    const namespaceSpecificString = splitIdentifierSystem.at(-1);
+    return `${identifier.value} ${namespaceIdentifier}: ${namespaceSpecificString}\n`;
+  });
 };
