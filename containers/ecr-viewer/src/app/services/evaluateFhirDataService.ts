@@ -478,7 +478,7 @@ export const evaluateIdentifiers = (fhirBundle: Bundle, path: string) => {
   return identifiers.map((identifier) => {
     const splitIdentifierSystem = identifier.system.split(":");
     const namespaceIdentifier = splitIdentifierSystem[1].toUpperCase();
-    const namespaceSpecificString = splitIdentifierSystem.at(-1);
+    const namespaceSpecificString = splitIdentifierSystem.slice(2).join(":");
     return `${identifier.value} ${namespaceIdentifier}: ${namespaceSpecificString}\n`;
   });
 };
