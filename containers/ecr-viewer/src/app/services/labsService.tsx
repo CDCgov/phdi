@@ -592,22 +592,19 @@ export const evaluateLabOrganizationData = (
 
 /**
  * Finds an identical organization based on address and assigns the telecom to the matched organization
- * First filters out matchedOrg from orgMappings to avoid comparing to itself
- * Checks if address line 0, address line 1, city, state, and postal code are the same, if so
- * it assigns the telecom to the matchedOrg
+ * Checks if id is not the same to avoid comparing to itself as well as address line 0, address line 1,
+ * city, state, and postal code are the same, if so it assigns the telecom to the matchedOrg
  * @param orgMappings all the organizations found in the fhir bundle
  * @param matchedOrg the org that matches the id of the lab
  * @returns the matchedOrg with the telecom assigned if applicable
  */
-const findIdenticalOrg = (
+export const findIdenticalOrg = (
   orgMappings: any[],
   matchedOrg: Organization,
 ): Organization => {
-  orgMappings = orgMappings.filter(
-    (organization) => organization?.id !== matchedOrg?.id,
-  );
   orgMappings.forEach((organization) => {
     if (
+      organization?.id !== matchedOrg?.id &&
       organization?.address?.[0]?.line?.[0] ===
         matchedOrg?.address?.[0]?.line?.[0] &&
       organization?.address?.[0]?.line?.[1] ===
