@@ -70,7 +70,7 @@ jobs:
       - name: Run unit tests for container with coverage
         working-directory: ./containers/${{env.CONTAINER}}
         run: |
-          python -m pytest --cov-report xml --cov=. -m "not integration" tests/
+          python -m pytest --cov-report xml --cov=. -m "not integration" .
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:

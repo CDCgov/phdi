@@ -1,3 +1,6 @@
 pytest
 httpx
 testcontainers[compose]==3.7.1
+mammoth==1.8.0
+beautifulsoup4==4.12.3
+lxml==5.2.2
