@@ -475,10 +475,9 @@ export const evaluateValue = (entry: Element, path: string): string => {
 export const evaluateIdentifiers = (fhirBundle: Bundle, path: string) => {
   const identifiers = evaluate(fhirBundle, path);
 
-  return identifiers.map((identifier) => {
-    const splitIdentifierSystem = identifier.system.split(":");
-    const namespaceIdentifier = splitIdentifierSystem[1].toUpperCase();
-    const namespaceSpecificString = splitIdentifierSystem.slice(2).join(":");
-    return `${identifier.value} ${namespaceIdentifier}: ${namespaceSpecificString}\n`;
-  });
+  return identifiers
+    .map((identifier) => {
+      return `${identifier.value}`;
+    })
+    .join("\n");
 };
