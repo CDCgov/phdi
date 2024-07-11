@@ -467,7 +467,7 @@ export const evaluateValue = (entry: Element, path: string): string => {
 };
 
 /**
- *
+ * Evaluate the identifiers string and return in a formatted list.
  * @param fhirBundle The FHIR resource to evaluate.
  * @param path The path within the resource to extract the value from.
  * @returns Formatted string of identifiers
