@@ -1,5 +1,6 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import {
+  evaluateIdentifiers,
   evaluateReference,
   evaluateValue,
 } from "@/app/services/evaluateFhirDataService";
@@ -80,5 +81,16 @@ describe("evaluate value", () => {
 
       expect(actual).toEqual("1%");
     });
+  });
+});
+
+describe("Evaluate Identifier", () => {
+  it("should return the Identifier value", () => {
+    const actual = evaluateIdentifiers(
+      BundleWithPatient as unknown as Bundle,
+      mappings.patientIds,
+    );
+
+    expect(actual).toEqual("10308625");
   });
 });
