@@ -21,17 +21,14 @@ services:
   # Next.js app
   ecr-viewer:
     build:
-      context: .
-      dockerfile: ./Dockerfile.dev
+      context: ../../
+      dockerfile: ./containers/ecr-viewer/Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - ./src/app:/app
     environment:
-      - DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
-    depends_on:
-      db:
-        condition: service_healthy
+      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/ecr_viewer_db}
+      - APP_ENV=${APP_ENV:-prod}
+
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: "jaeger"

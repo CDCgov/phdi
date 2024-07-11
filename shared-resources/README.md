@@ -1,35 +1,22 @@
-# Shared Modules for PHDI Containers
+# Shared UI for DIBBs Containers
 
-This folder contains shared modules that can be used across PHDI Next.js projects. Follow the instructions below to integrate these shared modules into other containers.
+This folder contains shared modules that can be used across DIBBs JS projects. Follow the instructions below to add 
 
-## Step 1: Sym link the folder to your container
+## Installation
 
-From the repo you want to sym link to
+Simply install `@repo/ui` using your package manager (`npm i @repo/ui`)
 
-Example:
+## Adding additional components
+
+After a new component has been added, in order for it to be available for use it must be [added into the package.json under the `export` property](https://turbo.build/repo/docs/crafting-your-repository/structuring-a-repository#exports).
+
+For example, after adding a new component called `Accordion` it must be added to the export in order to import it in another project.
+```json
+{
+  "exports": {
+    "./accordion": "./src/Accordion.tsx"
+  }
+}
 ```
-ln -s ../../../../../shared-resources/src/ ./src/app/shared/
-```
 
-## Step 2: Install local requirements for shared-resources
-In the shared resources folder run:
-```
-npm install
-```
 
-## Step 3: Update various build commands
-Certain github build commands will need to be updated.
-
-In order for docker to work, the files need to be located in the repo they are being used in. See these examples from build container.
-
-```
-- name: Remove symlinks (if needed)
-  if: ${{ matrix.container-to-build == 'ecr-viewer' }}
-  working-directory: ./containers/${{matrix.container-to-build}}/src/app/shared
-  run: rm -rf ./*
-
-- name: Copy shared-resources (if needed)
-  if: ${{ matrix.container-to-build == 'ecr-viewer' }}
-  working-directory: ./containers/${{matrix.container-to-build}}
-  run: cp -r ../../shared-resources/src/ ./src/app/shared/
-```
