@@ -1,4 +1,4 @@
-import { Bundle, CodeableConcept, Quantity } from "fhir/r4";
+import { Bundle, CodeableConcept, Identifier, Quantity } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import * as dateFns from "date-fns";
 import { PathMappings, evaluateData } from "../utils";
@@ -473,7 +473,7 @@ export const evaluateValue = (entry: Element, path: string): string => {
  * @returns Formatted string of identifiers
  */
 export const evaluateIdentifiers = (fhirBundle: Bundle, path: string) => {
-  const identifiers = evaluate(fhirBundle, path);
+  const identifiers = evaluate(fhirBundle, path) as Identifier[];
 
   return identifiers
     .map((identifier) => {
