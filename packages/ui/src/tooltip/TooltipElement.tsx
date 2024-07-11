@@ -37,8 +37,9 @@ interface TooltipProps {
  * Creates a tooltip-wrapped element if a tooltip text is provided, or returns the content directly otherwise.
  * The tooltip is only applied when the `tooltip` parameter is not null or undefined. If the tooltip text
  * is less than 100 characters, a specific class `short-tooltip` is added to style the tooltip differently.
- * @param content - The content to be displayed, which can be any valid React node or text.
- * @param tooltip - The text for the tooltip. If this is provided, the content will be wrapped in a tooltip.
+ * @param props - The properties object for tooltips.
+ * @param props.content - The content to be displayed, which can be any valid React node or text
+ * @param props.tooltip - The text for the tooltip. If this is provided, the content will be wrapped in a tooltip.
  * @returns A React JSX element containing either the plain content or content wrapped in a tooltip, depending on the tooltip parameter.
  */
 export const TooltipElement = ({

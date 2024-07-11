@@ -11,7 +11,7 @@ export const formatString = (input: string): string => {
   result = result.replace(/\s+/g, "-");
 
   // Remove all special characters except underscores
-  result = result.replace(/[^a-z0-9\-]/g, "");
+  result = result.replace(/[^a-z0-9-]/g, "");
 
   return result;
 };

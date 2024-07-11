@@ -19,7 +19,7 @@ const AccordionContainer: React.FC<AccordionContainerProps> = ({
 }) => {
   //Add id, adjust title
   const items: AccordionItemProps[] = accordionItems.map((item, index) => {
-    let formattedTitle = formatString(`${item["title"]}`);
+    const formattedTitle = formatString(`${item["title"]}`);
     return {
       ...item,
       id: `${formattedTitle}_${index + 1}`,
