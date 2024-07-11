@@ -28,7 +28,7 @@ repos:
           - "@next/eslint-plugin-next"
           - eslint-plugin-unused-imports
           - eslint-plugin-jsdoc
-        args: ["--config=./containers/ecr-viewer/.eslintrc.json", "--fix"]
+        args: ["--config=./containers/ecr-viewer/.eslintrc.js", "--fix"]
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: "v9.6.0"
     hooks:
