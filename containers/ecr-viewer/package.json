@@ -9,7 +9,7 @@
     "setup-local-env": "./setup-env.sh",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "tsc --noEmit && next lint",
     "test": "TZ=America/New_York jest",
     "test:watch": "TZ=America/New_York jest --watch",
     "convert-seed-data": "docker compose -f ./seed-scripts/docker-compose.yml up --abort-on-container-exit",
@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",
+    "@repo/typescript-config": "*",
     "@smithy/util-stream": "^2.1.2",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^15.0.7",

@@ -6,6 +6,9 @@
   "exports": {
     "./accordionContainer": "./src/accordion/AccordionContainer.tsx"
   },
+  "scripts": {
+    "lint": "tsc --noEmit"
+  },
   "dependencies": {
     "@trussworks/react-uswds": "6.1.0",
     "@uswds/uswds": "3.7.0",
@@ -20,6 +23,7 @@
     "jest": "^29.7.0",
     "jest-axe": "^8.0.0",
     "jest-extended": "^4.0.2",
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "typescript": "^5.5.3"
   }
 }
