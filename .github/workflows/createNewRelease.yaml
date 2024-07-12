@@ -20,7 +20,7 @@ jobs:
       - name: Get Commit Messages
         id: get_commit_messages
         run: |
-          COMMIT_MESSAGES=$(git log --pretty=%B)
+          COMMIT_MESSAGES=$(git log origin/${{ github.event.pull_request.head.ref }} --pretty=%B)
           echo "Commit messages: $COMMIT_MESSAGES"
           echo "commit_messages=${COMMIT_MESSAGES}" >> $GITHUB_ENV
       - name: Check commit messages for [RELEASE]
