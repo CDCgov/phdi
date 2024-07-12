@@ -17,10 +17,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Fetch all commit history
-      - name: Get Commit Messages
+      - name: Get Commit Messages on Current Branch
         id: get_commit_messages
         run: |
-          COMMIT_MESSAGES=$(git log origin/${{ github.event.pull_request.head.ref }} --pretty=%B)
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          COMMIT_MESSAGES=$(git log origin/${BRANCH_NAME} --pretty=%B)
           echo "Commit messages: $COMMIT_MESSAGES"
           echo "commit_messages=${COMMIT_MESSAGES}" >> $GITHUB_ENV
       - name: Check commit messages for [RELEASE]
