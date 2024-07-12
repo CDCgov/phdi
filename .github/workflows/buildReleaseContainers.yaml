@@ -60,8 +60,21 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v3
+        if: matrix.container-to-build != 'ecr-viewer'
         with:
           context: ./containers/${{matrix.container-to-build}}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push with shared-resources
+        uses: docker/build-push-action@v3
+        if: matrix.container-to-build == 'ecr-viewer'
+        with:
+          context: .
+          file: ./containers/${{ env.CONTAINER }}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
