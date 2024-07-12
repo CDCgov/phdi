@@ -1,0 +1,89 @@
+{
+  "sections": {
+    "46240-8": {
+      "required": true,
+      "display_name": "History of encounters",
+      "minimal_fields": {
+        "updated_text": "Section details have been removed"
+      },
+      "trigger_codes": {
+        "manually_triggered": {
+          "template_id_root": "2.16.840.1.113883.10.20.15.2.3.5",
+          "updated_text": "Only trigger code related observations retained via"
+        },
+        "problem_observation": {
+          "template_id_root": "2.16.840.1.113883.10.20.15.2.3.3",
+          "updated_text": "Only trigger code related observations retained via"
+        }
+      }
+    },
+    "10164-2": {
+      "required": true,
+      "display_name": "History of Present Illness",
+      "minimal_fields": {
+        "updated_text": "Section details have been removed"
+      }
+    },
+    "11369-6": {
+      "required": false,
+      "display_name": "History of Immunizations",
+      "minimal_fields": {
+        "updated_text": "Section details have been removed"
+      }
+    },
+    "29549-3": {
+      "required": true,
+      "display_name": "Medications Administered",
+      "minimal_fields": {
+        "updated_text": "Section details have been removed"
+      }
+    },
+    "18776-5": {
+      "required": true,
+      "display_name": "Plan of Treatment",
+      "minimal_fields": {
+        "updated_text": "Section details have been removed"
+      },
+      "trigger_codes": {
+        "lab_test_order": {
+          "template_id_root": "2.16.840.1.113883.10.20.15.2.3.4",
+          "updated_text": "Only trigger code related observations retained via"
+        }
+      }
+    },
+    "11450-4": {
+      "required": true,
+      "display_name": "Problem List",
+      "minimal_fields": {
+        "updated_text": "Section details have been removed"
+      }
+    },
+    "29299-5": {
+      "required": true,
+      "display_name": "Reason For Visit",
+      "minimal_fields": {
+        "updated_text": "Section details have been removed"
+      }
+    },
+    "30954-2": {
+      "required": true,
+      "display_name": "Relevant diagnostic tests and/or laboratory data",
+      "minimal_fields": {
+        "updated_text": "Section details have been removed"
+      },
+      "trigger_codes": {
+        "result_observation": {
+          "template_id_root": "2.16.840.1.113883.10.20.15.2.3.2",
+          "updated_text": "Only trigger code related observations retained via"
+        }
+      }
+    },
+    "29762-2": {
+      "required": true,
+      "display_name": "Social History",
+      "minimal_fields": {
+        "updated_text": "Section details have been removed"
+      }
+    }
+  }
+}

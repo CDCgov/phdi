@@ -1,6 +1,7 @@
 ../dibbs
-pathlib
 httpx
-requests
 lxml
+pathlib
 python-multipart
+requests
+rich
