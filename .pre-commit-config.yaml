@@ -12,23 +12,14 @@ repos:
     hooks:
       - id: pretty-format-json
         args: [--autofix, --no-sort-keys]
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: "v9.6.0"
+  - repo: local
     hooks:
       - id: eslint
+        name: eslint
+        entry: bash -c 'npx eslint --fix --config=./containers/ecr-viewer/.eslintrc.js'
         files: ^containers/ecr-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx in containers/ecr-viewer
+        language: system
         types: [file]
-        additional_dependencies:
-          - eslint@8.56.0
-          - eslint-config-next
-          - eslint-config-prettier
-          - "@typescript-eslint/parser"
-          - "@typescript-eslint/eslint-plugin"
-          - typescript
-          - "@next/eslint-plugin-next"
-          - eslint-plugin-unused-imports
-          - eslint-plugin-jsdoc
-        args: ["--config=./containers/ecr-viewer/.eslintrc.js", "--fix"]
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: "v9.6.0"
     hooks:
