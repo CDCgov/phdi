@@ -1,5 +1,6 @@
 name: Create New Release
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
