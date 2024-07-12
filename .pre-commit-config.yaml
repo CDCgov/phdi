@@ -15,10 +15,10 @@ repos:
   - repo: local
     hooks:
       - id: eslint
-        name: eslint
+        name: eslint [ecr-viewer]
         entry: bash -c 'npx eslint --fix --config=./containers/ecr-viewer/.eslintrc.js'
         files: ^containers/ecr-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx in containers/ecr-viewer
-        language: system
+        language: node
         types: [file]
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: "v9.6.0"
