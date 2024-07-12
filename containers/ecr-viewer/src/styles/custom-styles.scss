@@ -63,6 +63,11 @@ h4 {
   font-weight: bold;
 }
 
+.ecr-summary-title-long {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
 .info-container > .usa-accordion__heading > .usa-accordion__button {
   font-size: 2rem;
   background-size: 2.25rem;
@@ -124,7 +129,7 @@ h4 {
 }
 
 .usa-table {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   thead th {
     background-color: #F0F0F0;
     vertical-align: top;
@@ -143,6 +148,15 @@ h4 {
 
   tbody td:first-child {
     width: 644px;
+  }
+}
+
+.table-clinical-problems {
+  tbody td:nth-child(2) {
+    min-width: 130px;
+  }
+  tbody td:nth-child(3) {
+    min-width: 100px;
   }
 }
 
@@ -375,5 +389,29 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
     background: linear-gradient(-90deg, #F0F0F0 45%, #E4E4E4 50%, #F0F0F0 55%);
     background-size: 300%;
     background-position-x: 100%;
+  }
+}
+
+.usa-header{
+  background-color: #172E51;
+  color: white;
+  .usa-logo {
+    a {
+      color: white;
+    }
+  }
+  @media (min-width: 64em) {
+    .usa-logo {
+      margin-bottom: 1.5rem;
+      margin-top: 1.5rem;
+    }
+  }
+  .usa-nav-container{
+    max-width: 65rem;
+  }
+  h1{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.46rem;
   }
 }

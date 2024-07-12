@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python Debugger: Orchestration",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "app/main.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/containers/orchestration",
+      "justMyCode": false,
+      "python": "${workspaceFolder}/containers/orchestration/.venv/bin/python"
+    }
+  ]
+}

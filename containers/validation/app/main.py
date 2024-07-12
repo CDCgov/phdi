@@ -50,7 +50,6 @@ def validate_elr_msg(message: str, include_error_types: list) -> ValidateRespons
     :param message: A string representation of an HL7v2 ORU_R01 message to be validated.
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
-
     details = {
         "details": "No validation was actually performed. Validation for ELR is "
         "only stubbed currently."

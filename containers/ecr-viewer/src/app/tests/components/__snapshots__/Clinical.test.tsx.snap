@@ -170,9 +170,7 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
           <div
             data-testid="treatment-details"
           >
-            <div
-              class="grid-row"
-            >
+            <div>
               <div
                 class="grid-col-auto width-full text-pre-line"
               >
@@ -248,9 +246,6 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
               />
             </div>
           </div>
-          <div
-            class="section__line_gray margin-y-2"
-          />
         </div>
         <h4
           class="usa-summary-box__heading padding-y-105"

@@ -1,0 +1,19 @@
+name: "Run Container Workflow"
+on:
+  workflow_call:
+    inputs:
+      container:
+        required: true
+        type: string
+jobs:
+  run-container-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run specified workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run .github/workflows/container-${{ inputs.container }}.yaml

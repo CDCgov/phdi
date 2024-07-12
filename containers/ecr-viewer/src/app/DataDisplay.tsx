@@ -52,6 +52,28 @@ export const DataDisplay: React.FC<{
     </div>
   );
 };
+
+/**
+ * Functional component for displaying (a list of) data tables.
+ * @param props - Props containing the item to be displayed.
+ * @param props.item - The data item to be displayed.
+ * @returns The JSX element representing the data table display.
+ */
+export const DataTableDisplay: React.FC<{
+  item: DisplayDataProps;
+}> = ({ item }): React.JSX.Element => {
+  item.dividerLine =
+    item.dividerLine == null || item.dividerLine == undefined
+      ? true
+      : item.dividerLine;
+  return (
+    <div>
+      <div className="grid-col-auto width-full text-pre-line">{item.value}</div>
+      {item.dividerLine ? <div className={"section__line_gray"} /> : ""}
+    </div>
+  );
+};
+
 /**
  * Functional component for displaying a value. If the value has a length greater than 500 characters, it will be split after 300 characters with a view more button to view the entire value.
  * @param value - props for the component

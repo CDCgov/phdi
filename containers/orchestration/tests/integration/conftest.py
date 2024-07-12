@@ -23,6 +23,7 @@ def setup(request):
         "INGESTION_PORT_NUMBER",
         "MESSAGE_PARSER_PORT_NUMBER",
         "ECR_VIEWER_PORT_NUMBER",
+        "TRIGGER_CODE_REFERENCE_PORT_NUMBER",
     ]
     for port_number in port_number_strings:
         port = os.getenv(port_number)

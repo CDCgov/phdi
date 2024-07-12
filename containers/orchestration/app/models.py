@@ -11,7 +11,7 @@ from pydantic import root_validator
 # Request and response models
 class OrchestrationRequest(BaseModel):
     """
-    The config for requests to the /process endpoint.
+    The config for requests to the /process-message endpoint.
     """
 
     message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
@@ -100,7 +100,7 @@ class OrchestrationResponse(BaseModel):
 
     message: Optional[str] = Field(
         description="A message describing the result of a request to "
-        "the /process endpoint."
+        "the /process-message endpoint."
     )
     processed_values: Union[dict, str] = Field(
         description="A set of key:value pairs or XML-formatted string containing the "
@@ -162,6 +162,6 @@ class GetConfigResponse(BaseModel):
 
     message: str = Field(
         description="A message describing the result of a request to "
-        "the /process endpoint."
+        "the /process-message or /process-zip endpoint."
     )
     workflow: dict = Field(description="A configuration for the orchestration app")

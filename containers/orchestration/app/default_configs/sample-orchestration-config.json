@@ -27,6 +27,15 @@
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     },
     {
+      "service": "trigger_code_reference",
+      "endpoint": "/stamp-condition-extensions",
+      "params": {
+        "conditions": [
+          "840539006"
+        ]
+      }
+    },
+    {
       "service": "save_bundle",
       "url": "${ECR_VIEWER_URL}",
       "endpoint": "/api/save-fhir-data",

@@ -19,6 +19,7 @@ jest.mock("next-auth/jwt", () => ({
 describe("Middleware", () => {
   beforeEach(() => {
     process.env.NEXTAUTH_SECRET = "test-secret";
+    process.env.APP_ENV = "middleware";
     jest.resetAllMocks(); // Reset mocks before each test
   });
 

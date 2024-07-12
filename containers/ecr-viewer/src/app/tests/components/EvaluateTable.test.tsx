@@ -1,8 +1,10 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
-import { ColumnInfoInput, PathMappings } from "@/app/utils";
+import { PathMappings } from "@/app/utils";
 import userEvent from "@testing-library/user-event";
-import EvaluateTable from "@/app/view-data/components/EvaluateTable";
+import EvaluateTable, {
+  ColumnInfoInput,
+} from "@/app/view-data/components/EvaluateTable";
 
 const mappings = loadYamlConfig();
 

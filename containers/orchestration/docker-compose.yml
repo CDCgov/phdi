@@ -1,7 +1,15 @@
-include:
-  - ../ecr-viewer/docker-compose-orchestration.yml
-
 services:
+  ecr-viewer-db:
+    extends:
+      file: ../ecr-viewer/docker-compose.yml
+      service: db
+  ecr-viewer:
+    extends:
+      file: ../ecr-viewer/docker-compose.yml
+      service: ecr-viewer
+    environment:
+      - DATABASE_URL=postgres://postgres:pw@ecr-viewer-db:5432/ecr_viewer_db
+      - APP_ENV=test
   orchestration-service:
     platform: linux/amd64
     build:
@@ -11,6 +19,7 @@ services:
         validation-service,
         fhir-converter-service,
         ingestion-service,
+        trigger-code-reference-service,
         message-parser-service,
         ecr-viewer,
       ]
@@ -53,6 +62,14 @@ services:
       context: ../message-parser
     ports:
       - "${MESSAGE_PARSER_PORT_NUMBER}:8080"
+    logging:
+      driver: "json-file"
+  trigger-code-reference-service:
+    platform: linux/amd64
+    build:
+      context: ../trigger-code-reference
+    ports:
+      - "${TRIGGER_CODE_REFERENCE_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
   jaeger:
