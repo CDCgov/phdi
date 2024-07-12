@@ -1,6 +1,6 @@
 import React from "react";
 import { Bundle, Observation, Organization, Reference } from "fhir/r4";
-import { PathMappings, ColumnInfoInput, noData } from "@/app/utils";
+import { PathMappings, noData } from "@/app/utils";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
@@ -12,7 +12,9 @@ import {
   TableJson,
 } from "@/app/services/formatService";
 import { ObservationComponent } from "fhir/r4b";
-import EvaluateTable from "@/app/view-data/components/EvaluateTable";
+import EvaluateTable, {
+  ColumnInfoInput,
+} from "@/app/view-data/components/EvaluateTable";
 import { evaluateReference, evaluateValue } from "./evaluateFhirDataService";
 import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
 
@@ -557,9 +559,12 @@ export const evaluateLabOrganizationData = (
   labReportCount: number,
 ) => {
   const orgMappings = evaluate(fhirBundle, mappings["organizations"]);
-  const matchingOrg: Organization = orgMappings.filter(
+  let matchingOrg: Organization = orgMappings.filter(
     (organization) => organization.id === id,
   )[0];
+  if (matchingOrg) {
+    matchingOrg = findIdenticalOrg(orgMappings, matchingOrg);
+  }
   const orgAddress = matchingOrg?.address?.[0];
   const streetAddress = orgAddress?.line ?? [];
   const city = orgAddress?.city ?? "";
@@ -583,6 +588,38 @@ export const evaluateLabOrganizationData = (
     { title: "Number of Results", value: labReportCount },
   ];
   return matchingOrgData;
+};
+
+/**
+ * Finds an identical organization based on address and assigns the telecom to the matched organization
+ * Checks if id is not the same to avoid comparing to itself as well as address line 0, address line 1,
+ * city, state, and postal code are the same, if so it assigns the telecom to the matchedOrg
+ * @param orgMappings all the organizations found in the fhir bundle
+ * @param matchedOrg the org that matches the id of the lab
+ * @returns the matchedOrg with the telecom assigned if applicable
+ */
+export const findIdenticalOrg = (
+  orgMappings: any[],
+  matchedOrg: Organization,
+): Organization => {
+  orgMappings.forEach((organization) => {
+    if (
+      organization?.id !== matchedOrg?.id &&
+      organization?.address?.[0]?.line?.[0] ===
+        matchedOrg?.address?.[0]?.line?.[0] &&
+      organization?.address?.[0]?.line?.[1] ===
+        matchedOrg?.address?.[0]?.line?.[1] &&
+      organization?.address?.[0]?.city === matchedOrg?.address?.[0]?.city &&
+      organization?.address?.[0]?.state === matchedOrg?.address?.[0]?.state &&
+      organization?.address?.[0]?.postalCode ===
+        matchedOrg?.address?.[0]?.postalCode
+    ) {
+      Object.assign(matchedOrg, {
+        telecom: organization.telecom,
+      });
+    }
+  });
+  return matchedOrg;
 };
 
 /**

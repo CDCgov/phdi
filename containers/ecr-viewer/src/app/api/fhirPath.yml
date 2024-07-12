@@ -9,7 +9,7 @@ patientPhoneNumbers: "Bundle.entry.resource.where(resourceType = 'Patient').tele
 patientEmails: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'email')"
 patientCounty: "Bundle.entry.resource.where(resourceType = 'Patient').address.first().county"
 
-patientId: "Bundle.entry.resource.where(resourceType = 'Patient').id"
+patientIds: "Bundle.entry.resource.where(resourceType = 'Patient').identifier"
 patientDOB: "Bundle.entry.resource.where(resourceType = 'Patient').birthDate"
 patientVitalStatus: "Bundle.entry.resource.where(resourceType = 'Patient').deceasedBoolean"
 patientGender: "Bundle.entry.resource.where(resourceType = 'Patient').gender"
@@ -91,6 +91,7 @@ plannedProcedureScheduledDate: "detail.scheduledString"
 
 # Adminstered Medications
 administeredMedications: "Bundle.entry.resource.section.where(code.coding[0].code = '29549-3').text"
+adminMedicationsRefs: "Bundle.entry.resource.section.where(code.coding[0].code = '29549-3').entry.reference"
 
 ## Care Team
 careTeamParticipants: "Bundle.entry.resource.where(resourceType='CareTeam').participant"
