@@ -12,14 +12,24 @@ repos:
     hooks:
       - id: pretty-format-json
         args: [--autofix, --no-sort-keys]
-  - repo: local
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: "v9.6.0"
     hooks:
       - id: eslint
-        name: eslint [ecr-viewer]
-        entry: bash -c 'npx eslint --fix --config=./containers/ecr-viewer/.eslintrc.js'
+        name: eslint-ecr-viewer
         files: ^containers/ecr-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx in containers/ecr-viewer
-        language: node
         types: [file]
+        additional_dependencies:
+          - eslint@8.56.0
+          - eslint-config-next
+          - eslint-config-prettier
+          - "@typescript-eslint/parser"
+          - "@typescript-eslint/eslint-plugin"
+          - typescript
+          - "@next/eslint-plugin-next"
+          - eslint-plugin-unused-imports@3
+          - eslint-plugin-jsdoc
+        args: ["--config=./containers/ecr-viewer/.eslintrc.js", "--fix"]
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: "v9.6.0"
     hooks:
@@ -61,5 +71,5 @@ ci:
   autoupdate_branch: ""
   autoupdate_commit_msg: "[pre-commit.ci] pre-commit autoupdate"
   autoupdate_schedule: weekly
-  skip: [pretty-format-json, terraform-fmt]
+  skip: [pretty-format-json, terraform-fmt, eslint]
   submodules: false
