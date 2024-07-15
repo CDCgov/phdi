@@ -15,19 +15,10 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Fetch all commit history
-      - name: Get Commit Messages on Current Branch
-        id: get_commit_messages
-        run: |
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-          COMMIT_MESSAGES=$(git log origin/${BRANCH_NAME} --pretty=%B)
-          echo "Commit messages: $COMMIT_MESSAGES"
-          echo "commit_messages=${COMMIT_MESSAGES}" >> $GITHUB_ENV
-      - name: Check commit messages for [RELEASE]
+      - name: Check commit message for [RELEASE]
         id: commit_check
         run: |
-          if echo "${{ env.commit_messages }}" | grep -q "\[RELEASE\]"; then
+          if [[ "${{ github.event.head_commit.message }}" == *"[RELEASE]"* ]]; then
             echo "contains_release=true" >> $GITHUB_OUTPUT
           else
             echo "contains_release=false" >> $GITHUB_OUTPUT
