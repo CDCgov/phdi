@@ -86,7 +86,6 @@ export default function ListECRViewer({
  * @returns An array of JSX table row elements representing the list of eCRs.
  */
 const renderListEcrTableData = (listFhirData: Ecr[]) => {
-  console.log(listFhirData);
   return listFhirData.map((item, index) => {
     return (
       <tr key={`table-row-${index}`}>

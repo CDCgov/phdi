@@ -17,12 +17,27 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
             <th
               scope="col"
             >
-              eCR ID
+              Patient
             </th>
             <th
               scope="col"
             >
-              Stored Date
+              Received Date
+            </th>
+            <th
+              scope="col"
+            >
+              Encounter Date
+            </th>
+            <th
+              scope="col"
+            >
+              Reportable Condition
+            </th>
+            <th
+              scope="col"
+            >
+              RCKMS Rule Summary
             </th>
           </tr>
         </thead>
@@ -32,36 +47,48 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
               <a
                 href="/view-data?id=12345"
               >
-                12345
+                 
               </a>
+              <br />
+              DOB: undefined
+               
             </td>
-            <td>
-              04/16/2024 9:40 PM UTC
-            </td>
+            <td />
+            <td />
+            <td />
+            <td />
           </tr>
           <tr>
             <td>
               <a
                 href="/view-data?id=23456"
               >
-                23456
+                 
               </a>
+              <br />
+              DOB: undefined
+               
             </td>
-            <td>
-              04/16/2024 9:41 PM UTC
-            </td>
+            <td />
+            <td />
+            <td />
+            <td />
           </tr>
           <tr>
             <td>
               <a
                 href="/view-data?id=34567"
               >
-                34567
+                 
               </a>
+              <br />
+              DOB: undefined
+               
             </td>
-            <td>
-              04/16/2024 9:42 PM UTC
-            </td>
+            <td />
+            <td />
+            <td />
+            <td />
           </tr>
         </tbody>
       </table>

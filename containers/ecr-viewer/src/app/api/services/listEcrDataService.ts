@@ -119,7 +119,6 @@ const list_s3 = async () => {
  * @returns - The processed list of eCR IDs and dates.
  */
 export const processListPostgres = (responseBody: any[]): any => {
-  console.log(responseBody);
   return responseBody.map((object) => {
     return {
       patient_first_name: object.patient_name_first || "",

@@ -83,13 +83,70 @@ describe("listEcrDataService", () => {
 
     it("should map each object in responseBody to the correct output structure", () => {
       const responseBody: any[] = [
-        { ecr_id: "ecr1", date_created: new Date() },
-        { ecr_id: "ecr2", date_created: new Date() },
+        {
+          ecr_id: "ecr1",
+          date_created: new Date(),
+          patient_first_name: "Test",
+          patient_last_name: "Person",
+          patient_date_of_birth: "10/11/1991",
+          report_date: "02/27/2022",
+          reportable_condition: "Long",
+          rule_summary: "Longer",
+        },
+        {
+          ecr_id: "ecr2",
+          date_created: new Date(),
+          patient_first_name: "Another",
+          patient_last_name: "Test",
+          patient_date_of_birth: "07/18/1994",
+          report_date: "02/27/2021",
+          reportable_condition: "Stuff",
+          rule_summary: "Other stuff",
+        },
       ];
 
-      const expected: Ecr[] = [
-        { ecrId: "ecr1", dateModified: expect.any(String) },
-        { ecrId: "ecr2", dateModified: expect.any(String) },
+      const expected: (
+        | {
+            rule_summary: any;
+            ecrId: string;
+            patient_report_date: any;
+            date_created: any;
+            reportable_condition: any;
+            patient_last_name: any;
+            patient_date_of_birth: any;
+            patient_first_name: any;
+          }
+        | {
+            rule_summary: string;
+            ecrId: string;
+            patient_report_date: string;
+            date_created: any;
+            reportable_condition: string;
+            patient_last_name: string;
+            patient_date_of_birth: string;
+            patient_first_name: string;
+          }
+      )[] = [
+        {
+          ecrId: "ecr1",
+          date_created: expect.any(String),
+          patient_first_name: expect.any(String),
+          patient_last_name: expect.any(String),
+          patient_date_of_birth: expect.any(String),
+          patient_report_date: expect.any(String),
+          reportable_condition: expect.any(String),
+          rule_summary: expect.any(String),
+        },
+        {
+          ecrId: "ecr2",
+          date_created: expect.any(String),
+          patient_first_name: expect.any(String),
+          patient_last_name: expect.any(String),
+          patient_date_of_birth: expect.any(String),
+          patient_report_date: expect.any(String),
+          reportable_condition: expect.any(String),
+          rule_summary: expect.any(String),
+        },
       ];
       const result = processListPostgres(responseBody);
 
@@ -102,68 +159,109 @@ describe("listEcrDataService", () => {
     database.manyOrNone = jest.fn(() => Promise.resolve([]));
     const actual = await listEcrData();
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-      "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
+      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
     );
     expect(actual).toBeEmpty();
   });
 
   it("should return data when found and source is postgres", async () => {
     process.env.SOURCE = "postgres";
-    database.manyOrNone<{ ecr_id: string; date_created: string }> = jest.fn(
-      () =>
-        Promise.resolve([
-          { ecr_id: "1234", date_created: "2024-06-21T12:00:00Z" },
-        ]),
+    database.manyOrNone<{
+      ecr_id: string;
+      date_created: string;
+      patient_birth_date: string;
+      patient_name_first: string;
+      patient_name_last: string;
+      report_date: string;
+      reportable_condition: string;
+      rule_summary: string;
+    }> = jest.fn(() =>
+      Promise.resolve([
+        {
+          ecr_id: "1234",
+          date_created: "2024-06-21T12:00:00Z",
+          patient_birth_date: "11/07/1954",
+          patient_name_first: "Billy",
+          patient_name_last: "Bob",
+          report_date: "2024-06-21T12:00:00Z",
+          reportable_condition: "stuff",
+          rule_summary: "yup",
+        },
+      ]),
     );
 
     const actual = await listEcrData();
 
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-      "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
+      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
     );
     expect(actual).toEqual([
       {
-        dateModified: "06/21/2024 8:00 AM EDT",
+        date_created: "06/21/2024 8:00 AM EDT",
         ecrId: "1234",
+        patient_date_of_birth: "11/07/1954",
+        patient_first_name: "Billy",
+        patient_last_name: "Bob",
+        patient_report_date: "06/21/2024 8:00 AM EDT",
+        reportable_condition: "stuff",
+        rule_summary: "yup",
       },
     ]);
   });
 
   it("should console log data from the fhir_metadata table", async () => {
     process.env.SOURCE = "postgres";
-    database.manyOrNone<{ ecr_id: string; date_created: string }> = jest.fn(
-      () =>
-        Promise.resolve([
-          {
-            ecr_id: "1234",
-            date_created: "2024-06-21T12:00:00Z",
-            patient_name_last: "lnam",
-            patient_birth_date: "1990-01-01T05:00:00.000Z",
-            report_date: "2024-06-20T04:00:00.000Z",
-            reportable_condition: "sick",
-          },
-        ]),
+    database.manyOrNone<{
+      ecr_id: string;
+      date_created: string;
+      patient_birth_date: string;
+      patient_name_first: string;
+      patient_name_last: string;
+      report_date: string;
+      reportable_condition: string;
+      rule_summary: string;
+    }> = jest.fn(() =>
+      Promise.resolve([
+        {
+          ecr_id: "1234",
+          date_created: "2024-06-21T12:00:00Z",
+          patient_name_first: "boy",
+          patient_name_last: "lnam",
+          patient_birth_date: "1990-01-01T05:00:00.000Z",
+          report_date: "2024-06-20T04:00:00.000Z",
+          reportable_condition: "sick",
+          rule_summary: "stuff",
+        },
+      ]),
     );
 
     const actual = await listEcrData();
 
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-      "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
+      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
     );
     expect(actual).toEqual([
       {
-        dateModified: "06/21/2024 8:00 AM EDT",
+        date_created: "06/21/2024 8:00 AM EDT",
         ecrId: "1234",
+        patient_date_of_birth: "01/01/1990",
+        patient_first_name: "boy",
+        patient_last_name: "lnam",
+        patient_report_date: "06/20/2024 12:00 AM EDT",
+        reportable_condition: "sick",
+        rule_summary: "stuff",
       },
     ]);
     expect(log).toHaveBeenCalledExactlyOnceWith([
       {
-        ecr_id: "1234",
         date_created: "2024-06-21T12:00:00Z",
-        patient_name_last: "lnam",
+        ecr_id: "1234",
         patient_birth_date: "1990-01-01T05:00:00.000Z",
+        patient_name_first: "boy",
+        patient_name_last: "lnam",
         report_date: "2024-06-20T04:00:00.000Z",
         reportable_condition: "sick",
+        rule_summary: "stuff",
       },
     ]);
   });
