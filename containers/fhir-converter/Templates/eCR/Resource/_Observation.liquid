@@ -136,7 +136,12 @@
                     "note":
                     [
                         {
-                            "text": "{{ entry.act.text.reference._ }}",
+                            "elems": [
+                                {
+                                  "elemText": "test",
+                                }
+                            ],
+                            "text": "{{ entry.act.text.reference | to_html_string }}",
                         }
                     ],
                 {% endif %}
