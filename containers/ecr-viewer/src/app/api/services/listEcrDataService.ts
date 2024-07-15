@@ -7,6 +7,7 @@ import { database } from "@/app/api/services/db";
 import {
   formatDateTime,
   convertUTCToLocalString,
+  formatDate,
 } from "@/app/services/formatService";
 
 const S3_SOURCE = "s3";
@@ -72,7 +73,7 @@ const list_postgres = async () => {
   let listFhir;
   if (process.env.STANDALONE_VIEWER === "true") {
     listFhir =
-      "SELECT fhir.ecr_id, date_created, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC";
+      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC";
   } else {
     listFhir =
       "SELECT ecr_id, date_created FROM fhir order by date_created DESC";
@@ -117,15 +118,28 @@ const list_s3 = async () => {
  * @param responseBody - The response body containing eCR data from Postgres.
  * @returns - The processed list of eCR IDs and dates.
  */
-export const processListPostgres = (responseBody: any[]): Ecr[] => {
+export const processListPostgres = (responseBody: any[]): any => {
+  console.log(responseBody);
   return responseBody.map((object) => {
     return {
-      ecrId: object.ecr_id || "",
-      dateModified: object.date_created
+      patient_first_name: object.patient_name_first || "",
+      patient_last_name: object.patient_name_last || "",
+      patient_date_of_birth: object.patient_birth_date
+        ? formatDate(new Date(object.patient_birth_date!).toISOString())
+        : "",
+      date_created: object.date_created
         ? convertUTCToLocalString(
             formatDateTime(new Date(object.date_created!).toISOString()),
           )
         : "",
+      patient_report_date: object.report_date
+        ? convertUTCToLocalString(
+            formatDateTime(new Date(object.report_date!).toISOString()),
+          )
+        : "",
+      reportable_condition: object.reportable_condition || "",
+      rule_summary: object.rule_summary || "",
+      ecrId: object.ecr_id || "",
     };
   });
 };
@@ -167,7 +181,7 @@ const getFhirMetadata = async (
   if (process.env.STANDALONE_VIEWER === "true") {
     const ecrIds = processedData.map((ecr) => ecr.ecrId);
     const fhirMetadataQuery =
-      "SELECT ecr_id, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition FROM fhir_metadata where ecr_id = $1";
+      "SELECT ecr_id, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir_metadata where ecr_id = $1";
 
     const data = await database.manyOrNone<EcrMetadataModel>(
       fhirMetadataQuery,

@@ -18,7 +18,13 @@ interface ListEcrViewerProps {
 export default function ListECRViewer({
   listFhirData,
 }: ListEcrViewerProps): JSX.Element {
-  const header = ["eCR ID", "Stored Date"];
+  const header = [
+    "Patient",
+    "Received Date",
+    "Encounter Date",
+    "Reportable Condition",
+    "RCKMS Rule Summary",
+  ];
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 25;
   const totalPages = Math.ceil(listFhirData.length / itemsPerPage);
@@ -80,13 +86,21 @@ export default function ListECRViewer({
  * @returns An array of JSX table row elements representing the list of eCRs.
  */
 const renderListEcrTableData = (listFhirData: Ecr[]) => {
+  console.log(listFhirData);
   return listFhirData.map((item, index) => {
     return (
       <tr key={`table-row-${index}`}>
         <td>
-          <a href={`/view-data?id=${item.ecrId}`}>{item.ecrId}</a>
+          <a href={`/view-data?id=${item.ecrId}`}>
+            {item.patient_first_name} {item.patient_last_name}
+          </a>
+          <br />
+          {"DOB: " + item.patient_date_of_birth || ""}{" "}
         </td>
-        <td>{item.dateModified}</td>
+        <td>{item.date_created}</td>
+        <td>{item.patient_report_date}</td>
+        <td>{item.reportable_condition}</td>
+        <td>{item.rule_summary}</td>
       </tr>
     );
   });
