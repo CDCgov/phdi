@@ -10,6 +10,12 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
+# # Install sharp
+# RUN apk add --no-cache \
+#   vips-dev \
+#   fftw-dev \
+#   --repository http://dl-cdn.alpinelinux.org/alpine/v3.11/community/ \
+#   --repository http://dl-cdn.alpinelinux.org/alpine/v3.11/main/
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -33,16 +39,16 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# COPY --from=builder /app/public ./public
-
-# Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
+# Copy necessary files and directories
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# After copying public directory
+COPY --from=builder /app/public ./public
+RUN ls -l /app/public
 
 USER nextjs
 
