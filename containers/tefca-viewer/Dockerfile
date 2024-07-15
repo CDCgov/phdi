@@ -10,12 +10,6 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-# # Install sharp
-# RUN apk add --no-cache \
-#   vips-dev \
-#   fftw-dev \
-#   --repository http://dl-cdn.alpinelinux.org/alpine/v3.11/community/ \
-#   --repository http://dl-cdn.alpinelinux.org/alpine/v3.11/main/
 
 # Rebuild the source code only when needed
 FROM base AS builder
