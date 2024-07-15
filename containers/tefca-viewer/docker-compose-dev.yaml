@@ -1,0 +1,23 @@
+services:
+  tefca-viewer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+  tefca-fhir-server:
+    image: "hapiproject/hapi:latest"
+    ports:
+      - "8080:8080"
+  tefca-data-loader:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - "./src/app/tests/assets/BundleHAPIServer.json:/etc/BundleHAPIServer.json"
+      - "./post_request.sh:/post_request.sh"
+    command: ["sh", "post_request.sh"]
+    depends_on:
+      - tefca-fhir-server
