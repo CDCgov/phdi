@@ -10,4 +10,4 @@
 
 ## Defined in
 
-[auth/\[...nextauth\]/route.js:4](https://github.com/CDCgov/phdi/blob/de911eed4d2616e3a509cdcd4c198be50c6e4315/containers/ecr-viewer/src/app/api/auth/[...nextauth]/route.js#L4)
+[auth/\[...nextauth\]/route.js:4](https://github.com/CDCgov/phdi/blob/9949cb6cb2d0a109abb4ac696314e4046e118995/containers/ecr-viewer/src/app/api/auth/[...nextauth]/route.js#L4)
