@@ -1,0 +1,24 @@
+{
+  "entryPoints": [
+    "src/app/api"
+  ],
+  "out": "docs/api",
+  "exclude": [
+    "**/__tests__/**/*",
+    "**/*n.spec.ts",
+    "**/api/services/**/*",
+    "**/api/tests/**/*",
+    "**/api/fhirPath.yml",
+    "**/api/utils.ts",
+    "**/view-data/**/*",
+    "**/login/**/*",
+    "**/services/**/*",
+    "**/shared/**/*"
+  ],
+  "plugin": [
+    "typedoc-plugin-markdown"
+  ],
+  "readme": "none",
+  "tsconfig": "tsconfig.json",
+  "entryPointStrategy": "expand"
+}
