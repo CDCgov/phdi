@@ -5,7 +5,7 @@ The TEFCA Query Connector uses Playwright Test as its end-to-end testing framewo
 ## Config and Directories
 Playwright's configuration is managed by the file `playwright.config.ts`. This file has information on which browsers to test against, configuration options for those browsers, optional mobile browser ports, retry and other utility options, and a dev webserver. Changing this file will make global changes to Playwright's operations.
 
-By default, Playwright will look for end to end tests in `src/app/tests/e2e`.
+By default, Playwright will look for end to end tests in `/e2e`.
 
 ## Github Workflow Action
 Playwright also creates and manages its own Github Actions workflow, located in `.github/workflows/playwright.yml`. This file can be changed to modify Playwright's behavior in Github.
