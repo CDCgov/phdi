@@ -234,6 +234,22 @@ public class CustomFilterTests
             new Dictionary<string, object>() {{"key2", "string2"}},
         };
     var object3 = new Dictionary<string, object>() { { "key1", "string1" } };
+    var object4 = new Dictionary<string, object>() {
+      { "key1", "string1" },
+      { "nestedDict", new Dictionary<string, object>() {
+        { "key2", "string2" },
+        { "key3", "string3" }
+      }},
+      { "key4", "string4" }
+    };
+    var object5 = new Dictionary<string, object>() {
+      { "key1", "string1" },
+      { "nestedList", new List<object>() {
+        new Dictionary<string, object>() { { "key2", "string2" } },
+        new Dictionary<string, object>() { { "key3", "string3" } }
+      }},
+      { "key4", "string4" }
+    };
 
     var actual1 = Filters.ConcatStrings(object1);
     Assert.Equal("string1<br/>string2", actual1);
@@ -243,6 +259,12 @@ public class CustomFilterTests
 
     var actual3 = Filters.ConcatStrings(object3);
     Assert.Equal("string1", actual3);
+
+    var actual4 = Filters.ConcatStrings(object4);
+    Assert.Equal("string1<br/>string2<br/>string3<br/>string4", actual4);
+
+    var actual5 = Filters.ConcatStrings(object5);
+    Assert.Equal("string1<br/>string3<br/>string2<br/>string4", actual5);
   }
 
   [Fact]
