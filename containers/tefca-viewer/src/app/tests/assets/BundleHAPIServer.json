@@ -33,43 +33,8 @@
                 }
             },
             "request": {
-                "method": "POST",
+                "method": "PUT",
                 "url": "Observation/10JJ"
-            }
-        },
-        {
-            "resource": {
-                "resourceType": "Observation",
-                "id": "11KK",
-                "status": "final",
-                "code": {
-                    "coding": [
-                        {
-                            "system": "http://loinc.org",
-                            "code": "57713-0",
-                            "display": "Infant factors that affect newborn screening interpretation"
-                        }
-                    ],
-                    "text": "Infant factors that affect newborn screening interpretation"
-                },
-                "subject": {
-                    "reference": "Patient/475032B"
-                },
-                "effectiveDateTime": "2024-07-12T00:00:00Z",
-                "valueCodeableConcept": {
-                    "coding": [
-                        {
-                            "system": "http://loinc.org",
-                            "code": "LA12419-0",
-                            "display": "Infant in ICU at time of specimen collection"
-                        }
-                    ],
-                    "text": "Infant in ICU at time of specimen collection"
-                }
-            },
-            "request": {
-                "method": "POST",
-                "url": "Observation/11KK"
             }
         },
         {
@@ -120,8 +85,43 @@
                 "birthDate": "2024-07-12"
             },
             "request": {
-                "method": "POST",
+                "method": "PUT",
                 "url": "Patient/475032B"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "11KK",
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "57713-0",
+                            "display": "Infant factors that affect newborn screening interpretation"
+                        }
+                    ],
+                    "text": "Infant factors that affect newborn screening interpretation"
+                },
+                "subject": {
+                    "reference": "Patient/475032B"
+                },
+                "effectiveDateTime": "2024-07-12T00:00:00Z",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "LA12419-0",
+                            "display": "Infant in ICU at time of specimen collection"
+                        }
+                    ],
+                    "text": "Infant in ICU at time of specimen collection"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/11KK"
             }
         },
         {
@@ -155,7 +155,7 @@
                 }
             },
             "request": {
-                "method": "POST",
+                "method": "PUT",
                 "url": "Observation/4DD"
             }
         },
@@ -190,7 +190,7 @@
                 }
             },
             "request": {
-                "method": "POST",
+                "method": "PUT",
                 "url": "Observation/5EE"
             }
         },
@@ -225,7 +225,7 @@
                 }
             },
             "request": {
-                "method": "POST",
+                "method": "PUT",
                 "url": "Observation/6FF"
             }
         },
@@ -260,7 +260,7 @@
                 }
             },
             "request": {
-                "method": "POST",
+                "method": "PUT",
                 "url": "Observation/7GG"
             }
         },
@@ -291,7 +291,7 @@
                 }
             },
             "request": {
-                "method": "POST",
+                "method": "PUT",
                 "url": "Observation/8HH"
             }
         },
@@ -322,7 +322,7 @@
                 }
             },
             "request": {
-                "method": "POST",
+                "method": "PUT",
                 "url": "Observation/9II"
             }
         },
