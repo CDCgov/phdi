@@ -40,10 +40,6 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# After copying public directory
-COPY --from=builder /app/public ./public
-RUN ls -l /app/public
-
 USER nextjs
 
 EXPOSE 3000
