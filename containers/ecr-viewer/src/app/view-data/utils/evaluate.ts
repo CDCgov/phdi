@@ -16,13 +16,13 @@ let cache: { [key: string]: any } = {};
  */
 export const evaluate = (
   fhirData: any,
-  path: string | Path,
-  context?: Context,
-  model?: Model,
+  path: string | any,
+  context?: any,
+  model?: any,
   options?: {
     resolveInternalTypes?: boolean;
     traceFn?: (value: any, label: string) => void;
-    userInvocationTable?: UserInvocationTable;
+    userInvocationTable?: any;
   },
 ): any[] => {
   let key =
