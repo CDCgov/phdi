@@ -9,7 +9,11 @@
     "**/api/services/**/*",
     "**/api/tests/**/*",
     "**/api/fhirPath.yml",
-    "**/api/utils.ts"
+    "**/api/utils.ts",
+    "**/view-data/**/*",
+    "**/login/**/*",
+    "**/services/**/*",
+    "**/shared/**/*"
   ],
   "plugin": [
     "typedoc-plugin-markdown"

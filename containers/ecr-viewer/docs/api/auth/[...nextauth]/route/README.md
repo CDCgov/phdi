@@ -1,10 +1,10 @@
-[**ecr-viewer**](../../../../README.md) • **Docs**
+[**ecr-viewer**](../../../README.md) • **Docs**
 
 ***
 
-[ecr-viewer](../../../../README.md) / api/auth/\[...nextauth\]/route
+[ecr-viewer](../../../README.md) / auth/\[...nextauth\]/route
 
-# api/auth/\[...nextauth\]/route
+# auth/\[...nextauth\]/route
 
 ## Index
 

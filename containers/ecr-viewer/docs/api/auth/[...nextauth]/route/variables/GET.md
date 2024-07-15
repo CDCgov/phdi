@@ -1,8 +1,8 @@
-[**ecr-viewer**](../../../../../README.md) • **Docs**
+[**ecr-viewer**](../../../../README.md) • **Docs**
 
 ***
 
-[ecr-viewer](../../../../../README.md) / [api/auth/\[...nextauth\]/route](../README.md) / GET
+[ecr-viewer](../../../../README.md) / [auth/\[...nextauth\]/route](../README.md) / GET
 
 # Variable: GET
 
@@ -10,4 +10,4 @@
 
 ## Defined in
 
-[src/app/api/auth/\[...nextauth\]/route.js:4](https://github.com/CDCgov/phdi/blob/55d1a87d29da9da2522ba2a73bc122cba666b133/containers/ecr-viewer/src/app/api/auth/[...nextauth]/route.js#L4)
+[auth/\[...nextauth\]/route.js:4](https://github.com/CDCgov/phdi/blob/de911eed4d2616e3a509cdcd4c198be50c6e4315/containers/ecr-viewer/src/app/api/auth/[...nextauth]/route.js#L4)

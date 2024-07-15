@@ -6,6 +6,7 @@
 
 ## Modules
 
+- [auth/\[...nextauth\]/route](auth/%5B...nextauth%5D/route/README.md)
 - [fhir-data/db](fhir-data/db/README.md)
 - [fhir-data/fhir-data-service](fhir-data/fhir-data-service/README.md)
 - [fhir-data/route](fhir-data/route/README.md)
