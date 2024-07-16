@@ -428,13 +428,41 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
           return string.Join("<br/>", result);
         }
       }
-
       else if (input is IDictionary<string, object> dictObject)
       {
         List<string> result = new List<string>();
+
         foreach (var kvp in dictObject)
         {
-          result.Add(kvp.Value.ToString() ?? "");
+          if (kvp.Key == "styleCode")
+          {
+            continue;
+          }
+          if (kvp.Value is IDictionary<string, object> nestedDict)
+          {
+            result.Add(ConcatStrings(nestedDict));
+          }
+          else if (kvp.Value is IList nestedList)
+          {
+            List<string> nestedValues = new List<string>();
+            for (int i = nestedList.Count - 1; i >= 0; i--)
+            {
+              var item = nestedList[i];
+              if (item is IDictionary<string, object> nestedDictInList)
+              {
+                nestedValues.Add(ConcatStrings(nestedDictInList));
+              }
+              else if (item is string listItemString)
+              {
+                nestedValues.Add(listItemString);
+              }
+            }
+            result.Add(string.Join("<br/>", nestedValues));
+          }
+          else
+          {
+            result.Add(kvp.Value?.ToString() ?? "");
+          }
         }
         return string.Join("<br/>", result);
       }
