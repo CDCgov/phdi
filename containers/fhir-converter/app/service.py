@@ -126,7 +126,6 @@ def convert_to_fhir(
     # Print the standard output
     dev_mode = os.getenv("DEV_MODE", "false").lower()
     if dev_mode == "true":
-        print("dev mode")
         print(converter_response.stdout)
     # Process the response from FHIR Converter.
     if converter_response.returncode == 0:
