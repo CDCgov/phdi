@@ -378,3 +378,17 @@ html {
     max-width: 640px;
   }
 }
+
+.sample-data-note {
+  width: 637px;
+  height: 26px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.62;
+  color: #111111;
+  display: flex;
+  order: 0;
+  flex-grow: 0;
+}

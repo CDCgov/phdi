@@ -83,6 +83,10 @@ export default function LandingPage() {
         >
           Get started
         </Button>
+        <p className="sample-data-note">
+          Note: This demo tool uses sample data for queries. Find out more about
+          our data storage policy.{" "}
+        </p>
       </div>
     </div>
   );
