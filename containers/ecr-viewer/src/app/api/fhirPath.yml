@@ -125,6 +125,7 @@ observationReferenceValue: "Observation.extension[0].extension.where(url = 'obse
 observationComponent: "code.coding.display"
 observationValue: (valueQuantity.value.toString() | valueString | iif(interpretation.coding.display.exists(), ' (' | interpretation.coding.display | ')', '')).join('')
 observationReferenceRange: "referenceRange.text"
+observationDeviceReference: "device.reference"
 observationNote: "note.text"
 observationMethod: "method"
 observationOrganism: "code.coding.display"
