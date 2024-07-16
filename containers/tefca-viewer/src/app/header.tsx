@@ -41,9 +41,9 @@ export default function HeaderComponent() {
                 <a
                   className="text-base-lightest font-sans-lg text-bold"
                   href="/tefca-viewer"
-                  title="Pipeline Demo Site"
+                  title="TEFCA Viewer"
                 >
-                  Pipeline Demo Site
+                  TEFCA Viewer
                 </a>
               </em>
             </div>
@@ -58,7 +58,16 @@ export default function HeaderComponent() {
             <ModalToggleButton
               modalRef={modalRef}
               opener
-              style={{ cursor: "pointer" }}
+              className="text-base-lightest"
+              style={{
+                cursor: "pointer",
+                background: "none",
+                border: "none",
+                color: "inherit",
+                padding: 0,
+                font: "inherit",
+              }}
+              title="Data Usage Policy"
             >
               Data Usage Policy
             </ModalToggleButton>
@@ -72,6 +81,9 @@ export default function HeaderComponent() {
         aria-labelledby="data-usage-policy-modal-heading"
         aria-describedby="data-usage-policy-modal-description"
         isInitiallyOpen={false}
+        placeholder={undefined}
+        onPointerEnterCapture={undefined}
+        onPointerLeaveCapture={undefined}
       >
         <ModalHeading id="data-usage-policy-modal-heading">
           How is my data stored?
