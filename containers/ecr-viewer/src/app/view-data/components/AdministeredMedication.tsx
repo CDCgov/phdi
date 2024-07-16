@@ -44,8 +44,8 @@ export const AdministeredMedication = ({
       headers={headers}
       tableRows={tableRows}
       caption="Administered Medications"
+      className={"margin-y-0"}
       fixed={false}
-      outerBorder={true}
     />
   );
 };
