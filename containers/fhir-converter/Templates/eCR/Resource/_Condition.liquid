@@ -61,6 +61,25 @@
                 {% endif -%}
             {% endfor -%}
         },
+        "note":
+        [
+            {
+                {% for relatedEntry in relatedEntries -%}
+                    {% assign templateIdString = relatedEntry.act.templateId.root | to_json_string -%}
+                    {% if templateIdString contains '"2.16.840.1.113883.10.20.22.4.64"' and relatedEntry.act.text.reference.value -%}
+                        {% assign commentRefVal = relatedEntry.act.text.reference.value | replace: '#', '' -%}
+                        {% assign commentObj = text | find_object_by_id: commentRefVal -%}
+
+                        {% if commentObj != null and commentObj.content != null %}
+                            {% assign commentParagraphString = commentObj.paragraph | concat_strings %}
+                            {% assign commentContentString = commentObj.content | concat_strings %}
+                            "text": "{{ commentParagraphString | append: "<br/>" | append: commentContentString }}",
+                        {% endif %}
+                    {% endif -%}
+                {% endfor -%}
+                
+            }
+        ],
     },
     "request":{
         "method":"PUT",
