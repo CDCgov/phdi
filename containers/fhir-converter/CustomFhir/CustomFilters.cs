@@ -231,8 +231,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// <returns>An HTML-formatted string representing the input data.</returns>
     public static string ToHtmlStringJoinBr(object data)
     {
-      // Console.WriteLine("ToHtmlString");
-      // PrintObject(data, 0);
       var stringBuilder = new StringBuilder();
       if (data is string stringData)
       {
