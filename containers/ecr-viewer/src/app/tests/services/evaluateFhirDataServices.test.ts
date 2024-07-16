@@ -1,6 +1,7 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import {
   evaluateIdentifiers,
+  evaluatePatientRace,
   evaluateReference,
   evaluateValue,
 } from "@/app/services/evaluateFhirDataService";
@@ -92,5 +93,15 @@ describe("Evaluate Identifier", () => {
     );
 
     expect(actual).toEqual("10308625");
+  });
+});
+
+describe("Evaluate Patient Race", () => {
+  it("should return race category and extension if available", () => {
+    const actual = evaluatePatientRace(
+      BundleWithPatient as unknown as Bundle,
+      mappings,
+    );
+    expect(actual).toEqual("Black or African American, African");
   });
 });
