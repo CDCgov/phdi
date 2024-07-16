@@ -137,30 +137,44 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return Regex.Replace(value.Replace("\t", " "), reduceMultiSpace, " ");
     }
 
+    // Overloaded method with default level value
+    public static void PrintObject(object obj)
+    {
+        Console.WriteLine("Printing Object");
+        PrintObject(obj, 0);
+    }
+
     private static void PrintObject(object obj, int level)
     {
-      string indent = new string(' ', level * 4);
+        string indent = new string(' ', level * 4);
 
-      if (obj is Dictionary<string, object> dict)
-      {
-        foreach (var kvp in dict)
+        if (obj is Dictionary<string, object> dict)
         {
-          Console.WriteLine($"{indent}{kvp.Key}:");
-          PrintObject(kvp.Value, level + 1);
+            Console.WriteLine($"{indent}{{");
+            foreach (var kvp in dict)
+            {
+                Console.Write($"{indent}    \"{kvp.Key}\": ");
+                PrintObject(kvp.Value, level + 1);
+            }
+            Console.WriteLine($"{indent}}}");
         }
-      }
-      else if (obj is List<object> list)
-      {
-        foreach (var item in list)
+        else if (obj is List<object> list)
         {
-          Console.Write($"{indent}- ");
-          PrintObject(item, level + 1);
+            Console.WriteLine($"{indent}[");
+            foreach (var item in list)
+            {
+                PrintObject(item, level + 1);
+            }
+            Console.WriteLine($"{indent}]");
         }
-      }
-      else
-      {
-        Console.WriteLine($"{indent}{obj}");
-      }
+        else if (obj is string str)
+        {
+            Console.WriteLine($"{indent}\"{str}\",");
+        }
+        else
+        {
+            Console.WriteLine($"{indent}{obj},");
+        }
     }
 
     /// <summary>
@@ -170,8 +184,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// <returns>An HTML-formatted string representing the input data.</returns>
     public static string ToHtmlString(object data)
     {
-      Console.WriteLine("HERE");
-      Console.WriteLine($"{data.GetType().Name}");
+      // Console.WriteLine("ToHtmlString");
+      // PrintObject(data, 0);
       var stringBuilder = new StringBuilder();
       if (data is string stringData)
       {
@@ -182,6 +196,59 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         foreach (var row in listData)
         {
           stringBuilder.Append(ToHtmlString(row));
+        }
+      }
+      else if (data is IDictionary<string, object> dict)
+      {
+        foreach (var kvp in dict)
+        {
+          if (kvp.Key == "_")
+          {
+            stringBuilder.Append(ToHtmlString(kvp.Value));
+          }
+          else if (kvp.Key == "br")
+          {
+            stringBuilder.Append("<br>");
+          }
+          else if (kvp.Value is IDictionary<string, object>)
+          {
+            stringBuilder.Append(WrapHtmlValue(kvp.Key, kvp.Value));
+          }
+          else if (kvp.Value is IList list)
+          {
+            foreach (var row in list)
+            {
+              stringBuilder.Append(WrapHtmlValue(kvp.Key, row));
+            }
+          }
+        }
+      }
+      return CleanStringFromTabs(stringBuilder.ToString().Trim());
+    }
+
+    /// <summary>
+    /// Converts an to an HTML-formatted string.
+    /// </summary>
+    /// <param name="data">The data to convert, which can be of type string, IList, or IDictionary<string, object>.</param>
+    /// <returns>An HTML-formatted string representing the input data.</returns>
+    public static string ToHtmlStringJoinBr(object data)
+    {
+      // Console.WriteLine("ToHtmlString");
+      // PrintObject(data, 0);
+      var stringBuilder = new StringBuilder();
+      if (data is string stringData)
+      {
+        return stringData;
+      }
+      else if (data is IList listData)
+      {
+        for (int i = 0; i < listData.Count; i++)
+        {
+            stringBuilder.Append(ToHtmlString(listData[i]));
+            if (i < listData.Count - 1)
+            {
+                stringBuilder.Append("<br>");
+            }
         }
       }
       else if (data is IDictionary<string, object> dict)
