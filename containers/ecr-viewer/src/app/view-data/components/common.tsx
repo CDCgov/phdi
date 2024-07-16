@@ -197,6 +197,11 @@ export const returnProblemsTable = (
     },
     { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
     { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
+    {
+      columnName: "Comments",
+      infoPath: "activeProblemsComments",
+      hiddenBaseText: "comment",
+    },
   ];
 
   problemsArray.forEach((entry) => {
