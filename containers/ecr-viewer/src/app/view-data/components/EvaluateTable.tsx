@@ -62,14 +62,16 @@ const EvaluateTable = ({
     );
   });
 
-  return BuildTable({
-    headers: headers,
-    tableRows: tableRows,
-    caption: caption,
-    className: className,
-    fixed: fixed,
-    outerBorder: outerBorder,
-  });
+  return (
+    <BuildTable
+      headers={headers}
+      tableRows={tableRows}
+      caption={caption}
+      className={className}
+      fixed={fixed}
+      outerBorder={outerBorder}
+    />
+  );
 };
 
 /**
