@@ -1,10 +1,10 @@
 import { formatDateTime } from "@/app/services/formatService";
 import { PathMappings, evaluateData } from "@/app/utils";
-import { Bundle, Location } from "fhir/r4";
+import { Bundle } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import {
   evaluateFacilityAddress,
-  evaluateReference,
+  evaluateFacilityId,
 } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/DataDisplay";
 
@@ -87,13 +87,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Facility ID",
-      value: (
-        evaluateReference(
-          fhirBundle,
-          mappings,
-          evaluate(fhirBundle, mappings.facilityLocation)?.[0] ?? "",
-        ) as Location
-      )?.identifier?.[0].value,
+      value: evaluateFacilityId(fhirBundle, mappings),
     },
   ];
   return {

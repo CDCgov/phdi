@@ -1,5 +1,6 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import {
+  evaluateFacilityId,
   evaluateIdentifiers,
   evaluateReference,
   evaluateValue,
@@ -7,6 +8,7 @@ import {
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
+import BundleEcrMetadata from "@/app/tests/assets/BundleEcrMetadata.json";
 
 const mappings = loadYamlConfig();
 
@@ -92,5 +94,16 @@ describe("Evaluate Identifier", () => {
     );
 
     expect(actual).toEqual("10308625");
+  });
+});
+
+describe("Evaluate Facility Id", () => {
+  it("should return the facility id", () => {
+    const actual = evaluateFacilityId(
+      BundleEcrMetadata as unknown as Bundle,
+      mappings,
+    );
+
+    expect(actual).toEqual("7162024");
   });
 });

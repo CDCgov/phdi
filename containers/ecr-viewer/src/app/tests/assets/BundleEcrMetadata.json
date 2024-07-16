@@ -544,7 +544,8 @@
         "id": "6ba9eafe-27dd-4ab0-0676-30c79eb005ce",
         "identifier": [
           {
-            "value": "1.2.840.114350.1.13.478.3.7.2.686980"
+            "system": "1.2.840.114350.1.13.478.3.7.2.686980",
+            "value": "7162024"
           }
         ],
         "name": "Vanderbilt University Adult Hospital",

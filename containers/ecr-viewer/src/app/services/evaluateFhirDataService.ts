@@ -324,13 +324,7 @@ export const evaluateEncounterData = (
     },
     {
       title: "Facility ID",
-      value: (
-        evaluateReference(
-          fhirBundle,
-          mappings,
-          evaluate(fhirBundle, mappings.facilityLocation)?.[0] ?? "",
-        ) as Location
-      )?.identifier?.[0].value,
+      value: evaluateFacilityId(fhirBundle, mappings),
     },
   ];
   return evaluateData(encounterData);
@@ -477,4 +471,25 @@ export const evaluateIdentifiers = (fhirBundle: Bundle, path: string) => {
       return `${identifier.value}`;
     })
     .join("\n");
+};
+
+/**
+ * Find facility ID based on the first encounter's location
+ * @param fhirBundle - The FHIR bundle containing resources.
+ * @param mappings - Path mappings for resolving references.
+ * @returns Facility id
+ */
+export const evaluateFacilityId = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const encounterLocationRef =
+    evaluate(fhirBundle, mappings.facilityLocation)?.[0] ?? "";
+  const location: Location = evaluateReference(
+    fhirBundle,
+    mappings,
+    encounterLocationRef,
+  );
+
+  return location?.identifier?.[0].value;
 };
