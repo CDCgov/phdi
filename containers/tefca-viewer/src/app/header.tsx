@@ -37,8 +37,8 @@ export default function HeaderComponent() {
             <Image
               src="/tefca-viewer/DIBBs_logo.png"
               alt="DIBBs Logo"
-              width={211}
-              height={43}
+              width={168}
+              height={34}
               className="usa-header__logo-img"
             />
             <div className="usa-logo" style={{ marginLeft: "16px" }}>
