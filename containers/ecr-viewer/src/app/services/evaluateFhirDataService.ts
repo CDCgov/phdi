@@ -1,4 +1,10 @@
-import { Bundle, CodeableConcept, Identifier, Quantity } from "fhir/r4";
+import {
+  Bundle,
+  CodeableConcept,
+  Identifier,
+  Location,
+  Quantity,
+} from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import * as dateFns from "date-fns";
 import { PathMappings, evaluateData } from "../utils";
@@ -318,7 +324,13 @@ export const evaluateEncounterData = (
     },
     {
       title: "Facility ID",
-      value: evaluate(fhirBundle, mappings["facilityID"])[0],
+      value: (
+        evaluateReference(
+          fhirBundle,
+          mappings,
+          evaluate(fhirBundle, mappings.facilityLocation)?.[0] ?? "",
+        ) as Location
+      )?.identifier?.[0].value,
     },
   ];
   return evaluateData(encounterData);
