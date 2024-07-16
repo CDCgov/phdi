@@ -338,7 +338,7 @@ export const returnScheduledOrdersTable = (
           </tr>
         </thead>
         <tbody>
-          {scheduledOrdersTableJson.tables[0].map(
+          {scheduledOrdersTableJson.tables?.[0].map(
             (entry: TableRow, index: number) => {
               return (
                 <tr key={`table-row-${index}`}>
@@ -346,7 +346,7 @@ export const returnScheduledOrdersTable = (
                   <td>{entry.Type?.value ?? noData}</td>
                   <td>{entry.Priority?.value ?? noData}</td>
                   <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
-                  <td>{entry["Date/Time"]?.value ?? noData}</td>
+                  <td>{entry["Order Schedule"]?.value ?? noData}</td>
                 </tr>
               );
             },
