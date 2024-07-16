@@ -71,6 +71,13 @@ describe("Utils", () => {
       expect(screen.getByText("Active Problems")).toBeInTheDocument();
       expect(actual.clinicalNotes.unavailableData).toBeEmpty();
     });
+    it("Should not include Treatment details if medications is not available", () => {
+      const actual = evaluateClinicalData(
+        BundleWithMiscNotes as unknown as Bundle,
+        mappings,
+      );
+      expect(actual.treatmentData.availableData).toBeEmpty();
+    });
   });
 
   describe("Evaluate Care Team Table", () => {

@@ -79,8 +79,18 @@ def convert_files():
                 if response.status_code == 200:
                     responses_json = response.json()["processed_values"]["responses"]
                     for response in responses_json:
-                        if "fhir_bundle" in response:
-                            fhir_bundles.append(response["fhir_bundle"]["bundle"])
+                        if "stamped_ecr" in response:
+                            fhir_bundles.append(
+                                response["stamped_ecr"]["extended_bundle"]
+                            )
+                            with open(
+                                os.path.join(folder_path, "bundle.json"), "w"
+                            ) as fhir_file:
+                                json.dump(
+                                    response["stamped_ecr"]["extended_bundle"],
+                                    fhir_file,
+                                    indent=4,
+                                )
                         if "message_parser_values" in response:
                             metadata.append(
                                 response["message_parser_values"]["parsed_values"]
@@ -88,9 +98,18 @@ def convert_files():
                     print(f"Converted {folder} successfully.")
                 else:
                     print(f"Failed to convert {folder}. Response: {response.text}")
-    return fhir_bundles, metadata
+    if os.environ.get("STANDALONE_VIEWER") == "true":
+        return fhir_bundles, metadata
+    else:
+        return fhir_bundles
 
 
-bundle_arr, metadata = convert_files()
-save_sql_insert_fhir(bundle_arr)
-save_sql_insert_metadata(metadata)
+if os.environ.get("STANDALONE_VIEWER") == "true":
+    print("Running standalone viewer")
+    bundle_arr, metadata = convert_files()
+    save_sql_insert_fhir(bundle_arr)
+    save_sql_insert_metadata(metadata)
+else:
+    print("Running non standalone viewer")
+    bundle_arr = convert_files()
+    save_sql_insert_fhir(bundle_arr)

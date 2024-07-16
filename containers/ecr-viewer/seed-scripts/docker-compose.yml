@@ -46,6 +46,15 @@ services:
     logging:
       driver: "json-file"
 
+  trigger-code-reference-service:
+    platform: linux/amd64
+    build:
+      context: ../../trigger-code-reference
+    ports:
+      - "8086:8080"
+    logging:
+      driver: "json-file"
+
   convert-data:
     build: .
     depends_on:
@@ -53,5 +62,8 @@ services:
         condition: service_healthy
     ports:
       - "8081:8081"
+    env_file:
+      - ../../ecr-viewer/.env.local
     volumes:
       - ./sql:/code/sql
+      - ./baseECR:/code/baseECR

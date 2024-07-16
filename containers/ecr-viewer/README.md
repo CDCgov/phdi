@@ -47,6 +47,11 @@ To build the Docker image for the eCR Viewer app from source instead of download
 
 The eCR Viewer requires a Postgres database with FHIR bundles to render properly. To make local development easier, a docker-compose file has been created that starts a Postgres database, seeds it with eCR FHIR data, and starts the Node service. This can be run with `docker compose up`. See the [Docker Compose documentation](https://docs.docker.com/engine/reference/commandline/compose_up/) for additional information.
 
+### Standalone Viewer 
+
+To enable the Standlone viewer homepage, set the environment variable `STANDALONE_VIEWER` to `true`. This will enable the Standalone viewer homepage at `localhost:3000`.
+
+For local development, if `STANDALONE_VIEWER` is not set to `true` on `.env.local`, convert-seed-data will not seed the metadata.
 
 ### Updating Seed Data
 

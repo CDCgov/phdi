@@ -18,9 +18,7 @@ import {
 } from "../services/ecrSummaryService";
 import { metrics } from "./component-utils";
 import { EcrLoadingSkeleton } from "./components/LoadingComponent";
-
-// string constants to match with possible .env values
-const basePath = process.env.NODE_ENV === "production" ? "/ecr-viewer" : "";
+import Header from "../Header";
 
 /**
  * Functional component for rendering the eCR Viewer page.
@@ -42,7 +40,7 @@ const ECRViewerPage: React.FC = () => {
   useEffect(() => {
     const startTime = performance.now();
     window.addEventListener("beforeunload", function (_e) {
-      metrics(basePath, {
+      metrics("", {
         startTime: startTime,
         endTime: performance.now(),
         fhirId: `${fhirId}`,
@@ -50,7 +48,7 @@ const ECRViewerPage: React.FC = () => {
     });
     const fetchData = async () => {
       try {
-        const response = await fetch(`${basePath}/api/fhir-data?id=${fhirId}`);
+        const response = await fetch(`api/fhir-data?id=${fhirId}`);
         if (!response.ok) {
           if (response.status == 404) {
             throw new Error(
@@ -85,6 +83,7 @@ const ECRViewerPage: React.FC = () => {
   } else if (fhirBundle && mappings) {
     return (
       <main>
+        <Header />
         <div>
           <div className="main-container">
             <div className="content-wrapper">
@@ -95,9 +94,9 @@ const ECRViewerPage: React.FC = () => {
               </div>
               <div className={"ecr-viewer-container"}>
                 <div className="ecr-content">
-                  <h1 className="margin-bottom-3" id="ecr-summary">
+                  <h2 className="margin-bottom-3" id="ecr-summary">
                     eCR Summary
-                  </h1>
+                  </h2>
                   <EcrSummary
                     patientDetails={evaluateEcrSummaryPatientDetails(
                       fhirBundle,

@@ -391,3 +391,27 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
     background-position-x: 100%;
   }
 }
+
+.usa-header{
+  background-color: #172E51;
+  color: white;
+  .usa-logo {
+    a {
+      color: white;
+    }
+  }
+  @media (min-width: 64em) {
+    .usa-logo {
+      margin-bottom: 1.5rem;
+      margin-top: 1.5rem;
+    }
+  }
+  .usa-nav-container{
+    max-width: 65rem;
+  }
+  h1{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.46rem;
+  }
+}

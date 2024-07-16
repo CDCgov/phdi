@@ -1,9 +1,18 @@
 import { Element } from "fhir/r4";
-import { ColumnInfoInput, PathMappings, noData } from "@/app/utils";
+import { PathMappings, noData } from "@/app/utils";
 import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";
 import { evaluateValue } from "../../services/evaluateFhirDataService";
+
+export interface ColumnInfoInput {
+  columnName: string;
+  infoPath?: string;
+  value?: string;
+  className?: string;
+  hiddenBaseText?: string;
+  applyToValue?: (value: any) => any;
+}
 
 interface BuildRowProps {
   mappings: PathMappings;
