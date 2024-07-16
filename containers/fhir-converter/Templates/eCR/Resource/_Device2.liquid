@@ -17,6 +17,9 @@
             { {% include 'DataType/CodeableConcept' CodeableConcept: deviceEntry.participant.participantRole.playingDevice.code -%} },
         {% endif -%}
         "manufacturer":"{{deviceEntry.participant.participantRole.scopingEntity.desc._}}",
+        "deviceName": [{
+           "name": "{{ deviceName }}",
+        }],
     },
     "request":{
         "method":"PUT",
