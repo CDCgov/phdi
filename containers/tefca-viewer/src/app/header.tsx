@@ -1,18 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef } from "react";
+import {
+  Modal,
+  ModalHeading,
+  ModalFooter,
+  ButtonGroup,
+  ModalToggleButton,
+} from "@trussworks/react-uswds";
 
 /**
  * Produces the header.
  * @returns The HeaderComponent component.
  */
 export default function HeaderComponent() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
+  const modalRef = useRef(null);
 
   return (
     <>
@@ -52,37 +55,41 @@ export default function HeaderComponent() {
               marginLeft: "auto",
             }}
           >
-            <p
-              className="text-base-lightest"
-              onClick={toggleModal}
+            <ModalToggleButton
+              modalRef={modalRef}
+              opener
               style={{ cursor: "pointer" }}
             >
               Data Usage Policy
-            </p>
+            </ModalToggleButton>
           </div>
         </div>
       </header>
 
-      {isModalOpen && (
-        <div className="usa-modal is-visible" id="data-usage-policy-modal">
-          <div className="usa-modal__content">
-            <div className="usa-modal__main">
-              <h2 className="usa-modal__heading">How is my data stored?</h2>
-              <p>
-                It's not! Data inputted into the TEFCA Query Connector is not
-                persisted or stored anywhere.
-              </p>
-              <button
-                type="button"
-                className="usa-button"
-                onClick={toggleModal}
-              >
-                Close
-              </button>
-            </div>
-          </div>
+      <Modal
+        ref={modalRef}
+        id="data-usage-policy-modal"
+        aria-labelledby="data-usage-policy-modal-heading"
+        aria-describedby="data-usage-policy-modal-description"
+        isInitiallyOpen={false}
+      >
+        <ModalHeading id="data-usage-policy-modal-heading">
+          How is my data stored?
+        </ModalHeading>
+        <div className="usa-prose">
+          <p id="data-usage-policy-modal-description">
+            It's not! Data inputted into the TEFCA Query Connector is not
+            persisted or stored anywhere.
+          </p>
         </div>
-      )}
+        <ModalFooter>
+          <ButtonGroup>
+            <ModalToggleButton modalRef={modalRef} closer>
+              Close
+            </ModalToggleButton>
+          </ButtonGroup>
+        </ModalFooter>
+      </Modal>
     </>
   );
 }
