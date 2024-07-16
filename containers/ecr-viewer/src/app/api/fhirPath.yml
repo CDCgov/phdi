@@ -9,7 +9,7 @@ patientPhoneNumbers: "Bundle.entry.resource.where(resourceType = 'Patient').tele
 patientEmails: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'email')"
 patientCounty: "Bundle.entry.resource.where(resourceType = 'Patient').address.first().county"
 
-patientId: "Bundle.entry.resource.where(resourceType = 'Patient').id"
+patientIds: "Bundle.entry.resource.where(resourceType = 'Patient').identifier"
 patientDOB: "Bundle.entry.resource.where(resourceType = 'Patient').birthDate"
 patientVitalStatus: "Bundle.entry.resource.where(resourceType = 'Patient').deceasedBoolean"
 patientGender: "Bundle.entry.resource.where(resourceType = 'Patient').gender"

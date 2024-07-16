@@ -21,6 +21,16 @@
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     },
     {
+      "name": "stamped_ecr",
+      "service": "trigger_code_reference",
+      "endpoint": "/stamp-condition-extensions",
+      "params": {
+        "conditions": [
+          "840539006"
+        ]
+      }
+    },
+    {
       "name": "message_parser_values",
       "service": "message_parser",
       "endpoint": "/parse_message",
@@ -33,7 +43,7 @@
   ],
   "outputs": [
     "message_parser_values",
-    "fhir_bundle"
+    "stamped_ecr"
   ],
   "default-response": false
 }

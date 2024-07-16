@@ -3,5 +3,6 @@ FROM node:18-alpine
 WORKDIR /code
 COPY . .
 RUN npm install
+RUN apk --no-cache add curl
 EXPOSE 3000
 CMD ["npm", "run", "dev"]

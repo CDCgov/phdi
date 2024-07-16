@@ -1,6 +1,6 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import BundleLab from "../assets/BundleLab.json";
-import { Bundle, Observation } from "fhir/r4";
+import { Bundle, Observation, Organization } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { render, screen } from "@testing-library/react";
 import {
@@ -17,6 +17,7 @@ import {
   ResultObject,
   combineOrgAndReportData,
   evaluateLabInfoData,
+  findIdenticalOrg,
 } from "@/app/services/labsService";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 
@@ -476,5 +477,156 @@ describe("Evaluate the lab info section", () => {
       "Number of Results",
     );
     expect(result[0].organizationDisplayDataProps[3].value).toEqual(2);
+  });
+});
+
+describe("Find Identical Org", () => {
+  const orgMappings = [
+    {
+      id: "d6930155-009b-92a0-d2b9-007761c45ad2",
+      name: "California Department of Public Health",
+      active: true,
+      address: [
+        {
+          use: "work",
+          city: "Sacramento",
+          state: "CA",
+        },
+      ],
+      telecom: [
+        {
+          use: "work",
+          value: "CalREDIEeCR@cdph.ca.gov",
+          system: "email",
+        },
+      ],
+      resourceType: "Organization",
+    },
+    {
+      id: "f87de327-7272-42ac-012d-58904caf7ef1",
+      name: "Los Angeles County Department of Public Health",
+      active: true,
+      resourceType: "Organization",
+    },
+    {
+      id: "21e7aca1-7a03-43dc-15e6-8f7ee24b6613",
+      name: "Tennessee Department of Health",
+      active: true,
+      resourceType: "Organization",
+    },
+    {
+      id: "d319a926-0eb3-5847-3b21-db8b778b4f07",
+      name: "Vanderbilt University Medical Center",
+      address: [
+        {
+          use: "work",
+          city: "NASHVILLE",
+          line: ["3401 West End Ave"],
+          state: "TN",
+          country: "USA",
+          district: "DAVIDSON",
+          postalCode: "37203",
+        },
+      ],
+      telecom: [
+        {
+          use: "work",
+          value: "+1-615-322-5000",
+          system: "phone",
+        },
+      ],
+      resourceType: "Organization",
+    },
+    {
+      id: "22c6cdd0-bde1-e220-9ba4-2c2802f795ad",
+      name: "VUMC CERNER LAB",
+      address: [
+        {
+          use: "work",
+          city: "NASHVILLE",
+          line: ["4605 TVC VUMC", "1301 Medical Center Drive"],
+          state: "TN",
+          country: "USA",
+          district: "DAVIDSON",
+          postalCode: "37232-5310",
+        },
+      ],
+      resourceType: "Organization",
+      telecom: [
+        {
+          value: "+1-615-875-5227",
+          system: "phone",
+        },
+      ],
+    },
+    {
+      id: "e3ece69c-0968-59c9-47dd-f16db731621a",
+      name: "VUMC CERNER LAB",
+      address: [
+        {
+          city: "NASHVILLE",
+          line: ["4605 TVC VUMC", "1301 Medical Center Drive"],
+          state: "TN",
+          postalCode: "37232-5310",
+        },
+      ],
+      telecom: [
+        {
+          value: "+1-615-875-5227",
+          system: "phone",
+        },
+      ],
+      resourceType: "Organization",
+    },
+    {
+      id: "57fcc148-b440-3a80-749b-780325e9680d",
+      name: "Moderna US, Inc.",
+      resourceType: "Organization",
+    },
+  ];
+
+  const matchedOrg1: Organization = {
+    id: "22c6cdd0-bde1-e220-9ba4-2c2802f795ad",
+    name: "VUMC CERNER LAB",
+    address: [
+      {
+        use: "work",
+        city: "NASHVILLE",
+        line: ["4605 TVC VUMC", "1301 Medical Center Drive"],
+        state: "TN",
+        country: "USA",
+        district: "DAVIDSON",
+        postalCode: "37232-5310",
+      },
+    ],
+    resourceType: "Organization",
+  };
+
+  const matchedOrg2: Organization = {
+    id: "7",
+    name: "Fake Lab",
+    address: [
+      {
+        city: "North Charleston",
+        line: ["11 Fake Street", "Suite 100"],
+        state: "SC",
+        country: "USA",
+        postalCode: "29405",
+      },
+    ],
+    resourceType: "Organization",
+  };
+
+  it("should add telecom from matching org", () => {
+    expect(matchedOrg1?.telecom).not.toBeDefined();
+    expect(
+      findIdenticalOrg(orgMappings, matchedOrg1)?.telecom?.[0].value,
+    ).toEqual("+1-615-875-5227");
+  });
+  it("should not add telecom because no matching org", () => {
+    expect(matchedOrg2?.telecom).not.toBeDefined();
+    expect(
+      findIdenticalOrg(orgMappings, matchedOrg2)?.telecom?.[0].value,
+    ).not.toBeDefined();
   });
 });
