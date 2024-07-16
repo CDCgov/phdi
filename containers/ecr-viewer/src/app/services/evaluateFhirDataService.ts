@@ -47,27 +47,6 @@ export const evaluatePatientAddress = (
 };
 
 /**
- * Extracts a specific location resource from a given FHIR bundle based on defined path mappings.
- * @param fhirBundle - The FHIR bundle object containing various resources, including location resources.
- * @param fhirPathMappings - An object containing FHIR path mappings, which should include a mapping
- *   for `facilityLocation` that determines how to find the location reference within the bundle.
- * @returns The location resource object from the FHIR bundle that matches the UID derived from the
- *   facility location reference. If no matching resource is found, the function returns `undefined`.
- */
-function evaluateLocationResource(
-  fhirBundle: Bundle,
-  fhirPathMappings: PathMappings,
-) {
-  const locationReference = evaluate(
-    fhirBundle,
-    fhirPathMappings.facilityLocation,
-  ).join("");
-  const locationUID = locationReference.split("/")[1];
-  const locationExpression = `Bundle.entry.resource.where(resourceType = 'Location').where(id = '${locationUID}')`;
-  return evaluate(fhirBundle, locationExpression)[0];
-}
-
-/**
  * Evaluates facility address from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing patient contact info.
  * @param mappings - The object containing the fhir paths.
@@ -77,7 +56,13 @@ export const evaluateFacilityAddress = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const locationResource = evaluateLocationResource(fhirBundle, mappings);
+  const locationReference =
+    evaluate(fhirBundle, mappings.facilityLocation)?.[0] ?? "";
+  const locationResource = evaluateReference(
+    fhirBundle,
+    mappings,
+    locationReference,
+  );
 
   const streetAddresses = locationResource?.address?.line;
   const city = locationResource?.address?.city;
