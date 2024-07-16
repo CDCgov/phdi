@@ -29,6 +29,27 @@ export const evaluatePatientName = (
 };
 
 /**
+ * Evaluates the patient's race from the FHIR bundle and formats for display.
+ * @param fhirBundle - The FHIR bundle containing patient contact info.
+ * @param mappings - The object containing the fhir paths.
+ * @returns - The patient's race information, including race OMB category and detailed extension (if available).
+ */
+export const evaluatePatientRace = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const raceCat = evaluate(fhirBundle, mappings.patientRace)[0];
+  const raceDetailedExt =
+    evaluate(fhirBundle, mappings.patinetRaceExtension)[0] ?? "";
+
+  if (raceDetailedExt) {
+    return `${raceCat}, ${raceDetailedExt}`;
+  } else {
+    return raceCat;
+  }
+};
+
+/**
  * Evaluates patient address from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing patient contact info.
  * @param mappings - The object containing the fhir paths.
@@ -246,7 +267,10 @@ export const evaluateDemographicsData = (
         : "Alive",
     },
     { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
-    { title: "Race", value: evaluate(fhirBundle, mappings.patientRace)[0] },
+    {
+      title: "Race",
+      value: evaluatePatientRace(fhirBundle, mappings),
+    },
     {
       title: "Ethnicity",
       value: evaluate(fhirBundle, mappings.patientEthnicity)[0],
