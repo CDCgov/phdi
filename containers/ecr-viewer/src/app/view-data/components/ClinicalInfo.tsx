@@ -137,9 +137,7 @@ export const ClinicalInfo = ({
           Diagnostics and Vital Signs
         </AccordionH4>
         <AccordionDiv>
-          <div className="immunization_table" data-testid="vital-signs">
-            {renderTableDetails(vitalData)}
-          </div>
+          <div data-testid="vital-signs">{renderTableDetails(vitalData)}</div>
         </AccordionDiv>
       </>
     );
