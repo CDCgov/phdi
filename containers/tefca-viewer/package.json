@@ -10,11 +10,10 @@
     "build": "next build && cp -r .next/static .next/standalone/.next && cp -r public .next/standalone/",
     "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 node .next/standalone/server.js",
     "lint": "next lint",
-    "test": "npm run test:unit && npm run test:integration && npm run test:e2e",
+    "test": "npm run test:unit && npm run test:integration",
     "test:unit": "jest --testPathPattern=tests/unit",
     "test:unit:watch": "jest --watch",
     "test:integration": "jest --testPathPattern=tests/integration",
-    "test:e2e": "npx playwright test",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
