@@ -73,8 +73,19 @@ Here is a simple flow chart:
 
 ```mermaid
 graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+    subgraph Frontend
+        A[Next.js 14 App]
+    end
+    
+    subgraph Backend
+        B[Next.js 14 Backend]
+        B -->|calls| DB[(PostgreSQL - fhir)]
+        B -->|calls| S3[(S3 Bucket)]
+        DB -->|references| MetaData[(PostgreSQL - fhir_metadata)]
+    end
+    
+    A -->|calls| B
+    B -->|fetches data from| MetaData
+    MetaData -->|contains reference to| DB
+    MetaData -->|contains reference to| S3
 ``` 
