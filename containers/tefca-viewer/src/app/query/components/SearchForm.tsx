@@ -7,7 +7,12 @@ import {
   Button,
 } from "@trussworks/react-uswds";
 import { fhirServers } from "../../fhir-servers";
-import { USE_CASES, FHIR_SERVERS } from "../../constants";
+import {
+  USE_CASES,
+  FHIR_SERVERS,
+  demoData,
+  demoDataUseCase,
+} from "../../constants";
 import {
   UseCaseQueryResponse,
   UseCaseQuery,
@@ -46,33 +51,19 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [useCase, setUseCase] = useState<USE_CASES>();
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
-  // Get the demo data to pre-fill the form if selected
-  useEffect(() => {
-    fetch("/path/to/demoData.json")
-      .then((response) => response.json())
-      .catch((error) => console.error("Error fetching demo data:", error));
-  }, []);
-
   // Fill the fields with the demo data if selected
   const fillFields = useCallback(() => {
-    switch (demoOption) {
-      case "demo-cancer":
-        setAutofilled(true);
-        setFirstName("Lee");
-        setLastName("Shaw");
-        setDOB("1975-12-06");
-        setMRN("8692756");
-        setPhone("517-425-1398");
-        setFhirServer("HELIOS Meld: Direct");
-        setUseCase("cancer");
-        break;
-      case "demo-sti-chlamydia":
-        setFirstName("John");
-        setLastName("Smith");
-        setDOB("1995-02-01");
-        setMRN("654321");
-        setPhone("555-555-5555");
-        break;
+    const data = demoData[demoOption as demoDataUseCase];
+    console.log(data);
+    if (data) {
+      setAutofilled(true);
+      setFirstName(data.FirstName);
+      setLastName(data.LastName);
+      setDOB(data.DOB);
+      setMRN(data.MRN);
+      setPhone(data.Phone);
+      setFhirServer(data.FhirServer as FHIR_SERVERS);
+      setUseCase(data.UseCase as USE_CASES);
     }
   }, [demoOption]);
 
@@ -366,7 +357,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 id="mrn"
                 name="mrn"
                 type="text"
-                pattern="^\d+$"
                 value={mrn}
                 onChange={(event) => {
                   setMRN(event.target.value);
