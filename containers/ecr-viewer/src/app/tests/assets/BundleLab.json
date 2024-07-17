@@ -461,6 +461,9 @@
         "subject": {
           "reference": "Patient/1586f68b-1a17-4188-ac0b-82c3cbdbfbda"
         },
+        "device": {
+          "reference": "Device/5e841917-fd80-47ab-88c3-95d7b9a7c47f"
+        },
         "performer": [
           {
             "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
@@ -544,6 +547,9 @@
         ],
         "subject": {
           "reference": "Patient/1586f68b-1a17-4188-ac0b-82c3cbdbfbda"
+        },
+        "device": {
+          "reference": "Device/5e841917-fd80-47ab-88c3-95d7b9a7c47f"
         },
         "performer": [
           {
@@ -629,6 +635,9 @@
         "subject": {
           "reference": "Patient/1586f68b-1a17-4188-ac0b-82c3cbdbfbda"
         },
+        "device": {
+          "reference": "Device/5e841917-fd80-47ab-88c3-95d7b9a7c47f"
+        },
         "performer": [
           {
             "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
@@ -712,6 +721,9 @@
         ],
         "subject": {
           "reference": "Patient/1586f68b-1a17-4188-ac0b-82c3cbdbfbda"
+        },
+        "device": {
+          "reference": "Device/5e841917-fd80-47ab-88c3-95d7b9a7c47f"
         },
         "performer": [
           {
@@ -906,11 +918,30 @@
         ],
         "subject": {
           "reference": "Patient/1586f68b-1a17-4188-ac0b-82c3cbdbfbda"
+        },
+        "device": {
+          "reference": "Device/5e841917-fd80-47ab-88c3-95d7b9a7c47f"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/e2c3a705-9129-e79b-a79f-61281fa74db6"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5e841917-fd80-47ab-88c3-95d7b9a7c47f",
+      "resource": {
+        "resourceType": "Device",
+        "id": "5e841917-fd80-47ab-88c3-95d7b9a7c47f",
+        "deviceName": [
+          {
+            "name": "LAB DEVICE: BIOFIRE\u00ae FILMARRAY\u00ae 2.0 SYSTEM"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/9e215f4e-aac1-10cb-e412-020cd13a6ad9"
       }
     },
     {

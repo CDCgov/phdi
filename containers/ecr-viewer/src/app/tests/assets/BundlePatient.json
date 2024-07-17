@@ -43,6 +43,13 @@
                 }
               },
               {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2076-8",
+                  "display": "African"
+                }
+              },
+              {
                 "url": "text",
                 "valueString": "Black or African American"
               }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Bundle, Observation, Organization, Reference } from "fhir/r4";
+import { Bundle, Device, Observation, Organization, Reference } from "fhir/r4";
 import { PathMappings, noData } from "@/app/utils";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
@@ -23,7 +23,7 @@ export interface LabReport {
 }
 
 export interface ResultObject {
-  [key: string]: JSX.Element[];
+  [key: string]: React.JSX.Element[];
 }
 
 export interface LabReportElementData {
@@ -290,6 +290,7 @@ export function evaluateObservationTable(
         resources={observations}
         mappings={mappings}
         columns={columnInfo}
+        className={"margin-y-0"}
         outerBorder={false}
       />
     );
@@ -299,14 +300,12 @@ export function evaluateObservationTable(
 
 /**
  * Evaluates diagnostic report data and generates the lab observations for each report.
- * @param labReportJson - A JSON object representing the lab report HTML string
  * @param report - An object containing an array of result references.
  * @param fhirBundle - The FHIR bundle containing diagnostic report data.
  * @param mappings - An object containing the FHIR path mappings.
  * @returns - An array of React elements representing the lab observations.
  */
 export const evaluateDiagnosticReportData = (
-  labReportJson: TableJson,
   report: LabReport,
   fhirBundle: Bundle,
   mappings: PathMappings,
@@ -317,10 +316,11 @@ export const evaluateDiagnosticReportData = (
     { columnName: "Ref Range", infoPath: "observationReferenceRange" },
     {
       columnName: "Test Method",
-      value: returnFieldValueFromLabHtmlString(
-        labReportJson,
-        "Test Method",
-      ) as string,
+      infoPath: "observationDeviceReference",
+      applyToValue: (ref) => {
+        const device = evaluateReference(fhirBundle, mappings, ref) as Device;
+        return device.deviceName?.[0]?.name;
+      },
     },
     {
       columnName: "Lab Comment",
@@ -378,6 +378,7 @@ export const evaluateOrganismsReportData = (
       resources={components}
       mappings={mappings}
       columns={columnInfo}
+      className={"margin-y-0"}
       outerBorder={false}
     />
   );
@@ -401,7 +402,6 @@ export const evaluateLabInfoData = (
   labReports.map((report) => {
     const labReportJson = getLabJsonObject(report, fhirBundle, mappings);
     const labTableDiagnostic = evaluateDiagnosticReportData(
-      labReportJson,
       report,
       fhirBundle,
       mappings,
