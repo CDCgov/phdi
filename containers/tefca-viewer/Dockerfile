@@ -40,6 +40,9 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
+# Set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
+
 COPY --from=installer /app/containers/tefca-viewer/next.config.js .
 COPY --from=installer /app/containers/tefca-viewer/package.json .
 
