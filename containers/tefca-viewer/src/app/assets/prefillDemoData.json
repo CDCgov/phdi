@@ -1,0 +1,62 @@
+{
+    "demo-cancer": {
+            "FirstName": "Lee",
+            "LastName": "Shaw",
+            "DOB": "1975-12-06",
+            "MRN": "8692756",
+            "Phone": "517-425-1398",
+            "FhirServer": "HELIOS Meld: Direct",
+            "UseCase": "cancer"
+    },
+    "demo-chlamydia":
+    {
+            "FirstName": "Lee",
+            "LastName": "Shaw",
+            "DOB": "1975-12-06",
+            "MRN": "8692756",
+            "Phone": "517-425-1398",
+            "FhirServer": "HELIOS Meld: Direct",
+            "UseCase": "chlamydia"
+    },
+    "demo-gonorrhea":
+    {
+            "FirstName": "GC",
+            "LastName": "JMC",
+            "DOB": "1998-05-31",
+            "MRN": "8692756",
+            "Phone": "+91 35551643",
+            "FhirServer": "JMC Meld: Direct",
+            "UseCase": "gonorrhea"
+    },
+    "demo-newborn-screening":
+    {
+            "FirstName": "Mango",
+            "LastName": "Smith",
+            "DOB": "2024-07-12",
+            "MRN": "67890",
+            "Phone": "555-123-4567",
+            "FhirServer": "HELIOS Meld: eHealthExchange",
+            "UseCase": "newborn-screening"
+    },
+    "demo-social-determinants":
+    {
+            "FirstName": "Veronica",
+            "LastName": "Blackstone",
+            "DOB": "1998-06-18",
+            "MRN": "34972316",
+            "Phone": "937-379-3497",
+            "FhirServer": "HELIOS Meld: Direct",
+            "UseCase": "social-determinants"
+    },
+    "demo-syphilis":
+    {
+            "FirstName": "Veronica",
+            "LastName": "Blackstone",
+            "DOB": "1998-06-18",
+            "MRN": "34972316",
+            "Phone": "937-379-3497",
+            "FhirServer": "HELIOS Meld: Direct",
+            "UseCase": "syphilis"
+    }
+}
+
