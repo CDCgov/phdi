@@ -73,6 +73,16 @@ Here is a simple flow chart:
 
 ```mermaid
 graph TD;
+    subgraph Monitoring
+        Jaeger[Jaeger]
+        Prometheus[Prometheus]
+        OtelCollector[OpenTelemetry Collector]
+        Grafana[Grafana]
+        Jaeger --> OtelCollector
+        Prometheus --> OtelCollector
+        OtelCollector --> Grafana
+    end
+
     subgraph Frontend
         A[Next.js 14 App]
     end
@@ -88,4 +98,18 @@ graph TD;
     B -->|fetches data from| MetaData
     MetaData -->|contains reference to| DB
     MetaData -->|contains reference to| S3
+    
+    DBService[PostgreSQL Service]
+    ECRViewer[Next.js Service]
+
+    DBService --> DB
+    ECRViewer --> A
+
+    A -->|calls| DBService
+    A -->|calls| ECRViewer
+    
+    OtelCollector --> ECRViewer
+    Jaeger --> ECRViewer
+    Prometheus --> ECRViewer
+    Grafana --> ECRViewer
 ``` 
