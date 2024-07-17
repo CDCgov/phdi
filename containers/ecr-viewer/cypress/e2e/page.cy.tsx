@@ -16,7 +16,7 @@ describe("Home Page", () => {
   it("When clicking on an eCR ID link, it should redirect user to the correct URL of the individual eCR", () => {
     cy.get('[data-testid="table"] tbody tr:first-child')
       .find("a")
-      .invoke("attr, href") // Get the eCR ID
+      .invoke("attr", "href") // Get the eCR ID
       .then((href) => {
         const linkEcrId = href.split("=")[1];
         cy.get('[data-testid="table"] tbody tr:first-child')
