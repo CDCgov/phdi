@@ -1,8 +1,8 @@
 services:
   tefca-viewer:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../../
+      dockerfile: ./containers/tefca-viewer/Dockerfile
     ports:
       - "3000:3000"
     environment:
