@@ -121,33 +121,37 @@ export const evaluateEcrSummaryAboutTheConditionDetails = (
     fhirBundle,
     fhirPathMappings.rrDetails,
   );
-  const matchingObservation = rrArray.find((obs) =>
-    obs.valueCodeableConcept?.coding?.find(
+  let conditionDisplayName: string | undefined;
+  const ruleSummary: Set<string> = new Set();
+  rrArray.forEach((obs) => {
+    const coding = obs.valueCodeableConcept?.coding?.find(
       (coding) => coding.code === snomedCode,
-    ),
-  );
-  const conditionDisplayName =
-    matchingObservation?.valueCodeableConcept?.coding?.find(
-      (coding) => coding.system === "http://snomed.info/sct",
-    )?.display;
-  const ruleSummary = matchingObservation?.extension?.find(
-    (extension) =>
-      extension.url ===
-      "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
-  )?.valueString;
+    );
+    if (coding) {
+      conditionDisplayName = coding.display;
+      obs.extension?.forEach((extension) => {
+        if (
+          extension.url ===
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension" &&
+          extension?.valueString?.trim()
+        ) {
+          ruleSummary.add(extension.valueString.trim());
+        }
+      });
+    }
+  });
   return [
     {
       title: "Reportable Condition",
       toolTip:
         "Condition that caused this eCR to be sent to your jurisdiction.",
-      value:
-        conditionDisplayName ?? "No matching condition data found in this eCR",
+      value: conditionDisplayName,
     },
     {
       title: "RCKMS Rule Summary",
       toolTip:
         "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
-      value: ruleSummary ?? "No matching rule data found in this eCR",
+      value: [...ruleSummary].join("\n"),
     },
   ];
 };

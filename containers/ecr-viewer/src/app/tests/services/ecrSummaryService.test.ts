@@ -104,8 +104,6 @@ describe("Evaluate eCR Summary Relevant Lab Results", () => {
 
 describe("Evaluate ecr Summary About the condition", () => {
   it("should return 'No Data' string when no SNOMED code is provided", () => {
-    const expectedCondition = "No matching condition data found in this eCR";
-    const expectedSummary = "No matching rule data found in this eCR";
     const actual = evaluateEcrSummaryAboutTheConditionDetails(
       BundleEcrMetadata as unknown as Bundle,
       mappings,
@@ -113,12 +111,10 @@ describe("Evaluate ecr Summary About the condition", () => {
     );
 
     expect(actual).toHaveLength(2);
-    expect(actual[0].value).toEqual(expectedCondition);
-    expect(actual[1].value).toEqual(expectedSummary);
+    expect(actual[0].value).toEqual(undefined);
+    expect(actual[1].value).toEqual("");
   });
   it("should return 'No Data' string when no SNOMED code is provided", () => {
-    const expectedCondition = "No matching condition data found in this eCR";
-    const expectedSummary = "No matching rule data found in this eCR";
     const actual = evaluateEcrSummaryAboutTheConditionDetails(
       BundleEcrMetadata as unknown as Bundle,
       mappings,
@@ -126,13 +122,14 @@ describe("Evaluate ecr Summary About the condition", () => {
     );
 
     expect(actual).toHaveLength(2);
-    expect(actual[0].value).toEqual(expectedCondition);
-    expect(actual[1].value).toEqual(expectedSummary);
+    expect(actual[0].value).toEqual(undefined);
+    expect(actual[1].value).toEqual("");
   });
   it("should return Reportable Condition and RCKMS Rule Summary", () => {
     const expectedCondition =
       "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)";
-    const expectedSummary = "COVID-19 (as a diagnosis or active problem)";
+    const expectedSummary =
+      "COVID-19 (as a diagnosis or active problem)\nDetection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method";
     const actual = evaluateEcrSummaryAboutTheConditionDetails(
       BundleEcrMetadata as unknown as Bundle,
       mappings,
