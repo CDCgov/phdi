@@ -137,10 +137,8 @@ export const ClinicalInfo = ({
           Diagnostics and Vital Signs
         </AccordionH4>
         <AccordionDiv>
-          <div className="lh-18" data-testid="vital-signs">
-            {vitalData.map((item, index) => (
-              <DataDisplay item={item} key={index} />
-            ))}
+          <div className="immunization_table" data-testid="vital-signs">
+            {renderTableDetails(vitalData)}
           </div>
         </AccordionDiv>
       </>

@@ -11,7 +11,6 @@ import {
   TableRow,
   formatName,
   formatTablesToJSON,
-  formatVitals,
   toSentenceCase,
   formatDate,
 } from "@/app/services/formatService";
@@ -425,6 +424,86 @@ export const returnPlannedProceduresTable = (
 };
 
 /**
+ * Formats vital signs information into a single line string with proper units .
+ * @param fhirBundle - The FHIR bundle containing vital signs information.
+ * @param mappings - The object containing the fhir paths.
+ * @returns The formatted vital signs information.
+ */
+export const returnVitalsTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const heightAmount = evaluate(fhirBundle, mappings["patientHeight"])[0];
+  const heightUnit = evaluate(
+    fhirBundle,
+    mappings["patientHeightMeasurement"],
+  )[0];
+  const weightAmount = evaluate(fhirBundle, mappings["patientWeight"])[0];
+  const weightUnit = evaluate(
+    fhirBundle,
+    mappings["patientWeightMeasurement"],
+  )[0];
+  const bmi = evaluate(fhirBundle, mappings["patientBmi"])[0];
+  console.log(heightAmount, heightUnit, weightAmount, weightUnit);
+
+  let heightString = "";
+  let weightString = "";
+  let heightType = "";
+  let weightType = "";
+
+  if (heightAmount && heightUnit) {
+    if (heightUnit === "[in_i]") {
+      heightType = "in";
+    } else if (heightUnit === "cm") {
+      heightType = "cm";
+    }
+    heightString = `${heightAmount} ${heightType}`;
+  }
+  if (weightAmount && weightUnit) {
+    if (weightUnit === "[lb_av]") {
+      weightType = "lb";
+    } else if (weightUnit === "kg") {
+      weightType = "kg";
+    }
+    weightString = `${weightAmount} ${weightType}`;
+  }
+
+  if (!heightString && !weightString && !bmi) {
+    return undefined;
+  }
+
+  const vitalsData = [
+    { vitalReading: "Height", result: heightString || noData },
+    { vitalReading: "Weight", result: weightString || noData },
+    { vitalReading: "BMI", result: bmi || noData },
+  ];
+  const headers = BuildHeaders([
+    { columnName: "Vital Reading" },
+    { columnName: "Result" },
+    { columnName: "Date/Time" },
+  ]);
+  const tableRows = vitalsData.map((entry, index: number) => {
+    return (
+      <tr key={`table-row-${index}`}>
+        <td>{entry.vitalReading}</td>
+        <td>{entry.result}</td>
+        <td>{noData}</td>
+      </tr>
+    );
+  });
+
+  return (
+    <BuildTable
+      headers={headers}
+      tableRows={tableRows}
+      caption="Vital Signs"
+      className={"margin-y-0"}
+      fixed={false}
+    />
+  );
+};
+
+/**
  * Evaluates clinical data from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing clinical data.
  * @param mappings - The object containing the fhir paths.
@@ -519,13 +598,7 @@ export const evaluateClinicalData = (
   const vitalData = [
     {
       title: "Vital Signs",
-      value: formatVitals(
-        evaluate(fhirBundle, mappings["patientHeight"])[0],
-        evaluate(fhirBundle, mappings["patientHeightMeasurement"])[0],
-        evaluate(fhirBundle, mappings["patientWeight"])[0],
-        evaluate(fhirBundle, mappings["patientWeightMeasurement"])[0],
-        evaluate(fhirBundle, mappings["patientBmi"])[0],
-      ),
+      value: returnVitalsTable(fhirBundle, mappings),
     },
   ];
 

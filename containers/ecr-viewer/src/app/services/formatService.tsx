@@ -251,54 +251,6 @@ export const formatStartEndDateTime = (
 };
 
 /**
- * Formats vital signs information into a single line string with proper units .
- * @param heightAmount - The amount of height.
- * @param heightUnit - The measurement type of height (e.g., "[in_i]" for inches, "cm" for centimeters).
- * @param weightAmount - The amount of weight.
- * @param weightUnit - The measurement type of weight (e.g., "[lb_av]" for pounds, "kg" for kilograms).
- * @param bmi - The Body Mass Index (BMI).
- * @returns The formatted vital signs information.
- */
-export const formatVitals = (
-  heightAmount: string,
-  heightUnit: string,
-  weightAmount: string,
-  weightUnit: string,
-  bmi: string,
-) => {
-  let heightString = "";
-  let weightString = "";
-  let bmiString = "";
-
-  let heightType = "";
-  let weightType = "";
-  if (heightAmount && heightUnit) {
-    if (heightUnit === "[in_i]") {
-      heightType = "inches";
-    } else if (heightUnit === "cm") {
-      heightType = "cm";
-    }
-    heightString = `Height: ${heightAmount} ${heightType}\n\n`;
-  }
-
-  if (weightAmount && weightUnit) {
-    if (weightUnit === "[lb_av]") {
-      weightType = "Lbs";
-    } else if (weightUnit === "kg") {
-      weightType = "kg";
-    }
-    weightString = `Weight: ${weightAmount} ${weightType}\n\n`;
-  }
-
-  if (bmi) {
-    bmiString = `Body Mass Index (BMI): ${bmi}`;
-  }
-
-  const combinedString = `${heightString} ${weightString} ${bmiString}`;
-  return combinedString.trim();
-};
-
-/**
  * Formats a string by converting it to lowercase, replacing spaces with underscores, and removing special characters except underscores.
  * @param input - The input string to be formatted.
  * @returns The formatted string.
