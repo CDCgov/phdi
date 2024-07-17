@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",
+    "@playwright/test": "^1.45.2",
     "@smithy/util-stream": "^2.1.2",
     "@testing-library/dom": "^9.3.4",
     "@testing-library/jest-dom": "^6.1.5",
