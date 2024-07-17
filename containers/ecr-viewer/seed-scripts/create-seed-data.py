@@ -38,23 +38,9 @@ def save_sql_insert_metadata(metadata):
             report_date = parsed_values["report_date"]
             data_source = "DB"
             query = f"""INSERT INTO fhir_metadata (
-              ecr_id,
-              patient_name_last,
-              patient_name_first,
-              patient_birth_date,
-              data_source,
-              reportable_condition,
-              rule_summary,
-              report_date
+              ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date
             ) VALUES (
-              '{ecr_id}',
-              '{last_name}',
-              '{first_name}',
-              '{birth_date}',
-              '{data_source}',
-              '{reportable_condition}',
-              '{rule_summary}',
-               {'NULL' if report_date is None else f"'{report_date}'"}
+              '{ecr_id}','{last_name}','{first_name}','{birth_date}','{data_source}','{reportable_condition}','{rule_summary}',{'NULL' if report_date is None else f"'{report_date}'"}
             ) ON CONFLICT (ecr_id) DO NOTHING;\n"""
             output_file.write(query)
 
