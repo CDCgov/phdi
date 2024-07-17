@@ -27,21 +27,15 @@ RUN npm i
 # Build the project
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
+ENV NEXT_TELEMETRY_DISABLED=1
 ENV TURBO_TELEMETRY_DISABLED=1
 
 RUN npx turbo build --filter=tefca-viewer...
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
-
-# Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-
+# Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
@@ -54,24 +48,8 @@ COPY --from=installer /app/containers/tefca-viewer/package.json .
 COPY --from=installer --chown=nextjs:nodejs /app/containers/tefca-viewer/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/containers/tefca-viewer/.next/static ./containers/tefca-viewer/.next/static
 
-EXPOSE 3000
-EXPOSE 8080
+ENV TURBO_TELEMETRY_DISABLED=1
+ENV NEXT_TELEMETRY_DISABLED=1
 
-ENV PORT 3000
-# set hostname to localhost
-ENV HOSTNAME "0.0.0.0"
 
-ENV NODE_TLS_REJECT_UNAUTHORIZED "0"
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
 CMD ["node", "containers/tefca-viewer/server.js"]
-
-
-
-# FROM hapiproject/hapi:latest
-
-# # Copy the application files to the container
-# COPY ./src/app/tests/assets/BundleHAPIServer.json /app/BundleHAPIServer.json
-
-# # Run the server
-# CMD ["node", "server.js", "sh","curl", "-X", "POST", "--data", "@app/BundleHAPIServer.json", "--header", "Content-Type: application/json", "http://localhost:8080/fhir"]
