@@ -109,24 +109,45 @@ export const evaluateEcrSummaryEncounterDetails = (
  * Evaluates and retrieves condition details from the FHIR bundle using the provided path mappings.
  * @param fhirBundle - The FHIR bundle containing patient data.
  * @param fhirPathMappings - Object containing fhir path mappings.
+ * @param snomedCode - The SNOMED code identifying which Reportable Condition should be displayed.
  * @returns An array of condition details objects containing title and value pairs.
  */
 export const evaluateEcrSummaryAboutTheConditionDetails = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
+  snomedCode: string,
 ) => {
+  const rrArray: Observation[] = evaluate(
+    fhirBundle,
+    fhirPathMappings.rrDetails,
+  );
+  const matchingObservation = rrArray.find((obs) =>
+    obs.valueCodeableConcept?.coding?.find(
+      (coding) => coding.code === snomedCode,
+    ),
+  );
+  const conditionDisplayName =
+    matchingObservation?.valueCodeableConcept?.coding?.find(
+      (coding) => coding.system === "http://snomed.info/sct",
+    )?.display;
+  const ruleSummary = matchingObservation?.extension?.find(
+    (extension) =>
+      extension.url ===
+      "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+  )?.valueString;
   return [
     {
       title: "Reportable Condition",
       toolTip:
         "Condition that caused this eCR to be sent to your jurisdiction.",
-      value: evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0],
+      value:
+        conditionDisplayName ?? "No matching condition data found in this eCR",
     },
     {
       title: "RCKMS Rule Summary",
       toolTip:
         "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
-      value: evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0],
+      value: ruleSummary ?? "No matching rule data found in this eCR",
     },
   ];
 };

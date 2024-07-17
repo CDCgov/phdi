@@ -1,8 +1,12 @@
 import { loadYamlConfig } from "@/app/api/utils";
-import { evaluateEcrSummaryRelevantClinicalDetails } from "@/app/services/ecrSummaryService";
+import {
+  evaluateEcrSummaryAboutTheConditionDetails,
+  evaluateEcrSummaryRelevantClinicalDetails,
+} from "@/app/services/ecrSummaryService";
 import BundleWithClinicalInfo from "@/app/tests/assets/BundleClinicalInfo.json";
 import { evaluateEcrSummaryRelevantLabResults } from "@/app/services/ecrSummaryService";
 import BundleLab from "@/app/tests/assets/BundleLab.json";
+import BundleEcrMetadata from "@/app/tests/assets/BundleEcrMetadata.json";
 import { Bundle } from "fhir/r4";
 import { render, screen } from "@testing-library/react";
 
@@ -18,7 +22,7 @@ describe("Evaluate eCR Summary Relevant Clinical Details", () => {
     );
 
     expect(actual).toHaveLength(1);
-    expect(actual[0]["value"]).toEqual(expectedValue);
+    expect(actual[0].value).toEqual(expectedValue);
   });
 
   it("should return 'No Data' string when the provided SNOMED code has no matches", () => {
@@ -30,7 +34,7 @@ describe("Evaluate eCR Summary Relevant Clinical Details", () => {
     );
 
     expect(actual).toHaveLength(1);
-    expect(actual[0]["value"]).toEqual(expectedValue);
+    expect(actual[0].value).toEqual(expectedValue);
   });
 
   it("should return the correct active problem when the provided SNOMED code matches", () => {
@@ -63,7 +67,7 @@ describe("Evaluate eCR Summary Relevant Lab Results", () => {
     );
 
     expect(actual).toHaveLength(1);
-    expect(actual[0]["value"]).toEqual(expectedValue);
+    expect(actual[0].value).toEqual(expectedValue);
   });
 
   it("should return 'No Data' string when the provided SNOMED code has no matches", () => {
@@ -75,7 +79,7 @@ describe("Evaluate eCR Summary Relevant Lab Results", () => {
     );
 
     expect(actual).toHaveLength(1);
-    expect(actual[0]["value"]).toEqual(expectedValue);
+    expect(actual[0].value).toEqual(expectedValue);
   });
 
   it("should return the correct lab result(s) when the provided SNOMED code matches", () => {
@@ -95,5 +99,48 @@ describe("Evaluate eCR Summary Relevant Lab Results", () => {
 
     render(result[1].value);
     expect(screen.getByText("Cytogenomic SNP microarray")).toBeInTheDocument();
+  });
+});
+
+describe("Evaluate ecr Summary About the condition", () => {
+  it("should return 'No Data' string when no SNOMED code is provided", () => {
+    const expectedCondition = "No matching condition data found in this eCR";
+    const expectedSummary = "No matching rule data found in this eCR";
+    const actual = evaluateEcrSummaryAboutTheConditionDetails(
+      BundleEcrMetadata as unknown as Bundle,
+      mappings,
+      undefined as unknown as string,
+    );
+
+    expect(actual).toHaveLength(2);
+    expect(actual[0].value).toEqual(expectedCondition);
+    expect(actual[1].value).toEqual(expectedSummary);
+  });
+  it("should return 'No Data' string when no SNOMED code is provided", () => {
+    const expectedCondition = "No matching condition data found in this eCR";
+    const expectedSummary = "No matching rule data found in this eCR";
+    const actual = evaluateEcrSummaryAboutTheConditionDetails(
+      BundleEcrMetadata as unknown as Bundle,
+      mappings,
+      "unknown-123",
+    );
+
+    expect(actual).toHaveLength(2);
+    expect(actual[0].value).toEqual(expectedCondition);
+    expect(actual[1].value).toEqual(expectedSummary);
+  });
+  it("should return Reportable Condition and RCKMS Rule Summary", () => {
+    const expectedCondition =
+      "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)";
+    const expectedSummary = "COVID-19 (as a diagnosis or active problem)";
+    const actual = evaluateEcrSummaryAboutTheConditionDetails(
+      BundleEcrMetadata as unknown as Bundle,
+      mappings,
+      "840539006",
+    );
+
+    expect(actual).toHaveLength(2);
+    expect(actual[0].value).toEqual(expectedCondition);
+    expect(actual[1].value).toEqual(expectedSummary);
   });
 });
