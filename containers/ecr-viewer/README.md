@@ -67,3 +67,14 @@ then kill it
 
 ### Developer Documentation
 Can be found in [api-documentation.md](api-documentation.md).
+
+### Container Architecture
+Here is a simple flow chart:
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+``` 
