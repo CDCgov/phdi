@@ -54,7 +54,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   // Fill the fields with the demo data if selected
   const fillFields = useCallback(() => {
     const data = demoData[demoOption as demoDataUseCase];
-    console.log(data);
     if (data) {
       setAutofilled(true);
       setFirstName(data.FirstName);
