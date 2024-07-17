@@ -115,37 +115,50 @@ export const evaluateEcrSummaryEncounterDetails = (
 export const evaluateEcrSummaryAboutTheConditionDetails = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
-  snomedCode: string,
+  snomedCode?: string,
 ) => {
   const rrArray: Observation[] = evaluate(
     fhirBundle,
     fhirPathMappings.rrDetails,
   );
-  let conditionDisplayName: string | undefined;
-  const ruleSummary: Set<string> = new Set();
-  rrArray.forEach((obs) => {
-    const coding = obs.valueCodeableConcept?.coding?.find(
-      (coding) => coding.code === snomedCode,
-    );
-    if (coding) {
-      conditionDisplayName = coding.display;
-      obs.extension?.forEach((extension) => {
-        if (
-          extension.url ===
-            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension" &&
-          extension?.valueString?.trim()
-        ) {
-          ruleSummary.add(extension.valueString.trim());
+  let conditionDisplayName: Set<String> = new Set();
+  let ruleSummary: Set<string> = new Set();
+  if (snomedCode) {
+    rrArray.forEach((obs) => {
+      const coding = obs.valueCodeableConcept?.coding?.find(
+        (coding) => coding.code === snomedCode,
+      );
+      if (coding) {
+        if (coding.display) {
+          conditionDisplayName.add(coding.display);
         }
-      });
-    }
-  });
+        obs.extension?.forEach((extension) => {
+          if (
+            extension.url ===
+              "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension" &&
+            extension?.valueString?.trim()
+          ) {
+            ruleSummary.add(extension.valueString.trim());
+          }
+        });
+      }
+    });
+  }
+  if (conditionDisplayName.size === 0) {
+    const names = evaluate(fhirBundle, fhirPathMappings.rrDisplayNames);
+    let summaries = evaluate(
+      fhirBundle,
+      fhirPathMappings.rckmsTriggerSummaries,
+    );
+    conditionDisplayName = new Set([...names]);
+    ruleSummary = new Set([...summaries]);
+  }
   return [
     {
       title: "Reportable Condition",
       toolTip:
         "Condition that caused this eCR to be sent to your jurisdiction.",
-      value: conditionDisplayName,
+      value: [...conditionDisplayName].join("\n"),
     },
     {
       title: "RCKMS Rule Summary",
