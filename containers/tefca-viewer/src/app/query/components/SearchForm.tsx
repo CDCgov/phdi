@@ -382,7 +382,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                       | "social-determinants"
                       | "newborn-screening"
                       | "syphilis"
-                      | "cancer"
+                      | "cancer",
                   );
                 }}
                 style={{
