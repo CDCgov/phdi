@@ -1,12 +1,11 @@
 "use client";
 
 import { Table } from "@trussworks/react-uswds";
-import { Ecr } from "@/app/api/services/listEcrDataService";
 import { useState } from "react";
 import { Pagination } from "@trussworks/react-uswds";
 
 interface ListEcrViewerProps {
-  listFhirData: Ecr[];
+  listFhirData: any[];
 }
 
 /**
@@ -85,7 +84,7 @@ export default function ListECRViewer({
  * @param listFhirData - The list of eCRs to render.
  * @returns An array of JSX table row elements representing the list of eCRs.
  */
-const renderListEcrTableData = (listFhirData: Ecr[]) => {
+const renderListEcrTableData = (listFhirData: any[]) => {
   return listFhirData.map((item, index) => {
     return (
       <tr key={`table-row-${index}`}>
