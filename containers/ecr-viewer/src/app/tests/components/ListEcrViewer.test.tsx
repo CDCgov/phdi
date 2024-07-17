@@ -32,6 +32,8 @@ describe("Home Page, ListECRViewer", () => {
 describe("Pagination for home page", () => {
   const listFhirData = Array.from({ length: 51 }, (_, i) => ({
     ecrId: `id-${i + 1}`,
+    patient_first_name: `first-${i + 1}`,
+    patient_last_name: `last-${i + 1}`,
     dateModified: `2021-01-0${(i % 9) + 1}`,
   }));
   beforeEach(() => {
@@ -49,8 +51,8 @@ describe("Pagination for home page", () => {
 
     const rows = screen.getAllByRole("row");
     expect(rows).toHaveLength(26);
-    expect(screen.getByText("id-26")).toBeInTheDocument();
-    expect(screen.getByText("id-50")).toBeInTheDocument();
+    expect(screen.getByText("first-26 last-26")).toBeInTheDocument();
+    expect(screen.getByText("first-50 last-50")).toBeInTheDocument();
   });
 
   it("should navigate to the previous page correctly using the Previous button", () => {
@@ -62,8 +64,8 @@ describe("Pagination for home page", () => {
 
     const rows = screen.getAllByRole("row");
     expect(rows).toHaveLength(26);
-    expect(screen.getByText("id-1")).toBeInTheDocument();
-    expect(screen.getByText("id-25")).toBeInTheDocument();
+    expect(screen.getByText("first-1 last-1")).toBeInTheDocument();
+    expect(screen.getByText("first-25 last-25")).toBeInTheDocument();
   });
 
   it("should navigate to a specific page correctly when clicking page button", () => {
@@ -72,6 +74,6 @@ describe("Pagination for home page", () => {
 
     const rows = screen.getAllByRole("row");
     expect(rows).toHaveLength(2);
-    expect(screen.getByText("id-51")).toBeInTheDocument();
+    expect(screen.getByText("first-51 last-51")).toBeInTheDocument();
   });
 });
