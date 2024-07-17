@@ -24,7 +24,7 @@ _How much time should be dedicated to this spike?_
 
 ## To-do list
 
-_list out actions to be taken for this spike:_
+_List out actions to be taken for this spike:_
 - [ ] 
 
 ## Additional context
