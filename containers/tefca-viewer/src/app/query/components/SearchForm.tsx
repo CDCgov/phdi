@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Fieldset, Label, TextInput, Select } from "@trussworks/react-uswds";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  Fieldset,
+  Label,
+  TextInput,
+  Select,
+  Button,
+} from "@trussworks/react-uswds";
 import { fhirServers } from "../../fhir-servers";
 import { USE_CASES, FHIR_SERVERS } from "../../constants";
 import {
@@ -30,6 +36,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setMode,
   setLoading,
 }) => {
+  const [demoOption, setDemoOption] = useState<string>("demo-cancer");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [fhirServer, setFhirServer] = useState<FHIR_SERVERS>();
@@ -37,6 +44,37 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
   const [useCase, setUseCase] = useState<USE_CASES>();
+  const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
+
+  // Get the demo data to pre-fill the form if selected
+  useEffect(() => {
+    fetch("/path/to/demoData.json")
+      .then((response) => response.json())
+      .catch((error) => console.error("Error fetching demo data:", error));
+  }, []);
+
+  // Fill the fields with the demo data if selected
+  const fillFields = useCallback(() => {
+    switch (demoOption) {
+      case "demo-cancer":
+        setAutofilled(true);
+        setFirstName("Lee");
+        setLastName("Shaw");
+        setDOB("1975-12-06");
+        setMRN("8692756");
+        setPhone("517-425-1398");
+        setFhirServer("HELIOS Meld: Direct");
+        setUseCase("cancer");
+        break;
+      case "demo-sti-chlamydia":
+        setFirstName("John");
+        setLastName("Smith");
+        setDOB("1995-02-01");
+        setMRN("654321");
+        setPhone("555-555-5555");
+        break;
+    }
+  }, [demoOption]);
 
   async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
     if (!useCase || !fhirServer) {
@@ -72,6 +110,57 @@ const SearchForm: React.FC<SearchFormProps> = ({
     <>
       <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
+        <h4 className="font-sans-md text-normal margin-top-0">
+          Please enter <b>3 out of 5 of the following sections</b> <br></br>for
+          a given patient, in addition to a case investigation topic.
+        </h4>
+        <div className="usa-summary-box usa-summary-box demo-data-filler">
+          <label className="usa-label" htmlFor="demo-data">
+            Select from the following use cases to "pre-fill" patient
+            information below:
+          </label>
+          <div className="display-flex flex-align-center margin-top-2">
+            <div className="usa-combo-box flex-1" data-enhanced="true">
+              <select
+                id="demo-data"
+                name="demo-data"
+                className="usa-select margin-top-0"
+                value={demoOption}
+                onChange={(event) => {
+                  setDemoOption(event.target.value);
+                }}
+              >
+                <option value="demo-cancer">
+                  A demo patient with a cancer use case
+                </option>
+                <option value="demo-sti-chlamydia">
+                  A demo patient with a chlamydia use case
+                </option>
+                <option value="demo-sti-gonorrhea">
+                  A demo patient with a gonorrhea use case
+                </option>
+                <option value="demo-newborn-screening">
+                  A demo patient with a newborn screening use case
+                </option>
+                <option value="demo-social-determinants">
+                  A demo patient with a social determinants of health use case
+                </option>
+                <option value="demo-sti-syphilis">
+                  A demo patient with a syphilis use case
+                </option>
+              </select>
+            </div>
+            <Button
+              className="margin-left-1 usa-button--outline bg-white"
+              type="button"
+              onClick={() => {
+                fillFields();
+              }}
+            >
+              Fill fields
+            </Button>
+          </div>
+        </div>
         <Fieldset>
           <h2 className="font-sans-lg search-form-section-label">
             <strong>Name</strong>
@@ -88,6 +177,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 onChange={(event) => {
                   setFirstName(event.target.value);
                 }}
+                style={{
+                  backgroundColor: autofilled ? autofillColor : undefined,
+                }}
               />
             </div>
             <div className="tablet:grid-col-6">
@@ -100,6 +192,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 value={lastName}
                 onChange={(event) => {
                   setLastName(event.target.value);
+                }}
+                style={{
+                  backgroundColor: autofilled ? autofillColor : undefined,
                 }}
               />
             </div>
@@ -117,6 +212,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 value={phone}
                 onChange={(event) => {
                   setPhone(event.target.value);
+                }}
+                style={{
+                  backgroundColor: autofilled ? autofillColor : undefined,
                 }}
               />
             </div>
@@ -137,6 +235,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     value={dob}
                     onChange={(event) => {
                       setDOB(event.target.value);
+                    }}
+                    style={{
+                      backgroundColor: autofilled ? autofillColor : undefined,
                     }}
                   />
                 </div>
@@ -270,6 +371,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 onChange={(event) => {
                   setMRN(event.target.value);
                 }}
+                style={{
+                  backgroundColor: autofilled ? autofillColor : undefined,
+                }}
               />
             </div>
           </div>
@@ -289,8 +393,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
                       | "social-determinants"
                       | "newborn-screening"
                       | "syphilis"
-                      | "cancer",
+                      | "cancer"
                   );
+                }}
+                style={{
+                  backgroundColor: autofilled ? autofillColor : undefined,
                 }}
                 required
                 defaultValue=""
@@ -322,6 +429,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 onChange={(event) => {
                   setFhirServer(event.target.value as FHIR_SERVERS);
                 }}
+                style={{
+                  backgroundColor: autofilled ? autofillColor : undefined,
+                }}
                 required
                 defaultValue=""
               >
@@ -346,3 +456,5 @@ const SearchForm: React.FC<SearchFormProps> = ({
 };
 
 export default SearchForm;
+
+const autofillColor = "#faf3d1";

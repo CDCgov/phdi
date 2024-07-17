@@ -13,7 +13,6 @@ export type USE_CASES = (typeof UseCases)[number];
 
 /**
  * The FHIR servers that can be used in the app
- =
  */
 export const FhirServers = [
   "HELIOS Meld: Direct",
