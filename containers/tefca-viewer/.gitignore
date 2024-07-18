@@ -2,3 +2,7 @@ node_modules
 .next/
 .env.local
 certificates
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
