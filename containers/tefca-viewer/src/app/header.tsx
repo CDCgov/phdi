@@ -34,17 +34,19 @@ export default function HeaderComponent() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Image
-              src="/tefca-viewer/DIBBs_logo.png"
-              alt="DIBBs Logo"
-              width={168}
-              height={34}
-              className="usa-header__logo-img"
-            />
+            <a href="/tefca-viewer" title="TEFCA Viewer">
+              <Image
+                src="/tefca-viewer/DIBBs_logo.png"
+                alt="DIBBs Logo"
+                width={168}
+                height={34}
+                className="usa-header__logo-img"
+              />
+            </a>
             <div className="usa-logo" style={{ marginLeft: "16px" }}>
               <em className="usa-logo__text text-base-lightest">
                 <a
-                  className="text-base-lightest font-sans-lg text-bold"
+                  className="text-base-lightest font-sans-xl text-bold"
                   href="/tefca-viewer"
                   title="TEFCA Viewer"
                 >
