@@ -11,9 +11,9 @@ import {
   TableRow,
   formatName,
   formatTablesToJSON,
+  formatVitals,
   toSentenceCase,
   formatDate,
-  formatVitals,
 } from "@/app/services/formatService";
 import { PathMappings, evaluateData, noData } from "@/app/utils";
 import {
@@ -425,10 +425,10 @@ export const returnPlannedProceduresTable = (
 };
 
 /**
- * Formats vital signs information into a single line string with proper units .
+ * Returns a formatted table displaying vital signs information.
  * @param fhirBundle - The FHIR bundle containing vital signs information.
- * @param mappings - The object containing the fhir paths.
- * @returns The formatted vital signs information.
+ * @param mappings - The object containing the FHIR paths.
+ * @returns The JSX element representing the table, or undefined if no vital signs are found.
  */
 export const returnVitalsTable = (
   fhirBundle: Bundle,

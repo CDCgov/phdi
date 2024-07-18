@@ -251,7 +251,7 @@ export const formatStartEndDateTime = (
 };
 
 /**
- * Formats vital signs information into a single line string with proper units .
+ * Formats vital signs information into separate strings with proper units.
  * @param heightAmount - The amount of height.
  * @param heightUnit - The measurement type of height (e.g., "[in_i]" for inches, "cm" for centimeters).
  * @param weightAmount - The amount of weight.
