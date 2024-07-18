@@ -2,6 +2,7 @@
 name: Bug Template
 about: Capture bugs with this
 title: ''
+labels: ''
 assignees: ''
 
 ---
