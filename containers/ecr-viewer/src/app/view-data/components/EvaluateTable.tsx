@@ -175,7 +175,7 @@ const BuildRow: React.FC<BuildRowProps> = ({
       hiddenRows.push(
         <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
           <td colSpan={columns.length} className={"hideableData"}>
-            {rowCellData}
+            {splitStringWith(`${rowCellData}`, "<br>")}
           </td>
         </tr>,
       );
@@ -224,11 +224,8 @@ const splitStringWith = (
 
   // Create an array with strings and JSX <br /> elements
   const result: (string | JSX.Element)[] = [];
-  parts.forEach((part, index) => {
-    result.push(part);
-    if (index < parts.length - 1) {
-      result.push(<br key={index} />);
-    }
+  parts.forEach((part) => {
+    result.push(<p>{part}</p>);
   });
 
   return result;
