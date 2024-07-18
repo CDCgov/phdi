@@ -3,9 +3,10 @@
 import { Table } from "@trussworks/react-uswds";
 import { useState } from "react";
 import { Pagination } from "@trussworks/react-uswds";
+import { EcrDisplay } from "@/app/api/services/listEcrDataService";
 
 interface ListEcrViewerProps {
-  listFhirData: any[];
+  listFhirData: EcrDisplay[];
 }
 
 /**

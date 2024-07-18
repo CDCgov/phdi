@@ -11,7 +11,7 @@ import {
   processListS3,
   processListPostgres,
   listEcrData,
-  Ecr,
+  EcrDisplay,
 } from "@/app/api/services/listEcrDataService";
 import { database } from "../services/db";
 import { mockClient } from "aws-sdk-client-mock";
@@ -45,7 +45,7 @@ describe("listEcrDataService", () => {
         ],
       };
 
-      const expected: Ecr[] = [
+      const expected: EcrDisplay[] = [
         { ecrId: "ecr1", dateModified: expect.any(String) },
         { ecrId: "ecr2", dateModified: expect.any(String) },
       ];
