@@ -1,5 +1,5 @@
 ---
-name: Task Template
+name: Streamline Task Template
 about: A generic template for any task that can be adapted for multiple uses
 title: ''
 labels: ''
