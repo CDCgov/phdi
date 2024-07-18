@@ -2,7 +2,7 @@
 name: Streamline eCR Tech Debt
 about: Describe technical debt work for the Streamline eCR team to pick up
 title: ''
-labels: "Streamline eCR"
+labels: Streamline eCR
 assignees: ''
 
 ---

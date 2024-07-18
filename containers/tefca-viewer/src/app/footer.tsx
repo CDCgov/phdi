@@ -1,4 +1,4 @@
-//import Image from 'next/image'
+import Image from "next/image";
 
 /**
  * Produces the footer.
@@ -16,22 +16,20 @@ export default function FooterComponent() {
                 grid-row
                 mobile-lg:grid-col-10 mobile-lg:grid-gap-1
               "
+              style={{ width: "80%" }}
             >
               <div className="mobile-lg:grid-col-auto">
-                {/* <Image
-                  src="/CDC_logo.png"
-                  className="usa-footer__logo-img"
+                <Image
+                  src="/tefca-viewer/CDC_logo.png"
                   alt="CDC logo"
                   width={62}
                   height={36}
-                /> */}
+                  className="usa-footer__logo-img"
+                />
               </div>
               <div className="mobile-lg:grid-col-auto">
-                <p className=" text-base-lightest usa-footer__logo-heading">
-                  Centers for Disease Control and Prevention
-                </p>
                 <p className="text-base-lightest">
-                  For more information send us an email at dibbs@cdc.gov
+                  Centers for Disease Control and Prevention
                 </p>
               </div>
             </div>
@@ -40,12 +38,27 @@ export default function FooterComponent() {
                 usa-footer__logo
                 grid-row
                 mobile-lg:grid-col-2 mobile-lg:grid-gap-1
-                right-justified-text
               "
+              style={{
+                width: "20%",
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
             >
-              <div className="mobile-lg:grid-col-auto right-justified-text">
-                <p className="text-base-lightest usa_footer-trademark right-justified-text">
-                  © 2024 CDC. All rights reserved.
+              <div style={{ whiteSpace: "nowrap", textAlign: "right" }}>
+                <p className="text-base-lightest">
+                  For more information about this solution, send us an email at{" "}
+                  <a
+                    href="mailto:dibbs@cdc.gov"
+                    style={{
+                      color: "inherit",
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    dibbs@cdc.gov
+                  </a>
                 </p>
               </div>
             </div>

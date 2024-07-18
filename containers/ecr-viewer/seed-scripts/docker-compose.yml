@@ -66,3 +66,4 @@ services:
       - ../../ecr-viewer/.env.local
     volumes:
       - ./sql:/code/sql
+      - ./baseECR:/code/baseECR
