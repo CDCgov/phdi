@@ -1,5 +1,5 @@
 ---
-name: Spike Template
+name: Streamline Spike Template
 about: Used for exploratory engineering spikes
 title: ''
 labels: ''
