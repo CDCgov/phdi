@@ -13,6 +13,7 @@ import {
   formatTablesToJSON,
   toSentenceCase,
   formatDate,
+  formatVitals,
 } from "@/app/services/formatService";
 import { PathMappings, evaluateData, noData } from "@/app/utils";
 import {
@@ -446,40 +447,27 @@ export const returnVitalsTable = (
   const bmiAmount = evaluate(fhirBundle, mappings["patientBmi"])[0];
   const bmiUnit = evaluate(fhirBundle, mappings["patientBmiMeasurement"])[0];
 
-  let heightString = "";
-  let weightString = "";
-  let bmiString = "";
-  let heightType = "";
-  let weightType = "";
+  const formattedVitals = formatVitals(
+    heightAmount,
+    heightUnit,
+    weightAmount,
+    weightUnit,
+    bmiAmount,
+    bmiUnit,
+  );
 
-  if (heightAmount && heightUnit) {
-    if (heightUnit === "[in_i]") {
-      heightType = "in";
-    } else if (heightUnit === "cm") {
-      heightType = "cm";
-    }
-    heightString = `${heightAmount} ${heightType}`;
-  }
-  if (weightAmount && weightUnit) {
-    if (weightUnit === "[lb_av]") {
-      weightType = "lb";
-    } else if (weightUnit === "kg") {
-      weightType = "kg";
-    }
-    weightString = `${weightAmount} ${weightType}`;
-  }
-  if (bmiAmount && bmiUnit) {
-    bmiString = `${bmiAmount} ${bmiUnit}`;
-  }
-
-  if (!heightString && !weightString && !bmiString) {
+  if (
+    !formattedVitals.height &&
+    !formattedVitals.weight &&
+    !formattedVitals.bmi
+  ) {
     return undefined;
   }
 
   const vitalsData = [
-    { vitalReading: "Height", result: heightString || noData },
-    { vitalReading: "Weight", result: weightString || noData },
-    { vitalReading: "BMI", result: bmiString || noData },
+    { vitalReading: "Height", result: formattedVitals.height || noData },
+    { vitalReading: "Weight", result: formattedVitals.weight || noData },
+    { vitalReading: "BMI", result: formattedVitals.bmi || noData },
   ];
   const headers = BuildHeaders([
     { columnName: "Vital Reading" },
