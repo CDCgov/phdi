@@ -236,11 +236,11 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       {
         return stringData;
       }
-      else if (data is IList listData)
+      else if (data != null && data is IList listData)
       {
         for (int i = 0; i < listData.Count; i++)
         {
-            stringBuilder.Append(ToHtmlString(listData[i]));
+            stringBuilder.Append(ToHtmlStringJoinBr(listData[i]));
             if (i < listData.Count - 1)
             {
                 stringBuilder.Append("<br>");
@@ -253,7 +253,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         {
           if (kvp.Key == "_")
           {
-            stringBuilder.Append(ToHtmlString(kvp.Value));
+            stringBuilder.Append(ToHtmlStringJoinBr(kvp.Value));
           }
           else if (kvp.Key == "br")
           {
