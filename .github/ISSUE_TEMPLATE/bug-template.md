@@ -1,5 +1,5 @@
 ---
-name: Bug Template
+name: Streamline Bug Template
 about: Capture bugs with this
 title: ''
 labels: ''
