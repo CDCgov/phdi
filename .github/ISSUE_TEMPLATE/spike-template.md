@@ -2,7 +2,7 @@
 name: Streamline Spike Template
 about: Used for exploratory engineering spikes
 title: ''
-labels: ''
+labels: Streamline eCR
 assignees: ''
 
 ---
