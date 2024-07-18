@@ -72,6 +72,10 @@ describe("Evaluate Ecr Metadata", () => {
           "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method":
             new Set(["Tennessee Department of Health"]),
         },
+      "Viral hepatitis type C (disorder)": {
+        "Detection of Hepatitis C virus antibody in a clinical specimen by any method":
+          new Set(["California Department of Public Health"]),
+      },
     });
   });
 });

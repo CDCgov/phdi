@@ -116,12 +116,12 @@ export const evaluateEcrSummaryAboutTheConditionDetails = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
   snomedCode?: string,
-) => {
+): DisplayDataProps[] => {
   const rrArray: Observation[] = evaluate(
     fhirBundle,
     fhirPathMappings.rrDetails,
   );
-  let conditionDisplayName: Set<String> = new Set();
+  let conditionDisplayName: Set<string> = new Set();
   let ruleSummary: Set<string> = new Set();
   if (snomedCode) {
     rrArray.forEach((obs) => {
@@ -158,13 +158,25 @@ export const evaluateEcrSummaryAboutTheConditionDetails = (
       title: "Reportable Condition",
       toolTip:
         "Condition that caused this eCR to be sent to your jurisdiction.",
-      value: [...conditionDisplayName].join("\n"),
+      value: (
+        <div className={"p-list"}>
+          {[...conditionDisplayName].map((displayName) => (
+            <p key={displayName}>{displayName}</p>
+          ))}
+        </div>
+      ),
     },
     {
       title: "RCKMS Rule Summary",
       toolTip:
         "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
-      value: [...ruleSummary].join("\n"),
+      value: (
+        <div className={"p-list"}>
+          {[...ruleSummary].map((summary) => (
+            <p key={summary}>{summary}</p>
+          ))}
+        </div>
+      ),
     },
   ];
 };
