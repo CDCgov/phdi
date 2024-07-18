@@ -140,12 +140,25 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     // Overloaded method with default level value
     public static void PrintObject(object obj)
     {
-        Console.WriteLine("Printing Object");
+        var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
+        var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
+        if (devMode != "true" || debugLog != "true")
+        {
+            return;
+        }
+      
         PrintObject(obj, 0);
     }
 
     private static void PrintObject(object obj, int level)
     {
+        var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
+        var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
+        if (devMode != "true" || debugLog != "true")
+        {
+            return;
+        }
+      
         string indent = new string(' ', level * 4);
 
         if (obj is Dictionary<string, object> dict)
