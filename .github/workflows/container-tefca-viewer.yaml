@@ -98,6 +98,9 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Run container
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: docker compose up
       - name: Install dependencies
         working-directory: ./containers/${{env.CONTAINER}}
         run: npm install
