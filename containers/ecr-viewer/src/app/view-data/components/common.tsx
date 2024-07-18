@@ -443,11 +443,12 @@ export const returnVitalsTable = (
     fhirBundle,
     mappings["patientWeightMeasurement"],
   )[0];
-  const bmi = evaluate(fhirBundle, mappings["patientBmi"])[0];
-  console.log(heightAmount, heightUnit, weightAmount, weightUnit);
+  const bmiAmount = evaluate(fhirBundle, mappings["patientBmi"])[0];
+  const bmiUnit = evaluate(fhirBundle, mappings["patientBmiMeasurement"])[0];
 
   let heightString = "";
   let weightString = "";
+  let bmiString = "";
   let heightType = "";
   let weightType = "";
 
@@ -467,15 +468,18 @@ export const returnVitalsTable = (
     }
     weightString = `${weightAmount} ${weightType}`;
   }
+  if (bmiAmount && bmiUnit) {
+    bmiString = `${bmiAmount} ${bmiUnit}`;
+  }
 
-  if (!heightString && !weightString && !bmi) {
+  if (!heightString && !weightString && !bmiString) {
     return undefined;
   }
 
   const vitalsData = [
     { vitalReading: "Height", result: heightString || noData },
     { vitalReading: "Weight", result: weightString || noData },
-    { vitalReading: "BMI", result: bmi || noData },
+    { vitalReading: "BMI", result: bmiString || noData },
   ];
   const headers = BuildHeaders([
     { columnName: "Vital Reading" },
