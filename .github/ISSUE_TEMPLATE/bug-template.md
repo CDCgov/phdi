@@ -2,7 +2,6 @@
 name: Bug Template
 about: Capture bugs with this
 title: ''
-labels: Streamline eCR
 assignees: ''
 
 ---
