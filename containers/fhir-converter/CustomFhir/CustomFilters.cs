@@ -146,6 +146,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         {
             return;
         }
+      
         PrintObject(obj, 0);
     }
 
@@ -157,6 +158,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         {
             return;
         }
+      
         string indent = new string(' ', level * 4);
 
         if (obj is Dictionary<string, object> dict)
