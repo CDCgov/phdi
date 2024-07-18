@@ -90,6 +90,10 @@ export default function HeaderComponent() {
           id="data-usage-policy-modal"
           aria-labelledby="data-usage-policy-modal-heading"
           aria-describedby="data-usage-policy-modal-description"
+          isInitiallyOpen={false}
+          placeholder={undefined}
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
         >
           <ModalHeading id="data-usage-policy-modal-heading">
             How is my data stored?

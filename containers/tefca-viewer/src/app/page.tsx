@@ -32,7 +32,7 @@ export default function LandingPage() {
               giving you access to more complete and timely data.
             </h2>
           </div>
-          <img src="./tefca-graphic.svg" />
+          <img src="/tefca-viewer/tefca-graphic.svg" />
         </div>
       </div>
       <div className="home">
@@ -44,7 +44,7 @@ export default function LandingPage() {
           Framework and Common Agreement (TEFCA). This tool demonstrates how
           public health jurisdictions can leverage TEFCA to quickly retrieve
           patient records and relevant case information from HCOs without
-          requiring direct connection and onboarding. 
+          requiring direct connection and onboarding.
         </h2>
         <h3 className="font-sans-l text-bold margin-top-5">
           How does it work?

@@ -50,6 +50,7 @@ COPY --from=installer /app/containers/tefca-viewer/package.json .
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nextjs:nodejs /app/containers/tefca-viewer/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/containers/tefca-viewer/.next/static ./containers/tefca-viewer/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/containers/tefca-viewer/public ./containers/tefca-viewer/public
 
 ENV TURBO_TELEMETRY_DISABLED=1
 ENV NEXT_TELEMETRY_DISABLED=1
