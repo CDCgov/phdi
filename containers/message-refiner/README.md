@@ -2,7 +2,7 @@
 
 ```mermaid
 
-graph TD;
+graph LR;
     subgraph Client
         A[Client]
     end
