@@ -392,3 +392,12 @@ html {
   order: 0;
   flex-grow: 0;
 }
+
+.demo-data-filler {
+  background: #faf3d1;
+  border: 1px solid #fee685;
+  border-radius: 4px;
+  .usa-label {
+    margin-top: 0;
+  }
+}
