@@ -3,8 +3,11 @@ import { render, screen } from "@testing-library/react";
 import { PathMappings } from "@/app/utils";
 import userEvent from "@testing-library/user-event";
 import EvaluateTable, {
+  BuildHeaders,
+  BuildTable,
   ColumnInfoInput,
 } from "@/app/view-data/components/EvaluateTable";
+import { JSX } from "react";
 
 const mappings = loadYamlConfig();
 
@@ -209,5 +212,58 @@ describe("Evaluate table", () => {
         "2",
       );
     });
+  });
+});
+
+describe("BuildHeaders", () => {
+  it("should render headers with correct names and class names", () => {
+    const columns = [
+      { columnName: "Column 1", className: "custom-class-1" },
+      { columnName: "Column 2", className: "custom-class-2" },
+    ];
+
+    const headers = BuildHeaders(columns);
+
+    headers.forEach((header, index) => {
+      expect(header.props.children).toEqual(columns[index].columnName);
+      expect(header.props.className).toContain(columns[index].className);
+    });
+  });
+});
+
+describe("BuildTable", () => {
+  let headers: JSX.Element[], tableRows: JSX.Element[];
+
+  beforeEach(() => {
+    headers = [
+      <th key="column1" className="tableHeader">
+        Column 1
+      </th>,
+      <th key="column2" className="tableHeader">
+        Column 2
+      </th>,
+    ];
+
+    tableRows = [
+      <tr key="row1">
+        <td>Row 1, Col 1</td>
+        <td>Row 1, Col 2</td>
+      </tr>,
+    ];
+  });
+
+  it("should render table with correct class name", () => {
+    const { container } = render(
+      <BuildTable
+        headers={headers}
+        tableRows={tableRows}
+        caption="Table Test"
+        className="custom-class-1 custom-class-2"
+      />,
+    );
+    const tableElement = container.querySelector("table");
+
+    expect(tableElement).toHaveClass("custom-class-1");
+    expect(tableElement).toHaveClass("custom-class-2");
   });
 });
