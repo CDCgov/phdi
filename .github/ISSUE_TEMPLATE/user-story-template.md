@@ -1,5 +1,5 @@
 ---
-name: User Story Template
+name: Streamline User Story Template
 about: Create a new user story for the Streamline eCR team
 title: ''
 labels: Streamline eCR
