@@ -1,5 +1,5 @@
 ---
-name: QA Ticket Template
+name: Streamline QA Ticket Template
 about: Template for eCR Viewer QA efforts
 title: ''
 labels: quality-assurance-testing
