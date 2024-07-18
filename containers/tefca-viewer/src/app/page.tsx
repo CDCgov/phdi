@@ -32,7 +32,7 @@ export default function LandingPage() {
               giving you access to more complete and timely data.
             </h2>
           </div>
-          <img src="./tefca-graphic.svg" />
+          <img src="/tefca-viewer/tefca-graphic.svg" />
         </div>
       </div>
       <div className="home">
