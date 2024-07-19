@@ -72,6 +72,7 @@ patientHeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation
 patientWeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.value"
 patientWeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.unit"
 patientBmi: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='39156-5').valueQuantity.value"
+patientBmiMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='39156-5').valueQuantity.unit"
 
 resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %id)"
 

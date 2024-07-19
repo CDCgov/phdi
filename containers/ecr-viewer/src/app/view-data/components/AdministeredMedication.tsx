@@ -1,6 +1,9 @@
 import { noData } from "@/app/utils";
-import { Table } from "@trussworks/react-uswds";
 import { formatDate } from "@/app/services/formatService";
+import {
+  BuildHeaders,
+  BuildTable,
+} from "@/app/view-data/components/EvaluateTable";
 
 type AdministeredMedicationProps = {
   medicationData: AdministeredMedicationTableData[];
@@ -23,36 +26,26 @@ export const AdministeredMedication = ({
     return null;
   }
 
-  const header = ["Medication Name", "Medication Start Date"];
+  const headers = BuildHeaders([
+    { columnName: "Medication Name", className: "bg-gray-5 minw-15" },
+    { columnName: "Medication Start Date", className: "bg-gray-5 minw-15" },
+  ]);
+  const tableRows = medicationData.map((entry, index: number) => {
+    return (
+      <tr key={`table-row-${index}`}>
+        <td>{entry?.name ?? noData}</td>
+        <td>{formatDate(entry?.date) ?? noData}</td>
+      </tr>
+    );
+  });
+
   return (
-    <Table
-      bordered={false}
-      fullWidth={true}
+    <BuildTable
+      headers={headers}
+      tableRows={tableRows}
       caption="Administered Medications"
-      className={
-        "table-caption-margin margin-y-0 border-top border-left border-right"
-      }
-      data-testid="table"
-    >
-      <thead>
-        <tr>
-          {header.map((column) => (
-            <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
-              {column}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {medicationData.map((entry, index: number) => {
-          return (
-            <tr key={`table-row-${index}`}>
-              <td>{entry?.name ?? noData}</td>
-              <td>{formatDate(entry?.date) ?? noData}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </Table>
+      className={"margin-y-0"}
+      fixed={false}
+    />
   );
 };

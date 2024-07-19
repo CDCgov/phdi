@@ -35,13 +35,14 @@ jobs:
         run: |
           npm ci
           npm run lint
+
   test-node-containers:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{env.NODE_VERSION}}
       - name: Install dependencies
@@ -50,6 +51,7 @@ jobs:
       - name: Run tests
         working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
         run: npm test
+
   build-container:
     runs-on: ubuntu-latest
     steps:
@@ -68,7 +70,28 @@ jobs:
       - name: Build ${{ env.CONTAINER }} Container
         uses: docker/build-push-action@v3
         with:
-          context: ./containers/${{ env.CONTAINER }}
+          context: .
+          file: ./containers/${{ env.CONTAINER }}/Dockerfile
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  playwright-tests:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{env.NODE_VERSION}}
+      - name: Install dependencies
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: npm install
+      - name: Install Playwright Browsers
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: npx playwright test
