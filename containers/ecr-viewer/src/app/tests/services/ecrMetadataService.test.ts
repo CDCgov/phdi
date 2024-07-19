@@ -32,7 +32,7 @@ describe("Evaluate Ecr Metadata", () => {
         value: "1211 Medical Center Dr\nNashville, TN\n37232",
       },
       { title: "Facility Contact", value: "+1-615-322-5000" },
-      { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
+      { title: "Facility ID", value: "7162024" },
     ]);
     expect(actual.ecrSenderDetails.unavailableData).toEqual([
       {

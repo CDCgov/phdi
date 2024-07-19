@@ -9,6 +9,7 @@ import { evaluate } from "@/app/view-data/utils/evaluate";
 import {
   evaluateFacilityAddress,
   evaluateReference,
+  evaluateFacilityId,
 } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/DataDisplay";
 
@@ -115,7 +116,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Facility ID",
-      value: evaluate(fhirBundle, mappings.facilityID)[0],
+      value: evaluateFacilityId(fhirBundle, mappings),
     },
   ];
   return {
