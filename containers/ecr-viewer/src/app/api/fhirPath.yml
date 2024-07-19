@@ -46,7 +46,6 @@ encounterType: "Bundle.entry.resource.where(resourceType='Encounter')[0].class.d
 facilityCity: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.city"
 facilityContact: "Bundle.entry.resource.where(resourceType = 'Location')[0].telecom.where(system = 'phone')[0].value"
 facilityCountry: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.country"
-facilityID: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].id"
 facilityLocation: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.reference"
 facilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
 facilityState: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.state"

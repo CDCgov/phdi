@@ -473,7 +473,8 @@
             'id': str,
             'identifier': list([
               dict({
-                'value': '2.16.540.1.113883.19.2',
+                'system': 'urn:ietf:rfc:3986',
+                'value': 'urn:uuid:2.16.540.1.113883.19.2',
               }),
             ]),
             'meta': dict({
