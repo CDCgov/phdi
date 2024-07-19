@@ -9,7 +9,9 @@ import {
   formatDateTime,
   convertUTCToLocalString,
   formatVitals,
+  formatContactPoint,
 } from "@/app/services/formatService";
+import { ContactPoint } from "fhir/r4";
 
 describe("Format Name", () => {
   const inputGiven = ["Gregory", "B"];
@@ -374,5 +376,46 @@ describe("formatVitals", () => {
       weight: "150 lb",
       bmi: "",
     });
+  });
+});
+
+describe("formatContactPoint", () => {
+  it("should return empty array if contact points is null", () => {
+    const actual = formatContactPoint(undefined);
+    expect(actual).toBeEmpty();
+  });
+  it("should return empty array if contact points is contact points is empty", () => {
+    const actual = formatContactPoint([]);
+    expect(actual).toBeEmpty();
+  });
+  it("should return phone contact information ", () => {
+    const contactPoints: ContactPoint[] = [
+      {
+        system: "phone",
+        value: "+12485551234",
+        use: "work",
+      },
+      {
+        system: "phone",
+        value: "+13135551234",
+      },
+    ];
+    const actual = formatContactPoint(contactPoints);
+    expect(actual).toEqual(["Work 248-555-1234", " 313-555-1234"]);
+  });
+  it("should return email information ", () => {
+    const contactPoints: ContactPoint[] = [
+      {
+        system: "email",
+        value: "me@example.com",
+        use: "work",
+      },
+      {
+        system: "email",
+        value: "medicine@example.com",
+      },
+    ];
+    const actual = formatContactPoint(contactPoints);
+    expect(actual).toEqual(["me@example.com", "medicine@example.com"]);
   });
 });

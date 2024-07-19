@@ -1,7 +1,7 @@
 import {
   formatAddress,
+  formatContactPoint,
   formatDateTime,
-  formatPhoneNumber,
 } from "@/app/services/formatService";
 import { PathMappings, evaluateData } from "@/app/utils";
 import { Bundle, Organization } from "fhir/r4";
@@ -86,7 +86,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Author contact",
-      value: formatPhoneNumber(custodian?.telecom?.[0].value ?? ""),
+      value: formatContactPoint(custodian?.telecom).join("\n"),
     },
   ];
   const ecrSenderDetails: DisplayDataProps[] = [

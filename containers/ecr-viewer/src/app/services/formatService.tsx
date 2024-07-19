@@ -1,5 +1,6 @@
 import React from "react";
 import { ToolTipElement } from "@/app/ToolTipElement";
+import { ContactPoint } from "fhir/r4";
 
 interface Metadata {
   [key: string]: string;
@@ -490,4 +491,34 @@ export const addCaptionToTable = (
 export const removeHtmlElements = (element: string): string => {
   const regex = /<[^>]*>/g;
   return element.replace(regex, "");
+};
+
+/**
+ *
+ * @param contactPoints - array of contact points
+ * @returns array of strings of
+ */
+export const formatContactPoint = (
+  contactPoints: ContactPoint[] | undefined,
+): string[] => {
+  if (!contactPoints || !contactPoints.length) {
+    return [];
+  }
+  const contactArr: string[] = [];
+  for (const contactPoint of contactPoints) {
+    if (contactPoint.system === "phone") {
+      const phoneNumberUse = [
+        contactPoint?.use?.charAt(0).toUpperCase(),
+        contactPoint?.use?.substring(1),
+      ].join("");
+      contactArr.push(
+        [phoneNumberUse, formatPhoneNumber(contactPoint?.value ?? "")].join(
+          " ",
+        ),
+      );
+    } else if (contactPoint.system === "email") {
+      contactArr.push(contactPoint?.value ?? "");
+    }
+  }
+  return contactArr;
 };
