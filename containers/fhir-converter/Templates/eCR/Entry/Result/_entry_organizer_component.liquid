@@ -6,7 +6,17 @@
       {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
       {% include 'Reference/DiagnosticReport/Result' ID: diagnosticId, REF: fullObservationId -%}
       {% include 'Reference/Observation/Subject' ID: observationId, REF: fullPatientId -%}
-      {% if component.observation.author.assignedAuthor -%}
+
+      {% assign labDeviceNameReference = component.observation.text.reference.value | replace: '#', '' | append: 'TestMethodName1'-%}
+      {% assign labDeviceName = text | find_object_by_id: labDeviceNameReference | to_html_string -%}
+      {% if labDeviceName != null %}
+        {% assign deviceId = labDeviceName | generate_uuid %}
+        {% assign fullDeviceId = deviceId | prepend: 'Device/' %}
+        {% include 'Resource/Device2', ID: deviceId, deviceName: labDeviceName -%}
+        {% include 'Reference/Observation/Device', ID: observationId, REF: fullDeviceId -%}
+      {% endif %}
+
+    {% if component.observation.author.assignedAuthor -%}
         {% evaluate practitionerResultId using 'Utils/GenerateId' obj: component.observation.author.assignedAuthor -%}
         {% include 'Resource/Practitioner' practitioner: component.observation.author.assignedAuthor, ID: practitionerResultId -%}
         {% assign fullPractitionerResultId = practitionerResultId | prepend: 'Practitioner/' -%}

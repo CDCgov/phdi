@@ -83,6 +83,14 @@ def convert_files():
                             fhir_bundles.append(
                                 response["stamped_ecr"]["extended_bundle"]
                             )
+                            with open(
+                                os.path.join(folder_path, "bundle.json"), "w"
+                            ) as fhir_file:
+                                json.dump(
+                                    response["stamped_ecr"]["extended_bundle"],
+                                    fhir_file,
+                                    indent=4,
+                                )
                         if "message_parser_values" in response:
                             metadata.append(
                                 response["message_parser_values"]["parsed_values"]

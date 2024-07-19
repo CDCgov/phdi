@@ -137,30 +137,57 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return Regex.Replace(value.Replace("\t", " "), reduceMultiSpace, " ");
     }
 
+    // Overloaded method with default level value
+    public static void PrintObject(object obj)
+    {
+        var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
+        var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
+        if (devMode != "true" || debugLog != "true")
+        {
+            return;
+        }
+      
+        PrintObject(obj, 0);
+    }
+
     private static void PrintObject(object obj, int level)
     {
-      string indent = new string(' ', level * 4);
+        var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
+        var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
+        if (devMode != "true" || debugLog != "true")
+        {
+            return;
+        }
+      
+        string indent = new string(' ', level * 4);
 
-      if (obj is Dictionary<string, object> dict)
-      {
-        foreach (var kvp in dict)
+        if (obj is Dictionary<string, object> dict)
         {
-          Console.WriteLine($"{indent}{kvp.Key}:");
-          PrintObject(kvp.Value, level + 1);
+            Console.WriteLine($"{indent}{{");
+            foreach (var kvp in dict)
+            {
+                Console.Write($"{indent}    \"{kvp.Key}\": ");
+                PrintObject(kvp.Value, level + 1);
+            }
+            Console.WriteLine($"{indent}}}");
         }
-      }
-      else if (obj is List<object> list)
-      {
-        foreach (var item in list)
+        else if (obj is List<object> list)
         {
-          Console.Write($"{indent}- ");
-          PrintObject(item, level + 1);
+            Console.WriteLine($"{indent}[");
+            foreach (var item in list)
+            {
+                PrintObject(item, level + 1);
+            }
+            Console.WriteLine($"{indent}]");
         }
-      }
-      else
-      {
-        Console.WriteLine($"{indent}{obj}");
-      }
+        else if (obj is string str)
+        {
+            Console.WriteLine($"{indent}\"{str}\",");
+        }
+        else
+        {
+            Console.WriteLine($"{indent}{obj},");
+        }
     }
 
     /// <summary>
@@ -189,6 +216,57 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
           if (kvp.Key == "_")
           {
             stringBuilder.Append(ToHtmlString(kvp.Value));
+          }
+          else if (kvp.Key == "br")
+          {
+            stringBuilder.Append("<br>");
+          }
+          else if (kvp.Value is IDictionary<string, object>)
+          {
+            stringBuilder.Append(WrapHtmlValue(kvp.Key, kvp.Value));
+          }
+          else if (kvp.Value is IList list)
+          {
+            foreach (var row in list)
+            {
+              stringBuilder.Append(WrapHtmlValue(kvp.Key, row));
+            }
+          }
+        }
+      }
+      return CleanStringFromTabs(stringBuilder.ToString().Trim());
+    }
+
+    /// <summary>
+    /// Converts an to an HTML-formatted string.
+    /// </summary>
+    /// <param name="data">The data to convert, which can be of type string, IList, or IDictionary<string, object>.</param>
+    /// <returns>An HTML-formatted string representing the input data.</returns>
+    public static string ToHtmlStringJoinBr(object data)
+    {
+      var stringBuilder = new StringBuilder();
+      if (data is string stringData)
+      {
+        return stringData;
+      }
+      else if (data != null && data is IList listData)
+      {
+        for (int i = 0; i < listData.Count; i++)
+        {
+            stringBuilder.Append(ToHtmlStringJoinBr(listData[i]));
+            if (i < listData.Count - 1)
+            {
+                stringBuilder.Append("<br>");
+            }
+        }
+      }
+      else if (data is IDictionary<string, object> dict)
+      {
+        foreach (var kvp in dict)
+        {
+          if (kvp.Key == "_")
+          {
+            stringBuilder.Append(ToHtmlStringJoinBr(kvp.Value));
           }
           else if (kvp.Key == "br")
           {
@@ -359,13 +437,41 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
           return string.Join("<br/>", result);
         }
       }
-
       else if (input is IDictionary<string, object> dictObject)
       {
         List<string> result = new List<string>();
+
         foreach (var kvp in dictObject)
         {
-          result.Add(kvp.Value.ToString() ?? "");
+          if (kvp.Key == "styleCode")
+          {
+            continue;
+          }
+          if (kvp.Value is IDictionary<string, object> nestedDict)
+          {
+            result.Add(ConcatStrings(nestedDict));
+          }
+          else if (kvp.Value is IList nestedList)
+          {
+            List<string> nestedValues = new List<string>();
+            for (int i = nestedList.Count - 1; i >= 0; i--)
+            {
+              var item = nestedList[i];
+              if (item is IDictionary<string, object> nestedDictInList)
+              {
+                nestedValues.Add(ConcatStrings(nestedDictInList));
+              }
+              else if (item is string listItemString)
+              {
+                nestedValues.Add(listItemString);
+              }
+            }
+            result.Add(string.Join("<br/>", nestedValues));
+          }
+          else
+          {
+            result.Add(kvp.Value?.ToString() ?? "");
+          }
         }
         return string.Join("<br/>", result);
       }
