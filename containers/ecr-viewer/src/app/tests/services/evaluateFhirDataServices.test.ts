@@ -1,6 +1,7 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import {
   evaluateEncounterId,
+  evaluateFacilityId,
   evaluateIdentifiers,
   evaluatePatientRace,
   evaluateReference,
@@ -105,6 +106,17 @@ describe("Evaluate Patient Race", () => {
       mappings,
     );
     expect(actual).toEqual("Black or African American, African");
+  });
+});
+
+describe("Evaluate Facility Id", () => {
+  it("should return the facility id", () => {
+    const actual = evaluateFacilityId(
+      BundleWithEcrMetadata as unknown as Bundle,
+      mappings,
+    );
+
+    expect(actual).toEqual("7162024");
   });
 });
 
