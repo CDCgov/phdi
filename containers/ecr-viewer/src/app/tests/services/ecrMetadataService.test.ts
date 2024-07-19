@@ -64,7 +64,7 @@ describe("Evaluate Ecr Metadata", () => {
       },
       {
         title: "Author contact",
-        value: "615-322-5000",
+        value: "Work 615-322-5000",
       },
     ]);
     expect(actual.eicrDetails.unavailableData).toBeEmpty();
