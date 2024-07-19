@@ -130,7 +130,9 @@ export const formatDateTime = (dateTimeString: string): string => {
       const suffix = hoursInt >= 12 ? "PM" : "AM";
       const hours12 = ((hoursInt + 11) % 12) + 1; // Convert 24h to 12h format
 
-      const formattedDateTime = `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${timeZone || "UTC"}`;
+      const formattedDateTime = `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${
+        timeZone || "UTC"
+      }`;
       return formattedDateTime;
     }
 
