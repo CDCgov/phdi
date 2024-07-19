@@ -1,13 +1,15 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import {
+  evaluateEncounterId,
   evaluateIdentifiers,
   evaluatePatientRace,
   evaluateReference,
   evaluateValue,
 } from "@/app/services/evaluateFhirDataService";
-import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
+import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
+import BundleWithEcrMetadata from "@/app/tests/assets/BundleEcrMetadata.json";
 
 const mappings = loadYamlConfig();
 
@@ -103,5 +105,16 @@ describe("Evaluate Patient Race", () => {
       mappings,
     );
     expect(actual).toEqual("Black or African American, African");
+  });
+});
+
+describe("Evaluate Encounter ID", () => {
+  it("should return the correct Encounter ID", () => {
+    const actual = evaluateEncounterId(
+      BundleWithEcrMetadata as unknown as Bundle,
+      mappings,
+    );
+
+    expect(actual).toEqual("1800200448269");
   });
 });
