@@ -43,6 +43,7 @@ encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').perio
 encounterStartDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.start"
 encounterReasonForVisit: "Bundle.entry.resource.where(resourceType = 'Encounter').reason[0].value[0].concept.text"
 encounterType: "Bundle.entry.resource.where(resourceType='Encounter')[0].class.display"
+encounterID: "Bundle.entry.resource.where(resourceType='Encounter')[0].identifier"
 facilityCity: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.city"
 facilityContact: "Bundle.entry.resource.where(resourceType = 'Location')[0].telecom.where(system = 'phone')[0].value"
 facilityCountry: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.country"
