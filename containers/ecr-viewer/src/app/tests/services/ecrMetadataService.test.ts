@@ -55,15 +55,15 @@ describe("Evaluate Ecr Metadata", () => {
         value: "1.2.840.114350.1.13.478.3.7.8.688883.230886",
       },
       {
-        title: "Document author",
+        title: "Document Author",
         value: "Vanderbilt University Medical Center",
       },
       {
-        title: "Author address",
+        title: "Author Address",
         value: "3401 West End Ave\nNASHVILLE, TN\n37203, USA",
       },
       {
-        title: "Author contact",
+        title: "Author Contact",
         value: "Work 615-322-5000",
       },
     ]);

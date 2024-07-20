@@ -72,11 +72,11 @@ export const evaluateEcrMetadata = (
       value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
     },
     {
-      title: "Document author",
+      title: "Document Author",
       value: custodian?.name,
     },
     {
-      title: "Author address",
+      title: "Author Address",
       value: formatAddress(
         custodian?.address?.[0].line ?? [],
         custodian?.address?.[0].city ?? "",
@@ -86,7 +86,7 @@ export const evaluateEcrMetadata = (
       ),
     },
     {
-      title: "Author contact",
+      title: "Author Contact",
       value: formatContactPoint(custodian?.telecom).join("\n"),
     },
   ];
