@@ -72,7 +72,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           >
             <div>Condition Summary</div>
             <div>
-              <Tag className="tag-conditions">
+              <Tag className="tag-info">
                 {numConditionsText(aboutTheCondition)}
               </Tag>
             </div>

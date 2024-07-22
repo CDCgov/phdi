@@ -226,7 +226,7 @@ End: 05/13/2022 9:57 AM UTC
           </div>
           <div>
             <span
-              class="usa-tag tag-conditions"
+              class="usa-tag tag-info"
               data-testid="tag"
             >
               1 CONDITION FOUND
