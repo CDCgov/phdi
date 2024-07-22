@@ -416,12 +416,16 @@ html {
 
 .custom-alert {
   color: #2e6276;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0;
 }
 
 .custom-alert .usa-alert__text {
   color: #2e6276;
   font-weight: bold;
   text-align: left;
+  white-space: nowrap;
 }
 
 .custom-alert .usa-alert__body {
@@ -430,6 +434,7 @@ html {
   justify-content: flex-start;
   width: 100%;
   margin: 0;
+  white-space: nowrap;
 }
 
 .custom-alert .usa-alert__body::before {
