@@ -174,7 +174,7 @@ const BuildRow: React.FC<BuildRowProps> = ({
     if (rowCellData && column.hiddenBaseText) {
       hiddenRows.push(
         <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
-          <td colSpan={columns.length} className={"hideableData"}>
+          <td colSpan={columns.length} className={"hideableData p-list"}>
             {splitStringWith(`${rowCellData}`, "<br>")}
           </td>
         </tr>,

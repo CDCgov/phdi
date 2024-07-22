@@ -54,15 +54,15 @@ const EcrSummaryLoadingSkeleton = () => {
         aria-labelledby="summary-box-key-information"
       >
         <h3 className="summary-box-key-information side-nav-ignore font-sans-lg">
-          About the Patient
+          Patient Summary
         </h3>
         {renderLoadingBlobs(4, false)}
         <h3 className="summary-box-key-information side-nav-ignore font-sans-lg">
-          About the Encounter
+          Encounter Summary
         </h3>
         {renderLoadingBlobs(4, false)}
         <h3 className="summary-box-key-information side-nav-ignore font-sans-lg">
-          About the Condition
+          Condition Summary
         </h3>
         {renderLoadingBlobs(4, false)}
       </div>

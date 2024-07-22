@@ -109,6 +109,7 @@ const ECRViewerPage: React.FC = () => {
                     aboutTheCondition={evaluateEcrSummaryAboutTheConditionDetails(
                       fhirBundle,
                       mappings,
+                      snomedCode,
                     )}
                     relevantClinical={evaluateEcrSummaryRelevantClinicalDetails(
                       fhirBundle,

@@ -39,9 +39,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body margin-bottom-05">
           <h2
             className="summary-box-key-information side-nav-ignore"
-            id={"about-the-patient"}
+            id={"patient-summary"}
           >
-            About the Patient
+            Patient Summary
           </h2>
           <div className="usa-summary-box__text">
             {patientDetails.map((item) => (
@@ -52,9 +52,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body">
           <h2
             className="summary-box-key-information side-nav-ignore"
-            id="about-the-encounter"
+            id="encounter-summary"
           >
-            About the Encounter
+            Encounter Summary
           </h2>
           <div className="usa-summary-box__text">
             {encounterDetails.map((item) => (
@@ -65,9 +65,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body">
           <h2
             className={"summary-box-key-information side-nav-ignore"}
-            id={"about-the-condition"}
+            id={"condition-summary"}
           >
-            About the Condition
+            Condition Summary
           </h2>
           <div className="usa-summary-box__text">
             {aboutTheCondition.map((item) => (
