@@ -36,7 +36,6 @@ type CompleteEcrDataModel = EcrDataModel & EcrMetadataModel;
 
 export type EcrDisplay = {
   ecrId: string;
-  dateModified: string;
   patient_first_name: string;
   patient_last_name: string;
   patient_date_of_birth: string | undefined;
@@ -125,7 +124,6 @@ export const processListPostgres = (responseBody: any[]): EcrDisplay[] => {
   return responseBody.map((object) => {
     return {
       ecrId: object.ecr_id || "",
-      dateModified: object.date_created,
       patient_first_name: object.patient_name_first || "",
       patient_last_name: object.patient_name_last || "",
       patient_date_of_birth: object.patient_birth_date

@@ -8,15 +8,33 @@ describe("Home Page, ListECRViewer", () => {
     const listData = [
       {
         ecrId: "12345",
-        dateModified: "04/16/2024 9:40 PM UTC",
+        date_created: "04/16/2024 9:40 PM UTC",
+        patient_first_name: "John",
+        patient_last_name: "Doe",
+        patient_date_of_birth: "01/01/1970",
+        patient_report_date: "04/16/2024 9:40 PM UTC",
+        reportable_condition: "COVID-19",
+        rule_summary: "Positive",
       },
       {
         ecrId: "23456",
-        dateModified: "04/16/2024 9:41 PM UTC",
+        date_created: "04/16/2024 9:41 PM UTC",
+        patient_first_name: "Jane",
+        patient_last_name: "Doe",
+        patient_date_of_birth: "02/01/1955",
+        patient_report_date: "04/16/2024 9:40 PM UTC",
+        reportable_condition: "COVID-19",
+        rule_summary: "Positive",
       },
       {
         ecrId: "34567",
-        dateModified: "04/16/2024 9:42 PM UTC",
+        date_created: "04/16/2024 9:42 PM UTC",
+        patient_first_name: "Dan",
+        patient_last_name: "Doe",
+        patient_date_of_birth: "12/01/1984",
+        patient_report_date: "04/16/2024 9:40 PM UTC",
+        reportable_condition: "COVID-19",
+        rule_summary: "Positive",
       },
     ];
     container = render(<ListECRViewer listFhirData={listData} />).container;
