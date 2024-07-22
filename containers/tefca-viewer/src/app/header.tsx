@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+// import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
   Modal,
@@ -34,7 +34,7 @@ export default function HeaderComponent() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center" }}>
-            <a href="/tefca-viewer" title="TEFCA Viewer">
+            {/* <a href="/tefca-viewer" title="TEFCA Viewer">
               <Image
                 src="/tefca-viewer/DIBBs_logo.png"
                 alt="DIBBs Logo"
@@ -42,7 +42,7 @@ export default function HeaderComponent() {
                 height={34}
                 className="usa-header__logo-img"
               />
-            </a>
+            </a> */}
             <div className="usa-logo" style={{ marginLeft: "16px" }}>
               <em className="usa-logo__text text-base-lightest">
                 <a
