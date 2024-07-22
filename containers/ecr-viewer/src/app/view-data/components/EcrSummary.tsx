@@ -39,7 +39,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body margin-bottom-05">
           <h2
             className="summary-box-key-information side-nav-ignore"
-            id={"about-the-patient"}
+            id={"patient-summary"}
           >
             Patient Summary
           </h2>
@@ -52,7 +52,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body">
           <h2
             className="summary-box-key-information side-nav-ignore"
-            id="about-the-encounter"
+            id="encounter-summary"
           >
             Encounter Summary
           </h2>
@@ -65,7 +65,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body">
           <h2
             className={"summary-box-key-information side-nav-ignore"}
-            id={"about-the-condition"}
+            id={"condition-summary"}
           >
             Condition Summary
           </h2>
