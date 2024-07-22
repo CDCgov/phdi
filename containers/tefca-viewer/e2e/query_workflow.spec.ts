@@ -20,14 +20,21 @@ test.describe("querying with the TryTEFCA viewer", () => {
       page.getByRole("heading", { name: "How does it work?" }),
     ).toBeVisible();
 
-    // Check that interactable elements are present (TryTEFCA header and Get Started)
+    // Check that interactable elements are present (TEFCA header and Get Started)
     await expect(
-      page.getByRole("link", { name: "TryTEFCA Viewer" }),
+      page.getByRole("link", { name: "TEFCA Viewer" }),
     ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Get Started" }),
     ).toBeVisible();
   });
+
+  // Check that the clickable logo is visible
+  // test("clickable logo is visible", async ({ page }) => {
+  //   await expect(
+  //     page.locator('a[href="/tefca-viewer"] img[alt="DIBBs Logo"]'),
+  //   ).toBeVisible();
+  // });
 
   test("successful user query: the quest for watermelon mcgee", async ({
     page,
