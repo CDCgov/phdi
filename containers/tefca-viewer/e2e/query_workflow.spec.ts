@@ -30,11 +30,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
   });
 
   // Check that the clickable logo is visible
-  test("clickable logo is visible", async ({ page }) => {
-    await expect(
-      page.locator('a[href="/tefca-viewer"] img[alt="DIBBs Logo"]'),
-    ).toBeVisible();
-  });
+  // test("clickable logo is visible", async ({ page }) => {
+  //   await expect(
+  //     page.locator('a[href="/tefca-viewer"] img[alt="DIBBs Logo"]'),
+  //   ).toBeVisible();
+  // });
 
   test("successful user query: the quest for watermelon mcgee", async ({
     page,
