@@ -152,7 +152,7 @@ export const processListPostgres = (responseBody: any[]): EcrDisplay[] => {
  */
 export const processListS3 = (
   responseBody: ListObjectsV2CommandOutput,
-): EcrDisplay[] => {
+): any[] => {
   responseBody.Contents?.sort(
     (a, b) => Number(b.LastModified) - Number(a.LastModified),
   );
