@@ -80,7 +80,6 @@
     "postcss": "^8.4.38",
     "prettier": "3.1.1",
     "sass": "^1.69.5",
-    "testcontainers": "^10.3.2",
     "typescript": "^5.5.2"
   }
 }
