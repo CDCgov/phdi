@@ -4,6 +4,7 @@ import {
   DataTableDisplay,
   DisplayDataProps,
 } from "@/app/DataDisplay";
+import { Tag } from "@trussworks/react-uswds";
 
 interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
@@ -30,6 +31,10 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
   relevantClinical,
   relevantLabs,
 }) => {
+  // const returnTag = (
+
+  // )
+
   return (
     <div className={"info-container"}>
       <div
@@ -64,10 +69,15 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         </div>
         <div className="usa-summary-box__body">
           <h2
-            className={"summary-box-key-information side-nav-ignore"}
+            className={
+              "summary-box-key-information side-nav-ignore header-with-tag"
+            }
             id={"condition-summary"}
           >
-            Condition Summary
+            <div>Condition Summary</div>
+            <div>
+              <Tag className="tag-conditions">n CONDITIONS FOUND</Tag>
+            </div>
           </h2>
           <div className="usa-summary-box__text">
             {aboutTheCondition.map((item) => (
