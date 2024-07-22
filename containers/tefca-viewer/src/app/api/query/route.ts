@@ -15,7 +15,6 @@ import {
 } from "../../constants";
 
 import { handleRequestError } from "./error-handling-service";
-import { OperationOutcome } from "fhir/r4";
 
 /**
  * Health check for TEFCA Viewer
