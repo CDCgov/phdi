@@ -14,7 +14,7 @@ exports[`EcrSummary should match snapshot 1`] = `
       >
         <h2
           class="summary-box-key-information side-nav-ignore"
-          id="about-the-patient"
+          id="patient-summary"
         >
           Patient Summary
         </h2>
@@ -107,7 +107,7 @@ MELLY.C.A.16@GMAIL.COM
       >
         <h2
           class="summary-box-key-information side-nav-ignore"
-          id="about-the-encounter"
+          id="encounter-summary"
         >
           Encounter Summary
         </h2>
@@ -219,7 +219,7 @@ End: 05/13/2022 9:57 AM UTC
       >
         <h2
           class="summary-box-key-information side-nav-ignore"
-          id="about-the-condition"
+          id="condition-summary"
         >
           Condition Summary
         </h2>
