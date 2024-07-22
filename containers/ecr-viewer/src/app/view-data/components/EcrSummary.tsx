@@ -31,9 +31,23 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
   relevantClinical,
   relevantLabs,
 }) => {
-  // const returnTag = (
-
-  // )
+  const numConditionsText = (aboutTheCondition: DisplayDataProps[]) => {
+    let numConditions = 0;
+    const reportableConditions = aboutTheCondition.find(
+      (item) => item.title === "Reportable Condition",
+    );
+    if (
+      reportableConditions &&
+      React.isValidElement(reportableConditions.value)
+    ) {
+      numConditions = reportableConditions.value.props.children.length;
+    }
+    const conditionsText =
+      numConditions === 1
+        ? `${numConditions} CONDITION FOUND`
+        : `${numConditions} CONDITIONS FOUND`;
+    return conditionsText;
+  };
 
   return (
     <div className={"info-container"}>
@@ -76,7 +90,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           >
             <div>Condition Summary</div>
             <div>
-              <Tag className="tag-conditions">n CONDITIONS FOUND</Tag>
+              <Tag className="tag-conditions">
+                {numConditionsText(aboutTheCondition)}
+              </Tag>
             </div>
           </h2>
           <div className="usa-summary-box__text">
