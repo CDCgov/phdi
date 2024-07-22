@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import ClinicalInfo from "../../view-data/components/ClinicalInfo";
 import { loadYamlConfig } from "@/app/api/utils";
@@ -9,7 +9,7 @@ import {
   returnProceduresTable,
 } from "@/app/view-data/components/common";
 
-describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () => {
+describe("Snapshot test for Procedures (Treatment Details)", () => {
   let container: HTMLElement;
 
   beforeAll(() => {
@@ -101,25 +101,12 @@ describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () =
         value: returnProceduresTable(proceduresArray, mappings),
       },
     ];
-    const vitalData = [
-      {
-        title: "Vitals",
-        value: `Height: 65 inches\n\nWeight: 150 Lbs\n\nBody Mass Index (BMI): 25`,
-      },
-      {
-        title: "Facility Name",
-        value: "PRM- Palmdale Regional Medical Center",
-      },
-      {
-        title: "Facility Type",
-        value: "Healthcare Provider",
-      },
-    ];
+
     container = render(
       <ClinicalInfo
         clinicalNotes={[]}
         activeProblemsDetails={[]}
-        vitalData={vitalData}
+        vitalData={[]}
         reasonForVisitDetails={[]}
         immunizationsDetails={[]}
         treatmentData={treatmentData}
@@ -284,6 +271,19 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
 
     const expectedVitalSignsElement = clinicalInfo.getByTestId("vital-signs");
     expect(expectedVitalSignsElement).toBeInTheDocument();
+
+    // Ensure only one table (Vital Signs) is rendering
+    const expectedTable = clinicalInfo.getAllByTestId("table");
+    expect(expectedTable.length).toEqual(1);
+    expect(expectedTable[0]).toBeInTheDocument();
+
+    // Check Vital Signs table contents
+    const expectedValues = ["65 in", "150 lb", "25 kg/m2"];
+
+    // Check if all expected values are present in the document
+    expectedValues.forEach((value) => {
+      expect(screen.getByText(value)).toBeInTheDocument();
+    });
   });
 
   it("eCR Viewer renders reason for visit given FHIR bundle with reason for visit info", () => {
@@ -351,7 +351,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
 
     const expectedTable = clinicalInfo.getAllByTestId("table");
     expect(expectedTable[0]).toBeInTheDocument();
-    expect(expectedTable.length).toEqual(6);
+    expect(expectedTable.length).toEqual(7);
 
     const expectedVitalSignsElement = clinicalInfo.getByTestId("vital-signs");
     expect(expectedVitalSignsElement).toBeInTheDocument();

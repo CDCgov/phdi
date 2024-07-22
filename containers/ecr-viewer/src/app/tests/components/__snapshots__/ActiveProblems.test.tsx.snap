@@ -29,6 +29,12 @@ exports[`Active Problems Table should match snapshot 1`] = `
         >
           Onset Age
         </th>
+        <th
+          class="tableHeader"
+          scope="col"
+        >
+          Comments
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -48,6 +54,32 @@ exports[`Active Problems Table should match snapshot 1`] = `
         >
           7
         </td>
+        <td
+          class="text-top"
+        >
+          <button
+            aria-controls="hidden-comment-3"
+            aria-expanded="false"
+            class="usa-button usa-button--unstyled"
+            data-testid="button"
+            type="button"
+          >
+            View
+             
+            comment
+          </button>
+        </td>
+      </tr>
+      <tr
+        hidden=""
+        id="hidden-comment-3"
+      >
+        <td
+          class="hideableData p-list"
+          colspan="4"
+        >
+          Test note
+        </td>
       </tr>
       <tr>
         <td
@@ -65,6 +97,15 @@ exports[`Active Problems Table should match snapshot 1`] = `
         >
           6
         </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="no-data text-italic text-base"
+          >
+            No data
+          </span>
+        </td>
       </tr>
       <tr>
         <td
@@ -81,6 +122,15 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class="text-top"
         >
           3
+        </td>
+        <td
+          class="text-top"
+        >
+          <span
+            class="no-data text-italic text-base"
+          >
+            No data
+          </span>
         </td>
       </tr>
     </tbody>
