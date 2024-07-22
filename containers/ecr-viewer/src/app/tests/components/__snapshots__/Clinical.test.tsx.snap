@@ -147,7 +147,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
 </div>
 `;
 
-exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should match snapshot 1`] = `
+exports[`Snapshot test for Procedures (Treatment Details) should match snapshot 1`] = `
 <div>
   <div
     class="margin-top-0"
@@ -240,82 +240,6 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
                     </tr>
                   </tbody>
                 </table>
-              </div>
-              <div
-                class="section__line_gray"
-              />
-            </div>
-          </div>
-        </div>
-        <h4
-          class="usa-summary-box__heading padding-y-105"
-          id="diagnostics-and-vital-signs"
-        >
-          Diagnostics and Vital Signs
-        </h4>
-        <div
-          class="usa-summary-box__text"
-        >
-          <div
-            class="lh-18"
-            data-testid="vital-signs"
-          >
-            <div>
-              <div
-                class="grid-row"
-              >
-                <div
-                  class="data-title"
-                >
-                  Vitals
-                </div>
-                <div
-                  class="grid-col-auto maxw7 text-pre-line"
-                >
-                  Height: 65 inches
-
-Weight: 150 Lbs
-
-Body Mass Index (BMI): 25
-                </div>
-              </div>
-              <div
-                class="section__line_gray"
-              />
-            </div>
-            <div>
-              <div
-                class="grid-row"
-              >
-                <div
-                  class="data-title"
-                >
-                  Facility Name
-                </div>
-                <div
-                  class="grid-col-auto maxw7 text-pre-line"
-                >
-                  PRM- Palmdale Regional Medical Center
-                </div>
-              </div>
-              <div
-                class="section__line_gray"
-              />
-            </div>
-            <div>
-              <div
-                class="grid-row"
-              >
-                <div
-                  class="data-title"
-                >
-                  Facility Type
-                </div>
-                <div
-                  class="grid-col-auto maxw7 text-pre-line"
-                >
-                  Healthcare Provider
-                </div>
               </div>
               <div
                 class="section__line_gray"

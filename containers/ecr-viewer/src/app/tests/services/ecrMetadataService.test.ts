@@ -32,7 +32,7 @@ describe("Evaluate Ecr Metadata", () => {
         value: "1211 Medical Center Dr\nNashville, TN\n37232",
       },
       { title: "Facility Contact", value: "+1-615-322-5000" },
-      { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
+      { title: "Facility ID", value: "7162024" },
     ]);
     expect(actual.ecrSenderDetails.unavailableData).toEqual([
       {
@@ -72,6 +72,10 @@ describe("Evaluate Ecr Metadata", () => {
           "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method":
             new Set(["Tennessee Department of Health"]),
         },
+      "Viral hepatitis type C (disorder)": {
+        "Detection of Hepatitis C virus antibody in a clinical specimen by any method":
+          new Set(["California Department of Public Health"]),
+      },
     });
   });
 });

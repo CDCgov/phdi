@@ -7,7 +7,7 @@
         [
             {% assign ids = location.id | to_array -%}
             {% for id in ids -%}
-            { {% include 'DataType/IdentifierRoot' Identifier: id -%} },
+            { {% include 'DataType/Identifier' Identifier: id -%} },
             {% endfor -%}
         ],
         
