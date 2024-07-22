@@ -21,12 +21,10 @@ export default function LandingPage() {
 
   return (
     <div>
-      <div className="custom-alert-container">
-        <Alert type="info" headingLevel="h4" slim className="custom-alert">
-          This site is for demo purposes only. Please do not enter PII on this
-          website.
-        </Alert>
-      </div>
+      <Alert type="info" headingLevel="h4" slim className="custom-alert">
+        This site is for demo purposes only. Please do not enter PII on this
+        website.
+      </Alert>
       <div className="display-flex flex-justify-center flex-column">
         <div className="gradient-blue-background">
           <div className="container">
