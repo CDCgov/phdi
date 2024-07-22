@@ -31,24 +31,6 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
   relevantClinical,
   relevantLabs,
 }) => {
-  const numConditionsText = (aboutTheCondition: DisplayDataProps[]) => {
-    let numConditions = 0;
-    const reportableConditions = aboutTheCondition.find(
-      (item) => item.title === "Reportable Condition",
-    );
-    if (
-      reportableConditions &&
-      React.isValidElement(reportableConditions.value)
-    ) {
-      numConditions = reportableConditions.value.props.children.length;
-    }
-    const conditionsText =
-      numConditions === 1
-        ? `${numConditions} CONDITION FOUND`
-        : `${numConditions} CONDITIONS FOUND`;
-    return conditionsText;
-  };
-
   return (
     <div className={"info-container"}>
       <div
@@ -124,6 +106,29 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
       </div>
     </div>
   );
+};
+
+/**
+ * Returns a formatted string indicating the number of reportable conditions.
+ * @param conditionDetails - An array of objects representing the relevant condition details.
+ * @returns A formatted string that specifies the number of conditions found.
+ */
+export const numConditionsText = (conditionDetails: DisplayDataProps[]) => {
+  let numConditions = 0;
+  const reportableConditions = conditionDetails.find(
+    (item) => item.title === "Reportable Condition",
+  );
+  if (
+    reportableConditions &&
+    React.isValidElement(reportableConditions.value)
+  ) {
+    numConditions = reportableConditions.value.props.children.length;
+  }
+  const conditionsText =
+    numConditions === 1
+      ? `${numConditions} CONDITION FOUND`
+      : `${numConditions} CONDITIONS FOUND`;
+  return conditionsText;
 };
 
 export default EcrSummary;

@@ -218,10 +218,20 @@ End: 05/13/2022 9:57 AM UTC
         class="usa-summary-box__body"
       >
         <h2
-          class="summary-box-key-information side-nav-ignore"
+          class="summary-box-key-information side-nav-ignore header-with-tag"
           id="condition-summary"
         >
-          Condition Summary
+          <div>
+            Condition Summary
+          </div>
+          <div>
+            <span
+              class="usa-tag tag-conditions"
+              data-testid="tag"
+            >
+              1 CONDITION FOUND
+            </span>
+          </div>
         </h2>
         <div
           class="usa-summary-box__text"
@@ -238,7 +248,13 @@ End: 05/13/2022 9:57 AM UTC
               <div
                 class="grid-col-auto maxw7 text-pre-line"
               >
-                Influenza caused by Influenza A virus subtype H5N1 (disorder)
+                <div
+                  class="p-list"
+                >
+                  <p>
+                    Influenza caused by Influenza A virus subtype H5N1 (disorder)
+                  </p>
+                </div>
               </div>
             </div>
             <div
