@@ -5,6 +5,7 @@ import {
   TextInput,
   Select,
   Button,
+  Alert,
 } from "@trussworks/react-uswds";
 import { fhirServers } from "../../fhir-servers";
 import {
@@ -98,6 +99,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
   }, []);
   return (
     <>
+      <Alert type="info" headingLevel="h4" slim className="custom-alert">
+        This site is for demo purposes only. Please do not enter PII on this
+        website.
+      </Alert>
       <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
         <h4 className="font-sans-md text-normal margin-top-0">
