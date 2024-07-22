@@ -75,7 +75,7 @@ exports[`Active Problems Table should match snapshot 1`] = `
         id="hidden-comment-3"
       >
         <td
-          class="hideableData"
+          class="hideableData p-list"
           colspan="4"
         >
           Test note

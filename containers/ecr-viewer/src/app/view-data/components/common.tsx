@@ -425,6 +425,77 @@ export const returnPlannedProceduresTable = (
 };
 
 /**
+ * Returns a formatted table displaying vital signs information.
+ * @param fhirBundle - The FHIR bundle containing vital signs information.
+ * @param mappings - The object containing the FHIR paths.
+ * @returns The JSX element representing the table, or undefined if no vital signs are found.
+ */
+export const returnVitalsTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const heightAmount = evaluate(fhirBundle, mappings["patientHeight"])[0];
+  const heightUnit = evaluate(
+    fhirBundle,
+    mappings["patientHeightMeasurement"],
+  )[0];
+  const weightAmount = evaluate(fhirBundle, mappings["patientWeight"])[0];
+  const weightUnit = evaluate(
+    fhirBundle,
+    mappings["patientWeightMeasurement"],
+  )[0];
+  const bmiAmount = evaluate(fhirBundle, mappings["patientBmi"])[0];
+  const bmiUnit = evaluate(fhirBundle, mappings["patientBmiMeasurement"])[0];
+
+  const formattedVitals = formatVitals(
+    heightAmount,
+    heightUnit,
+    weightAmount,
+    weightUnit,
+    bmiAmount,
+    bmiUnit,
+  );
+
+  if (
+    !formattedVitals.height &&
+    !formattedVitals.weight &&
+    !formattedVitals.bmi
+  ) {
+    return undefined;
+  }
+
+  const vitalsData = [
+    { vitalReading: "Height", result: formattedVitals.height || noData },
+    { vitalReading: "Weight", result: formattedVitals.weight || noData },
+    { vitalReading: "BMI", result: formattedVitals.bmi || noData },
+  ];
+  const headers = BuildHeaders([
+    { columnName: "Vital Reading" },
+    { columnName: "Result" },
+    { columnName: "Date/Time" },
+  ]);
+  const tableRows = vitalsData.map((entry, index: number) => {
+    return (
+      <tr key={`table-row-${index}`}>
+        <td>{entry.vitalReading}</td>
+        <td>{entry.result}</td>
+        <td>{noData}</td>
+      </tr>
+    );
+  });
+
+  return (
+    <BuildTable
+      headers={headers}
+      tableRows={tableRows}
+      caption="Vital Signs"
+      className={"margin-y-0"}
+      fixed={false}
+    />
+  );
+};
+
+/**
  * Evaluates clinical data from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing clinical data.
  * @param mappings - The object containing the fhir paths.
@@ -519,13 +590,7 @@ export const evaluateClinicalData = (
   const vitalData = [
     {
       title: "Vital Signs",
-      value: formatVitals(
-        evaluate(fhirBundle, mappings["patientHeight"])[0],
-        evaluate(fhirBundle, mappings["patientHeightMeasurement"])[0],
-        evaluate(fhirBundle, mappings["patientWeight"])[0],
-        evaluate(fhirBundle, mappings["patientWeightMeasurement"])[0],
-        evaluate(fhirBundle, mappings["patientBmi"])[0],
-      ),
+      value: returnVitalsTable(fhirBundle, mappings),
     },
   ];
 

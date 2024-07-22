@@ -2,7 +2,10 @@ import { formatDateTime } from "@/app/services/formatService";
 import { PathMappings, evaluateData } from "@/app/utils";
 import { Bundle } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
-import { evaluateFacilityAddress } from "./evaluateFhirDataService";
+import {
+  evaluateFacilityAddress,
+  evaluateFacilityId,
+} from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/DataDisplay";
 
 export interface ReportableConditions {
@@ -84,7 +87,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Facility ID",
-      value: evaluate(fhirBundle, mappings.facilityID)[0],
+      value: evaluateFacilityId(fhirBundle, mappings),
     },
   ];
   return {
