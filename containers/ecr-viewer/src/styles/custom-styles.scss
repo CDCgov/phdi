@@ -241,6 +241,18 @@ td {
   overflow: visible;
 }
 
+.button-wrapper {
+  display: flex;
+  width: 250px;
+  align-items: flex-end;
+  //display: flex;
+  //justify-content: flex-start;
+  //flex-direction: row;
+  //align-items: flex-start;
+  //margin-top: 48px;
+  //width: 250px;
+}
+
 .content-wrapper {
   display: flex;
   max-width: 1440px;
