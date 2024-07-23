@@ -1,15 +1,16 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import {
+  evaluateEncounterId,
   evaluateFacilityId,
   evaluateIdentifiers,
   evaluatePatientRace,
   evaluateReference,
   evaluateValue,
 } from "@/app/services/evaluateFhirDataService";
-import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import { Bundle } from "fhir/r4";
+import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
-import BundleEcrMetadata from "@/app/tests/assets/BundleEcrMetadata.json";
+import BundleWithEcrMetadata from "@/app/tests/assets/BundleEcrMetadata.json";
 
 const mappings = loadYamlConfig();
 
@@ -111,10 +112,21 @@ describe("Evaluate Patient Race", () => {
 describe("Evaluate Facility Id", () => {
   it("should return the facility id", () => {
     const actual = evaluateFacilityId(
-      BundleEcrMetadata as unknown as Bundle,
+      BundleWithEcrMetadata as unknown as Bundle,
       mappings,
     );
 
     expect(actual).toEqual("7162024");
+  });
+});
+
+describe("Evaluate Encounter ID", () => {
+  it("should return the correct Encounter ID", () => {
+    const actual = evaluateEncounterId(
+      BundleWithEcrMetadata as unknown as Bundle,
+      mappings,
+    );
+
+    expect(actual).toEqual("1800200448269");
   });
 });

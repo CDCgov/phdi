@@ -27,5 +27,29 @@
     "metadata": {
       "category": "Personal info"
     }
+  },
+  "reportable_condition": {
+    "fhir_path": "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').valueCodeableConcept.coding.display",
+    "data_type": "string",
+    "nullable": true,
+    "metadata": {
+      "category": "RR Reportability Information"
+    }
+  },
+  "rule_summary": {
+    "fhir_path": "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString",
+    "data_type": "string",
+    "nullable": true,
+    "metadata": {
+      "category": "RR Reportability Information"
+    }
+  },
+  "report_date": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter').period.start",
+    "data_type": "date",
+    "nullable": true,
+    "metadata": {
+      "category": "RR Reportability Information"
+    }
   }
 }
