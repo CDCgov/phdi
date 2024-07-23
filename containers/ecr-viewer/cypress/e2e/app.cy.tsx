@@ -6,7 +6,7 @@ describe("Happy Path", () => {
     );
 
     // Gets the expected content
-    cy.get("#about-the-patient").contains("About the Patient");
+    cy.get("#patient-summary").contains("Patient Summary");
     cy.contains("VICTORIA HUNTER");
   });
 });

@@ -4,6 +4,7 @@ import {
   DataTableDisplay,
   DisplayDataProps,
 } from "@/app/DataDisplay";
+import { Tag } from "@trussworks/react-uswds";
 
 interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
@@ -39,9 +40,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body margin-bottom-05">
           <h2
             className="summary-box-key-information side-nav-ignore"
-            id={"about-the-patient"}
+            id={"patient-summary"}
           >
-            About the Patient
+            Patient Summary
           </h2>
           <div className="usa-summary-box__text">
             {patientDetails.map((item) => (
@@ -52,9 +53,9 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         <div className="usa-summary-box__body">
           <h2
             className="summary-box-key-information side-nav-ignore"
-            id="about-the-encounter"
+            id="encounter-summary"
           >
-            About the Encounter
+            Encounter Summary
           </h2>
           <div className="usa-summary-box__text">
             {encounterDetails.map((item) => (
@@ -64,10 +65,17 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         </div>
         <div className="usa-summary-box__body">
           <h2
-            className={"summary-box-key-information side-nav-ignore"}
-            id={"about-the-condition"}
+            className={
+              "summary-box-key-information side-nav-ignore header-with-tag"
+            }
+            id={"condition-summary"}
           >
-            About the Condition
+            <div>Condition Summary</div>
+            <div>
+              <Tag className="tag-info">
+                {numConditionsText(aboutTheCondition)}
+              </Tag>
+            </div>
           </h2>
           <div className="usa-summary-box__text">
             {aboutTheCondition.map((item) => (
@@ -98,6 +106,29 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
       </div>
     </div>
   );
+};
+
+/**
+ * Returns a formatted string indicating the number of reportable conditions.
+ * @param conditionDetails - An array of objects representing the relevant condition details.
+ * @returns A formatted string that specifies the number of conditions found.
+ */
+export const numConditionsText = (conditionDetails: DisplayDataProps[]) => {
+  let numConditions = 0;
+  const reportableConditions = conditionDetails.find(
+    (item) => item.title === "Reportable Condition",
+  );
+  if (
+    reportableConditions &&
+    React.isValidElement(reportableConditions.value)
+  ) {
+    numConditions = reportableConditions.value.props.children.length;
+  }
+  const conditionsText =
+    numConditions === 1
+      ? `${numConditions} CONDITION FOUND`
+      : `${numConditions} CONDITIONS FOUND`;
+  return conditionsText;
 };
 
 export default EcrSummary;

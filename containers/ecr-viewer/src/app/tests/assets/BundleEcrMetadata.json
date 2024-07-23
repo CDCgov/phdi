@@ -727,6 +727,49 @@
         "method": "PUT",
         "url": "Encounter/fdcf4ec6-e021-52ad-3546-90f1238d3b22"
       }
+    },
+    {
+      "fullUrl": "urn:uuid:d319a926-0eb3-5847-3b21-db8b778b4f07",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "d319a926-0eb3-5847-3b21-db8b778b4f07",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.2.7.5.737384.61",
+            "value": "1104202761"
+          }
+        ],
+        "name": "Vanderbilt University Medical Center",
+        "address": [
+          {
+            "use": "work",
+            "line": [
+              "3401 West End Ave"
+            ],
+            "city": "NASHVILLE",
+            "state": "TN",
+            "country": "USA",
+            "postalCode": "37203",
+            "district": "DAVIDSON"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1-615-322-5000",
+            "use": "work"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/d319a926-0eb3-5847-3b21-db8b778b4f07"
+      }
     }
   ]
 }
