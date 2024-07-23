@@ -415,7 +415,7 @@ describe("formatContactPoint", () => {
       },
     ];
     const actual = formatContactPoint(contactPoints);
-    expect(actual).toEqual(["Work 248-555-1234", " 313-555-1234"]);
+    expect(actual).toEqual(["Work 248-555-1234", "313-555-1234"]);
   });
   it("should return email information ", () => {
     const contactPoints: ContactPoint[] = [

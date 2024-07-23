@@ -494,9 +494,9 @@ export const removeHtmlElements = (element: string): string => {
 };
 
 /**
- *
+ * Converts contact points into an array of phone numbers and emails
  * @param contactPoints - array of contact points
- * @returns array of strings of
+ * @returns array of phone numbers and emails
  */
 export const formatContactPoint = (
   contactPoints: ContactPoint[] | undefined,
@@ -509,7 +509,9 @@ export const formatContactPoint = (
     if (contactPoint.system === "phone" && contactPoint.value) {
       const phoneNumberUse = toSentenceCase(contactPoint.use ?? "");
       contactArr.push(
-        [phoneNumberUse, formatPhoneNumber(contactPoint.value ?? "")].join(" "),
+        [phoneNumberUse, formatPhoneNumber(contactPoint.value ?? "")]
+          .join(" ")
+          .trim(),
       );
     } else if (contactPoint.system === "email" && contactPoint.value) {
       contactArr.push(contactPoint.value);
