@@ -35,7 +35,6 @@ export async function POST(request: NextRequest) {
   let requestBody;
   let PatientIdentifiers;
 
-  // TODO: Add error handling that checks if the body is a patient resource
   try {
     requestBody = await request.json();
 
