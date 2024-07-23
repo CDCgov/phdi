@@ -20,19 +20,40 @@ test.describe("querying with the TryTEFCA viewer", () => {
       page.getByRole("heading", { name: "How does it work?" }),
     ).toBeVisible();
 
-    // Check that interactable elements are present (TryTEFCA header and Get Started)
+    // Check that interactable elements are present (TEFCA header and Get Started)
     await expect(
-      page.getByRole("link", { name: "TryTEFCA Viewer" }),
+      page.getByRole("link", { name: "TEFCA Viewer" }),
     ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Get Started" }),
     ).toBeVisible();
+
+    // Check that the info alert is visible and contains the correct text
+    const alert = page.locator(".custom-alert");
+    await expect(alert).toBeVisible();
+    await expect(alert).toHaveText(
+      "This site is for demo purposes only. Please do not enter PII on this website.",
+    );
   });
+
+  // Check that the clickable logo is visible
+  // test("clickable logo is visible", async ({ page }) => {
+  //   await expect(
+  //     page.locator('a[href="/tefca-viewer"] img[alt="DIBBs Logo"]'),
+  //   ).toBeVisible();
+  // });
 
   test("successful user query: the quest for watermelon mcgee", async ({
     page,
   }) => {
     await page.getByRole("button", { name: "Get Started" }).click();
+
+    // Check that the info alert is visible and contains the correct text
+    const alert = page.locator(".custom-alert");
+    await expect(alert).toBeVisible();
+    await expect(alert).toHaveText(
+      "This site is for demo purposes only. Please do not enter PII on this website.",
+    );
 
     // Put in the search parameters for the elusive fruit person
     await page.getByLabel("First Name").fill("Watermelon");
@@ -53,6 +74,13 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
     await expect(page.getByText("Patient Identifiers")).toBeVisible();
     await expect(page.getByText("MRN: 18091")).toBeVisible();
+
+    // Check that the info alert is visible and has updated to the correct text
+    const alert2 = page.locator(".custom-alert");
+    await expect(alert2).toBeVisible();
+    await expect(alert2).toHaveText(
+      "Interested in learning more about using the TEFCA Query Connector for your jurisdiction? Send us an email at dibbs@cdc.gov",
+    );
 
     // Let's get a little schwifty: there are multiple possible resolutions for 'Observations',
     // so we can chain things to get the table header to make sure the accordion is open

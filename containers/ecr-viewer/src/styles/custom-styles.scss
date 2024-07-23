@@ -416,11 +416,13 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   }
 }
 
-.hideableData{
-  p{
-    margin-top: 0rem;
+.p-list {
+  p {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
   }
-  p:last-child{
-    margin-bottom: 0rem;
+
+  p:last-child {
+    margin-bottom: 0;
   }
 }

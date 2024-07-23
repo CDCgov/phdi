@@ -44,6 +44,7 @@ encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').perio
 encounterStartDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.start"
 encounterReasonForVisit: "Bundle.entry.resource.where(resourceType = 'Encounter').reason[0].value[0].concept.text"
 encounterType: "Bundle.entry.resource.where(resourceType='Encounter')[0].class.display"
+encounterID: "Bundle.entry.resource.where(resourceType='Encounter')[0].identifier"
 facilityCity: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.city"
 facilityContact: "Bundle.entry.resource.where(resourceType = 'Location')[0].telecom.where(system = 'phone')[0].value"
 facilityCountry: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.country"
@@ -61,8 +62,6 @@ providerName: "idk"
 rrDetails: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation')"
 rrDisplayNames: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').valueCodeableConcept.coding.display"
 rckmsTriggerSummaries: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
-rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').performer.reference"
-# Encounter Info
 
 # Clinical Data
 clinicalReasonForVisit: "Bundle.entry.resource.section.where(title = 'Reason for Visit')[0].extension[0].valueString"

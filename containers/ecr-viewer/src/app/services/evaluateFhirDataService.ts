@@ -74,6 +74,24 @@ export const evaluatePatientAddress = (
 };
 
 /**
+ * Finds correct encounter ID
+ * @param fhirBundle - The FHIR bundle containing encounter resources.
+ * @param mappings - Path mappings for resolving references.
+ * @returns Encounter ID or empty string if not available.
+ */
+export const evaluateEncounterId = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const encounterIDs = evaluate(fhirBundle, mappings.encounterID);
+  const filteredIds = encounterIDs
+    .filter((id) => /^\d+$/.test(id.value))
+    .map((id) => id.value);
+
+  return filteredIds[0] ?? "";
+};
+
+/**
  * Evaluates facility address from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing patient contact info.
  * @param mappings - The object containing the fhir paths.
@@ -321,6 +339,10 @@ export const evaluateEncounterData = (
     {
       title: "Encounter Type",
       value: evaluate(fhirBundle, mappings["encounterType"])[0],
+    },
+    {
+      title: "Encounter ID",
+      value: evaluateEncounterId(fhirBundle, mappings),
     },
     {
       title: "Facility Name",

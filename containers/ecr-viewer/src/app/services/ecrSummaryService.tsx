@@ -109,24 +109,74 @@ export const evaluateEcrSummaryEncounterDetails = (
  * Evaluates and retrieves condition details from the FHIR bundle using the provided path mappings.
  * @param fhirBundle - The FHIR bundle containing patient data.
  * @param fhirPathMappings - Object containing fhir path mappings.
+ * @param snomedCode - The SNOMED code identifying which Reportable Condition should be displayed.
  * @returns An array of condition details objects containing title and value pairs.
  */
 export const evaluateEcrSummaryAboutTheConditionDetails = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
-) => {
+  snomedCode?: string,
+): DisplayDataProps[] => {
+  const rrArray: Observation[] = evaluate(
+    fhirBundle,
+    fhirPathMappings.rrDetails,
+  );
+  let conditionDisplayName: Set<string> = new Set();
+  let ruleSummary: Set<string> = new Set();
+  if (snomedCode) {
+    rrArray.forEach((obs) => {
+      const coding = obs.valueCodeableConcept?.coding?.find(
+        (coding) => coding.code === snomedCode,
+      );
+      if (coding) {
+        if (coding.display) {
+          conditionDisplayName.add(coding.display);
+        }
+        obs.extension?.forEach((extension) => {
+          if (
+            extension.url ===
+              "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension" &&
+            extension?.valueString?.trim()
+          ) {
+            ruleSummary.add(extension.valueString.trim());
+          }
+        });
+      }
+    });
+  }
+  if (conditionDisplayName.size === 0) {
+    const names = evaluate(fhirBundle, fhirPathMappings.rrDisplayNames);
+    let summaries = evaluate(
+      fhirBundle,
+      fhirPathMappings.rckmsTriggerSummaries,
+    );
+    conditionDisplayName = new Set([...names]);
+    ruleSummary = new Set([...summaries]);
+  }
   return [
     {
       title: "Reportable Condition",
       toolTip:
         "Condition that caused this eCR to be sent to your jurisdiction.",
-      value: evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0],
+      value: (
+        <div className={"p-list"}>
+          {[...conditionDisplayName].map((displayName) => (
+            <p key={displayName}>{displayName}</p>
+          ))}
+        </div>
+      ),
     },
     {
       title: "RCKMS Rule Summary",
       toolTip:
         "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
-      value: evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummaries)[0],
+      value: (
+        <div className={"p-list"}>
+          {[...ruleSummary].map((summary) => (
+            <p key={summary}>{summary}</p>
+          ))}
+        </div>
+      ),
     },
   ];
 };
