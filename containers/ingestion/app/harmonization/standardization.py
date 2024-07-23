@@ -249,26 +249,15 @@ def _standardize_date(
     # this is easier than regexp as we won't have to maintain a list
     # of potential delimiters and just look at what the delim is
     # for the date string supplied
-    date_dict = {}
-    date = datetime.strptime(raw_date, date_format)
-    date_dict["d"] = f"{date.day}"
-    date_dict["m"] = f"{date.month}"
-    date_dict["y"] = f"{date.year}"
-
-    # verify that the date components in the date dictionary create a valid
-    # date and based upon the future param that the date is not in the future
-    if len(date_dict) != 3 or not _validate_date(
-        date_dict["y"], date_dict["m"], date_dict["d"], future
-    ):
+    try:
+        date = datetime.strptime(raw_date, date_format)
+    except ValueError:
         raise ValueError(f"Invalid date supplied: {raw_date}")
 
-    return (
-        date_dict["y"]
-        + FHIR_DATE_DELIM
-        + date_dict["m"]
-        + FHIR_DATE_DELIM
-        + date_dict["d"]
-    )
+    if future and date > datetime.now():
+        raise ValueError(f"Invalid date supplied: {raw_date}")
+
+    return date.strftime("%Y-%m-%d")
 
 
 def standardize_birth_date(
