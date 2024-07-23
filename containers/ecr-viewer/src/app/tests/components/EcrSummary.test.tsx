@@ -1,6 +1,8 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import EcrSummary from "../../view-data/components/EcrSummary";
+import EcrSummary, {
+  numConditionsText,
+} from "../../view-data/components/EcrSummary";
 
 describe("EcrSummary", () => {
   let container: HTMLElement;
@@ -48,7 +50,15 @@ describe("EcrSummary", () => {
   const aboutTheCondition = [
     {
       title: "Reportable Condition",
-      value: "Influenza caused by Influenza A virus subtype H5N1 (disorder)",
+      value: (
+        <div className={"p-list"}>
+          {[
+            "Influenza caused by Influenza A virus subtype H5N1 (disorder)",
+          ].map((displayName) => (
+            <p key={displayName}>{displayName}</p>
+          ))}
+        </div>
+      ),
     },
     {
       title: "RCKMS Rule Summary",
@@ -86,5 +96,44 @@ describe("EcrSummary", () => {
   });
   it("should pass accessibility test", async () => {
     expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+describe("numConditionsText", () => {
+  const createConditionDetails = (conditions: any[]) => [
+    {
+      title: "Reportable Condition",
+      value: (
+        <div className={"p-list"}>
+          {conditions.map((displayName: string) => (
+            <p key={displayName}>{displayName}</p>
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: "RCKMS Rule Summary",
+      value: "Cough",
+    },
+  ];
+
+  it("Given 0 reportable conditions, should return 0 REPORTABLE CONDITIONS", () => {
+    const conditionDetails = createConditionDetails([]);
+    const result = numConditionsText(conditionDetails);
+    expect(result).toEqual("0 CONDITIONS FOUND");
+  });
+  it("Given 1 reportable condition, should return 1 REPORTABLE CONDITION", () => {
+    const conditionDetails = createConditionDetails(["Influenza"]);
+    const result = numConditionsText(conditionDetails);
+    expect(result).toEqual("1 CONDITION FOUND");
+  });
+  it("Given n reportable conditions, should return n REPORTABLE CONDITIONS", () => {
+    const conditionDetails = createConditionDetails([
+      "Influenza",
+      "COVID-19",
+      "Measles",
+    ]);
+    const result = numConditionsText(conditionDetails);
+    expect(result).toEqual("3 CONDITIONS FOUND");
   });
 });
