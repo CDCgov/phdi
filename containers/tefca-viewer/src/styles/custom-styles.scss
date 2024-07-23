@@ -454,3 +454,33 @@ html {
   max-width: 640px;
   width: 100%;
 }
+
+.modal-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: space-around;
+}
+
+.usa-modal--lg {
+  background-color: #edeff0
+}
+
+.modal-option {
+  flex: 1 1 30%;
+  background-color: white;
+  border: 2px solid #005ea2;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  color: #1a4480;
+}
+
+.modal-option:hover,
+.modal-option:active,
+.modal-option.selected {
+  background-color: white;
+  color: #005ea2;
+  border: 2px solid #005ea2;
+}
