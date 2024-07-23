@@ -94,7 +94,7 @@ const renderListEcrTableData = (listFhirData: EcrDisplay[]) => {
             {item.patient_first_name} {item.patient_last_name}
           </a>
           <br />
-          {"DOB: " + item.patient_date_of_birth || ""}{" "}
+          {"DOB: " + item.patient_date_of_birth || ""}
         </td>
         <td>{item.date_created}</td>
         <td>{item.patient_report_date}</td>

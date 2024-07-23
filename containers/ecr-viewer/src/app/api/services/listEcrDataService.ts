@@ -14,25 +14,25 @@ const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
-type EcrDataModel = {
+export type EcrDataModel = {
   ecr_id: string;
   data: any;
   date_created: string;
 };
 
-type EcrMetadataModel = {
+export type EcrMetadataModel = {
   ecr_id: string;
   data_source: "DB" | "S3";
   data_link: string;
-  patient_first_name: string;
-  patient_last_name: string;
-  patient_date_of_birth: Date;
+  patient_name_first: string;
+  patient_name_last: string;
+  patient_birth_date: Date;
   reportable_condition: string;
   rule_summary: string;
   report_date: Date;
 };
 
-type CompleteEcrDataModel = EcrDataModel & EcrMetadataModel;
+export type CompleteEcrDataModel = EcrDataModel & EcrMetadataModel;
 
 export type EcrDisplay = {
   ecrId: string;

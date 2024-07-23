@@ -12,6 +12,7 @@ import {
   processListPostgres,
   listEcrData,
   EcrDisplay,
+  CompleteEcrDataModel,
 } from "@/app/api/services/listEcrDataService";
 import { database } from "../services/db";
 import { mockClient } from "aws-sdk-client-mock";
@@ -82,30 +83,37 @@ describe("listEcrDataService", () => {
     });
 
     it("should map each object in responseBody to the correct output structure", () => {
-      const responseBody: any[] = [
+      const responseBody: CompleteEcrDataModel[] = [
         {
           ecr_id: "ecr1",
-          date_created: new Date(),
-          patient_first_name: "Test",
-          patient_last_name: "Person",
-          patient_date_of_birth: "10/11/1991",
-          report_date: "02/27/2022",
+          date_created: "10/11/1999",
+          patient_name_first: "Test",
+          patient_name_last: "Person",
+          patient_birth_date: new Date(),
+          report_date: new Date(),
           reportable_condition: "Long",
           rule_summary: "Longer",
+          data_source: "DB",
+          data: "",
+          data_link: "",
         },
         {
           ecr_id: "ecr2",
-          date_created: new Date(),
-          patient_first_name: "Another",
-          patient_last_name: "Test",
-          patient_date_of_birth: "07/18/1994",
-          report_date: "02/27/2021",
+          date_created: "04/22/1989",
+          patient_name_first: "Another",
+          patient_name_last: "Test",
+          patient_birth_date: new Date(),
+          report_date: new Date(),
           reportable_condition: "Stuff",
           rule_summary: "Other stuff",
+          data_source: "DB",
+          data: "",
+          data_link: "",
         },
       ];
 
       const expected: (
+        | EcrDisplay
         | {
             rule_summary: any;
             ecrId: string;
@@ -176,21 +184,24 @@ describe("listEcrDataService", () => {
       reportable_condition: string;
       rule_summary: string;
     }> = jest.fn(() =>
-      Promise.resolve([
+      Promise.resolve<CompleteEcrDataModel[]>([
         {
           ecr_id: "1234",
           date_created: "2024-06-21T12:00:00Z",
-          patient_birth_date: "11/07/1954",
+          patient_birth_date: new Date("11/07/1954"),
           patient_name_first: "Billy",
           patient_name_last: "Bob",
-          report_date: "2024-06-21T12:00:00Z",
+          report_date: new Date("06/21/2024 8:00 AM EDT"),
           reportable_condition: "stuff",
           rule_summary: "yup",
+          data: "",
+          data_link: "",
+          data_source: "DB",
         },
       ]),
     );
 
-    const actual = await listEcrData();
+    const actual: EcrDisplay[] = await listEcrData();
 
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
       "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
@@ -221,21 +232,24 @@ describe("listEcrDataService", () => {
       reportable_condition: string;
       rule_summary: string;
     }> = jest.fn(() =>
-      Promise.resolve([
+      Promise.resolve<CompleteEcrDataModel[]>([
         {
           ecr_id: "1234",
           date_created: "2024-06-21T12:00:00Z",
           patient_name_first: "boy",
           patient_name_last: "lnam",
-          patient_birth_date: "1990-01-01T05:00:00.000Z",
-          report_date: "2024-06-20T04:00:00.000Z",
+          patient_birth_date: new Date("1990-01-01T05:00:00.000Z"),
+          report_date: new Date("2024-06-20T04:00:00.000Z"),
           reportable_condition: "sick",
           rule_summary: "stuff",
+          data: "",
+          data_link: "",
+          data_source: "DB",
         },
       ]),
     );
 
-    const actual = await listEcrData();
+    const actual: EcrDisplay[] = await listEcrData();
 
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
       "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
@@ -256,12 +270,15 @@ describe("listEcrDataService", () => {
       {
         date_created: "2024-06-21T12:00:00Z",
         ecr_id: "1234",
-        patient_birth_date: "1990-01-01T05:00:00.000Z",
+        patient_birth_date: new Date("1990-01-01T05:00:00.000Z"),
         patient_name_first: "boy",
         patient_name_last: "lnam",
-        report_date: "2024-06-20T04:00:00.000Z",
+        report_date: new Date("2024-06-20T04:00:00.000Z"),
         reportable_condition: "sick",
         rule_summary: "stuff",
+        data: "",
+        data_link: "",
+        data_source: "DB",
       },
     ]);
   });

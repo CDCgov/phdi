@@ -53,7 +53,6 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
               </a>
               <br />
               DOB: 01/01/1970
-               
             </td>
             <td>
               04/16/2024 9:40 PM UTC
@@ -79,7 +78,6 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
               </a>
               <br />
               DOB: 02/01/1955
-               
             </td>
             <td>
               04/16/2024 9:41 PM UTC
@@ -105,7 +103,6 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
               </a>
               <br />
               DOB: 12/01/1984
-               
             </td>
             <td>
               04/16/2024 9:42 PM UTC
