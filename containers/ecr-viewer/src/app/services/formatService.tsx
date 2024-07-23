@@ -506,18 +506,13 @@ export const formatContactPoint = (
   }
   const contactArr: string[] = [];
   for (const contactPoint of contactPoints) {
-    if (contactPoint.system === "phone") {
-      const phoneNumberUse = [
-        contactPoint?.use?.charAt(0).toUpperCase(),
-        contactPoint?.use?.substring(1),
-      ].join("");
+    if (contactPoint.system === "phone" && contactPoint.value) {
+      const phoneNumberUse = toSentenceCase(contactPoint.use ?? "");
       contactArr.push(
-        [phoneNumberUse, formatPhoneNumber(contactPoint?.value ?? "")].join(
-          " ",
-        ),
+        [phoneNumberUse, formatPhoneNumber(contactPoint.value ?? "")].join(" "),
       );
-    } else if (contactPoint.system === "email") {
-      contactArr.push(contactPoint?.value ?? "");
+    } else if (contactPoint.system === "email" && contactPoint.value) {
+      contactArr.push(contactPoint.value);
     }
   }
   return contactArr;

@@ -388,6 +388,20 @@ describe("formatContactPoint", () => {
     const actual = formatContactPoint([]);
     expect(actual).toBeEmpty();
   });
+  it("should return empty array if contact point value is empty ", () => {
+    const contactPoints: ContactPoint[] = [
+      {
+        system: "phone",
+        value: "",
+      },
+      {
+        system: "email",
+        value: "",
+      },
+    ];
+    const actual = formatContactPoint(contactPoints);
+    expect(actual).toBeEmpty();
+  });
   it("should return phone contact information ", () => {
     const contactPoints: ContactPoint[] = [
       {
