@@ -47,6 +47,7 @@ export default function ListECRViewer({
         <Table
           bordered={false}
           fullWidth={true}
+          striped={true}
           className={"table-homepage-list"}
           data-testid="table"
         >
