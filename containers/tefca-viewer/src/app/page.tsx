@@ -44,7 +44,7 @@ export default function LandingPage() {
           Framework and Common Agreement (TEFCA). This tool demonstrates how
           public health jurisdictions can leverage TEFCA to quickly retrieve
           patient records and relevant case information from HCOs without
-          requiring direct connection and onboarding. 
+          requiring direct connection and onboarding.
         </h2>
         <h3 className="font-sans-l text-bold margin-top-5">
           How does it work?
