@@ -154,6 +154,11 @@ h4 {
     background-color: color("base-lighter") !important;
   }
 
+  .thead-drop-shadow {
+    position: relative;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  }
+  
   &.usa-table--striped tbody tr:nth-child(odd) td {
     background-color: white;
   }

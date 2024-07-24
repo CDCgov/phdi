@@ -51,7 +51,7 @@ export default function ListECRViewer({
           className={"table-homepage-list"}
           data-testid="table"
         >
-          <thead>
+          <thead className="thead-drop-shadow">
             <tr>
               {header.map((column) => (
                 <th key={`${column}`} scope="col">
