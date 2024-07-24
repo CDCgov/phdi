@@ -11,7 +11,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
   test("landing page loads", async ({ page }) => {
     // Check that each expected text section is present
     await expect(
-      page.getByRole("heading", { name: "Case investigation made easier" }),
+      page.getByRole("heading", { name: "Data collection made easier" }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "What is it?" }),
@@ -25,15 +25,8 @@ test.describe("querying with the TryTEFCA viewer", () => {
       page.getByRole("link", { name: "TEFCA Viewer" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Get Started" }),
+      page.getByRole("button", { name: "Go to the demo" }),
     ).toBeVisible();
-
-    // Check that the info alert is visible and contains the correct text
-    const alert = page.locator(".custom-alert");
-    await expect(alert).toBeVisible();
-    await expect(alert).toHaveText(
-      "This site is for demo purposes only. Please do not enter PII on this website.",
-    );
   });
 
   // Check that the clickable logo is visible
@@ -46,7 +39,8 @@ test.describe("querying with the TryTEFCA viewer", () => {
   test("successful user query: the quest for watermelon mcgee", async ({
     page,
   }) => {
-    await page.getByRole("button", { name: "Get Started" }).click();
+    await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
 
     // Check that the info alert is visible and contains the correct text
     const alert = page.locator(".custom-alert");
@@ -100,7 +94,8 @@ test.describe("querying with the TryTEFCA viewer", () => {
   });
 
   test("unsuccessful user query: no patients", async ({ page }) => {
-    await page.getByRole("button", { name: "Get Started" }).click();
+    await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
 
     await page.getByLabel("First Name").fill("Ellie");
     await page.getByLabel("Last Name").fill("Williams");
