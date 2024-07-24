@@ -15,7 +15,7 @@ from app.models import RefineECRResponse
 from app.refine import refine
 from app.refine import validate_message
 from app.refine import validate_sections_to_include
-from app.utils import create_clinical_xpaths
+from app.utils import create_clinical_services_dict
 from app.utils import read_json_from_assets
 
 settings = get_settings()
@@ -156,10 +156,9 @@ async def refine_ecr(
                 content=error_message, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
             )
 
-    clinical_services_xpaths = None
+    clinical_services = None
     if conditions_to_include:
         responses = await get_clinical_services(conditions_to_include)
-        # confirm all API responses were 200
         if set([response.status_code for response in responses]) != {200}:
             error_message = ";".join(
                 [str(response) for response in responses if response.status_code != 200]
@@ -168,9 +167,11 @@ async def refine_ecr(
                 content=error_message, status_code=status.HTTP_502_BAD_GATEWAY
             )
         clinical_services = [response.json() for response in responses]
-        clinical_services_xpaths = create_clinical_xpaths(clinical_services)
 
-    data = refine(validated_message, sections, clinical_services_xpaths)
+        # create a simple dictionary structure for refine.py to consume
+        clinical_services = create_clinical_services_dict(clinical_services)
+
+    data = refine(validated_message, sections, clinical_services)
 
     return Response(content=data, media_type="application/xml")
 

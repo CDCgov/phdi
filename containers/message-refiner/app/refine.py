@@ -2,24 +2,30 @@ from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import Set
 from typing import Union
 
 from lxml import etree
-from rich import print
 
+# read json that contains details for refining and is the base of what drives `refine`
 from app.utils import read_json_from_assets
 
-# LOINC codes for eICR sections our refiner API accepts
 REFINER_DETAILS = read_json_from_assets("refiner_details.json")
 
-# extract LOINC codes from the REFINER_DETAILS dictionary
+# extract section LOINC codes from the REFINER_DETAILS dictionary
 SECTION_LOINCS = list(REFINER_DETAILS["sections"].keys())
+
+# ready to use list of all trigger code templateIds for simpler XPath query construction
+TRIGGER_CODE_TEMPLATE_IDS = [
+    "2.16.840.1.113883.10.20.15.2.3.5",
+    "2.16.840.1.113883.10.20.15.2.3.3",
+    "2.16.840.1.113883.10.20.15.2.3.4",
+    "2.16.840.1.113883.10.20.15.2.3.2",
+]
 
 
 def validate_message(raw_message: str) -> tuple[bytes | None, str]:
     """
-    Validates that an incoming XML message can be parsed by lxml's  etree .
+    Validates that an incoming XML message can be parsed by lxml's etree.
 
     :param raw_message: The XML input.
     :return: The validation result as a string.
@@ -39,7 +45,7 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
     of corresponding LOINC codes.
 
     :param sections_to_include: The sections to include in the refined message.
-    :raises ValueError: When at least one of the sections_to_inlcude is invalid.
+    :raises ValueError: When at least one of the sections_to_include is invalid.
     :return: A tuple that includes the sections to include in the refined message as a
     list of LOINC codes corresponding to the sections and an error message. If there is
     no error in validating the sections to include, the error message will be an empty
@@ -60,148 +66,195 @@ def validate_sections_to_include(sections_to_include: str | None) -> tuple[list,
 
 
 def refine(
-    validated_message: bytes,
+    validated_message: etree.Element,
     sections_to_include: Optional[List[str]] = None,
-    clinical_services: Optional[List[str]] = None,
+    clinical_services: Optional[Dict[str, List[str]]] = None,
 ) -> str:
     """
-    Refines an incoming XML message based on the sections to include and/or
-    the clinical services found based on inputted section LOINC codes or
-    condition SNOMED codes. This will then loop through the dynamic XPaths to
-    create an XPath to refine the XML.
+    Refines an eICR XML document by processing its sections based on the provided parameters.
 
-    :param validated_message: The XML input.
-    :param sections_to_include: The sections to include in the refined message.
-    :param clinical_services: clinical service XPaths to include in the
-    refined message.
-    :return: The refined message.
+    Case 1: No parameters (only validated_message provided)
+        - Check for template IDs.
+        - If found, find matching observations, clean up entries, and update text.
+        - If not found, create a minimal section.
+
+    Case 2: sections_to_include provided
+        - For sections in sections_to_include:
+            - Ignore processing (leave them as they are, unprocessed).
+        - For all other sections:
+            - Check for template IDs.
+            - If found, find matching observations, clean up entries, and update text.
+            - If not found, create a minimal section.
+
+    Case 3: clinical_services provided
+        - Check for both template IDs and codes.
+        - If found, find matching observations, clean up entries, and update text.
+        - If not found, create a minimal section.
+
+    Case 4: Both sections_to_include and clinical_services provided
+        - For sections in sections_to_include:
+            - Check for both template IDs and codes.
+            - If found, find matching observations, clean up entries, and update text.
+            - If not found, create a minimal section.
+        - For all other sections:
+            - Check for template IDs.
+            - If found, find matching observations, clean up entries, and update text.
+            - If not found, create a minimal section.
+
+    :param validated_message: The eICR XML document to be refined.
+    :param sections_to_include: Optional list of section LOINC codes for the sections from
+        the <structuredBody>; passing only this parameter retains those section whereas
+        passing it with clinical_services focuses the search to the sections in this list.
+    :param clinical_services: Optional dictionary of clinical service codes to check within
+        sections from the Trigger Code Reference Service.
+    :return: The refined eICR XML document as a string.
     """
+    # dictionary that will hold the section processing instructions
+    # this is based on the combination of parameters passed to `refine`
+    # as well as deails from REFINER_DETAILS
+    section_processing = {
+        code: details for code, details in REFINER_DETAILS["sections"].items()
+    }
+
     namespaces = {"hl7": "urn:hl7-org:v3"}
     structured_body = validated_message.find(".//hl7:structuredBody", namespaces)
 
-    # if no parameters are provided, return message with only
-    # the observations that triggered the message and minimal sections
-    # for everything that does not contain trigger code observations
-    if not sections_to_include and not clinical_services:
-        _process_section(REFINER_DETAILS, structured_body)
-        return etree.tostring(validated_message, encoding="unicode")
-
-    # we need to find the condition codes in the clinical_services list and then
-    # extract the section LOINC codes
-    if clinical_services:
-        pass
-        # # join the xpath expressions together
-        # services_xpath_expression = " | ".join(clinical_services)
-        # # grab all of the <entry> elements with the clinical_service codes
-        # service_elements = validated_message.xpath(
-        #     services_xpath_expression, namespaces=namespaces
-        # )
-        # # initialize a dictionary to hold the section code and the element
-        # services_section_and_elements = {}
-        # for element in service_elements:
-        #     # the parent is the section element
-        #     parent = element.getparent()
-        #     # find the code element and extract the section LOINC
-        #     code_element = parent.find(".//hl7:code", namespaces=namespaces)
-        #     code = code_element.get("code")
-        #     # as we create the dictionary, we want to make sure the section key is unique
-        #     if code not in services_section_and_elements:
-        #         services_section_and_elements[code] = []
-        #     # append (<entry>) element to corresponding section key
-        #     services_section_and_elements[code].append(element)
-
-    # if we only have sections_to_include then we keep those section entirely while removing
-    # all other section entries except for the trigger code observations
-    if sections_to_include and not clinical_services:
-        # filter out the sections to include from the REFINER_DETAILS dictionary
-        # since this data structure controls the processing, removing them from the
-        # dictionary will prevent the sections from being changed in any way
-        refiner_details_filtered = {
-            code: details
-            for code, details in REFINER_DETAILS["sections"].items()
-            if code not in sections_to_include
+    # case 2: if only sections_to_include is provided, remove these sections from section_processing
+    if sections_to_include is not None and clinical_services is None:
+        section_processing = {
+            key: value
+            for key, value in section_processing.items()
+            if key not in sections_to_include
         }
-        # create a new REFINER_DETAILS dictionary with the filtered sections
-        refiner_details_filtered = {"sections": refiner_details_filtered}
 
-        # process the remaining sections normally
-        _process_section(refiner_details_filtered, structured_body)
-        return etree.tostring(validated_message, encoding="unicode")
+    # process sections
+    for code, details in section_processing.items():
+        section = _get_section_by_code(structured_body, code)
+        if section is None:
+            continue  # go to the next section if not found
 
-    # if we only have clinical_services then we use the unique sections from the
-    # services_section_and_elements dictionary to include entries to refined sections
-    # and minimal sections.
-    # TODO: then we check for overlap with trigger_code_elements
-    # if the trigger_code_elements elements are present in the refined sections, then
-    # we do not need to include them. if the refined output does not include the trigger_code_elements
-    # then we need to append them to the refined section(s) or the minimal section(s) they belong to
-    if clinical_services and not sections_to_include:
-        # elements = []
-        # for section_code, entries in services_section_and_elements.items():
-        #     minimal_section = __create_minimal_section(section_code, empty_section=False)
-        #     for entry in entries:
-        #         minimal_section.append(entry)
-        #     elements.append(minimal_section)
-        #
-        # minimal_sections = __create_minimal_sections(
-        #     sections_with_conditions=services_section_and_elements.keys(),
-        #     empty_section=True,
-        # )
-        #
-        # # check for overlap with trigger code elements and add them if not include them
-        # for section_code, trigger_elements in trigger_code_elements.items():
-        #     if section_code not in services_section_and_elements:
-        #         minimal_sections.extend(trigger_elements)
-        #
-        # return _add_root_element(header, elements + minimal_sections)
-        return etree.tostring(validated_message, encoding="unicode")
+        # case 4: search in sections_to_include for clinical_services; for sections
+        # not in sections_to_include, search for templateIds
+        if sections_to_include is not None and clinical_services is not None:
+            if code in sections_to_include:
+                combined_xpaths = _generate_combined_xpath(
+                    template_ids=TRIGGER_CODE_TEMPLATE_IDS,
+                    clinical_services_dict=clinical_services,
+                )
+                clinical_services_codes = [
+                    code for codes in clinical_services.values() for code in codes
+                ]
+                _process_section(
+                    section,
+                    combined_xpaths,
+                    namespaces,
+                    TRIGGER_CODE_TEMPLATE_IDS,
+                    clinical_services_codes,
+                )
+            else:
+                combined_xpaths = _generate_combined_xpath(
+                    template_ids=TRIGGER_CODE_TEMPLATE_IDS,
+                    clinical_services_dict={},
+                )
+                _process_section(
+                    section, combined_xpaths, namespaces, TRIGGER_CODE_TEMPLATE_IDS
+                )
 
-    # if we have both sections_to_include and clinical_services then we need to
-    # prioritize the clinical_services using the sections_to_include as a locus;
-    # TODO: if there is overlap with trigger_code_elements, then we do not need to include them.
-    # if there is no overlap, we need to append to either the refined section(s) or the
-    # minimal section(s) they belong to
-    if sections_to_include and clinical_services:
-        # check if there is match between sections_to_include and conditions  we want to include
-        # if there is a match, these are the _only_ sections we want to include
-        # matching_sections = set(sections_to_include) & set(
-        #     services_section_and_elements.keys()
-        # )
-        # # if there is no match, we will respond with empty; minimal sections
-        # if not matching_sections:
-        #     minimal_sections = __create_minimal_sections()
-        #     return _add_root_element(header, minimal_sections)
-        #
-        # elements = []
-        # for section_code in matching_sections:
-        #     minimal_section = __create_minimal_section(section_code, empty_section=False)
-        #     for entry in services_section_and_elements[section_code]:
-        #         minimal_section.append(entry)
-        #     elements.append(minimal_section)
-        #
-        # minimal_sections = __create_minimal_sections(
-        #     sections_with_conditions=matching_sections,
-        #     empty_section=True,
-        # )
-        #
-        # # check for overlap with trigger code elements and add them if not included
-        # for section_code, trigger_elements in trigger_code_elements.items():
-        #     if section_code not in matching_sections:
-        #         minimal_sections.extend(trigger_elements)
-        #
-        # return _add_root_element(header, elements + minimal_sections)
-        return etree.tostring(validated_message, encoding="unicode")
+        # case 3: process all sections with clinical_services (no sections_to_include)
+        elif clinical_services is not None and sections_to_include is None:
+            combined_xpaths = _generate_combined_xpath(
+                template_ids=TRIGGER_CODE_TEMPLATE_IDS,
+                clinical_services_dict=clinical_services,
+            )
+            clinical_services_codes = [
+                code for codes in clinical_services.values() for code in codes
+            ]
+            _process_section(
+                section,
+                combined_xpaths,
+                namespaces,
+                TRIGGER_CODE_TEMPLATE_IDS,
+                clinical_services_codes,
+            )
+
+        # case 1: no parameters, process all sections normally
+        # case 2: process sections not in sections_to_include
+        else:
+            combined_xpaths = _generate_combined_xpath(
+                template_ids=TRIGGER_CODE_TEMPLATE_IDS, clinical_services_dict={}
+            )
+            _process_section(
+                section, combined_xpaths, namespaces, TRIGGER_CODE_TEMPLATE_IDS
+            )
+
+    # TODO: there may be sections that are not standard but appear in an eICR that
+    # we could either decide to add to the refiner_details.json or create a function
+    # we run right before returning the refined output that removes sections that are
+    # not required
+    return etree.tostring(validated_message, encoding="unicode")
 
 
-def _get_section_details(section_code: str, config: dict) -> dict:
+def _process_section(
+    section: etree.Element,
+    combined_xpaths: str,
+    namespaces: dict,
+    template_ids: List[str],
+    clinical_services_codes: Optional[List[str]] = None,
+) -> None:
     """
-    Retrieves the details of a section from the refiner configuration.
+    Processes a section by checking for elements, finding observations,
+    cleaning up entries, and updating text.
 
-    :param section_code: The LOINC code of the section.
-    :param config: The refiner configuration dictionary.
-    :return: A dictionary containing the details of the section.
+    :param section: The section element to process.
+    :param combined_xpaths: The combined XPath expression for finding elements.
+    :param namespaces: The namespaces to use in XPath queries.
+    :param template_ids: The list of template IDs to check.
+    :param clinical_services_codes: Optional list of clinical service codes to check.
     """
-    return config["sections"].get(section_code, {})
+    check_elements = _are_elements_present(
+        section, "templateId", template_ids, namespaces
+    )
+    if clinical_services_codes:
+        check_elements |= _are_elements_present(
+            section, "code", clinical_services_codes, namespaces
+        )
+
+    if check_elements:
+        observations = _get_observations(section, combined_xpaths, namespaces)
+        if observations:
+            paths = [_find_path_to_entry(obs) for obs in observations]
+            _prune_unwanted_siblings(paths, observations)
+            _update_text_element(section, observations)
+        else:
+            _create_minimal_section(section)
+    else:
+        _create_minimal_section(section)
+
+
+def _generate_combined_xpath(
+    template_ids: List[str], clinical_services_dict: Dict[str, List[str]]
+) -> str:
+    """
+    Generate a combined XPath expression for templateIds and all codes across all systems, ensuring they are within 'observation' elements.
+    """
+    xpath_conditions = []
+
+    # add templateId conditions within <observation> elements if needed
+    if template_ids:
+        template_id_conditions = [
+            f'.//hl7:observation[hl7:templateId[@root="{tid}"]]' for tid in template_ids
+        ]
+        xpath_conditions.extend(template_id_conditions)
+
+    # add code conditions within <observation> elements
+    for codes in clinical_services_dict.values():
+        for code in codes:
+            code_conditions = f'.//hl7:observation[hl7:code[@code="{code}"]]'
+            xpath_conditions.append(code_conditions)
+
+    # combine all conditions into a single XPath query using the union operator
+    combined_xpath = " | ".join(xpath_conditions)
+    return combined_xpath
 
 
 def _get_section_by_code(
@@ -246,80 +299,95 @@ def _get_entries_for_section(
         return entries
 
 
-def _get_trigger_code_observation(
-    section_entries: Union[List[etree.Element], Callable[..., List[etree.Element]]],
-    template_id: str,
+def _get_observations(
+    section: Union[etree.Element, Callable[..., etree.Element]],
+    combined_xpath: str,
     namespaces: dict = {"hl7": "urn:hl7-org:v3"},
     *args,
     **kwargs,
 ) -> List[etree.Element]:
     """
-    Gets the trigger code observation from a list of entries in a section of an eICR.
+    Get matching observations from a section or a callable returning a section based on combined XPath query.
 
-    :param section_entries: Either a list of <entry> elements or a function that returns such a list.
-    :param template_id: The root value of the templateId attribute (OID) that identifies trigger code data.
+    :param section: The <section> element of the section to retrieve entries from or a function that returns the section.
+    :param combined_xpath: this will be either code values from the TCR or templateId root values in one combined XPath
     :param namespaces: The namespaces to use when searching for elements and defaults to 'hl7'.
-    :param args: Additional arguments to pass to the callable if `section_entries` is a callable.
-    :param kwargs: Additional keyword arguments to pass to the callable if `section_entries` is a callable.
-    :return: A list of elements containing trigger code data.
+    :param
     """
-    if callable(section_entries):
-        section_entries = section_entries(*args, **kwargs)
+    if callable(section):
+        section = section(*args, **kwargs)
 
-    trigger_code_elements = []
-    xpath_query = f'.//hl7:observation[hl7:templateId[@root="{template_id}"]]'
+    # use a list to store the final list of matching observation elements
+    observations = []
+    # use a set to store elements for uniqueness; trigger code data _may_ match clinical services
+    seen = set()
 
-    for entry in section_entries:
-        trigger_code_element = entry.xpath(xpath_query, namespaces=namespaces)
-        if trigger_code_element:
-            trigger_code_elements.extend(trigger_code_element)
+    # search once for matching elements using the combined XPath expression
+    matching_elements = section.xpath(combined_xpath, namespaces=namespaces)
+    for elem in matching_elements:
+        if elem not in seen:
+            seen.add(elem)
+            observations.append(elem)
 
-    return trigger_code_elements
+    # TODO: we are not currently checking the codeSystemName at this time. this is because
+    # there is variation even within a single eICR in connection to the codeSystemName.
+    # you may see both "LOINC" and "loinc.org" as well as "SNOMED" and "SNOMED CT" in the
+    # same message. dynamically altering the XPath with variant names adds complexity and computation;
+    # we _can_ post filter, which i would suggest as a function that uses this one as its input.
+    # this is why there are two main transformations of the response from the TCR; one that is a dictionary
+    # of code systems and codes and another that is a combined XPath for all codes. this way we
+    # loop less, search less, and aim for simplicity
+
+    return observations
 
 
-def _is_template_present(
-    section_entries: Union[List[etree.Element], Callable[..., List[etree.Element]]],
-    template_id: str,
+def _are_elements_present(
+    section: Union[etree.Element, Callable[..., etree.Element]],
+    search_type: str,
+    search_values: List[str],
     namespaces: dict = {"hl7": "urn:hl7-org:v3"},
     *args,
     **kwargs,
 ) -> bool:
     """
-    Checks if a specific templateId is present in the entries of a section.
+    Checks if any of the specified elements are present in a section based on the search type and values.
 
-    :param section_entries: Either a list of <entry> elements or a function that returns such a list.
-    :param template_id: The root value of the templateId attribute (OID) to check for.
+    :param section: The <section> element of the section to search within or a function that returns such a section.
+    :param search_type: The type of search ('templateId' or 'code').
+    :param search_values: The list of values to search for (template IDs or codes).
     :param namespaces: The namespaces to use when searching for elements and defaults to 'hl7'.
-    :param args: Additional arguments to pass to the callable if `section_entries` is a callable.
-    :param kwargs: Additional keyword arguments to pass to the callable if `section_entries` is a callable.
-    :return: True if the templateId is present, False otherwise.
+    :param args: Additional arguments to pass to the callable if `section` is a callable.
+    :param kwargs: Additional keyword arguments to pass to the callable if `section` is a callable.
+    :return: True if any of the specified elements are present, False otherwise.
     """
-    if callable(section_entries):
-        section_entries = section_entries(*args, **kwargs)
+    if callable(section):
+        section = section(*args, **kwargs)
 
-    xpath_query = f'.//hl7:templateId[@root="{template_id}"]'
-    for entry in section_entries:
-        if entry.xpath(xpath_query, namespaces=namespaces):
-            return True
-    return False
+    if search_type == "templateId":
+        xpath_queries = [
+            f'.//hl7:templateId[@root="{value}"]' for value in search_values
+        ]
+    elif search_type == "code":
+        xpath_queries = [f'.//hl7:code[@code="{value}"]' for value in search_values]
+
+    combined_xpath = " | ".join(xpath_queries)
+    return bool(section.xpath(combined_xpath, namespaces=namespaces))
 
 
-def _find_path_to_entry(observation: etree.Element) -> List[etree.Element]:
+def _find_path_to_entry(element: etree.Element) -> List[etree.Element]:
     """
-    Finds the path from a trigger code observation back to the <entry> element.
-
-    :param observation: The trigger code observation element.
-    :return: A list of elements from the observation back to the entry.
+    Helper function to find the path from a given element to the parent <entry> element.
     """
     path = []
-    current_element = observation
+    current_element = element
     while current_element.tag != "{urn:hl7-org:v3}entry":
         path.append(current_element)
         current_element = current_element.getparent()
-    # add the <entry> element
-    path.append(current_element)
-    # reverse the path to start from <entry> -> <observation>
-    return path[::-1]
+        if current_element is None:
+            raise ValueError("Parent <entry> element not found.")
+    path.append(current_element)  # Add the <entry> element
+    path.reverse()  # Reverse to get the path from <entry> to the given element
+    return path
 
 
 def _analyze_structure(path: List[etree.Element]) -> List[Dict[str, object]]:
@@ -340,152 +408,124 @@ def _analyze_structure(path: List[etree.Element]) -> List[Dict[str, object]]:
 
 
 def _prune_unwanted_siblings(
-    structure_info: List[Dict[str, object]], desired_element: etree.Element
+    paths: List[List[etree.Element]], desired_elements: List[etree.Element]
 ):
     """
-    Prunes unwanted siblings based on the desired element.
+    Prunes unwanted siblings based on the desired elements.
 
-    :param structure_info: A list of dictionaries containing the element and its sibling count.
-    :param desired_element: The desired element to keep.
+    :param paths: List of paths, where each path is a list of elements from <entry> to an <observation>.
+    :param desired_elements: List of desired <observation> elements to keep.
     """
-    for info in structure_info:
-        element = info["element"]
-        parent = element.getparent()
-        if parent is not None:
-            siblings = parent.findall(element.tag)
-            for sibling in siblings:
-                # only remove siblings that are not the desired element and not part of the collected structure info
-                if sibling is not desired_element and sibling not in [
-                    e["element"] for e in structure_info
-                ]:
-                    parent.remove(sibling)
+    # flatten the list of paths and remove duplicates
+    all_elements_to_keep = {elem for path in paths for elem in path}
 
-
-def _retain_only_trigger_code_obs(
-    section: Union[etree.Element, Callable[..., etree.Element]],
-    template_id: str,
-    section_entries: Callable[..., List[etree.Element]] = _get_entries_for_section,
-    trigger_code_observation: Callable[
-        ..., List[etree.Element]
-    ] = _get_trigger_code_observation,
-    *args,
-    **kwargs,
-) -> None:
-    """
-    Retain only trigger code related observations.
-
-    :param section: The section element containing the observations or a function returning the section element.
-    :param template_id: The template ID to identify the manual initiation problem observation.
-    :param section_entries: A function to retrieve entries for the section.
-    :param trigger_code_observation: A function to retrieve trigger code observation(s).
-    :param args: Additional arguments to pass to the callable functions if needed.
-    :param kwargs: Additional keyword arguments to pass to the callable functions if needed.
-    """
-    if callable(section):
-        section = section(*args, **kwargs)
-
-    if callable(section_entries):
-        section_entries = section_entries(section, *args, **kwargs)
-
-    section_trigger_code = trigger_code_observation(
-        section_entries, template_id, *args, **kwargs
-    )
-
-    elements_to_retain: Set[etree.Element] = set()
-    all_structure_info = []
-    # collect structure info for all observations in the event that two trigger code
-    # observations are present
-    for observation in section_trigger_code:
-        # find the path from <observation> -> <entry>
-        entry_path = _find_path_to_entry(observation)
-        # analyze how nested (or not) the path from <entry> -> <observation> is
-        structure_info = _analyze_structure(entry_path)
-        # return a data structure with the element and its sibling counts
-        all_structure_info.append((structure_info, observation))
-
-        # add all elements in the path to the set of elements to retain
-        for info in structure_info:
-            elements_to_retain.add(info["element"])
-
-    # prune after collecting all section entry structure info (if multiple trigger code
-    # observations are present)
-    for structure_info, observation in all_structure_info:
-        for info in structure_info:
-            element = info["element"]
+    # iterate through all collected paths to prune siblings
+    for path in paths:
+        for element in path:
             parent = element.getparent()
             if parent is not None:
                 siblings = parent.findall(element.tag)
                 for sibling in siblings:
-                    if sibling not in elements_to_retain:
+                    # only remove siblings that are not in the collected elements
+                    if sibling not in all_elements_to_keep:
                         parent.remove(sibling)
 
 
-def _create_text_element(message: str, template_id: str = None) -> etree.Element:
+def _extract_observation_data(
+    observation: etree.Element,
+) -> Dict[str, Union[str, bool]]:
     """
-    Creates a <text> element with the provided message and optional template ID.
+    Extracts relevant data from an observation element, including checking for trigger code template ID.
 
-    :param message: The message to include in the <text> element.
-    :param template_id: Optional template ID to include in the <text> element.
-    :return: The created <text> element.
+    :param observation: The observation element.
+    :return: A dictionary with extracted data.
+    """
+    template_id_elements = observation.findall(
+        ".//hl7:templateId", namespaces={"hl7": "urn:hl7-org:v3"}
+    )
+    is_trigger_code = False
+
+    for elem in template_id_elements:
+        root = elem.get("root")
+        if root in TRIGGER_CODE_TEMPLATE_IDS:
+            is_trigger_code = True
+            break
+
+    data = {
+        "display_text": observation.find(
+            ".//hl7:code", namespaces={"hl7": "urn:hl7-org:v3"}
+        ).get("displayName"),
+        "code": observation.find(
+            ".//hl7:code", namespaces={"hl7": "urn:hl7-org:v3"}
+        ).get("code"),
+        "code_system": observation.find(
+            ".//hl7:code", namespaces={"hl7": "urn:hl7-org:v3"}
+        ).get("codeSystemName"),
+        "is_trigger_code": is_trigger_code,
+    }
+    return data
+
+
+def _create_or_update_text_element(observations: List[etree.Element]) -> etree.Element:
+    """
+    Creates or updates a <text> element with a table containing information from the given observations.
+
+    :param section: The section element to update.
+    :param observations: A list of observation elements.
+    :return: The created or updated <text> element.
     """
     text_element = etree.Element("{urn:hl7-org:v3}text")
-    table_element = etree.SubElement(text_element, "table")
-    tr_element = etree.SubElement(table_element, "tr")
+    title = etree.SubElement(text_element, "title")
+    title.text = "Output from CDC PRIME DIBBs `message-refiner` API by request of STLT"
 
-    td1 = etree.SubElement(tr_element, "td")
-    td1.text = message
+    table_element = etree.SubElement(text_element, "table", border="1")
+    header_row = etree.SubElement(table_element, "tr")
+    headers = ["Display Text", "Code", "Code System", "Trigger Code Observation"]
 
-    td2 = etree.SubElement(tr_element, "td")
-    td2.text = "CDC PRIME DIBBs `message-refiner` API by STLT"
+    for header in headers:
+        th = etree.SubElement(header_row, "th")
+        th.text = header
 
-    if template_id:
-        td3 = etree.SubElement(tr_element, "td")
-        td3.text = f"Template ID: {template_id}"
+    # add observation data to table
+    for observation in observations:
+        data = _extract_observation_data(observation)
+        row = etree.SubElement(table_element, "tr")
+        for key in headers[:-1]:  # Exclude the last header as it's for the boolean flag
+            td = etree.SubElement(row, "td")
+            td.text = data[key.lower().replace(" ", "_")]
+
+        # add boolean flag for trigger code observation
+        td = etree.SubElement(row, "td")
+        td.text = "TRUE" if data["is_trigger_code"] else "FALSE"
 
     return text_element
 
 
 def _update_text_element(
-    section: etree.Element,
-    message: str,
-    trigger_code: bool = False,
-    template_id: str = None,
+    section: etree.Element, observations: List[etree.Element]
 ) -> None:
     """
-    Updates the <text> element of a section to include information based on the provided message and trigger code.
+    Updates the <text> element of a section to include information from observations.
 
     :param section: The section element containing the <text> element to update.
-    :param message: The message to include in the <text> element.
-    :param trigger_code: Boolean indicating whether to include the template ID.
-    :param template_id: The template ID to include if trigger_code is True.
+    :param observations: A list of observation elements to include in the <text> element.
     """
-    text_element = etree.Element("{urn:hl7-org:v3}text")
-    table_element = etree.SubElement(text_element, "table")
-    tr_element = etree.SubElement(table_element, "tr")
-
-    td1 = etree.SubElement(tr_element, "td")
-    td1.text = f"{message} via"
-
-    td2 = etree.SubElement(tr_element, "td")
-    td2.text = "CDC PRIME DIBBs `message-refiner` API by STLT"
-
-    if trigger_code:
-        td3 = etree.SubElement(tr_element, "td")
-        td3.text = f"Template ID: {template_id}"
+    new_text_element = _create_or_update_text_element(observations)
 
     existing_text_element = section.find(
         ".//hl7:text", namespaces={"hl7": "urn:hl7-org:v3"}
     )
+
     if existing_text_element is not None:
-        section.replace(existing_text_element, text_element)
+        section.replace(existing_text_element, new_text_element)
     else:
-        section.insert(0, text_element)
+        section.insert(0, new_text_element)
 
 
 def _create_minimal_section(section: etree.Element) -> None:
     """
-    Creates a minimal section by removing all elements after the <text> element
-    and adds nullFlavor="NI" to the <section> element.
+    Creates a minimal section by updating the <text> element, removing all <entry> elements,
+    and adding nullFlavor="NI" to the <section> element.
 
     :param section: The section element to update.
     """
@@ -494,96 +534,23 @@ def _create_minimal_section(section: etree.Element) -> None:
 
     if text_element is None:
         text_element = etree.Element("{urn:hl7-org:v3}text")
-        section.insert(0, text_element)
+        section.append(text_element)
 
-    following_siblings = list(section.iterchildren())[section.index(text_element) + 1 :]
-    for sibling in following_siblings:
-        section.remove(sibling)
+    # update the <text> element with the specific message
+    text_element.clear()
+    title_element = etree.SubElement(text_element, "title")
+    title_element.text = (
+        "Output from CDC PRIME DIBBs `message-refiner` API by request of STLT"
+    )
 
+    table_element = etree.SubElement(text_element, "table", border="1")
+    tr_element = etree.SubElement(table_element, "tr")
+    td_element = etree.SubElement(tr_element, "td")
+    td_element.text = "Section details have been removed as requested"
+
+    # remove all <entry> elements
+    for entry in section.findall(".//hl7:entry", namespaces=namespaces):
+        section.remove(entry)
+
+    # add nullFlavor="NI" to the <section> element
     section.attrib["nullFlavor"] = "NI"
-
-
-def _process_trigger_codes(
-    section: etree.Element, template_id_root: str, updated_text: str
-) -> None:
-    """
-    Processes a section by retaining only trigger code observations.
-
-    :param section: The section element to process.
-    :param template_id_root: The root value of the templateId attribute (OID).
-    :param updated_text: The updated text to include in the <text> element.
-    """
-    _retain_only_trigger_code_obs(section=section, template_id=template_id_root)
-    _update_text_element(section, updated_text, True, template_id=template_id_root)
-
-
-def _process_section(trigger_data: dict, structured_body: etree.Element) -> None:
-    """
-    Iterates through the sections of the <structuredBody> and refines each section.
-
-    :param trigger_data: The trigger data containing section codes and template IDs.
-    :param structured_body: The structuredBody element to search within.
-    """
-    for section_code, section_details in trigger_data["sections"].items():
-        required = section_details["required"]
-        display_name = section_details["display_name"]
-        minimal_fields = section_details["minimal_fields"]
-        trigger_codes = section_details.get("trigger_codes", {})
-
-        section = _get_section_by_code(structured_body, section_code)
-
-        if section is not None:
-            print(
-                f"[blue]Processing section:[/blue] [bold]{display_name}[/bold] [blue]with LOINC code:[/blue] [bold]{section_code}[/bold]"
-            )
-
-            if required:
-                trigger_found = False
-                if trigger_codes:
-                    for trigger_name, trigger_details in trigger_codes.items():
-                        template_id_root = trigger_details["template_id_root"]
-                        updated_text = trigger_details["updated_text"]
-                        if _is_template_present(
-                            section_entries=_get_entries_for_section,
-                            section=section,
-                            template_id=template_id_root,
-                        ):
-                            print(
-                                f"[blue]Template found:[/blue] [bold]{template_id_root}[/bold] [blue]for section [/blue] [bold]{section_code}[/bold]"
-                            )
-                            print(
-                                f"[yellow]Before pruning:[/yellow] [bold]{len(_get_entries_for_section(section))}[/bold] [yellow]entries.[/yellow]"
-                            )
-                            _process_trigger_codes(
-                                section, template_id_root, updated_text
-                            )
-                            print(
-                                f"[green]After pruning:[/green] [bold]{len(_get_entries_for_section(section))}[/bold] [green]entries.[/green]"
-                            )
-                            trigger_found = True
-                        else:
-                            print(
-                                f"[red]Template {template_id_root} not found for section {section_code}.[/red]"
-                            )
-
-                    if not trigger_found:
-                        print(
-                            f"[red]Template not found for section {section_code}, Creating Minimal Entry.[/red]"
-                        )
-                        _create_minimal_section(section)
-                        _update_text_element(section, minimal_fields["updated_text"])
-                else:
-                    _create_minimal_section(section)
-                    _update_text_element(section, minimal_fields["updated_text"])
-            else:
-                print(
-                    f"[red]Removing section: {display_name} with LOINC code: {section_code} (not required)[/red]"
-                )
-                structured_body.remove(section)
-        else:
-            if not required:
-                print(
-                    f"[red]No {display_name} section found for code: {section_code} (not required)[/red]"
-                )
-            else:
-                print(f"[red]No section found for code: {section_code}[/red]")
