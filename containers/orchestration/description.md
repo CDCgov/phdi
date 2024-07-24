@@ -86,6 +86,7 @@ The output will vary depending on the type of configuration chosen. However, the
 For more information on the endpoint go to the documentation [here](https://cdcgov.github.io/phdi/latest/containers/orchestration.html)
 
 ### Architecture Diagram
+
 ```mermaid
     graph TD
         A[Orchestration Service] --> B[Validation Service]
