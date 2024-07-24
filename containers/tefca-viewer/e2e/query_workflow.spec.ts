@@ -11,7 +11,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
   test("landing page loads", async ({ page }) => {
     // Check that each expected text section is present
     await expect(
-      page.getByRole("heading", { name: "Data investigation made easier" }),
+      page.getByRole("heading", { name: "Data collection made easier" }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "What is it?" }),
@@ -94,7 +94,8 @@ test.describe("querying with the TryTEFCA viewer", () => {
   });
 
   test("unsuccessful user query: no patients", async ({ page }) => {
-    await page.getByRole("button", { name: "Get Started" }).click();
+    await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
 
     await page.getByLabel("First Name").fill("Ellie");
     await page.getByLabel("Last Name").fill("Williams");
