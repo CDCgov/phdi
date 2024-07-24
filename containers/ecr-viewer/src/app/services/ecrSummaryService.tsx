@@ -14,6 +14,8 @@ import {
 import { DisplayDataProps } from "@/app/DataDisplay";
 import { returnProblemsTable } from "@/app/view-data/components/common";
 import { LabReport, evaluateLabInfoData } from "./labsService";
+import { ConditionSummary } from "@/app/view-data/components/EcrSummary";
+import React from "react";
 
 /**
  * ExtensionConditionCode extends the FHIR Extension interface to include a 'coding' property.
@@ -105,6 +107,93 @@ export const evaluateEcrSummaryEncounterDetails = (
   ];
 };
 
+const evaluateRuleSummaries = (observation: Observation): Set<string> => {
+  const ruleSummaries = new Set<string>();
+  observation.extension?.forEach((extension) => {
+    if (
+      extension.url ===
+        "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension" &&
+      extension?.valueString?.trim()
+    ) {
+      ruleSummaries.add(extension.valueString.trim());
+    }
+  });
+  return ruleSummaries;
+};
+
+/**
+ * Evaluates and retrieves all condition details in a bundle.
+ * @param fhirBundle - The FHIR bundle containing patient data.
+ * @param fhirPathMappings - Object containing fhir path mappings.
+ * @param snomedCode - The SNOMED code identifying the main snomed code.
+ * @returns An array of condition summary objects.
+ */
+export const evaluateEcrSummaryConditionSummary = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+  snomedCode?: string,
+): ConditionSummary[] => {
+  const rrArray: Observation[] = evaluate(
+    fhirBundle,
+    fhirPathMappings.rrDetails,
+  );
+  const conditionsList: {
+    [index: string]: { ruleSummaries: Set<string>; snomedDisplay: string };
+  } = {};
+  for (const observation of rrArray) {
+    const coding = observation?.valueCodeableConcept?.coding?.find(
+      (coding) => coding.system === "http://snomed.info/sct",
+    );
+    if (coding?.code) {
+      const snomed = coding.code;
+      if (!conditionsList[snomed]) {
+        conditionsList[snomed] = {
+          ruleSummaries: new Set(),
+          snomedDisplay: coding.display!,
+        };
+      }
+
+      evaluateRuleSummaries(observation).forEach((ruleSummary) =>
+        conditionsList[snomed].ruleSummaries.add(ruleSummary),
+      );
+    }
+  }
+
+  const conditionSummaries: ConditionSummary[] = [];
+  for (let conditionsListKey in conditionsList) {
+    conditionSummaries.push({
+      title: conditionsList[conditionsListKey].snomedDisplay,
+      conditionDetails: [
+        {
+          title: "RCKMS Rule Summary",
+          toolTip:
+            "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
+          value: (
+            <div className={"p-list"}>
+              {[...conditionsList[conditionsListKey].ruleSummaries].map(
+                (summary) => (
+                  <p key={summary}>{summary}</p>
+                ),
+              )}
+            </div>
+          ),
+        },
+      ],
+      clinicalDetails: evaluateEcrSummaryRelevantClinicalDetails(
+        fhirBundle,
+        fhirPathMappings,
+        conditionsListKey,
+      ),
+      labDetails: evaluateEcrSummaryRelevantLabResults(
+        fhirBundle,
+        fhirPathMappings,
+        conditionsListKey,
+      ),
+    });
+  }
+
+  return conditionSummaries;
+};
 /**
  * Evaluates and retrieves condition details from the FHIR bundle using the provided path mappings.
  * @param fhirBundle - The FHIR bundle containing patient data.

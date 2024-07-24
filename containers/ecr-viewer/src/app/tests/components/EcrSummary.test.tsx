@@ -1,6 +1,8 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import EcrSummary from "../../view-data/components/EcrSummary";
+import EcrSummary, {
+  ConditionSummary,
+} from "../../view-data/components/EcrSummary";
 
 describe("EcrSummary", () => {
   let container: HTMLElement;
@@ -45,28 +47,27 @@ describe("EcrSummary", () => {
       value: "Emergency",
     },
   ];
-  const aboutTheCondition = [
+  const conditionDetails: ConditionSummary[] = [
     {
-      title: "Reportable Condition",
-      value: "Influenza caused by Influenza A virus subtype H5N1 (disorder)",
-    },
-    {
-      title: "RCKMS Rule Summary",
-      value: "Cough",
-    },
-  ];
-
-  const relevantClinical = [
-    {
-      title: "Relevant Clinical",
-      value: "Cough",
-    },
-  ];
-
-  const relevantLabs = [
-    {
-      title: "Relevant Labs",
-      value: "Covid 19",
+      title: "Influenza caused by Influenza A virus subtype H5N1 (disorder)",
+      conditionDetails: [
+        {
+          title: "RCKMS Rule Summary",
+          value: "Cough",
+        },
+      ],
+      clinicalDetails: [
+        {
+          title: "Relevant Clinical",
+          value: "Cough",
+        },
+      ],
+      labDetails: [
+        {
+          title: "Relevant Labs",
+          value: "Covid 19",
+        },
+      ],
     },
   ];
 
@@ -75,9 +76,7 @@ describe("EcrSummary", () => {
       <EcrSummary
         patientDetails={patientDetails}
         encounterDetails={encounterDetails}
-        aboutTheCondition={aboutTheCondition}
-        relevantClinical={relevantClinical}
-        relevantLabs={relevantLabs}
+        conditionSummary={conditionDetails}
       />,
     ).container;
   });

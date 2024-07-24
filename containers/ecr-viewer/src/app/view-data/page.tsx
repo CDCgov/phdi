@@ -12,9 +12,7 @@ import EcrSummary from "./components/EcrSummary";
 import {
   evaluateEcrSummaryPatientDetails,
   evaluateEcrSummaryEncounterDetails,
-  evaluateEcrSummaryAboutTheConditionDetails,
-  evaluateEcrSummaryRelevantClinicalDetails,
-  evaluateEcrSummaryRelevantLabResults,
+  evaluateEcrSummaryConditionSummary,
 } from "../services/ecrSummaryService";
 import { metrics } from "./component-utils";
 import { EcrLoadingSkeleton } from "./components/LoadingComponent";
@@ -106,17 +104,7 @@ const ECRViewerPage: React.FC = () => {
                       fhirBundle,
                       mappings,
                     )}
-                    aboutTheCondition={evaluateEcrSummaryAboutTheConditionDetails(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
-                    relevantClinical={evaluateEcrSummaryRelevantClinicalDetails(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
-                    relevantLabs={evaluateEcrSummaryRelevantLabResults(
+                    conditionSummary={evaluateEcrSummaryConditionSummary(
                       fhirBundle,
                       mappings,
                       snomedCode,

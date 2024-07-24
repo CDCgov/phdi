@@ -4,13 +4,20 @@ import {
   DataTableDisplay,
   DisplayDataProps,
 } from "@/app/DataDisplay";
+import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
+import { Accordion } from "@trussworks/react-uswds";
 
 interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
   encounterDetails: DisplayDataProps[];
-  aboutTheCondition: DisplayDataProps[];
-  relevantClinical: DisplayDataProps[];
-  relevantLabs: DisplayDataProps[];
+  conditionSummary: ConditionSummary[];
+}
+
+export interface ConditionSummary {
+  title: string;
+  conditionDetails: DisplayDataProps[];
+  clinicalDetails: DisplayDataProps[];
+  labDetails: DisplayDataProps[];
 }
 
 /**
@@ -18,18 +25,42 @@ interface EcrSummaryProps {
  * @param props - Properties for the eCR Viewer Summary section
  * @param props.patientDetails - Array of title and values to be displayed in patient details section
  * @param props.encounterDetails - Array of title and values to be displayed in encounter details section
- * @param props.aboutTheCondition - Array of title and values to be displayed about the condition section
- * @param props.relevantClinical - Array of title and tables to be displayed about the relevant clinical details
- * @param props.relevantLabs - Array of title and tables to be displayed about the relevant lab results
+ * @param props.conditionSummary -Array of condition details
  * @returns a react element for ECR Summary
  */
 const EcrSummary: React.FC<EcrSummaryProps> = ({
   patientDetails,
   encounterDetails,
-  aboutTheCondition,
-  relevantClinical,
-  relevantLabs,
+  conditionSummary,
 }) => {
+  const conditionSummaryAccordionItems: AccordionItemProps[] =
+    conditionSummary.map((condition) => {
+      return {
+        title: condition.title,
+        id: condition.title,
+        headingLevel: "h4",
+        expanded: false,
+        content: (
+          <>
+            {condition.conditionDetails.map((item) => (
+              <DataDisplay item={item} key={item.title} />
+            ))}
+            <div className="ecr-summary-title-long" id={"relevant-clinical"}>
+              {"Clinical Sections Relevant to Reportable Condition"}
+            </div>
+            {condition.clinicalDetails.map((item) => (
+              <DataTableDisplay item={item} key={item.title} />
+            ))}
+            <div className="ecr-summary-title-long" id={"relevant-labs"}>
+              {"Lab Results Relevant to Reportable Condition"}
+            </div>
+            {condition.labDetails.map((item) => (
+              <DataTableDisplay item={item} key={item.title} />
+            ))}
+          </>
+        ),
+      };
+    });
   return (
     <div className={"info-container"}>
       <div
@@ -70,29 +101,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             Condition Summary
           </h2>
           <div className="usa-summary-box__text">
-            {aboutTheCondition.map((item) => (
-              <DataDisplay item={item} key={item.title} />
-            ))}
-            <div className="ecr-summary-title-long" id={"relevant-clinical"}>
-              {"Clinical Sections Relevant to Reportable Condition"}
-            </div>
-            {relevantClinical &&
-              relevantClinical.length > 0 &&
-              relevantClinical.map((item, index) => (
-                <div key={index}>
-                  <DataTableDisplay item={item} />
-                </div>
-              ))}
-            <div className="ecr-summary-title-long" id={"relevant-labs"}>
-              {"Lab Results Relevant to Reportable Condition"}
-            </div>
-            {relevantLabs &&
-              relevantLabs.length > 0 &&
-              relevantLabs.map((item, index) => (
-                <div key={index}>
-                  <DataTableDisplay item={item} />
-                </div>
-              ))}
+            <Accordion items={conditionSummaryAccordionItems} />
           </div>
         </div>
       </div>

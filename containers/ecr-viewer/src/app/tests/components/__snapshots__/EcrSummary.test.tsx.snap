@@ -226,78 +226,80 @@ End: 05/13/2022 9:57 AM UTC
         <div
           class="usa-summary-box__text"
         >
-          <div>
-            <div
-              class="grid-row"
+          <div
+            class="usa-accordion"
+            data-testid="accordion"
+          >
+            <h4
+              class="usa-accordion__heading"
             >
-              <div
-                class="data-title"
-              >
-                Reportable Condition
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
+              <button
+                aria-controls="Influenza caused by Influenza A virus subtype H5N1 (disorder)"
+                aria-expanded="false"
+                class="usa-accordion__button"
+                data-testid="accordionButton_Influenza caused by Influenza A virus subtype H5N1 (disorder)"
+                type="button"
               >
                 Influenza caused by Influenza A virus subtype H5N1 (disorder)
-              </div>
-            </div>
+              </button>
+            </h4>
             <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
+              class="usa-accordion__content usa-prose"
+              data-testid="accordionItem_Influenza caused by Influenza A virus subtype H5N1 (disorder)"
+              hidden=""
+              id="Influenza caused by Influenza A virus subtype H5N1 (disorder)"
             >
-              <div
-                class="data-title"
-              >
-                RCKMS Rule Summary
+              <div>
+                <div
+                  class="grid-row"
+                >
+                  <div
+                    class="data-title"
+                  >
+                    RCKMS Rule Summary
+                  </div>
+                  <div
+                    class="grid-col-auto maxw7 text-pre-line"
+                  >
+                    Cough
+                  </div>
+                </div>
+                <div
+                  class="section__line_gray"
+                />
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="ecr-summary-title-long"
+                id="relevant-clinical"
               >
-                Cough
+                Clinical Sections Relevant to Reportable Condition
               </div>
-            </div>
-            <div
-              class="section__line_gray"
-            />
-          </div>
-          <div
-            class="ecr-summary-title-long"
-            id="relevant-clinical"
-          >
-            Clinical Sections Relevant to Reportable Condition
-          </div>
-          <div>
-            <div>
-              <div
-                class="grid-col-auto width-full text-pre-line"
-              >
-                Cough
+              <div>
+                <div
+                  class="grid-col-auto width-full text-pre-line"
+                >
+                  Cough
+                </div>
+                <div
+                  class="section__line_gray"
+                />
               </div>
               <div
-                class="section__line_gray"
-              />
-            </div>
-          </div>
-          <div
-            class="ecr-summary-title-long"
-            id="relevant-labs"
-          >
-            Lab Results Relevant to Reportable Condition
-          </div>
-          <div>
-            <div>
-              <div
-                class="grid-col-auto width-full text-pre-line"
+                class="ecr-summary-title-long"
+                id="relevant-labs"
               >
-                Covid 19
+                Lab Results Relevant to Reportable Condition
               </div>
-              <div
-                class="section__line_gray"
-              />
+              <div>
+                <div
+                  class="grid-col-auto width-full text-pre-line"
+                >
+                  Covid 19
+                </div>
+                <div
+                  class="section__line_gray"
+                />
+              </div>
             </div>
           </div>
         </div>
