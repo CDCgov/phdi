@@ -103,7 +103,7 @@ describe("Evaluate eCR Summary Relevant Lab Results", () => {
   });
 });
 
-describe("evaluateEcrSummaryConditionSummary", () => {
+describe("Evaluate eCR Summary Condition Summary", () => {
   it("should return titles based on snomed code", () => {
     const actual = evaluateEcrSummaryConditionSummary(
       BundleEcrSummary as unknown as Bundle,
@@ -171,9 +171,28 @@ describe("evaluateEcrSummaryConditionSummary", () => {
     ).not.toBeInTheDocument();
     expect(screen.getByText("SARS-CoV-2 PCR")).toBeInTheDocument();
   });
-  it("Should return empty array if none found", () => {
+  it("should return empty array if none found", () => {
     const actual = evaluateEcrSummaryConditionSummary({} as Bundle, mappings);
 
     expect(actual).toBeEmpty();
+  });
+  it("should return the the requested snomed first", () => {
+    const verifyNotFirst = evaluateEcrSummaryConditionSummary(
+      BundleEcrSummary as unknown as Bundle,
+      mappings,
+    );
+
+    expect(verifyNotFirst[0].title).not.toEqual(
+      "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+    );
+
+    const actual = evaluateEcrSummaryConditionSummary(
+      BundleEcrSummary as unknown as Bundle,
+      mappings,
+      "840539006",
+    );
+    expect(actual[0].title).toEqual(
+      "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+    );
   });
 });

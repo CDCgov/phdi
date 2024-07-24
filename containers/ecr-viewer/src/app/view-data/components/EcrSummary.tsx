@@ -15,6 +15,7 @@ interface EcrSummaryProps {
 
 export interface ConditionSummary {
   title: string;
+  snomed: string;
   conditionDetails: DisplayDataProps[];
   clinicalDetails: DisplayDataProps[];
   labDetails: DisplayDataProps[];

@@ -161,8 +161,9 @@ export const evaluateEcrSummaryConditionSummary = (
 
   const conditionSummaries: ConditionSummary[] = [];
   for (let conditionsListKey in conditionsList) {
-    conditionSummaries.push({
+    const conditionSummary = {
       title: conditionsList[conditionsListKey].snomedDisplay,
+      snomed: conditionsListKey,
       conditionDetails: [
         {
           title: "RCKMS Rule Summary",
@@ -189,7 +190,13 @@ export const evaluateEcrSummaryConditionSummary = (
         fhirPathMappings,
         conditionsListKey,
       ),
-    });
+    };
+
+    if (conditionSummary.snomed === snomedCode) {
+      conditionSummaries.unshift(conditionSummary);
+    } else {
+      conditionSummaries.push(conditionSummary);
+    }
   }
 
   return conditionSummaries;
