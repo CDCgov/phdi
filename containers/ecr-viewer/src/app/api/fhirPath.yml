@@ -34,6 +34,7 @@ patientSexualOrientation: "Bundle.entry.resource.where(resourceType='Observation
 patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display"
 
 eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
+eicrCustodianRef: "Bundle.entry.resource.where(resourceType= 'Composition').custodian.reference"
 dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
 senderSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(category.coding.code='software').type.coding.display"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"

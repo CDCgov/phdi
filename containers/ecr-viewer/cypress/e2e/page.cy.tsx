@@ -6,16 +6,19 @@ describe("Home Page", () => {
   it("Should load the home page listing all eCR IDs", () => {
     cy.get('[data-testid="table"]').should("exist");
     cy.get('[data-testid="table"]').should("have.class", "table-homepage-list");
-    cy.contains("eCR ID");
-    cy.contains("Stored Date");
+    cy.contains("Patient");
+    cy.contains("Received Date");
+    cy.contains("Encounter Date");
+    cy.contains("Reportable Condition");
+    cy.contains("RCKMS Rule Summary");
   });
 
   it("When clicking on an eCR ID link, it should redirect user to the correct URL of the individual eCR", () => {
     cy.get('[data-testid="table"] tbody tr:first-child')
       .find("a")
-      .invoke("text") // Get the eCR ID
-      .then((text) => {
-        const linkEcrId = text;
+      .invoke("attr", "href") // Get the eCR ID
+      .then((href) => {
+        const linkEcrId = href.split("=")[1];
         cy.get('[data-testid="table"] tbody tr:first-child')
           .find("a")
           .click()
