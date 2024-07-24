@@ -126,7 +126,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
  * @param numConditions - Number of conditions.
  * @returns A formatted string that specifies the number of conditions found.
  */
-export const numConditionsText = (numConditions: number) => {
+const numConditionsText = (numConditions: number) => {
   return numConditions === 1
     ? `${numConditions} CONDITION FOUND`
     : `${numConditions} CONDITIONS FOUND`;
