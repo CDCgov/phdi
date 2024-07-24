@@ -105,14 +105,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
       </Alert>
       <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
-        <h4 className="font-sans-md text-normal margin-top-0">
-          Please enter <b>3 out of 5 of the following sections</b> <br></br>for
-          a given patient, in addition to a case investigation topic.
-        </h4>
         <div className="usa-summary-box usa-summary-box demo-data-filler">
           <label className="usa-label" htmlFor="demo-data">
-            Select from the following use cases to "pre-fill" patient
-            information below:
+            <b>
+              Select a query type and a sample patient to populate the form with
+              sample data for a query.
+            </b>
           </label>
           <div className="display-flex flex-align-center margin-top-2">
             <div className="usa-combo-box flex-1" data-enhanced="true">
@@ -123,6 +121,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 value={demoOption}
                 onChange={(event) => {
                   setDemoOption(event.target.value);
+                  fillFields();
                 }}
               >
                 <option value="demo-cancer">
@@ -152,7 +151,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 fillFields();
               }}
             >
-              Fill fields
+              Customize queries
             </Button>
           </div>
         </div>
@@ -387,7 +386,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                       | "social-determinants"
                       | "newborn-screening"
                       | "syphilis"
-                      | "cancer",
+                      | "cancer"
                   );
                 }}
                 style={{
