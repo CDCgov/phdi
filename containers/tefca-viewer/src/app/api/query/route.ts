@@ -35,21 +35,27 @@ export async function POST(request: NextRequest) {
   let requestBody;
   let PatientIdentifiers;
 
-  // TODO: Add error handling that checks if the body is a patient resource
   try {
     requestBody = await request.json();
+
+    // Check if requestBody is a patient resource
+    if (requestBody.resourceType !== "Patient") {
+      const diagnostics_message = "Request body is not a Patient resource.";
+      const OperationOutcome = await handleRequestError(diagnostics_message);
+      return NextResponse.json(OperationOutcome);
+    }
   } catch (error: any) {
-    const diagnostics_message = `Error reading request body. ${error.message}`;
+    const diagnostics_message = `${error.message}`;
     const OperationOutcome = await handleRequestError(diagnostics_message);
     return NextResponse.json(OperationOutcome);
   }
 
   // Parse patient identifiers from requestBody
-  try {
-    PatientIdentifiers = await parsePatientDemographics(requestBody);
-  } catch (error: any) {
+  PatientIdentifiers = await parsePatientDemographics(requestBody);
+  // Check if PatientIdentifiers is empty or there was an error parsing patient identifiers
+  if (Object.keys(PatientIdentifiers).length === 0) {
     const diagnostics_message =
-      "Error parsing patient identifiers from requestBody.";
+      "No patient identifiers to parse from requestBody.";
     const OperationOutcome = await handleRequestError(diagnostics_message);
     return NextResponse.json(OperationOutcome);
   }
