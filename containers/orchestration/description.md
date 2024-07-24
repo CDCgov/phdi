@@ -86,7 +86,7 @@ The output will vary depending on the type of configuration chosen. However, the
 For more information on the endpoint go to the documentation [here](https://cdcgov.github.io/phdi/latest/containers/orchestration.html)
 
 ### Architecture Diagram
-
+```mermaid
 graph TD
     A[Orchestration Service] --> B[Validation Service]
     A --> C[FHIR Converter Service]
@@ -113,6 +113,7 @@ graph TD
         A --> |POST| P[/process-zip]
         A --> |POST| Q[/process-message]
         A --> |WebSocket| R[/process-ws]
+```
     end
 
     style A fill:#f9f,stroke:#333,stroke-width:4px
