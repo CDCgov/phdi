@@ -137,7 +137,7 @@ class StandardizeBirthDateInput(BaseModel):
     )
     format: Optional[str] = Field(
         descripton="The date format that the input DOB is supplied in.",
-        default="Y%-m%-d%",
+        default="%Y-%m-%d",
         example="%m/%d/%Y",
     )
 

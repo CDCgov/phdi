@@ -1,11 +1,10 @@
-import datetime
+from datetime import datetime
 from typing import List
 from typing import Literal
 from typing import Union
 
 import phonenumbers
 import pycountry
-from detect_delimiter import detect
 
 from app.harmonization.double_metaphone import DoubleMetaphone
 
@@ -222,12 +221,11 @@ def _validate_date(year: str, month: str, day: str, future: bool = False) -> boo
     """
     is_valid_date = True
     try:
-        valid_date = datetime.datetime(int(year), int(month), int(day))
-        if future and valid_date > datetime.datetime.now():
+        valid_date = datetime(int(year), int(month), int(day))
+        if future and valid_date > datetime.now():
             is_valid_date = False
     except ValueError:
         is_valid_date = False
-
     return is_valid_date
 
 
@@ -251,35 +249,15 @@ def _standardize_date(
     # this is easier than regexp as we won't have to maintain a list
     # of potential delimiters and just look at what the delim is
     # for the date string supplied
-    delim = detect(raw_date)
-    format_delim = detect(date_format.replace("%", ""))
-
-    # parse out the different date components (year, month, day)
-    date_values = raw_date.split(delim)
-    format_values = date_format.replace("%", "").lower().split(format_delim)
-    date_dict = {}
-
-    # loop through date values and the format values
-    #   and create a date dictionary where the format is the key
-    #   and the date values are the value ordering the date component values
-    #   using the date format supplied
-    for format_value, date_value in zip(format_values, date_values):
-        date_dict[format_value[0]] = date_value
-
-    # verify that the date components in the date dictionary create a valid
-    # date and based upon the future param that the date is not in the future
-    if len(date_dict) != 3 or not _validate_date(
-        date_dict["y"], date_dict["m"], date_dict["d"], future
-    ):
+    try:
+        date = datetime.strptime(raw_date, date_format)
+    except ValueError:
         raise ValueError(f"Invalid date supplied: {raw_date}")
 
-    return (
-        date_dict["y"]
-        + FHIR_DATE_DELIM
-        + date_dict["m"]
-        + FHIR_DATE_DELIM
-        + date_dict["d"]
-    )
+    if future and date > datetime.now():
+        raise ValueError(f"Invalid date supplied: {raw_date}")
+
+    return date.strftime("%Y-%m-%d")
 
 
 def standardize_birth_date(
@@ -299,7 +277,6 @@ def standardize_birth_date(
     #  or detect() will end up in an infinite loop
     if raw_dob is None or len(raw_dob) == 0:
         raise ValueError("Date of Birth must be supplied!")
-
     standardized_dob = _standardize_date(
         raw_date=raw_dob, date_format=existing_format, future=True
     )
