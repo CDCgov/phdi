@@ -87,8 +87,10 @@ For more information on the endpoint go to the documentation [here](https://cdcg
 
 ### Architecture Diagram
 
+#### Application Stack
+
 ```mermaid
-graph TB
+graph TD
     subgraph Main Services
         A[Orchestration Service]
         A --> B[Validation Service]
@@ -101,26 +103,42 @@ graph TB
     end
 
     subgraph Observability
-        A --> I[Jaeger]
-        A --> J[Prometheus]
-        A --> K[OpenTelemetry Collector]
-        K --> J
+        direction TB
+        I[Jaeger] --> J[Prometheus]
+        K[OpenTelemetry Collector] --> J
         K --> I
-        A --> L[Grafana]
-        L --> J
+        L[Grafana] --> J
     end
 
-    subgraph API Endpoints
-        A --> M[GET /configs]
-        A --> N[GET /configs&#123;processing_config_name&#125;]
-        A --> O[PUT /configs&#123;processing_config_name&#125;]
-        A --> P[POST /process-zip]
-        A --> Q[POST /process-message]
-        A --> R[WebSocket /process-ws]
-    end
+    A --> I
 
     style A fill:#f9f,stroke:#333,stroke-width:4px
     style Main Services fill:#bbf,stroke:#333,stroke-width:2px
     style Observability fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+#### Application API
+```mermaid
+graph TD
+    A[Orchestration Service]
+
+    subgraph API Endpoints
+        direction TB
+        M[GET /configs]
+        N[GET /configs&#123;processing_config_name&#125;]
+        O[PUT /configs&#123;processing_config_name&#125;]
+        P[POST /process-zip]
+        Q[POST /process-message]
+        R[WebSocket /process-ws]
+    end
+
+    A --> M
+    A --> N
+    A --> O
+    A --> P
+    A --> Q
+    A --> R
+
+    style A fill:#f9f,stroke:#333,stroke-width:4px
     style API Endpoints fill:#bfb,stroke:#333,stroke-width:2px
 ```
