@@ -154,6 +154,14 @@ h4 {
     background-color: color("base-lighter") !important;
   }
 
+  &.usa-table--striped tbody tr:nth-child(odd) td {
+    background-color: white;
+  }
+
+  &.usa-table--striped tbody tr:nth-child(even) td {
+    background-color: color("base-lightest");
+  }
+
   tbody td {
     border-top: 0px;
     border-bottom: 1px solid var(--ink, #111);
