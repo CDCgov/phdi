@@ -141,9 +141,26 @@ h4 {
 
 .table-homepage-list {
   max-width: 840px !important;
+  margin-top: 0 !important; 
+
+  border: 1px solid var(--ink, #111);
+  border-collapse: separate;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+
   font-size: 16px !important;
+
   thead th {
     background-color: color("base-lighter") !important;
+  }
+
+  tbody td {
+    border-top: 0px;
+    border-bottom: 1px solid var(--ink, #111);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
   }
 
   tbody td:first-child {
@@ -220,6 +237,7 @@ td {
 .homepage-wrapper {
   display: flex;
   max-width: 1440px;
+  padding-top: 1.5rem;
   gap: 48px;
   overflow: visible;
   align-items: center;
