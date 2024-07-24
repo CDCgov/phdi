@@ -189,6 +189,7 @@ export const evaluateEcrSummaryConditionSummary = (
         fhirBundle,
         fhirPathMappings,
         conditionsListKey,
+        false,
       ),
     };
 
@@ -250,12 +251,14 @@ export const evaluateEcrSummaryRelevantClinicalDetails = (
  * @param fhirBundle - The FHIR bundle containing patient data.
  * @param fhirPathMappings - Object containing fhir path mappings.
  * @param snomedCode - String containing the SNOMED code search parameter.
+ * @param lastDividerLine - Boolean to determine if a divider line should be added to the end of the lab results. Default to true
  * @returns An array of lab result details objects containing title and value pairs.
  */
 export const evaluateEcrSummaryRelevantLabResults = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
   snomedCode: string,
+  lastDividerLine: boolean = true,
 ): DisplayDataProps[] => {
   const noData: string = "No matching lab results found in this eCR";
   let resultsArray: DisplayDataProps[] = [];
@@ -329,7 +332,9 @@ export const evaluateEcrSummaryRelevantLabResults = (
     })),
   );
 
-  resultsArray.push({ dividerLine: true });
+  if (lastDividerLine) {
+    resultsArray.push({ dividerLine: true });
+  }
   return resultsArray;
 };
 

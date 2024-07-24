@@ -43,7 +43,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         title: condition.title,
         id: condition.title.replaceAll(" ", "-"),
         headingLevel: "h3",
-        className: "side-nav-ignore",
+        className: "side-nav-ignore border-1px border-accent-cool-darker",
         expanded: snomed === condition.snomed || conditionSummary.length === 1,
         content: (
           <>

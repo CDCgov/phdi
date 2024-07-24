@@ -101,6 +101,17 @@ describe("Evaluate eCR Summary Relevant Lab Results", () => {
     render(result[1].value);
     expect(screen.getByText("Cytogenomic SNP microarray")).toBeInTheDocument();
   });
+
+  it("should not include the last empty divider line when lastDividerLine is false", () => {
+    const result = evaluateEcrSummaryRelevantLabResults(
+      BundleLab as unknown as Bundle,
+      mappings,
+      "test-snomed",
+      false,
+    );
+
+    expect(result).toHaveLength(2);
+  });
 });
 
 describe("Evaluate eCR Summary Condition Summary", () => {
