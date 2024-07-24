@@ -188,9 +188,14 @@ def refine(
             )
 
     # TODO: there may be sections that are not standard but appear in an eICR that
-    # we could either decide to add to the refiner_details.json or create a function
-    # we run right before returning the refined output that removes sections that are
-    # not required
+    # we could either decide to add to the refiner_details.json or use this code
+    # before returning the refined output that removes sections that are not required
+    for section in structured_body.findall(".//hl7:section", namespaces):
+        section_code = section.find(".//hl7:code", namespaces).get("code")
+        if section_code not in SECTION_LOINCS:
+            parent = section.getparent()
+            parent.remove(section)
+
     return etree.tostring(validated_message, encoding="unicode")
 
 
