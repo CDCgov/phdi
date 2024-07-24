@@ -5,7 +5,7 @@ import {
   DisplayDataProps,
 } from "@/app/DataDisplay";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
-import { Accordion } from "@trussworks/react-uswds";
+import { Accordion, Tag } from "@trussworks/react-uswds";
 
 interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
@@ -100,10 +100,17 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         </div>
         <div className="usa-summary-box__body">
           <h2
-            className={"summary-box-key-information side-nav-ignore"}
+            className={
+              "summary-box-key-information side-nav-ignore header-with-tag"
+            }
             id={"condition-summary"}
           >
-            Condition Summary
+            <div>Condition Summary</div>
+            <div>
+              <Tag className="tag-info">
+                {numConditionsText(conditionSummaryAccordionItems.length)}
+              </Tag>
+            </div>
           </h2>
           <div className="usa-summary-box__text">
             <Accordion items={conditionSummaryAccordionItems} />
@@ -112,6 +119,17 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
       </div>
     </div>
   );
+};
+
+/**
+ * Returns a formatted string indicating the number of reportable conditions.
+ * @param numConditions - Number of conditions.
+ * @returns A formatted string that specifies the number of conditions found.
+ */
+export const numConditionsText = (numConditions: number) => {
+  return numConditions === 1
+    ? `${numConditions} CONDITION FOUND`
+    : `${numConditions} CONDITIONS FOUND`;
 };
 
 export default EcrSummary;

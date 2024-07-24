@@ -152,4 +152,37 @@ describe("EcrSummary", () => {
     expect(screen.getByText("hep c summary")).not.toBeVisible();
     expect(screen.getByText("covid summary")).not.toBeVisible();
   });
+  it("should show 0 reportable conditions tag", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={[]}
+      />,
+    );
+
+    expect(screen.getByText("0 CONDITIONS FOUND"));
+  });
+  it("should show 1 reportable condition tag", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={covidConditionDetails}
+      />,
+    );
+
+    expect(screen.getByText("1 CONDITION FOUND"));
+  });
+  it("should show 2 reportable conditions tag", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={[...covidConditionDetails, ...hepConditionDetails]}
+      />,
+    );
+
+    expect(screen.getByText("2 CONDITIONS FOUND"));
+  });
 });
