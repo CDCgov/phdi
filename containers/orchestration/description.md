@@ -112,7 +112,7 @@ graph TD
 
     A --> I
 
-    style A fill:#f9f,stroke:black,stroke-width:4px
+    style A fill:#f9f,stroke:#000000,stroke-width:4px
     style Main Services fill:#bbf,stroke:#333,stroke-width:2px
     style Observability fill:#bbf,stroke:#333,stroke-width:2px
 ```
@@ -139,6 +139,6 @@ graph TD
     A --> Q
     A --> R
 
-    style A fill:#f9f,stroke:black,stroke-width:4px
+    style A fill:#f9f,stroke:#000000,stroke-width:4px
     style API Endpoints fill:#bfb,stroke:#333,stroke-width:2px
 ```
