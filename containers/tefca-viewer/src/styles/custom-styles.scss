@@ -443,16 +443,15 @@ html {
 }
 
 .blue-background-container {
+  width: 100%;
   background-color: #e7f2f5;
   padding: 2rem 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
-.blue-background-container .container {
+.blue-background-container .text-holder {
   max-width: 640px;
-  width: 100%;
+  margin: 0 auto;
+  text-align: left;
 }
 
 .custom-modal {

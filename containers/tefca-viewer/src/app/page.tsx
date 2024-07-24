@@ -98,121 +98,141 @@ export default function LandingPage() {
               </p>
             </ProcessListItem>
           </ProcessList>
-          <div className="display-flex flex-justify-center flex-column">
-            <div className="blue-background-container">
-              <div className="display-flex flex-justify-center flex-column">
-                <div className="text-holder">
-                  <h2 className="font-sans-xs text-light margin-top-0">
-                    Check out the TEFCA Viewer demo to try out features using
-                    sample data. See how the TEFCA Viewer could work for you.
-                  </h2>
-                  {isClient && (
-                    <ModalToggleButton
-                      modalRef={modalRef}
-                      opener
-                      title="Go to the demo"
-                    >
-                      Go to the demo
-                    </ModalToggleButton>
-                  )}
-                </div>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div className="blue-background-container">
+        <div className="display-flex flex-justify-center flex-column">
+          <div className="text-holder">
+            <h2 className="font-sans-xs text-light margin-top-0">
+              Check out the TEFCA Viewer demo to try out features using sample
+              data. See how the TEFCA Viewer could work for you.
+            </h2>
+            {isClient && (
+              <ModalToggleButton
+                modalRef={modalRef}
+                opener
+                title="Go to the demo"
+              >
+                Go to the demo
+              </ModalToggleButton>
+            )}
           </div>
         </div>
-        {isClient && (
-          <Modal
-            isLarge={true}
-            ref={modalRef}
-            className="custom-modal"
-            id="example-modal-2"
-            aria-labelledby="modal-2-heading"
-            aria-describedby="modal-2-description"
-            isInitiallyOpen={false}
-            placeholder={undefined}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-          >
-            <ModalHeading
-              id="data-usage-policy-modal-heading"
-              style={{ fontSize: "1.25rem" }}
-            >
-              Customize your demo experience
-            </ModalHeading>
-            <div className="usa-prose">
-              <p id="modal-2-description">
-                Select a scenario to see how you might use the TEFCA Query
-                Connector and what kind of data would be returned.
-              </p>
-              <div className="modal-options">
-                <Button
-                  type="button"
-                  className={`modal-option ${selectedOption === "Chlamydia case investigation" ? "selected" : ""}`}
-                  onClick={() =>
-                    handleOptionClick("Chlamydia case investigation")
-                  }
-                >
-                  Chlamydia case investigation
-                </Button>
-                <Button
-                  type="button"
-                  className={`modal-option ${selectedOption === "Gonorrhea case investigation" ? "selected" : ""}`}
-                  onClick={() =>
-                    handleOptionClick("Gonorrhea case investigation")
-                  }
-                >
-                  Gonorrhea case investigation
-                </Button>
-                <Button
-                  type="button"
-                  className={`modal-option ${selectedOption === "Syphilis case investigation" ? "selected" : ""}`}
-                  onClick={() =>
-                    handleOptionClick("Syphilis case investigation")
-                  }
-                >
-                  Syphilis case investigation
-                </Button>
-                <Button
-                  type="button"
-                  className={`modal-option ${selectedOption === "Cancer case investigation" ? "selected" : ""}`}
-                  onClick={() => handleOptionClick("Cancer case investigation")}
-                >
-                  Cancer case investigation
-                </Button>
-                <Button
-                  type="button"
-                  className={`modal-option ${selectedOption === "Newborn screening follow-up" ? "selected" : ""}`}
-                  onClick={() =>
-                    handleOptionClick("Newborn screening follow-up")
-                  }
-                >
-                  Newborn screening follow-up
-                </Button>
-                <Button
-                  type="button"
-                  className={`modal-option ${selectedOption === "Gather social determinants of health for a patient" ? "selected" : ""}`}
-                  onClick={() =>
-                    handleOptionClick(
-                      "Gather social determinants of health for a patient",
-                    )
-                  }
-                >
-                  Gather social determinants of health for a patient
-                </Button>
-              </div>
-            </div>
-            <ModalFooter>
-              <Button
-                className="get-started-button"
-                type="button"
-                onClick={handleClick}
-              >
-                Next
-              </Button>
-            </ModalFooter>
-          </Modal>
-        )}
       </div>
+
+      {isClient && (
+        <Modal
+          isLarge={true}
+          ref={modalRef}
+          className="custom-modal"
+          id="example-modal-2"
+          aria-labelledby="modal-2-heading"
+          aria-describedby="modal-2-description"
+          isInitiallyOpen={false}
+          placeholder={undefined}
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
+        >
+          <ModalHeading
+            id="data-usage-policy-modal-heading"
+            style={{ fontSize: "1.25rem" }}
+          >
+            Customize your demo experience
+          </ModalHeading>
+          <div className="usa-prose">
+            <p id="modal-2-description">
+              Select a scenario to see how you might use the TEFCA Query
+              Connector and what kind of data would be returned.
+            </p>
+            <div className="modal-options">
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "Chlamydia case investigation"
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleOptionClick("Chlamydia case investigation")
+                }
+              >
+                Chlamydia case investigation
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "Gonorrhea case investigation"
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleOptionClick("Gonorrhea case investigation")
+                }
+              >
+                Gonorrhea case investigation
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "Syphilis case investigation"
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() => handleOptionClick("Syphilis case investigation")}
+              >
+                Syphilis case investigation
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "Cancer case investigation"
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() => handleOptionClick("Cancer case investigation")}
+              >
+                Cancer case investigation
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "Newborn screening follow-up"
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() => handleOptionClick("Newborn screening follow-up")}
+              >
+                Newborn screening follow-up
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption ===
+                  "Gather social determinants of health for a patient"
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleOptionClick(
+                    "Gather social determinants of health for a patient",
+                  )
+                }
+              >
+                Gather social determinants of health for a patient
+              </Button>
+            </div>
+          </div>
+          <ModalFooter>
+            <Button
+              className="get-started-button"
+              type="button"
+              onClick={handleClick}
+            >
+              Next
+            </Button>
+          </ModalFooter>
+        </Modal>
+      )}
     </div>
   );
 }
