@@ -455,6 +455,13 @@ html {
   width: 100%;
 }
 
+.custom-modal {
+  width: 80%;
+  max-width: 640px;
+  padding: 0.25rem;
+  margin: auto;
+}
+
 .modal-options {
   display: flex;
   flex-wrap: wrap;
@@ -464,7 +471,14 @@ html {
 }
 
 .usa-modal--lg {
-  background-color: #edeff0
+  background-color: #edeff0;
+}
+
+.custom-modal .usa-modal__main {
+  padding-bottom: 1.25rem;
+  padding-top: 1.25rem;
+  width: 100%;
+  max-width: 40rem;
 }
 
 .modal-option {

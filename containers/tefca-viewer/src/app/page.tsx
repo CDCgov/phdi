@@ -26,6 +26,8 @@ export default function LandingPage() {
   const handleClick = () => {
     if (selectedOption) {
       router.push(`/query?useCase=${encodeURIComponent(selectedOption)}`);
+    } else {
+      router.push(`/query`);
     }
   };
 
@@ -122,6 +124,7 @@ export default function LandingPage() {
           <Modal
             isLarge={true}
             ref={modalRef}
+            className="custom-modal"
             id="example-modal-2"
             aria-labelledby="modal-2-heading"
             aria-describedby="modal-2-description"
@@ -130,14 +133,16 @@ export default function LandingPage() {
             onPointerEnterCapture={undefined}
             onPointerLeaveCapture={undefined}
           >
-            <ModalHeading id="modal-2-heading font-sans-md">
+            <ModalHeading
+              id="data-usage-policy-modal-heading"
+              style={{ fontSize: "1.25rem" }}
+            >
               Customize your demo experience
             </ModalHeading>
             <div className="usa-prose">
               <p id="modal-2-description">
-                How will you be using the TEFCA Query Connector? Select a
-                scenario to demo a sample query. The demo tool will return
-                sample data for that use case.
+                Select a scenario to see how you might use the TEFCA Query
+                Connector and what kind of data would be returned.
               </p>
               <div className="modal-options">
                 <Button
@@ -202,7 +207,7 @@ export default function LandingPage() {
                 type="button"
                 onClick={handleClick}
               >
-                Get started
+                Next
               </Button>
             </ModalFooter>
           </Modal>
