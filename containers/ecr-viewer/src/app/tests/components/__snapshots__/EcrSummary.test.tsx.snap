@@ -230,24 +230,23 @@ End: 05/13/2022 9:57 AM UTC
             class="usa-accordion"
             data-testid="accordion"
           >
-            <h4
-              class="usa-accordion__heading"
+            <h3
+              class="usa-accordion__heading side-nav-ignore"
             >
               <button
-                aria-controls="Influenza caused by Influenza A virus subtype H5N1 (disorder)"
-                aria-expanded="false"
+                aria-controls="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+                aria-expanded="true"
                 class="usa-accordion__button"
-                data-testid="accordionButton_Influenza caused by Influenza A virus subtype H5N1 (disorder)"
+                data-testid="accordionButton_Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
                 type="button"
               >
                 Influenza caused by Influenza A virus subtype H5N1 (disorder)
               </button>
-            </h4>
+            </h3>
             <div
-              class="usa-accordion__content usa-prose"
-              data-testid="accordionItem_Influenza caused by Influenza A virus subtype H5N1 (disorder)"
-              hidden=""
-              id="Influenza caused by Influenza A virus subtype H5N1 (disorder)"
+              class="usa-accordion__content usa-prose side-nav-ignore"
+              data-testid="accordionItem_Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+              id="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
             >
               <div>
                 <div
@@ -261,7 +260,7 @@ End: 05/13/2022 9:57 AM UTC
                   <div
                     class="grid-col-auto maxw7 text-pre-line"
                   >
-                    Cough
+                    covid summary
                   </div>
                 </div>
                 <div
@@ -278,7 +277,7 @@ End: 05/13/2022 9:57 AM UTC
                 <div
                   class="grid-col-auto width-full text-pre-line"
                 >
-                  Cough
+                  covid clinical
                 </div>
                 <div
                   class="section__line_gray"
@@ -294,7 +293,7 @@ End: 05/13/2022 9:57 AM UTC
                 <div
                   class="grid-col-auto width-full text-pre-line"
                 >
-                  Covid 19
+                  covid lab
                 </div>
                 <div
                   class="section__line_gray"

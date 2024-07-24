@@ -1,12 +1,10 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import EcrSummary, {
   ConditionSummary,
 } from "../../view-data/components/EcrSummary";
 
 describe("EcrSummary", () => {
-  let container: HTMLElement;
-
   const patientDetails = [
     {
       title: "Patient Name",
@@ -47,43 +45,111 @@ describe("EcrSummary", () => {
       value: "Emergency",
     },
   ];
-  const conditionDetails: ConditionSummary[] = [
+  const covidConditionDetails: ConditionSummary[] = [
     {
       title: "Influenza caused by Influenza A virus subtype H5N1 (disorder)",
+      snomed: "test-snomed-123",
       conditionDetails: [
         {
           title: "RCKMS Rule Summary",
-          value: "Cough",
+          value: "covid summary",
         },
       ],
       clinicalDetails: [
         {
           title: "Relevant Clinical",
-          value: "Cough",
+          value: "covid clinical",
         },
       ],
       labDetails: [
         {
           title: "Relevant Labs",
-          value: "Covid 19",
+          value: "covid lab",
+        },
+      ],
+    },
+  ];
+  const hepConditionDetails: ConditionSummary[] = [
+    {
+      title: "Hep C",
+      snomed: "test-snomed-456",
+      conditionDetails: [
+        {
+          title: "RCKMS Rule Summary",
+          value: "hep c summary",
+        },
+      ],
+      clinicalDetails: [
+        {
+          title: "Relevant Clinical",
+          value: "hep c clinical",
+        },
+      ],
+      labDetails: [
+        {
+          title: "Relevant Labs",
+          value: "hep c lab",
         },
       ],
     },
   ];
 
-  beforeAll(() => {
-    container = render(
+  beforeAll(() => {});
+  it("should match snapshot", () => {
+    const { container } = render(
       <EcrSummary
         patientDetails={patientDetails}
         encounterDetails={encounterDetails}
-        conditionSummary={conditionDetails}
+        conditionSummary={covidConditionDetails}
       />,
-    ).container;
-  });
-  it("should match snapshot", () => {
+    );
+
     expect(container).toMatchSnapshot();
   });
   it("should pass accessibility test", async () => {
+    const { container } = render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={covidConditionDetails}
+      />,
+    );
+
     expect(await axe(container)).toHaveNoViolations();
+  });
+  it("should open the condition details when there is one", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={covidConditionDetails}
+      />,
+    );
+
+    expect(screen.getByText("covid summary")).toBeVisible();
+  });
+  it("should open the condition when the snomed matches", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={[...covidConditionDetails, ...hepConditionDetails]}
+        snomed={"test-snomed-456"}
+      />,
+    );
+
+    expect(screen.getByText("hep c summary")).toBeVisible();
+  });
+  it("should open no condition details when there is many and no match", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={[...covidConditionDetails, ...hepConditionDetails]}
+      />,
+    );
+
+    expect(screen.getByText("hep c summary")).not.toBeVisible();
+    expect(screen.getByText("covid summary")).not.toBeVisible();
   });
 });

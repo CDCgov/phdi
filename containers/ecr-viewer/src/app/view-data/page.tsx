@@ -109,6 +109,7 @@ const ECRViewerPage: React.FC = () => {
                       mappings,
                       snomedCode,
                     )}
+                    snomed={snomedCode}
                   />
                   <div className="margin-top-10">
                     <GridContainer className={"padding-0 margin-bottom-3"}>

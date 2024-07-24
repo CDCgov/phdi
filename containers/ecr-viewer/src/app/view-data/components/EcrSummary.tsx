@@ -11,6 +11,7 @@ interface EcrSummaryProps {
   patientDetails: DisplayDataProps[];
   encounterDetails: DisplayDataProps[];
   conditionSummary: ConditionSummary[];
+  snomed?: string;
 }
 
 export interface ConditionSummary {
@@ -26,21 +27,24 @@ export interface ConditionSummary {
  * @param props - Properties for the eCR Viewer Summary section
  * @param props.patientDetails - Array of title and values to be displayed in patient details section
  * @param props.encounterDetails - Array of title and values to be displayed in encounter details section
- * @param props.conditionSummary -Array of condition details
+ * @param props.conditionSummary - Array of condition details
+ * @param props.snomed - SNOMED code being requested
  * @returns a react element for ECR Summary
  */
 const EcrSummary: React.FC<EcrSummaryProps> = ({
   patientDetails,
   encounterDetails,
   conditionSummary,
+  snomed,
 }) => {
   const conditionSummaryAccordionItems: AccordionItemProps[] =
     conditionSummary.map((condition) => {
       return {
         title: condition.title,
-        id: condition.title,
-        headingLevel: "h4",
-        expanded: false,
+        id: condition.title.replaceAll(" ", "-"),
+        headingLevel: "h3",
+        className: "side-nav-ignore",
+        expanded: snomed === condition.snomed || conditionSummary.length === 1,
         content: (
           <>
             {condition.conditionDetails.map((item) => (
