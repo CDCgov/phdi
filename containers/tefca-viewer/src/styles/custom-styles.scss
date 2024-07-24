@@ -277,7 +277,7 @@ body {
 }
 
 .get-started-button {
-  max-width: 8em;
+  max-width: 10em;
 }
 
 .search-form-section-label {
@@ -440,4 +440,60 @@ html {
 .custom-alert .usa-alert__body::before {
   content: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%232e6276'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z'/%3E%3C/svg%3E");
   display: inline-block;
+}
+
+.blue-background-container {
+  width: 100%;
+  background-color: #e7f2f5;
+  padding: 2rem 0;
+}
+
+.blue-background-container .text-holder {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.custom-modal {
+  width: 80%;
+  max-width: 640px;
+  padding: 0.25rem;
+  margin: auto;
+}
+
+.modal-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: space-around;
+}
+
+.usa-modal--lg {
+  background-color: #edeff0;
+}
+
+.custom-modal .usa-modal__main {
+  padding-bottom: 1.25rem;
+  padding-top: 1.25rem;
+  width: 100%;
+  max-width: 40rem;
+}
+
+.modal-option {
+  flex: 1 1 30%;
+  background-color: white;
+  border: 2px solid #005ea2;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  color: #1a4480;
+}
+
+.modal-option:hover,
+.modal-option:active,
+.modal-option.selected {
+  background-color: white;
+  color: #005ea2;
+  border: 2px solid #005ea2;
 }
