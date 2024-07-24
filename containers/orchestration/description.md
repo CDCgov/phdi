@@ -88,35 +88,35 @@ For more information on the endpoint go to the documentation [here](https://cdcg
 ### Architecture Diagram
 
 ```mermaid
-    graph TD
-        A[Orchestration Service] --> B[Validation Service]
-        A --> C[FHIR Converter Service]
-        A --> D[Ingestion Service]
-        A --> E[Trigger Code Reference Service]
-        A --> F[Message Parser Service]
-        A --> G[ECR Viewer]
-        G --> H[ECR Viewer DB]
-    
-        subgraph Observability
-            A --> I[Jaeger]
-            A --> J[Prometheus]
-            A --> K[OpenTelemetry Collector]
-            K --> J
-            K --> I
-            A --> L[Grafana]
-            L --> J
-        end
-    
-        subgraph API Endpoints
-            A --> |GET| M[/configs]
-            A --> |GET| N[/configs/{processing_config_name}]
-            A --> |PUT| O[/configs/{processing_config_name}]
-            A --> |POST| P[/process-zip]
-            A --> |POST| Q[/process-message]
-            A --> |WebSocket| R[/process-ws]
-        end
-    
-        style A fill:#f9f,stroke:#333,stroke-width:4px
-        style Observability fill:#bbf,stroke:#333,stroke-width:2px
-        style API Endpoints fill:#bfb,stroke:#333,stroke-width:2px
+graph TD
+    A[Orchestration Service] --> B[Validation Service]
+    A --> C[FHIR Converter Service]
+    A --> D[Ingestion Service]
+    A --> E[Trigger Code Reference Service]
+    A --> F[Message Parser Service]
+    A --> G[ECR Viewer]
+    G --> H[ECR Viewer DB]
+
+    subgraph Observability
+        A --> I[Jaeger]
+        A --> J[Prometheus]
+        A --> K[OpenTelemetry Collector]
+        K --> J
+        K --> I
+        A --> L[Grafana]
+        L --> J
+    end
+
+    subgraph API Endpoints
+        A --> M[GET /configs]
+        A --> N[GET /configs/{processing_config_name}]
+        A --> O[PUT /configs/{processing_config_name}]
+        A --> P[POST /process-zip]
+        A --> Q[POST /process-message]
+        A --> R[WebSocket /process-ws]
+    end
+
+    style A fill:#f9f,stroke:#333,stroke-width:4px
+    style Observability fill:#bbf,stroke:#333,stroke-width:2px
+    style API Endpoints fill:#bfb,stroke:#333,stroke-width:2px
 ```
