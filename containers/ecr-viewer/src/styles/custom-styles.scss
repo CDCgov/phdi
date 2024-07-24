@@ -162,6 +162,18 @@ h4 {
     background-color: color("base-lightest");
   }
 
+  tbody {
+    display: block;
+    max-height: 700px;
+    overflow-y: auto;
+  }
+  
+  tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
   tbody td {
     border-top: 0px;
     border-bottom: 1px solid var(--ink, #111);
@@ -171,9 +183,6 @@ h4 {
     border-bottom: none;
   }
 
-  tbody td:first-child {
-    width: 644px;
-  }
 }
 
 .table-clinical-problems {
