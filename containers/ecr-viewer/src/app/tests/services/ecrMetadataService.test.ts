@@ -54,6 +54,18 @@ describe("Evaluate Ecr Metadata", () => {
           "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
         value: "1.2.840.114350.1.13.478.3.7.8.688883.230886",
       },
+      {
+        title: "Document Author",
+        value: "Vanderbilt University Medical Center",
+      },
+      {
+        title: "Author Address",
+        value: "3401 West End Ave\nNASHVILLE, TN\n37203, USA",
+      },
+      {
+        title: "Author Contact",
+        value: "Work 615-322-5000",
+      },
     ]);
     expect(actual.eicrDetails.unavailableData).toBeEmpty();
   });

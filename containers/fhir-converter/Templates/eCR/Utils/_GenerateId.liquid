@@ -5,9 +5,6 @@
             {% if singleId.root and singleId.extension -%}
                 {{ singleId.root | append: '|' | append: singleId.extension | generate_uuid }}
                 {% break -%}
-            {% elsif singleId.root -%}
-                {{ singleId.root | generate_uuid }}
-                {% break -%}
             {% else -%}
                 {% if obj.representedOrganization.name._ and obj.assignedPerson.name.given._ -%}
                     {{ obj.representedOrganization.name._ | append: '|' | append: obj.assignedPerson.name.given._ | generate_uuid }}
@@ -26,9 +23,6 @@
         {% else -%}
             {% if singleId.root and singleId.extension -%}
                 {{ singleId.root | append: '|' | append: singleId.extension | generate_uuid }}
-                {% break -%}
-            {% elsif singleId.root -%}
-                {{ singleId.root | generate_uuid }}
                 {% break -%}
             {% elsif singleId.extension -%}
                 {{ singleId.extension | generate_uuid }}

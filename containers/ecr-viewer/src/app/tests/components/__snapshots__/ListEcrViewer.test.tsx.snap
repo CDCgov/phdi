@@ -17,12 +17,27 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
             <th
               scope="col"
             >
-              eCR ID
+              Patient
             </th>
             <th
               scope="col"
             >
-              Stored Date
+              Received Date
+            </th>
+            <th
+              scope="col"
+            >
+              Encounter Date
+            </th>
+            <th
+              scope="col"
+            >
+              Reportable Condition
+            </th>
+            <th
+              scope="col"
+            >
+              RCKMS Rule Summary
             </th>
           </tr>
         </thead>
@@ -32,11 +47,24 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
               <a
                 href="/view-data?id=12345"
               >
-                12345
+                John
+                 
+                Doe
               </a>
+              <br />
+              DOB: 01/01/1970
             </td>
             <td>
               04/16/2024 9:40 PM UTC
+            </td>
+            <td>
+              04/16/2024 9:40 PM UTC
+            </td>
+            <td>
+              COVID-19
+            </td>
+            <td>
+              Positive
             </td>
           </tr>
           <tr>
@@ -44,11 +72,24 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
               <a
                 href="/view-data?id=23456"
               >
-                23456
+                Jane
+                 
+                Doe
               </a>
+              <br />
+              DOB: 02/01/1955
             </td>
             <td>
               04/16/2024 9:41 PM UTC
+            </td>
+            <td>
+              04/16/2024 9:40 PM UTC
+            </td>
+            <td>
+              COVID-19
+            </td>
+            <td>
+              Positive
             </td>
           </tr>
           <tr>
@@ -56,11 +97,24 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
               <a
                 href="/view-data?id=34567"
               >
-                34567
+                Dan
+                 
+                Doe
               </a>
+              <br />
+              DOB: 12/01/1984
             </td>
             <td>
               04/16/2024 9:42 PM UTC
+            </td>
+            <td>
+              04/16/2024 9:40 PM UTC
+            </td>
+            <td>
+              COVID-19
+            </td>
+            <td>
+              Positive
             </td>
           </tr>
         </tbody>
