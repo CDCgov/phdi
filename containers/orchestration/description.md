@@ -109,8 +109,8 @@ graph TD
 
     subgraph API Endpoints
         A --> M[GET /configs]
-        A --> N[GET /configs/{processing_config_name}]
-        A --> O[PUT /configs/{processing_config_name}]
+        A --> N[GET /configs&#123;processing_config_name&#125;]
+        A --> O[PUT /configs&#123;processing_config_name&#125;]
         A --> P[POST /process-zip]
         A --> Q[POST /process-message]
         A --> R[WebSocket /process-ws]
