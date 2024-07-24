@@ -88,14 +88,17 @@ For more information on the endpoint go to the documentation [here](https://cdcg
 ### Architecture Diagram
 
 ```mermaid
-graph TD
-    A[Orchestration Service] --> B[Validation Service]
-    A --> C[FHIR Converter Service]
-    A --> D[Ingestion Service]
-    A --> E[Trigger Code Reference Service]
-    A --> F[Message Parser Service]
-    A --> G[ECR Viewer]
-    G --> H[ECR Viewer DB]
+graph TB
+    subgraph Main Services
+        A[Orchestration Service]
+        A --> B[Validation Service]
+        A --> C[FHIR Converter Service]
+        A --> D[Ingestion Service]
+        A --> E[Trigger Code Reference Service]
+        A --> F[Message Parser Service]
+        A --> G[ECR Viewer]
+        G --> H[ECR Viewer DB]
+    end
 
     subgraph Observability
         A --> I[Jaeger]
@@ -117,6 +120,7 @@ graph TD
     end
 
     style A fill:#f9f,stroke:#333,stroke-width:4px
+    style Main Services fill:#bbf,stroke:#333,stroke-width:2px
     style Observability fill:#bbf,stroke:#333,stroke-width:2px
     style API Endpoints fill:#bfb,stroke:#333,stroke-width:2px
 ```
