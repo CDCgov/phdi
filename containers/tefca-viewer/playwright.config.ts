@@ -75,4 +75,7 @@ export default defineConfig({
     port: 3000,
     timeout: 120 * 1000,
   },
+
+  /* Hook to ensure Docker is shut down after tests or on error */
+  globalTeardown: "./playwright-teardown",
 });
