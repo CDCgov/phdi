@@ -14,9 +14,9 @@ exports[`EcrSummary should match snapshot 1`] = `
       >
         <h2
           class="summary-box-key-information side-nav-ignore"
-          id="about-the-patient"
+          id="patient-summary"
         >
-          About the Patient
+          Patient Summary
         </h2>
         <div
           class="usa-summary-box__text"
@@ -107,9 +107,9 @@ MELLY.C.A.16@GMAIL.COM
       >
         <h2
           class="summary-box-key-information side-nav-ignore"
-          id="about-the-encounter"
+          id="encounter-summary"
         >
-          About the Encounter
+          Encounter Summary
         </h2>
         <div
           class="usa-summary-box__text"
@@ -218,10 +218,20 @@ End: 05/13/2022 9:57 AM UTC
         class="usa-summary-box__body"
       >
         <h2
-          class="summary-box-key-information side-nav-ignore"
-          id="about-the-condition"
+          class="summary-box-key-information side-nav-ignore header-with-tag"
+          id="condition-summary"
         >
-          About the Condition
+          <div>
+            Condition Summary
+          </div>
+          <div>
+            <span
+              class="usa-tag tag-info"
+              data-testid="tag"
+            >
+              1 CONDITION FOUND
+            </span>
+          </div>
         </h2>
         <div
           class="usa-summary-box__text"
@@ -238,7 +248,13 @@ End: 05/13/2022 9:57 AM UTC
               <div
                 class="grid-col-auto maxw7 text-pre-line"
               >
-                Influenza caused by Influenza A virus subtype H5N1 (disorder)
+                <div
+                  class="p-list"
+                >
+                  <p>
+                    Influenza caused by Influenza A virus subtype H5N1 (disorder)
+                  </p>
+                </div>
               </div>
             </div>
             <div

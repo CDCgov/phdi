@@ -415,3 +415,34 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
     font-size: 1.46rem;
   }
 }
+
+.p-list {
+  p {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.header-with-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tag-info {
+  display: flex;
+  padding: 0.25rem 0.5rem;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0.125rem;
+  background-color: #99DEEA;
+  font-weight: normal;
+  font-size: 0.875rem;
+  line-height: 100%;
+  color: #111111;
+}

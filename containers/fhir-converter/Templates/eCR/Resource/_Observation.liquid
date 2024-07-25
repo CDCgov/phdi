@@ -133,10 +133,34 @@
             {% assign entryRelationships = observationEntry.entryRelationship | to_array %}
             {% for entry in entryRelationships %}
                 {% if entry.act.templateId.root == "2.16.840.1.113883.10.20.22.4.64" and entry.act.text.reference._%}
+                    {% assign obsRefVal = entry.act.text.reference.value| replace: '#', '' -%}
+                    {% assign valueStringObject = text | find_object_by_id: obsRefVal -%}
                     "note":
                     [
                         {
-                            "text": "{{ entry.act.text.reference._ }}",
+                            "elems": [
+                                {
+                                  "elemText": "test",
+                                }
+                            ],
+                            {% if valueStringObject != null %}
+                              {% if valueStringObject._ != null %}
+                                  {% if valueStringObject.br != null %}
+                                    {% assign value = valueStringObject._ | to_html_string_join_br %}
+                                  {% else %}
+                                    {% assign value = valueStringObject._ | to_html_string %}
+                                  {% endif %}
+                              {% elsif valueStringObject.content != null %}
+                                  {% if valueStringObject.br != null %}
+                                    {% assign value = valueStringObject.content | to_html_string_join_br %}
+                                  {% else %}
+                                    {% assign value = valueStringObject.content | to_html_string %}
+                                  {% endif %}
+                              {% endif %}
+                              "text": "{{ value | replace: '\n', '\\n'  }}",
+                            {% else %}
+                              "text": "{{ entry.act.text.reference._ }}",
+                            {% endif %}
                         }
                     ],
                 {% endif %}

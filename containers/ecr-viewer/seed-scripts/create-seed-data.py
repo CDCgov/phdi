@@ -33,19 +33,14 @@ def save_sql_insert_metadata(metadata):
             last_name = parsed_values["last_name"]
             first_name = parsed_values["first_name"]
             birth_date = parsed_values["birth_date"]
+            reportable_condition = parsed_values["reportable_condition"]
+            rule_summary = parsed_values["rule_summary"]
+            report_date = parsed_values["report_date"]
             data_source = "DB"
             query = f"""INSERT INTO fhir_metadata (
-              ecr_id,
-              patient_name_last,
-              patient_name_first,
-              patient_birth_date,
-              data_source
+              ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date
             ) VALUES (
-              '{ecr_id}',
-              '{last_name}',
-              '{first_name}',
-              '{birth_date}',
-              '{data_source}'
+              '{ecr_id}','{last_name}','{first_name}','{birth_date}','{data_source}','{reportable_condition}','{rule_summary}',{'NULL' if report_date is None else f"'{report_date}'"}
             ) ON CONFLICT (ecr_id) DO NOTHING;\n"""
             output_file.write(query)
 
@@ -83,6 +78,14 @@ def convert_files():
                             fhir_bundles.append(
                                 response["stamped_ecr"]["extended_bundle"]
                             )
+                            with open(
+                                os.path.join(folder_path, "bundle.json"), "w"
+                            ) as fhir_file:
+                                json.dump(
+                                    response["stamped_ecr"]["extended_bundle"],
+                                    fhir_file,
+                                    indent=4,
+                                )
                         if "message_parser_values" in response:
                             metadata.append(
                                 response["message_parser_values"]["parsed_values"]

@@ -1,19 +1,19 @@
-@use 'uswds-core' as *;
+@use "uswds-core" as *;
 
 .section__line {
-  border-top: 1px solid #99DEEA;
-  margin-top: .5rem;
-  margin-bottom: .5rem;
+  border-top: 1px solid #99deea;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .section__line_gray {
-  border-top: 1px solid #DFE1E2;
-  margin-top: .5rem;
-  margin-bottom: .5rem;
+  border-top: 1px solid #dfe1e2;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .card__line {
-  border-top: 8px solid #EDEFF0;
+  border-top: 8px solid #edeff0;
 }
 
 h1 {
@@ -49,17 +49,17 @@ h4 {
   margin-top: 0px;
 }
 
-
 .data-title {
-  flex:0 1 auto;
+  flex: 0 1 auto;
   width: 190px;
   font-weight: bold;
 }
 
-.info-container > .usa-accordion__heading > .usa-accordion__button {
+.info-container>.usa-accordion__heading>.usa-accordion__button {
   font-size: 32px;
   color: white !important;
-  background-color: #2E6276;
+  background-color: #2e6276;
+
   &:hover {
     background-color: #224856;
   }
@@ -67,24 +67,28 @@ h4 {
 
 .accordion-rr {
   border: #111111 1px solid;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   overflow: hidden;
   margin-top: 1rem;
   padding-bottom: 0.5rem;
-  .usa-accordion__button{
+
+  .usa-accordion__button {
     &:hover {
-      background-color: #F0F0F0;
+      background-color: #f0f0f0;
     }
+
     position: relative;
     background: white;
     padding: 12px;
     font-weight: normal;
+
     &[aria-expanded="true"] {
       border-bottom: #111111 1px solid;
     }
   }
-  .usa-accordion__content{
-    padding: 0
+
+  .usa-accordion__content {
+    padding: 0;
   }
 }
 
@@ -98,25 +102,32 @@ h4 {
 }
 
 .ecrTable {
-    table-layout: fixed;
-    margin-bottom: 0;
-    width: 100%;
-    td:first-child, th:first-child {
-      padding-left: 24px;
-    }
-    td:last-child, th:last-child {
-      padding-right: 24px;
-    }
-    td {
-      padding-top: 14px;
-      padding-bottom: 14px;
-    }
-    thead th{
-      border-bottom-color: #A9AEB1;
-    }
-    tr td{
-      border-bottom: none;
-    }
+  table-layout: fixed;
+  margin-bottom: 0;
+  width: 100%;
+
+  td:first-child,
+  th:first-child {
+    padding-left: 24px;
+  }
+
+  td:last-child,
+  th:last-child {
+    padding-right: 24px;
+  }
+
+  td {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  thead th {
+    border-bottom-color: #a9aeb1;
+  }
+
+  tr td {
+    border-bottom: none;
+  }
 }
 
 .usa-summary-box__body:not(:first-child) .summary-box-key-information {
@@ -128,6 +139,7 @@ h4 {
     margin-bottom: 8px;
   }
 }
+
 .usa-sidenav__item a:not(.usa-sidenav__sublist a) {
   font-weight: bold;
 }
@@ -172,30 +184,30 @@ h4 {
 }
 
 .ecr-content h2:first-of-type {
-    margin-top: 0;
-    padding-top: 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .lh-18 {
   line-height: 18px;
 }
 
-ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a {
-    font-weight: bold;
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a {
+  font-weight: bold;
 }
 
-ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current {
-    &::after{
-      background-color: rgb(0, 94, 162);
-      content: "";
-      display: block;
-      position: absolute;
-      bottom: 0.25rem;
-      top: 0.25rem;
-      width: 0.25rem;
-      left: 0rem;
-      border-radius: 99rem;
-    }
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a.usa-current {
+  &::after {
+    background-color: rgb(0, 94, 162);
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0.25rem;
+    top: 0.25rem;
+    width: 0.25rem;
+    left: 0rem;
+    border-radius: 99rem;
+  }
 }
 
 .clinical_info_container table {
@@ -232,6 +244,7 @@ body {
   margin: 0 auto; // Centers the container itself if needed
   row-gap: 0.1em; // Adjusts the gap between rows/items
   max-width: 640px;
+  padding: 1em;
 }
 
 .patient-search-form {
@@ -245,30 +258,31 @@ body {
 
 .multiple-patient-search-results {
   display: grid;
-  grid-template-columns: 1fr; 
-  justify-content: center; 
-  margin: 0 auto; 
+  grid-template-columns: 1fr;
+  justify-content: center;
+  margin: 0 auto;
   max-width: 1000px;
 }
 
 .no-patients-found {
   display: grid;
-  grid-template-columns: 1fr; 
-  justify-content: center; 
-  margin: 0 auto; 
+  grid-template-columns: 1fr;
+  justify-content: center;
+  margin: 0 auto;
   max-width: 1000px;
 }
+
 .usa-footer {
   margin-top: auto;
 }
 
-.get-started-button{
-  max-width: 8em;
+.get-started-button {
+  max-width: 10em;
 }
 
 .search-form-section-label {
   margin-bottom: 0;
-  margin-top:1.5rem;
+  margin-top: 1.5rem;
 }
 
 .usa-label {
@@ -276,26 +290,29 @@ body {
 }
 
 .patient-search-button {
-  margin-top: 2.0rem;
-  margin-bottom: 4.0rem;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
   max-width: 11em;
 }
 
 .text-base-lightest {
-  color: #f0f0f0!important;
+  color: #f0f0f0 !important;
 }
-
 
 .usa-table--borderless {
   border: 1px solid black;
+
   thead tr th {
     background-color: #f0f0f0;
   }
+
   width: 100%;
 }
+
 .results-banner {
-  background-color: #DFE1E2;
+  background-color: #dfe1e2;
 }
+
 .results-banner-content {
   margin-bottom: 1rem;
   max-width: 90rem;
@@ -327,8 +344,10 @@ body {
 }
 
 .spinner {
-  border: 6px solid #f3f3f3; /* Light grey */
-  border-top: 6px solid #3498db; /* Blue */
+  border: 6px solid #f3f3f3;
+  /* Light grey */
+  border-top: 6px solid #3498db;
+  /* Blue */
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -340,10 +359,141 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 html {
   scroll-behavior: auto;
+}
+
+.gradient-blue-background {
+  background: linear-gradient(109.54deg,
+      rgba(173, 207, 220, 0.025) 8.02%,
+      rgba(46, 98, 118, 0.5) 117.53%);
+
+  padding: 0.5rem;
+  /* Optional: some padding to make the background more noticeable */
+  justify-content: left;
+  display: flex;
+
+  .container {
+    display: flex;
+
+    margin: 0 auto; // Centers the container itself if needed
+    max-width: 640px;
+  }
+}
+
+.sample-data-note {
+  width: 637px;
+  height: 26px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.62;
+  color: #111111;
+  display: flex;
+  order: 0;
+  flex-grow: 0;
+}
+
+.demo-data-filler {
+  background: #faf3d1;
+  border: 1px solid #fee685;
+  border-radius: 4px;
+
+  .usa-label {
+    margin-top: 0;
+  }
+}
+
+.custom-alert {
+  color: #2e6276;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0;
+}
+
+.custom-alert .usa-alert__text {
+  color: #2e6276;
+  font-weight: bold;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.custom-alert .usa-alert__body {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.custom-alert .usa-alert__body::before {
+  content: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%232e6276'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z'/%3E%3C/svg%3E");
+  display: inline-block;
+}
+
+.blue-background-container {
+  width: 100%;
+  background-color: #e7f2f5;
+  padding: 2rem 0;
+}
+
+.blue-background-container .text-holder {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.custom-modal {
+  width: 80%;
+  max-width: 640px;
+  padding: 0.25rem;
+  margin: auto;
+}
+
+.modal-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: space-around;
+}
+
+.usa-modal--lg {
+  background-color: #edeff0;
+}
+
+.custom-modal .usa-modal__main {
+  padding-bottom: 1.25rem;
+  padding-top: 1.25rem;
+  width: 100%;
+  max-width: 40rem;
+}
+
+.modal-option {
+  flex: 1 1 30%;
+  background-color: white;
+  border: 2px solid #005ea2;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  color: #1a4480;
+}
+
+.modal-option:hover,
+.modal-option:active,
+.modal-option.selected {
+  background-color: white;
+  color: #005ea2;
+  border: 2px solid #005ea2;
 }

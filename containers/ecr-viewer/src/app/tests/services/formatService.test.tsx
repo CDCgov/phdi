@@ -8,7 +8,10 @@ import {
   removeHtmlElements,
   formatDateTime,
   convertUTCToLocalString,
+  formatVitals,
+  formatContactPoint,
 } from "@/app/services/formatService";
+import { ContactPoint } from "fhir/r4";
 
 describe("Format Name", () => {
   const inputGiven = ["Gregory", "B"];
@@ -325,5 +328,108 @@ describe("removeHtmlElements", () => {
 
     const result = removeHtmlElements(input);
     expect(result).toEqual(expected);
+  });
+});
+
+describe("formatVitals", () => {
+  test("formats height, weight, and BMI correctly when all parameters are provided", () => {
+    const result = formatVitals(
+      "65",
+      "[in_i]",
+      "150",
+      "[lb_av]",
+      "25",
+      "kg/m2",
+    );
+    expect(result).toEqual({
+      height: "65 in",
+      weight: "150 lb",
+      bmi: "25 kg/m2",
+    });
+  });
+
+  test("returns empty strings for missing parameters", () => {
+    const resultNoHeight = formatVitals(
+      "",
+      "",
+      "150",
+      "[lb_av]",
+      "25",
+      "kg/m2",
+    );
+    expect(resultNoHeight).toEqual({
+      height: "",
+      weight: "150 lb",
+      bmi: "25 kg/m2",
+    });
+
+    const resultNoWeight = formatVitals("65", "[in_i]", "", "", "25", "kg/m2");
+    expect(resultNoWeight).toEqual({
+      height: "65 in",
+      weight: "",
+      bmi: "25 kg/m2",
+    });
+
+    const resultNoBmi = formatVitals("65", "[in_i]", "150", "[lb_av]", "", "");
+    expect(resultNoBmi).toEqual({
+      height: "65 in",
+      weight: "150 lb",
+      bmi: "",
+    });
+  });
+});
+
+describe("formatContactPoint", () => {
+  it("should return empty array if contact points is null", () => {
+    const actual = formatContactPoint(undefined);
+    expect(actual).toBeEmpty();
+  });
+  it("should return empty array if contact points is contact points is empty", () => {
+    const actual = formatContactPoint([]);
+    expect(actual).toBeEmpty();
+  });
+  it("should return empty array if contact point value is empty ", () => {
+    const contactPoints: ContactPoint[] = [
+      {
+        system: "phone",
+        value: "",
+      },
+      {
+        system: "email",
+        value: "",
+      },
+    ];
+    const actual = formatContactPoint(contactPoints);
+    expect(actual).toBeEmpty();
+  });
+  it("should return phone contact information ", () => {
+    const contactPoints: ContactPoint[] = [
+      {
+        system: "phone",
+        value: "+12485551234",
+        use: "work",
+      },
+      {
+        system: "phone",
+        value: "+13135551234",
+      },
+    ];
+    const actual = formatContactPoint(contactPoints);
+    expect(actual).toEqual(["Work 248-555-1234", "313-555-1234"]);
+  });
+  it("should return email information ", () => {
+    const contactPoints: ContactPoint[] = [
+      {
+        system: "email",
+        value: "me@example.com",
+        use: "work",
+      },
+      {
+        system: "email",
+        value: "medicine@example.com",
+      },
+    ];
+    const actual = formatContactPoint(contactPoints);
+    expect(actual).toEqual(["me@example.com", "medicine@example.com"]);
   });
 });

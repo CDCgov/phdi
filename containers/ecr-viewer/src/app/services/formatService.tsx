@@ -1,5 +1,6 @@
 import React from "react";
 import { ToolTipElement } from "@/app/ToolTipElement";
+import { ContactPoint } from "fhir/r4";
 
 interface Metadata {
   [key: string]: string;
@@ -130,7 +131,9 @@ export const formatDateTime = (dateTimeString: string): string => {
       const suffix = hoursInt >= 12 ? "PM" : "AM";
       const hours12 = ((hoursInt + 11) % 12) + 1; // Convert 24h to 12h format
 
-      const formattedDateTime = `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${timeZone || "UTC"}`;
+      const formattedDateTime = `${month}/${day}/${year} ${hours12}:${minutes} ${suffix} ${
+        timeZone || "UTC"
+      }`;
       return formattedDateTime;
     }
 
@@ -251,12 +254,13 @@ export const formatStartEndDateTime = (
 };
 
 /**
- * Formats vital signs information into a single line string with proper units .
+ * Formats vital signs information into separate strings with proper units.
  * @param heightAmount - The amount of height.
  * @param heightUnit - The measurement type of height (e.g., "[in_i]" for inches, "cm" for centimeters).
  * @param weightAmount - The amount of weight.
  * @param weightUnit - The measurement type of weight (e.g., "[lb_av]" for pounds, "kg" for kilograms).
- * @param bmi - The Body Mass Index (BMI).
+ * @param bmiAmount - The Body Mass Index (BMI).
+ * @param bmiUnit - The measurement type of Body Mass Index (BMI) (e.g., kg/m2)
  * @returns The formatted vital signs information.
  */
 export const formatVitals = (
@@ -264,38 +268,38 @@ export const formatVitals = (
   heightUnit: string,
   weightAmount: string,
   weightUnit: string,
-  bmi: string,
+  bmiAmount: string,
+  bmiUnit: string,
 ) => {
   let heightString = "";
   let weightString = "";
   let bmiString = "";
-
   let heightType = "";
   let weightType = "";
+
   if (heightAmount && heightUnit) {
     if (heightUnit === "[in_i]") {
-      heightType = "inches";
+      heightType = "in";
     } else if (heightUnit === "cm") {
       heightType = "cm";
     }
-    heightString = `Height: ${heightAmount} ${heightType}\n\n`;
+    heightString = `${heightAmount} ${heightType}`;
   }
 
   if (weightAmount && weightUnit) {
     if (weightUnit === "[lb_av]") {
-      weightType = "Lbs";
+      weightType = "lb";
     } else if (weightUnit === "kg") {
       weightType = "kg";
     }
-    weightString = `Weight: ${weightAmount} ${weightType}\n\n`;
+    weightString = `${weightAmount} ${weightType}`;
   }
 
-  if (bmi) {
-    bmiString = `Body Mass Index (BMI): ${bmi}`;
+  if (bmiAmount && bmiUnit) {
+    bmiString = `${bmiAmount} ${bmiUnit}`;
   }
 
-  const combinedString = `${heightString} ${weightString} ${bmiString}`;
-  return combinedString.trim();
+  return { height: heightString, weight: weightString, bmi: bmiString };
 };
 
 /**
@@ -487,4 +491,31 @@ export const addCaptionToTable = (
 export const removeHtmlElements = (element: string): string => {
   const regex = /<[^>]*>/g;
   return element.replace(regex, "");
+};
+
+/**
+ * Converts contact points into an array of phone numbers and emails
+ * @param contactPoints - array of contact points
+ * @returns array of phone numbers and emails
+ */
+export const formatContactPoint = (
+  contactPoints: ContactPoint[] | undefined,
+): string[] => {
+  if (!contactPoints || !contactPoints.length) {
+    return [];
+  }
+  const contactArr: string[] = [];
+  for (const contactPoint of contactPoints) {
+    if (contactPoint.system === "phone" && contactPoint.value) {
+      const phoneNumberUse = toSentenceCase(contactPoint.use ?? "");
+      contactArr.push(
+        [phoneNumberUse, formatPhoneNumber(contactPoint.value ?? "")]
+          .join(" ")
+          .trim(),
+      );
+    } else if (contactPoint.system === "email" && contactPoint.value) {
+      contactArr.push(contactPoint.value);
+    }
+  }
+  return contactArr;
 };

@@ -538,13 +538,75 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:58500c6e-8dfc-4534-8e9c-be1db7256bd6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "58500c6e-8dfc-4534-8e9c-be1db7256bd6",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:58500c6e-8dfc-4534-8e9c-be1db7256bd6"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "64572001",
+              "display": "Condition",
+              "system": "http://snomed.info/sct"
+            },
+            {
+              "code": "75323-6",
+              "display": "Condition",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "50711007",
+              "display": "Viral hepatitis type C (disorder)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Detection of Hepatitis C virus antibody in a clinical specimen by any method"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2",
+            "display": "California Department of Public Health"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/58500c6e-8dfc-4534-8e9c-be1db7256bd6"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:6ba9eafe-27dd-4ab0-0676-30c79eb005ce",
       "resource": {
         "resourceType": "Location",
         "id": "6ba9eafe-27dd-4ab0-0676-30c79eb005ce",
         "identifier": [
           {
-            "value": "1.2.840.114350.1.13.478.3.7.2.686980"
+            "system": "1.2.840.114350.1.13.478.3.7.2.686980",
+            "value": "7162024"
           }
         ],
         "name": "Vanderbilt University Adult Hospital",
@@ -602,6 +664,10 @@
           {
             "system": "urn:oid:1.2.840.114350.1.13.478.3.7.3.698084.8",
             "value": "1800200448269"
+          },
+          {
+            "value": "Encounter/65117030/_history/22",
+            "system": "urn:oid:2.16.840.1.113883"
           }
         ],
         "period": {
@@ -660,6 +726,49 @@
       "request": {
         "method": "PUT",
         "url": "Encounter/fdcf4ec6-e021-52ad-3546-90f1238d3b22"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d319a926-0eb3-5847-3b21-db8b778b4f07",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "d319a926-0eb3-5847-3b21-db8b778b4f07",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.2.7.5.737384.61",
+            "value": "1104202761"
+          }
+        ],
+        "name": "Vanderbilt University Medical Center",
+        "address": [
+          {
+            "use": "work",
+            "line": [
+              "3401 West End Ave"
+            ],
+            "city": "NASHVILLE",
+            "state": "TN",
+            "country": "USA",
+            "postalCode": "37203",
+            "district": "DAVIDSON"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1-615-322-5000",
+            "use": "work"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/d319a926-0eb3-5847-3b21-db8b778b4f07"
       }
     }
   ]

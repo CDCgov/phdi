@@ -1,8 +1,16 @@
-import { formatDateTime } from "@/app/services/formatService";
+import {
+  formatAddress,
+  formatContactPoint,
+  formatDateTime,
+} from "@/app/services/formatService";
 import { PathMappings, evaluateData } from "@/app/utils";
-import { Bundle } from "fhir/r4";
+import { Bundle, Organization } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
-import { evaluateFacilityAddress } from "./evaluateFhirDataService";
+import {
+  evaluateFacilityAddress,
+  evaluateReference,
+  evaluateFacilityId,
+} from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/DataDisplay";
 
 export interface ReportableConditions {
@@ -49,6 +57,12 @@ export const evaluateEcrMetadata = (
         );
     }
   }
+  const custodianRef = evaluate(fhirBundle, mappings.eicrCustodianRef)[0] ?? "";
+  const custodian = evaluateReference(
+    fhirBundle,
+    mappings,
+    custodianRef,
+  ) as Organization;
 
   const eicrDetails: DisplayDataProps[] = [
     {
@@ -56,6 +70,24 @@ export const evaluateEcrMetadata = (
       toolTip:
         "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
       value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
+    },
+    {
+      title: "Document Author",
+      value: custodian?.name,
+    },
+    {
+      title: "Author Address",
+      value: formatAddress(
+        custodian?.address?.[0].line ?? [],
+        custodian?.address?.[0].city ?? "",
+        custodian?.address?.[0].state ?? "",
+        custodian?.address?.[0].postalCode ?? "",
+        custodian?.address?.[0].country ?? "",
+      ),
+    },
+    {
+      title: "Author Contact",
+      value: formatContactPoint(custodian?.telecom).join("\n"),
     },
   ];
   const ecrSenderDetails: DisplayDataProps[] = [
@@ -84,7 +116,7 @@ export const evaluateEcrMetadata = (
     },
     {
       title: "Facility ID",
-      value: evaluate(fhirBundle, mappings.facilityID)[0],
+      value: evaluateFacilityId(fhirBundle, mappings),
     },
   ];
   return {
