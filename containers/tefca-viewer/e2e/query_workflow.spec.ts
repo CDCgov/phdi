@@ -121,7 +121,8 @@ test.describe("querying with the TryTEFCA viewer", () => {
   test("query using form-fillable demo patient by phone number", async ({
     page,
   }) => {
-    await page.getByRole("button", { name: "Get Started" }).click();
+    await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
 
     await page
       .getByLabel("Select from the following use cases to")
