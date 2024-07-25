@@ -197,3 +197,39 @@ def read_json_from_assets(filename: str) -> dict:
     :return: A dictionary containing the contents of the file.
     """
     return json.load(open((Path(__file__).parent.parent / "assets" / filename)))
+
+
+def find_conditions(bundle: dict) -> set[str]:
+    """
+    Finds conditions in a bundle of resources.
+
+    :param bundle: The bundle of resources to search.
+    :return: A set of SNOMED codes representing the conditions found.
+    """
+    CONDITION_CODE = "64572001"
+    SNOMED_URL = "http://snomed.info/sct"
+
+    # Filter to get observations from the bundle
+    observations = [
+        resource["resource"]
+        for resource in bundle["entry"]
+        if resource["resource"]["resourceType"] == "Observation"
+    ]
+
+    # Filter observations that have the SNOMED code for "Condition".
+    observations_with_conditions = [
+        obs
+        for obs in observations
+        if "code" in obs
+        and any(coding["code"] == CONDITION_CODE for coding in obs["code"]["coding"])
+    ]
+
+    # Extract unique SNOMED codes from the observations
+    snomed_codes = {
+        coding["code"]
+        for obs in observations_with_conditions
+        for coding in obs.get("valueCodeableConcept", {}).get("coding", [])
+        if coding["system"] == SNOMED_URL
+    }
+
+    return snomed_codes

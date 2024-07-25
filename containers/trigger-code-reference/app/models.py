@@ -1,5 +1,3 @@
-from typing import List
-
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import root_validator
@@ -15,10 +13,6 @@ class InsertConditionInput(BaseModel):
         "to one or more of the conditions in the other supplied parameter will have "
         "an extension added to the resource noting the SNOMED code relating to the "
         "associated condition(s)."
-    )
-    conditions: List[str] = Field(
-        description="The list of SNOMED codes to insert as extensions into any "
-        "associated resources in the supplied FHIR bundle."
     )
 
     @root_validator
