@@ -9,11 +9,6 @@ import {
   ModalFooter,
   ModalToggleButton,
   ModalRef,
-  Modal,
-  ModalHeading,
-  ModalFooter,
-  ModalToggleButton,
-  ModalRef,
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
