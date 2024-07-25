@@ -20,9 +20,10 @@ registering at the following website using your CDC email address:
 
 
 Example:
-    $ python seed_rckms_database.py archive.zip
+    $ python seed_rckms_database.py <archive.zip> <database.db>
 """
 
+import argparse
 import asyncio
 import base64
 import concurrent.futures
@@ -31,6 +32,7 @@ import itertools
 import json
 import os
 import re
+import sqlite3
 import sys
 import typing
 import urllib.parse
@@ -73,6 +75,7 @@ class ValueSet:
 
     oid: str
     category: str
+    title: str = ""
     version: str = ""
     author: str = ""
     conditions: list[Condition] = dataclasses.field(default_factory=list)
@@ -110,6 +113,15 @@ def batched(iterable, n):
         yield batch
 
 
+def arg_dir_path(path):
+    """
+    Validate that the given path is a directory.
+    """
+    if os.path.isdir(path):
+        return path
+    raise argparse.ArgumentTypeError(f"Not a valid directory: {path}")
+
+
 async def exec_async(executor, func, *args, **kwargs):
     """
     Execute a function asynchronously using the given executor.
@@ -123,6 +135,28 @@ async def exec_async(executor, func, *args, **kwargs):
     """
     loop = asyncio.get_running_loop()
     return await loop.run_in_executor(executor, func, *args, **kwargs)
+
+
+def initialize_database(db: str, migrations: str, reset: bool = True) -> None:
+    """
+    Initialize the SQLite database with the starting schema.
+
+    :param db: The path to the SQLite database.
+    :param migrations: The path to the directory containing the SQL migrations.
+    :param reset: Whether to reset the database by removing the existing file.
+
+    :return: None
+    """
+    if reset and os.path.exists(db):
+        # remove the existing database file if it exists to start fresh
+        os.remove(db)
+    with sqlite3.connect(db) as con:
+        # for each SQL file in the migrations directory, execute the SQL in order
+        for fname in sorted(os.listdir(migrations)):
+            if fname.endswith(".sql"):
+                with open(os.path.join(migrations, fname)) as f:
+                    con.executescript(f.read())
+        con.commit()
 
 
 def list_docx_files(archive: str) -> typing.Iterable[tuple[str, typing.IO[bytes]]]:
@@ -335,17 +369,19 @@ def retrieve_codesets(data: dict[str, ValueSet]) -> dict[str, list[CodeSet]]:
         # run the async function to retrieve the CodeSets for the OIDs
         for response in asyncio.run(retrieve_codesets(oids)):
             try:
-                # attempt to parse the OID, version, author and concept list from
+                # attempt to parse the OID, title, version, author and concept list from
                 # the response. If any of these keys are missing, skip the response.
                 oid = response["id"]
+                title = response["title"]
                 version = response["version"]
                 author = response["publisher"]
                 concept = response["expansion"]["contains"]
             except (KeyError, IndexError):
                 continue
             valueset = data[oid]
-            # update the original ValueSet with version and author information
+            # update the original ValueSet with title, version and author information
             # obtained from the API
+            valueset.title = title
             valueset.version = version
             valueset.author = author
             # create a list of CodeSet values based on the concept list data
@@ -353,31 +389,111 @@ def retrieve_codesets(data: dict[str, ValueSet]) -> dict[str, list[CodeSet]]:
     return results
 
 
-if __name__ == "__main__":
-    # Validate the command line arguments
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} <archive.zip>")
-        sys.exit(1)
+def load_database(
+    db: str,
+    conditions: typing.Collection[Condition],
+    valuesets: typing.Collection[ValueSet],
+    codesets: typing.Collection[CodeSet],
+) -> tuple[int, int, int]:
+    """
+    Load the CodeSets into the SQLite database.
 
-    # Validate the archive exists
-    archive = sys.argv[1]
-    if not os.path.exists(archive):
-        print(f"Error: {archive} not found.")
-        sys.exit(1)
+    :param db: The path to the SQLite database.
+    :param conditions: A collection of Condition objects.
+    :param valuesets: A collection of ValueSet objects.
+    :param codesets: A collection of CodeSet objects.
+
+    :return: A tuple of the number of conditions, valuesets and codesets loaded.
+    """
+    counts = {
+        "conditions": 0,
+        "valuesets": 0,
+        "codesets": 0,
+    }
+    with sqlite3.connect(db) as con:
+        cur = con.cursor()
+        for vs in valuesets:
+            # insert the ValueSet Type into the database if it does not exist
+            cur.execute(
+                "INSERT INTO value_set_type (id, clinical_service_type) "
+                "VALUES (:category, :category) "
+                "ON CONFLICT DO NOTHING",
+                vs.__dict__,
+            )
+            # insert the ValueSet into the database if it does not exist
+            cur.execute(
+                "INSERT INTO value_sets (id, version, value_set_name, author, clinical_service_type_id) "
+                "VALUES (:oid, :version, :title, :author, :category) "
+                "ON CONFLICT DO NOTHING",
+                vs.__dict__,
+            )
+            counts["valuesets"] += cur.rowcount
+            cond = {**{"oid": vs.oid}, **vs.conditions[0].__dict__}
+            # insert the Condition into the database if it does not exist
+            cur.execute(
+                "INSERT INTO conditions (id, value_set_id, system, name) "
+                "VALUES (:snomed, :oid, 'http://snomed.info/sct', :name) "
+                "ON CONFLICT DO NOTHING",
+                cond,
+            )
+            counts["conditions"] += cur.rowcount
+        for cs in codesets:
+            oid = cs.valueset.oid
+            data = {**{"id": f"{oid}_{cs.code}", "oid": oid}, **cs.__dict__}
+            # insert the CodeSet into the database if it does not exist
+            cur.execute(
+                "INSERT INTO clinical_services (id, value_set_id, code, code_system, display, version) "
+                "VALUES (:id, :oid, :code, :system, :display, :version) "
+                "ON CONFLICT DO NOTHING",
+                data,
+            )
+            counts["codesets"] += cur.rowcount
+        con.commit()
+
+        # return the counts of conditions, valuesets and codesets loaded
+        return (counts["conditions"], counts["valuesets"], counts["codesets"])
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "archive", type=argparse.FileType(), help="The archive file to process"
+    )
+    parser.add_argument(
+        "database",
+        type=argparse.FileType("wb"),
+        help="The database file to store the data",
+    )
+    parser.add_argument(
+        "--migrations",
+        type=arg_dir_path,
+        help="A directory containing database migrations to apply before seeding",
+    )
+    parser.add_argument(
+        "--limit", type=int, help="Limit the number of condition files to process"
+    )
+
+    args = parser.parse_args()
 
     if not UMLS_API_KEY:
         print("Error: UMLS_API_KEY environment variable not set.")
         sys.exit(1)
 
+    if args.migrations:
+        print("Initializing database...")
+        initialize_database(args.database.name, migrations=args.migrations)
+
     print("Processing archive...")
-    conditions, valuesets = parse_archive(archive, limit=None)
+    conditions, valuesets = parse_archive(args.archive.name, limit=args.limit)
     print(f"Extracted {len(conditions)} conditions")
     print(f"Extracted {len(valuesets)} valuesets")
     print("Retrieving codesets...")
-    codesets = retrieve_codesets(valuesets)
-    total_codesets = sum(len(c) for c in codesets.values())
-    authors = {cs.valueset.author for _list in codesets.values() for cs in _list}
+    codeset_map = retrieve_codesets(valuesets)
+    codesets = [cs for _list in codeset_map.values() for cs in _list]
     # iterate through nested
-    print(f"Retrieved {total_codesets} codesets")
-    print(f"Retrieved {len(authors)} valueset authors")
-    print(f"Authors: {', '.join(authors)}")
+    print(f"Retrieved {len(codesets)} codesets")
+    print("Loading data into database...")
+    loaded = load_database(args.database.name, conditions, valuesets.values(), codesets)
+    print(f"Loaded {loaded[0]} conditions")
+    print(f"Loaded {loaded[1]} valuesets")
+    print(f"Loaded {loaded[2]} codesets")

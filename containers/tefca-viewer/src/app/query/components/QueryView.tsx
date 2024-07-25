@@ -3,6 +3,7 @@ import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
 import React, { useEffect } from "react";
 import { Mode } from "../page";
+import { Alert } from "@trussworks/react-uswds";
 
 type QueryViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
@@ -25,6 +26,20 @@ const QueryView: React.FC<QueryViewProps> = ({
   }, []);
   return (
     <>
+      <Alert type="info" headingLevel="h4" slim className="custom-alert">
+        Interested in learning more about using the TEFCA Query Connector for
+        your jurisdiction? Send us an email at{" "}
+        <a
+          href="mailto:dibbs@cdc.gov"
+          style={{
+            color: "inherit",
+            fontWeight: "bold",
+            textDecoration: "underline",
+          }}
+        >
+          dibbs@cdc.gov
+        </a>
+      </Alert>
       <div className="results-banner">
         <div className="results-banner-content usa-nav-container">
           <a href="#" onClick={() => setMode("search")}>

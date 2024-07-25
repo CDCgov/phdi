@@ -1,0 +1,11 @@
+{
+  "name": "ingestion",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "pytest",
+    "setup": "if ! command -v git &> /dev/null || ! python3 --version | awk -F. '{exit $2<10}'; then echo \"Git or Python 3.10+ is not installed.\"; exit 1; fi && python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt",
+    "dev": "source .venv/bin/activate && python -m uvicorn app.main:app --host 0.0.0.0 --port 8080",
+    "unit-tests": "python -m pytest --cov-report xml --cov=. -m \"not integration\" tests/",
+    "integration-tests": "python -m pytest -m \"integration\""
+  }
+}

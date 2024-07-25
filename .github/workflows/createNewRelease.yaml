@@ -15,7 +15,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-
       - name: Check commit message for [RELEASE]
         id: commit_check
         run: |
