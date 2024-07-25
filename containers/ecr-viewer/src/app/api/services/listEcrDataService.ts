@@ -64,6 +64,7 @@ export async function listEcrData(): Promise<EcrDisplay[]> {
     return processedData;
   } else if (process.env.SOURCE === POSTGRES_SOURCE) {
     const data = await list_postgres();
+    console.log(data);
     return processListPostgres(data);
   } else {
     throw Error("Invalid Source");
@@ -187,6 +188,7 @@ const getFhirMetadata = async (
       fhirMetadataQuery,
       [ecrIds],
     );
+    console.log(data);
     return data;
   } else {
     return [];

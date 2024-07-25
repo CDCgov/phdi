@@ -9,10 +9,12 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
       class="homepage-wrapper"
     >
       <table
-        class="usa-table usa-table--borderless width-full table-homepage-list"
+        class="usa-table usa-table--borderless width-full usa-table--striped table-homepage-list"
         data-testid="table"
       >
-        <thead>
+        <thead
+          class="thead-drop-shadow"
+        >
           <tr>
             <th
               scope="col"
