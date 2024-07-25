@@ -448,6 +448,11 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
 }
 
 .condition-details-accordion{
+  .usa-accordion__heading.border-accent-cool-darker {
+    &:not(:first-child) {
+      margin-top: 1.12rem;
+    }
+  }
   .usa-accordion__content.border-accent-cool-darker {
     padding: .5rem .75rem 0 .75rem;
   }
