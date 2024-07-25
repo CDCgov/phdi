@@ -77,17 +77,6 @@ def test_get_value_sets_for_condition(mock_db):
     assert response.json() == expected_result
 
 
-def test_stamp_conditions_bad_input():
-    input = {"bundle": {"test_key": "test_val"}, "conditions": []}
-    response = client.post("/stamp-condition-extensions", json=input)
-    assert response.status_code == 422
-    assert (
-        response.json()["detail"][0]["msg"]
-        == "Supplied list of SNOMED conditions "
-        + "must contain one or more elements; given list was empty."
-    )
-
-
 # Note: This function is defined in utils, but we mock it in the namespace
 # coming from main because that's where the endpoint is invoking it from
 @patch("app.main.get_clinical_services_list")

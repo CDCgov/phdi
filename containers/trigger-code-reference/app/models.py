@@ -9,7 +9,7 @@ class InsertConditionInput(BaseModel):
 
     bundle: dict = Field(
         description="The FHIR bundle to modify. Each resource in the bundle related "
-        "to one or more of the conditions in the other supplied parameter will have "
+        "to one or more of the conditions found in the bundle will have "
         "an extension added to the resource noting the SNOMED code relating to the "
         "associated condition(s)."
     )
