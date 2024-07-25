@@ -6,7 +6,7 @@ A bash script intended to allow designers and members of the team to easily spin
 
 In order to use this script a copy must be downloaded onto your computer from GitHub . To do this follow these instructions.
 1. Open the Terminal application.
-2. Copy and paste `wget -O design-review.sh https://raw.githubusercontent.com/CDCgov/phdi/main/containers/tefca-viewer/design-review/design-review.sh` into the Terminal prompt and press enter. This command uses the wget program to download a copy the `design-review.sh` file from this directory to the root level of your user directory e.g. `Users/johndoe`.
+2. Copy and paste `curl https://raw.githubusercontent.com/CDCgov/phdi/main/containers/tefca-viewer/design-review/design-review.sh -O` into the Terminal prompt and press enter. This command uses the wget program to download a copy the `design-review.sh` file from this directory to the root level of your user directory e.g. `Users/johndoe`.
 3. Copy and paste `chmod +x design-review.sh` into Terminal and press enter. This command assigns executable permissions to `design-review.sh` allowing it to be run.
 
 
