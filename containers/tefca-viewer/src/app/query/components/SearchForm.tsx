@@ -22,7 +22,7 @@ import {
   UseCaseQueryRequest,
 } from "../../query-service";
 import { Mode } from "../page";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 interface SearchFormProps {
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
@@ -47,9 +47,13 @@ const SearchForm: React.FC<SearchFormProps> = ({
 }) => {
   const params = useSearchParams();
   useEffect(() => console.log("params", params), [params]);
+
+  // Get the demoOption (initial selection) selected from modal via the URL
   const [demoOption, setDemoOption] = useState<string>(
     params.get("useCase") || "demo-cancer"
   );
+
+  //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
     patientOptions[demoOption]?.[0]?.value || ""
   );
@@ -62,7 +66,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [useCase, setUseCase] = useState<USE_CASES>();
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
-  // Fills fields if data changes
+  // Fills fields if patientOption changes
   useEffect(() => {
     if (!patientOption) {
       return;
@@ -81,6 +85,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     }
   }, [demoOption, patientOption]);
 
+  // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
   const handleDemoQueryChange = (selectedDemoOption: string) => {
     setDemoOption(selectedDemoOption);
     setPatientOption(patientOptions[selectedDemoOption][0].value);
