@@ -25,6 +25,9 @@ export const FhirServers = [
 ] as const;
 export type FHIR_SERVERS = (typeof FhirServers)[number];
 
+/*
+Demo patient data used to populate the form fields
+*/
 export const demoData = {
   "demo-cancer": {
     FirstName: "Lee",
@@ -101,6 +104,7 @@ export const demoData = {
 };
 export type demoDataUseCase = keyof typeof demoData;
 
+/*Labels and values for the query options dropdown on the query page*/
 export const demoQueryOptions = [
   { value: "demo-cancer", label: "Cancer case investigation" },
   { value: "demo-sti-chlamydia", label: "Chlamydia case investigation" },
@@ -118,6 +122,7 @@ type Option = {
   label: string;
 };
 
+/* Labels and values for the patient options that are available based on the query option selected */
 export const patientOptions: Record<string, Option[]> = {
   "demo-cancer": [{ value: "demo-cancer", label: "A patient with leukemia" }],
   "demo-sti-chlamydia": [
