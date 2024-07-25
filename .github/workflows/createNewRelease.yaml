@@ -1,5 +1,6 @@
 name: Create New Release
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -14,7 +15,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-
       - name: Check commit message for [RELEASE]
         id: commit_check
         run: |
@@ -170,6 +170,14 @@ jobs:
           pip install poetry
           poetry install
 
+      - name: Set environment variable for pdoc
+        run: echo "PDOC_ALLOW_EXEC=1" >> $GITHUB_ENV
+
+      - name: Clear Poetry Cache
+        run: |
+          poetry cache clear pypi --all
+          poetry cache clear virtualenvs --all
+
       - name: Generate docs and move to docs branch
         run: |
           poetry run pdoc ./phdi -o ./docs/${{ needs.tag-release.outputs.version }}/sdk
@@ -213,7 +221,7 @@ jobs:
           fetch-depth: "0"
           ref: ${{ needs.tag-release.outputs.version }}
 
-      - name: Update Container Documenation
+      - name: Update Container Documentation
         env:
           MPI_DBNAME: testdb
           MPI_PASSWORD: pw

@@ -24,16 +24,18 @@ interface TableProps {
   mappings: PathMappings;
   columns: ColumnInfoInput[];
   caption?: string;
+  className?: string;
   fixed?: boolean;
   outerBorder?: boolean;
 }
 /**
  * Formats a table based on the provided resources, mappings, columns, and caption.
  * @param props - The properties for configuring the table.
- * @param props.resources - An array of FHIR Resources representing the data entries.
+ * @param props.resources - An array of FHIR Resources representing the data entries. Data for each table row is collected from each resource.
  * @param props.mappings - An object containing the FHIR path mappings.
  * @param props.columns - An array of objects representing column information. The order of columns in the array determines the order of appearance.
  * @param props.caption - The caption for the table.
+ * @param props.className - (Optional) Classnames to be applied to table.
  * @param props.fixed - Determines whether to fix the width of the table columns. Default is true.
  * @param props.outerBorder - Determines whether to include an outer border for the table. Default is true
  * @returns - A formatted table React element.
@@ -43,18 +45,11 @@ const EvaluateTable = ({
   mappings,
   columns,
   caption,
+  className,
   fixed = true,
   outerBorder = true,
 }: TableProps): React.JSX.Element => {
-  let headers = columns.map((column, index) => (
-    <th
-      key={`${column.columnName}${index}`}
-      scope="col"
-      className="tableHeader"
-    >
-      {column.columnName}
-    </th>
-  ));
+  let headers = BuildHeaders(columns);
 
   let tableRows = resources.map((entry, index) => {
     return (
@@ -68,12 +63,69 @@ const EvaluateTable = ({
   });
 
   return (
+    <BuildTable
+      headers={headers}
+      tableRows={tableRows}
+      caption={caption}
+      className={className}
+      fixed={fixed}
+      outerBorder={outerBorder}
+    />
+  );
+};
+
+/**
+ * Builds table headers from the given columns.
+ * @param columns - The column info to build headers from.
+ * @returns An array of table header elements.
+ */
+export const BuildHeaders = (
+  columns: ColumnInfoInput[],
+): React.JSX.Element[] => {
+  return columns.map((column, index) => (
+    <th
+      key={`${column.columnName}${index}`}
+      scope="col"
+      className={classNames("tableHeader", column.className)}
+    >
+      {column.columnName}
+    </th>
+  ));
+};
+
+/**
+ * Builds a table component with the provided headers, rows, and configurations.
+ * @param props - The parameters for building the table.
+ * @param props.headers - JSX Element of the table headers.
+ * @param props.tableRows - The rows of the table.
+ * @param props.caption - The caption for the table.
+ * @param props.className - (Optional) Classnames to be applied to table.
+ * @param props.fixed (default=true) - Whether the table forces equal width columns.
+ * @param props.outerBorder (default=true) - Whether the table has an outer border.
+ * @returns JSX Element representing the table component.
+ */
+export const BuildTable = ({
+  headers,
+  tableRows,
+  caption,
+  className,
+  fixed = true,
+  outerBorder = true,
+}: {
+  headers: React.JSX.Element[];
+  tableRows: React.JSX.Element[];
+  caption?: string;
+  className?: string;
+  fixed?: boolean;
+  outerBorder?: boolean;
+}) => {
+  return (
     <Table
       fixed={fixed}
       bordered={false}
       fullWidth={true}
       caption={caption}
-      className={classNames("table-caption-margin margin-y-0", {
+      className={classNames("table-caption-margin", className, {
         "border-top border-left border-right": outerBorder,
       })}
       data-testid="table"
@@ -122,8 +174,8 @@ const BuildRow: React.FC<BuildRowProps> = ({
     if (rowCellData && column.hiddenBaseText) {
       hiddenRows.push(
         <tr hidden={hiddenComment} id={`hidden-comment-${index}`}>
-          <td colSpan={columns.length} className={"hideableData"}>
-            {rowCellData}
+          <td colSpan={columns.length} className={"hideableData p-list"}>
+            {splitStringWith(`${rowCellData}`, "<br>")}
           </td>
         </tr>,
       );
@@ -172,11 +224,8 @@ const splitStringWith = (
 
   // Create an array with strings and JSX <br /> elements
   const result: (string | JSX.Element)[] = [];
-  parts.forEach((part, index) => {
-    result.push(part);
-    if (index < parts.length - 1) {
-      result.push(<br key={index} />);
-    }
+  parts.forEach((part) => {
+    result.push(<p>{part}</p>);
   });
 
   return result;

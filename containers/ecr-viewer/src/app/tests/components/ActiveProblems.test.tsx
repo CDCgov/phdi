@@ -59,6 +59,7 @@ describe("Active Problems Table", () => {
             },
           ],
         },
+        note: [{ text: "Test note" }],
       },
       {
         id: "4f962a2f-db60-0b87-20cc-557e17124451",

@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "local-dev": "npm run setup-local-env && docker compose up db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
+    "local-dev": "npm run docker-compose-with-logs && npm run dev",
+    "docker-compose-with-logs": "docker compose up db -d && docker compose logs",
     "setup-local-env": "./setup-env.sh",
     "build": "next build",
     "start": "next start",

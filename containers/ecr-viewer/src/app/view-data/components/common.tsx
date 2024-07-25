@@ -3,6 +3,8 @@ import {
   evaluateReference,
 } from "@/app/services/evaluateFhirDataService";
 import EvaluateTable, {
+  BuildHeaders,
+  BuildTable,
   ColumnInfoInput,
 } from "@/app/view-data/components/EvaluateTable";
 import {
@@ -14,7 +16,6 @@ import {
   formatDate,
 } from "@/app/services/formatService";
 import { PathMappings, evaluateData, noData } from "@/app/utils";
-import { Table } from "@trussworks/react-uswds";
 import {
   Bundle,
   CarePlanActivity,
@@ -109,6 +110,7 @@ export const returnCareTeamTable = (
       mappings={mappings}
       columns={columnInfo}
       caption={"Care Team"}
+      className={"margin-y-0"}
       fixed={false}
     />
   );
@@ -165,6 +167,7 @@ export const returnImmunizations = (
       mappings={mappings}
       columns={columnInfo}
       caption={"Immunization History"}
+      className={"margin-y-0"}
     />
   );
 };
@@ -193,10 +196,14 @@ export const returnProblemsTable = (
     {
       columnName: "Active Problem",
       infoPath: "activeProblemsDisplay",
-      className: "width-mobile-lg",
     },
     { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
     { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
+    {
+      columnName: "Comments",
+      infoPath: "activeProblemsComments",
+      hiddenBaseText: "comment",
+    },
   ];
 
   problemsArray.forEach((entry) => {
@@ -222,6 +229,7 @@ export const returnProblemsTable = (
       mappings={mappings}
       columns={columnInfo}
       caption={"Problems List"}
+      className={"margin-y-0"}
       fixed={false}
     />
   );
@@ -245,49 +253,35 @@ export const returnPendingResultsTable = (
   );
 
   if (pendingResultsTableJson?.tables?.[0]) {
-    const header = [
-      "Name",
-      "Type",
-      "Priority",
-      "Associated Diagnoses",
-      "Date/Time",
-    ];
+    const headers = BuildHeaders([
+      { columnName: "Name", className: "bg-gray-5 minw-15" },
+      { columnName: "Type", className: "bg-gray-5 minw-15" },
+      { columnName: "Priority", className: "bg-gray-5 minw-15" },
+      { columnName: "Associated Diagnoses", className: "bg-gray-5 minw-15" },
+      { columnName: "Date/Time", className: "bg-gray-5 minw-15" },
+    ]);
+    const tableRows = pendingResultsTableJson.tables[0].map(
+      (entry: TableRow, index: number) => {
+        return (
+          <tr key={`table-row-${index}`}>
+            <td>{entry.Name?.value ?? noData}</td>
+            <td>{entry.Type?.value ?? noData}</td>
+            <td>{entry.Priority?.value ?? noData}</td>
+            <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
+            <td>{entry["Date/Time"]?.value ?? noData}</td>
+          </tr>
+        );
+      },
+    );
 
     return (
-      <Table
-        bordered={false}
-        fullWidth={true}
-        className={
-          "table-caption-margin caption-normal-weight margin-top-0 border-top border-left border-right margin-bottom-2"
-        }
-        data-testid="table"
-        caption={"Pending Results"}
-      >
-        <thead>
-          <tr>
-            {header.map((column) => (
-              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {pendingResultsTableJson.tables[0].map(
-            (entry: TableRow, index: number) => {
-              return (
-                <tr key={`table-row-${index}`}>
-                  <td>{entry.Name?.value ?? noData}</td>
-                  <td>{entry.Type?.value ?? noData}</td>
-                  <td>{entry.Priority?.value ?? noData}</td>
-                  <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
-                  <td>{entry["Date/Time"]?.value ?? noData}</td>
-                </tr>
-              );
-            },
-          )}
-        </tbody>
-      </Table>
+      <BuildTable
+        headers={headers}
+        tableRows={tableRows}
+        caption="Pending Results"
+        className={"caption-normal-weight margin-top-0 margin-bottom-2"}
+        fixed={false}
+      />
     );
   }
 };
@@ -310,49 +304,38 @@ export const returnScheduledOrdersTable = (
   );
 
   if (scheduledOrdersTableJson?.tables?.[0]) {
-    const header = [
-      "Name",
-      "Type",
-      "Priority",
-      "Associated Diagnoses",
-      "Date/Time",
-    ];
+    const headers = BuildHeaders([
+      { columnName: "Name", className: "bg-gray-5 minw-15" },
+      { columnName: "Type", className: "bg-gray-5 minw-15" },
+      { columnName: "Priority", className: "bg-gray-5 minw-15" },
+      {
+        columnName: "Associated Diagnoses",
+        className: "bg-gray-5 minw-15",
+      },
+      { columnName: "Date/Time", className: "bg-gray-5 minw-15" },
+    ]);
+    const tableRows = scheduledOrdersTableJson.tables?.[0].map(
+      (entry: TableRow, index: number) => {
+        return (
+          <tr key={`table-row-${index}`}>
+            <td>{entry.Name?.value ?? noData}</td>
+            <td>{entry.Type?.value ?? noData}</td>
+            <td>{entry.Priority?.value ?? noData}</td>
+            <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
+            <td>{entry["Order Schedule"]?.value ?? noData}</td>
+          </tr>
+        );
+      },
+    );
 
     return (
-      <Table
-        bordered={false}
-        fullWidth={true}
-        className={
-          "table-caption-margin margin-top-1 caption-normal-weight margin-y-0 border-top border-left border-right"
-        }
-        data-testid="table"
-        caption={"Scheduled Orders"}
-      >
-        <thead>
-          <tr>
-            {header.map((column) => (
-              <th key={`${column}`} scope="col" className="bg-gray-5 minw-15">
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {scheduledOrdersTableJson.tables[0].map(
-            (entry: TableRow, index: number) => {
-              return (
-                <tr key={`table-row-${index}`}>
-                  <td>{entry.Name?.value ?? noData}</td>
-                  <td>{entry.Type?.value ?? noData}</td>
-                  <td>{entry.Priority?.value ?? noData}</td>
-                  <td>{entry.AssociatedDiagnoses?.value ?? noData}</td>
-                  <td>{entry["Date/Time"]?.value ?? noData}</td>
-                </tr>
-              );
-            },
-          )}
-        </tbody>
-      </Table>
+      <BuildTable
+        headers={headers}
+        tableRows={tableRows}
+        caption="Scheduled Orders"
+        className={"margin-top-1 caption-normal-weight margin-y-0"}
+        fixed={false}
+      />
     );
   }
 };
@@ -393,6 +376,7 @@ export const returnProceduresTable = (
       mappings={mappings}
       columns={columnInfo}
       caption={"Procedures"}
+      className={"margin-y-0"}
     />
   );
 };
@@ -435,6 +419,78 @@ export const returnPlannedProceduresTable = (
       mappings={mappings}
       columns={columnInfo}
       caption={"Planned Procedures"}
+      className={"margin-y-0"}
+    />
+  );
+};
+
+/**
+ * Returns a formatted table displaying vital signs information.
+ * @param fhirBundle - The FHIR bundle containing vital signs information.
+ * @param mappings - The object containing the FHIR paths.
+ * @returns The JSX element representing the table, or undefined if no vital signs are found.
+ */
+export const returnVitalsTable = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const heightAmount = evaluate(fhirBundle, mappings["patientHeight"])[0];
+  const heightUnit = evaluate(
+    fhirBundle,
+    mappings["patientHeightMeasurement"],
+  )[0];
+  const weightAmount = evaluate(fhirBundle, mappings["patientWeight"])[0];
+  const weightUnit = evaluate(
+    fhirBundle,
+    mappings["patientWeightMeasurement"],
+  )[0];
+  const bmiAmount = evaluate(fhirBundle, mappings["patientBmi"])[0];
+  const bmiUnit = evaluate(fhirBundle, mappings["patientBmiMeasurement"])[0];
+
+  const formattedVitals = formatVitals(
+    heightAmount,
+    heightUnit,
+    weightAmount,
+    weightUnit,
+    bmiAmount,
+    bmiUnit,
+  );
+
+  if (
+    !formattedVitals.height &&
+    !formattedVitals.weight &&
+    !formattedVitals.bmi
+  ) {
+    return undefined;
+  }
+
+  const vitalsData = [
+    { vitalReading: "Height", result: formattedVitals.height || noData },
+    { vitalReading: "Weight", result: formattedVitals.weight || noData },
+    { vitalReading: "BMI", result: formattedVitals.bmi || noData },
+  ];
+  const headers = BuildHeaders([
+    { columnName: "Vital Reading" },
+    { columnName: "Result" },
+    { columnName: "Date/Time" },
+  ]);
+  const tableRows = vitalsData.map((entry, index: number) => {
+    return (
+      <tr key={`table-row-${index}`}>
+        <td>{entry.vitalReading}</td>
+        <td>{entry.result}</td>
+        <td>{noData}</td>
+      </tr>
+    );
+  });
+
+  return (
+    <BuildTable
+      headers={headers}
+      tableRows={tableRows}
+      caption="Vital Signs"
+      className={"margin-y-0"}
+      fixed={false}
     />
   );
 };
@@ -534,13 +590,7 @@ export const evaluateClinicalData = (
   const vitalData = [
     {
       title: "Vital Signs",
-      value: formatVitals(
-        evaluate(fhirBundle, mappings["patientHeight"])[0],
-        evaluate(fhirBundle, mappings["patientHeightMeasurement"])[0],
-        evaluate(fhirBundle, mappings["patientWeight"])[0],
-        evaluate(fhirBundle, mappings["patientWeightMeasurement"])[0],
-        evaluate(fhirBundle, mappings["patientBmi"])[0],
-      ),
+      value: returnVitalsTable(fhirBundle, mappings),
     },
   ];
 

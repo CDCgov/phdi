@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "phdi"
-version = "v1.5.0"
+version = "v1.5.2"
 description = "Public health data infrastructure Building Blocks is a library to help public health departments work with their data"
 authors = [
   "Kenneth Chow <kenneth@skylight.digital>",
@@ -73,7 +73,7 @@ minversion = 6.0
 addopts = "--doctest-modules"
 
 [tool.ruff]
-exclude = [".git", ".pytest_cache", "__pycahce__", "docs"]
+exclude = [".git", ".pytest_cache", "__pycache__", "docs"]
 line-length = 88
 indent-width = 4
 target-version = "py310"

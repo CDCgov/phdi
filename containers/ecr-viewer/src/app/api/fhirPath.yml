@@ -13,7 +13,8 @@ patientIds: "Bundle.entry.resource.where(resourceType = 'Patient').identifier"
 patientDOB: "Bundle.entry.resource.where(resourceType = 'Patient').birthDate"
 patientVitalStatus: "Bundle.entry.resource.where(resourceType = 'Patient').deceasedBoolean"
 patientGender: "Bundle.entry.resource.where(resourceType = 'Patient').gender"
-patientRace: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.first().valueCoding.display"
+patientRace: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').valueCoding.display"
+patinetRaceExtension: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').valueCoding.display"
 patientEthnicity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.first().valueCoding.display"
 patientLanguage: "Bundle.entry.resource.where(resourceType = 'Patient').communication.first().language.coding.first().display"
 patientTribalAffiliation: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension').extension.where(url='TribeName').value.display"
@@ -33,6 +34,7 @@ patientSexualOrientation: "Bundle.entry.resource.where(resourceType='Observation
 patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display"
 
 eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
+eicrCustodianRef: "Bundle.entry.resource.where(resourceType= 'Composition').custodian.reference"
 dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
 senderSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(category.coding.code='software').type.coding.display"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
@@ -42,10 +44,10 @@ encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').perio
 encounterStartDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.start"
 encounterReasonForVisit: "Bundle.entry.resource.where(resourceType = 'Encounter').reason[0].value[0].concept.text"
 encounterType: "Bundle.entry.resource.where(resourceType='Encounter')[0].class.display"
+encounterID: "Bundle.entry.resource.where(resourceType='Encounter')[0].identifier"
 facilityCity: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.city"
 facilityContact: "Bundle.entry.resource.where(resourceType = 'Location')[0].telecom.where(system = 'phone')[0].value"
 facilityCountry: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.country"
-facilityID: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].id"
 facilityLocation: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.reference"
 facilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
 facilityState: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.state"
@@ -60,8 +62,6 @@ providerName: "idk"
 rrDetails: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation')"
 rrDisplayNames: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').valueCodeableConcept.coding.display"
 rckmsTriggerSummaries: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
-rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').performer.reference"
-# Encounter Info
 
 # Clinical Data
 clinicalReasonForVisit: "Bundle.entry.resource.section.where(title = 'Reason for Visit')[0].extension[0].valueString"
@@ -72,6 +72,7 @@ patientHeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation
 patientWeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.value"
 patientWeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.unit"
 patientBmi: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='39156-5').valueQuantity.value"
+patientBmiMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='39156-5').valueQuantity.unit"
 
 resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %id)"
 
@@ -80,6 +81,7 @@ activeProblems: "Bundle.entry.resource.where(resourceType='Condition').where(cat
 activeProblemsDisplay: "Condition.code.coding[0].display"
 activeProblemsOnsetDate: "Condition.onsetDateTime"
 activeProblemsOnsetAge: "Condition.onsetAge.value"
+activeProblemsComments: "Condition.note[0].text"
 historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(code.coding.code = '10164-2').text"
 
 # Treatment Details
@@ -125,6 +127,7 @@ observationReferenceValue: "Observation.extension[0].extension.where(url = 'obse
 observationComponent: "code.coding.display"
 observationValue: (valueQuantity.value.toString() | valueString | iif(interpretation.coding.display.exists(), ' (' | interpretation.coding.display | ')', '')).join('')
 observationReferenceRange: "referenceRange.text"
+observationDeviceReference: "device.reference"
 observationNote: "note.text"
 observationMethod: "method"
 observationOrganism: "code.coding.display"

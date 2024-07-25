@@ -32,7 +32,7 @@ describe("Evaluate Ecr Metadata", () => {
         value: "1211 Medical Center Dr\nNashville, TN\n37232",
       },
       { title: "Facility Contact", value: "+1-615-322-5000" },
-      { title: "Facility ID", value: "1.2.840.114350.1.13.478.3.7.2.686980" },
+      { title: "Facility ID", value: "7162024" },
     ]);
     expect(actual.ecrSenderDetails.unavailableData).toEqual([
       {
@@ -54,6 +54,18 @@ describe("Evaluate Ecr Metadata", () => {
           "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
         value: "1.2.840.114350.1.13.478.3.7.8.688883.230886",
       },
+      {
+        title: "Document Author",
+        value: "Vanderbilt University Medical Center",
+      },
+      {
+        title: "Author Address",
+        value: "3401 West End Ave\nNASHVILLE, TN\n37203, USA",
+      },
+      {
+        title: "Author Contact",
+        value: "Work 615-322-5000",
+      },
     ]);
     expect(actual.eicrDetails.unavailableData).toBeEmpty();
   });
@@ -72,6 +84,10 @@ describe("Evaluate Ecr Metadata", () => {
           "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method":
             new Set(["Tennessee Department of Health"]),
         },
+      "Viral hepatitis type C (disorder)": {
+        "Detection of Hepatitis C virus antibody in a clinical specimen by any method":
+          new Set(["California Department of Public Health"]),
+      },
     });
   });
 });

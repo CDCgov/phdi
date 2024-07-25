@@ -368,7 +368,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient//fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "encounter": {
           "reference": "Encounter/1a016589-f03e-c216-eb37-306903e8f437"
