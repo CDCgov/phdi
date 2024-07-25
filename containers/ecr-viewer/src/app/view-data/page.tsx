@@ -88,20 +88,21 @@ const ECRViewerPage: React.FC = () => {
         <Header />
         <div>
           <div className="button-wrapper">
-            <button
-              className="usa-button usa-button--outline"
-              type="button"
-              onClick={() => window.history.back()}
-            >
-              Back
-            </button>
             {isStandaloneViewer ? (
               <button
                 className="usa-button usa-button--outline"
                 type="button"
                 onClick={() => window.history.back()}
               >
-                Back
+                <svg
+                  className="usa-icon"
+                  aria-hidden="true"
+                  focusable="false"
+                  role="img"
+                >
+                  <use href="../../../assets/back_arrow.svg"></use>
+                </svg>
+                Back to eCR Library
               </button>
             ) : (
               ""
