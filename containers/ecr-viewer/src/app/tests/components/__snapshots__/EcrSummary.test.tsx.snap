@@ -234,14 +234,14 @@ End: 05/13/2022 9:57 AM UTC
           </div>
         </h2>
         <div
-          class="usa-summary-box__text"
+          class="usa-summary-box__text condition-details-accordion"
         >
           <div
             class="usa-accordion"
             data-testid="accordion"
           >
             <h3
-              class="usa-accordion__heading side-nav-ignore"
+              class="usa-accordion__heading side-nav-ignore border-1px border-accent-cool-darker"
             >
               <button
                 aria-controls="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
@@ -254,7 +254,7 @@ End: 05/13/2022 9:57 AM UTC
               </button>
             </h3>
             <div
-              class="usa-accordion__content usa-prose side-nav-ignore"
+              class="usa-accordion__content usa-prose side-nav-ignore border-1px border-accent-cool-darker"
               data-testid="accordionItem_Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
               id="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
             >
@@ -278,36 +278,44 @@ End: 05/13/2022 9:57 AM UTC
                 />
               </div>
               <div
-                class="ecr-summary-title-long"
+                class="text-bold margin-0"
                 id="relevant-clinical"
               >
                 Clinical Sections Relevant to Reportable Condition
               </div>
-              <div>
-                <div
-                  class="grid-col-auto width-full text-pre-line"
-                >
-                  covid clinical
+              <div
+                class="margin-top-0"
+              >
+                <div>
+                  <div
+                    class="grid-col-auto width-full text-pre-line"
+                  >
+                    covid clinical
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
                 </div>
-                <div
-                  class="section__line_gray"
-                />
               </div>
               <div
-                class="ecr-summary-title-long"
+                class="text-bold margin-0"
                 id="relevant-labs"
               >
                 Lab Results Relevant to Reportable Condition
               </div>
-              <div>
-                <div
-                  class="grid-col-auto width-full text-pre-line"
-                >
-                  covid lab
+              <div
+                class="margin-top-0"
+              >
+                <div>
+                  <div
+                    class="grid-col-auto width-full text-pre-line"
+                  >
+                    covid lab
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
                 </div>
-                <div
-                  class="section__line_gray"
-                />
               </div>
             </div>
           </div>

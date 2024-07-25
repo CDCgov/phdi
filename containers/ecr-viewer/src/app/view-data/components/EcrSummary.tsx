@@ -50,18 +50,22 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
             {condition.conditionDetails.map((item) => (
               <DataDisplay item={item} key={item.title} />
             ))}
-            <div className="ecr-summary-title-long" id={"relevant-clinical"}>
+            <div className="text-bold margin-0" id={"relevant-clinical"}>
               {"Clinical Sections Relevant to Reportable Condition"}
             </div>
-            {condition.clinicalDetails.map((item) => (
-              <DataTableDisplay item={item} key={item.title} />
-            ))}
-            <div className="ecr-summary-title-long" id={"relevant-labs"}>
+            <div className={"margin-top-0"}>
+              {condition.clinicalDetails.map((item) => (
+                <DataTableDisplay item={item} key={item.title} />
+              ))}
+            </div>
+            <div className="text-bold margin-0" id={"relevant-labs"}>
               {"Lab Results Relevant to Reportable Condition"}
             </div>
-            {condition.labDetails.map((item) => (
-              <DataTableDisplay item={item} key={item.title} />
-            ))}
+            <div className={"margin-top-0"}>
+              {condition.labDetails.map((item) => (
+                <DataTableDisplay item={item} key={item.title} />
+              ))}
+            </div>
           </>
         ),
       };
@@ -112,7 +116,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
               </Tag>
             </div>
           </h2>
-          <div className="usa-summary-box__text">
+          <div className="usa-summary-box__text condition-details-accordion">
             <Accordion items={conditionSummaryAccordionItems} />
           </div>
         </div>
