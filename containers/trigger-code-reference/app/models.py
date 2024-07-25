@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from pydantic import Field
-from pydantic import root_validator
 
 
 class InsertConditionInput(BaseModel):
@@ -14,23 +13,3 @@ class InsertConditionInput(BaseModel):
         "an extension added to the resource noting the SNOMED code relating to the "
         "associated condition(s)."
     )
-
-    @root_validator
-    def require_non_empty_condition_list(cls, values):
-        """
-        Ensures that the supplied conditions list parameter is both a list
-        and has at least one element by which to extend the supplied FHIR
-        bundle.
-
-        :param cls: The InsertConditionInput class.
-        :param values: The condition list supplied by the caller.
-        :raises ValueError: Errors when supplied condition list contains no
-          elements, since this can't be used to extend a bundle.
-        :return: The endpoint's values, if the condition list is valid.
-        """
-        if len(values.get("conditions")) == 0:
-            raise ValueError(
-                "Supplied list of SNOMED conditions must contain "
-                "one or more elements; given list was empty."
-            )
-        return values
