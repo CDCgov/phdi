@@ -278,7 +278,7 @@ End: 05/13/2022 9:57 AM UTC
                 />
               </div>
               <div
-                class="text-bold margin-0"
+                class="text-bold margin-top-0 margin-bottom-1"
                 id="relevant-clinical"
               >
                 Clinical Sections Relevant to Reportable Condition
@@ -298,7 +298,7 @@ End: 05/13/2022 9:57 AM UTC
                 </div>
               </div>
               <div
-                class="text-bold margin-0"
+                class="text-bold margin-0 margin-bottom-1"
                 id="relevant-labs"
               >
                 Lab Results Relevant to Reportable Condition
