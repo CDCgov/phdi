@@ -242,34 +242,26 @@ td {
 }
 
 .button-wrapper {
+  margin-top:1.5rem;
   display: flex;
-  padding: 0rem 16.3125rem;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.625rem;
   align-self: stretch;
-  margin-top: 1.5rem;
+  .usa-icon{
+    justify-content: center;
+    align-items: center;
+    color: #71767A;
+    margin-right: .5rem;
+  }
   .usa-button {
-    .usa-button--outline {
-      outline-color: white;
-    }
     color: var(--Primary-primary, #005EA2);
-    font-family: "Source Sans Pro";
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
     line-height: 162%; /* 1.62rem */
     text-decoration-line: underline;
     align-items: center;
-    .usa-icon {
-      color: var(--Primary-primary, #005EA2);
-      display: flex;
-      width: 1.5rem;
-      height: 1.5rem;
-      padding: 0.25rem;
-      justify-content: center;
-      align-items: center;
-    }
   }
 }
 
@@ -277,15 +269,15 @@ td {
   display: flex;
   max-width: 1440px;
   justify-content: center;
-  gap: 48px;
+  gap: 3rem;
   overflow: visible;
+  margin-top: 1.5rem;
 }
 
 .nav-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 48px;
   width: 250px;
 }
 
@@ -303,7 +295,6 @@ td {
   justify-content: left;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 48px;
 }
 
 .ecr-content {

@@ -6,7 +6,7 @@ import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
 import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
-import { Grid, GridContainer } from "@trussworks/react-uswds";
+import { Grid, GridContainer, Icon, Button } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 import EcrSummary from "./components/EcrSummary";
 import {
@@ -87,91 +87,89 @@ const ECRViewerPage: React.FC = () => {
       <main>
         <Header />
         <div>
-          <div className="button-wrapper">
-            {isStandaloneViewer ? (
-              <button
-                className="usa-button usa-button--outline"
-                type="button"
-                onClick={() => window.history.back()}
-              >
-                <svg
-                  className="usa-icon"
-                  aria-hidden="true"
-                  focusable="false"
-                  role="img"
-                >
-                  <use href="../../../assets/back_arrow.svg"></use>
-                </svg>
-                Back to eCR Library
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
           <div className="main-container">
-            <div className="content-wrapper">
-              <div className="nav-wrapper">
-                <nav className="sticky-nav">
-                  <SideNav />
-                </nav>
+            <div>
+              <div className="button-wrapper">
+                {isStandaloneViewer ? (
+                  <Button
+                    unstyled={true}
+                    type="button"
+                    className={"display-flex"}
+                    onClick={() => window.history.back()}
+                  >
+                    <Icon.ArrowBack size={3} />
+                    Back to eCR Library
+                  </Button>
+                ) : (
+                  ""
+                )}
               </div>
-              <div className={"ecr-viewer-container"}>
-                <div className="ecr-content">
-                  <h2 className="margin-bottom-3" id="ecr-summary">
-                    eCR Summary
-                  </h2>
-                  <EcrSummary
-                    patientDetails={evaluateEcrSummaryPatientDetails(
-                      fhirBundle,
-                      mappings,
-                    )}
-                    encounterDetails={evaluateEcrSummaryEncounterDetails(
-                      fhirBundle,
-                      mappings,
-                    )}
-                    aboutTheCondition={evaluateEcrSummaryAboutTheConditionDetails(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
-                    relevantClinical={evaluateEcrSummaryRelevantClinicalDetails(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
-                    relevantLabs={evaluateEcrSummaryRelevantLabResults(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
-                  />
-                  <div className="margin-top-10">
-                    <GridContainer className={"padding-0 margin-bottom-3"}>
-                      <Grid row>
-                        <Grid>
-                          <h2 className="margin-bottom-0" id="ecr-document">
-                            eCR Document
-                          </h2>
-                        </Grid>
-                        <Grid
-                          className={"flex-align-self-center margin-left-auto"}
-                        >
-                          <ExpandCollapseButtons
-                            id={"main"}
-                            buttonSelector={"h3 > .usa-accordion__button"}
-                            accordionSelector={
-                              ".info-container > .usa-accordion__content"
-                            }
-                            expandButtonText={"Expand all sections"}
-                            collapseButtonText={"Collapse all sections"}
-                          />
-                        </Grid>
-                      </Grid>
-                    </GridContainer>
-                    <AccordionContent
-                      fhirPathMappings={mappings}
-                      fhirBundle={fhirBundle}
+              <div className="content-wrapper">
+                <div className="nav-wrapper">
+                  <nav className="sticky-nav">
+                    <SideNav />
+                  </nav>
+                </div>
+                <div className={"ecr-viewer-container"}>
+                  <div className="ecr-content">
+                    <h2 className="margin-bottom-3" id="ecr-summary">
+                      eCR Summary
+                    </h2>
+                    <EcrSummary
+                      patientDetails={evaluateEcrSummaryPatientDetails(
+                        fhirBundle,
+                        mappings,
+                      )}
+                      encounterDetails={evaluateEcrSummaryEncounterDetails(
+                        fhirBundle,
+                        mappings,
+                      )}
+                      aboutTheCondition={evaluateEcrSummaryAboutTheConditionDetails(
+                        fhirBundle,
+                        mappings,
+                        snomedCode,
+                      )}
+                      relevantClinical={evaluateEcrSummaryRelevantClinicalDetails(
+                        fhirBundle,
+                        mappings,
+                        snomedCode,
+                      )}
+                      relevantLabs={evaluateEcrSummaryRelevantLabResults(
+                        fhirBundle,
+                        mappings,
+                        snomedCode,
+                      )}
                     />
+                    <div className="margin-top-10">
+                      <GridContainer className={"padding-0 margin-bottom-3"}>
+                        <Grid row>
+                          <Grid>
+                            <h2 className="margin-bottom-0" id="ecr-document">
+                              eCR Document
+                            </h2>
+                          </Grid>
+                          <Grid
+                            className={
+                              "flex-align-self-center margin-left-auto"
+                            }
+                          >
+                            <ExpandCollapseButtons
+                              id={"main"}
+                              buttonSelector={"h3 > .usa-accordion__button"}
+                              accordionSelector={
+                                ".info-container > .usa-accordion__content"
+                              }
+                              expandButtonText={"Expand all sections"}
+                              collapseButtonText={"Collapse all sections"}
+                            />
+                          </Grid>
+                        </Grid>
+                      </GridContainer>
+                      <AccordionContent
+                        fhirPathMappings={mappings}
+                        fhirBundle={fhirBundle}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
