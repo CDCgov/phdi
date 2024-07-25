@@ -140,7 +140,7 @@ export const patientOptions: Record<string, Option[]> = {
   "demo-newborn-screening": [
     {
       value: "demo-newborn-screening-technical-fail",
-      label: "A newborn with a technical failures on screening",
+      label: "A newborn with a technical failure on screening",
     },
     {
       value: "demo-newborn-screening-referral",
