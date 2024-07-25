@@ -139,18 +139,18 @@ def test_stamp_condition_extensions(patched_get_services_list):
 
     # Check observation: diagnostic code value came back successful
     found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "99999-9", "Observation"
+        stamped_message, "840539006", "Observation"
     )
     assert found_matching_extension
 
     # Check condition: no value set cross-referenced for this bundle, no stamp
     found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "99999-9", "Condition"
+        stamped_message, "840539006", "Condition"
     )
     assert not found_matching_extension
 
     # Check immunization: we did find a referenced immunization code, so it should be there
     found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "99999-9", "Immunization"
+        stamped_message, "840539006", "Immunization"
     )
     assert found_matching_extension
