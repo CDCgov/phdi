@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Fieldset,
   Label,
@@ -13,6 +13,8 @@ import {
   FHIR_SERVERS,
   demoData,
   demoDataUseCase,
+  demoQueryOptions,
+  patientOptions,
 } from "../../constants";
 import {
   UseCaseQueryResponse,
@@ -20,6 +22,7 @@ import {
   UseCaseQueryRequest,
 } from "../../query-service";
 import { Mode } from "../page";
+import { useParams, useSearchParams } from "next/navigation";
 
 interface SearchFormProps {
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
@@ -42,7 +45,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setMode,
   setLoading,
 }) => {
-  const [demoOption, setDemoOption] = useState<string>("demo-cancer");
+  const params = useSearchParams();
+  useEffect(() => console.log("params", params), [params]);
+  const [demoOption, setDemoOption] = useState<string>(
+    params.get("useCase") || "demo-cancer"
+  );
+  const [patientOption, setPatientOption] = useState<string>(
+    patientOptions[demoOption]?.[0]?.value || ""
+  );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [fhirServer, setFhirServer] = useState<FHIR_SERVERS>();
@@ -52,10 +62,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [useCase, setUseCase] = useState<USE_CASES>();
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
-  // Fill the fields with the demo data if selected
-  const fillFields = useCallback(() => {
-    const data = demoData[demoOption as demoDataUseCase];
+  // Fills fields if data changes
+  useEffect(() => {
+    if (!patientOption) {
+      return;
+    }
+    const data = demoData[patientOption as demoDataUseCase];
     if (data) {
+      setDemoOption(demoOption);
       setAutofilled(true);
       setFirstName(data.FirstName);
       setLastName(data.LastName);
@@ -65,7 +79,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
       setFhirServer(data.FhirServer as FHIR_SERVERS);
       setUseCase(data.UseCase as USE_CASES);
     }
-  }, [demoOption]);
+  }, [demoOption, patientOption]);
+
+  const handleDemoQueryChange = (selectedDemoOption: string) => {
+    setDemoOption(selectedDemoOption);
+    setPatientOption(patientOptions[selectedDemoOption][0].value);
+  };
 
   async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
     if (!useCase || !fhirServer) {
@@ -105,51 +124,52 @@ const SearchForm: React.FC<SearchFormProps> = ({
       </Alert>
       <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
-        <div className="usa-summary-box usa-summary-box demo-data-filler">
-          <label className="usa-label" htmlFor="demo-data">
+        <div className="usa-summary-box usa-summary-box demo-query-filler">
+          <Label className="usa-label" htmlFor="demo-query">
             <b>
               Select a query type and a sample patient to populate the form with
               sample data for a query.
             </b>
-          </label>
-          <div className="display-flex flex-align-center margin-top-2">
+          </Label>
+          <Label htmlFor="demo-query">Query</Label>
+          <div className="display-flex flex-align-start">
             <div className="usa-combo-box flex-1" data-enhanced="true">
               <select
-                id="demo-data"
-                name="demo-data"
-                className="usa-select margin-top-0"
+                id="demo-query"
+                name="demo-query"
+                className="usa-select  margin-top-1"
                 value={demoOption}
                 onChange={(event) => {
-                  setDemoOption(event.target.value);
-                  fillFields();
+                  handleDemoQueryChange(event.target.value);
                 }}
               >
-                <option value="demo-cancer">
-                  A demo patient with a cancer use case
-                </option>
-                <option value="demo-sti-chlamydia">
-                  A demo patient with a chlamydia use case
-                </option>
-                <option value="demo-sti-gonorrhea">
-                  A demo patient with a gonorrhea use case
-                </option>
-                <option value="demo-newborn-screening">
-                  A demo patient with a newborn screening use case
-                </option>
-                <option value="demo-social-determinants">
-                  A demo patient with a social determinants of health use case
-                </option>
-                <option value="demo-sti-syphilis">
-                  A demo patient with a syphilis use case
-                </option>
+                {demoQueryOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <Label htmlFor="demo-patient">Patient</Label>
+              <select
+                id="demo-patient"
+                name="demo-patient"
+                className="usa-select margin-top-1"
+                value={patientOption}
+                onChange={(event) => {
+                  setPatientOption(event.target.value);
+                }}
+              >
+                {patientOptions[demoOption]?.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </div>
             <Button
-              className="margin-left-1 usa-button--outline bg-white"
+              className="margin-left-1  margin-top-1 usa-button--outline bg-white"
               type="button"
-              onClick={() => {
-                fillFields();
-              }}
+              onClick={() => {}} // TODO: Link to customize query page
             >
               Customize queries
             </Button>
