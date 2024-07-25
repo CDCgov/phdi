@@ -132,7 +132,7 @@ def test_stamp_condition_extensions(patched_get_services_list):
         ("dxtc", "8971234987123", "code-sys-2"),
         ("lotc", "72391283|8916394-2|24", "code-sys-1"),
     ]
-    input = {"bundle": message, "conditions": ["99999-9"]}
+    input = {"bundle": message}
     response = client.post("/stamp-condition-extensions", json=input)
     assert response.status_code == 200
     stamped_message = response.json()["extended_bundle"]
