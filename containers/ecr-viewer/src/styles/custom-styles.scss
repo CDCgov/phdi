@@ -259,8 +259,10 @@ td {
   display: flex;
   max-width: 1440px;
   padding-top: 1.5rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
   gap: 48px;
-  overflow: visible;
+  overflow-x: auto;
   align-items: center;
   flex-wrap: wrap;
   flex-direction: column;
