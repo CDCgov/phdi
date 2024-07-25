@@ -123,7 +123,6 @@ graph TD
     style A fill:#f9f,stroke:#333,stroke-width:4px,color:#000
     style Main Services fill:#bbf,stroke:#333,stroke-width:2px
     style Observability fill:#bbf,stroke:#333,stroke-width:2px,color:#000
-    style .mermaid min-height:1500px
 ```
 
 #### Application API
