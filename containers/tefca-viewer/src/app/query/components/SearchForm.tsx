@@ -50,12 +50,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Get the demoOption (initial selection) selected from modal via the URL
   const [demoOption, setDemoOption] = useState<string>(
-    params.get("useCase") || "demo-cancer"
+    params.get("useCase") || "demo-cancer",
   );
 
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[demoOption]?.[0]?.value || ""
+    patientOptions[demoOption]?.[0]?.value || "",
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -411,7 +411,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                       | "social-determinants"
                       | "newborn-screening"
                       | "syphilis"
-                      | "cancer"
+                      | "cancer",
                   );
                 }}
                 style={{
