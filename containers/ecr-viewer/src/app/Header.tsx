@@ -12,13 +12,11 @@ const Header: React.FC = () => (
     <div className="usa-nav-container padding-left-0">
       <div className="usa-navbar">
         <div className="usa-logo">
-          <em className="usa-logo__text">
-            <h1>
-              <a href="/" title="<Project title>">
-                DIBBs eCR Viewer
-              </a>
-            </h1>
-          </em>
+          <h1>
+            <a href="/" title="<Project title>">
+              DIBBs eCR Viewer
+            </a>
+          </h1>
         </div>
       </div>
     </div>
