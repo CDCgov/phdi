@@ -3,9 +3,6 @@
     "summary": "Stamping a FHIR bundle consisting of an eICR merged with its RR",
     "description": "This is an example bundle demonstrating condition-stamping on an input eICR that's checking for COVID-related condition codes.",
     "value": {
-      "conditions": [
-        "840539006"
-      ],
       "bundle": {
         "resourceType": "Bundle",
         "type": "batch",
