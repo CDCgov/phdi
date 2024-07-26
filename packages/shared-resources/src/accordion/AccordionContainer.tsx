@@ -4,7 +4,6 @@ import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accor
 import { formatString } from "../services/formatService";
 
 type AccordionContainerProps = {
-  children?: ReactNode;
   accordionItems: AccordionItemProps[];
 };
 
@@ -14,10 +13,9 @@ type AccordionContainerProps = {
  * @param props.accordionItems - The list of accordion items.
  * @returns The JSX element representing the accordion container.
  */
-const AccordionContainer: React.FC<AccordionContainerProps> = ({
+const AccordionContainer = ({
   accordionItems,
-}) => {
-  //Add id, adjust title
+}: AccordionContainerProps): React.JSX.Element => {
   const items: AccordionItemProps[] = accordionItems.map((item, index) => {
     let formattedTitle = formatString(`${item["title"]}`);
     return {
