@@ -287,7 +287,6 @@ def standardize_dob(data: dict, format: str = "%Y-%m-%d", overwrite=True) -> dic
       if false, a copy of `data` modified and returned.  Default: `True`
     :return: The bundle or resource with bith dates appropriately standardized.
     """
-
     if not overwrite:
         data = copy.deepcopy(data)
 

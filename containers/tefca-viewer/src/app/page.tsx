@@ -4,9 +4,14 @@ import {
   ProcessListItem,
   ProcessListHeading,
   Button,
-  Alert,
+  Modal,
+  ModalHeading,
+  ModalFooter,
+  ModalToggleButton,
+  ModalRef,
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * The landing page for the TEFCA Viewer.
@@ -14,23 +19,34 @@ import { useRouter } from "next/navigation";
  */
 export default function LandingPage() {
   const router = useRouter();
+  const modalRef = useRef<ModalRef>(null);
+  const [isClient, setIsClient] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const handleClick = () => {
-    router.push("/query");
+    if (selectedOption) {
+      router.push(`/query?useCase=${encodeURIComponent(selectedOption)}`);
+    } else {
+      router.push(`/query`);
+    }
+  };
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handleOptionClick = (option: string) => {
+    setSelectedOption(option);
   };
 
   return (
     <div>
-      <Alert type="info" headingLevel="h4" slim className="custom-alert">
-        This site is for demo purposes only. Please do not enter PII on this
-        website.
-      </Alert>
       <div className="display-flex flex-justify-center flex-column">
         <div className="gradient-blue-background">
           <div className="container">
             <div className="text-holder">
               <h1 className="font-sans-2xl text-bold">
-                Case investigation made easier
+                Data collection made easier
               </h1>
               <h2 className="font-sans-md text-light margin-top-2">
                 The TEFCA Query Connector allows your jurisdiction to query a
@@ -42,7 +58,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="home">
-          <h3 className="font-sans-l text-bold margin-top-5"> What is it? </h3>
+          <h3 className="font-sans-l text-bold margin-top-5">What is it?</h3>
           <h2 className="font-sans-md text-light margin-top-0">
             The TEFCA Query Connector aims to streamline the collection of
             health data using an intuitive querying process that leverages
@@ -82,19 +98,120 @@ export default function LandingPage() {
               </p>
             </ProcessListItem>
           </ProcessList>
-          <Button
-            className="get-started-button"
-            type="button"
-            onClick={handleClick}
-          >
-            Get started
-          </Button>
-          <p className="sample-data-note">
-            Note: This demo tool uses sample data for queries. Find out more
-            about our data storage policy.{" "}
-          </p>
         </div>
       </div>
+      <div className="blue-background-container">
+        <div className="display-flex flex-justify-center flex-column">
+          <div className="text-holder">
+            <h2 className="font-sans-xs text-light margin-top-0">
+              Check out the TEFCA Viewer demo to try out features using sample
+              data. See how the TEFCA Viewer could work for you.
+            </h2>
+            {isClient && (
+              <ModalToggleButton
+                modalRef={modalRef}
+                opener
+                title="Go to the demo"
+              >
+                Go to the demo
+              </ModalToggleButton>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {isClient && (
+        <Modal
+          isLarge={true}
+          ref={modalRef}
+          className="custom-modal"
+          id="example-modal-2"
+          aria-labelledby="modal-2-heading"
+          aria-describedby="modal-2-description"
+          isInitiallyOpen={false}
+          placeholder={undefined}
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
+        >
+          <ModalHeading
+            id="data-usage-policy-modal-heading"
+            style={{ fontSize: "1.25rem" }}
+          >
+            Customize your demo experience
+          </ModalHeading>
+          <div className="usa-prose">
+            <p id="modal-2-description">
+              Select a scenario to see how you might use the TEFCA Query
+              Connector and what kind of data would be returned.
+            </p>
+            <div className="modal-options">
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "demo-sti-chlamydia"
+                }`}
+                onClick={() => handleOptionClick("demo-sti-chlamydia")}
+              >
+                Chlamydia case investigation
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "demo-sti-gonorrhea"
+                }`}
+                onClick={() => handleOptionClick("demo-sti-gonorrhea")}
+              >
+                Gonorrhea case investigation
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "demo-sti-syphilis"
+                }`}
+                onClick={() => handleOptionClick("demo-sti-syphilis")}
+              >
+                Syphilis case investigation
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${selectedOption === "demo-cancer"}`}
+                onClick={() => handleOptionClick("demo-cancer")}
+              >
+                Cancer case investigation
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "demo-newborn-screening"
+                }`}
+                onClick={() => handleOptionClick("demo-newborn-screening")}
+              >
+                Newborn screening follow-up
+              </Button>
+              <Button
+                type="button"
+                className={`modal-option ${
+                  selectedOption === "demo-social-determinants"
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() => handleOptionClick("demo-social-determinants")}
+              >
+                Gather social determinants of health for a patient
+              </Button>
+            </div>
+          </div>
+          <ModalFooter>
+            <Button
+              className="get-started-button"
+              type="button"
+              onClick={handleClick}
+            >
+              Next
+            </Button>
+          </ModalFooter>
+        </Modal>
+      )}
     </div>
   );
 }

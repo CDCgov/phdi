@@ -458,3 +458,20 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   line-height: 100%;
   color: #111111;
 }
+
+.condition-details-accordion{
+  .usa-accordion__heading.border-accent-cool-darker {
+    &:not(:first-child) {
+      margin-top: 1.12rem;
+    }
+  }
+  .usa-accordion__content.border-accent-cool-darker {
+    padding: .5rem .75rem 0 .75rem;
+  }
+  .usa-accordion.accordion-rr {
+    margin: .5rem 0 .75rem 0;
+  }
+  button {
+    padding: .88rem .75rem;
+  }
+}

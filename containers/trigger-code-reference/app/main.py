@@ -9,6 +9,7 @@ from fastapi import Response
 from app.models import InsertConditionInput
 from app.utils import _find_codes_by_resource_type
 from app.utils import _stamp_resource_with_code_extension
+from app.utils import find_conditions
 from app.utils import get_clean_snomed_code
 from app.utils import get_clinical_services_dict
 from app.utils import get_clinical_services_list
@@ -61,21 +62,22 @@ async def stamp_condition_extensions(
 ) -> Response:
     """
     Extends the resources of a supplied FHIR bundle with extension tags
-    related to one or more supplied conditions. For each condition in the
-    given list of conditions, each resource in the bundle is appended with
-    an extension structure indicating which SNOMED condition code the
+    related to one or more supplied conditions. For each condition found in
+    the bundle, each resource in the bundle is appended with an extension
+    structure indicating which SNOMED condition code the
     resource is linked to.
 
     :param input: A request formatted as an InsertConditionInput, containing a
-      FHIR bundle whose resources to extend and one or more SNOMED condition
-      code strings to extend by.
+    FHIR bundle whose resources to extend.
     :return: HTTP Response containing the bundle with resources extended by
       any linked conditions.
     """
-    # Collate all clinical services for each of the supplied conditions to
-    # extend, collected by service type
+    # Collate all clinical services for each of the found conditions to extend,
+    # collected by service type
     stamp_codes_to_service_codes = {}
-    for cond in input.conditions:
+    conditions = find_conditions(input.bundle)
+
+    for cond in conditions:
         cond_list = get_clinical_services_list([cond])
         cond_dict = get_clinical_services_dict(cond_list)
         stamp_codes_to_service_codes[cond] = cond_dict
@@ -92,7 +94,7 @@ async def stamp_condition_extensions(
                 continue
 
             # Want to check each queried condition for extension codes
-            for cond in input.conditions:
+            for cond in conditions:
                 # Only need a single instance of service type lookup to contain
                 # the resource's code
                 should_stamp = False
@@ -161,3 +163,15 @@ async def get_value_sets_for_condition(
             clinical_services_list, filter_clinical_services
         )
     return values
+
+
+# This block is only executed if the script is run directly, for local development and debugging.
+if "__main__" == __name__:
+    import uvicorn
+
+    uvicorn.run(
+        app="app.main:app",
+        host="0.0.0.0",
+        port=8080,
+        reload=True,
+    )
