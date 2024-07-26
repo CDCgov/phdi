@@ -395,7 +395,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               />
             </div>
           </div>
-          <h2 className="font-sans-lg search-form-section-label">
+          {/* <h2 className="font-sans-lg search-form-section-label">
             <strong>Case investigation topic</strong>
           </h2>
           <div className="grid-row grid-gap">
@@ -433,7 +433,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 <option value="syphilis">Syphilis</option>
               </Select>
             </div>
-          </div>
+          </div> */}
           <h2 className="font-sans-lg search-form-section-label">
             <strong>FHIR Server (QHIN)</strong>
           </h2>
