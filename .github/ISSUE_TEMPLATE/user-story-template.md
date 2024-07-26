@@ -2,7 +2,7 @@
 name: Streamline User Story Template
 about: Create a new user story for the Streamline eCR team
 title: ''
-labels: Streamline eCR
+labels: needs design review, Streamline eCR
 assignees: ''
 
 ---

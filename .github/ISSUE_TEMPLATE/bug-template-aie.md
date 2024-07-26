@@ -2,7 +2,7 @@
 name: AIE Bug Template
 about: Capture bugs with this
 title: ''
-labels: aie
+labels: "aie, \U0001F41B bug, Streamline eCR"
 assignees: ''
 
 ---
