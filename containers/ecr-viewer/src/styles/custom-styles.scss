@@ -438,20 +438,20 @@ ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item
     .usa-nav-container {
       max-width: 65rem;
       margin-left: 0px !important;
-      padding: 8px 24px !important;
+      padding: 0.5rem 1.5rem !important;
     }
   }
 
   .usa-nav-container {
     max-width: 65rem;
     margin-left: 0px !important;
-    padding: 8px 24px !important;
+    padding: 0.5rem 1.5rem !important;
   }
 
   h1 {
     font-style: normal;
     font-weight: 700;
-    font-size: 1.46rem;
+    font-size: 2rem;
   }
 }
 
@@ -488,7 +488,7 @@ ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item
 
 .patient-banner {
   display: flex;
-  padding: 8px 24px;
+  padding: 0.5rem 1.5rem;
   align-items: center;
   gap: 12px;
   align-self: stretch;
@@ -497,7 +497,7 @@ ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item
 
   color: var(--White, #FFF);
 
-  font-size: 22px;
+  font-size: 1.375rem;
   font-style: normal;
   line-height: normal;
 
