@@ -3,6 +3,10 @@
   "description": "The DIBBs eCR Viewer app offers a REST API for processing FHIR messages into an HTML page with key insights.",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "test": "jest"
+  },
   "exports": {
     "./accordionContainer": "./src/accordion/AccordionContainer.tsx"
   },
@@ -60,6 +64,7 @@
     "prettier": "3.1.1",
     "sass": "^1.69.5",
     "testcontainers": "^10.3.2",
+    "ts-jest": "^29.2.3",
     "typescript": "^5"
   }
 }
