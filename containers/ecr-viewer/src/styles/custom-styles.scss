@@ -140,17 +140,17 @@ h4 {
 }
 
 .table-homepage-list {
-  margin-top: 0 !important; 
+  margin-top: 0; 
 
   border: 1px solid var(--ink, #111);
   border-collapse: separate;
-  border-radius: 4px !important;
-  overflow: hidden !important;
+  border-radius: 4px;
+  overflow: hidden;
 
-  font-size: 16px !important;
+  font-size: 16px;
 
   thead th {
-    background-color: color("base-lighter") !important;
+    background-color: color("base-lighter");
   }
 
   .thead-drop-shadow {
