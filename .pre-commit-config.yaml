@@ -16,6 +16,7 @@ repos:
     rev: "v9.7.0"
     hooks:
       - id: eslint
+        name: ESLint for ECR Viewer
         files: ^containers/ecr-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx in containers/ecr-viewer
         types: [file]
         additional_dependencies:
@@ -29,10 +30,8 @@ repos:
           - eslint-plugin-unused-imports
           - eslint-plugin-jsdoc
         args: ["--config=./containers/ecr-viewer/.eslintrc.json", "--fix"]
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: "v9.7.0"
-    hooks:
       - id: eslint
+        name: ESLint for TEFCA Viewer
         files: ^containers/tefca-viewer/.*\.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
         types: [file]
         additional_dependencies:
