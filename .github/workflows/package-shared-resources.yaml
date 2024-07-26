@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Lint javascript for ${{env.CONTAINER}}
-        working-directory: ./shared-resources/${{env.CONTAINER}}
+        working-directory: ./packages/${{env.CONTAINER}}
         run: |
           npm ci
           npm run lint
@@ -44,8 +44,8 @@ jobs:
         with:
           node-version: ${{env.NODE_VERSION}}
       - name: Install dependencies
-        working-directory: ./shared-resources/${{env.CONTAINER}} # Navigate to your Node.js app directory
+        working-directory: ./packages/${{env.CONTAINER}} # Navigate to your Node.js app directory
         run: npm install
       - name: Run tests
-        working-directory: ./shared-resources/${{env.CONTAINER}} # Navigate to your Node.js app directory
+        working-directory: ./packages/${{env.CONTAINER}} # Navigate to your Node.js app directory
         run: npm test
