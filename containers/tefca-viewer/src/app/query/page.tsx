@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import QueryView from "./components/QueryView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
@@ -22,12 +22,14 @@ const Query: React.FC = () => {
   return (
     <div>
       {mode === "search" && (
-        <SearchForm
-          setMode={setMode}
-          setLoading={setLoading}
-          setUseCaseQueryResponse={setUseCaseQueryResponse}
-          setOriginalRequest={setOriginalRequest}
-        />
+        <Suspense fallback="...Loading">
+          <SearchForm
+            setMode={setMode}
+            setLoading={setLoading}
+            setUseCaseQueryResponse={setUseCaseQueryResponse}
+            setOriginalRequest={setOriginalRequest}
+          />
+        </Suspense>
       )}
 
       {/* Switch the mode to view to show the results of the query */}
