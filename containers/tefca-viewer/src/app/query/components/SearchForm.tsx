@@ -4,7 +4,6 @@ import {
   Label,
   TextInput,
   Select,
-  Button,
   Alert,
 } from "@trussworks/react-uswds";
 import { fhirServers } from "../../fhir-servers";
@@ -51,12 +50,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Get the demoOption (initial selection) selected from modal via the URL
   const [demoOption, setDemoOption] = useState<string>(
-    params.get("useCase") || "demo-cancer"
+    params.get("useCase") || "demo-cancer",
   );
 
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[demoOption]?.[0]?.value || ""
+    patientOptions[demoOption]?.[0]?.value || "",
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
