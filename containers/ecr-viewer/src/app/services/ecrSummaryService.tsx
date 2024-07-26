@@ -107,6 +107,11 @@ export const evaluateEcrSummaryEncounterDetails = (
   ];
 };
 
+/**
+ * Finds all unique RCKMS rule summaries in an observation
+ * @param observation - FHIR Observation
+ * @returns Set of rule summaries
+ */
 const evaluateRuleSummaries = (observation: Observation): Set<string> => {
   const ruleSummaries = new Set<string>();
   observation.extension?.forEach((extension) => {
