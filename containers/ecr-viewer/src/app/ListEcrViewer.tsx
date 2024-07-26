@@ -60,7 +60,7 @@ export default function ListECRViewer({
               ))}
             </tr>
           </thead>
-          <tbody>{renderPage(currentPage)}</tbody>
+          <tbody className="tbody-drop-shadow">{renderPage(currentPage)}</tbody>
         </Table>
         <Pagination
           currentPage={currentPage}
