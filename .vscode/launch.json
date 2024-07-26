@@ -10,6 +10,19 @@
       "cwd": "${workspaceFolder}/containers/orchestration",
       "justMyCode": false,
       "python": "${workspaceFolder}/containers/orchestration/.venv/bin/python"
+    },
+    {
+      "name": "Python Debugger: Trigger Code Reference",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/containers/trigger-code-reference/app/main.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/containers/trigger-code-reference",
+      "justMyCode": false,
+      "python": "${workspaceFolder}/containers/trigger-code-reference/.venv/bin/python",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/containers/trigger-code-reference"
+      }
     }
   ]
 }
