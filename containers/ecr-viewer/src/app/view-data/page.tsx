@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
+import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
 import { Grid, GridContainer, Icon, Button } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
@@ -101,53 +102,32 @@ const ECRViewerPage: React.FC = () => {
                   ""
                 )}
               </div>
-              <div className={"ecr-viewer-container"}>
-                <div className="ecr-content">
-                  <h2 className="margin-bottom-3" id="ecr-summary">
-                    eCR Summary
-                  </h2>
-                  <EcrSummary
-                    patientDetails={evaluateEcrSummaryPatientDetails(
-                      fhirBundle,
-                      mappings,
-                    )}
-                    encounterDetails={evaluateEcrSummaryEncounterDetails(
-                      fhirBundle,
-                      mappings,
-                    )}
-                    conditionSummary={evaluateEcrSummaryConditionSummary(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
-                    snomed={snomedCode}
-                  />
-                  <div className="margin-top-10">
-                    <GridContainer className={"padding-0 margin-bottom-3"}>
-                      <Grid row>
-                        <Grid>
-                          <h2 className="margin-bottom-0" id="ecr-document">
-                            eCR Document
-                          </h2>
-                        </Grid>
-                        <Grid
-                          className={"flex-align-self-center margin-left-auto"}
-                        >
-                          <ExpandCollapseButtons
-                            id={"main"}
-                            buttonSelector={"h3 > .usa-accordion__button"}
-                            accordionSelector={
-                              ".info-container > .usa-accordion__content"
-                            }
-                            expandButtonText={"Expand all sections"}
-                            collapseButtonText={"Collapse all sections"}
-                          />
-                        </Grid>
-                      </Grid>
-                    </GridContainer>
-                    <AccordionContent
-                      fhirPathMappings={mappings}
-                      fhirBundle={fhirBundle}
+              <div className="content-wrapper">
+                <div className="nav-wrapper">
+                  <nav className="sticky-nav">
+                    <SideNav />
+                  </nav>
+                </div>
+                <div className={"ecr-viewer-container"}>
+                  <div className="ecr-content">
+                    <h2 className="margin-bottom-3" id="ecr-summary">
+                      eCR Summary
+                    </h2>
+                    <EcrSummary
+                      patientDetails={evaluateEcrSummaryPatientDetails(
+                        fhirBundle,
+                        mappings,
+                      )}
+                      encounterDetails={evaluateEcrSummaryEncounterDetails(
+                        fhirBundle,
+                        mappings,
+                      )}
+                      conditionSummary={evaluateEcrSummaryConditionSummary(
+                        fhirBundle,
+                        mappings,
+                        snomedCode,
+                      )}
+                      snomed={snomedCode}
                     />
                     <div className="margin-top-10">
                       <GridContainer className={"padding-0 margin-bottom-3"}>
