@@ -141,12 +141,6 @@ h4 {
 
 .table-homepage-list {
   margin-top: 0; 
-
-  border: 1px solid var(--ink, #111);
-  border-collapse: separate;
-  border-radius: 4px;
-  overflow: hidden;
-
   font-size: 16px;
 
   thead th {
@@ -257,10 +251,7 @@ td {
 
 .homepage-wrapper {
   display: flex;
-  max-width: 1440px;
-  padding-top: 1.5rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  width: 100%;
   gap: 48px;
   overflow-x: auto;
   align-items: center;
