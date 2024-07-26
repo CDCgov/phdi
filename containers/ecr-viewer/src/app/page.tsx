@@ -5,22 +5,22 @@ import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
 
 export const dynamic = "force-dynamic";
 
-const isStandaloneViewer = process.env.NEXT_PUBLIC_STANDALONE_VIEWER === "true";
-
 /**
  * Functional component for rendering the home page that lists all eCRs.
  * @returns The home page JSX component.
  */
 const HomePage: React.FC = async () => {
+  const isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
   let listFhirData: EcrDisplay[] = [];
-  if (isStandaloneViewer) {
+  if (isNonIntegratedViewer) {
     listFhirData = await listEcrData();
   }
 
   return (
     <main>
       <Header />
-      {isStandaloneViewer ? (
+      {isNonIntegratedViewer ? (
         <ListECRViewer listFhirData={listFhirData} />
       ) : (
         <div>

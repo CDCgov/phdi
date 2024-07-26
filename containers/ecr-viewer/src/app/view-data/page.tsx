@@ -31,8 +31,8 @@ const ECRViewerPage: React.FC = () => {
   const searchParams = useSearchParams();
   const fhirId = searchParams ? searchParams.get("id") ?? "" : "";
   const snomedCode = searchParams ? searchParams.get("snomed-code") ?? "" : "";
-  const isStandaloneViewer =
-    process.env.NEXT_PUBLIC_STANDALONE_VIEWER === "true";
+  const isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
 
   type ApiResponse = {
     fhirBundle: Bundle;
@@ -90,7 +90,7 @@ const ECRViewerPage: React.FC = () => {
           <div className="main-container">
             <div>
               <div className="button-wrapper">
-                {isStandaloneViewer ? (
+                {isNonIntegratedViewer ? (
                   <Button
                     unstyled={true}
                     type="button"
