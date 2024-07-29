@@ -50,11 +50,17 @@ test.describe("querying with the TryTEFCA viewer", () => {
     );
 
     // Put in the search parameters for the elusive fruit person
+    await page
+      .getByLabel("Query", { exact: true })
+      .selectOption("demo-newborn-screening");
+    await page
+      .getByLabel("Patient", { exact: true })
+      .selectOption("demo-newborn-screening-referral");
     await page.getByLabel("First Name").fill("Watermelon");
     await page.getByLabel("Last Name").fill("McGee");
-    await page
-      .getByLabel("Use case", { exact: true })
-      .selectOption("newborn-screening");
+    await page.getByLabel("Date of Birth").fill("2024-07-12");
+    await page.getByLabel("Medical Record Number").fill("18091");
+    await page.getByLabel("Phone Number").fill("5555555555");
     await page.getByLabel("FHIR Server").selectOption("HELIOS Meld: Direct");
 
     await page.getByRole("button", { name: "Search for patient" }).click();
@@ -96,14 +102,14 @@ test.describe("querying with the TryTEFCA viewer", () => {
   test("unsuccessful user query: no patients", async ({ page }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
     await page.getByRole("button", { name: "Next" }).click();
+    await page
+      .getByLabel("Query", { exact: true })
+      .selectOption("demo-social-determinants");
 
     await page.getByLabel("First Name").fill("Ellie");
     await page.getByLabel("Last Name").fill("Williams");
     await page.getByLabel("Date of Birth").fill("2019-07-07");
     await page.getByLabel("Medical Record Number").fill("TLOU1TLOU2");
-    await page
-      .getByLabel("Use case", { exact: true })
-      .selectOption("social-determinants");
     await page.getByLabel("FHIR Server").selectOption("HELIOS Meld: Direct");
     await page.getByRole("button", { name: "Search for patient" }).click();
 

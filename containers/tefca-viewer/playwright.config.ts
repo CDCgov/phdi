@@ -76,4 +76,7 @@ export default defineConfig({
     timeout: 120 * 1000,
     reuseExistingServer: true,
   },
+
+  /* Hook to ensure Docker is shut down after tests or on error */
+  globalTeardown: "./playwright-teardown",
 });
