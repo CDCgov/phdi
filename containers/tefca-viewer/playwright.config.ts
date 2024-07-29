@@ -74,5 +74,6 @@ export default defineConfig({
     command: "docker compose up",
     port: 3000,
     timeout: 120 * 1000,
+    reuseExistingServer: true,
   },
 });

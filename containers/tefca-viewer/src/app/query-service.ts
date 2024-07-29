@@ -122,7 +122,14 @@ async function patientQuery(
     query += `identifier=${request.mrn}&`;
   }
   if (request.phone) {
-    const phonePossibilities = await GetPhoneQueryFormats(request.phone);
+    // We might have multiple phone numbers if we're coming from the API
+    // side, since we parse *all* telecom structs
+    const phonesToSearch = request.phone.split(";");
+    let phonePossibilities: string[] = [];
+    for (const phone of phonesToSearch) {
+      const possibilities = await GetPhoneQueryFormats(phone);
+      phonePossibilities.push(...possibilities);
+    }
     query += `phone=${phonePossibilities.join(",")}&`;
   }
 

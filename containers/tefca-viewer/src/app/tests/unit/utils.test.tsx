@@ -1,4 +1,4 @@
-import { FormatPhoneAsDigits } from "@/app/query/components/SearchForm";
+import { FormatPhoneAsDigits } from "@/app/utils";
 
 describe("FormatPhoneAsDigits", () => {
   it("should handle dashes, spacecs, and dot delimiters", () => {

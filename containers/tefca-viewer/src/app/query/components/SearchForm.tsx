@@ -20,28 +20,7 @@ import {
   UseCaseQueryRequest,
 } from "../../query-service";
 import { Mode } from "../page";
-
-/**
- * @todo Add country code form box on search form
- * @todo Update documentation here once that's done to reflect switch
- * logic of country code
- *
- * Helper function to strip out non-digit characters from a phone number
- * entered into the search tool. Right now, we're not going to worry about
- * country code or international numbers, so we'll just make an MVP
- * assumption of 10 regular digits.
- * @param givenPhone The original phone number the user typed.
- * @returns The phone number as a pure digit string. If the cleaned number
- * is fewer than 10 digits, just return the original.
- */
-export function FormatPhoneAsDigits(givenPhone: string) {
-  // Start by getting rid of all existing separators for a clean slate
-  const newPhone: string = givenPhone.replace(/\D/g, "");
-  if (newPhone.length != 10) {
-    return givenPhone;
-  }
-  return newPhone;
-}
+import { FormatPhoneAsDigits } from "@/app/utils";
 
 interface SearchFormProps {
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;

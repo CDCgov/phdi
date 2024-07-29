@@ -93,6 +93,7 @@ export async function POST(request: NextRequest) {
     }),
     ...(PatientIdentifiers.dob && { dob: PatientIdentifiers.dob }),
     ...(PatientIdentifiers.mrn && { mrn: PatientIdentifiers.mrn }),
+    ...(PatientIdentifiers.phone && { phone: PatientIdentifiers.phone }),
   };
 
   const UseCaseQueryResponse: QueryResponse =
