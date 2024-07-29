@@ -110,7 +110,7 @@ describe("POST Query FHIR Server", () => {
     );
   });
 
-  it("should ", async () => {
+  it("should return a legitimate FHIR bundle if the query is successful", async () => {
     const request = {
       json: async () => {
         return PatientResource;
