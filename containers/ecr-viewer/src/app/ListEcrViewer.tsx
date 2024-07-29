@@ -48,6 +48,7 @@ export default function ListECRViewer({
           bordered={false}
           fullWidth={true}
           striped={true}
+          fixed={true}
           className={"table-homepage-list"}
           data-testid="table"
         >
@@ -60,7 +61,7 @@ export default function ListECRViewer({
               ))}
             </tr>
           </thead>
-          <tbody>{renderPage(currentPage)}</tbody>
+          <tbody className="tbody-scroll">{renderPage(currentPage)}</tbody>
         </Table>
         <div className="pagination-bar tbody-drop-shadow">
           <Pagination

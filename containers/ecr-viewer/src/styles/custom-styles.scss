@@ -153,6 +153,7 @@ h4 {
 
 .table-homepage-list {
   margin-top: 0; 
+  margin-bottom: 4rem;
   font-size: 16px;
   overflow: visible;
 
@@ -168,17 +169,17 @@ h4 {
     background-color: color("base-lightest");
   }
 
-  tbody {
-    display: block;
-    max-height: 700px;
-    overflow-y: auto;
-  }
+  // .tbody-scroll {
+  //   display: block;
+  //   max-height: 700px;
+  //   overflow-y: auto;
+  // }
   
-  tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-  }
+  // tr {
+  //   display: table;
+  //   width: 100%;
+  //   // table-layout: fixed;
+  // }
 
   tbody td {
     border-top: 0px;
@@ -187,6 +188,26 @@ h4 {
 
   tbody tr:last-child td {
     border-bottom: none;
+  }
+
+  th:nth-child(1), td:nth-child(1) {
+    min-width: 6rem;
+  }
+
+  th:nth-child(2), td:nth-child(2) {
+    min-width: 8.25rem;
+  }
+
+  th:nth-child(3), td:nth-child(3) {
+    min-width: 8.75rem;
+  }
+
+  th:nth-child(4), td:nth-child(4) {
+    min-width: 11.75rem;
+  }
+
+  th:nth-child(5), td:nth-child(5) {
+    min-width: 184px;
   }
 
 }
@@ -260,15 +281,10 @@ td {
 .homepage-wrapper {
   display: flex;
   width: 100%;
-  // gap: 48px;
   overflow-x: auto;
   align-items: center;
   flex-wrap: wrap;
   flex-direction: column;
-
-  .usa-table {
-    margin-bottom: 0 !important;
-  }
 
   .usa-pagination {
     margin: 0 !important;
