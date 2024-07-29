@@ -9,7 +9,7 @@ import React from "react";
  */
 const Header: React.FC = () => (
   <header className="usa-header usa-header--basic">
-    <div className="usa-nav-container padding-left-0">
+    <div className="usa-nav-container">
       <div className="usa-navbar">
         <div className="usa-logo">
           <h1>

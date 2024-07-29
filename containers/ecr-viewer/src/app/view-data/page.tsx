@@ -89,11 +89,7 @@ const ECRViewerPage: React.FC = () => {
         <div>
           <div className="main-container">
             <div className="content-wrapper">
-              <div className="nav-wrapper">
-                <nav className="sticky-nav">
-                  <SideNav />
-                </nav>
-              </div>
+              <SideNav />
               <div className={"ecr-viewer-container"}>
                 <div className="ecr-content">
                   <h2 className="margin-bottom-3" id="ecr-summary">
