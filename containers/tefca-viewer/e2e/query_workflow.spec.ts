@@ -131,9 +131,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page.getByRole("button", { name: "Next" }).click();
 
     await page
-      .getByLabel("Select from the following use cases to")
+      .getByLabel("Query", { exact: true })
       .selectOption("demo-sti-syphilis");
-    await page.getByRole("button", { name: "Fill fields" }).click();
+    await page
+      .getByLabel("Patient", { exact: true })
+      .selectOption("demo-sti-syphilis-positive");
 
     // Delete last name and MRN to force phone number as one of the 3 fields
     await page.getByLabel("Last Name").clear();
