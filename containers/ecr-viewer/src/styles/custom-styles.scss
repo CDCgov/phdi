@@ -441,6 +441,7 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   color: #111111;
 }
 
+
 h3 {
   font-size: 1.375rem;
 }
@@ -451,5 +452,22 @@ h3 {
     margin: 0px;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
+  }
+}
+
+.condition-details-accordion{
+  .usa-accordion__heading.border-accent-cool-darker {
+    &:not(:first-child) {
+      margin-top: 1.12rem;
+    }
+  }
+  .usa-accordion__content.border-accent-cool-darker {
+    padding: .5rem .75rem 0 .75rem;
+  }
+  .usa-accordion.accordion-rr {
+    margin: .5rem 0 .75rem 0;
+  }
+  button {
+    padding: .88rem .75rem;
   }
 }

@@ -77,17 +77,6 @@ def test_get_value_sets_for_condition(mock_db):
     assert response.json() == expected_result
 
 
-def test_stamp_conditions_bad_input():
-    input = {"bundle": {"test_key": "test_val"}, "conditions": []}
-    response = client.post("/stamp-condition-extensions", json=input)
-    assert response.status_code == 422
-    assert (
-        response.json()["detail"][0]["msg"]
-        == "Supplied list of SNOMED conditions "
-        + "must contain one or more elements; given list was empty."
-    )
-
-
 # Note: This function is defined in utils, but we mock it in the namespace
 # coming from main because that's where the endpoint is invoking it from
 @patch("app.main.get_clinical_services_list")
@@ -143,25 +132,25 @@ def test_stamp_condition_extensions(patched_get_services_list):
         ("dxtc", "8971234987123", "code-sys-2"),
         ("lotc", "72391283|8916394-2|24", "code-sys-1"),
     ]
-    input = {"bundle": message, "conditions": ["99999-9"]}
+    input = {"bundle": message}
     response = client.post("/stamp-condition-extensions", json=input)
     assert response.status_code == 200
     stamped_message = response.json()["extended_bundle"]
 
     # Check observation: diagnostic code value came back successful
     found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "99999-9", "Observation"
+        stamped_message, "840539006", "Observation"
     )
     assert found_matching_extension
 
     # Check condition: no value set cross-referenced for this bundle, no stamp
     found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "99999-9", "Condition"
+        stamped_message, "840539006", "Condition"
     )
     assert not found_matching_extension
 
     # Check immunization: we did find a referenced immunization code, so it should be there
     found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "99999-9", "Immunization"
+        stamped_message, "840539006", "Immunization"
     )
     assert found_matching_extension

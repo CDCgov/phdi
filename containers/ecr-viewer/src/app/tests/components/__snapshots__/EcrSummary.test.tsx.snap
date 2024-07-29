@@ -234,86 +234,89 @@ End: 05/13/2022 9:57 AM UTC
           </div>
         </h3>
         <div
-          class="usa-summary-box__text"
+          class="usa-summary-box__text condition-details-accordion"
         >
-          <div>
-            <div
-              class="grid-row"
+          <div
+            class="usa-accordion"
+            data-testid="accordion"
+          >
+            <h3
+              class="usa-accordion__heading side-nav-ignore border-1px border-accent-cool-darker"
             >
-              <div
-                class="data-title"
+              <button
+                aria-controls="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+                aria-expanded="true"
+                class="usa-accordion__button"
+                data-testid="accordionButton_Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+                type="button"
               >
-                Reportable Condition
+                Influenza caused by Influenza A virus subtype H5N1 (disorder)
+              </button>
+            </h3>
+            <div
+              class="usa-accordion__content usa-prose side-nav-ignore border-1px border-accent-cool-darker"
+              data-testid="accordionItem_Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+              id="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+            >
+              <div>
+                <div
+                  class="grid-row"
+                >
+                  <div
+                    class="data-title"
+                  >
+                    RCKMS Rule Summary
+                  </div>
+                  <div
+                    class="grid-col-auto maxw7 text-pre-line"
+                  >
+                    covid summary
+                  </div>
+                </div>
+                <div
+                  class="section__line_gray"
+                />
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="text-bold margin-top-0 margin-bottom-1"
+                id="relevant-clinical"
               >
-                <div
-                  class="p-list"
-                >
-                  <p>
-                    Influenza caused by Influenza A virus subtype H5N1 (disorder)
-                  </p>
+                Clinical Sections Relevant to Reportable Condition
+              </div>
+              <div
+                class="margin-top-0"
+              >
+                <div>
+                  <div
+                    class="grid-col-auto width-full text-pre-line"
+                  >
+                    covid clinical
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
                 </div>
               </div>
-            </div>
-            <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
-            >
               <div
-                class="data-title"
+                class="text-bold margin-0 margin-bottom-1"
+                id="relevant-labs"
               >
-                RCKMS Rule Summary
+                Lab Results Relevant to Reportable Condition
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="margin-top-0"
               >
-                Cough
+                <div>
+                  <div
+                    class="grid-col-auto width-full text-pre-line"
+                  >
+                    covid lab
+                  </div>
+                  <div
+                    class="section__line_gray"
+                  />
+                </div>
               </div>
-            </div>
-            <div
-              class="section__line_gray"
-            />
-          </div>
-          <div
-            class="ecr-summary-title-long"
-            id="relevant-clinical"
-          >
-            Clinical Sections Relevant to Reportable Condition
-          </div>
-          <div>
-            <div>
-              <div
-                class="grid-col-auto width-full text-pre-line"
-              >
-                Cough
-              </div>
-              <div
-                class="section__line_gray"
-              />
-            </div>
-          </div>
-          <div
-            class="ecr-summary-title-long"
-            id="relevant-labs"
-          >
-            Lab Results Relevant to Reportable Condition
-          </div>
-          <div>
-            <div>
-              <div
-                class="grid-col-auto width-full text-pre-line"
-              >
-                Covid 19
-              </div>
-              <div
-                class="section__line_gray"
-              />
             </div>
           </div>
         </div>

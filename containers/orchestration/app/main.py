@@ -62,7 +62,7 @@ process_counter = meter.create_counter(
 app = BaseService(
     service_name="PHDI Orchestration",
     service_path="/orchestration",
-    description_path=Path(__file__).parent.parent / "description.md",
+    description_path=Path(__file__).parent.parent / "README.md",
     openapi_url="/orchestration/openapi.json",
 ).start()
 
