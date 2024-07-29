@@ -87,7 +87,7 @@ const ECRViewerPage: React.FC = () => {
         <div>
           <div className="main-container">
             <div>
-              <div className="button-wrapper">
+              <div className="back-button-wrapper">
                 {isNonIntegratedViewer ? (
                   <Button
                     unstyled={true}

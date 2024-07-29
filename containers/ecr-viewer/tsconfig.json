@@ -33,7 +33,6 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/**/*.tsx",
     ".next/types/**/*.ts",
     "node_modules/cypress/types/cypress.d.ts"
   ],
