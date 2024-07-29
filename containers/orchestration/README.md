@@ -92,14 +92,23 @@ For more information on the endpoint go to the documentation [here](https://cdcg
 ```mermaid
 graph TD
     subgraph Main Services
+        direction TB
         A[Orchestration Service]
-        A --> B[Validation Service]
-        A --> C[FHIR Converter Service]
-        A --> D[Ingestion Service]
-        A --> E[Trigger Code Reference Service]
-        A --> F[Message Parser Service]
-        A --> G[ECR Viewer]
-        G --> H[ECR Viewer DB]
+
+        subgraph Row1
+            direction LR
+            A --> B[Validation Service]
+            A --> C[FHIR Converter Service]
+            A --> D[Ingestion Service]
+        end
+
+        subgraph Row2
+            direction LR
+            A --> E[Trigger Code Reference Service]
+            A --> F[Message Parser Service]
+            A --> G[ECR Viewer]
+            G --> H[ECR Viewer DB]
+        end
     end
 
     subgraph Observability
