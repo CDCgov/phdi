@@ -1,12 +1,10 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import EcrSummary, {
-  numConditionsText,
+  ConditionSummary,
 } from "../../view-data/components/EcrSummary";
 
 describe("EcrSummary", () => {
-  let container: HTMLElement;
-
   const patientDetails = [
     {
       title: "Patient Name",
@@ -47,93 +45,144 @@ describe("EcrSummary", () => {
       value: "Emergency",
     },
   ];
-  const aboutTheCondition = [
+  const covidConditionDetails: ConditionSummary[] = [
     {
-      title: "Reportable Condition",
-      value: (
-        <div className={"p-list"}>
-          {[
-            "Influenza caused by Influenza A virus subtype H5N1 (disorder)",
-          ].map((displayName) => (
-            <p key={displayName}>{displayName}</p>
-          ))}
-        </div>
-      ),
+      title: "Influenza caused by Influenza A virus subtype H5N1 (disorder)",
+      snomed: "test-snomed-123",
+      conditionDetails: [
+        {
+          title: "RCKMS Rule Summary",
+          value: "covid summary",
+        },
+      ],
+      clinicalDetails: [
+        {
+          title: "Relevant Clinical",
+          value: "covid clinical",
+        },
+      ],
+      labDetails: [
+        {
+          title: "Relevant Labs",
+          value: "covid lab",
+        },
+      ],
     },
+  ];
+  const hepConditionDetails: ConditionSummary[] = [
     {
-      title: "RCKMS Rule Summary",
-      value: "Cough",
+      title: "Hep C",
+      snomed: "test-snomed-456",
+      conditionDetails: [
+        {
+          title: "RCKMS Rule Summary",
+          value: "hep c summary",
+        },
+      ],
+      clinicalDetails: [
+        {
+          title: "Relevant Clinical",
+          value: "hep c clinical",
+        },
+      ],
+      labDetails: [
+        {
+          title: "Relevant Labs",
+          value: "hep c lab",
+        },
+      ],
     },
   ];
 
-  const relevantClinical = [
-    {
-      title: "Relevant Clinical",
-      value: "Cough",
-    },
-  ];
-
-  const relevantLabs = [
-    {
-      title: "Relevant Labs",
-      value: "Covid 19",
-    },
-  ];
-
-  beforeAll(() => {
-    container = render(
+  beforeAll(() => {});
+  it("should match snapshot", () => {
+    const { container } = render(
       <EcrSummary
         patientDetails={patientDetails}
         encounterDetails={encounterDetails}
-        aboutTheCondition={aboutTheCondition}
-        relevantClinical={relevantClinical}
-        relevantLabs={relevantLabs}
+        conditionSummary={covidConditionDetails}
       />,
-    ).container;
-  });
-  it("should match snapshot", () => {
+    );
+
     expect(container).toMatchSnapshot();
   });
   it("should pass accessibility test", async () => {
+    const { container } = render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={covidConditionDetails}
+      />,
+    );
+
     expect(await axe(container)).toHaveNoViolations();
   });
-});
+  it("should open the condition details when there is one", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={covidConditionDetails}
+      />,
+    );
 
-describe("numConditionsText", () => {
-  const createConditionDetails = (conditions: any[]) => [
-    {
-      title: "Reportable Condition",
-      value: (
-        <div className={"p-list"}>
-          {conditions.map((displayName: string) => (
-            <p key={displayName}>{displayName}</p>
-          ))}
-        </div>
-      ),
-    },
-    {
-      title: "RCKMS Rule Summary",
-      value: "Cough",
-    },
-  ];
+    expect(screen.getByText("covid summary")).toBeVisible();
+  });
+  it("should open the condition when the snomed matches", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={[...covidConditionDetails, ...hepConditionDetails]}
+        snomed={"test-snomed-456"}
+      />,
+    );
 
-  it("Given 0 reportable conditions, should return 0 REPORTABLE CONDITIONS", () => {
-    const conditionDetails = createConditionDetails([]);
-    const result = numConditionsText(conditionDetails);
-    expect(result).toEqual("0 CONDITIONS FOUND");
+    expect(screen.getByText("hep c summary")).toBeVisible();
   });
-  it("Given 1 reportable condition, should return 1 REPORTABLE CONDITION", () => {
-    const conditionDetails = createConditionDetails(["Influenza"]);
-    const result = numConditionsText(conditionDetails);
-    expect(result).toEqual("1 CONDITION FOUND");
+  it("should open no condition details when there is many and no match", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={[...covidConditionDetails, ...hepConditionDetails]}
+      />,
+    );
+
+    expect(screen.getByText("hep c summary")).not.toBeVisible();
+    expect(screen.getByText("covid summary")).not.toBeVisible();
   });
-  it("Given n reportable conditions, should return n REPORTABLE CONDITIONS", () => {
-    const conditionDetails = createConditionDetails([
-      "Influenza",
-      "COVID-19",
-      "Measles",
-    ]);
-    const result = numConditionsText(conditionDetails);
-    expect(result).toEqual("3 CONDITIONS FOUND");
+  it("should show 0 reportable conditions tag", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={[]}
+      />,
+    );
+
+    expect(screen.getByText("0 CONDITIONS FOUND"));
+  });
+  it("should show 1 reportable condition tag", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={covidConditionDetails}
+      />,
+    );
+
+    expect(screen.getByText("1 CONDITION FOUND"));
+  });
+  it("should show 2 reportable conditions tag", () => {
+    render(
+      <EcrSummary
+        patientDetails={patientDetails}
+        encounterDetails={encounterDetails}
+        conditionSummary={[...covidConditionDetails, ...hepConditionDetails]}
+      />,
+    );
+
+    expect(screen.getByText("2 CONDITIONS FOUND"));
   });
 });

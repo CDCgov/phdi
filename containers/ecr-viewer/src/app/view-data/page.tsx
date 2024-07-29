@@ -12,9 +12,7 @@ import EcrSummary from "./components/EcrSummary";
 import {
   evaluateEcrSummaryPatientDetails,
   evaluateEcrSummaryEncounterDetails,
-  evaluateEcrSummaryAboutTheConditionDetails,
-  evaluateEcrSummaryRelevantClinicalDetails,
-  evaluateEcrSummaryRelevantLabResults,
+  evaluateEcrSummaryConditionSummary,
 } from "../services/ecrSummaryService";
 import { metrics } from "./component-utils";
 import { EcrLoadingSkeleton } from "./components/LoadingComponent";
@@ -104,21 +102,12 @@ const ECRViewerPage: React.FC = () => {
                       fhirBundle,
                       mappings,
                     )}
-                    aboutTheCondition={evaluateEcrSummaryAboutTheConditionDetails(
+                    conditionSummary={evaluateEcrSummaryConditionSummary(
                       fhirBundle,
                       mappings,
                       snomedCode,
                     )}
-                    relevantClinical={evaluateEcrSummaryRelevantClinicalDetails(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
-                    relevantLabs={evaluateEcrSummaryRelevantLabResults(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
+                    snomed={snomedCode}
                   />
                   <div className="margin-top-10">
                     <GridContainer className={"padding-0 margin-bottom-3"}>
