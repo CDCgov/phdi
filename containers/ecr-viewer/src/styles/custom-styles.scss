@@ -147,6 +147,7 @@ h4 {
 
 .tbody-drop-shadow {
   position: relative;
+  z-index: 1;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -259,7 +260,7 @@ td {
 .homepage-wrapper {
   display: flex;
   width: 100%;
-  gap: 48px;
+  // gap: 48px;
   overflow-x: auto;
   align-items: center;
   flex-wrap: wrap;
@@ -270,7 +271,20 @@ td {
   }
 
   .usa-pagination {
-    margin-top: 0 !important;
+    margin: 0 !important;
+  }
+
+  .pagination-bar {
+    width: 100%;
+    display: flex;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    position: fixed;
+    bottom: 0px;
+    background-color: white;
   }
 }
 

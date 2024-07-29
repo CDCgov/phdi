@@ -60,21 +60,23 @@ export default function ListECRViewer({
               ))}
             </tr>
           </thead>
-          <tbody className="tbody-drop-shadow">{renderPage(currentPage)}</tbody>
+          <tbody>{renderPage(currentPage)}</tbody>
         </Table>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          pathname={""}
-          onClickNext={() => handlePageChange(currentPage + 1)}
-          onClickPrevious={() => handlePageChange(currentPage - 1)}
-          onClickPageNumber={(
-            _event: React.MouseEvent<HTMLButtonElement>,
-            page: number,
-          ) => {
-            handlePageChange(page);
-          }}
-        />
+        <div className="pagination-bar tbody-drop-shadow">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            pathname={""}
+            onClickNext={() => handlePageChange(currentPage + 1)}
+            onClickPrevious={() => handlePageChange(currentPage - 1)}
+            onClickPageNumber={(
+              _event: React.MouseEvent<HTMLButtonElement>,
+              page: number,
+            ) => {
+              handlePageChange(page);
+            }}
+          />
+        </div>
       </div>
     </div>
   );
