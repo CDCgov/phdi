@@ -14,7 +14,7 @@ RUN opentelemetry-bootstrap -a install
 
 COPY ./app /code/app
 COPY ./assets /code/assets
-COPY ./description.md /code/description.md
+COPY ./README.md /code/README.md
 
 ENV INGESTION_URL=$INGESTION_URL
 ENV MESSAGE-PARSER_URL=$MESSAGE-PARSER_URL
