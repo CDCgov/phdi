@@ -74,53 +74,18 @@ Can be found in [api-documentation.md](api-documentation.md).
 graph TD;
     db[PostgreSQL Database]
     ecr-viewer[Next.js App]
-    jaeger[Jaeger]
-    prometheus[Prometheus]
-    otel-collector[OpenTelemetry Collector]
-    grafana[Grafana]
 
     db -- "5432:5432" --> ecr-viewer
     ecr-viewer -- "3000:3000" --> ecr-viewer
 
-    jaeger -- "16686:16686" --> jaeger
-    jaeger -- "14268" --> jaeger
-    jaeger -- "14250" --> jaeger
-
-    prometheus -- "9090:9090" --> prometheus
-
-    otel-collector -- "8888:8888" --> otel-collector
-    otel-collector -- "8889:8889" --> otel-collector
-    otel-collector -- "4317:4317" --> otel-collector
-    otel-collector -- "4318:4318" --> otel-collector
-    otel-collector --> jaeger
-    otel-collector --> prometheus
-
-    grafana -- "4000:3000" --> grafana
-    grafana --> prometheus
 
     subgraph Volumes
-        prom_data["prom_data"]
-        grafana_data["grafana_data"]
         db_vol1["./seed-scripts/sql/:/docker-entrypoint-initdb.d/"]
         db_vol2["./seed-scripts/sql/.pgpass/:/usr/local/lib/.pgpass"]
-        jaeger_vol["./jaeger-ui.json:/etc/jaeger/jaeger-ui.json"]
-        prometheus_vol["./prometheus.yml:/etc/prometheus/prometheus.yml"]
-        otel_vol["./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml"]
-        grafana_ini["./grafana.ini:/etc/grafana/grafana.ini"]
-        grafana_dashboards["./grafana/dashboards:/etc/grafana/provisioning/dashboards"]
-        grafana_datasources["./grafana/datasources/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml"]
     end
 
     db -- uses --> db_vol1
     db -- uses --> db_vol2
-    jaeger -- uses --> jaeger_vol
-    prometheus -- uses --> prometheus_vol
-    otel-collector -- uses --> otel_vol
-    grafana -- uses --> grafana_ini
-    grafana -- uses --> grafana_dashboards
-    grafana -- uses --> grafana_datasources
-    grafana -- uses --> grafana_data
-    prometheus -- uses --> prom_data
 ```
 
 #### Application API
