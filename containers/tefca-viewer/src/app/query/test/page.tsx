@@ -31,7 +31,7 @@ const Query: React.FC = () => {
             setLoading={setLoading}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
-            source="test"
+            userJourney="test"
           />
         </Suspense>
       )}
