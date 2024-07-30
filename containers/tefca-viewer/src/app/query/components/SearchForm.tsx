@@ -22,6 +22,7 @@ import {
   UseCaseQueryRequest,
 } from "../../query-service";
 import { Mode } from "../page";
+import { FormatPhoneAsDigits } from "@/app/utils";
 import { useSearchParams } from "next/navigation";
 
 interface SearchFormProps {
@@ -98,6 +99,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     }
     event.preventDefault();
     setLoading(true);
+
     const originalRequest = {
       first_name: firstName,
       last_name: lastName,
@@ -105,6 +107,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       mrn: mrn,
       fhir_server: fhirServer,
       use_case: useCase,
+      phone: FormatPhoneAsDigits(phone),
     };
     setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest);
