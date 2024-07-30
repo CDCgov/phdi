@@ -6,7 +6,7 @@ import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
 import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
-import { Grid, GridContainer } from "@trussworks/react-uswds";
+import { Grid, GridContainer, Icon, Button } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 import EcrSummary from "./components/EcrSummary";
 import {
@@ -30,6 +30,8 @@ const ECRViewerPage: React.FC = () => {
   const searchParams = useSearchParams();
   const fhirId = searchParams ? searchParams.get("id") ?? "" : "";
   const snomedCode = searchParams ? searchParams.get("snomed-code") ?? "" : "";
+  const isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
 
   type ApiResponse = {
     fhirBundle: Bundle;
@@ -83,59 +85,82 @@ const ECRViewerPage: React.FC = () => {
     return (
       <main>
         <Header />
-        <PatientBanner bundle={fhirBundle} mappings={mappings} />
+        {isNonIntegratedViewer ? (
+          <PatientBanner bundle={fhirBundle} mappings={mappings} />
+        ) : (
+          ""
+        )}
         <div>
           <div className="main-container">
-            <div className="content-wrapper">
-              <SideNav />
-              <div className={"ecr-viewer-container"}>
-                <div className="ecr-content">
-                  <h2 className="margin-bottom-3" id="ecr-summary">
-                    eCR Summary
-                  </h2>
-                  <EcrSummary
-                    patientDetails={evaluateEcrSummaryPatientDetails(
-                      fhirBundle,
-                      mappings,
-                    )}
-                    encounterDetails={evaluateEcrSummaryEncounterDetails(
-                      fhirBundle,
-                      mappings,
-                    )}
-                    conditionSummary={evaluateEcrSummaryConditionSummary(
-                      fhirBundle,
-                      mappings,
-                      snomedCode,
-                    )}
-                    snomed={snomedCode}
-                  />
-                  <div className="margin-top-10">
-                    <GridContainer className={"padding-0 margin-bottom-3"}>
-                      <Grid row>
-                        <Grid>
-                          <h2 className="margin-bottom-0" id="ecr-document">
-                            eCR Document
-                          </h2>
-                        </Grid>
-                        <Grid
-                          className={"flex-align-self-center margin-left-auto"}
-                        >
-                          <ExpandCollapseButtons
-                            id={"main"}
-                            buttonSelector={"h3 > .usa-accordion__button"}
-                            accordionSelector={
-                              ".info-container > .usa-accordion__content"
-                            }
-                            expandButtonText={"Expand all sections"}
-                            collapseButtonText={"Collapse all sections"}
-                          />
-                        </Grid>
-                      </Grid>
-                    </GridContainer>
-                    <AccordionContent
-                      fhirPathMappings={mappings}
-                      fhirBundle={fhirBundle}
+            <div>
+              <div className="back-button-wrapper">
+                {isNonIntegratedViewer ? (
+                  <Button
+                    unstyled={true}
+                    type="button"
+                    className={"display-flex"}
+                    onClick={() => window.history.back()}
+                  >
+                    <Icon.ArrowBack size={3} />
+                    Back to eCR Library
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="content-wrapper">
+                <SideNav />
+                <div className={"ecr-viewer-container"}>
+                  <div className="ecr-content">
+                    <h2 className="margin-bottom-3" id="ecr-summary">
+                      eCR Summary
+                    </h2>
+                    <EcrSummary
+                      patientDetails={evaluateEcrSummaryPatientDetails(
+                        fhirBundle,
+                        mappings,
+                      )}
+                      encounterDetails={evaluateEcrSummaryEncounterDetails(
+                        fhirBundle,
+                        mappings,
+                      )}
+                      conditionSummary={evaluateEcrSummaryConditionSummary(
+                        fhirBundle,
+                        mappings,
+                        snomedCode,
+                      )}
+                      snomed={snomedCode}
                     />
+                    <div className="margin-top-10">
+                      <GridContainer className={"padding-0 margin-bottom-3"}>
+                        <Grid row>
+                          <Grid>
+                            <h2 className="margin-bottom-0" id="ecr-document">
+                              eCR Document
+                            </h2>
+                          </Grid>
+                          <Grid
+                            className={
+                              "flex-align-self-center margin-left-auto"
+                            }
+                          >
+                            <ExpandCollapseButtons
+                              id={"main"}
+                              buttonSelector={"h3 > .usa-accordion__button"}
+                              accordionSelector={
+                                ".info-container > .usa-accordion__content"
+                              }
+                              expandButtonText={"Expand all sections"}
+                              collapseButtonText={"Collapse all sections"}
+                            />
+                          </Grid>
+                        </Grid>
+                      </GridContainer>
+                      <AccordionContent
+                        fhirPathMappings={mappings}
+                        fhirBundle={fhirBundle}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -55,10 +55,12 @@ export type EcrDisplay = {
  *   may vary based on the source and is thus marked as `unknown`.
  */
 export async function listEcrData(): Promise<EcrDisplay[]> {
+  const isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
   if (process.env.SOURCE === S3_SOURCE) {
     const s3Data = await list_s3();
     const processedData = processListS3(s3Data);
-    if (process.env.STANDALONE_VIEWER === "true") {
+    if (isNonIntegratedViewer) {
       await getFhirMetadata(processedData);
     }
     return processedData;
@@ -76,8 +78,10 @@ export async function listEcrData(): Promise<EcrDisplay[]> {
  * @returns A promise resolving to a NextResponse object.
  */
 const list_postgres = async () => {
+  const isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
   try {
-    if (process.env.STANDALONE_VIEWER === "true") {
+    if (isNonIntegratedViewer) {
       let listFhir =
         "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC";
       return await database.manyOrNone<CompleteEcrDataModel>(listFhir);
@@ -179,7 +183,9 @@ export const processListS3 = (
 const getFhirMetadata = async (
   processedData: EcrDisplay[],
 ): Promise<EcrMetadataModel[]> => {
-  if (process.env.STANDALONE_VIEWER === "true") {
+  const isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
+  if (isNonIntegratedViewer) {
     const ecrIds = processedData.map((ecr) => ecr.ecrId);
     const fhirMetadataQuery =
       "SELECT ecr_id, patient_name_last, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir_metadata where ecr_id = $1";

@@ -8,16 +8,16 @@ jest.mock("../../app/api/services/listEcrDataService");
 describe("Home Page", () => {
   let container: HTMLElement;
   afterEach(() => {
-    delete process.env.STANDALONE_VIEWER;
+    delete process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER;
     jest.clearAllMocks();
   });
   it("env false value, should not show the homepage", async () => {
-    process.env.STANDALONE_VIEWER = "false";
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "false";
     container = render(await HomePage(any, any)).container;
     expect(container).toContainHTML("Sorry, this page is not available.");
   });
   it("env invalid value, should not show the homepage", async () => {
-    process.env.STANDALONE_VIEWER = "foo";
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "foo";
     container = render(await HomePage(any, any)).container;
     expect(container).toContainHTML("Sorry, this page is not available.");
   });
@@ -26,7 +26,7 @@ describe("Home Page", () => {
     expect(container).toContainHTML("Sorry, this page is not available.");
   });
   it("env true value, should show the homepage", async () => {
-    process.env.STANDALONE_VIEWER = "true";
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
     const mockData = [{ id: 1, name: "Test Ecr" }];
     (listEcrData as jest.Mock).mockResolvedValue(mockData);
     container = render(await HomePage(mockData)).container;
