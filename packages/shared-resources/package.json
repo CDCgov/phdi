@@ -1,0 +1,32 @@
+{
+  "name": "@repo/ui",
+  "description": "The DIBBs eCR Viewer app offers a REST API for processing FHIR messages into an HTML page with key insights.",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "test": "jest"
+  },
+  "exports": {
+    "./accordionContainer": "./src/accordion/AccordionContainer.tsx"
+  },
+  "dependencies": {
+    "@trussworks/react-uswds": "6.1.0",
+    "@uswds/uswds": "3.7.0",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/react": "^16.0.0",
+    "@types/jest-axe": "^3.5.9",
+    "@types/react": "^18",
+    "jest": "^29.7.0",
+    "jest-axe": "^8.0.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-extended": "^4.0.2",
+    "ts-jest": "^29.2.3",
+    "typescript": "^5.5.4"
+  }
+}

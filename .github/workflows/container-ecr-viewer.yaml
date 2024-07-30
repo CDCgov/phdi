@@ -6,6 +6,7 @@ on:
       - "**"
     paths:
       - containers/ecr-viewer/**
+      - packages/**
   merge_group:
     types:
       - checks_requested

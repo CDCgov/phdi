@@ -14,32 +14,16 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+    "esModuleInterop": true
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "node_modules/cypress/types/cypress.d.ts"
+    "**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
-    "./cypress.config.ts",
-    "cypress",
-    "**/*.cy.tsx"
+    "node_modules"
   ]
 }
