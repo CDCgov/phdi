@@ -28,12 +28,7 @@
     },
     {
       "service": "trigger_code_reference",
-      "endpoint": "/stamp-condition-extensions",
-      "params": {
-        "conditions": [
-          "840539006"
-        ]
-      }
+      "endpoint": "/stamp-condition-extensions"
     },
     {
       "service": "save_bundle",

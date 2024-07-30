@@ -507,16 +507,9 @@ def build_stamp_condition_extensions_request(
             "data_type": orchestration_request.get("data_type"),
             "workflow_params": workflow_params,
         },
-    ) as handler_span:
+    ):
         # Initialize workflow_params as an empty dictionary if it's None
         workflow_params = workflow_params or {}
-
-        handler_span.add_event(
-            "updating stamp conditions extensions request options",
-            attributes={
-                "conditions": workflow_params.get("conditions"),
-            },
-        )
 
         return {
             "bundle": input_msg,
