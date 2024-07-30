@@ -152,17 +152,18 @@ h4 {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
-.pag-drop-shadow {
-  position: relative;
-  box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
-}
+  .pag-drop-shadow {
+    position: relative;
+    box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+  } 
 
 .table-homepage-list {
   margin-top: 0; 
-  margin-bottom: 4rem;
+  margin-bottom: 0;
   font-size: 16px;
   // overflow: hidden;
-  max-width: 840px !important;
+  // max-width: 840px !important;
   font-size: 16px !important;
 
   thead th {
@@ -304,27 +305,28 @@ td {
   align-items: center;
   flex-wrap: wrap;
   flex-direction: column;
-  height: 90vh;
+  height: 86vh;
   z-index: 1;
   overflow-x: auto;
   overflow-y: auto;
 
+}
+
+.pagination-bar {
   .usa-pagination {
     margin: 0 !important;
   }
 
-  .pagination-bar {
-    width: 100%;
-    display: flex;
-    padding: 12px 24px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    align-self: stretch;
-    position: fixed;
-    bottom: 0px;
-    background-color: white;
-  }
+  width: 100%;
+  display: flex;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  position: fixed;
+  bottom: 0px;
+  background-color: white;
 }
 
 .main-container {
