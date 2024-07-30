@@ -12,12 +12,12 @@ exports[`EcrSummary should match snapshot 1`] = `
       <div
         class="usa-summary-box__body margin-bottom-05"
       >
-        <h2
+        <h3
           class="summary-box-key-information side-nav-ignore"
           id="patient-summary"
         >
           Patient Summary
-        </h2>
+        </h3>
         <div
           class="usa-summary-box__text"
         >
@@ -105,12 +105,12 @@ MELLY.C.A.16@GMAIL.COM
       <div
         class="usa-summary-box__body"
       >
-        <h2
+        <h3
           class="summary-box-key-information side-nav-ignore"
           id="encounter-summary"
         >
           Encounter Summary
-        </h2>
+        </h3>
         <div
           class="usa-summary-box__text"
         >
@@ -217,7 +217,7 @@ End: 05/13/2022 9:57 AM UTC
       <div
         class="usa-summary-box__body"
       >
-        <h2
+        <h3
           class="summary-box-key-information side-nav-ignore header-with-tag"
           id="condition-summary"
         >
@@ -232,7 +232,7 @@ End: 05/13/2022 9:57 AM UTC
               1 CONDITION FOUND
             </span>
           </div>
-        </h2>
+        </h3>
         <div
           class="usa-summary-box__text condition-details-accordion"
         >
