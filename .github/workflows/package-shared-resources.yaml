@@ -1,0 +1,51 @@
+name: Test package shared resources
+
+on:
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - packages/shared-resources/**
+  merge_group:
+    types:
+      - checks_requested
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - pyproject.toml
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CONTAINER: shared-resources
+  NODE_VERSION: 18 # Adjust the Node.js version as needed
+
+jobs:
+  javascript-linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint javascript for ${{env.CONTAINER}}
+        working-directory: ./packages/${{env.CONTAINER}}
+        run: |
+          npm ci
+          npm run lint
+  test-node-containers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{env.NODE_VERSION}}
+      - name: Install dependencies
+        working-directory: ./packages/${{env.CONTAINER}} # Navigate to your Node.js app directory
+        run: npm install
+      - name: Run tests
+        working-directory: ./packages/${{env.CONTAINER}} # Navigate to your Node.js app directory
+        run: npm test
