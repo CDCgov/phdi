@@ -17,6 +17,7 @@ import {
 import { metrics } from "./component-utils";
 import { EcrLoadingSkeleton } from "./components/LoadingComponent";
 import Header from "../Header";
+import PatientBanner from "./components/PatientBanner";
 
 /**
  * Functional component for rendering the eCR Viewer page.
@@ -82,14 +83,11 @@ const ECRViewerPage: React.FC = () => {
     return (
       <main>
         <Header />
+        <PatientBanner bundle={fhirBundle} mappings={mappings} />
         <div>
           <div className="main-container">
             <div className="content-wrapper">
-              <div className="nav-wrapper">
-                <nav className="sticky-nav">
-                  <SideNav />
-                </nav>
-              </div>
+              <SideNav />
               <div className={"ecr-viewer-container"}>
                 <div className="ecr-content">
                   <h2 className="margin-bottom-3" id="ecr-summary">
