@@ -283,23 +283,18 @@ def _get_section_by_code(
 
 
 def _get_observations(
-    section: Union[etree.Element, Callable[..., etree.Element]],
+    section: etree.Element,
     combined_xpath: str,
     namespaces: dict = {"hl7": "urn:hl7-org:v3"},
-    *args,
-    **kwargs,
 ) -> List[etree.Element]:
     """
     Get matching observations from a section or a callable returning a section based on combined XPath query.
 
-    :param section: The <section> element of the section to retrieve entries from or a function that returns the section.
-    :param combined_xpath: this will be either code values from the TCR or templateId root values in one combined XPath
+    :param section: The <section> element of the section to retrieve observations from.
+    :param combined_xpath: this will be either code values from the TCR or templateId root values in one combined XPath.
     :param namespaces: The namespaces to use when searching for elements and defaults to 'hl7'.
     :return: A list of matching <observation> elements.
     """
-    if callable(section):
-        section = section(*args, **kwargs)
-
     # use a list to store the final list of matching observation elements
     observations = []
     # use a set to store elements for uniqueness; trigger code data _may_ match clinical services
@@ -307,10 +302,10 @@ def _get_observations(
 
     # search once for matching elements using the combined XPath expression
     matching_elements = section.xpath(combined_xpath, namespaces=namespaces)
-    for elem in matching_elements:
-        if elem not in seen:
-            seen.add(elem)
-            observations.append(elem)
+    for element in matching_elements:
+        if element not in seen:
+            seen.add(element)
+            observations.append(element)
 
     # TODO: we are not currently checking the codeSystemName at this time. this is because
     # there is variation even within a single eICR in connection to the codeSystemName.
