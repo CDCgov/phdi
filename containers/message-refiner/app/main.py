@@ -26,7 +26,7 @@ TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets?condition_code="
 app = BaseService(
     service_name="Message Refiner",
     service_path="/message-refiner",
-    description_path=Path(__file__).parent.parent / "description.md",
+    description_path=Path(__file__).parent.parent / "README.md",
     include_health_check_endpoint=False,
     openapi_url="/message-refiner/openapi.json",
 ).start()
