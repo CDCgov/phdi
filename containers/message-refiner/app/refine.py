@@ -395,23 +395,6 @@ def _find_path_to_entry(element: etree.Element) -> List[etree.Element]:
     return path
 
 
-def _analyze_structure(path: List[etree.Element]) -> List[Dict[str, object]]:
-    """
-    Analyzes the structure and sibling counts for each element in the path.
-
-    :param path: A list of elements from <entry> to the observation.
-    :return: A list of dictionaries containing the element and its sibling count.
-    """
-    structure_info = []
-    for element in path:
-        parent = element.getparent()
-        if parent is not None:
-            siblings = parent.findall(element.tag)
-            sibling_count = len(siblings)
-            structure_info.append({"element": element, "sibling_count": sibling_count})
-    return structure_info
-
-
 def _prune_unwanted_siblings(
     paths: List[List[etree.Element]], desired_elements: List[etree.Element]
 ):

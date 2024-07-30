@@ -1,7 +1,6 @@
 import pathlib
 
 import pytest
-from app.refine import _analyze_structure
 from app.refine import _are_elements_present
 from app.refine import _create_minimal_section
 from app.refine import _create_or_update_text_element
@@ -260,42 +259,6 @@ def test_find_path_to_entry(observation, expected_path):
     path = _find_path_to_entry(observation)
     assert path == expected_path
     assert len(path) == len(expected_path)
-
-
-@pytest.mark.parametrize(
-    "path, expected_structure_info",
-    [
-        (
-            [
-                chlamydia_observations[2]
-                .getparent()
-                .getparent()
-                .getparent(),  # <entry>
-                chlamydia_observations[2].getparent().getparent(),  # <organizer>
-                chlamydia_observations[2].getparent(),  # <component>
-                chlamydia_observations[2],  # <observation>
-            ],
-            [
-                {
-                    "element": chlamydia_observations[2]
-                    .getparent()
-                    .getparent()
-                    .getparent(),
-                    "sibling_count": 7,
-                },
-                {
-                    "element": chlamydia_observations[2].getparent().getparent(),
-                    "sibling_count": 1,
-                },
-                {"element": chlamydia_observations[2].getparent(), "sibling_count": 1},
-                {"element": chlamydia_observations[2], "sibling_count": 1},
-            ],
-        )
-    ],
-)
-def test_analyze_structure(path, expected_structure_info):
-    structure_info = _analyze_structure(path)
-    assert structure_info == expected_structure_info
 
 
 @pytest.mark.parametrize(
