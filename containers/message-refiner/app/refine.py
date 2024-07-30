@@ -281,29 +281,6 @@ def _get_section_by_code(
         return section[0]
 
 
-def _get_entries_for_section(
-    section: Union[etree.Element, Callable[..., etree.Element]],
-    namespaces: dict = {"hl7": "urn:hl7-org:v3"},
-    *args,
-    **kwargs,
-) -> List[etree.Element]:
-    """
-    Gets the entries of a section of an eICR and returns a list of <entry> elements.
-
-    :param section: The <section> element of the section to retrieve entries from or a function that returns the section.
-    :param namespaces: The namespaces to use when searching for elements and defaults to 'hl7'.
-    :param args: Additional arguments to pass to the callable if `section` is a callable.
-    :param kwargs: Additional keyword arguments to pass to the callable if `section` is a callable.
-    :return: A list of <entry> elements of the entries in the section.
-    """
-    if callable(section):
-        section = section(*args, **kwargs)
-
-    entries = section.xpath(".//hl7:entry", namespaces=namespaces)
-    if entries is not None:
-        return entries
-
-
 def _get_observations(
     section: Union[etree.Element, Callable[..., etree.Element]],
     combined_xpath: str,

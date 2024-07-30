@@ -1,4 +1,7 @@
 import pathlib
+from typing import Callable
+from typing import List
+from typing import Union
 
 import pytest
 from app.refine import _are_elements_present
@@ -7,7 +10,6 @@ from app.refine import _create_or_update_text_element
 from app.refine import _extract_observation_data
 from app.refine import _find_path_to_entry
 from app.refine import _generate_combined_xpath
-from app.refine import _get_entries_for_section
 from app.refine import _get_observations
 from app.refine import _get_section_by_code
 from app.refine import _process_section
@@ -55,6 +57,29 @@ def read_file_from_test_assets(filename: str) -> str:
         "r",
     ) as file:
         return file.read()
+
+
+def _get_entries_for_section(
+    section: Union[etree.Element, Callable[..., etree.Element]],
+    namespaces: dict = {"hl7": "urn:hl7-org:v3"},
+    *args,
+    **kwargs,
+) -> List[etree.Element]:
+    """
+    Gets the entries of a section of an eICR and returns a list of <entry> elements.
+
+    :param section: The <section> element of the section to retrieve entries from or a function that returns the section.
+    :param namespaces: The namespaces to use when searching for elements and defaults to 'hl7'.
+    :param args: Additional arguments to pass to the callable if `section` is a callable.
+    :param kwargs: Additional keyword arguments to pass to the callable if `section` is a callable.
+    :return: A list of <entry> elements of the entries in the section.
+    """
+    if callable(section):
+        section = section(*args, **kwargs)
+
+    entries = section.xpath(".//hl7:entry", namespaces=namespaces)
+    if entries is not None:
+        return entries
 
 
 def normalize_xml(xml_string):
