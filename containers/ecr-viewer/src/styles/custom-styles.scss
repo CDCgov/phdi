@@ -513,7 +513,7 @@ h3 {
 
 .usa-summary-box {
   padding: 0.75rem 1.5rem 1.5rem 1.5rem;
-  h3 {
+  h3:not(.usa-accordion__heading){
     margin: 0px;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
