@@ -51,8 +51,6 @@ When viewing these docs from the `/redoc` endpoint on a running instance of the 
 
 ### Architecture Diagram
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-
 ```mermaid
 flowchart LR
 
