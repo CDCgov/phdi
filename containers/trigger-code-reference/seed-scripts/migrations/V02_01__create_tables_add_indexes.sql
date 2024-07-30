@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS valueset_types (
 
 CREATE TABLE IF NOT EXISTS valuesets (
     id TEXT PRIMARY KEY,
+    oid TEXT,
     version TEXT,
     name TEXT,
     author TEXT,
@@ -16,7 +17,8 @@ CREATE TABLE IF NOT EXISTS valuesets (
 CREATE TABLE IF NOT EXISTS conditions (
     id TEXT PRIMARY KEY,
     system TEXT,
-    name TEXT
+    name TEXT,
+    version TEXT
 );
 
 CREATE TABLE IF NOT EXISTS concepts (
@@ -46,7 +48,6 @@ CREATE TABLE IF NOT EXISTS valueset_concept_junction (
 -- add indexes to increase performance
 -- conditions
 CREATE INDEX IF NOT EXISTS "idx_conditions_id" ON conditions(id);
-CREATE INDEX IF NOT EXISTS "idx_conditions_valueset_id" ON conditions(valueset_id);
 
 -- valuesets
 CREATE INDEX IF NOT EXISTS "idx_valuesets_id" ON valuesets(id);
@@ -57,9 +58,6 @@ CREATE INDEX IF NOT EXISTS "idx_valueset_types_id" ON valueset_types(id);
 
 -- concepts
 CREATE INDEX IF NOT EXISTS "idx_concepts_id" ON concepts(id);
-
--- conditions composite index for valueset_id and id
-CREATE INDEX IF NOT EXISTS "idx_conditions_valueset_id_id" ON conditions(valueset_id, id);
 
 -- valueset_concept_junction indexes
 CREATE INDEX IF NOT EXISTS "idx_valueset_concept_junction_valueset_id" ON valueset_concept_junction(valueset_id);

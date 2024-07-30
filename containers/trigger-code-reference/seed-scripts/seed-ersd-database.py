@@ -91,7 +91,6 @@ def parse_ersd(ports: dict, data: dict) -> dict:
     :param data: eRSD json bundle
     :return: parsed message.
     """
-
     # load the ersd.json schema to message-parser first
     load_ersd_schema(ports)
 
@@ -174,7 +173,8 @@ def build_valueset_types_table(data: dict) -> List[List[str]]:
     if check_id_uniqueness(valueset_types_list):
         return valueset_types_list
     else:
-        return print("Non-unique IDs in valueset_types")
+        print("Non-unique IDs in valueset_types")
+        return []
 
 
 def build_valuesets_table(data: dict, concepts_dict: dict) -> List[List[str]]:
@@ -199,9 +199,12 @@ def build_valuesets_table(data: dict, concepts_dict: dict) -> List[List[str]]:
         valueset_name = service.get("display")
         publisher = service.get("publisher")
         service_info = concepts_dict.get(valueset_id)
+        version = service_info.get("version", "")
+        id = f"{valueset_id}_{version}"
         result = [
+            id,
             valueset_id,
-            service_info.get("version", ""),
+            version,
             valueset_name,
             publisher,
             service_info.get("concept_type"),
@@ -213,11 +216,12 @@ def build_valuesets_table(data: dict, concepts_dict: dict) -> List[List[str]]:
             concept_codes = [concept_codes]
         for concept in concept_codes:
             code = concept.get("coding")[0].get("code")
-            junction_list.append([valueset_id, code])
+            junction_list.append([id, code])
     if check_id_uniqueness(valuesets_list):
         return valuesets_list, junction_list
     else:
-        return print("Non-unique IDs in valuesets")
+        print("Non-unique IDs in valuesets")
+        return [], []
 
 
 def build_conditions_table(data: dict) -> List[List[str]]:
@@ -229,19 +233,32 @@ def build_conditions_table(data: dict) -> List[List[str]]:
     :return: list of lists of for each of the condition code, name, and system
     """
     concepts = data.get("concepts")
-    conditions_list = []
+    conditions_dict = {}
     for service in concepts:
         valueable_codes = ast.literal_eval(service.get("valueable_codes"))
+        compose_codes = ast.literal_eval(service.get("compose_codes"))
+        version = compose_codes.get("version")
         if isinstance(valueable_codes, dict):  # one item, need to list it
             valueable_codes = [valueable_codes]
-        # valueable codes to build valueset
+        # valueable codes to build conditions
         for valueable_code in valueable_codes:
             code_system = valueable_code.get("coding")[0].get("system")
             code = valueable_code.get("coding")[0].get("code")
             code_name = valueable_code.get("text")
-            result = [code, code_system, code_name]
-            conditions_list.append(result)
+            if code not in conditions_dict:
+                conditions_dict[code] = [code, code_system, code_name, {version}]
+            else:
+                conditions_dict[code][3].add(version)
+
+    conditions_list = [
+        [code, system, name, "|".join(list(versions))]
+        for code, (code, system, name, versions) in conditions_dict.items()
+    ]
+    if check_id_uniqueness(conditions_list):
         return conditions_list
+    else:
+        print("Non-unique IDs in conditions")
+        return []
 
 
 def build_concepts_table(data: dict) -> List[List[str]]:
@@ -271,11 +288,12 @@ def build_concepts_table(data: dict) -> List[List[str]]:
                 result = [id, code, system, display, version]
                 concepts_list.append(result)
                 # create junction table
-                junction_list.append([valueset_id, id])
+                junction_list.append([id, valueset_id])
     if check_id_uniqueness(concepts_list):
         return concepts_list, junction_list
     else:
-        return print("Non-unique IDs in concepts")
+        print("Non-unique IDs in concepts")
+        return [], []
 
 
 def apply_migration(connection: sqlite3.Connection, migration_file: str):
@@ -316,7 +334,7 @@ def load_table(
     connection: sqlite3.Connection,
     table_name: str,
     insert_rows: List[List[str]],
-    auto_increment_id: bool,
+    auto_increment_id: bool = False,
 ):
     """
     Takes the sqlite3 connection to insert data created in other data steps
