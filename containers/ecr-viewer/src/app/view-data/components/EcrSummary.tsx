@@ -83,12 +83,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
         aria-labelledby="summary-box-key-information"
       >
         <div className="usa-summary-box__body margin-bottom-05">
-          <h2
+          <h3
             className="summary-box-key-information side-nav-ignore"
             id={"patient-summary"}
           >
             Patient Summary
-          </h2>
+          </h3>
           <div className="usa-summary-box__text">
             {patientDetails.map((item) => (
               <DataDisplay item={item} key={item.title} />
@@ -96,12 +96,12 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </div>
         </div>
         <div className="usa-summary-box__body">
-          <h2
+          <h3
             className="summary-box-key-information side-nav-ignore"
             id="encounter-summary"
           >
             Encounter Summary
-          </h2>
+          </h3>
           <div className="usa-summary-box__text">
             {encounterDetails.map((item) => (
               <DataDisplay item={item} key={item.title} />
@@ -109,7 +109,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
           </div>
         </div>
         <div className="usa-summary-box__body">
-          <h2
+          <h3
             className={
               "summary-box-key-information side-nav-ignore header-with-tag"
             }
@@ -121,7 +121,7 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
                 {numConditionsText(conditionSummaryAccordionItems.length)}
               </Tag>
             </div>
-          </h2>
+          </h3>
           <div className="usa-summary-box__text condition-details-accordion">
             <Accordion items={conditionSummaryAccordionItems} />
           </div>

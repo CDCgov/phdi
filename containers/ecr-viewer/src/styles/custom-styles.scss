@@ -22,12 +22,10 @@
   border-top: 8px solid #EDEFF0;
 }
 
-#ecr-summary {
-  font-size: 40px;
-}
+
 
 h2 {
-  font-size: 22px;
+  font-size: 2.5rem;
   margin-top: 0;
   margin-bottom: 20px;
 }
@@ -58,7 +56,7 @@ h4 {
 }
 
 .data-title {
-  flex:0 1 auto;
+  flex: 0 1 auto;
   width: 190px;
   font-weight: bold;
 }
@@ -68,7 +66,7 @@ h4 {
   margin-bottom: 8px;
 }
 
-.info-container > .usa-accordion__heading > .usa-accordion__button {
+.info-container>.usa-accordion__heading>.usa-accordion__button {
   font-size: 2rem;
   background-size: 2.25rem;
 
@@ -82,9 +80,11 @@ h4 {
   border-radius: .25rem;
   overflow: hidden;
   margin-top: 1rem;
-  &:focus-within{
+
+  &:focus-within {
     border: #2491ff .25rem solid;
   }
+
   .usa-accordion__button {
     @include u-text('ink');
     font-size: 1.125rem;
@@ -103,7 +103,7 @@ h4 {
     }
   }
 
-  .usa-prose > table {
+  .usa-prose>table {
     overflow-wrap: break-word;
     width: calc(100% + 2.5rem);
     margin-right: -1.25rem;
@@ -111,18 +111,22 @@ h4 {
     margin-top: -1rem;
     margin-bottom: 1rem;
     border-bottom: #1b1b1b 1px solid;
+
     thead th {
       background-color: #F0F0F0;
     }
-    tr td{
+
+    tr td {
       border-bottom: 0;
     }
+
     .hideableData {
       border-top: color("base-lighter") 1px solid;
     }
   }
 }
-.caption-normal-weight{
+
+.caption-normal-weight {
   caption {
     font-weight: normal;
   }
@@ -130,11 +134,14 @@ h4 {
 
 .usa-table {
   overflow-wrap: break-word;
+
   thead th {
     background-color: #F0F0F0;
     vertical-align: top;
   }
-  th,td {
+
+  th,
+  td {
     padding: .75rem;
   }
 }
@@ -142,6 +149,7 @@ h4 {
 .table-homepage-list {
   max-width: 840px !important;
   font-size: 16px !important;
+
   thead th {
     background-color: white !important;
   }
@@ -155,6 +163,7 @@ h4 {
   tbody td:nth-child(2) {
     min-width: 130px;
   }
+
   tbody td:nth-child(3) {
     min-width: 100px;
   }
@@ -174,38 +183,41 @@ h4 {
 }
 
 .ecrTable {
-    table-layout: fixed;
-    margin-bottom: 0;
-    width: 100%;
-    td:first-child, th:first-child {
-      padding-left: 24px;
-    }
-    td:last-child, th:last-child {
-      padding-right: 24px;
-    }
-    td {
-      padding-top: 14px;
-      padding-bottom: 14px;
-    }
-    thead th{
-      border-bottom-color: #A9AEB1;
-    }
-    tr td{
-      border-bottom: none;
-    }
+  table-layout: fixed;
+  margin-bottom: 0;
+  width: 100%;
+
+  td:first-child,
+  th:first-child {
+    padding-left: 24px;
+  }
+
+  td:last-child,
+  th:last-child {
+    padding-right: 24px;
+  }
+
+  td {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  thead th {
+    border-bottom-color: #A9AEB1;
+  }
+
+  tr td {
+    border-bottom: none;
+  }
 }
 
 .ecrTable {
-    table-layout: fixed;
-    width: 100%;
+  table-layout: fixed;
+  width: 100%;
 }
 
 td {
   vertical-align: top;
-}
-
-.usa-summary-box__body:not(:first-child) .summary-box-key-information {
-  margin-top: 20px;
 }
 
 .table-caption-margin {
@@ -213,6 +225,7 @@ td {
     margin-bottom: 8px;
   }
 }
+
 .usa-sidenav__item a:not(.usa-sidenav__sublist a) {
   font-weight: bold;
 }
@@ -289,35 +302,36 @@ td {
 .ecr-content {
   max-width: 1440px;
 }
+
 .ecr-content h1:first-of-type {
-    margin-top: 0;
-    padding-top: 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .lh-18 {
   line-height: 18px;
 }
 
-ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a {
-    font-weight: bold;
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a {
+  font-weight: bold;
 }
 
-ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current,
-ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current {
-    &::after{
-      background-color: rgb(0, 94, 162);
-      content: "";
-      display: block;
-      position: absolute;
-      bottom: 0.25rem;
-      top: 0.25rem;
-      width: 0.25rem;
-      left: 0rem;
-      border-radius: 99rem;
-    }
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a.usa-current,
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a.usa-current {
+  &::after {
+    background-color: rgb(0, 94, 162);
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0.25rem;
+    top: 0.25rem;
+    width: 0.25rem;
+    left: 0rem;
+    border-radius: 99rem;
+  }
 }
 
-.usa-sidenav__sublist li.usa-sidenav__item:first-child{
+.usa-sidenav__sublist li.usa-sidenav__item:first-child {
   border-top: none !important;
 }
 
@@ -338,7 +352,7 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
 .immunization_table {
   tr {
     td:nth-child(1) {
-      word-break:break-word
+      word-break: break-word
     }
   }
 }
@@ -362,14 +376,14 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   padding-right: 1rem;
 }
 
-.short-tooltip + .usa-tooltip__body {
+.short-tooltip+.usa-tooltip__body {
   min-width: 350px;
 }
 
 
 @keyframes shimmer {
   to {
-     background-position-x: 0%
+    background-position-x: 0%
   }
 }
 
@@ -404,27 +418,45 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   }
 }
 
-.usa-header{
+.usa-header {
   background-color: #172E51;
   color: white;
+
   .usa-logo {
+    margin-left: 0px;
+
     a {
       color: white;
     }
   }
+
+  .usa-navbar {
+    border-bottom: none;
+  }
+
   @media (min-width: 64em) {
     .usa-logo {
       margin-bottom: 1.5rem;
       margin-top: 1.5rem;
     }
+
+    .usa-nav-container {
+      max-width: 65rem;
+      margin-left: 0px;
+      padding: 0.5rem 1.5rem;
+    }
   }
-  .usa-nav-container{
+
+  .usa-nav-container {
     max-width: 65rem;
+    margin-left: 0px;
+    padding: 0.5rem 1.5rem;
   }
-  h1{
+
+  h1 {
     font-style: normal;
-    font-weight: 700;
-    font-size: 1.46rem;
+    font-weight: bold;
+    font-size: 2rem;
   }
 }
 
@@ -457,6 +489,47 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
   font-size: 0.875rem;
   line-height: 100%;
   color: #111111;
+}
+
+.patient-banner {
+  display: flex;
+  padding: 0.5rem 1.5rem;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+
+  background: var(--Info-info-darker, #2E6276);
+
+  color: var(--White, #FFF);
+
+  font-size: 1.375rem;
+  font-style: normal;
+  line-height: normal;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.patient-banner-name {
+  font-weight: bold;
+}
+
+.patient-banner-dob {
+  font-weight: normal;
+}
+
+h3 {
+  font-size: 1.375rem;
+}
+
+.usa-summary-box {
+  padding: 0.75rem 1.5rem 1.5rem 1.5rem;
+  h3 {
+    margin: 0px;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
 }
 
 .condition-details-accordion{
