@@ -215,6 +215,7 @@ def _process_section(
     :param namespaces: The namespaces to use in XPath queries.
     :param template_ids: The list of template IDs to check.
     :param clinical_services_codes: Optional list of clinical service codes to check.
+    :return: None
     """
     check_elements = _are_elements_present(
         section, "templateId", template_ids, namespaces
@@ -294,7 +295,7 @@ def _get_observations(
     :param section: The <section> element of the section to retrieve entries from or a function that returns the section.
     :param combined_xpath: this will be either code values from the TCR or templateId root values in one combined XPath
     :param namespaces: The namespaces to use when searching for elements and defaults to 'hl7'.
-    :param
+    :return: A list of matching <observation> elements.
     """
     if callable(section):
         section = section(*args, **kwargs)
