@@ -6,7 +6,7 @@ import { UseCaseQueryResponse, UseCaseQueryRequest } from "../../query-service";
 // @ts-ignore
 import QueryView from "../components/QueryView";
 import MultiplePatientSearchResults from "../components/MultiplePatientSearchResults";
-import SearchForm from "../components/SearchForm";
+import SearchForm from "../components/SearchFormTest";
 import NoPatientsFound from "../components/NoPatientsFound";
 export type Mode = "search" | "results" | "multiple-patients" | "no-patients";
 
