@@ -1,4 +1,3 @@
-from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -320,27 +319,20 @@ def _get_observations(
 
 
 def _are_elements_present(
-    section: Union[etree.Element, Callable[..., etree.Element]],
+    section: etree.Element,
     search_type: str,
     search_values: List[str],
     namespaces: dict = {"hl7": "urn:hl7-org:v3"},
-    *args,
-    **kwargs,
 ) -> bool:
     """
     Checks if any of the specified elements are present in a section based on the search type and values.
 
-    :param section: The <section> element of the section to search within or a function that returns such a section.
+    :param section: The <section> element of the section to search within.
     :param search_type: The type of search ('templateId' or 'code').
     :param search_values: The list of values to search for (template IDs or codes).
     :param namespaces: The namespaces to use when searching for elements and defaults to 'hl7'.
-    :param args: Additional arguments to pass to the callable if `section` is a callable.
-    :param kwargs: Additional keyword arguments to pass to the callable if `section` is a callable.
     :return: True if any of the specified elements are present, False otherwise.
     """
-    if callable(section):
-        section = section(*args, **kwargs)
-
     if search_type == "templateId":
         xpath_queries = [
             f'.//hl7:templateId[@root="{value}"]' for value in search_values
