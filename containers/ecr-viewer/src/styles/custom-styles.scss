@@ -266,7 +266,7 @@ td {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 48px;
+  margin-top: .25rem;
   width: 250px;
 }
 
@@ -276,6 +276,7 @@ td {
   flex-basis: auto;
   position: sticky;
   top: 0;
+  padding-top: 2.75rem;
 }
 
 .ecr-viewer-container {
