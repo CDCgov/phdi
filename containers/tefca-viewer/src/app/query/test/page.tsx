@@ -6,7 +6,7 @@ import { UseCaseQueryResponse, UseCaseQueryRequest } from "../../query-service";
 // @ts-ignore
 import QueryView from "../components/QueryView";
 import MultiplePatientSearchResults from "../components/MultiplePatientSearchResults";
-import SearchForm from "../components/SearchFormTest";
+import SearchForm from "../components/SearchForm";
 import NoPatientsFound from "../components/NoPatientsFound";
 export type Mode = "search" | "results" | "multiple-patients" | "no-patients";
 
@@ -31,6 +31,7 @@ const Query: React.FC = () => {
             setLoading={setLoading}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
+            source="test"
           />
         </Suspense>
       )}
