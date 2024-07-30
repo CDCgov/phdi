@@ -1,5 +1,5 @@
 {
-  "value_set_type": {
+  "valueset_types": {
     "fhir_path": "entry.resource.where(resourceType='ValueSet' and url.contains('http://ersd.aimsplatform.org/fhir/ValueSet/')",
     "data_type": "string",
     "nullable": false,
@@ -9,19 +9,19 @@
         "data_type": "string",
         "nullable": false
       },
-      "clinical_service_type": {
+      "concept_type": {
         "fhir_path": "title",
         "data_type": "string",
         "nullable": false
       }
     }
   },
-  "clinical_services": {
+  "concepts": {
     "fhir_path": "entry.resource.where(resourceType='ValueSet' and url.contains('http://cts.nlm.nih.gov/fhir/ValueSet/')",
     "data_type": "string",
     "nullable": false,
     "secondary_schema": {
-      "value_set_id": {
+      "valueset_id": {
         "fhir_path": "id",
         "data_type": "string",
         "nullable": false
@@ -48,12 +48,12 @@
       }
     }
   },
-  "value_sets": {
+  "valuesets": {
     "fhir_path": "entry.resource.where(resourceType='ValueSet' and url.contains('http://ersd.aimsplatform.org/fhir/ValueSet/')",
     "data_type": "string",
     "nullable": false,
     "secondary_schema": {
-      "clinical_service_type_id": {
+      "concept_type_id": {
         "fhir_path": "id",
         "data_type": "string",
         "nullable": false

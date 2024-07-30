@@ -20,7 +20,6 @@ ERSD_URL = f"https://ersd.aimsplatform.org/api/ersd/v2specification?format=json&
 
 # docker constants to start message-parser service
 dockerfile_path = Path(__file__).parent.parent.parent / "message-parser"
-dockerfile_path = "/Users/rob/phdi/containers/message-parser"
 tag = "message-parser:latest"
 ports = {"8080": 8080}
 
@@ -189,10 +188,12 @@ def build_valuesets_table(data: dict, concepts_dict: dict) -> List[List[str]]:
     :param data: message-parser parsed eRSD json
     :param concepts_dict: a dictionary of each valueset URL with its
     service type as value
-    :return: list of lists of for each of the value set id, name, and code info
+    :return: list of lists of for each of the value set id, name, and code info.
+             list of lists of each value set id, concept
     """
     concepts = data.get("concepts")
     valuesets_list = []
+    junction_list = []
     for service in concepts:
         valueset_id = service.get("valueset_id")
         valueset_name = service.get("display")
@@ -206,8 +207,15 @@ def build_valuesets_table(data: dict, concepts_dict: dict) -> List[List[str]]:
             service_info.get("concept_type"),
         ]
         valuesets_list.append(result)
+        # create junction table between value set ID and concept ID
+        concept_codes = ast.literal_eval(service.get("valueable_codes"))
+        if isinstance(concept_codes, dict):
+            concept_codes = [concept_codes]
+        for concept in concept_codes:
+            code = concept.get("coding")[0].get("code")
+            junction_list.append([valueset_id, code])
     if check_id_uniqueness(valuesets_list):
-        return valuesets_list
+        return valuesets_list, junction_list
     else:
         return print("Non-unique IDs in valuesets")
 
@@ -223,7 +231,6 @@ def build_conditions_table(data: dict) -> List[List[str]]:
     concepts = data.get("concepts")
     conditions_list = []
     for service in concepts:
-        valueset_id = service.get("valueset_id")
         valueable_codes = ast.literal_eval(service.get("valueable_codes"))
         if isinstance(valueable_codes, dict):  # one item, need to list it
             valueable_codes = [valueable_codes]
@@ -232,12 +239,9 @@ def build_conditions_table(data: dict) -> List[List[str]]:
             code_system = valueable_code.get("coding")[0].get("system")
             code = valueable_code.get("coding")[0].get("code")
             code_name = valueable_code.get("text")
-            result = [code, valueset_id, code_system, code_name]
+            result = [code, code_system, code_name]
             conditions_list.append(result)
-    if check_id_uniqueness(conditions_list):
         return conditions_list
-    else:
-        return print("Non-unique IDs in valuesets")
 
 
 def build_concepts_table(data: dict) -> List[List[str]]:
@@ -251,6 +255,7 @@ def build_concepts_table(data: dict) -> List[List[str]]:
     """
     concepts = data.get("concepts")
     concepts_list = []
+    junction_list = []
     for service in concepts:
         valueset_id = service.get("valueset_id")
         compose_codes = ast.literal_eval(service.get("compose_codes"))
@@ -263,10 +268,12 @@ def build_concepts_table(data: dict) -> List[List[str]]:
                 code = concept.get("code", "")
                 display = concept.get("display", "")
                 id = f"{valueset_id}_{code}"
-                result = [id, valueset_id, code, system, display, version]
+                result = [id, code, system, display, version]
                 concepts_list.append(result)
+                # create junction table
+                junction_list.append([valueset_id, id])
     if check_id_uniqueness(concepts_list):
-        return concepts_list
+        return concepts_list, junction_list
     else:
         return print("Non-unique IDs in concepts")
 
@@ -309,6 +316,7 @@ def load_table(
     connection: sqlite3.Connection,
     table_name: str,
     insert_rows: List[List[str]],
+    auto_increment_id: bool,
 ):
     """
     Takes the sqlite3 connection to insert data created in other data steps
@@ -316,7 +324,11 @@ def load_table(
     :param connection: sqlite3 connection
     :param table_name: name of the table
     :param insert_rows: list of lists of values to insert into table
+    :param auto_increment_id: boolean to determine whether table needs
+            sequential row number as primary id
     """
+    if auto_increment_id:
+        insert_rows = [[i + 1] + row for i, row in enumerate(insert_rows)]
     cursor = connection.cursor()
     try:
         values = ", ".join("?" for _ in insert_rows[0])
@@ -351,16 +363,19 @@ def main():
     # 3. used parsed data to create needed tables as list of lists
     valueset_types_list = build_valueset_types_table(parsed_data)
     concepts_dict = build_concepts_dict(parsed_data)
-    valuesets_list = build_valuesets_table(parsed_data, concepts_dict)
+    valuesets_list, condition_valueset_junction_list = build_valuesets_table(
+        parsed_data, concepts_dict
+    )
     conditions_list = build_conditions_table(parsed_data)
-    concepts_list = build_concepts_table(parsed_data)
-
+    concepts_list, valueset_concept_junction_list = build_concepts_table(parsed_data)
     # Create mini-dict to loop through for sqlite queries
     table_dict = {
         "valueset_types": valueset_types_list,
         "valuesets": valuesets_list,
         "conditions": conditions_list,
         "concepts": concepts_list,
+        "condition_valueset_junction": condition_valueset_junction_list,
+        "valueset_concept_junction": valueset_concept_junction_list,
     }
 
     with sqlite3.connect("seed-scripts/ersd.db") as conn:
@@ -375,7 +390,10 @@ def main():
 
         # 6. Insert data into the tables
         for table_name, table_rows in table_dict.items():
-            load_table(conn, table_name, table_rows)
+            if "junction" in table_name:  # use to add sequential row number
+                load_table(conn, table_name, table_rows, True)
+            else:
+                load_table(conn, table_name, table_rows, False)
 
 
 if __name__ == "__main__":
