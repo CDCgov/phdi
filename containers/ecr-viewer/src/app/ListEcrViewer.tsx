@@ -43,7 +43,7 @@ export default function ListECRViewer({
 
   return (
     <div className="main-container">
-      <div className="homepage-wrapper">
+      <div className="homepage-wrapper outer_box5">
         <Table
           bordered={false}
           fullWidth={true}
@@ -63,7 +63,7 @@ export default function ListECRViewer({
           </thead>
           <tbody className="tbody-scroll">{renderPage(currentPage)}</tbody>
         </Table>
-        <div className="pagination-bar tbody-drop-shadow">
+        <div className="pagination-bar pag-drop-shadow">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

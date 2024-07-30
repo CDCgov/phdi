@@ -145,17 +145,23 @@ h4 {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
-.tbody-drop-shadow {
+.pag-drop-shadow {
   position: relative;
+  box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.outer_box5 {
+  height: 100vh;
   z-index: 1;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
 .table-homepage-list {
   margin-top: 0; 
   margin-bottom: 4rem;
   font-size: 16px;
-  overflow: visible;
+  // overflow: hidden;
 
   thead th {
     background-color: color("base-lighter");
@@ -180,6 +186,12 @@ h4 {
   //   width: 100%;
   //   // table-layout: fixed;
   // }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: color("base-lighter");
+  }
 
   tbody td {
     border-top: 0px;
@@ -281,7 +293,7 @@ td {
 .homepage-wrapper {
   display: flex;
   width: 100%;
-  overflow-x: auto;
+  // overflow-x: auto;
   align-items: center;
   flex-wrap: wrap;
   flex-direction: column;
