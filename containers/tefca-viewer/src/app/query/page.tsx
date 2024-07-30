@@ -28,6 +28,7 @@ const Query: React.FC = () => {
             setLoading={setLoading}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
+            source="demo"
           />
         </Suspense>
       )}
