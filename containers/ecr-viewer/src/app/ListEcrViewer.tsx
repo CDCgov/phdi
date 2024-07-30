@@ -43,7 +43,7 @@ export default function ListECRViewer({
 
   return (
     <div className="main-container">
-      <div className="homepage-wrapper outer_box5">
+      <div className="homepage-wrapper">
         <Table
           bordered={false}
           fullWidth={true}
@@ -63,21 +63,21 @@ export default function ListECRViewer({
           </thead>
           <tbody className="tbody-scroll">{renderPage(currentPage)}</tbody>
         </Table>
-        <div className="pagination-bar pag-drop-shadow">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            pathname={""}
-            onClickNext={() => handlePageChange(currentPage + 1)}
-            onClickPrevious={() => handlePageChange(currentPage - 1)}
-            onClickPageNumber={(
-              _event: React.MouseEvent<HTMLButtonElement>,
-              page: number,
-            ) => {
-              handlePageChange(page);
-            }}
-          />
-        </div>
+      </div>
+      <div className="pagination-bar pag-drop-shadow">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pathname={""}
+          onClickNext={() => handlePageChange(currentPage + 1)}
+          onClickPrevious={() => handlePageChange(currentPage - 1)}
+          onClickPageNumber={(
+            _event: React.MouseEvent<HTMLButtonElement>,
+            page: number,
+          ) => {
+            handlePageChange(page);
+          }}
+        />
       </div>
     </div>
   );

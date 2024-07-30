@@ -16,16 +16,18 @@ const HomePage: React.FC = async () => {
   }
 
   return (
-    <main>
+    <>
       <Header />
-      {process.env.STANDALONE_VIEWER === "true" ? (
-        <ListECRViewer listFhirData={listFhirData} />
-      ) : (
-        <div>
-          <h1>Sorry, this page is not available.</h1>
-        </div>
-      )}
-    </main>
+      <main>
+        {process.env.STANDALONE_VIEWER === "true" ? (
+          <ListECRViewer listFhirData={listFhirData} />
+        ) : (
+          <div>
+            <h1>Sorry, this page is not available.</h1>
+          </div>
+        )}
+      </main>
+    </>
   );
 };
 

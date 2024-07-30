@@ -150,13 +150,6 @@ h4 {
   box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
 }
 
-.outer_box5 {
-  height: 100vh;
-  z-index: 1;
-  overflow-x: scroll;
-  overflow-y: scroll;
-}
-
 .table-homepage-list {
   margin-top: 0; 
   margin-bottom: 4rem;
@@ -297,6 +290,10 @@ td {
   align-items: center;
   flex-wrap: wrap;
   flex-direction: column;
+  height: 90vh;
+  z-index: 1;
+  overflow-x: auto;
+  overflow-y: auto;
 
   .usa-pagination {
     margin: 0 !important;
@@ -320,6 +317,7 @@ td {
   display: flex;
   justify-content: center;
   overflow: visible;
+  flex-direction: column;
 }
 
 .content-wrapper {
