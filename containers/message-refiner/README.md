@@ -52,6 +52,7 @@ When viewing these docs from the `/redoc` endpoint on a running instance of the 
 ### Architecture Diagram
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
 ```mermaid
 flowchart LR
 
@@ -96,4 +97,7 @@ ecr ===> mr ===> rsp-ecr
 ### Additional notes on eICR Refinement
 
 For further details on `<section>`, `<entry>`, and `<templateId>` elements, please see [eICR-Notes.md](eICR-Notes.md) for an explanation of trigger code `<templateId>`s, which sections they're in, and the `<observation>` data that should be returned in the refined eICR output.
+
+```
+
 ```
