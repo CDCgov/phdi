@@ -109,4 +109,20 @@ describe("POST Query FHIR Server", () => {
       "Invalid fhir_server. Please provide a valid fhir_server. Valid fhir_servers include HELIOS Meld: Direct,HELIOS Meld: eHealthExchange,JMC Meld: Direct,JMC Meld: eHealthExchange,Public HAPI: eHealthExchange,OpenEpic: eHealthExchange,CernerHelios: eHealthExchange.",
     );
   });
+
+  it("should return a legitimate FHIR bundle if the query is successful", async () => {
+    const request = {
+      json: async () => {
+        return PatientResource;
+      },
+      nextUrl: {
+        searchParams: new URLSearchParams(
+          "use_case=social-determinants&fhir_server=HELIOS Meld: Direct",
+        ),
+      },
+    };
+    const response = await POST(request as any);
+    const body = await response.json();
+    expect(body.resourceType).toBe("Bundle");
+  });
 });
