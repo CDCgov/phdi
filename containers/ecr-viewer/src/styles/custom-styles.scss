@@ -616,3 +616,13 @@ h3 {
     padding: .88rem .75rem;
   }
 }
+
+.ecr-list-viewer-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  main {
+    overflow: hidden;
+  }
+}

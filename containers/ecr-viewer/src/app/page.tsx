@@ -16,7 +16,7 @@ const HomePage: React.FC = async () => {
   }
 
   return (
-    <>
+    <div className="ecr-list-viewer-container">
       <Header />
       <main>
         {process.env.STANDALONE_VIEWER === "true" ? (
@@ -27,7 +27,7 @@ const HomePage: React.FC = async () => {
           </div>
         )}
       </main>
-    </>
+    </div>
   );
 };
 
