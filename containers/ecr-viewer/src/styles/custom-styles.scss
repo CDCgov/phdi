@@ -248,6 +248,13 @@ td {
   overflow: visible;
 }
 
+.main-container2 {
+  max-width: calc(80rem + 3rem + 15.625rem);
+  min-width: calc(50rem + 3rem + 15.625rem);
+  width: 100%;
+  padding: 0 1rem;
+}
+
 .back-button-wrapper {
   margin-top:1.5rem;
   display: flex;
@@ -263,8 +270,6 @@ td {
 
 .content-wrapper {
   display: flex;
-  max-width: 1440px;
-  justify-content: center;
   gap: 3rem;
   overflow: visible;
   margin-top: 1.5rem;
@@ -287,11 +292,7 @@ td {
 }
 
 .ecr-viewer-container {
-  display: flex;
-  flex-basis: auto;
-  justify-content: left;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 }
 
 .ecr-content {
