@@ -10,8 +10,10 @@ export const dynamic = "force-dynamic";
  * @returns The home page JSX component.
  */
 const HomePage: React.FC = async () => {
+  const isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
   let listFhirData: EcrDisplay[] = [];
-  if (process.env.STANDALONE_VIEWER === "true") {
+  if (isNonIntegratedViewer) {
     listFhirData = await listEcrData();
   }
 
@@ -19,7 +21,7 @@ const HomePage: React.FC = async () => {
     <div className="ecr-list-viewer-container">
       <Header />
       <main>
-        {process.env.STANDALONE_VIEWER === "true" ? (
+        {isNonIntegratedViewer ? (
           <ListECRViewer listFhirData={listFhirData} />
         ) : (
           <div>

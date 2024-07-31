@@ -455,12 +455,17 @@
                ********************************************************
             -->
             <component>
-                <section>
+                <section nullFlavor="NI">
                     <templateId root="2.16.840.1.113883.10.20.22.2.12"/>
                     <code code="29299-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Reason for visit"/>
                     <title>Reason for Visit</title>
                     <text>
-                        <paragraph>Dark stools</paragraph>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
                     </text>
                 </section>
             </component>
@@ -482,409 +487,34 @@
                     <code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Relevant diagnostic tests and/or laboratory data"/>
                     <title>Results</title>
                     <text>
-                        <table>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <thead>
-                                <tr>
-                                    <th>Results Panel</th>
-                                    <th>Date(s)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ID="id_7d5a02b0-67a4-11db-bd13-0800200c9a66_ref">
-                                    <td>CBC W Auto Differential panel in Blood</td>
-                                    <td>NOV 7, 2016 to NOV 7, 2016</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="20">
-                                        <list styleCode="none">
-                                            <item>
-                                                <table>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Test</th>
-                                                            <th>Outcome</th>
-                                                            <th>Interpretation</th>
-                                                            <th>Date(s)</th>
-                                                            <th>Reference Range</th>
-                                                            <th>Reference Range Interpretation</th>
-                                                            <th>Reference Range Description</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ID="id_7c0704bb-9c40-41b5-9c7d-26b2d59e234f_ref">
-                                                            <td>Hematocrit</td>
-                                                            <td>35.3 %</td>
-                                                            <td>Low</td>
-                                                            <td>NOV 7, 2016</td>
-                                                            <td>34.9 % to 44.5 %</td>
-                                                            <td>Low</td>
-                                                            <td>Low</td>
-                                                        </tr>
-                                                        <tr ID="id_7c0704bb-9c40-41b5-9c7d-26b2d59e234g_ref">
-                                                            <td>Lymphocytes [#/​volume] in Blood by Automated count</td>
-                                                            <td>5.2 10*3/uL</td>
-                                                            <td>High</td>
-                                                            <td>NOV 7, 2016</td>
-                                                            <td>1.0 10*3/uL to 4.8 10*3/uL</td>
-                                                            <td>Normal</td>
-                                                            <td/>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </item>
-                                        </list>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <thead>
-                                <tr>
-                                    <th>Results Panel</th>
-                                    <th>Date(s)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ID="id_a4307cb2-b3b4-4f42-be03-1d9077376f4a_ref">
-                                    <td>Bordetella pertussis Ab [Units/volume] in Serum</td>
-                                    <td>NOV 7, 2016 to NOV 7, 2016</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="20">
-                                        <list styleCode="none">
-                                            <item>
-                                                <table>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Initial Case Report Trigger Code Result Observation </th>
-                                                            <th>Trigger Code</th>
-                                                            <th>Trigger Code codeSystem</th>
-                                                            <th>RCTC OID</th>
-                                                            <th>RCTC Version</th>
-                                                            <th>Outcome</th>
-                                                            <th>Interpretation</th>
-                                                            <th>Date(s)</th>
-                                                            <th>Reference Range</th>
-                                                            <th>Reference Range Interpretation</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ID="id_bf9c0a26-4524-4395-b3ce-100450b9c9ad_ref">
-                                                            <td>Bordetella pertussis Ab [Units/volume] in Serum</td>
-                                                            <td>11585-7</td>
-                                                            <td>LOINC</td>
-                                                            <td>2.16.840.1.114222.4.11.7508</td>
-                                                            <td>19/05/2016</td>
-                                                            <td>100 [iU]/mL</td>
-                                                            <td>High</td>
-                                                            <td>NOV 7, 2016</td>
-                                                            <td> to 45 [iU]/mL</td>
-                                                            <td>Normal</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </item>
-                                        </list>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <col width="10%"/>
-                            <thead>
-                                <tr>
-                                    <th>Results Panel</th>
-                                    <th>Date(s)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ID="id_a4307cb2-b3b4-4f42-be03-1d9077376f4b_ref">
-                                    <td>Bordetella pertussis [Presence] in Throat by Organism specific culture</td>
-                                    <td>NOV 7, 2016 to NOV 7, 2016</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="20">
-                                        <list styleCode="none">
-                                            <item>
-                                                <table>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <col width="10%"/>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Initial Case Report Trigger Code Result Observation </th>
-                                                            <th>Trigger Code</th>
-                                                            <th>Trigger Code codeSystem</th>
-                                                            <th>RCTC OID</th>
-                                                            <th>RCTC Version</th>
-                                                            <th>Outcome</th>
-                                                            <th>Trigger Code</th>
-                                                            <th>Trigger Code codeSystem</th>
-                                                            <th>RCTC OID</th>
-                                                            <th>RCTC Version</th>
-                                                            <th>Interpretation</th>
-                                                            <th>Date(s)</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ID="id_bf9c0a26-4524-4395-b3ce-100450b9c9ac_ref">
-                                                            <td>Bordetella pertussis [Presence] in Throat by Organism specific
-                                culture</td>
-                                                            <td>548-8</td>
-                                                            <td>LOINC</td>
-                                                            <td>2.16.840.1.114222.4.11.7508</td>
-                                                            <td>19/05/2016</td>
-                                                            <td>Bordetella pertussis (organism)</td>
-                                                            <td>5247005</td>
-                                                            <td>SNOMED CT</td>
-                                                            <td>2.16.840.1.114222.4.11.7508</td>
-                                                            <td>19/05/2016</td>
-                                                            <td>Abnormal</td>
-                                                            <td>NOV 7, 2016</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </item>
-                                        </list>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table>
-                            <col width="15%"/>
-                            <col width="15%"/>
-                            <col width="15%"/>
-                            <col width="15%"/>
-                            <col width="15%"/>
-                            <col width="15%"/>
-                            <col width="15%"/>
-                            <col width="15%"/>
-                            <col width="15%"/>
-                            <col width="15%"/>
-                            <thead>
-                                <tr>
-                                    <th>Results Panel</th>
-                                    <th>Date(s)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ID="id_2047cca3-559f-45da-8775-406538fa4815_ref">
-                                    <td>SARS-like Coronavirus N gene [Presence] in
-                    Unspecified specimen by NAA with probe
-                    detection</td>
-                                    <td/>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <list styleCode="none">
-                                            <item>
-                                                <paragraph>*** In the table below, row entries
-                          with values under RCTC columns triggered this
-                          Electronic Initial Case Report (eICR)</paragraph>
-                                                <table>
-                                                    <col width="15%"/>
-                                                    <col width="15%"/>
-                                                    <col width="15%"/>
-                                                    <col width="15%"/>
-                                                    <col width="15%"/>
-                                                    <col width="15%"/>
-                                                    <col width="15%"/>
-                                                    <col width="15%"/>
-                                                    <col width="15%"/>
-                                                    <col width="15%"/>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Test</th>
-                                                            <th>Lab Test RCTC OID ***</th>
-                                                            <th>Lab Test RCTC Version ***</th>
-                                                            <th>Outcome</th>
-                                                            <th>Date(s)</th>
-                                                            <th>Lab Result RCTC OID ***</th>
-                                                            <th>Lab Result RCTC Version ***</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ID="id_9890e2c3-019a-4168-8403-a0a069994440_ref">
-                                                            <td>SARS-like Coronavirus N gene [Presence] in
-                                Unspecified specimen by NAA with probe
-                                detection</td>
-                                                            <td>2.16.840.1.114222.4.11.7508</td>
-                                                            <td>20200429</td>
-                                                            <td>Detected (qualifier value)</td>
-                                                            <td>05/13/2020</td>
-                                                            <td/>
-                                                            <td/>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </item>
-                                        </list>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table border="1" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Lab Test Name</th>
-                                    <th>Lab Test Result Value</th>
-                                    <th>Lab Test Result Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <content ID="labTestResultValueDate1">2020-05-13T08:30:00-07:00</content>
-                                    </td>
-                                    <td>
-                                        <content ID="labTestName1">Neisseria gonorrhoeae DNA [Presence] in Nasopharynx
-                      by NAA with probe detection</content>
-                                    </td>
-                                    <td>
-                                        <content ID="labTestResultValue1">Detected</content>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <content ID="labTestResultValueDate2">2020-05-13T08:30:00-07:00</content>
-                                    </td>
-                                    <td>
-                                        <content ID="labTestName2">Chlamydia trachomatis rRNA [Presence] in Vaginal
-                      fluid by NAA with probe detection</content>
-                                    </td>
-                                    <td>
-                                        <content ID="labTestResultValue2">Not Detected</content>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <content ID="labTestResultValueDate3">2020-05-14T08:30:00-07:00</content>
-                                    </td>
-                                    <td>
-                                        <content ID="labTestName3">SARS-like Coronavirus N gene [Presence] in
-                      Unspecified specimen by NAA with probe detection</content>
-                                    </td>
-                                    <td>
-                                        <content ID="labTestResultValue3">Not Detected</content>
-                                    </td>
-                                </tr>
-                            </tbody>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <th>Display Text</th>
+                                <th>Code</th>
+                                <th>Code System</th>
+                                <th>Trigger Code Observation</th>
+                            </tr>
+                            <tr>
+                                <td>Bordetella pertussis Ab [Units/volume] in Serum</td>
+                                <td>11585-7</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
+                            <tr>
+                                <td>Bordetella pertussis [Presence] in Throat by Organism specific culture</td>
+                                <td>548-8</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
+                            <tr>
+                                <td>SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection</td>
+                                <td>94310-0</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
                         </table>
                     </text>
-                    <entry typeCode="DRIV">
-                        <organizer classCode="BATTERY" moodCode="EVN">
-                            <!-- [C-CDA R1.1] Result Organizer -->
-                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-                            <!-- [C-CDA R2.1] Result Organizer (V3) -->
-                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
-                            <id root="7d5a02b0-67a4-11db-bd13-0800200c9a66"/>
-                            <code code="57021-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="CBC W Auto Differential panel in Blood"/>
-                            <statusCode code="completed"/>
-                            <effectiveTime>
-                                <low value="20161107"/>
-                                <high value="20161107"/>
-                            </effectiveTime>
-                            <component>
-                                <!-- This observation is a non-trigger code result observation -->
-                                <observation classCode="OBS" moodCode="EVN">
-                                    <!-- [C-CDA R1.1] Result Observation -->
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-                                    <!-- [C-CDA R2.1] Result Observation (V3) -->
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
-                                    <id root="7c0704bb-9c40-41b5-9c7d-26b2d59e234f"/>
-                                    <code code="20570-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Hematocrit"/>
-                                    <statusCode code="completed"/>
-                                    <effectiveTime value="20161107"/>
-                                    <value unit="%" value="35.3" xsi:type="PQ"/>
-                                    <interpretationCode code="L" codeSystem="2.16.840.1.113883.1.11.78" displayName="Low"/>
-                                    <referenceRange>
-                                        <observationRange>
-                                            <text>Low</text>
-                                            <value xsi:type="IVL_PQ">
-                                                <low unit="%" value="34.9"/>
-                                                <high unit="%" value="44.5"/>
-                                            </value>
-                                            <interpretationCode code="L" codeSystem="2.16.840.1.113883.5.83" displayName="Low"/>
-                                        </observationRange>
-                                    </referenceRange>
-                                </observation>
-                            </component>
-                            <component>
-                                <!-- This observation is a non-trigger code result observation -->
-                                <observation classCode="OBS" moodCode="EVN">
-                                    <!-- [C-CDA R1.1] Result Observation -->
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-                                    <!-- [C-CDA R2.1] Result Observation (V3) -->
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
-                                    <id root="7c0704bb-9c40-41b5-9c7d-26b2d59e234g"/>
-                                    <code code="731-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Lymphocytes [#/​volume] in Blood by Automated count"/>
-                                    <statusCode code="completed"/>
-                                    <effectiveTime value="20161107"/>
-                                    <value unit="10*3/uL" value="5.2" xsi:type="PQ"/>
-                                    <interpretationCode code="H" codeSystem="2.16.840.1.113883.1.11.78" displayName="High"/>
-                                    <referenceRange>
-                                        <observationRange>
-                                            <value xsi:type="IVL_PQ">
-                                                <low unit="10*3/uL" value="1.0"/>
-                                                <high unit="10*3/uL" value="4.8"/>
-                                            </value>
-                                            <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" displayName="Normal"/>
-                                        </observationRange>
-                                    </referenceRange>
-                                </observation>
-                            </component>
-                        </organizer>
-                    </entry>
                     <entry typeCode="DRIV">
                         <organizer classCode="BATTERY" moodCode="EVN">
                             <!-- [C-CDA R1.1] Result Organizer -->
@@ -982,81 +612,6 @@
                                     <!-- This interpretation code denotes that this patient value is abnormal 
                                          (bordetella pertussis (organism) was present in the culture) -->
                                     <interpretationCode code="A" displayName="Abnormal" codeSystem="2.16.840.1.113883.5.83" codeSystemName="ObservationInterpretation"/>
-                                </observation>
-                            </component>
-                        </organizer>
-                    </entry>
-                    <entry typeCode="DRIV">
-                        <!---->
-                        <organizer classCode="BATTERY" moodCode="EVN">
-                            <!--[C-CDA
-              R1.1] Result Organizer -->
-                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-                            <!--[C-CDA
-              R2.1] Result Organizer (V3)-->
-                            <templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-                            <id root="2047cca3-559f-45da-8775-406538fa4815"/>
-                            <code code="94310-0 " codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection"/>
-                            <statusCode code="completed"/>
-                            <effectiveTime>
-                                <low value="20200513"/>
-                                <high value="20200513"/>
-                            </effectiveTime>
-                            <component>
-                                <observation classCode="OBS" moodCode="EVN">
-                                    <!--[C-CDA
-                  R1.1] Result Observation -->
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-                                    <!--[C-CDA
-                  R2.1] Result Observation (V3)-->
-                                    <templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-                                    <id root="9890e2c3-019a-4168-8403-a0a069994440"/>
-                                    <code code="94310-0 " codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="20200429" xsi:type="CD"/>
-                                    <statusCode code="completed"/>
-                                    <effectiveTime value="20200513"/>
-                                    <value code="260373001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Detected (qualifier value)" xsi:type="CD"/>
-                                </observation>
-                            </component>
-                        </organizer>
-                    </entry>
-                    <entry typeCode="DRIV">
-                        <organizer classCode="BATTERY" moodCode="EVN">
-                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
-                            <id root="24323852-d5a0-47bd-9d0d-8dea227b84ad"/>
-                            <code code="57180-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="Neisseria gonorrhoeae DNA [Presence] in Nasopharynx by NAA with probe detection"/>
-                            <statusCode code="completed"/>
-                            <component>
-                                <observation classCode="OBS" moodCode="EVN">
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
-                                    <id root="2.16.840.1.113883.4.945.1" extension="http://localhost:4080/Observation/scenario-3-observation-2/_history/21532502-fcbf-470c-9e5e-71b7f4d3830c"/>
-                                    <code code="57180-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="Neisseria gonorrhoeae DNA [Presence] in Nasopharynx by NAA with probe detection"/>
-                                    <statusCode code="completed"/>
-                                    <effectiveTime value="20200513153000"/>
-                                    <value xsi:type="CD" code="260373001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Detected (qualifier value)"/>
-                                    <interpretationCode code="A" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Abnormal"/>
-                                </observation>
-                            </component>
-                        </organizer>
-                    </entry>
-                    <entry typeCode="DRIV">
-                        <organizer classCode="BATTERY" moodCode="EVN">
-                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
-                            <id root="94fc09ba-06a8-40df-84f9-c68270da1440"/>
-                            <code code="53926-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="Chlamydia trachomatis rRNA [Presence] in Vaginal fluid by NAA with probe detection"/>
-                            <statusCode code="completed"/>
-                            <component>
-                                <observation classCode="OBS" moodCode="EVN">
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
-                                    <id root="2.16.840.1.113883.4.945.1" extension="http://localhost:4080/Observation/scenario-3-observation-1/_history/d3b78eb6-8926-4ea2-9b01-55b1162d978e"/>
-                                    <code code="53926-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="Chlamydia trachomatis rRNA [Presence] in Vaginal fluid by NAA with probe detection"/>
-                                    <statusCode code="completed"/>
-                                    <effectiveTime value="20200513153000"/>
-                                    <value xsi:type="CD" code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not Detected"/>
-                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
                                 </observation>
                             </component>
                         </organizer>
