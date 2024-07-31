@@ -1,60 +1,7 @@
 import json
 import pathlib
+from typing import Dict
 from typing import List
-
-
-def _generate_clinical_xpaths(system: str, codes: List[str]) -> List[str]:
-    """
-    This is a small helper function that loops through codes to create a set of
-    xpaths that can be used in the refine step.
-
-    :param system: This is the system type of the clinical service codes.
-    :param codes: This is a list of the clinical service codes for a specified
-    SNOMED code.
-    """
-    """
-    As of May 2024, these are the code systems used in clinical services
-    code_system
-    http://snomed.info/sct                         28102
-    http://loinc.org                                9509
-    http://hl7.org/fhir/sid/icd-10-cm               5892
-    http://www.nlm.nih.gov/research/umls/rxnorm      468
-    http://hl7.org/fhir/sid/cvx                        2
-    """
-    system_dict = {
-        "http://hl7.org/fhir/sid/icd-10-cm": "ICD10",
-        "http://snomed.info/sct": "SNOMED CT",
-        "http://loinc.org": "loinc.org",
-        "http://www.nlm.nih.gov/research/umls/rxnorm": "?",  # TODO
-        "http://hl7.org/fhir/sid/cvx": "?",  # TODO
-    }
-
-    # add condition to confirm if system in dict
-    if system not in system_dict.keys():
-        raise KeyError(f"{system} not a recognized clinical service system.")
-
-    # Loop through each code and create the XPath expressions
-    return [
-        f".//*[local-name()='entry'][.//*[@code='{code}' and @codeSystemName='{system_dict.get(system)}']]"
-        for code in codes
-    ]
-
-
-def create_clinical_xpaths(clinical_services_list: list[dict]) -> list[str]:
-    """
-    This function loops through each of those clinical service codes and their
-    system to create a list of all possible xpath queries.
-    :param clinical_services_list: List of clinical_service dictionaries.
-    :return: List of xpath queries to check.
-    """
-    clinical_services_xpaths = []
-    for clinical_services in clinical_services_list:
-        for system, entries in clinical_services.items():
-            for entry in entries:
-                system = entry.get("system")
-                xpaths = _generate_clinical_xpaths(system, entry.get("codes"))
-                clinical_services_xpaths.extend(xpaths)
-    return clinical_services_xpaths
 
 
 def read_json_from_assets(filename: str) -> dict:
@@ -79,11 +26,47 @@ def load_section_loincs(loinc_json: dict) -> tuple[list, dict]:
     section_list = list(loinc_json.keys())
 
     # dictionary of the required eICR sections'
-    # LOINC code, displayName, templateId, extension, and title
-    # to be used to create minimal sections and to support validation
+    # LOINC section code, root templateId and extension, displayName, and title
+    # to be used to create minimal sections and trigger code templates to support validation
     section_details = {
-        loinc: details.get("minimal_fields")
+        loinc: {
+            "minimal_fields": details.get("minimal_fields"),
+            "trigger_code_template": details.get("trigger_code_template"),
+        }
         for loinc, details in loinc_json.items()
         if details.get("required")
     }
     return (section_list, section_details)
+
+
+def create_clinical_services_dict(
+    clinical_services_list: List[Dict],
+) -> Dict[str, List[str]]:
+    """
+    Transform the original Trigger Code Reference API response to have keys as systems
+    and values as lists of codes, while ensuring the systems are recognized and using their
+    shorthand names so that we can both dynamicall construct XPaths and post-filter matches
+    to system name varients.
+    """
+    system_dict = {
+        "http://hl7.org/fhir/sid/icd-10-cm": "icd10",
+        "http://snomed.info/sct": "snomed",
+        "http://loinc.org": "loinc",
+        "http://www.nlm.nih.gov/research/umls/rxnorm": "rxnorm",  # TODO
+        "http://hl7.org/fhir/sid/cvx": "cvx",  # TODO
+    }
+
+    transformed_dict = {}
+    for clinical_services in clinical_services_list:
+        for service_type, entries in clinical_services.items():
+            for entry in entries:
+                system = entry.get("system")
+                if system not in system_dict.keys():
+                    raise KeyError(
+                        f"{system} not a recognized clinical service system."
+                    )
+                shorthand_system = system_dict[system]
+                if shorthand_system not in transformed_dict:
+                    transformed_dict[shorthand_system] = []
+                transformed_dict[shorthand_system].extend(entry.get("codes", []))
+    return transformed_dict

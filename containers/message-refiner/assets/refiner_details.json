@@ -1,0 +1,58 @@
+{
+  "sections": {
+    "46240-8": {
+      "required": true,
+      "display_name": "History of encounters",
+      "trigger_codes": {
+        "manually_triggered": {
+          "template_id_root": "2.16.840.1.113883.10.20.15.2.3.5"
+        },
+        "problem_observation": {
+          "template_id_root": "2.16.840.1.113883.10.20.15.2.3.3"
+        }
+      }
+    },
+    "10164-2": {
+      "required": true,
+      "display_name": "History of Present Illness"
+    },
+    "11369-6": {
+      "required": false,
+      "display_name": "History of Immunizations"
+    },
+    "29549-3": {
+      "required": true,
+      "display_name": "Medications Administered"
+    },
+    "18776-5": {
+      "required": true,
+      "display_name": "Plan of Treatment",
+      "trigger_codes": {
+        "lab_test_order": {
+          "template_id_root": "2.16.840.1.113883.10.20.15.2.3.4"
+        }
+      }
+    },
+    "11450-4": {
+      "required": true,
+      "display_name": "Problem List"
+    },
+    "29299-5": {
+      "required": true,
+      "display_name": "Reason For Visit"
+    },
+    "30954-2": {
+      "required": true,
+      "display_name": "Relevant diagnostic tests and/or laboratory data",
+      "trigger_codes": {
+        "result_observation": {
+          "template_id_root": "2.16.840.1.113883.10.20.15.2.3.2"
+        }
+      }
+    },
+    "29762-2": {
+      "required": true,
+      "display_name": "Social History"
+    }
+  }
+}

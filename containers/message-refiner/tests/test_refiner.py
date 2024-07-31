@@ -8,12 +8,12 @@ import pytest
 from app.main import app
 from app.main import get_clinical_services
 from fastapi.testclient import TestClient
-from lxml import etree as ET
+from lxml import etree
 
 client = TestClient(app)
 
 
-def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
+def parse_file_from_test_assets(filename: str) -> etree.ElementTree:
     """
     Parses a file from the assets directory into an ElementTree.
 
@@ -23,8 +23,8 @@ def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
     with open(
         (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
     ) as file:
-        parser = ET.XMLParser(remove_blank_text=True)
-        tree = ET.parse(file, parser)
+        parser = etree.XMLParser(remove_blank_text=True)
+        tree = etree.parse(file, parser)
         return tree
 
 
@@ -42,10 +42,16 @@ def read_file_from_test_assets(filename: str) -> str:
         return file.read()
 
 
-test_eICR_xml = read_file_from_test_assets("CDA_eICR.xml")
+test_eICR_xml = read_file_from_test_assets("message_refiner_test_eicr.xml")
+
+refined_test_no_parameters = parse_file_from_test_assets(
+    "refined_message_no_parameters.xml"
+)
+
 refined_test_eICR_social_history_only = parse_file_from_test_assets(
     "refined_message_social_history_only.xml"
 )
+
 refined_test_eICR_labs_reason = parse_file_from_test_assets(
     "refined_message_labs_reason.xml"
 )
@@ -54,19 +60,11 @@ refined_test_condition_only = parse_file_from_test_assets(
     "refined_message_condition_only.xml"
 )
 
-refined_test_conditon_and_labs = parse_file_from_test_assets(
-    "refined_message_condition_and_lab_section.xml"
+refined_test_results_chlamydia_condition = parse_file_from_test_assets(
+    "refined_message_results_section_chlamydia_condition.xml"
 )
 
-refined_test_no_relevant_section_data = parse_file_from_test_assets(
-    "refined_message_with_condition_and_section_with_no_condition_info.xml"
-)
-
-test_header = parse_file_from_test_assets("test_header.xml")
-
-mock_tcr_response = {
-    "lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]
-}
+mock_tcr_response = {"lrtc": [{"codes": ["53926-2"], "system": "http://loinc.org"}]}
 
 
 def test_health_check():
@@ -95,14 +93,14 @@ def test_openapi():
 
 def test_ecr_refiner():
     # Test case: sections_to_include = None
-    expected_response = parse_file_from_test_assets("CDA_eICR.xml")
+    expected_response = refined_test_no_parameters
     content = test_eICR_xml
     sections_to_include = None
     endpoint = "/ecr/"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
-    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    actual_flattened = [i.tag for i in etree.fromstring(actual_response.content).iter()]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
 
@@ -114,7 +112,7 @@ def test_ecr_refiner():
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
-    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    actual_flattened = [i.tag for i in etree.fromstring(actual_response.content).iter()]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
 
@@ -125,7 +123,7 @@ def test_ecr_refiner():
     endpoint = f"/ecr/?sections_to_include={sections_to_include}"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
-    actual_flattened = [i.tag for i in ET.fromstring(actual_response.content).iter()]
+    actual_flattened = [i.tag for i in etree.fromstring(actual_response.content).iter()]
     expected_flattened = [i.tag for i in expected_response.iter()]
     assert actual_flattened == expected_flattened
 
@@ -156,62 +154,81 @@ async def test_ecr_refiner_conditions(mock_get):
     mock_response.json.return_value = mock_tcr_response
     mock_get.return_value = mock_response
 
-    # Test conditions only
+    # Test chlamydia condition only
     expected_response = refined_test_condition_only
     content = test_eICR_xml
-    conditions_to_include = "6142004"
+    conditions_to_include = "240589008"
     endpoint = f"/ecr/?conditions_to_include={conditions_to_include}"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
     actual_flattened = [
-        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+        i.tag
+        for i in etree.fromstring(actual_response.content.decode()).iter()
+        if isinstance(i, etree._Element)
     ]
-    expected_flattened = [i.tag for i in expected_response.iter()]
+    expected_flattened = [
+        i.tag for i in expected_response.iter() if isinstance(i, etree._Element)
+    ]
     assert actual_flattened == expected_flattened
+
     actual_elements = [
         i.tag.split("}")[-1]
-        for i in ET.fromstring(actual_response.content.decode()).iter()
+        for i in etree.fromstring(actual_response.content.decode()).iter()
+        if isinstance(i, etree._Element) and isinstance(i.tag, str)
     ]
     assert "ClinicalDocument" in actual_elements
 
-    # Test conditions and relevant labs section
-    expected_response = refined_test_conditon_and_labs
+    # Test results section with chlamydia condition
+    expected_response = refined_test_results_chlamydia_condition
     content = test_eICR_xml
-    conditions_to_include = "6142004"
+    conditions_to_include = "240589008"
     sections_to_include = "30954-2"
     endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
     actual_flattened = [
-        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+        i.tag
+        for i in etree.fromstring(actual_response.content.decode()).iter()
+        if isinstance(i, etree._Element)
     ]
-    expected_flattened = [i.tag for i in expected_response.iter()]
+    expected_flattened = [
+        i.tag for i in expected_response.iter() if isinstance(i, etree._Element)
+    ]
     assert actual_flattened == expected_flattened
+
     actual_elements = [
         i.tag.split("}")[-1]
-        for i in ET.fromstring(actual_response.content.decode()).iter()
+        for i in etree.fromstring(actual_response.content.decode()).iter()
+        if isinstance(i, etree._Element) and isinstance(i.tag, str)
     ]
     assert "ClinicalDocument" in actual_elements
 
     # Test conditions, history of hospitalization section without relevant data
-    expected_response = refined_test_no_relevant_section_data
+    # this will process in the same way as if no parameters were passed
+    expected_response = refined_test_no_parameters
     content = test_eICR_xml
-    conditions_to_include = "6142004"
+    conditions_to_include = "240589008"
     sections_to_include = "46240-8"
     endpoint = f"/ecr/?sections_to_include={sections_to_include}&conditions_to_include={conditions_to_include}"
     actual_response = client.post(endpoint, content=content)
     assert actual_response.status_code == 200
 
     actual_flattened = [
-        i.tag for i in ET.fromstring(actual_response.content.decode()).iter()
+        i.tag
+        for i in etree.fromstring(actual_response.content.decode()).iter()
+        if isinstance(i, etree._Element)
     ]
-    expected_flattened = [i.tag for i in expected_response.iter()]
+    expected_flattened = [
+        i.tag for i in expected_response.iter() if isinstance(i, etree._Element)
+    ]
     assert actual_flattened == expected_flattened
+
     actual_elements = [
         i.tag.split("}")[-1]
-        for i in ET.fromstring(actual_response.content.decode()).iter()
+        for i in etree.fromstring(actual_response.content.decode()).iter()
+        if isinstance(i, etree._Element) and isinstance(i.tag, str)
     ]
     assert "ClinicalDocument" in actual_elements
 
@@ -222,11 +239,11 @@ async def test_get_clinical_services(mock_get):
     mock_response = Mock()
     mock_response.status_code = 200
     mock_response.json.return_value = {
-        "lrtc": [{"codes": ["76078-5", "76080-1"], "system": "http://loinc.org"}]
+        "lrtc": [{"codes": ["53926-2"], "system": "http://loinc.org"}]
     }
     mock_get.return_value = mock_response
 
-    condition_codes = "6142004"
+    condition_codes = "240589008"
     clinical_services = await get_clinical_services(condition_codes)
     expected_result = [mock_response]
     assert clinical_services == expected_result
