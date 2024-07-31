@@ -11,8 +11,8 @@ from app.utils import _find_codes_by_resource_type
 from app.utils import _stamp_resource_with_code_extension
 from app.utils import find_conditions
 from app.utils import get_clean_snomed_code
-from app.utils import get_clinical_services_dict
-from app.utils import get_clinical_services_list
+from app.utils import get_concepts_dict
+from app.utils import get_concepts_list
 from app.utils import read_json_from_assets
 
 RESOURCE_TO_SERVICE_TYPES = {
@@ -78,8 +78,8 @@ async def stamp_condition_extensions(
     conditions = find_conditions(input.bundle)
 
     for cond in conditions:
-        cond_list = get_clinical_services_list([cond])
-        cond_dict = get_clinical_services_dict(cond_list)
+        cond_list = get_concepts_list([cond])
+        cond_dict = get_concepts_dict(cond_list)
         stamp_codes_to_service_codes[cond] = cond_dict
 
     bundle_entries = input.bundle.get("entry", [])
@@ -158,10 +158,8 @@ async def get_value_sets_for_condition(
         )
     else:
         clean_snomed_code = get_clean_snomed_code(condition_code)
-        clinical_services_list = get_clinical_services_list(clean_snomed_code)
-        values = get_clinical_services_dict(
-            clinical_services_list, filter_clinical_services
-        )
+        clinical_services_list = get_concepts_list(clean_snomed_code)
+        values = get_concepts_dict(clinical_services_list, filter_clinical_services)
     return values
 
 

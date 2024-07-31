@@ -210,13 +210,13 @@ def build_valuesets_table(data: dict, concepts_dict: dict) -> List[List[str]]:
             service_info.get("concept_type"),
         ]
         valuesets_list.append(result)
-        # create junction table between value set ID and concept ID
+        # create junction table between value set ID and condition ID
         concept_codes = ast.literal_eval(service.get("valueable_codes"))
         if isinstance(concept_codes, dict):
             concept_codes = [concept_codes]
         for concept in concept_codes:
             code = concept.get("coding")[0].get("code")
-            junction_list.append([id, code])
+            junction_list.append([code, id])
     if check_id_uniqueness(valuesets_list):
         return valuesets_list, junction_list
     else:
@@ -261,7 +261,7 @@ def build_conditions_table(data: dict) -> List[List[str]]:
         return []
 
 
-def build_concepts_table(data: dict) -> List[List[str]]:
+def build_concepts_table(data: dict, concepts_dict: dict) -> List[List[str]]:
     """
     This builds the table for clinical services, which has a unique row for
     each unique valueset_id-code combination.
@@ -287,8 +287,11 @@ def build_concepts_table(data: dict) -> List[List[str]]:
                 id = f"{valueset_id}_{code}"
                 result = [id, code, system, display, version]
                 concepts_list.append(result)
-                # create junction table
-                junction_list.append([id, valueset_id])
+                # create junction table between valueset and concept
+                service_info = concepts_dict.get(valueset_id)
+                valueset_version = service_info.get("version", "")
+                valueset_id_full = f"{valueset_id}_{valueset_version}"
+                junction_list.append([valueset_id_full, id])
     if check_id_uniqueness(concepts_list):
         return concepts_list, junction_list
     else:
@@ -385,7 +388,9 @@ def main():
         parsed_data, concepts_dict
     )
     conditions_list = build_conditions_table(parsed_data)
-    concepts_list, valueset_concept_junction_list = build_concepts_table(parsed_data)
+    concepts_list, valueset_concept_junction_list = build_concepts_table(
+        parsed_data, concepts_dict
+    )
     # Create mini-dict to loop through for sqlite queries
     table_dict = {
         "valueset_types": valueset_types_list,
