@@ -64,7 +64,6 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page.getByLabel("Date of Birth").fill("2024-07-12");
     await page.getByLabel("Medical Record Number").fill("18091");
     await page.getByLabel("Phone Number").fill("5555555555");
-    await page.getByLabel("FHIR Server").selectOption("HELIOS Meld: Direct");
 
     await page.getByRole("button", { name: "Search for patient" }).click();
 
@@ -113,7 +112,6 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page.getByLabel("Last Name").fill("Williams");
     await page.getByLabel("Date of Birth").fill("2030-07-07");
     await page.getByLabel("Medical Record Number").fill("TLOU1TLOU2");
-    await page.getByLabel("FHIR Server").selectOption("HELIOS Meld: Direct");
     await page.getByRole("button", { name: "Search for patient" }).click();
 
     // Better luck next time, user!
