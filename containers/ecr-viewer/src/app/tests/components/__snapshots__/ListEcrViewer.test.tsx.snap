@@ -6,15 +6,13 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
     class="main-container"
   >
     <div
-      class="homepage-wrapper"
+      class="ecr-library-wrapper"
     >
       <table
-        class="usa-table usa-table--borderless width-full usa-table--striped table-homepage-list"
+        class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W usa-table--striped table-ecr-library"
         data-testid="table"
       >
-        <thead
-          class="thead-drop-shadow"
-        >
+        <thead>
           <tr>
             <th
               scope="col"
@@ -121,6 +119,10 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
           </tr>
         </tbody>
       </table>
+    </div>
+    <div
+      class="pagination-bar"
+    >
       <nav
         aria-label="Pagination"
         class="usa-pagination"
