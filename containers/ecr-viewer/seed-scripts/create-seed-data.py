@@ -93,13 +93,13 @@ def convert_files():
                     print(f"Converted {folder} successfully.")
                 else:
                     print(f"Failed to convert {folder}. Response: {response.text}")
-    if os.environ.get("STANDALONE_VIEWER") == "true":
+    if os.environ.get("NEXT_PUBLIC_STANDALONE_VIEWER") == "true":
         return fhir_bundles, metadata
     else:
         return fhir_bundles
 
 
-if os.environ.get("STANDALONE_VIEWER") == "true":
+if os.environ.get("NEXT_PUBLIC_STANDALONE_VIEWER") == "true":
     print("Running standalone viewer")
     bundle_arr, metadata = convert_files()
     save_sql_insert_fhir(bundle_arr)

@@ -1,10 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import fs from "fs";
-import YAML from "yaml";
+import YAML from "js-yaml";
 import { Bundle, Condition } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import { returnProblemsTable } from "@/app/view-data/components/common";
+import { PathMappings } from "@/app/utils";
 
 describe("Active Problems Table", () => {
   let container: HTMLElement;
@@ -12,7 +13,7 @@ describe("Active Problems Table", () => {
     const fhirPathFile = fs
       .readFileSync("./src/app/api/fhirPath.yml", "utf8")
       .toString();
-    const fhirPathMappings = YAML.parse(fhirPathFile);
+    const fhirPathMappings = YAML.load(fhirPathFile) as PathMappings;
 
     const activeProblemsData: Condition[] = [
       {
