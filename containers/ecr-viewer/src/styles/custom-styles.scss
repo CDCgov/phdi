@@ -146,6 +146,28 @@ h4 {
   }
 }
 
+.ecr-list-viewer-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  main {
+    overflow: hidden;
+  }
+}
+
+.homepage-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 86vh;
+  z-index: 1;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
 .thead-drop-shadow {
   position: sticky;
   top: 0;
@@ -153,18 +175,16 @@ h4 {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
-  .pag-drop-shadow {
-    position: relative;
-    box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-  } 
+.pag-drop-shadow {
+  position: relative;
+  box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+} 
 
 .table-homepage-list {
   margin-top: 0; 
   margin-bottom: 0;
   font-size: 16px;
-  // overflow: hidden;
-  // max-width: 840px !important;
   font-size: 16px !important;
   border-collapse: separate;
 
@@ -175,18 +195,6 @@ h4 {
   &.usa-table--striped tbody tr:nth-child(even) td {
     background-color: color("base-lightest");
   }
-
-  // .tbody-scroll {
-  //   display: block;
-  //   max-height: 700px;
-  //   overflow-y: auto;
-  // }
-  
-  // tr {
-  //   display: table;
-  //   width: 100%;
-  //   // table-layout: fixed;
-  // }
 
   thead th {
     position: sticky;
@@ -222,7 +230,6 @@ h4 {
   th:nth-child(5), td:nth-child(5) {
     min-width: 184px;
   }
-
 }
 
 .table-clinical-problems {
@@ -294,20 +301,6 @@ td {
 
 .usa-sidenav__item a:not(.usa-sidenav__sublist a) {
   font-weight: bold;
-}
-
-.homepage-wrapper {
-  display: flex;
-  width: 100%;
-  // overflow-x: auto;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: column;
-  height: 86vh;
-  z-index: 1;
-  overflow-x: auto;
-  overflow-y: auto;
-
 }
 
 .pagination-bar {
@@ -614,15 +607,5 @@ h3 {
   }
   button {
     padding: .88rem .75rem;
-  }
-}
-
-.ecr-list-viewer-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-
-  main {
-    overflow: hidden;
   }
 }
