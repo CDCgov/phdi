@@ -138,27 +138,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
         website.
       </Alert>
       <form className="patient-search-form" onSubmit={HandleSubmit}>
-        {/* <form
-        className="patient-search-form"
-        onSubmit={(e) => {
-          const originalRequest = {
-            first_name: firstName,
-            last_name: lastName,
-            dob: dob,
-            mrn: mrn,
-            fhir_server: fhirServer,
-            use_case: useCase,
-          };
-          console.log(
-            "HandleSubmit",
-            "originalRequest",
-            originalRequest,
-            useCase,
-            fhirServer
-          );
-          HandleSubmit(e);
-        }}
-      > */}
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
         {userJourney === "test" && (
           <>

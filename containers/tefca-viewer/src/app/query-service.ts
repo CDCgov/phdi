@@ -112,8 +112,6 @@ export async function UseCaseQuery(
   request: UseCaseQueryRequest,
   queryResponse: QueryResponse = {}
 ): Promise<QueryResponse> {
-  console.log("REQUEST:", request);
-
   const fhirClient = new FHIRClient(request.fhir_server);
 
   if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
