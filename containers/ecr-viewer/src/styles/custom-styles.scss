@@ -298,7 +298,6 @@ td {
   flex-shrink: 0;
   flex-basis: auto;
   position: sticky;
-  top: 0;
 }
 
 .ecr-viewer-container {
@@ -524,7 +523,7 @@ h3 {
 
 .usa-summary-box {
   padding: 0.75rem 1.5rem 1.5rem 1.5rem;
-  h3 {
+  h3:not(.usa-accordion__heading) {
     margin: 0px;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -546,4 +545,8 @@ h3 {
   button {
     padding: .88rem .75rem;
   }
+}
+
+.top-275 {
+  top: 2.75rem;
 }
