@@ -150,6 +150,7 @@ h4 {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
 
   main {
     overflow: hidden;
@@ -162,7 +163,7 @@ h4 {
   align-items: center;
   flex-wrap: wrap;
   flex-direction: column;
-  height: 86vh;
+  height: 84vh;
   z-index: 1;
   overflow-x: auto;
   overflow-y: auto;
@@ -172,20 +173,19 @@ h4 {
   position: sticky;
   top: 0;
   z-index: 1;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
 }
 
 .pag-drop-shadow {
   position: relative;
-  box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -0.25rem 0.25rem rgba(0, 0, 0, 0.1);
   z-index: 999;
 } 
 
 .table-homepage-list {
   margin-top: 0; 
   margin-bottom: 0;
-  font-size: 16px;
-  font-size: 16px !important;
+  font-size: 1rem;
   border-collapse: separate;
 
   &.usa-table--striped tbody tr:nth-child(odd) td {
@@ -203,7 +203,7 @@ h4 {
   }
 
   tbody td {
-    border-top: 0px;
+    border-top: 0;
     border-bottom: 1px solid var(--ink, #111);
   }
 
@@ -228,7 +228,7 @@ h4 {
   }
 
   th:nth-child(5), td:nth-child(5) {
-    min-width: 184px;
+    min-width: 11.5rem;
   }
 }
 
