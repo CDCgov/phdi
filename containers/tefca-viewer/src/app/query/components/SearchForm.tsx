@@ -52,13 +52,13 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const params = useSearchParams();
 
   // Get the demoOption (initial selection) selected from modal via the URL
-  const [demoOption, setDemoOption] = useState<string>(
-    params.get("useCase") || "demo-cancer"
+  const [useCase, setUseCase] = useState<USE_CASES>(
+    (params.get("useCase") as USE_CASES) || "cancer"
   );
 
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[demoOption]?.[0]?.value || ""
+    patientOptions[useCase]?.[0]?.value || ""
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -66,7 +66,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [phone, setPhone] = useState<string>("");
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
-  const [useCase, setUseCase] = useState<USE_CASES>();
+
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
   // Fills fields with sample data based on the selected patientOption
@@ -97,7 +97,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
   const handleDemoQueryChange = (selectedDemoOption: string) => {
-    setDemoOption(selectedDemoOption);
+    // setDemoOption(selectedDemoOption);
     setPatientOption(patientOptions[selectedDemoOption][0].value);
   };
 
@@ -138,24 +138,46 @@ const SearchForm: React.FC<SearchFormProps> = ({
         website.
       </Alert>
       <form className="patient-search-form" onSubmit={HandleSubmit}>
+        {/* <form
+        className="patient-search-form"
+        onSubmit={(e) => {
+          const originalRequest = {
+            first_name: firstName,
+            last_name: lastName,
+            dob: dob,
+            mrn: mrn,
+            fhir_server: fhirServer,
+            use_case: useCase,
+          };
+          console.log(
+            "HandleSubmit",
+            "originalRequest",
+            originalRequest,
+            useCase,
+            fhirServer
+          );
+          HandleSubmit(e);
+        }}
+      > */}
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
         {userJourney === "test" && (
           <>
             <h2 className="font-sans-lg search-form-section-label">
               <strong>Query information</strong>
             </h2>
-            <Label htmlFor="demo-query">
+            <Label htmlFor="query">
               <b>Query</b>
             </Label>
             <div className="grid-row grid-gap">
               <div className="usa-combo-box" data-enhanced="true">
                 <select
-                  id="demo-query"
-                  name="demo-query"
+                  id="query"
+                  name="query"
                   className="usa-select  margin-top-1"
-                  value={demoOption}
+                  value={useCase}
                   onChange={(event) => {
                     handleDemoQueryChange(event.target.value);
+                    setUseCase(event.target.value as USE_CASES);
                   }}
                 >
                   {demoQueryOptions.map((option) => (
@@ -198,7 +220,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
             <div className="usa-summary-box test-query-filler">
               <Label
                 className="usa-label margin-bottom-2 font-sans-xs"
-                htmlFor="demo-query"
+                htmlFor="query"
               >
                 <b>
                   Select a patient type to populate the form with sample data.
@@ -206,17 +228,17 @@ const SearchForm: React.FC<SearchFormProps> = ({
               </Label>
               <div className="display-flex flex-align-start">
                 <div className="usa-combo-box flex-1" data-enhanced="true">
-                  <Label htmlFor="demo-patient">Patient</Label>
+                  <Label htmlFor="patient">Patient</Label>
                   <select
-                    id="demo-patient"
-                    name="demo-patient"
+                    id="patient"
+                    name="patient"
                     className="usa-select margin-top-1"
                     value={patientOption}
                     onChange={(event) => {
                       setPatientOption(event.target.value);
                     }}
                   >
-                    {patientOptions[demoOption]?.map((option) => (
+                    {patientOptions[useCase]?.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
                       </option>
@@ -240,19 +262,20 @@ const SearchForm: React.FC<SearchFormProps> = ({
         )}
         {userJourney === "demo" && (
           <div className="usa-summary-box usa-summary-box demo-query-filler">
-            <Label className="usa-label" htmlFor="demo-query">
+            <Label className="usa-label" htmlFor="query">
               <b>Select a sample query and patient to populate the form.</b>
             </Label>
-            <Label htmlFor="demo-query">Query</Label>
+            <Label htmlFor="query">Query</Label>
             <div className="display-flex flex-align-start">
               <div className="usa-combo-box flex-1" data-enhanced="true">
                 <select
-                  id="demo-query"
-                  name="demo-query"
+                  id="query"
+                  name="query"
                   className="usa-select  margin-top-1"
-                  value={demoOption}
+                  value={useCase}
                   onChange={(event) => {
                     handleDemoQueryChange(event.target.value);
+                    setUseCase(event.target.value as USE_CASES);
                   }}
                 >
                   {demoQueryOptions.map((option) => (
@@ -261,17 +284,17 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     </option>
                   ))}
                 </select>
-                <Label htmlFor="demo-patient">Patient</Label>
+                <Label htmlFor="patient">Patient</Label>
                 <select
-                  id="demo-patient"
-                  name="demo-patient"
+                  id="patient"
+                  name="patient"
                   className="usa-select margin-top-1"
                   value={patientOption}
                   onChange={(event) => {
                     setPatientOption(event.target.value);
                   }}
                 >
-                  {patientOptions[demoOption]?.map((option) => (
+                  {patientOptions[useCase]?.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>

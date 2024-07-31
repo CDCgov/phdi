@@ -29,7 +29,7 @@ export type FHIR_SERVERS = (typeof FhirServers)[number];
 Demo patient data used to populate the form fields
 */
 export const demoData = {
-  "demo-cancer": {
+  cancer: {
     FirstName: "Lee",
     LastName: "Shaw",
     DOB: "1975-12-06",
@@ -38,7 +38,7 @@ export const demoData = {
     FhirServer: "HELIOS Meld: Direct",
     UseCase: "cancer",
   },
-  "demo-sti-chlamydia-positive": {
+  "sti-chlamydia-positive": {
     FirstName: "Chlamydia",
     LastName: "JMC",
     DOB: "2001-05-07",
@@ -47,7 +47,7 @@ export const demoData = {
     FhirServer: "JMC Meld: Direct",
     UseCase: "chlamydia",
   },
-  "demo-sti-gonorrhea-positive": {
+  "sti-gonorrhea-positive": {
     FirstName: "GC",
     LastName: "JMC",
     DOB: "1998-05-31",
@@ -56,7 +56,7 @@ export const demoData = {
     FhirServer: "JMC Meld: Direct",
     UseCase: "gonorrhea",
   },
-  "demo-newborn-screening-technical-fail": {
+  "newborn-screening-technical-fail": {
     FirstName: "Mango",
     LastName: "Smith",
     DOB: "2024-07-12",
@@ -65,7 +65,7 @@ export const demoData = {
     FhirServer: "HELIOS Meld: Direct",
     UseCase: "newborn-screening",
   },
-  "demo-newborn-screening-referral": {
+  "newborn-screening-referral": {
     FirstName: "Watermelon",
     LastName: "McGee",
     DOB: "2024-07-12",
@@ -74,7 +74,7 @@ export const demoData = {
     FhirServer: "HELIOS Meld: Direct",
     UseCase: "newborn-screening",
   },
-  "demo-newborn-screening-pass": {
+  "newborn-screening-pass": {
     FirstName: "Cucumber",
     LastName: "Hill",
     DOB: "2023-08-29",
@@ -83,7 +83,7 @@ export const demoData = {
     FhirServer: "CernerHelios: eHealthExchange",
     UseCase: "newborn-screening",
   },
-  "demo-social-determinants": {
+  "social-determinants": {
     FirstName: "Veronica",
     LastName: "Blackstone",
     DOB: "1998-06-18",
@@ -92,7 +92,7 @@ export const demoData = {
     FhirServer: "HELIOS Meld: Direct",
     UseCase: "social-determinants",
   },
-  "demo-sti-syphilis-positive": {
+  "sti-syphilis-positive": {
     FirstName: "Veronica",
     LastName: "Blackstone",
     DOB: "1998-06-18",
@@ -106,15 +106,15 @@ export type demoDataUseCase = keyof typeof demoData;
 
 /*Labels and values for the query options dropdown on the query page*/
 export const demoQueryOptions = [
-  { value: "demo-cancer", label: "Cancer case investigation" },
-  { value: "demo-sti-chlamydia", label: "Chlamydia case investigation" },
-  { value: "demo-sti-gonorrhea", label: "Gonorrhea case investigation" },
-  { value: "demo-newborn-screening", label: "Newborn screening follow-up" },
+  { value: "cancer", label: "Cancer case investigation" },
+  { value: "sti-chlamydia", label: "Chlamydia case investigation" },
+  { value: "sti-gonorrhea", label: "Gonorrhea case investigation" },
+  { value: "newborn-screening", label: "Newborn screening follow-up" },
   {
-    value: "demo-social-determinants",
+    value: "social-determinants",
     label: "Gather social determinants of health",
   },
-  { value: "demo-sti-syphilis", label: "Syphilis case investigation" },
+  { value: "sti-syphilis", label: "Syphilis case investigation" },
 ];
 
 type Option = {
@@ -124,42 +124,42 @@ type Option = {
 
 /* Labels and values for the patient options that are available based on the query option selected */
 export const patientOptions: Record<string, Option[]> = {
-  "demo-cancer": [{ value: "demo-cancer", label: "A patient with leukemia" }],
-  "demo-sti-chlamydia": [
+  cancer: [{ value: "cancer", label: "A patient with leukemia" }],
+  "sti-chlamydia": [
     {
-      value: "demo-sti-chlamydia-positive",
+      value: "sti-chlamydia-positive",
       label: "A male patient with a positive chlamydia lab test",
     },
   ],
-  "demo-sti-gonorrhea": [
+  "sti-gonorrhea": [
     {
-      value: "demo-sti-gonorrhea-positive",
+      value: "sti-gonorrhea-positive",
       label: "A male patient with a positive gonorrhea lab test",
     },
   ],
-  "demo-newborn-screening": [
+  "newborn-screening": [
     {
-      value: "demo-newborn-screening-technical-fail",
+      value: "newborn-screening-technical-fail",
       label: "A newborn with a technical failure on screening",
     },
     {
-      value: "demo-newborn-screening-referral",
+      value: "newborn-screening-referral",
       label: "A newborn with a hearing referral & risk indicator",
     },
     {
-      value: "demo-newborn-screening-pass",
+      value: "newborn-screening-pass",
       label: "A newborn with a passed screening",
     },
   ],
-  "demo-social-determinants": [
+  "social-determinants": [
     {
-      value: "demo-social-determinants",
+      value: "social-determinants",
       label: "A patient with housing insecurity",
     },
   ],
-  "demo-sti-syphilis": [
+  "sti-syphilis": [
     {
-      value: "demo-sti-syphilis-positive",
+      value: "sti-syphilis-positive",
       label: "A patient with a positive syphilis lab test",
     },
   ],

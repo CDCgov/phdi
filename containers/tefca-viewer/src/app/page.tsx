@@ -147,55 +147,47 @@ export default function LandingPage() {
             <div className="modal-options">
               <Button
                 type="button"
-                className={`modal-option ${
-                  selectedOption === "demo-sti-chlamydia"
-                }`}
-                onClick={() => handleOptionClick("demo-sti-chlamydia")}
+                className={`modal-option ${selectedOption === "sti-chlamydia"}`}
+                onClick={() => handleOptionClick("sti-chlamydia")}
               >
                 Chlamydia case investigation
               </Button>
               <Button
                 type="button"
-                className={`modal-option ${
-                  selectedOption === "demo-sti-gonorrhea"
-                }`}
-                onClick={() => handleOptionClick("demo-sti-gonorrhea")}
+                className={`modal-option ${selectedOption === "sti-gonorrhea"}`}
+                onClick={() => handleOptionClick("sti-gonorrhea")}
               >
                 Gonorrhea case investigation
               </Button>
               <Button
                 type="button"
-                className={`modal-option ${
-                  selectedOption === "demo-sti-syphilis"
-                }`}
-                onClick={() => handleOptionClick("demo-sti-syphilis")}
+                className={`modal-option ${selectedOption === "sti-syphilis"}`}
+                onClick={() => handleOptionClick("sti-syphilis")}
               >
                 Syphilis case investigation
               </Button>
               <Button
                 type="button"
-                className={`modal-option ${selectedOption === "demo-cancer"}`}
-                onClick={() => handleOptionClick("demo-cancer")}
+                className={`modal-option ${selectedOption === "cancer"}`}
+                onClick={() => handleOptionClick("cancer")}
               >
                 Cancer case investigation
               </Button>
               <Button
                 type="button"
                 className={`modal-option ${
-                  selectedOption === "demo-newborn-screening"
+                  selectedOption === "newborn-screening"
                 }`}
-                onClick={() => handleOptionClick("demo-newborn-screening")}
+                onClick={() => handleOptionClick("newborn-screening")}
               >
                 Newborn screening follow-up
               </Button>
               <Button
                 type="button"
                 className={`modal-option ${
-                  selectedOption === "demo-social-determinants"
-                    ? "selected"
-                    : ""
+                  selectedOption === "social-determinants" ? "selected" : ""
                 }`}
-                onClick={() => handleOptionClick("demo-social-determinants")}
+                onClick={() => handleOptionClick("social-determinants")}
               >
                 Gather social determinants of health for a patient
               </Button>
