@@ -18,7 +18,7 @@ const HomePage: React.FC = async () => {
   }
 
   return (
-    <div className="ecr-list-viewer-container">
+    <div className="ecr-library-viewer-container">
       <Header />
       <main>
         {isNonIntegratedViewer ? (

@@ -43,13 +43,13 @@ export default function ListECRViewer({
 
   return (
     <div className="main-container">
-      <div className="homepage-wrapper">
+      <div className="ecr-library-wrapper">
         <Table
           bordered={false}
           fullWidth={true}
           striped={true}
           fixed={true}
-          className={"table-homepage-list"}
+          className={"table-ecr-library"}
           data-testid="table"
         >
           <thead className="thead-drop-shadow">
@@ -61,7 +61,7 @@ export default function ListECRViewer({
               ))}
             </tr>
           </thead>
-          <tbody className="tbody-scroll">{renderPage(currentPage)}</tbody>
+          <tbody>{renderPage(currentPage)}</tbody>
         </Table>
       </div>
       <div className="pagination-bar pag-drop-shadow">

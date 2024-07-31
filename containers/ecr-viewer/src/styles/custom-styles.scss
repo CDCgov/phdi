@@ -146,7 +146,7 @@ h4 {
   }
 }
 
-.ecr-list-viewer-container {
+.ecr-library-viewer-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -157,7 +157,7 @@ h4 {
   }
 }
 
-.homepage-wrapper {
+.ecr-library-wrapper {
   display: flex;
   width: 100%;
   align-items: center;
@@ -182,7 +182,7 @@ h4 {
   z-index: 999;
 } 
 
-.table-homepage-list {
+.table-ecr-library {
   margin-top: 0; 
   margin-bottom: 0;
   font-size: 1rem;
