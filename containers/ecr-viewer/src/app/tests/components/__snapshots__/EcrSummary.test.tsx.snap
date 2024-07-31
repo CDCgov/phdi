@@ -3,319 +3,315 @@
 exports[`EcrSummary should match snapshot 1`] = `
 <div>
   <div
-    class="info-container"
+    aria-labelledby="summary-box-key-information"
+    class="usa-summary-box padding-3"
   >
     <div
-      aria-labelledby="summary-box-key-information"
-      class="usa-summary-box padding-3"
+      class="usa-summary-box__body margin-bottom-05"
     >
-      <div
-        class="usa-summary-box__body margin-bottom-05"
+      <h3
+        class="summary-box-key-information side-nav-ignore"
+        id="patient-summary"
       >
-        <h3
-          class="summary-box-key-information side-nav-ignore"
-          id="patient-summary"
-        >
-          Patient Summary
-        </h3>
-        <div
-          class="usa-summary-box__text"
-        >
-          <div>
+        Patient Summary
+      </h3>
+      <div
+        class="usa-summary-box__text"
+      >
+        <div>
+          <div
+            class="grid-row"
+          >
             <div
-              class="grid-row"
+              class="data-title"
             >
-              <div
-                class="data-title"
-              >
-                Patient Name
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                ABEL CASTILLO
-              </div>
+              Patient Name
             </div>
             <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
+              class="grid-col-auto maxw7 text-pre-line"
             >
-              <div
-                class="data-title"
-              >
-                DOB
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                04/15/2015
-              </div>
+              ABEL CASTILLO
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+        <div>
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              DOB
             </div>
             <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
+              class="grid-col-auto maxw7 text-pre-line"
             >
-              <div
-                class="data-title"
-              >
-                Patient Address
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                1050 CARPENTER ST
+              04/15/2015
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+        <div>
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              Patient Address
+            </div>
+            <div
+              class="grid-col-auto maxw7 text-pre-line"
+            >
+              1050 CARPENTER ST
 EDWARDS, CA
 93523-2800, US
-              </div>
             </div>
-            <div
-              class="section__line_gray"
-            />
           </div>
-          <div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+        <div>
+          <div
+            class="grid-row"
+          >
             <div
-              class="grid-row"
+              class="data-title"
             >
-              <div
-                class="data-title"
-              >
-                Patient Contact
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                Home (818)419-5968
-MELLY.C.A.16@GMAIL.COM
-              </div>
+              Patient Contact
             </div>
             <div
-              class="section__line_gray"
-            />
+              class="grid-col-auto maxw7 text-pre-line"
+            >
+              Home (818)419-5968
+MELLY.C.A.16@GMAIL.COM
+            </div>
           </div>
+          <div
+            class="section__line_gray"
+          />
         </div>
       </div>
-      <div
-        class="usa-summary-box__body"
+    </div>
+    <div
+      class="usa-summary-box__body"
+    >
+      <h3
+        class="summary-box-key-information side-nav-ignore"
+        id="encounter-summary"
       >
-        <h3
-          class="summary-box-key-information side-nav-ignore"
-          id="encounter-summary"
-        >
-          Encounter Summary
-        </h3>
-        <div
-          class="usa-summary-box__text"
-        >
-          <div>
+        Encounter Summary
+      </h3>
+      <div
+        class="usa-summary-box__text"
+      >
+        <div>
+          <div
+            class="grid-row"
+          >
             <div
-              class="grid-row"
+              class="data-title"
             >
-              <div
-                class="data-title"
-              >
-                Facility Name
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                PRM- Palmdale Regional Medical Center
-              </div>
+              Facility Name
             </div>
             <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
+              class="grid-col-auto maxw7 text-pre-line"
             >
-              <div
-                class="data-title"
-              >
-                Facility Address
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                38600 Medical Center Drive
+              PRM- Palmdale Regional Medical Center
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+        <div>
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              Facility Address
+            </div>
+            <div
+              class="grid-col-auto maxw7 text-pre-line"
+            >
+              38600 Medical Center Drive
 Palmdale, CA
 93551, USA
-              </div>
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+        <div>
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              Facility Contact
             </div>
             <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
+              class="grid-col-auto maxw7 text-pre-line"
             >
-              <div
-                class="data-title"
-              >
-                Facility Contact
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                (661)382-5000
-              </div>
+              (661)382-5000
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+        <div>
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              Encounter Date/Time
             </div>
             <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
+              class="grid-col-auto maxw7 text-pre-line"
             >
-              <div
-                class="data-title"
-              >
-                Encounter Date/Time
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                Start: 05/13/2022 7:25 AM UTC
+              Start: 05/13/2022 7:25 AM UTC
 End: 05/13/2022 9:57 AM UTC
-              </div>
             </div>
-            <div
-              class="section__line_gray"
-            />
           </div>
-          <div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+        <div>
+          <div
+            class="grid-row"
+          >
             <div
-              class="grid-row"
+              class="data-title"
             >
-              <div
-                class="data-title"
-              >
-                Encounter Type
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                Emergency
-              </div>
+              Encounter Type
             </div>
             <div
-              class="section__line_gray"
-            />
+              class="grid-col-auto maxw7 text-pre-line"
+            >
+              Emergency
+            </div>
           </div>
+          <div
+            class="section__line_gray"
+          />
         </div>
       </div>
-      <div
-        class="usa-summary-box__body"
+    </div>
+    <div
+      class="usa-summary-box__body"
+    >
+      <h3
+        class="summary-box-key-information side-nav-ignore header-with-tag"
+        id="condition-summary"
       >
-        <h3
-          class="summary-box-key-information side-nav-ignore header-with-tag"
-          id="condition-summary"
-        >
-          <div>
-            Condition Summary
-          </div>
-          <div>
-            <span
-              class="usa-tag tag-info"
-              data-testid="tag"
-            >
-              1 CONDITION FOUND
-            </span>
-          </div>
-        </h3>
-        <div
-          class="usa-summary-box__text condition-details-accordion"
-        >
-          <div
-            class="usa-accordion"
-            data-testid="accordion"
+        <div>
+          Condition Summary
+        </div>
+        <div>
+          <span
+            class="usa-tag tag-info"
+            data-testid="tag"
           >
-            <h3
-              class="usa-accordion__heading side-nav-ignore border-1px border-accent-cool-darker"
+            1 CONDITION FOUND
+          </span>
+        </div>
+      </h3>
+      <div
+        class="usa-summary-box__text condition-details-accordion"
+      >
+        <div
+          class="usa-accordion"
+          data-testid="accordion"
+        >
+          <h3
+            class="usa-accordion__heading side-nav-ignore border-1px border-accent-cool-darker"
+          >
+            <button
+              aria-controls="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+              aria-expanded="true"
+              class="usa-accordion__button"
+              data-testid="accordionButton_Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+              type="button"
             >
-              <button
-                aria-controls="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
-                aria-expanded="true"
-                class="usa-accordion__button"
-                data-testid="accordionButton_Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
-                type="button"
+              Influenza caused by Influenza A virus subtype H5N1 (disorder)
+            </button>
+          </h3>
+          <div
+            class="usa-accordion__content usa-prose side-nav-ignore border-1px border-accent-cool-darker"
+            data-testid="accordionItem_Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+            id="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+          >
+            <div>
+              <div
+                class="grid-row"
               >
-                Influenza caused by Influenza A virus subtype H5N1 (disorder)
-              </button>
-            </h3>
+                <div
+                  class="data-title"
+                >
+                  RCKMS Rule Summary
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  covid summary
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
             <div
-              class="usa-accordion__content usa-prose side-nav-ignore border-1px border-accent-cool-darker"
-              data-testid="accordionItem_Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
-              id="Influenza-caused-by-Influenza-A-virus-subtype-H5N1-(disorder)"
+              class="text-bold margin-top-0 margin-bottom-1"
+              id="relevant-clinical"
+            >
+              Clinical Sections Relevant to Reportable Condition
+            </div>
+            <div
+              class="margin-top-0"
             >
               <div>
                 <div
-                  class="grid-row"
+                  class="grid-col-auto width-full text-pre-line"
                 >
-                  <div
-                    class="data-title"
-                  >
-                    RCKMS Rule Summary
-                  </div>
-                  <div
-                    class="grid-col-auto maxw7 text-pre-line"
-                  >
-                    covid summary
-                  </div>
+                  covid clinical
                 </div>
                 <div
                   class="section__line_gray"
                 />
               </div>
-              <div
-                class="text-bold margin-top-0 margin-bottom-1"
-                id="relevant-clinical"
-              >
-                Clinical Sections Relevant to Reportable Condition
-              </div>
-              <div
-                class="margin-top-0"
-              >
-                <div>
-                  <div
-                    class="grid-col-auto width-full text-pre-line"
-                  >
-                    covid clinical
-                  </div>
-                  <div
-                    class="section__line_gray"
-                  />
+            </div>
+            <div
+              class="text-bold margin-0 margin-bottom-1"
+              id="relevant-labs"
+            >
+              Lab Results Relevant to Reportable Condition
+            </div>
+            <div
+              class="margin-top-0"
+            >
+              <div>
+                <div
+                  class="grid-col-auto width-full text-pre-line"
+                >
+                  covid lab
                 </div>
-              </div>
-              <div
-                class="text-bold margin-0 margin-bottom-1"
-                id="relevant-labs"
-              >
-                Lab Results Relevant to Reportable Condition
-              </div>
-              <div
-                class="margin-top-0"
-              >
-                <div>
-                  <div
-                    class="grid-col-auto width-full text-pre-line"
-                  >
-                    covid lab
-                  </div>
-                  <div
-                    class="section__line_gray"
-                  />
-                </div>
+                <div
+                  class="section__line_gray"
+                />
               </div>
             </div>
           </div>
