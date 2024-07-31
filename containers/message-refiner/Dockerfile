@@ -7,7 +7,7 @@ RUN pip install -r requirements.txt
 
 COPY ./app /code/app
 COPY ./assets /code/assets
-COPY ./README.md /code/description.md
+COPY ./README.md /code/README.md
 
 EXPOSE 8080
 CMD uvicorn app.main:app --host 0.0.0.0 --port 8080
