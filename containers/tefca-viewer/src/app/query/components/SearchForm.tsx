@@ -144,9 +144,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
             <h2 className="font-sans-lg search-form-section-label">
               <strong>Query information</strong>
             </h2>
-            <h2 className="font-sans-md search-form-section-label">
-              <strong>Query</strong>
-            </h2>
+            <Label htmlFor="demo-query">
+              <b>Query</b>
+            </Label>
             <div className="grid-row grid-gap">
               <div className="usa-combo-box" data-enhanced="true">
                 <select
@@ -166,9 +166,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 </select>
               </div>
             </div>
-            <h2 className="font-sans-md search-form-section-label">
-              <strong>FHIR Server (QHIN)</strong>
-            </h2>
+            <Label htmlFor="fhir_server">
+              <b>FHIR Server (QHIN)</b>
+            </Label>
             <div className="grid-row grid-gap">
               <div className="usa-combo-box">
                 <Select
