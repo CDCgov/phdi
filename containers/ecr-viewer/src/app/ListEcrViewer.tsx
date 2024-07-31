@@ -52,7 +52,7 @@ export default function ListECRViewer({
           className={"table-ecr-library"}
           data-testid="table"
         >
-          <thead className="thead-drop-shadow">
+          <thead>
             <tr>
               {header.map((column) => (
                 <th key={`${column}`} scope="col">
@@ -64,7 +64,7 @@ export default function ListECRViewer({
           <tbody>{renderPage(currentPage)}</tbody>
         </Table>
       </div>
-      <div className="pagination-bar pag-drop-shadow">
+      <div className="pagination-bar">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
