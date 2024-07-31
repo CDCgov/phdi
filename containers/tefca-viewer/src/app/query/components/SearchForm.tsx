@@ -39,6 +39,7 @@ interface SearchFormProps {
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
+ * @param root0.userJourney - The user journey.
  * @returns - The SearchForm component.
  */
 const SearchForm: React.FC<SearchFormProps> = ({
