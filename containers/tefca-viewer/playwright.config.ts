@@ -71,7 +71,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "docker compose up",
+    command: "docker compose build --no-cache && docker compose up",
     port: 3000,
     timeout: 120 * 1000,
   },
