@@ -116,14 +116,14 @@ const ECRViewerPage: React.FC = () => {
                       eCR Summary
                     </h2>
                     <EcrSummary
-                      patientDetails={evaluateEcrSummaryPatientDetails(
-                        fhirBundle,
-                        mappings,
-                      )}
-                      encounterDetails={evaluateEcrSummaryEncounterDetails(
-                        fhirBundle,
-                        mappings,
-                      )}
+                      patientDetails={
+                        evaluateEcrSummaryPatientDetails(fhirBundle, mappings)
+                          .availableData
+                      }
+                      encounterDetails={
+                        evaluateEcrSummaryEncounterDetails(fhirBundle, mappings)
+                          .availableData
+                      }
                       conditionSummary={evaluateEcrSummaryConditionSummary(
                         fhirBundle,
                         mappings,
