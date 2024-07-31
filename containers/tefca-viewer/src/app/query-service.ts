@@ -38,6 +38,7 @@ export type UseCaseQueryRequest = {
   last_name?: string;
   dob?: string;
   mrn?: string;
+  phone?: string;
 };
 
 const UseCaseQueryMap: {
@@ -57,6 +58,41 @@ const UseCaseQueryMap: {
 
 // Expected responses from the FHIR server
 export type UseCaseQueryResponse = Awaited<ReturnType<typeof UseCaseQuery>>;
+
+const FORMATS_TO_SEARCH: string[] = [
+  "$1$2$3",
+  "$1-$2-$3",
+  "$1+$2+$3",
+  "($1)+$2+$3",
+  "($1)-$2-$3",
+  "($1)$2-$3",
+  "1($1)$2-$3",
+];
+
+/**
+ * @todo Once the country code box is created on the search form, we'll
+ * need to use that value to act as a kind of switch logic here to figure
+ * out which formats we should be using.
+ * Helper function to transform a cleaned, digit-only representation of
+ * a phone number into multiple possible formatting options of that phone
+ * number. If the given number has fewer than 10 digits, or contains any
+ * delimiters, no formatting is performed and only the given number is
+ * used.
+ * @param phone A digit-only representation of a phone number.
+ * @returns An array of formatted phone numbers.
+ */
+export async function GetPhoneQueryFormats(phone: string) {
+  // Digit-only phone numbers will resolve as actual numbers
+  if (isNaN(Number(phone)) || phone.length != 10) {
+    const strippedPhone = phone.replace(" ", "+");
+    return [strippedPhone];
+  }
+  // Map the phone number into each format we want to check
+  const possibleFormats: string[] = FORMATS_TO_SEARCH.map((fmt) => {
+    return phone.replace(/(\d{3})(\d{3})(\d{4})/gi, fmt);
+  });
+  return possibleFormats;
+}
 
 /**
  * Query a FHIR server for a patient based on demographics provided in the request. If
@@ -84,6 +120,17 @@ async function patientQuery(
   }
   if (request.mrn) {
     query += `identifier=${request.mrn}&`;
+  }
+  if (request.phone) {
+    // We might have multiple phone numbers if we're coming from the API
+    // side, since we parse *all* telecom structs
+    const phonesToSearch = request.phone.split(";");
+    let phonePossibilities: string[] = [];
+    for (const phone of phonesToSearch) {
+      const possibilities = await GetPhoneQueryFormats(phone);
+      phonePossibilities.push(...possibilities);
+    }
+    query += `phone=${phonePossibilities.join(",")}&`;
   }
 
   const response = await fhirClient.get(query);

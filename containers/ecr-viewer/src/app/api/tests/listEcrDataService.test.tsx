@@ -164,6 +164,7 @@ describe("listEcrDataService", () => {
 
   it("should return empty array when no data is found and source is postgres", async () => {
     process.env.SOURCE = "postgres";
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
     database.manyOrNone = jest.fn(() => Promise.resolve([]));
     const actual = await listEcrData();
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
@@ -174,6 +175,7 @@ describe("listEcrDataService", () => {
 
   it("should return data when found and source is postgres", async () => {
     process.env.SOURCE = "postgres";
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
     database.manyOrNone<{
       ecr_id: string;
       date_created: string;
@@ -222,6 +224,7 @@ describe("listEcrDataService", () => {
 
   it("should console log data from the fhir_metadata table", async () => {
     process.env.SOURCE = "postgres";
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
     database.manyOrNone<{
       ecr_id: string;
       date_created: string;
@@ -302,6 +305,7 @@ describe("listEcrDataService", () => {
     });
     it("should fetch FHIR Metadata", async () => {
       process.env.SOURCE = "s3";
+      process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
       s3Mock.on(ListObjectsV2Command).resolves({
         Contents: [
           { Key: "id1", LastModified: new Date("2024-06-23T12:00:00Z") },

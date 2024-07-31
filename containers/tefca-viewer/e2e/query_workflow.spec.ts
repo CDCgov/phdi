@@ -108,7 +108,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
 
     await page.getByLabel("First Name").fill("Ellie");
     await page.getByLabel("Last Name").fill("Williams");
-    await page.getByLabel("Date of Birth").fill("2030-07-07");
+    await page.getByLabel("Date of Birth").fill("2019-07-07");
     await page.getByLabel("Medical Record Number").fill("TLOU1TLOU2");
     await page.getByLabel("FHIR Server").selectOption("HELIOS Meld: Direct");
     await page.getByRole("button", { name: "Search for patient" }).click();
@@ -122,5 +122,35 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(
       page.getByRole("heading", { name: "Search for a Patient" }),
     ).toBeVisible();
+  });
+
+  test("query using form-fillable demo patient by phone number", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
+
+    await page
+      .getByLabel("Query", { exact: true })
+      .selectOption("demo-sti-syphilis");
+    await page
+      .getByLabel("Patient", { exact: true })
+      .selectOption("demo-sti-syphilis-positive");
+
+    // Delete last name and MRN to force phone number as one of the 3 fields
+    await page.getByLabel("Last Name").clear();
+    await page.getByLabel("Medical Record Number").clear();
+
+    // Among verification, make sure phone number is right
+    await page.getByRole("button", { name: "Search for patient" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Query Results" }),
+    ).toBeVisible();
+    await expect(page.getByText("Patient Name")).toBeVisible();
+    await expect(page.getByText("Veronica Anne Blackstone")).toBeVisible();
+    await expect(page.getByText("Contact")).toBeVisible();
+    await expect(page.getByText("937-379-3497")).toBeVisible();
+    await expect(page.getByText("Patient Identifiers")).toBeVisible();
+    await expect(page.getByText("34972316")).toBeVisible();
   });
 });
