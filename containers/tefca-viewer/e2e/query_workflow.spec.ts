@@ -11,21 +11,21 @@ test.describe("querying with the TryTEFCA viewer", () => {
   test("landing page loads", async ({ page }) => {
     // Check that each expected text section is present
     await expect(
-      page.getByRole("heading", { name: "Data collection made easier" }),
+      page.getByRole("heading", { name: "Data collection made easier" })
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "What is it?" }),
+      page.getByRole("heading", { name: "What is it?" })
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "How does it work?" }),
+      page.getByRole("heading", { name: "How does it work?" })
     ).toBeVisible();
 
     // Check that interactable elements are present (TEFCA header and Get Started)
     await expect(
-      page.getByRole("link", { name: "TEFCA Viewer" }),
+      page.getByRole("link", { name: "TEFCA Viewer" })
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Go to the demo" }),
+      page.getByRole("button", { name: "Go to the demo" })
     ).toBeVisible();
   });
 
@@ -36,7 +36,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
   //   ).toBeVisible();
   // });
 
-  test("successful user query: the quest for watermelon mcgee", async ({
+  test("successful demo user query: the quest for watermelon mcgee", async ({
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
@@ -46,8 +46,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
     const alert = page.locator(".custom-alert");
     await expect(alert).toBeVisible();
     await expect(alert).toHaveText(
-      "This site is for demo purposes only. Please do not enter PII on this website.",
+      "This site is for demo purposes only. Please do not enter PII on this website."
     );
+    await expect(
+      page.getByRole("heading", { name: "Search for a Patient", exact: true })
+    ).toBeVisible();
 
     // Put in the search parameters for the elusive fruit person
     await page
@@ -68,7 +71,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     // Make sure we have a results page with a single patient
     // Non-interactive 'div' elements in the table should be located by text
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Query Results" })
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
@@ -79,7 +82,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     const alert2 = page.locator(".custom-alert");
     await expect(alert2).toBeVisible();
     await expect(alert2).toHaveText(
-      "Interested in learning more about using the TEFCA Query Connector for your jurisdiction? Send us an email at dibbs@cdc.gov",
+      "Interested in learning more about using the TEFCA Query Connector for your jurisdiction? Send us an email at dibbs@cdc.gov"
     );
 
     // Let's get a little schwifty: there are multiple possible resolutions for 'Observations',
@@ -87,7 +90,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(
       page
         .getByTestId("accordionItem_observations_2")
-        .getByRole("heading", { name: "Observations" }),
+        .getByRole("heading", { name: "Observations" })
     ).toBeVisible();
     // We can also just directly ask the page to find us filtered table rows
     await expect(page.locator("tbody").locator("tr")).toHaveCount(5);
@@ -95,7 +98,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     // Now let's use the return to search to go back to a blank form
     await page.getByRole("link", { name: "Return to search" }).click();
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient" }),
+      page.getByRole("heading", { name: "Search for a Patient" })
     ).toBeVisible();
   });
 
@@ -115,12 +118,98 @@ test.describe("querying with the TryTEFCA viewer", () => {
 
     // Better luck next time, user!
     await expect(
-      page.getByRole("heading", { name: "No Patients Found" }),
+      page.getByRole("heading", { name: "No Patients Found" })
     ).toBeVisible();
     await expect(page.getByText("There are no patient records")).toBeVisible();
     await page.getByRole("link", { name: "Search for a new patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient" }),
+      page.getByRole("heading", { name: "Search for a Patient" })
     ).toBeVisible();
   });
+});
+
+test.describe("test query user journey", () => {
+  test.beforeEach(async ({ page }) => {
+    // Start every test on direct tester page
+    await page.goto("http://localhost:3000/tefca-viewer/query/test", {
+      waitUntil: "load",
+    });
+  });
+
+  test("test user journey page loads", async ({ page }) => {
+    // Check that each expected text section is present
+
+    // Check that interactable elements are present (TEFCA header and Get Started)
+    await expect(
+      page.getByRole("button", { name: "Data Usage Policy" })
+    ).toBeVisible();
+
+    // await expect(
+    //   page.getByRole("heading", { name: "Search for a Patient", exact: true })
+    // ).toBeVisible();
+    await page.getByRole("button", { name: "Search for patient" }).click();
+  });
+
+  // test("successful demo user query: the quest for watermelon mcgee", async ({
+  //   page,
+  // }) => {
+  //   await page.getByRole("button", { name: "Go to the demo" }).click();
+  //   await page.getByRole("button", { name: "Next" }).click();
+
+  //   // Check that the info alert is visible and contains the correct text
+  //   const alert = page.locator(".custom-alert");
+  //   await expect(alert).toBeVisible();
+  //   await expect(alert).toHaveText(
+  //     "This site is for demo purposes only. Please do not enter PII on this website."
+  //   );
+
+  //   // Put in the search parameters for the elusive fruit person
+  //   await page
+  //     .getByLabel("Query", { exact: true })
+  //     .selectOption("demo-newborn-screening");
+  //   await page
+  //     .getByLabel("Patient", { exact: true })
+  //     .selectOption("demo-newborn-screening-referral");
+  //   await page.getByLabel("First Name").fill("Watermelon");
+  //   await page.getByLabel("Last Name").fill("McGee");
+  //   await page.getByLabel("Date of Birth").fill("2024-07-12");
+  //   await page.getByLabel("Medical Record Number").fill("18091");
+  //   await page.getByLabel("Phone Number").fill("5555555555");
+  //   await page.getByLabel("FHIR Server").selectOption("HELIOS Meld: Direct");
+
+  //   await page.getByRole("button", { name: "Search for patient" }).click();
+
+  //   // Make sure we have a results page with a single patient
+  //   // Non-interactive 'div' elements in the table should be located by text
+  //   await expect(
+  //     page.getByRole("heading", { name: "Query Results" })
+  //   ).toBeVisible();
+  //   await expect(page.getByText("Patient Name")).toBeVisible();
+  //   await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
+  //   await expect(page.getByText("Patient Identifiers")).toBeVisible();
+  //   await expect(page.getByText("MRN: 18091")).toBeVisible();
+
+  //   // Check that the info alert is visible and has updated to the correct text
+  //   const alert2 = page.locator(".custom-alert");
+  //   await expect(alert2).toBeVisible();
+  //   await expect(alert2).toHaveText(
+  //     "Interested in learning more about using the TEFCA Query Connector for your jurisdiction? Send us an email at dibbs@cdc.gov"
+  //   );
+
+  //   // Let's get a little schwifty: there are multiple possible resolutions for 'Observations',
+  //   // so we can chain things to get the table header to make sure the accordion is open
+  //   await expect(
+  //     page
+  //       .getByTestId("accordionItem_observations_2")
+  //       .getByRole("heading", { name: "Observations" })
+  //   ).toBeVisible();
+  //   // We can also just directly ask the page to find us filtered table rows
+  //   await expect(page.locator("tbody").locator("tr")).toHaveCount(5);
+
+  //   // Now let's use the return to search to go back to a blank form
+  //   await page.getByRole("link", { name: "Return to search" }).click();
+  //   await expect(
+  //     page.getByRole("heading", { name: "Search for a Patient" })
+  //   ).toBeVisible();
+  // });
 });
