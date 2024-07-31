@@ -213,7 +213,13 @@ const SideNav: React.FC = () => {
 
   let sideNavItems = buildSideNav(sectionConfigs);
 
-  return <UswdsSideNav items={sideNavItems} />;
+  return (
+    <div className="nav-wrapper">
+      <nav className="sticky-nav">
+        <UswdsSideNav items={sideNavItems} />
+      </nav>
+    </div>
+  );
 };
 
 export default SideNav;
