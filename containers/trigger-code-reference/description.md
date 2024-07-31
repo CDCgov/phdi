@@ -1,4 +1,4 @@
-## bGetting Started with the DIBBs Trigger Code Reference  Service
+## Getting Started with the DIBBs Trigger Code Reference  Service
 
 ### Introduction
 
