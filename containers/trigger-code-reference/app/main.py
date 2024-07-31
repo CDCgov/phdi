@@ -135,7 +135,7 @@ get_value_sets_response_examples = {200: get_value_sets_response_examples_raw}
 @app.get("/get-value-sets", status_code=200, responses=get_value_sets_response_examples)
 async def get_value_sets_for_condition(
     condition_code: Annotated[str, Query(examples=get_value_sets_request_examples)],
-    filter_clinical_services: Annotated[
+    filter_concepts: Annotated[
         str, Query(examples=get_value_sets_request_examples)
     ] = None,
 ) -> Response:
@@ -145,9 +145,9 @@ async def get_value_sets_for_condition(
 
     :param condition_code: A query param supplied as a string representing a
       single SNOMED condition code.
-    :param filter_clinical_services: (Optional) A comma-separated string of
-      clinical service types (defined by the abbreviation codes above) to
-      keep. By default, all (currently) 6 clinical service types are
+    :param filter_concepts: (Optional) A comma-separated string of
+      value set types (defined by the abbreviation codes above) to
+      keep. By default, all (currently) 6 value set types are
       returned; use this parameter to return only types of interest.
     :return: An HTTP Response containing the value sets of the queried code.
     """
@@ -158,8 +158,8 @@ async def get_value_sets_for_condition(
         )
     else:
         clean_snomed_code = get_clean_snomed_code(condition_code)
-        clinical_services_list = get_concepts_list(clean_snomed_code)
-        values = get_concepts_dict(clinical_services_list, filter_clinical_services)
+        concepts_list = get_concepts_list(clean_snomed_code)
+        values = get_concepts_dict(concepts_list, filter_concepts)
     return values
 
 

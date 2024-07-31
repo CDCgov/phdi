@@ -5,6 +5,7 @@ import sqlite3
 import time
 from pathlib import Path
 from typing import List
+from typing import Tuple
 
 import docker
 import requests
@@ -117,13 +118,13 @@ def parse_ersd(ports: dict, data: dict) -> dict:
 
 def build_concepts_dict(data: dict) -> dict:
     """
-    This is the only part of the parsed json bundle where the service type
-    and version are defined for each of the value sets, so this function makes
-    a dictionary that has each valueset_id as a key with its service type id
+    This is the only part of the parsed json bundle where the valueset type
+    and version are defined for each of the valuesets, so this function makes
+    a dictionary that has each valueset_id as a key with its valueset type id
     and version.
 
     :param data: message-parser parsed eRSD json
-    :return: a dictionary of each valueset URL with its service type and
+    :return: a dictionary of each valueset URL with its valueset type and
              version.
     """
     concepts_dict = {}
@@ -158,11 +159,11 @@ def check_id_uniqueness(list_of_lists: List[List[str]]) -> bool:
 def build_valueset_types_table(data: dict) -> List[List[str]]:
     """
     Loop through parsed json bundle in order to build a small table of
-    each of the (currently) 6 service types as defined by APHL with its id
-    and short description of the clinical service type.
+    each of the (currently) 6 valueset types as defined by APHL with its id
+    and short description of the valueset type.
 
     :param data: message-parser parsed eRSD json
-    :return: a list of lists of the id and type of each of the service types
+    :return: a list of lists of the id and type of each of the valueset types
              to load to a database
     """
     valueset_types_list = []
@@ -177,19 +178,20 @@ def build_valueset_types_table(data: dict) -> List[List[str]]:
         return []
 
 
-def build_valuesets_table(data: dict, concepts_dict: dict) -> List[List[str]]:
+def build_valuesets_table(
+    data: dict, concepts_dict: dict
+) -> Tuple[List[List[str]], List[List[str]]]:
     """
-    Look through eRSD json to create value sets table, where the primary key
+    Look through eRSD json to create valuesets table, where the primary key
     is the valueset_id that contains the name and codes for each service.
 
-    It also uses the clinical services dictionary that will have the clinical
-    service type for each of the services as well as the value set version.
+    It will also create a junction table between valueset id and condition id.
 
     :param data: message-parser parsed eRSD json
     :param concepts_dict: a dictionary of each valueset URL with its
     service type as value
-    :return: list of lists of for each of the value set id, name, and code info.
-             list of lists of each value set id, concept
+    :return: list of lists of for each of the valueset id, name, and code info;
+             list of lists of each valueset id, condition id
     """
     concepts = data.get("concepts")
     valuesets_list = []
@@ -210,7 +212,7 @@ def build_valuesets_table(data: dict, concepts_dict: dict) -> List[List[str]]:
             service_info.get("concept_type"),
         ]
         valuesets_list.append(result)
-        # create junction table between value set ID and condition ID
+        # create junction table between valueset ID and condition ID
         concept_codes = ast.literal_eval(service.get("valueable_codes"))
         if isinstance(concept_codes, dict):
             concept_codes = [concept_codes]
@@ -261,14 +263,19 @@ def build_conditions_table(data: dict) -> List[List[str]]:
         return []
 
 
-def build_concepts_table(data: dict, concepts_dict: dict) -> List[List[str]]:
+def build_concepts_table(
+    data: dict, concepts_dict: dict
+) -> Tuple[List[List[str]], List[List[str]]]:
     """
-    This builds the table for clinical services, which has a unique row for
-    each unique valueset_id-code combination.
+    This builds the table for concepts, which has a unique row for
+    each unique valueset_id-concept code combination.
+
+    It also creates a junction table between the valueset_id and concept_id.
 
     :param data: message-parser parsed eRSD json
     :return: list of lists of for each unique valueset_id-code-id, name, and
-    code info
+    code info;
+             list of lists for each valueset_id, concept_id
     """
     concepts = data.get("concepts")
     concepts_list = []
