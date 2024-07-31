@@ -53,12 +53,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Get the demoOption (initial selection) selected from modal via the URL
   const [useCase, setUseCase] = useState<USE_CASES>(
-    (params.get("useCase") as USE_CASES) || "cancer"
+    (params.get("useCase") as USE_CASES) || "cancer",
   );
 
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[useCase]?.[0]?.value || ""
+    patientOptions[useCase]?.[0]?.value || "",
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -84,7 +84,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption]
+    [patientOption],
   );
 
   // Fills fields if patientOption changes (auto-fill)
