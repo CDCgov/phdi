@@ -75,7 +75,13 @@ const EcrMetadata = ({
     <AccordionSection>
       <AccordionH4 id={"rr-details"}>RR Details</AccordionH4>
       <AccordionDiv>
-        <Table bordered caption="Reportibility Summary" className="rrTable">
+        <Table
+          bordered
+          caption="Reportibility Summary"
+          className="rrTable"
+          fixed={true}
+          fullWidth={true}
+        >
           <thead>
             <tr>
               <th className="reportability_summary_header">
