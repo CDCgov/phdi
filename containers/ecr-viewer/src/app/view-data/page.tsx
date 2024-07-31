@@ -91,7 +91,7 @@ const ECRViewerPage: React.FC = () => {
           ""
         )}
         <div className="main-container">
-          <div className={"main-container2"}>
+          <div className={"width-main padding-main"}>
             <div className="back-button-wrapper">
               {isNonIntegratedViewer ? (
                 <Button

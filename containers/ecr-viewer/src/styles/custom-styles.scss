@@ -1,5 +1,12 @@
 @use 'uswds-core' as *;
 
+$ecr-viewer-container-max-width: 80rem;
+$ecr-viewer-container-min-width: 50rem;
+$ecr-viewer-gap: 3rem;
+$nav-wrapper-width: 15.625rem;
+$main-container-padding: 1rem;
+$main-min-width: $ecr-viewer-container-min-width + $ecr-viewer-gap + $nav-wrapper-width + $main-container-padding * 2;
+
 .section__line {
   border-top: 1px solid #99DEEA;
   margin-top: .5rem;
@@ -245,14 +252,17 @@ td {
 .main-container {
   display: flex;
   justify-content: center;
-  overflow: visible;
 }
 
-.main-container2 {
-  max-width: calc(80rem + 3rem + 15.625rem);
-  min-width: calc(50rem + 3rem + 15.625rem);
+.width-main {
+  max-width: $main-min-width + $ecr-viewer-container-max-width - $ecr-viewer-container-min-width;
+  min-width: $main-min-width;
   width: 100%;
-  padding: 0 1rem;
+}
+
+.padding-main {
+  padding-left: $main-container-padding;
+  padding-right: $main-container-padding;
 }
 
 .back-button-wrapper {
@@ -270,7 +280,7 @@ td {
 
 .content-wrapper {
   display: flex;
-  gap: 3rem;
+  gap: $ecr-viewer-gap;
   overflow: visible;
   margin-top: 1.5rem;
 }
@@ -279,8 +289,8 @@ td {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 15.625rem;
-  min-width: 15.625rem;
+  width: $nav-wrapper-width;
+  min-width: $nav-wrapper-width;
 }
 
 .sticky-nav {
@@ -293,6 +303,8 @@ td {
 
 .ecr-viewer-container {
   width: 100%;
+  max-width: $ecr-viewer-container-max-width;
+  min-width: $ecr-viewer-container-min-width;
 }
 
 .lh-18 {
