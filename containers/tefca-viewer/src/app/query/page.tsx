@@ -5,7 +5,13 @@ import QueryView from "./components/QueryView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
 import SearchForm from "./components/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
-export type Mode = "search" | "results" | "multiple-patients" | "no-patients";
+import CustomizeQuery from "./components/CustomizeQuery";
+export type Mode =
+  | "search"
+  | "results"
+  | "multiple-patients"
+  | "no-patients"
+  | "customize-query";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -19,6 +25,11 @@ const Query: React.FC = () => {
     useState<UseCaseQueryResponse>();
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
 
+  const handleSearchSubmit = (response: UseCaseQueryResponse) => {
+    setUseCaseQueryResponse(response);
+    setMode("customize-query");
+  };
+
   return (
     <div>
       {mode === "search" && (
@@ -28,6 +39,7 @@ const Query: React.FC = () => {
             setLoading={setLoading}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
+            onSubmit={handleSearchSubmit}
           />
         </Suspense>
       )}
@@ -58,6 +70,15 @@ const Query: React.FC = () => {
       )}
       {/* Show the no patients found view if there are no patients */}
       {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
+      {mode === "customize-query" && useCaseQueryResponse && (
+        <CustomizeQuery
+          queryType={useCaseQueryResponse.queryType}
+          labs={useCaseQueryResponse.labs}
+          medications={useCaseQueryResponse.medications}
+          conditions={useCaseQueryResponse.conditions}
+          onBack={() => setMode("search")}
+        />
+      )}
       {loading && (
         <div className="overlay">
           <div className="spinner"></div>

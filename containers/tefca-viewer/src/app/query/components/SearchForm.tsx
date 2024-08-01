@@ -30,6 +30,7 @@ interface SearchFormProps {
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
+  onSubmit: (response: UseCaseQueryResponse) => void;
 }
 
 /**
@@ -38,6 +39,7 @@ interface SearchFormProps {
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
+ * @param root0.onSubmit - submit
  * @returns - The SearchForm component.
  */
 const SearchForm: React.FC<SearchFormProps> = ({
@@ -45,6 +47,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setUseCaseQueryResponse,
   setMode,
   setLoading,
+  onSubmit,
 }) => {
   const params = useSearchParams();
   useEffect(() => console.log("params", params), [params]);
@@ -112,6 +115,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest);
     setUseCaseQueryResponse(queryResponse);
+    onSubmit(queryResponse);
     if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
       setMode("no-patients");
     } else if (queryResponse.Patient.length === 1) {
@@ -174,13 +178,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 ))}
               </select>
             </div>
-            {/* <Button
-              className="margin-left-1  margin-top-1 usa-button--outline bg-white"
-              type="button"
-              onClick={() => {}} // TODO: Link to customize query page
-            >
-              Customize queries
-            </Button> */}
           </div>
         </div>
         <Fieldset>
