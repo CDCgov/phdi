@@ -1,5 +1,5 @@
 import { Bundle, Condition, Extension, Observation } from "fhir/r4";
-import { PathMappings } from "@/app/utils";
+import { evaluateData, PathMappings } from "@/app/utils";
 import {
   formatDate,
   formatStartEndDateTime,
@@ -14,6 +14,8 @@ import {
 import { DisplayDataProps } from "@/app/DataDisplay";
 import { returnProblemsTable } from "@/app/view-data/components/common";
 import { LabReport, evaluateLabInfoData } from "./labsService";
+import { ConditionSummary } from "@/app/view-data/components/EcrSummary";
+import React from "react";
 
 /**
  * ExtensionConditionCode extends the FHIR Extension interface to include a 'coding' property.
@@ -50,7 +52,7 @@ export const evaluateEcrSummaryPatientDetails = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
-  return [
+  return evaluateData([
     {
       title: "Patient Name",
       value: evaluatePatientName(fhirBundle, fhirPathMappings),
@@ -68,7 +70,7 @@ export const evaluateEcrSummaryPatientDetails = (
       title: "Patient Contact",
       value: evaluatePatientContactInfo(fhirBundle, fhirPathMappings),
     },
-  ];
+  ]);
 };
 
 /**
@@ -81,7 +83,7 @@ export const evaluateEcrSummaryEncounterDetails = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
-  return [
+  return evaluateData([
     {
       title: "Facility Name",
       value: evaluate(fhirBundle, fhirPathMappings.facilityName),
@@ -102,83 +104,108 @@ export const evaluateEcrSummaryEncounterDetails = (
       title: "Encounter Type",
       value: evaluate(fhirBundle, fhirPathMappings.encounterType),
     },
-  ];
+  ]);
 };
 
 /**
- * Evaluates and retrieves condition details from the FHIR bundle using the provided path mappings.
+ * Finds all unique RCKMS rule summaries in an observation
+ * @param observation - FHIR Observation
+ * @returns Set of rule summaries
+ */
+const evaluateRuleSummaries = (observation: Observation): Set<string> => {
+  const ruleSummaries = new Set<string>();
+  observation.extension?.forEach((extension) => {
+    if (
+      extension.url ===
+        "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension" &&
+      extension?.valueString?.trim()
+    ) {
+      ruleSummaries.add(extension.valueString.trim());
+    }
+  });
+  return ruleSummaries;
+};
+
+/**
+ * Evaluates and retrieves all condition details in a bundle.
  * @param fhirBundle - The FHIR bundle containing patient data.
  * @param fhirPathMappings - Object containing fhir path mappings.
- * @param snomedCode - The SNOMED code identifying which Reportable Condition should be displayed.
- * @returns An array of condition details objects containing title and value pairs.
+ * @param snomedCode - The SNOMED code identifying the main snomed code.
+ * @returns An array of condition summary objects.
  */
-export const evaluateEcrSummaryAboutTheConditionDetails = (
+export const evaluateEcrSummaryConditionSummary = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
   snomedCode?: string,
-): DisplayDataProps[] => {
+): ConditionSummary[] => {
   const rrArray: Observation[] = evaluate(
     fhirBundle,
     fhirPathMappings.rrDetails,
   );
-  let conditionDisplayName: Set<string> = new Set();
-  let ruleSummary: Set<string> = new Set();
-  if (snomedCode) {
-    rrArray.forEach((obs) => {
-      const coding = obs.valueCodeableConcept?.coding?.find(
-        (coding) => coding.code === snomedCode,
-      );
-      if (coding) {
-        if (coding.display) {
-          conditionDisplayName.add(coding.display);
-        }
-        obs.extension?.forEach((extension) => {
-          if (
-            extension.url ===
-              "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension" &&
-            extension?.valueString?.trim()
-          ) {
-            ruleSummary.add(extension.valueString.trim());
-          }
-        });
-      }
-    });
-  }
-  if (conditionDisplayName.size === 0) {
-    const names = evaluate(fhirBundle, fhirPathMappings.rrDisplayNames);
-    let summaries = evaluate(
-      fhirBundle,
-      fhirPathMappings.rckmsTriggerSummaries,
+  const conditionsList: {
+    [index: string]: { ruleSummaries: Set<string>; snomedDisplay: string };
+  } = {};
+  for (const observation of rrArray) {
+    const coding = observation?.valueCodeableConcept?.coding?.find(
+      (coding) => coding.system === "http://snomed.info/sct",
     );
-    conditionDisplayName = new Set([...names]);
-    ruleSummary = new Set([...summaries]);
+    if (coding?.code) {
+      const snomed = coding.code;
+      if (!conditionsList[snomed]) {
+        conditionsList[snomed] = {
+          ruleSummaries: new Set(),
+          snomedDisplay: coding.display!,
+        };
+      }
+
+      evaluateRuleSummaries(observation).forEach((ruleSummary) =>
+        conditionsList[snomed].ruleSummaries.add(ruleSummary),
+      );
+    }
   }
-  return [
-    {
-      title: "Reportable Condition",
-      toolTip:
-        "Condition that caused this eCR to be sent to your jurisdiction.",
-      value: (
-        <div className={"p-list"}>
-          {[...conditionDisplayName].map((displayName) => (
-            <p key={displayName}>{displayName}</p>
-          ))}
-        </div>
+
+  const conditionSummaries: ConditionSummary[] = [];
+  for (let conditionsListKey in conditionsList) {
+    const conditionSummary = {
+      title: conditionsList[conditionsListKey].snomedDisplay,
+      snomed: conditionsListKey,
+      conditionDetails: [
+        {
+          title: "RCKMS Rule Summary",
+          toolTip:
+            "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
+          value: (
+            <div className={"p-list"}>
+              {[...conditionsList[conditionsListKey].ruleSummaries].map(
+                (summary) => (
+                  <p key={summary}>{summary}</p>
+                ),
+              )}
+            </div>
+          ),
+        },
+      ],
+      clinicalDetails: evaluateEcrSummaryRelevantClinicalDetails(
+        fhirBundle,
+        fhirPathMappings,
+        conditionsListKey,
       ),
-    },
-    {
-      title: "RCKMS Rule Summary",
-      toolTip:
-        "Reason(s) that this eCR was sent for this condition. Corresponds to your jurisdiction's rules for routing eCRs in RCKMS (Reportable Condition Knowledge Management System).",
-      value: (
-        <div className={"p-list"}>
-          {[...ruleSummary].map((summary) => (
-            <p key={summary}>{summary}</p>
-          ))}
-        </div>
+      labDetails: evaluateEcrSummaryRelevantLabResults(
+        fhirBundle,
+        fhirPathMappings,
+        conditionsListKey,
+        false,
       ),
-    },
-  ];
+    };
+
+    if (conditionSummary.snomed === snomedCode) {
+      conditionSummaries.unshift(conditionSummary);
+    } else {
+      conditionSummaries.push(conditionSummary);
+    }
+  }
+
+  return conditionSummaries;
 };
 
 /**
@@ -229,12 +256,14 @@ export const evaluateEcrSummaryRelevantClinicalDetails = (
  * @param fhirBundle - The FHIR bundle containing patient data.
  * @param fhirPathMappings - Object containing fhir path mappings.
  * @param snomedCode - String containing the SNOMED code search parameter.
+ * @param lastDividerLine - Boolean to determine if a divider line should be added to the end of the lab results. Default to true
  * @returns An array of lab result details objects containing title and value pairs.
  */
 export const evaluateEcrSummaryRelevantLabResults = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
   snomedCode: string,
+  lastDividerLine: boolean = true,
 ): DisplayDataProps[] => {
   const noData: string = "No matching lab results found in this eCR";
   let resultsArray: DisplayDataProps[] = [];
@@ -308,7 +337,9 @@ export const evaluateEcrSummaryRelevantLabResults = (
     })),
   );
 
-  resultsArray.push({ dividerLine: true });
+  if (lastDividerLine) {
+    resultsArray.push({ dividerLine: true });
+  }
   return resultsArray;
 };
 

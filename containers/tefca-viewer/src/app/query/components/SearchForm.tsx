@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Fieldset,
   Label,
   TextInput,
   Select,
-  Button,
   Alert,
 } from "@trussworks/react-uswds";
 import { fhirServers } from "../../fhir-servers";
@@ -13,6 +12,9 @@ import {
   FHIR_SERVERS,
   demoData,
   demoDataUseCase,
+  demoQueryOptions,
+  patientOptions,
+  stateOptions,
 } from "../../constants";
 import {
   UseCaseQueryResponse,
@@ -20,6 +22,8 @@ import {
   UseCaseQueryRequest,
 } from "../../query-service";
 import { Mode } from "../page";
+import { FormatPhoneAsDigits } from "@/app/utils";
+import { useSearchParams } from "next/navigation";
 
 interface SearchFormProps {
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
@@ -42,7 +46,18 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setMode,
   setLoading,
 }) => {
-  const [demoOption, setDemoOption] = useState<string>("demo-cancer");
+  const params = useSearchParams();
+  useEffect(() => console.log("params", params), [params]);
+
+  // Get the demoOption (initial selection) selected from modal via the URL
+  const [demoOption, setDemoOption] = useState<string>(
+    params.get("useCase") || "demo-cancer",
+  );
+
+  //Set the patient options based on the demoOption
+  const [patientOption, setPatientOption] = useState<string>(
+    patientOptions[demoOption]?.[0]?.value || "",
+  );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [fhirServer, setFhirServer] = useState<FHIR_SERVERS>();
@@ -52,10 +67,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [useCase, setUseCase] = useState<USE_CASES>();
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
-  // Fill the fields with the demo data if selected
-  const fillFields = useCallback(() => {
-    const data = demoData[demoOption as demoDataUseCase];
+  // Fills fields if patientOption changes
+  useEffect(() => {
+    if (!patientOption) {
+      return;
+    }
+    const data = demoData[patientOption as demoDataUseCase];
     if (data) {
+      setDemoOption(demoOption);
       setAutofilled(true);
       setFirstName(data.FirstName);
       setLastName(data.LastName);
@@ -65,7 +84,13 @@ const SearchForm: React.FC<SearchFormProps> = ({
       setFhirServer(data.FhirServer as FHIR_SERVERS);
       setUseCase(data.UseCase as USE_CASES);
     }
-  }, [demoOption]);
+  }, [demoOption, patientOption]);
+
+  // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
+  const handleDemoQueryChange = (selectedDemoOption: string) => {
+    setDemoOption(selectedDemoOption);
+    setPatientOption(patientOptions[selectedDemoOption][0].value);
+  };
 
   async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
     if (!useCase || !fhirServer) {
@@ -74,6 +99,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     }
     event.preventDefault();
     setLoading(true);
+
     const originalRequest = {
       first_name: firstName,
       last_name: lastName,
@@ -81,6 +107,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       mrn: mrn,
       fhir_server: fhirServer,
       use_case: useCase,
+      phone: FormatPhoneAsDigits(phone),
     };
     setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest);
@@ -105,55 +132,55 @@ const SearchForm: React.FC<SearchFormProps> = ({
       </Alert>
       <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
-        <h4 className="font-sans-md text-normal margin-top-0">
-          Please enter <b>3 out of 5 of the following sections</b> <br></br>for
-          a given patient, in addition to a case investigation topic.
-        </h4>
-        <div className="usa-summary-box usa-summary-box demo-data-filler">
-          <label className="usa-label" htmlFor="demo-data">
-            Select from the following use cases to "pre-fill" patient
-            information below:
-          </label>
-          <div className="display-flex flex-align-center margin-top-2">
+        <div className="usa-summary-box usa-summary-box demo-query-filler">
+          <Label className="usa-label" htmlFor="demo-query">
+            <b>
+              Select a query type and a sample patient to populate the form with
+              sample data for a query.
+            </b>
+          </Label>
+          <Label htmlFor="demo-query">Query</Label>
+          <div className="display-flex flex-align-start">
             <div className="usa-combo-box flex-1" data-enhanced="true">
               <select
-                id="demo-data"
-                name="demo-data"
-                className="usa-select margin-top-0"
+                id="demo-query"
+                name="demo-query"
+                className="usa-select  margin-top-1"
                 value={demoOption}
                 onChange={(event) => {
-                  setDemoOption(event.target.value);
+                  handleDemoQueryChange(event.target.value);
                 }}
               >
-                <option value="demo-cancer">
-                  A demo patient with a cancer use case
-                </option>
-                <option value="demo-sti-chlamydia">
-                  A demo patient with a chlamydia use case
-                </option>
-                <option value="demo-sti-gonorrhea">
-                  A demo patient with a gonorrhea use case
-                </option>
-                <option value="demo-newborn-screening">
-                  A demo patient with a newborn screening use case
-                </option>
-                <option value="demo-social-determinants">
-                  A demo patient with a social determinants of health use case
-                </option>
-                <option value="demo-sti-syphilis">
-                  A demo patient with a syphilis use case
-                </option>
+                {demoQueryOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <Label htmlFor="demo-patient">Patient</Label>
+              <select
+                id="demo-patient"
+                name="demo-patient"
+                className="usa-select margin-top-1"
+                value={patientOption}
+                onChange={(event) => {
+                  setPatientOption(event.target.value);
+                }}
+              >
+                {patientOptions[demoOption]?.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </div>
-            <Button
-              className="margin-left-1 usa-button--outline bg-white"
+            {/* <Button
+              className="margin-left-1  margin-top-1 usa-button--outline bg-white"
               type="button"
-              onClick={() => {
-                fillFields();
-              }}
+              onClick={() => {}} // TODO: Link to customize query page
             >
-              Fill fields
-            </Button>
+              Customize queries
+            </Button> */}
           </div>
         </div>
         <Fieldset>
@@ -273,71 +300,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 <option value="" disabled>
                   Select a state
                 </option>
-                <option value="AL">AL - Alabama</option>
-                <option value="AK">AK - Alaska</option>
-                <option value="AS">AS - American Samoa</option>
-                <option value="AZ">AZ - Arizona</option>
-                <option value="AR">AR - Arkansas</option>
-                <option value="CA">CA - California</option>
-                <option value="CO">CO - Colorado</option>
-                <option value="CT">CT - Connecticut</option>
-                <option value="DE">DE - Delaware</option>
-                <option value="DC">DC - District of Columbia</option>
-                <option value="FL">FL - Florida</option>
-                <option value="GA">GA - Georgia</option>
-                <option value="GU">GU - Guam</option>
-                <option value="HI">HI - Hawaii</option>
-                <option value="ID">ID - Idaho</option>
-                <option value="IL">IL - Illinois</option>
-                <option value="IN">IN - Indiana</option>
-                <option value="IA">IA - Iowa</option>
-                <option value="KS">KS - Kansas</option>
-                <option value="KY">KY - Kentucky</option>
-                <option value="LA">LA - Louisiana</option>
-                <option value="ME">ME - Maine</option>
-                <option value="MD">MD - Maryland</option>
-                <option value="MA">MA - Massachusetts</option>
-                <option value="MI">MI - Michigan</option>
-                <option value="MN">MN - Minnesota</option>
-                <option value="MS">MS - Mississippi</option>
-                <option value="MO">MO - Missouri</option>
-                <option value="MT">MT - Montana</option>
-                <option value="NE">NE - Nebraska</option>
-                <option value="NV">NV - Nevada</option>
-                <option value="NH">NH - New Hampshire</option>
-                <option value="NJ">NJ - New Jersey</option>
-                <option value="NM">NM - New Mexico</option>
-                <option value="NY">NY - New York</option>
-                <option value="NC">NC - North Carolina</option>
-                <option value="ND">ND - North Dakota</option>
-                <option value="MP">MP - Northern Mariana Islands</option>
-                <option value="OH">OH - Ohio</option>
-                <option value="OK">OK - Oklahoma</option>
-                <option value="OR">OR - Oregon</option>
-                <option value="PA">PA - Pennsylvania</option>
-                <option value="PR">PR - Puerto Rico</option>
-                <option value="RI">RI - Rhode Island</option>
-                <option value="SC">SC - South Carolina</option>
-                <option value="SD">SD - South Dakota</option>
-                <option value="TN">TN - Tennessee</option>
-                <option value="TX">TX - Texas</option>
-                <option value="UM">
-                  UM - United States Minor Outlying Islands
-                </option>
-                <option value="UT">UT - Utah</option>
-                <option value="VT">VT - Vermont</option>
-                <option value="VI">VI - Virgin Islands</option>
-                <option value="VA">VA - Virginia</option>
-                <option value="WA">WA - Washington</option>
-                <option value="WV">WV - West Virginia</option>
-                <option value="WI">WI - Wisconsin</option>
-                <option value="WY">WY - Wyoming</option>
-                <option value="AA">AA - Armed Forces Americas</option>
-                <option value="AE">AE - Armed Forces Africa</option>
-                <option value="AE">AE - Armed Forces Canada</option>
-                <option value="AE">AE - Armed Forces Europe</option>
-                <option value="AE">AE - Armed Forces Middle East</option>
-                <option value="AP">AP - Armed Forces Pacific</option>
+                {stateOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </Select>
             </div>
             <div className="tablet:grid-col-4">
@@ -371,7 +338,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               />
             </div>
           </div>
-          <h2 className="font-sans-lg search-form-section-label">
+          {/* <h2 className="font-sans-lg search-form-section-label">
             <strong>Case investigation topic</strong>
           </h2>
           <div className="grid-row grid-gap">
@@ -387,7 +354,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                       | "social-determinants"
                       | "newborn-screening"
                       | "syphilis"
-                      | "cancer",
+                      | "cancer"
                   );
                 }}
                 style={{
@@ -409,7 +376,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 <option value="syphilis">Syphilis</option>
               </Select>
             </div>
-          </div>
+          </div> */}
           <h2 className="font-sans-lg search-form-section-label">
             <strong>FHIR Server (QHIN)</strong>
           </h2>

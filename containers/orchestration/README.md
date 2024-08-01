@@ -84,3 +84,69 @@ curl --location 'https://your_url_here/orchestration/process-zip' \
 The output will vary depending on the type of configuration chosen. However, the process will have status `200` indicating it did not encounter errors when running the Orchestration app.
 
 For more information on the endpoint go to the documentation [here](https://cdcgov.github.io/phdi/latest/containers/orchestration.html)
+
+### Architecture Diagram
+
+#### Application Stack
+
+```mermaid
+graph TD
+    subgraph Main Services
+        A[Orchestration Service]
+        A --> B[Validation Service]
+        A --> C[FHIR Converter Service]
+        A --> D[Ingestion Service]
+        A --> E[Trigger Code Reference Service]
+        A --> F[Message Parser Service]
+        A --> G[ECR Viewer]
+        G --> H[ECR Viewer DB]
+    end
+
+    subgraph Observability
+        direction TB
+        I[Jaeger] --> J[Prometheus]
+        K[OpenTelemetry Collector] --> J
+        K --> I
+        L[Grafana] --> J
+    end
+
+    A --> I
+
+    M[Python]
+    N[Uvicorn]
+    O[FastAPI]
+
+    A -.-> M
+    A -.-> N
+    A -.-> O
+
+    style A fill:#f9f,stroke:#333,stroke-width:4px,color:#000
+    style Main Services fill:#bbf,stroke:#333,stroke-width:2px
+    style Observability fill:#bbf,stroke:#333,stroke-width:2px,color:#000
+```
+
+#### Application API
+```mermaid
+graph TD
+    A[Orchestration Service]
+
+    subgraph API Endpoints
+        direction TB
+        M[GET /configs]
+        N[GET /configs&#123;processing_config_name&#125;]
+        O[PUT /configs&#123;processing_config_name&#125;]
+        P[POST /process-zip]
+        Q[POST /process-message]
+        R[WebSocket /process-ws]
+    end
+
+    A --> M
+    A --> N
+    A --> O
+    A --> P
+    A --> Q
+    A --> R
+
+    style A fill:#f9f,stroke:#333,stroke-width:4px,color:#000
+    style API Endpoints fill:#bfb,stroke:#333,stroke-width:2px
+```

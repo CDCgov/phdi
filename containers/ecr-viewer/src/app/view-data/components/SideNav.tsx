@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SideNav as UswdsSideNav } from "@trussworks/react-uswds";
 import { formatString } from "@/app/services/formatService";
+import classNames from "classnames";
 
 export class SectionConfig {
   title: string;
@@ -126,6 +127,8 @@ export const sortHeadings = (headings: HeadingObject[]): SectionConfig[] => {
 const SideNav: React.FC = () => {
   const [sectionConfigs, setSectionConfigs] = useState<SectionConfig[]>([]);
   const [activeSection, setActiveSection] = useState<string>("");
+  const isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
 
   useEffect(() => {
     // Select all heading tags on the page
@@ -213,7 +216,18 @@ const SideNav: React.FC = () => {
 
   let sideNavItems = buildSideNav(sectionConfigs);
 
-  return <UswdsSideNav items={sideNavItems} />;
+  return (
+    <div className="nav-wrapper">
+      <nav
+        className={classNames("sticky-nav", {
+          "top-0": !isNonIntegratedViewer,
+          "top-275": isNonIntegratedViewer,
+        })}
+      >
+        <UswdsSideNav items={sideNavItems} />
+      </nav>
+    </div>
+  );
 };
 
 export default SideNav;

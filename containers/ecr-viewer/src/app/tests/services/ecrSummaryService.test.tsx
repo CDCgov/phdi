@@ -1,14 +1,15 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import {
-  evaluateEcrSummaryAboutTheConditionDetails,
+  evaluateEcrSummaryConditionSummary,
   evaluateEcrSummaryRelevantClinicalDetails,
 } from "@/app/services/ecrSummaryService";
 import BundleWithClinicalInfo from "@/app/tests/assets/BundleClinicalInfo.json";
 import { evaluateEcrSummaryRelevantLabResults } from "@/app/services/ecrSummaryService";
 import BundleLab from "@/app/tests/assets/BundleLab.json";
-import BundleEcrMetadata from "@/app/tests/assets/BundleEcrMetadata.json";
+import BundleEcrSummary from "@/app/tests/assets/BundleEcrSummary.json";
 import { Bundle } from "fhir/r4";
 import { render, screen } from "@testing-library/react";
+import React from "react";
 
 const mappings = loadYamlConfig();
 
@@ -100,58 +101,109 @@ describe("Evaluate eCR Summary Relevant Lab Results", () => {
     render(result[1].value);
     expect(screen.getByText("Cytogenomic SNP microarray")).toBeInTheDocument();
   });
+
+  it("should not include the last empty divider line when lastDividerLine is false", () => {
+    const result = evaluateEcrSummaryRelevantLabResults(
+      BundleLab as unknown as Bundle,
+      mappings,
+      "test-snomed",
+      false,
+    );
+
+    expect(result).toHaveLength(2);
+  });
 });
 
-describe("Evaluate ecr Summary About the condition", () => {
-  it.each([
-    {
-      title: "should return all data when no SNOMED code is provided",
-      expectedCondition: [
-        "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
-      ],
-      expectedSummary: [
-        "COVID-19 (as a diagnosis or active problem)",
-        "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method",
-        "Detection of Hepatitis C virus antibody in a clinical specimen by any method",
-      ],
-    },
-    {
-      title: "should return all data when an unknown SNOMED code is provided",
-      expectedCondition: [
-        "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
-        "Viral hepatitis type C (disorder)",
-      ],
-      expectedSummary: [
-        "COVID-19 (as a diagnosis or active problem)",
-        "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method",
-        "Detection of Hepatitis C virus antibody in a clinical specimen by any method",
-      ],
-    },
-    {
-      title: "should return Reportable Condition and RCKMS Rule Summary",
-      expectedCondition: [
-        "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
-      ],
-      expectedSummary: [
-        "COVID-19 (as a diagnosis or active problem)",
-        "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method",
-      ],
-    },
-  ])("$title", ({ expectedCondition, expectedSummary }) => {
-    const actual = evaluateEcrSummaryAboutTheConditionDetails(
-      BundleEcrMetadata as unknown as Bundle,
+describe("Evaluate eCR Summary Condition Summary", () => {
+  it("should return titles based on snomed code", () => {
+    const actual = evaluateEcrSummaryConditionSummary(
+      BundleEcrSummary as unknown as Bundle,
       mappings,
     );
 
-    render(actual[0].value);
-    render(actual[1].value);
+    expect(actual[0].title).toEqual("Viral hepatitis type C (disorder)");
+    expect(actual[1].title).toEqual(
+      "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+    );
+  });
+  it("should return summaries based on snomed code", () => {
+    const actual = evaluateEcrSummaryConditionSummary(
+      BundleEcrSummary as unknown as Bundle,
+      mappings,
+    );
+    render(
+      actual[1].conditionDetails.map((detail) => (
+        <React.Fragment key={detail.title}>{detail.value}</React.Fragment>
+      )),
+    );
 
-    expect(actual).toHaveLength(2);
-    expectedCondition.forEach((value) => {
-      expect(screen.getByText(value)).toBeInTheDocument();
-    });
-    expectedSummary.forEach((value) => {
-      expect(screen.getByText(value)).toBeInTheDocument();
-    });
+    expect(
+      screen.queryByText(
+        "Detection of Hepatitis C virus antibody in a clinical specimen by any method",
+      ),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText("COVID-19 (as a diagnosis or active problem)"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Detection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method",
+      ),
+    ).toBeInTheDocument();
+  });
+  it("should return clinical details based on snomed code", () => {
+    const actual = evaluateEcrSummaryConditionSummary(
+      BundleEcrSummary as unknown as Bundle,
+      mappings,
+    );
+
+    render(
+      actual[1].clinicalDetails.map((detail) => (
+        <div key={Math.random()}>{detail.value}</div>
+      )),
+    );
+
+    expect(screen.getByText("COVID toes")).toBeInTheDocument();
+  });
+  it("should return lab details based on snomed code", () => {
+    const actual = evaluateEcrSummaryConditionSummary(
+      BundleEcrSummary as unknown as Bundle,
+      mappings,
+    );
+
+    render(
+      actual[1].labDetails.map((detail) => (
+        <React.Fragment key={Math.random()}>{detail.value}</React.Fragment>
+      )),
+    );
+
+    expect(
+      screen.queryByText("No matching lab results found in this eCR"),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText("SARS-CoV-2 PCR")).toBeInTheDocument();
+  });
+  it("should return empty array if none found", () => {
+    const actual = evaluateEcrSummaryConditionSummary({} as Bundle, mappings);
+
+    expect(actual).toBeEmpty();
+  });
+  it("should return the the requested snomed first", () => {
+    const verifyNotFirst = evaluateEcrSummaryConditionSummary(
+      BundleEcrSummary as unknown as Bundle,
+      mappings,
+    );
+
+    expect(verifyNotFirst[0].title).not.toEqual(
+      "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+    );
+
+    const actual = evaluateEcrSummaryConditionSummary(
+      BundleEcrSummary as unknown as Bundle,
+      mappings,
+      "840539006",
+    );
+    expect(actual[0].title).toEqual(
+      "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+    );
   });
 });

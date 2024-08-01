@@ -15,25 +15,14 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
           <nav
             class="sticky-nav"
           >
-            <ul
-              class="usa-sidenav"
-              data-testid="sidenav"
+            <div
+              class="nav-wrapper"
             >
-              <li
-                class="usa-sidenav__item"
-              >
-                <a
-                  class=""
-                  href="#ecr-document"
-                >
-                  eCR Document
-                </a>
-              </li>
-              <li
-                class="usa-sidenav__item"
+              <nav
+                class="sticky-nav top-275"
               >
                 <ul
-                  class="usa-sidenav__sublist"
+                  class="usa-sidenav"
                   data-testid="sidenav"
                 >
                   <li
@@ -41,9 +30,9 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   >
                     <a
                       class=""
-                      href="#patient-info"
+                      href="#ecr-document"
                     >
-                      Patient Info
+                      eCR Document
                     </a>
                   </li>
                   <li
@@ -58,212 +47,231 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <a
                           class=""
-                          href="#demographics"
+                          href="#patient-info"
                         >
-                          Demographics
+                          Patient Info
                         </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <ul
+                          class="usa-sidenav__sublist"
+                          data-testid="sidenav"
+                        >
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#demographics"
+                            >
+                              Demographics
+                            </a>
+                          </li>
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#social-history"
+                            >
+                              Social History
+                            </a>
+                          </li>
+                        </ul>
                       </li>
                       <li
                         class="usa-sidenav__item"
                       >
                         <a
                           class=""
-                          href="#social-history"
+                          href="#encounter-info"
                         >
-                          Social History
+                          Encounter Info
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <ul
+                          class="usa-sidenav__sublist"
+                          data-testid="sidenav"
+                        >
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#encounter-details"
+                            >
+                              Encounter Details
+                            </a>
+                          </li>
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#provider-details"
+                            >
+                              Provider Details
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#clinical-info"
+                        >
+                          Clinical Info
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <ul
+                          class="usa-sidenav__sublist"
+                          data-testid="sidenav"
+                        >
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#symptoms-and-problems"
+                            >
+                              Symptoms and Problems
+                            </a>
+                          </li>
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#treatment-details"
+                            >
+                              Treatment Details
+                            </a>
+                          </li>
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#immunizations"
+                            >
+                              Immunizations
+                            </a>
+                          </li>
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#diagnostic-and-vital-signs"
+                            >
+                              Diagnostic and Vital Signs
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#lab-info"
+                        >
+                          Lab Info
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <ul
+                          class="usa-sidenav__sublist"
+                          data-testid="sidenav"
+                        >
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#lab-results-from"
+                            >
+                              Lab Results from
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#ecr-metadata"
+                        >
+                          eCR Metadata
+                        </a>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <ul
+                          class="usa-sidenav__sublist"
+                          data-testid="sidenav"
+                        >
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#rr-details"
+                            >
+                              RR Details
+                            </a>
+                          </li>
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#eicr-details"
+                            >
+                              eICR Details
+                            </a>
+                          </li>
+                          <li
+                            class="usa-sidenav__item"
+                          >
+                            <a
+                              class=""
+                              href="#ecr-sender-details"
+                            >
+                              eCR Sender Details
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li
+                        class="usa-sidenav__item"
+                      >
+                        <a
+                          class=""
+                          href="#unavailable-info"
+                        >
+                          Unavailable Info
                         </a>
                       </li>
                     </ul>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <a
-                      class=""
-                      href="#encounter-info"
-                    >
-                      Encounter Info
-                    </a>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <ul
-                      class="usa-sidenav__sublist"
-                      data-testid="sidenav"
-                    >
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#encounter-details"
-                        >
-                          Encounter Details
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#provider-details"
-                        >
-                          Provider Details
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <a
-                      class=""
-                      href="#clinical-info"
-                    >
-                      Clinical Info
-                    </a>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <ul
-                      class="usa-sidenav__sublist"
-                      data-testid="sidenav"
-                    >
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#symptoms-and-problems"
-                        >
-                          Symptoms and Problems
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#treatment-details"
-                        >
-                          Treatment Details
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#immunizations"
-                        >
-                          Immunizations
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#diagnostic-and-vital-signs"
-                        >
-                          Diagnostic and Vital Signs
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <a
-                      class=""
-                      href="#lab-info"
-                    >
-                      Lab Info
-                    </a>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <ul
-                      class="usa-sidenav__sublist"
-                      data-testid="sidenav"
-                    >
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#lab-results-from"
-                        >
-                          Lab Results from
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <a
-                      class=""
-                      href="#ecr-metadata"
-                    >
-                      eCR Metadata
-                    </a>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <ul
-                      class="usa-sidenav__sublist"
-                      data-testid="sidenav"
-                    >
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#rr-details"
-                        >
-                          RR Details
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#eicr-details"
-                        >
-                          eICR Details
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#ecr-sender-details"
-                        >
-                          eCR Sender Details
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <a
-                      class=""
-                      href="#unavailable-info"
-                    >
-                      Unavailable Info
-                    </a>
                   </li>
                 </ul>
-              </li>
-            </ul>
+              </nav>
+            </div>
           </nav>
         </div>
         <div
