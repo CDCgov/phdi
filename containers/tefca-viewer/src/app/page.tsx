@@ -147,22 +147,22 @@ export default function LandingPage() {
             <div className="modal-options">
               <Button
                 type="button"
-                className={`modal-option ${selectedOption === "sti-chlamydia"}`}
-                onClick={() => handleOptionClick("sti-chlamydia")}
+                className={`modal-option ${selectedOption === "chlamydia"}`}
+                onClick={() => handleOptionClick("chlamydia")}
               >
                 Chlamydia case investigation
               </Button>
               <Button
                 type="button"
-                className={`modal-option ${selectedOption === "sti-gonorrhea"}`}
-                onClick={() => handleOptionClick("sti-gonorrhea")}
+                className={`modal-option ${selectedOption === "gonorrhea"}`}
+                onClick={() => handleOptionClick("gonorrhea")}
               >
                 Gonorrhea case investigation
               </Button>
               <Button
                 type="button"
-                className={`modal-option ${selectedOption === "sti-syphilis"}`}
-                onClick={() => handleOptionClick("sti-syphilis")}
+                className={`modal-option ${selectedOption === "syphilis"}`}
+                onClick={() => handleOptionClick("syphilis")}
               >
                 Syphilis case investigation
               </Button>
