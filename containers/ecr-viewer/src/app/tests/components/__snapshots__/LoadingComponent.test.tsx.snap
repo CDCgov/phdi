@@ -19,7 +19,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
               class="nav-wrapper"
             >
               <nav
-                class="sticky-nav"
+                class="sticky-nav top-275"
               >
                 <ul
                   class="usa-sidenav"
