@@ -185,14 +185,15 @@ def build_valuesets_table(
     Look through eRSD json to create valuesets table, where the primary key
     is the valueset_id that contains the name and codes for each service.
 
-    It will also create a junction table between valueset id and condition id.
+    It will also create a junction table between valueset id and condition id,
+    as well as a source table to trace valueset provenance.
 
     :param data: message-parser parsed eRSD json
     :param concepts_dict: a dictionary of each valueset URL with its
     service type as value
     :return: list of lists of for each of the valueset id, name, and code info;
              list of lists of each valueset id, condition id;
-             list of lists of each source
+             list of lists of each valesetset source.
     """
     concepts = data.get("concepts")
     valuesets_list = []
