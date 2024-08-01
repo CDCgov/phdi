@@ -180,7 +180,7 @@ def build_valueset_types_table(data: dict) -> List[List[str]]:
 
 def build_valuesets_table(
     data: dict, concepts_dict: dict
-) -> Tuple[List[List[str]], List[List[str]]]:
+) -> Tuple[List[List[str]], List[List[str]], List[List[str]]]:
     """
     Look through eRSD json to create valuesets table, where the primary key
     is the valueset_id that contains the name and codes for each service.
@@ -191,11 +191,13 @@ def build_valuesets_table(
     :param concepts_dict: a dictionary of each valueset URL with its
     service type as value
     :return: list of lists of for each of the valueset id, name, and code info;
-             list of lists of each valueset id, condition id
+             list of lists of each valueset id, condition id;
+             list of lists of each source
     """
     concepts = data.get("concepts")
     valuesets_list = []
     junction_list = []
+    source_list = []
     for service in concepts:
         valueset_id = service.get("valueset_id")
         valueset_name = service.get("display")
@@ -219,11 +221,13 @@ def build_valuesets_table(
         for concept in concept_codes:
             code = concept.get("coding")[0].get("code")
             junction_list.append([code, id])
+        # create source table for valueset ID
+        source_list = [[i, "ersd"] for i, _ in enumerate(junction_list, start=1)]
     if check_id_uniqueness(valuesets_list):
-        return valuesets_list, junction_list
+        return valuesets_list, junction_list, source_list
     else:
         print("Non-unique IDs in valuesets")
-        return [], []
+        return [], [], []
 
 
 def build_conditions_table(data: dict) -> List[List[str]]:
@@ -391,21 +395,26 @@ def main():
     # 3. used parsed data to create needed tables as list of lists
     valueset_types_list = build_valueset_types_table(parsed_data)
     concepts_dict = build_concepts_dict(parsed_data)
-    valuesets_list, condition_valueset_junction_list = build_valuesets_table(
-        parsed_data, concepts_dict
+    valuesets_list, condition_to_valueset_list, condition_to_valueset_source_list = (
+        build_valuesets_table(parsed_data, concepts_dict)
     )
     conditions_list = build_conditions_table(parsed_data)
-    concepts_list, valueset_concept_junction_list = build_concepts_table(
+    concepts_list, valueset_to_concept_list = build_concepts_table(
         parsed_data, concepts_dict
     )
+    terminology_sources_list = [
+        ["ersd", "electronic Reporting and Surveillance Distribution"]
+    ]
     # Create mini-dict to loop through for sqlite queries
     table_dict = {
         "valueset_types": valueset_types_list,
         "valuesets": valuesets_list,
         "conditions": conditions_list,
         "concepts": concepts_list,
-        "condition_valueset_junction": condition_valueset_junction_list,
-        "valueset_concept_junction": valueset_concept_junction_list,
+        "condition_to_valueset": condition_to_valueset_list,
+        "valueset_to_concept": valueset_to_concept_list,
+        "condition_to_valueset_source": condition_to_valueset_source_list,
+        "terminology_sources": terminology_sources_list,
     }
 
     with sqlite3.connect("seed-scripts/ersd.db") as conn:
@@ -420,7 +429,7 @@ def main():
 
         # 6. Insert data into the tables
         for table_name, table_rows in table_dict.items():
-            if "junction" in table_name:  # use to add sequential row number
+            if "_to_" in table_name:  # use to add sequential row number
                 load_table(conn, table_name, table_rows, True)
             else:
                 load_table(conn, table_name, table_rows, False)

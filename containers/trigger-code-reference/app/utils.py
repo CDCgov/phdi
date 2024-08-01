@@ -65,13 +65,13 @@ def get_concepts_list(snomed_code: list) -> List[tuple]:
     FROM
         conditions c
     LEFT JOIN
-        condition_valueset_junction cvj ON c.id = cvj.condition_id
+        condition_to_valueset cv ON c.id = cv.condition_id
     LEFT JOIN
-        valuesets vs ON cvj.valueset_id = vs.id
+        valuesets vs ON cv.valueset_id = vs.id
     LEFT JOIN
-        valueset_concept_junction vcj ON vs.id = vcj.valueset_id
+        valueset_to_concept vc ON vs.id = vc.valueset_id
     LEFT JOIN
-        concepts cs ON vcj.concept_id = cs.id
+        concepts cs ON vc.concept_id = cs.id
     WHERE
         c.id = ?
     GROUP BY
