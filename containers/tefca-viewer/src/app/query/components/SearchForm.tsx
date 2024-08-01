@@ -12,7 +12,7 @@ import {
   USE_CASES,
   FHIR_SERVERS,
   demoData,
-  demoDataUseCase,
+  PatientType,
   demoQueryOptions,
   patientOptions,
   stateOptions,
@@ -54,12 +54,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Get the demoOption (initial selection) selected from modal via the URL
   const [useCase, setUseCase] = useState<USE_CASES>(
-    (params.get("useCase") as USE_CASES) || "cancer",
+    (params.get("useCase") as USE_CASES) || "cancer"
   );
 
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[useCase]?.[0]?.value || "",
+    patientOptions[useCase]?.[0]?.value || ""
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -72,20 +72,22 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
-    (patientOption: demoDataUseCase, highlightAutofilled = true) => {
+    (patientOption: PatientType, highlightAutofilled = true) => {
       const data = demoData[patientOption];
       if (data) {
         setFirstName(data.FirstName);
         setLastName(data.LastName);
         setDOB(data.DOB);
         setMRN(data.MRN);
-        setPhone(data.Phone);
+        if (data.Phone) {
+          setPhone(data.Phone);
+        }
         setFhirServer(data.FhirServer as FHIR_SERVERS);
         setUseCase(data.UseCase as USE_CASES);
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption],
+    [patientOption]
   );
 
   // Fills fields if patientOption changes (auto-fill)
@@ -93,7 +95,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     if (!patientOption || userJourney !== "demo") {
       return;
     }
-    fillFields(patientOption as demoDataUseCase);
+    fillFields(patientOption as PatientType);
   }, [fillFields, patientOption, userJourney]);
 
   // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
@@ -233,7 +235,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   type="button"
                   value={patientOption}
                   onClick={() => {
-                    fillFields(patientOption as demoDataUseCase, false);
+                    fillFields(patientOption as PatientType, false);
                   }}
                 >
                   Fill fields

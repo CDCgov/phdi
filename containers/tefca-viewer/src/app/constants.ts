@@ -25,10 +25,32 @@ export const FhirServers = [
 ] as const;
 export type FHIR_SERVERS = (typeof FhirServers)[number];
 
+//Create type to specify the demographic data fields for a patient
+export type DemoDataFields = {
+  FirstName: string;
+  LastName: string;
+  DOB: string;
+  MRN: string;
+  Phone?: string;
+  FhirServer: FHIR_SERVERS;
+  UseCase: USE_CASES;
+};
+
+/*Type to specify the different patient types*/
+export type PatientType =
+  | "cancer"
+  | "sti-chlamydia-positive"
+  | "sti-gonorrhea-positive"
+  | "newborn-screening-technical-fail"
+  | "newborn-screening-referral"
+  | "newborn-screening-pass"
+  | "social-determinants"
+  | "sti-syphilis-positive";
+
 /*
-Demo patient data used to populate the form fields
+Demo patient data used to populate the form fields with each value being a type of DemoDataFields
 */
-export const demoData = {
+export const demoData: Record<PatientType, DemoDataFields> = {
   cancer: {
     FirstName: "Lee",
     LastName: "Shaw",
@@ -100,7 +122,6 @@ export const demoData = {
     UseCase: "syphilis",
   },
 };
-export type demoDataUseCase = keyof typeof demoData;
 
 /*Labels and values for the query options dropdown on the query page*/
 export const demoQueryOptions = [
