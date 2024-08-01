@@ -1,12 +1,14 @@
 "use server";
 
 import { Patient } from "fhir/r4";
+import { FormatPhoneAsDigits } from "@/app/utils";
 
 export type PatientIdentifiers = {
   first_name?: string;
   last_name?: string;
   dob?: string;
   mrn?: string;
+  phone?: string;
 };
 
 /**
@@ -41,6 +43,20 @@ export async function parsePatientDemographics(
     identifiers.mrn = mrnIdentifiers[0];
   }
 
+  // Extract phone numbers from patient telecom arrays
+  let phoneNumbers = await parsePhoneNumbers(patient);
+  if (phoneNumbers) {
+    // Strip formatting so the query service can generate options
+    phoneNumbers = phoneNumbers
+      .map((phone) => FormatPhoneAsDigits(phone || ""))
+      .filter((phone) => phone !== "");
+    if (phoneNumbers.length == 1) {
+      identifiers.phone = phoneNumbers[0];
+    } else if (phoneNumbers.length > 1) {
+      identifiers.phone = phoneNumbers.join(";");
+    }
+  }
+
   return identifiers;
 }
 
@@ -61,5 +77,25 @@ export async function parseMRNs(
       ),
     );
     return mrnIdentifiers.map((id) => id.value);
+  }
+}
+
+/**
+ * Helper function that extracts all applicable phone numbers from a patient resource
+ * and returns them as a list of strings, without changing the input formatting
+ * of the phone numbers.
+ * @param patient A FHIR Patient resource.
+ * @returns A list of phone numbers, or undefined if the patient has no telecom.
+ */
+export async function parsePhoneNumbers(
+  patient: Patient,
+): Promise<(string | undefined)[] | undefined> {
+  if (patient.telecom) {
+    const phoneNumbers = patient.telecom.filter(
+      (contactPoint) =>
+        contactPoint.system === "phone" ||
+        ["home", "work", "mobile"].includes(contactPoint.use || ""),
+    );
+    return phoneNumbers.map((contactPoint) => contactPoint.value);
   }
 }

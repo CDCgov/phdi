@@ -74,6 +74,7 @@ export default defineConfig({
     command: "docker compose build --no-cache && docker compose up",
     port: 3000,
     timeout: 120 * 1000,
+    reuseExistingServer: true,
   },
 
   /* Hook to ensure Docker is shut down after tests or on error */

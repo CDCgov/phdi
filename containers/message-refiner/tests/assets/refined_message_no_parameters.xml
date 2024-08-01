@@ -1,0 +1,668 @@
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voc="http://www.lantanagroup.com/voc" xmlns="urn:hl7-org:v3" xmlns:cda="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xsi:schemaLocation="urn:hl7-org:v3 ../../schema/infrastructure/cda/CDA_SDTC.xsd">
+    <!--
+        ********************************************************
+        CDA Header
+        ********************************************************
+    -->
+    <!-- US Realm Header template -->
+    <realmCode code="US"/>
+    <typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
+    <!-- [C-CDA R1.1] US Realm Header -->
+    <templateId root="2.16.840.1.113883.10.20.22.1.1"/>
+    <!-- [C-CDA R2.1] US Realm Header (V3) -->
+    <templateId root="2.16.840.1.113883.10.20.22.1.1" extension="2015-08-01"/>
+    <!-- [eICR R2 STU1.1] Initial Public Health Case Report Document (eICR) (V2) -->
+    <templateId root="2.16.840.1.113883.10.20.15.2" extension="2016-12-01"/>
+    <!-- Globally unique document ID (extension) is scoped by vendor/software -->
+    <id root="db734647-fc99-424c-a864-7e3cda82e703"/>
+    <!-- Document Code -->
+    <code code="55751-2" codeSystem="2.16.840.1.113883.6.1" displayName="Public Health Case Report"/>
+    <title>Initial Public Health Case Report</title>
+    <effectiveTime value="20161107094421-0500"/>
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" displayName="Normal"/>
+    <languageCode code="en-US"/>
+    <!--
+        ********************************************************
+        recordTarget: The patient
+        ********************************************************
+    -->
+    <recordTarget>
+        <!-- Patient demographic information -->
+        <patientRole>
+            <!-- Fake root for sample -->
+            <id extension="123453" root="2.16.840.1.113883.19.5"/>
+            <!--SSN-->
+            <id extension="111-00-1234" root="2.16.840.1.113883.4.1"/>
+            <!--Could
+      have multiple addresses-->
+            <addr use="H">
+                <streetAddressLine>5101 Peachtree St NE</streetAddressLine>
+                <city>Atlanta</city>
+                <state>GA</state>
+                <postalCode>30302</postalCode>
+                <!-- Although "county" is not explicitly specified in the US Realm Address, 
+                     it is not precluded from use and for the purposes of this IG it is 
+                     recommended to be included. -->
+                <county>Fulton County</county>
+                <country>US</country>
+            </addr>
+            <telecom use="HP" value="tel:+1-(404)555-1212"/>
+            <telecom use="WP" value="tel:+1(555)555-2003"/>
+            <patient>
+                <name use="L">
+                    <given>Jane</given>
+                    <given qualifier="IN">H</given>
+                    <family>Stinn</family>
+                </name>
+                <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1"/>
+                <birthTime value="19741124"/>
+                <!-- If sdtc:deceasedInd is true then sdtc:deceasedTime must be present -->
+                <sdtc:deceasedInd value="false"/>
+                <raceCode code="2106-3" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="White"/>
+                <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="Not Hispanic or Latino"/>
+                <!-- Parent/Guardian information-->
+                <guardian>
+                    <!-- Parent/Guardian Address -->
+                    <addr use="H">
+                        <streetAddressLine>1700 Dawes St</streetAddressLine>
+                        <city>Lowell</city>
+                        <state>MA</state>
+                        <postalCode>02368</postalCode>
+                        <country>US</country>
+                    </addr>
+                    <!-- Parent/Guardian phone -->
+                    <telecom use="HP" value="tel:+1(999)555-1212"/>
+                    <!-- Parent/Guardian email -->
+                    <telecom value="mailto:mail@guardian.com"/>
+                    <guardianPerson>
+                        <!-- Parent/guardian name -->
+                        <name use="L">
+                            <given>Ruth</given>
+                            <given qualifier="IN">L</given>
+                            <family>Stinn</family>
+                        </name>
+                    </guardianPerson>
+                </guardian>
+                <languageCommunication>
+                    <languageCode code="en"/>
+                    <modeCode code="ESP" codeSystem="2.16.840.1.113883.5.60" codeSystemName="LanguageAbilityMode" displayName="Expressed spoken"/>
+                    <proficiencyLevelCode code="G" codeSystem="2.16.840.1.113883.5.61" codeSystemName="LanguageAbilityProficiency" displayName="Good"/>
+                    <!-- Preferred Language -->
+                    <preferenceInd value="true"/>
+                </languageCommunication>
+            </patient>
+        </patientRole>
+    </recordTarget>
+    <!--
+        ********************************************************
+        author
+        ********************************************************
+    -->
+    <author>
+        <time value="20161107094421-0500"/>
+        <!--Author/authenticator
+    may be software or may be a provider such as "infection control professional".-->
+        <assignedAuthor>
+            <!--Id
+      for authoring device - made up application OID-->
+            <id root="2.16.840.1.113883.3.72.5.20"/>
+            <!--authoring
+      device address - may or may not be same as facility where care provided for case-->
+            <addr>
+                <streetAddressLine>4646 Brown Rd</streetAddressLine>
+                <city>Salem</city>
+                <state>MA</state>
+                <postalCode>02368</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1-(555)555-1212;ext=9998"/>
+            <assignedAuthoringDevice>
+                <manufacturerModelName displayName="Acme"/>
+                <softwareName displayName="Acme EHR"/>
+            </assignedAuthoringDevice>
+        </assignedAuthor>
+    </author>
+    <!--
+        ********************************************************
+        custodian: The custodian of the CDA document is the generator of the document
+        ********************************************************
+    -->
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <id extension="88888888" root="2.16.840.1.113883.4.6"/>
+                <name>Salem Medical Center</name>
+                <telecom use="WP" value="tel:+1(555)555-1212"/>
+                <addr>
+                    <streetAddressLine>4646 Brown Rd</streetAddressLine>
+                    <city>Salem</city>
+                    <state>MA</state>
+                    <postalCode>02368</postalCode>
+                    <country>US</country>
+                </addr>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    <!--
+        ********************************************************
+        componentOf: contains the encompassingEncouter and the
+        provider and facility infomation for the case
+        ********************************************************
+    -->
+    <componentOf>
+        <encompassingEncounter>
+            <!--encounter
+      ID-->
+            <id extension="9937012" root="2.16.840.1.113883.19"/>
+            <!--CPT-4
+      E/M codes - granular-->
+            <code code="99213" codeSystem="2.16.840.1.113883.6.12" codeSystemName="CPT-4" displayName="Office outpatient visit 15 minutes">
+                <!--ActClassEncounterCodes
+        - high level -->
+                <translation code="AMB" codeSystem="2.16.840.1.113883.5.4" codeSystemName="HL7 ActEncounterCode" displayName="Ambulatory"/>
+            </code>
+            <effectiveTime>
+                <low value="20161107"/>
+                <high value="20161107"/>
+            </effectiveTime>
+            <!--provider
+      in charge of care when case reported-->
+            <responsibleParty>
+                <assignedEntity>
+                    <id extension="6666666666666" root="2.16.840.1.113883.4.6"/>
+                    <addr>
+                        <streetAddressLine>2100 North Ave</streetAddressLine>
+                        <city>Burlington</city>
+                        <state>MA</state>
+                        <postalCode>02368</postalCode>
+                        <country>US</country>
+                    </addr>
+                    <!-- Provider Phone -->
+                    <telecom use="WP" value="tel:+1(555)555-1003"/>
+                    <!-- Provider Fax -->
+                    <telecom use="WP" value="fax:+1(555)555-1234"/>
+                    <!-- Provider Email -->
+                    <telecom use="WP" value="mailto:mail@provider_domain.com"/>
+                    <assignedPerson>
+                        <!-- Provider Name -->
+                        <name>
+                            <given>Michael</given>
+                            <family>Coletta</family>
+                            <suffix qualifier="AC">M.D.</suffix>
+                        </name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <!-- Provider Facility/Office Name -->
+                        <name>BMass Doctors</name>
+                        <!-- Provider Address -->
+                        <addr>
+                            <streetAddressLine>2100 North Ave</streetAddressLine>
+                            <city>Burlington</city>
+                            <state>MA</state>
+                            <postalCode>02368</postalCode>
+                            <country>US</country>
+                        </addr>
+                    </representedOrganization>
+                </assignedEntity>
+            </responsibleParty>
+            <!-- Information about facility where care was provided when case reported-->
+            <location>
+                <healthCareFacility>
+                    <id extension="77777777777" root="2.16.840.1.113883.4.6"/>
+                    <!-- Facility Type-->
+                    <code code="OF" codeSystem="2.16.840.1.113883.5.111" displayName="Outpatient facility"/>
+                    <!-- Facility location within larger healthcare organization e.g Kaiser Vacaville within
+          Kaiser North-->
+                    <location>
+                        <addr>
+                            <streetAddressLine>4646 Brown Rd</streetAddressLine>
+                            <city>Salem</city>
+                            <state>MA</state>
+                            <postalCode>02368</postalCode>
+                            <country>US</country>
+                        </addr>
+                    </location>
+                    <!--Facility
+          contact information-->
+                    <serviceProviderOrganization>
+                        <!-- Facility Name -->
+                        <name>Salem Medical Center</name>
+                        <!-- Facility Phone -->
+                        <telecom use="WP" value="tel: 1+(555)-555-1212"/>
+                        <!-- Facility Fax -->
+                        <telecom use="WP" value="fax: 1+(555)-555-3333"/>
+                        <!-- Facility Addr -->
+                        <addr>
+                            <streetAddressLine>4646 Brown Rd</streetAddressLine>
+                            <city>Salem</city>
+                            <state>MA</state>
+                            <postalCode>02368</postalCode>
+                            <country>US</country>
+                        </addr>
+                    </serviceProviderOrganization>
+                </healthCareFacility>
+            </location>
+        </encompassingEncounter>
+    </componentOf>
+    <component>
+        <structuredBody>
+            <!--
+                ********************************************************
+                Plan of Treatment Section (V2)
+                ********************************************************
+            -->
+            <component>
+                <section>
+                    <!-- [C-CDA R1.1] Plan of Care Section -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22.1"/>
+                    <!-- [C-CDA R2.0] Plan of Treatment Section (V2) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22.1" extension="2014-06-09"/>
+                    <code code="18776-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Plan of Treatment"/>
+                    <title>Plan of Treatment</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <th>Display Text</th>
+                                <th>Code</th>
+                                <th>Code System</th>
+                                <th>Trigger Code Observation</th>
+                            </tr>
+                            <tr>
+                                <td>Zika virus envelope (E) gene [Presence] in Serum by Probe and target amplification method</td>
+                                <td>80825-3</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
+                        </table>
+                    </text>
+                    <entry typeCode="DRIV">
+                        <!-- This is a request for a test to be performed (a lab test order) -->
+                        <observation classCode="OBS" moodCode="RQO">
+                            <!-- [C-CDA R1.1] Plan of Care Activity Observation -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.44"/>
+                            <!-- [C-CDA R2.0] Planned Observation (V2) -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.44" extension="2014-06-09"/>
+                            <!-- [eICR R2 STU1.1] Initial Case Report Trigger Code Lab Test Order -->
+                            <templateId root="2.16.840.1.113883.10.20.15.2.3.4" extension="2016-12-01"/>
+                            <id root="b52bee94-c34b-4e2c-8c15-5ad9d6def205"/>
+                            <!-- This code is from the trigger codes for laboratory test order 
+                                 value set (2.16.840.1.113762.1.4.1146.166) -->
+                            <code code="80825-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Zika virus envelope (E) gene [Presence] in Serum by Probe and target amplification method" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                            <statusCode code="active"/>
+                            <!-- Date on which the lab test should take place -->
+                            <effectiveTime value="20161108"/>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Encounters Section (entries required) (V3)
+                ********************************************************
+            -->
+            <component>
+                <section>
+                    <!-- [C-CDA R1.1] Encounters Section (entries optional) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22"/>
+                    <!-- [C-CDA R2.1] Encounters Section (entries optional) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22" extension="2015-08-01"/>
+                    <!-- [C-CDA R1.1] Encounters Section (entries required) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22.1"/>
+                    <!-- [C-CDA R2.1] Encounters Section (entries required) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22.1" extension="2015-08-01"/>
+                    <code code="46240-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="History of encounters"/>
+                    <title>Encounters</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <th>Display Text</th>
+                                <th>Code</th>
+                                <th>Code System</th>
+                                <th>Trigger Code Observation</th>
+                            </tr>
+                            <tr>
+                                <td>Diagnosis</td>
+                                <td>29308-4</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
+                        </table>
+                    </text>
+                    <entry typeCode="DRIV">
+                        <encounter classCode="ENC" moodCode="EVN">
+                            <!-- [C-CDA R1.1] Encounter Activities-->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.49"/>
+                            <!-- [C-CDA R2.1] Encounter Activities (V3)-->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.49" extension="2015-08-01"/>
+                            <id root="2a620155-9d11-439e-92b3-5d9815ff4de8"/>
+                            <code code="99213" codeSystem="2.16.840.1.113883.6.12" codeSystemName="CPT-4" displayName="Office outpatient visit 15 minutes"/>
+                            <effectiveTime value="20161107"/>
+                            <participant typeCode="LOC">
+                                <participantRole classCode="SDLOC">
+                                    <!--Service
+                  Delivery Location  maps to Hospital Unit -->
+                                    <code code="1160-1" codeSystem="2.16.840.1.113883.1.11.20275" codeSystemName="HealthcareServiceLocation" displayName="Urgent Care Center"/>
+                                </participantRole>
+                            </participant>
+                            <entryRelationship typeCode="COMP">
+                                <act classCode="ACT" moodCode="EVN">
+                                    <!-- [C-CDA R1.1] Encounter Diagnosis -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.80"/>
+                                    <!-- [C-CDA R2.1] Encounter Diagnosis (V3) -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.80" extension="2015-08-01"/>
+                                    <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Diagnosis"/>
+                                    <entryRelationship typeCode="SUBJ">
+                                        <observation classCode="OBS" moodCode="EVN" negationInd="false">
+                                            <!-- [C-CDA R1.1] Problem Observation -->
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
+                                            <!-- [C-CDA R2.1] Problem Observation (V3) -->
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2015-08-01"/>
+                                            <!-- [eICR R2 STU1.1] Initial Case Report Trigger Code Problem Observation -->
+                                            <templateId root="2.16.840.1.113883.10.20.15.2.3.3" extension="2016-12-01"/>
+                                            <id root="db734647-fc99-424c-a864-7e3cda82e705"/>
+                                            <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Diagnosis">
+                                                <translation code="282291009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Diagnosis"/>
+                                            </code>
+                                            <statusCode code="completed"/>
+                                            <effectiveTime>
+                                                <low value="20161107"/>
+                                            </effectiveTime>
+                                            <!-- Trigger code -->
+                                            <value xsi:type="CD" code="27836007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Pertussis (disorder)" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                                        </observation>
+                                    </entryRelationship>
+                                </act>
+                            </entryRelationship>
+                        </encounter>
+                    </entry>
+                </section>
+            </component>
+            <!--
+                 ********************************************************
+                 History of Present Illness Section
+                 ********************************************************
+            -->
+            <component>
+                <section nullFlavor="NI">
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.4"/>
+                    <code code="10164-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="HISTORY OF PRESENT ILLNESS"/>
+                    <title>History of Present Illness</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
+                    </text>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Medications Administered Section (V2)
+                ********************************************************
+            -->
+            <component>
+                <section nullFlavor="NI">
+                    <!-- [C-CDA R1.1] Medications Administered Section -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.38"/>
+                    <!-- [C-CDA R2.0] Medications Administered Section (V2) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.38" extension="2014-06-09"/>
+                    <code code="29549-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Medications Administered"/>
+                    <title>Medications Administered</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
+                    </text>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Problem Section (entries required) (V3)
+                ********************************************************
+            -->
+            <component>
+                <section nullFlavor="NI">
+                    <!-- [C-CDA R1.1] Problem Section (entries optional) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.5"/>
+                    <!-- [C-CDA R2.1] Problem Section (entries optional) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.5" extension="2015-08-01"/>
+                    <!-- [C-CDA R1.1] Problem Section (entries required) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.5.1"/>
+                    <!-- [C-CDA R2.1] Problem Section (entries required) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.5.1" extension="2015-08-01"/>
+                    <code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Problem List"/>
+                    <title>Problems</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
+                    </text>
+                </section>
+            </component>
+            <!--
+               ********************************************************
+               Reason for Visit Section
+               ********************************************************
+            -->
+            <component>
+                <section nullFlavor="NI">
+                    <templateId root="2.16.840.1.113883.10.20.22.2.12"/>
+                    <code code="29299-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Reason for visit"/>
+                    <title>Reason for Visit</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
+                    </text>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Results Section (entries required) (V3)
+                ********************************************************
+            -->
+            <component>
+                <section>
+                    <!-- [C-CDA R1.1] Results Section (entries optional) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.3"/>
+                    <!-- [C-CDA R2.1] Results Section (entries optional) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.3" extension="2015-08-01"/>
+                    <!-- [C-CDA R1.1] Results Section (entries required) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.3.1"/>
+                    <!-- [C-CDA R2.1] Results Section (entries required) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.3.1" extension="2015-08-01"/>
+                    <code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Relevant diagnostic tests and/or laboratory data"/>
+                    <title>Results</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <th>Display Text</th>
+                                <th>Code</th>
+                                <th>Code System</th>
+                                <th>Trigger Code Observation</th>
+                            </tr>
+                            <tr>
+                                <td>Bordetella pertussis Ab [Units/volume] in Serum</td>
+                                <td>11585-7</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
+                            <tr>
+                                <td>Bordetella pertussis [Presence] in Throat by Organism specific culture</td>
+                                <td>548-8</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
+                            <tr>
+                                <td>SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection</td>
+                                <td>94310-0</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
+                        </table>
+                    </text>
+                    <entry typeCode="DRIV">
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <!-- [C-CDA R1.1] Result Organizer -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <!-- [C-CDA R2.1] Result Organizer (V3) -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
+                            <id root="a4307cb2-b3b4-4f42-be03-1d9077376f4a"/>
+                            <code code="11585-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Bordetella pertussis Ab [Units/volume] in Serum"/>
+                            <!-- statusCode must be set to completed because the statusCode of the observation is
+              completed -->
+                            <statusCode code="completed"/>
+                            <effectiveTime>
+                                <low value="20161107"/>
+                                <high value="20161107"/>
+                            </effectiveTime>
+                            <component>
+                                <!-- This observation is a trigger code final result observation - 
+                                     only the code is a trigger code and thus
+                                     only the code must contain @sdtc:valueSet and @sdtc:valueSetVersion.
+                                     Final result is indicated by statusCode="final"  -->
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <!-- [C-CDA R1.1] Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <!-- [C-CDA R2.1] Result Observation (V3) -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <!-- [eICR R2 STU1.1] Initial Case Report Trigger Code Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.15.2.3.2" extension="2016-12-01"/>
+                                    <id root="bf9c0a26-4524-4395-b3ce-100450b9c9ad"/>
+                                    <!-- This code is a trigger code from RCTC subset: "Trigger code for laboratory
+                  test names"
+                                         @sdtc:valueSet and @sdtc:valueSetVersion shall be present -->
+                                    <code code="11585-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Bordetella pertussis Ab [Units/volume] in Serum" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                                    <!-- statusCode is set to completed indicating that this is a final result -->
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20161107"/>
+                                    <!-- This value is a physical quantity and thus cannot be a trigger code -->
+                                    <value xsi:type="PQ" unit="[iU]/mL" value="100"/>
+                                    <!-- This interpretation code denotes that this patient value is above high normal -->
+                                    <interpretationCode code="H" displayName="High" codeSystem="2.16.840.1.113883.5.83" codeSystemName="ObservationInterpretation"/>
+                                    <referenceRange>
+                                        <observationRange>
+                                            <!-- Reference range: PT IgG: <45 IU/mL -->
+                                            <value xsi:type="IVL_PQ">
+                                                <high inclusive="false" unit="[iU]/mL" value="45"/>
+                                            </value>
+                                            <!-- This interpretation code denotes that this reference range is for normal
+                      results. 
+                                                This is not the interpretation of a specific patient value-->
+                                            <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" displayName="Normal"/>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry typeCode="DRIV">
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <!-- [C-CDA R1.1] Result Organizer -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <!-- [C-CDA R2.1] Result Organizer (V3) -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
+                            <id root="a4307cb2-b3b4-4f42-be03-1d9077376f4b"/>
+                            <code code="548-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Bordetella pertussis [Presence] in Throat by Organism specific culture"/>
+                            <!-- statusCode must be set to active because the statusCode of the observation is
+              active -->
+                            <statusCode code="active"/>
+                            <effectiveTime>
+                                <low value="20161107"/>
+                                <high value="20161107"/>
+                            </effectiveTime>
+                            <component>
+                                <!-- This observation is a trigger code preliminary result observation - 
+                                     both the code and value are trigger codes and thus 
+                                     both the code and the value must contain @sdtc:valueSet and @sdtc:valueSetVersion.
+                                     Preliminary result is indicated by statusCode="active" -->
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <!-- [C-CDA R1.1] Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <!-- [C-CDA R2.1] Result Observation (V3) -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <!-- [eICR R2 STU1.1] Initial Case Report Trigger Code Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.15.2.3.2" extension="2016-12-01"/>
+                                    <id root="bf9c0a26-4524-4395-b3ce-100450b9c9ac"/>
+                                    <!-- This code is a trigger code from RCTC subset: "Trigger code for laboratory
+                  test names" 
+                                         @sdtc:valueSet and @sdtc:valueSetVersion shall be present -->
+                                    <code code="548-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Bordetella pertussis [Presence] in Throat by Organism specific culture" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                                    <!-- statusCode is set to active indicating that this is a preliminary result -->
+                                    <statusCode code="active"/>
+                                    <effectiveTime value="20161107"/>
+                                    <!-- This value is a trigger code from RCTC subset: "Trigger code for organism or
+                  substance" 
+                                         @sdtc:valueSet and @sdtc:valueSetVersion shall be present -->
+                                    <value xsi:type="CD" code="5247005" displayName="Bordetella pertussis (organism)" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                                    <!-- This interpretation code denotes that this patient value is abnormal 
+                                         (bordetella pertussis (organism) was present in the culture) -->
+                                    <interpretationCode code="A" displayName="Abnormal" codeSystem="2.16.840.1.113883.5.83" codeSystemName="ObservationInterpretation"/>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry typeCode="DRIV">
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
+                            <id root="bcf43cb4-6d72-474f-975d-352c6a233734"/>
+                            <code code="94310-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection"/>
+                            <statusCode code="completed"/>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <templateId root="2.16.840.1.113883.10.20.15.2.3.2" extension="2016-12-01"/>
+                                    <id root="2.16.840.1.113883.4.945.1" extension="http://localhost:4080/Observation/scenario-3-observation-3/_history/cf098ab8-e3d7-4c1b-8272-43536d093cf0"/>
+                                    <code code="94310-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2021-01-13"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20200514153000"/>
+                                    <value xsi:type="CD" code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not Detected"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Social History Section (V3)
+                ********************************************************
+            -->
+            <component>
+                <section nullFlavor="NI">
+                    <!-- [C-CDA 1.1] Social History Section -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.17"/>
+                    <!-- [C-CDA 2.1] Social History Section (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.17" extension="2015-08-01"/>
+                    <code code="29762-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Social History"/>
+                    <title>Social History</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
+                    </text>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>

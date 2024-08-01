@@ -1,1213 +1,1113 @@
-<ClinicalDocument
-	xmlns="urn:hl7-org:v3"
-	xmlns:cda="urn:hl7-org:v3"
-	xmlns:sdtc="urn:hl7-org:sdtc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<realmCode code="US"/>
-	<typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
-	<templateId root="2.16.840.1.113883.10.20.22.1.1"/>
-	<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.1.1"/>
-	<templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2"/>
-	<id root="1dd10047-2207-4eac-a993-0f706c88be5d"/>
-	<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Initial Public Health Case Report"/>
-	<title>Initial Public Health Case Report</title>
-	<effectiveTime value="20220514125638+0000"/>
-	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
-	<languageCode code="en-US"/>
-	<setId extension="36959489|65117030" root="2.16.840.1.113883"/>
-	<versionNumber value="2"/>
-	<recordTarget>
-		<patientRole>
-			<id extension="10308625" root="2.16.840.1.113883.3.3316.100"/>
-			<addr>
-				<streetAddressLine>1050 CARPENTER ST</streetAddressLine>
-				<city>EDWARDS</city>
-				<state>CA</state>
-				<postalCode>93523-2800</postalCode>
-				<country>US</country>
-			</addr>
-			<telecom use="HP" value="tel:(818)419-5968"/>
-			<telecom value="mailto:MELLY.C.A.16@GMAIL.COM"/>
-			<patient>
-				<name>
-					<given>ABEL</given>
-					<family>CASTILLO</family>
-				</name>
-				<administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
-				<birthTime value="20150415"/>
-				<sdtc:deceasedInd value="false"/>
-				<raceCode code="2054-5" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="Black or African American"/>
-				<ethnicGroupCode code="2135-2" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="Hispanic or Latino"/>
-				<languageCommunication>
-					<languageCode code="en"/>
-				</languageCommunication>
-			</patient>
-		</patientRole>
-	</recordTarget>
-	<author>
-		<time value="20220513072500+0000"/>
-		<assignedAuthor>
-			<id root="2.16.840.1.113883.4.6"/>
-			<addr>
-				<streetAddressLine nullFlavor="NI"/>
-				<city nullFlavor="NI"/>
-				<state nullFlavor="NI"/>
-				<postalCode nullFlavor="NI"/>
-				<country nullFlavor="NI"/>
-			</addr>
-			<telecom nullFlavor="NI"/>
-			<assignedPerson>
-				<name>
-					<given>ED Billing</given>
-					<given>Discharge</given>
-					<family>Physician</family>
-				</name>
-			</assignedPerson>
-		</assignedAuthor>
-	</author>
-	<custodian>
-		<assignedCustodian>
-			<representedCustodianOrganization>
-				<id extension="PRM" root="2.16.840.1.113883.3.3316.200"/>
-				<name>PRM- Palmdale Regional Medical Center</name>
-				<telecom use="WP" value="tel:(661)382-5000"/>
-				<addr>
-					<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
-					<city>Palmdale</city>
-					<state>CA</state>
-					<postalCode>93551</postalCode>
-					<country>USA</country>
-				</addr>
-			</representedCustodianOrganization>
-		</assignedCustodian>
-	</custodian>
-	<componentOf>
-		<encompassingEncounter>
-			<id extension="Encounter/65117030/_history/22" root="2.16.840.1.113883"/>
-			<id extension="3012591990" root="2.16.840.1.113883.3.3316.200"/>
-			<code code="E" codeSystem="2.16.840.1.113883.18.5" codeSystemName="v2-0004" displayName="Emergency"/>
-			<effectiveTime>
-				<low value="20220513072500+0000"/>
-				<high value="20220513095700+0000"/>
-			</effectiveTime>
-			<responsibleParty>
-				<assignedEntity>
-					<id root="2.16.840.1.113883.4.6"/>
-					<addr>
-						<streetAddressLine nullFlavor="NI"/>
-						<city nullFlavor="NI"/>
-						<state nullFlavor="NI"/>
-						<postalCode nullFlavor="NI"/>
-						<country nullFlavor="NI"/>
-					</addr>
-					<telecom nullFlavor="NI"/>
-					<assignedPerson>
-						<name>
-							<given>ED Billing</given>
-							<given>Discharge</given>
-							<family>Physician</family>
-						</name>
-					</assignedPerson>
-					<representedOrganization>
-						<id extension="PRM" root="2.16.840.1.113883.3.3316.200"/>
-						<name>PRM- Palmdale Regional Medical Center</name>
-						<telecom use="WP" value="tel:(661)382-5000"/>
-						<addr>
-							<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
-							<city>Palmdale</city>
-							<state>CA</state>
-							<postalCode>93551</postalCode>
-							<country>USA</country>
-						</addr>
-					</representedOrganization>
-				</assignedEntity>
-			</responsibleParty>
-			<encounterParticipant typeCode="ATND">
-				<assignedEntity>
-					<id extension="1114930757" root="2.16.840.1.113883.4.6"/>
-					<addr>
-						<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
-						<city>Palmdale</city>
-						<state>CA</state>
-						<postalCode>93551</postalCode>
-						<country>US</country>
-					</addr>
-					<telecom value="tel:((66)1)3-82-6"/>
-					<assignedPerson>
-						<name>
-							<given>Scott</given>
-							<given>A</given>
-							<family>Wang</family>
-						</name>
-					</assignedPerson>
-				</assignedEntity>
-			</encounterParticipant>
-			<encounterParticipant typeCode="ATND">
-				<assignedEntity>
-					<id extension="1999999992" root="2.16.840.1.113883.4.6"/>
-					<addr>
-						<streetAddressLine nullFlavor="NI"/>
-						<city nullFlavor="NI"/>
-						<state nullFlavor="NI"/>
-						<postalCode nullFlavor="NI"/>
-						<country nullFlavor="NI"/>
-					</addr>
-					<assignedPerson>
-						<name>
-							<given>Physician</given>
-							<family>Ed staff</family>
-						</name>
-					</assignedPerson>
-				</assignedEntity>
-			</encounterParticipant>
-			<location>
-				<healthCareFacility>
-					<id extension="1508856535" root="2.16.840.1.113883.4.6"/>
-					<code code="prov" codeSystem="2.16.840.1.113883.4.642.3.414" codeSystemName="organization-type" displayName="Healthcare Provider">
-						<translation code="team" codeSystem="2.16.840.1.113883.4.642.3.414" codeSystemName="organization-type" displayName="Organizational team"/>
-					</code>
-					<location>
-						<addr>
-							<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
-							<city>Palmdale</city>
-							<state>CA</state>
-							<postalCode>93551</postalCode>
-							<country>USA</country>
-						</addr>
-					</location>
-					<serviceProviderOrganization>
-						<id extension="PRM" root="2.16.840.1.113883.3.3316.200"/>
-						<name>PRM- Palmdale Regional Medical Center</name>
-						<telecom use="WP" value="tel:(661)382-5000"/>
-						<addr>
-							<streetAddressLine>38600 Medical Center Drive</streetAddressLine>
-							<city>Palmdale</city>
-							<state>CA</state>
-							<postalCode>93551</postalCode>
-							<country>USA</country>
-						</addr>
-					</serviceProviderOrganization>
-				</healthCareFacility>
-			</location>
-		</encompassingEncounter>
-	</componentOf>
-	<component>
-		<structuredBody>
-			<component>
-				<section>
-					<templateId root="2.16.840.1.113883.10.20.22.2.3.1"/>
-					<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.2.3.1"/>
-					<code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="RESULTS"/>
-					<title>RESULTS</title>
-					<text>
-						<table border="1" width="100%">
-							<thead>
-								<tr>
-									<th>Lab Test Name</th>
-									<th>Lab Test Result Value</th>
-									<th>Lab Test Result Date</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<content ID="labTestName1">Ur Mucous</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue1">NONE /LPF</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate1">
-                                            2022-05-13T07:47:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName2">Ur Squam Epithelial</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue2">
-                                            1|http://unitsofmeasure.org|/HPF</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate2">
-                                            2022-05-13T07:47:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName3">Ur WBC</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue3">
-                                            1|http://unitsofmeasure.org|/HPF</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate3">
-                                            2022-05-13T07:47:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName4">Ur RBC</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue4">
-                                            2|http://unitsofmeasure.org|/HPF</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate4">
-                                            2022-05-13T07:47:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName5">Ur Bacteria</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue5">None Seen /HPF</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate5">
-                                            2022-05-13T07:47:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName6">Symptomatic as defined by CDC?</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue6">No</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate6">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName7">In ICU?</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue7">No</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate7">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName8">Group care resident?</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue8">No</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate8">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName9">First test?</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue9">UNK</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate9">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName10">Employed in healthcare?</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue10">No</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate10">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName11">Date of onset?</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue11">UNK</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate11">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName12">SARS-CoV-2 Interp:</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue12">Unknown</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate12">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName13">SARS-CoV-2 PCR</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue13">Negative</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate13">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName14">Flu B PCR</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue14">Not Detected</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate14">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName15">Flu A PCR</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue15">Not Detected</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate15">
-                                            2022-05-13T07:43:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName16">Ur pH</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue16">6.0</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate16">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName17">Ur Spec Grav</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue17">1.020 mg/dL</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate17">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName18">Ur Urobilinogen</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue18">0.2 EU/dL</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate18">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName19">Ur Blood</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue19">Trace-lysed</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate19">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName20">Ur Bili</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue20">Negative</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate20">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName21">Ur Leuk Est</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue21">Negative</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate21">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName22">Ur Protein</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue22">Negative mg/dL</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate22">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName23">Ur Nitrite</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue23">Negative</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate23">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName24">Ur Ketones</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue24">Negative mg/dL</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate24">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<content ID="labTestName25">UR Glucose</content>
-									</td>
-									<td>
-										<content ID="labTestResultValue25">Negative mg/dL</content>
-									</td>
-									<td>
-										<content ID="labTestResultValueDate25">
-                                            2022-05-13T06:52:00.000Z</content>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</text>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="ff1315b1-82ae-4bba-b2ad-b7fa2c6df609"/>
-							<code code="8247-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292944/_history/1" root="2.16.840.1.113883"/>
-									<code code="8247-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName1"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074700+0000"/>
-									<value xsi:type="ST">NONE /LPF</value>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="058cd367-c2ac-4a60-96b3-e63cc19366b1"/>
-							<code code="11277-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292940/_history/1" root="2.16.840.1.113883"/>
-									<code code="11277-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName2"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074700+0000"/>
-									<value unit="/HPF" value="1" xsi:type="PQ"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="0eaa692c-917c-4e3f-ac8a-0cb281519fa6"/>
-							<code code="5821-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292936/_history/1" root="2.16.840.1.113883"/>
-									<code code="5821-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName3"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074700+0000"/>
-									<value unit="/HPF" value="1" xsi:type="PQ"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="9ee90a5e-72b7-4c76-86c8-ad30dbb004c3"/>
-							<code code="13945-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292938/_history/1" root="2.16.840.1.113883"/>
-									<code code="13945-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName4"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074700+0000"/>
-									<value unit="/HPF" value="2" xsi:type="PQ"/>
-									<interpretationCode code="H" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="High"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="e13d84f5-5613-4492-8837-a2fd2fe5e38a"/>
-							<code code="5769-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459292942/_history/1" root="2.16.840.1.113883"/>
-									<code code="5769-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName5"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074700+0000"/>
-									<value code="260413007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="None (qualifier value)" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="ae8bad55-ef9a-4a25-8775-f85d55223676"/>
-							<code code="95419-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361290/_history/1" root="2.16.840.1.113883"/>
-									<code code="95419-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName6"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value code="373067005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="No (qualifier value)" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="e68c1036-24ed-4cc0-b4f6-7bc05c19a732"/>
-							<code code="95420-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361296/_history/1" root="2.16.840.1.113883"/>
-									<code code="95420-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName7"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value code="373067005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="No (qualifier value)" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="66f04502-1e75-4931-bf6c-5a9f67f1fe02"/>
-							<code code="95421-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361302/_history/1" root="2.16.840.1.113883"/>
-									<code code="95421-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName8"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value code="373067005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="No (qualifier value)" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="45d8a563-224c-4b9a-8eff-858b538ed6e9"/>
-							<code code="95417-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361288/_history/1" root="2.16.840.1.113883"/>
-									<code code="95417-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName9"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value xsi:type="ST">UNK</value>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="aab9084a-aa22-45c0-aa9b-c11d6ad0a104"/>
-							<code code="95418-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361300/_history/1" root="2.16.840.1.113883"/>
-									<code code="95418-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName10"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value code="373067005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="No (qualifier value)" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="6c28395e-46a7-4298-bb48-0ea86172036c"/>
-							<code code="65222-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361292/_history/1" root="2.16.840.1.113883"/>
-									<code code="65222-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName11"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value xsi:type="ST">UNK</value>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="8625444b-ea02-4d22-9288-9e6df95d0bb7"/>
-							<code code="94309-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2.3.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361306/_history/1" root="2.16.840.1.113883"/>
-									<code code="94309-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-CoV-2 Interp:" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2021-08-18">
-										<originalText>
-											<reference value="#labTestName12"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value nullFlavor="NI" xsi:type="ST"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="4ba676a9-1271-4563-a285-f86948a57376"/>
-							<code code="94500-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2016-12-01" root="2.16.840.1.113883.10.20.15.2.3.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361304/_history/1" root="2.16.840.1.113883"/>
-									<code code="94500-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-CoV-2 PCR" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2021-08-18">
-										<originalText>
-											<reference value="#labTestName13"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value code="260385009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Negative (qualifier value)" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="26f9100d-515f-472c-bffb-93806fd9bd71"/>
-							<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361280/_history/1" root="2.16.840.1.113883"/>
-									<code code="76080-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName14"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="10ea9500-d59d-4962-8a8d-81c0749f06f6"/>
-							<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459361278/_history/1" root="2.16.840.1.113883"/>
-									<code code="76078-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName15"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513074300+0000"/>
-									<value code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not detected (qualifier value)" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="a97480ed-8ed9-46d4-9c8b-f0203447b347"/>
-							<code code="5803-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157887/_history/1" root="2.16.840.1.113883"/>
-									<code code="5803-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName16"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value code="68244004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Six (qualifier value)" xsi:type="CD"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="c4602a4c-fc77-42a2-97ac-076e3fc307a3"/>
-							<code code="2965-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157885/_history/1" root="2.16.840.1.113883"/>
-									<code code="2965-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName17"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value nullFlavor="NI" xsi:type="CD"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="068fbc96-82f4-4ceb-9918-2b2cf1365631"/>
-							<code code="19161-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157895/_history/1" root="2.16.840.1.113883"/>
-									<code code="19161-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName18"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value code="732349004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="0.2" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="560ada7e-520d-4c1f-883d-2409edb39161"/>
-							<code code="725-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157893/_history/1" root="2.16.840.1.113883"/>
-									<code code="725-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName19"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value xsi:type="ST">Trace-lysed</value>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="1061fa97-53cb-47ee-b375-d560e7ab2773"/>
-							<code code="1977-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157891/_history/1" root="2.16.840.1.113883"/>
-									<code code="1977-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName20"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value nullFlavor="NI" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="950ddc5f-f6c2-4586-b010-b59d9c0a745e"/>
-							<code code="5799-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157889/_history/1" root="2.16.840.1.113883"/>
-									<code code="5799-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName21"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value nullFlavor="NI" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="40dbb39d-636f-4201-b84c-54cb7a985863"/>
-							<code code="5804-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157883/_history/1" root="2.16.840.1.113883"/>
-									<code code="5804-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName22"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value nullFlavor="NI" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="53bef43a-a55b-4776-ae62-4ca14121af87"/>
-							<code code="5802-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157881/_history/1" root="2.16.840.1.113883"/>
-									<code code="5802-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName23"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value nullFlavor="NI" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="1de1b0c3-fb17-4d68-8904-8211e38b9e84"/>
-							<code code="33903-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157879/_history/1" root="2.16.840.1.113883"/>
-									<code code="33903-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName24"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value nullFlavor="NI" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-					<entry typeCode="DRIV">
-						<organizer classCode="CLUSTER" moodCode="EVN">
-							<templateId root="2.16.840.1.113883.10.20.22.4.1"/>
-							<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
-							<id root="bfa56c8d-e132-4e16-b38c-999afaf05e36"/>
-							<code code="2350-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org"/>
-							<statusCode code="completed"/>
-							<component>
-								<observation classCode="OBS" moodCode="EVN">
-									<templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-									<templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-									<id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19459157877/_history/1" root="2.16.840.1.113883"/>
-									<code code="2350-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-										<originalText>
-											<reference value="#labTestName25"/>
-										</originalText>
-									</code>
-									<statusCode code="completed"/>
-									<effectiveTime value="20220513065200+0000"/>
-									<value nullFlavor="NI" xsi:type="CD"/>
-									<interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-								</observation>
-							</component>
-						</organizer>
-					</entry>
-				</section>
-			</component>
-			<component>
-				<section>
-					<templateId root="2.16.840.1.113883.10.20.22.2.12"/>
-					<code code="29299-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Reason For Visit"/>
-					<title>Reason For Visit</title>
-					<text>
-						<table border="1" width="100%">
-							<thead>
-								<tr>
-									<th>text</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<content ID="text1">FEVER</content>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</text>
-				</section>
-			</component>
-			<component>
-				<section nullFlavor="NI">
-					<templateId root="2.16.840.1.113883.10.20.22.2.22.1" extension="2015-08-01"/>
-					<code code="46240-8" codeSystem="2.16.840.1.113883.6.1" displayName="History of encounters"/>
-					<title>Encounters</title>
-					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
-				</section>
-			</component>
-			<component>
-				<section nullFlavor="NI">
-					<templateId root="2.16.840.1.113883.10.20.22.2.38" extension="2014-06-09"/>
-					<code code="29549-3" codeSystem="2.16.840.1.113883.6.1" displayName="Medications Administered"/>
-					<title>Medications Administered</title>
-					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
-				</section>
-			</component>
-			<component>
-				<section nullFlavor="NI">
-					<templateId root="2.16.840.1.113883.10.20.22.2.5.1" extension="2015-08-01"/>
-					<code code="11450-4" codeSystem="2.16.840.1.113883.6.1" displayName="Problem List"/>
-					<title>Problem List</title>
-					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
-				</section>
-			</component>
-			<component>
-				<section nullFlavor="NI">
-					<templateId root="2.16.840.1.113883.10.20.22.2.10" extension="2014-06-09"/>
-					<code code="18776-5" codeSystem="2.16.840.1.113883.6.1" displayName="Plan of Treatment"/>
-					<title>Plan of Treatment</title>
-					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
-				</section>
-			</component>
-			<component>
-				<section nullFlavor="NI">
-					<templateId root="2.16.840.1.113883.10.20.22.2.17" extension="2015-08-01"/>
-					<code code="29762-2" codeSystem="2.16.840.1.113883.6.1" displayName="Social History"/>
-					<title>Social History</title>
-					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
-				</section>
-			</component>
-			<component>
-				<section nullFlavor="NI">
-					<templateId root="2.16.840.1.113883.10.20.22.2.20" extension="2015-08-01"/>
-					<code code="10164-2" codeSystem="2.16.840.1.113883.6.1" displayName="History of Present Illness"/>
-					<title>History of Present Illness</title>
-					<text>Removed via PRIME DIBBs Message Refiner API endpoint by Public Health Authority</text>
-				</section>
-			</component>
-		</structuredBody>
-	</component>
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voc="http://www.lantanagroup.com/voc" xmlns="urn:hl7-org:v3" xmlns:cda="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xsi:schemaLocation="urn:hl7-org:v3 ../../schema/infrastructure/cda/CDA_SDTC.xsd">
+    <!--
+        ********************************************************
+        CDA Header
+        ********************************************************
+    -->
+    <!-- US Realm Header template -->
+    <realmCode code="US"/>
+    <typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
+    <!-- [C-CDA R1.1] US Realm Header -->
+    <templateId root="2.16.840.1.113883.10.20.22.1.1"/>
+    <!-- [C-CDA R2.1] US Realm Header (V3) -->
+    <templateId root="2.16.840.1.113883.10.20.22.1.1" extension="2015-08-01"/>
+    <!-- [eICR R2 STU1.1] Initial Public Health Case Report Document (eICR) (V2) -->
+    <templateId root="2.16.840.1.113883.10.20.15.2" extension="2016-12-01"/>
+    <!-- Globally unique document ID (extension) is scoped by vendor/software -->
+    <id root="db734647-fc99-424c-a864-7e3cda82e703"/>
+    <!-- Document Code -->
+    <code code="55751-2" codeSystem="2.16.840.1.113883.6.1" displayName="Public Health Case Report"/>
+    <title>Initial Public Health Case Report</title>
+    <effectiveTime value="20161107094421-0500"/>
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" displayName="Normal"/>
+    <languageCode code="en-US"/>
+    <!--
+        ********************************************************
+        recordTarget: The patient
+        ********************************************************
+    -->
+    <recordTarget>
+        <!-- Patient demographic information -->
+        <patientRole>
+            <!-- Fake root for sample -->
+            <id extension="123453" root="2.16.840.1.113883.19.5"/>
+            <!--SSN-->
+            <id extension="111-00-1234" root="2.16.840.1.113883.4.1"/>
+            <!--Could
+      have multiple addresses-->
+            <addr use="H">
+                <streetAddressLine>5101 Peachtree St NE</streetAddressLine>
+                <city>Atlanta</city>
+                <state>GA</state>
+                <postalCode>30302</postalCode>
+                <!-- Although "county" is not explicitly specified in the US Realm Address, 
+                     it is not precluded from use and for the purposes of this IG it is 
+                     recommended to be included. -->
+                <county>Fulton County</county>
+                <country>US</country>
+            </addr>
+            <telecom use="HP" value="tel:+1-(404)555-1212"/>
+            <telecom use="WP" value="tel:+1(555)555-2003"/>
+            <patient>
+                <name use="L">
+                    <given>Jane</given>
+                    <given qualifier="IN">H</given>
+                    <family>Stinn</family>
+                </name>
+                <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1"/>
+                <birthTime value="19741124"/>
+                <!-- If sdtc:deceasedInd is true then sdtc:deceasedTime must be present -->
+                <sdtc:deceasedInd value="false"/>
+                <raceCode code="2106-3" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="White"/>
+                <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" displayName="Not Hispanic or Latino"/>
+                <!-- Parent/Guardian information-->
+                <guardian>
+                    <!-- Parent/Guardian Address -->
+                    <addr use="H">
+                        <streetAddressLine>1700 Dawes St</streetAddressLine>
+                        <city>Lowell</city>
+                        <state>MA</state>
+                        <postalCode>02368</postalCode>
+                        <country>US</country>
+                    </addr>
+                    <!-- Parent/Guardian phone -->
+                    <telecom use="HP" value="tel:+1(999)555-1212"/>
+                    <!-- Parent/Guardian email -->
+                    <telecom value="mailto:mail@guardian.com"/>
+                    <guardianPerson>
+                        <!-- Parent/guardian name -->
+                        <name use="L">
+                            <given>Ruth</given>
+                            <given qualifier="IN">L</given>
+                            <family>Stinn</family>
+                        </name>
+                    </guardianPerson>
+                </guardian>
+                <languageCommunication>
+                    <languageCode code="en"/>
+                    <modeCode code="ESP" codeSystem="2.16.840.1.113883.5.60" codeSystemName="LanguageAbilityMode" displayName="Expressed spoken"/>
+                    <proficiencyLevelCode code="G" codeSystem="2.16.840.1.113883.5.61" codeSystemName="LanguageAbilityProficiency" displayName="Good"/>
+                    <!-- Preferred Language -->
+                    <preferenceInd value="true"/>
+                </languageCommunication>
+            </patient>
+        </patientRole>
+    </recordTarget>
+    <!--
+        ********************************************************
+        author
+        ********************************************************
+    -->
+    <author>
+        <time value="20161107094421-0500"/>
+        <!--Author/authenticator
+    may be software or may be a provider such as "infection control professional".-->
+        <assignedAuthor>
+            <!--Id
+      for authoring device - made up application OID-->
+            <id root="2.16.840.1.113883.3.72.5.20"/>
+            <!--authoring
+      device address - may or may not be same as facility where care provided for case-->
+            <addr>
+                <streetAddressLine>4646 Brown Rd</streetAddressLine>
+                <city>Salem</city>
+                <state>MA</state>
+                <postalCode>02368</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1-(555)555-1212;ext=9998"/>
+            <assignedAuthoringDevice>
+                <manufacturerModelName displayName="Acme"/>
+                <softwareName displayName="Acme EHR"/>
+            </assignedAuthoringDevice>
+        </assignedAuthor>
+    </author>
+    <!--
+        ********************************************************
+        custodian: The custodian of the CDA document is the generator of the document
+        ********************************************************
+    -->
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <id extension="88888888" root="2.16.840.1.113883.4.6"/>
+                <name>Salem Medical Center</name>
+                <telecom use="WP" value="tel:+1(555)555-1212"/>
+                <addr>
+                    <streetAddressLine>4646 Brown Rd</streetAddressLine>
+                    <city>Salem</city>
+                    <state>MA</state>
+                    <postalCode>02368</postalCode>
+                    <country>US</country>
+                </addr>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    <!--
+        ********************************************************
+        componentOf: contains the encompassingEncouter and the
+        provider and facility infomation for the case
+        ********************************************************
+    -->
+    <componentOf>
+        <encompassingEncounter>
+            <!--encounter
+      ID-->
+            <id extension="9937012" root="2.16.840.1.113883.19"/>
+            <!--CPT-4
+      E/M codes - granular-->
+            <code code="99213" codeSystem="2.16.840.1.113883.6.12" codeSystemName="CPT-4" displayName="Office outpatient visit 15 minutes">
+                <!--ActClassEncounterCodes
+        - high level -->
+                <translation code="AMB" codeSystem="2.16.840.1.113883.5.4" codeSystemName="HL7 ActEncounterCode" displayName="Ambulatory"/>
+            </code>
+            <effectiveTime>
+                <low value="20161107"/>
+                <high value="20161107"/>
+            </effectiveTime>
+            <!--provider
+      in charge of care when case reported-->
+            <responsibleParty>
+                <assignedEntity>
+                    <id extension="6666666666666" root="2.16.840.1.113883.4.6"/>
+                    <addr>
+                        <streetAddressLine>2100 North Ave</streetAddressLine>
+                        <city>Burlington</city>
+                        <state>MA</state>
+                        <postalCode>02368</postalCode>
+                        <country>US</country>
+                    </addr>
+                    <!-- Provider Phone -->
+                    <telecom use="WP" value="tel:+1(555)555-1003"/>
+                    <!-- Provider Fax -->
+                    <telecom use="WP" value="fax:+1(555)555-1234"/>
+                    <!-- Provider Email -->
+                    <telecom use="WP" value="mailto:mail@provider_domain.com"/>
+                    <assignedPerson>
+                        <!-- Provider Name -->
+                        <name>
+                            <given>Michael</given>
+                            <family>Coletta</family>
+                            <suffix qualifier="AC">M.D.</suffix>
+                        </name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <!-- Provider Facility/Office Name -->
+                        <name>BMass Doctors</name>
+                        <!-- Provider Address -->
+                        <addr>
+                            <streetAddressLine>2100 North Ave</streetAddressLine>
+                            <city>Burlington</city>
+                            <state>MA</state>
+                            <postalCode>02368</postalCode>
+                            <country>US</country>
+                        </addr>
+                    </representedOrganization>
+                </assignedEntity>
+            </responsibleParty>
+            <!-- Information about facility where care was provided when case reported-->
+            <location>
+                <healthCareFacility>
+                    <id extension="77777777777" root="2.16.840.1.113883.4.6"/>
+                    <!-- Facility Type-->
+                    <code code="OF" codeSystem="2.16.840.1.113883.5.111" displayName="Outpatient facility"/>
+                    <!-- Facility location within larger healthcare organization e.g Kaiser Vacaville within
+          Kaiser North-->
+                    <location>
+                        <addr>
+                            <streetAddressLine>4646 Brown Rd</streetAddressLine>
+                            <city>Salem</city>
+                            <state>MA</state>
+                            <postalCode>02368</postalCode>
+                            <country>US</country>
+                        </addr>
+                    </location>
+                    <!--Facility
+          contact information-->
+                    <serviceProviderOrganization>
+                        <!-- Facility Name -->
+                        <name>Salem Medical Center</name>
+                        <!-- Facility Phone -->
+                        <telecom use="WP" value="tel: 1+(555)-555-1212"/>
+                        <!-- Facility Fax -->
+                        <telecom use="WP" value="fax: 1+(555)-555-3333"/>
+                        <!-- Facility Addr -->
+                        <addr>
+                            <streetAddressLine>4646 Brown Rd</streetAddressLine>
+                            <city>Salem</city>
+                            <state>MA</state>
+                            <postalCode>02368</postalCode>
+                            <country>US</country>
+                        </addr>
+                    </serviceProviderOrganization>
+                </healthCareFacility>
+            </location>
+        </encompassingEncounter>
+    </componentOf>
+    <component>
+        <structuredBody>
+            <!--
+                ********************************************************
+                Plan of Treatment Section (V2)
+                ********************************************************
+            -->
+            <component>
+                <section>
+                    <!-- [C-CDA R1.1] Plan of Care Section -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22.1"/>
+                    <!-- [C-CDA R2.0] Plan of Treatment Section (V2) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22.1" extension="2014-06-09"/>
+                    <code code="18776-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Plan of Treatment"/>
+                    <title>Plan of Treatment</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <th>Display Text</th>
+                                <th>Code</th>
+                                <th>Code System</th>
+                                <th>Trigger Code Observation</th>
+                            </tr>
+                            <tr>
+                                <td>Zika virus envelope (E) gene [Presence] in Serum by Probe and target amplification method</td>
+                                <td>80825-3</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
+                        </table>
+                    </text>
+                    <entry typeCode="DRIV">
+                        <!-- This is a request for a test to be performed (a lab test order) -->
+                        <observation classCode="OBS" moodCode="RQO">
+                            <!-- [C-CDA R1.1] Plan of Care Activity Observation -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.44"/>
+                            <!-- [C-CDA R2.0] Planned Observation (V2) -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.44" extension="2014-06-09"/>
+                            <!-- [eICR R2 STU1.1] Initial Case Report Trigger Code Lab Test Order -->
+                            <templateId root="2.16.840.1.113883.10.20.15.2.3.4" extension="2016-12-01"/>
+                            <id root="b52bee94-c34b-4e2c-8c15-5ad9d6def205"/>
+                            <!-- This code is from the trigger codes for laboratory test order 
+                                 value set (2.16.840.1.113762.1.4.1146.166) -->
+                            <code code="80825-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Zika virus envelope (E) gene [Presence] in Serum by Probe and target amplification method" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                            <statusCode code="active"/>
+                            <!-- Date on which the lab test should take place -->
+                            <effectiveTime value="20161108"/>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Encounters Section (entries required) (V3)
+                ********************************************************
+            -->
+            <component>
+                <section>
+                    <!-- [C-CDA R1.1] Encounters Section (entries optional) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22"/>
+                    <!-- [C-CDA R2.1] Encounters Section (entries optional) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22" extension="2015-08-01"/>
+                    <!-- [C-CDA R1.1] Encounters Section (entries required) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22.1"/>
+                    <!-- [C-CDA R2.1] Encounters Section (entries required) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.22.1" extension="2015-08-01"/>
+                    <code code="46240-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="History of encounters"/>
+                    <title>Encounters</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <th>Display Text</th>
+                                <th>Code</th>
+                                <th>Code System</th>
+                                <th>Trigger Code Observation</th>
+                            </tr>
+                            <tr>
+                                <td>Diagnosis</td>
+                                <td>29308-4</td>
+                                <td>LOINC</td>
+                                <td>TRUE</td>
+                            </tr>
+                        </table>
+                    </text>
+                    <entry typeCode="DRIV">
+                        <encounter classCode="ENC" moodCode="EVN">
+                            <!-- [C-CDA R1.1] Encounter Activities-->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.49"/>
+                            <!-- [C-CDA R2.1] Encounter Activities (V3)-->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.49" extension="2015-08-01"/>
+                            <id root="2a620155-9d11-439e-92b3-5d9815ff4de8"/>
+                            <code code="99213" codeSystem="2.16.840.1.113883.6.12" codeSystemName="CPT-4" displayName="Office outpatient visit 15 minutes"/>
+                            <effectiveTime value="20161107"/>
+                            <participant typeCode="LOC">
+                                <participantRole classCode="SDLOC">
+                                    <!--Service
+                  Delivery Location  maps to Hospital Unit -->
+                                    <code code="1160-1" codeSystem="2.16.840.1.113883.1.11.20275" codeSystemName="HealthcareServiceLocation" displayName="Urgent Care Center"/>
+                                </participantRole>
+                            </participant>
+                            <entryRelationship typeCode="COMP">
+                                <act classCode="ACT" moodCode="EVN">
+                                    <!-- [C-CDA R1.1] Encounter Diagnosis -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.80"/>
+                                    <!-- [C-CDA R2.1] Encounter Diagnosis (V3) -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.80" extension="2015-08-01"/>
+                                    <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Diagnosis"/>
+                                    <entryRelationship typeCode="SUBJ">
+                                        <observation classCode="OBS" moodCode="EVN" negationInd="false">
+                                            <!-- [C-CDA R1.1] Problem Observation -->
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.4"/>
+                                            <!-- [C-CDA R2.1] Problem Observation (V3) -->
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2015-08-01"/>
+                                            <!-- [eICR R2 STU1.1] Initial Case Report Trigger Code Problem Observation -->
+                                            <templateId root="2.16.840.1.113883.10.20.15.2.3.3" extension="2016-12-01"/>
+                                            <id root="db734647-fc99-424c-a864-7e3cda82e705"/>
+                                            <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Diagnosis">
+                                                <translation code="282291009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Diagnosis"/>
+                                            </code>
+                                            <statusCode code="completed"/>
+                                            <effectiveTime>
+                                                <low value="20161107"/>
+                                            </effectiveTime>
+                                            <!-- Trigger code -->
+                                            <value xsi:type="CD" code="27836007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Pertussis (disorder)" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                                        </observation>
+                                    </entryRelationship>
+                                </act>
+                            </entryRelationship>
+                        </encounter>
+                    </entry>
+                </section>
+            </component>
+            <!--
+                 ********************************************************
+                 History of Present Illness Section
+                 ********************************************************
+            -->
+            <component>
+                <section nullFlavor="NI">
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.4"/>
+                    <code code="10164-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="HISTORY OF PRESENT ILLNESS"/>
+                    <title>History of Present Illness</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
+                    </text>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Medications Administered Section (V2)
+                ********************************************************
+            -->
+            <component>
+                <section nullFlavor="NI">
+                    <!-- [C-CDA R1.1] Medications Administered Section -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.38"/>
+                    <!-- [C-CDA R2.0] Medications Administered Section (V2) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.38" extension="2014-06-09"/>
+                    <code code="29549-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Medications Administered"/>
+                    <title>Medications Administered</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
+                    </text>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Problem Section (entries required) (V3)
+                ********************************************************
+            -->
+            <component>
+                <section nullFlavor="NI">
+                    <!-- [C-CDA R1.1] Problem Section (entries optional) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.5"/>
+                    <!-- [C-CDA R2.1] Problem Section (entries optional) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.5" extension="2015-08-01"/>
+                    <!-- [C-CDA R1.1] Problem Section (entries required) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.5.1"/>
+                    <!-- [C-CDA R2.1] Problem Section (entries required) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.5.1" extension="2015-08-01"/>
+                    <code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Problem List"/>
+                    <title>Problems</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
+                    </text>
+                </section>
+            </component>
+            <!--
+               ********************************************************
+               Reason for Visit Section
+               ********************************************************
+            -->
+            <component>
+                <section>
+                    <templateId root="2.16.840.1.113883.10.20.22.2.12"/>
+                    <code code="29299-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Reason for visit"/>
+                    <title>Reason for Visit</title>
+                    <text>
+                        <paragraph>Dark stools</paragraph>
+                    </text>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Results Section (entries required) (V3)
+                ********************************************************
+            -->
+            <component>
+                <section>
+                    <!-- [C-CDA R1.1] Results Section (entries optional) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.3"/>
+                    <!-- [C-CDA R2.1] Results Section (entries optional) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.3" extension="2015-08-01"/>
+                    <!-- [C-CDA R1.1] Results Section (entries required) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.3.1"/>
+                    <!-- [C-CDA R2.1] Results Section (entries required) (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.3.1" extension="2015-08-01"/>
+                    <code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Relevant diagnostic tests and/or laboratory data"/>
+                    <title>Results</title>
+                    <text>
+                        <table>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <thead>
+                                <tr>
+                                    <th>Results Panel</th>
+                                    <th>Date(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ID="id_7d5a02b0-67a4-11db-bd13-0800200c9a66_ref">
+                                    <td>CBC W Auto Differential panel in Blood</td>
+                                    <td>NOV 7, 2016 to NOV 7, 2016</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="20">
+                                        <list styleCode="none">
+                                            <item>
+                                                <table>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Test</th>
+                                                            <th>Outcome</th>
+                                                            <th>Interpretation</th>
+                                                            <th>Date(s)</th>
+                                                            <th>Reference Range</th>
+                                                            <th>Reference Range Interpretation</th>
+                                                            <th>Reference Range Description</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ID="id_7c0704bb-9c40-41b5-9c7d-26b2d59e234f_ref">
+                                                            <td>Hematocrit</td>
+                                                            <td>35.3 %</td>
+                                                            <td>Low</td>
+                                                            <td>NOV 7, 2016</td>
+                                                            <td>34.9 % to 44.5 %</td>
+                                                            <td>Low</td>
+                                                            <td>Low</td>
+                                                        </tr>
+                                                        <tr ID="id_7c0704bb-9c40-41b5-9c7d-26b2d59e234g_ref">
+                                                            <td>Lymphocytes [#/​volume] in Blood by Automated count</td>
+                                                            <td>5.2 10*3/uL</td>
+                                                            <td>High</td>
+                                                            <td>NOV 7, 2016</td>
+                                                            <td>1.0 10*3/uL to 4.8 10*3/uL</td>
+                                                            <td>Normal</td>
+                                                            <td/>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </item>
+                                        </list>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <thead>
+                                <tr>
+                                    <th>Results Panel</th>
+                                    <th>Date(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ID="id_a4307cb2-b3b4-4f42-be03-1d9077376f4a_ref">
+                                    <td>Bordetella pertussis Ab [Units/volume] in Serum</td>
+                                    <td>NOV 7, 2016 to NOV 7, 2016</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="20">
+                                        <list styleCode="none">
+                                            <item>
+                                                <table>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Initial Case Report Trigger Code Result Observation </th>
+                                                            <th>Trigger Code</th>
+                                                            <th>Trigger Code codeSystem</th>
+                                                            <th>RCTC OID</th>
+                                                            <th>RCTC Version</th>
+                                                            <th>Outcome</th>
+                                                            <th>Interpretation</th>
+                                                            <th>Date(s)</th>
+                                                            <th>Reference Range</th>
+                                                            <th>Reference Range Interpretation</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ID="id_bf9c0a26-4524-4395-b3ce-100450b9c9ad_ref">
+                                                            <td>Bordetella pertussis Ab [Units/volume] in Serum</td>
+                                                            <td>11585-7</td>
+                                                            <td>LOINC</td>
+                                                            <td>2.16.840.1.114222.4.11.7508</td>
+                                                            <td>19/05/2016</td>
+                                                            <td>100 [iU]/mL</td>
+                                                            <td>High</td>
+                                                            <td>NOV 7, 2016</td>
+                                                            <td> to 45 [iU]/mL</td>
+                                                            <td>Normal</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </item>
+                                        </list>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <col width="10%"/>
+                            <thead>
+                                <tr>
+                                    <th>Results Panel</th>
+                                    <th>Date(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ID="id_a4307cb2-b3b4-4f42-be03-1d9077376f4b_ref">
+                                    <td>Bordetella pertussis [Presence] in Throat by Organism specific culture</td>
+                                    <td>NOV 7, 2016 to NOV 7, 2016</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="20">
+                                        <list styleCode="none">
+                                            <item>
+                                                <table>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <col width="10%"/>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Initial Case Report Trigger Code Result Observation </th>
+                                                            <th>Trigger Code</th>
+                                                            <th>Trigger Code codeSystem</th>
+                                                            <th>RCTC OID</th>
+                                                            <th>RCTC Version</th>
+                                                            <th>Outcome</th>
+                                                            <th>Trigger Code</th>
+                                                            <th>Trigger Code codeSystem</th>
+                                                            <th>RCTC OID</th>
+                                                            <th>RCTC Version</th>
+                                                            <th>Interpretation</th>
+                                                            <th>Date(s)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ID="id_bf9c0a26-4524-4395-b3ce-100450b9c9ac_ref">
+                                                            <td>Bordetella pertussis [Presence] in Throat by Organism specific
+                                culture</td>
+                                                            <td>548-8</td>
+                                                            <td>LOINC</td>
+                                                            <td>2.16.840.1.114222.4.11.7508</td>
+                                                            <td>19/05/2016</td>
+                                                            <td>Bordetella pertussis (organism)</td>
+                                                            <td>5247005</td>
+                                                            <td>SNOMED CT</td>
+                                                            <td>2.16.840.1.114222.4.11.7508</td>
+                                                            <td>19/05/2016</td>
+                                                            <td>Abnormal</td>
+                                                            <td>NOV 7, 2016</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </item>
+                                        </list>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <col width="15%"/>
+                            <col width="15%"/>
+                            <col width="15%"/>
+                            <col width="15%"/>
+                            <col width="15%"/>
+                            <col width="15%"/>
+                            <col width="15%"/>
+                            <col width="15%"/>
+                            <col width="15%"/>
+                            <col width="15%"/>
+                            <thead>
+                                <tr>
+                                    <th>Results Panel</th>
+                                    <th>Date(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ID="id_2047cca3-559f-45da-8775-406538fa4815_ref">
+                                    <td>SARS-like Coronavirus N gene [Presence] in
+                    Unspecified specimen by NAA with probe
+                    detection</td>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <list styleCode="none">
+                                            <item>
+                                                <paragraph>*** In the table below, row entries
+                          with values under RCTC columns triggered this
+                          Electronic Initial Case Report (eICR)</paragraph>
+                                                <table>
+                                                    <col width="15%"/>
+                                                    <col width="15%"/>
+                                                    <col width="15%"/>
+                                                    <col width="15%"/>
+                                                    <col width="15%"/>
+                                                    <col width="15%"/>
+                                                    <col width="15%"/>
+                                                    <col width="15%"/>
+                                                    <col width="15%"/>
+                                                    <col width="15%"/>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Test</th>
+                                                            <th>Lab Test RCTC OID ***</th>
+                                                            <th>Lab Test RCTC Version ***</th>
+                                                            <th>Outcome</th>
+                                                            <th>Date(s)</th>
+                                                            <th>Lab Result RCTC OID ***</th>
+                                                            <th>Lab Result RCTC Version ***</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ID="id_9890e2c3-019a-4168-8403-a0a069994440_ref">
+                                                            <td>SARS-like Coronavirus N gene [Presence] in
+                                Unspecified specimen by NAA with probe
+                                detection</td>
+                                                            <td>2.16.840.1.114222.4.11.7508</td>
+                                                            <td>20200429</td>
+                                                            <td>Detected (qualifier value)</td>
+                                                            <td>05/13/2020</td>
+                                                            <td/>
+                                                            <td/>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </item>
+                                        </list>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Lab Test Name</th>
+                                    <th>Lab Test Result Value</th>
+                                    <th>Lab Test Result Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <content ID="labTestResultValueDate1">2020-05-13T08:30:00-07:00</content>
+                                    </td>
+                                    <td>
+                                        <content ID="labTestName1">Neisseria gonorrhoeae DNA [Presence] in Nasopharynx
+                      by NAA with probe detection</content>
+                                    </td>
+                                    <td>
+                                        <content ID="labTestResultValue1">Detected</content>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <content ID="labTestResultValueDate2">2020-05-13T08:30:00-07:00</content>
+                                    </td>
+                                    <td>
+                                        <content ID="labTestName2">Chlamydia trachomatis rRNA [Presence] in Vaginal
+                      fluid by NAA with probe detection</content>
+                                    </td>
+                                    <td>
+                                        <content ID="labTestResultValue2">Not Detected</content>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <content ID="labTestResultValueDate3">2020-05-14T08:30:00-07:00</content>
+                                    </td>
+                                    <td>
+                                        <content ID="labTestName3">SARS-like Coronavirus N gene [Presence] in
+                      Unspecified specimen by NAA with probe detection</content>
+                                    </td>
+                                    <td>
+                                        <content ID="labTestResultValue3">Not Detected</content>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                    <entry typeCode="DRIV">
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <!-- [C-CDA R1.1] Result Organizer -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <!-- [C-CDA R2.1] Result Organizer (V3) -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
+                            <id root="7d5a02b0-67a4-11db-bd13-0800200c9a66"/>
+                            <code code="57021-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="CBC W Auto Differential panel in Blood"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime>
+                                <low value="20161107"/>
+                                <high value="20161107"/>
+                            </effectiveTime>
+                            <component>
+                                <!-- This observation is a non-trigger code result observation -->
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <!-- [C-CDA R1.1] Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <!-- [C-CDA R2.1] Result Observation (V3) -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <id root="7c0704bb-9c40-41b5-9c7d-26b2d59e234f"/>
+                                    <code code="20570-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Hematocrit"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20161107"/>
+                                    <value unit="%" value="35.3" xsi:type="PQ"/>
+                                    <interpretationCode code="L" codeSystem="2.16.840.1.113883.1.11.78" displayName="Low"/>
+                                    <referenceRange>
+                                        <observationRange>
+                                            <text>Low</text>
+                                            <value xsi:type="IVL_PQ">
+                                                <low unit="%" value="34.9"/>
+                                                <high unit="%" value="44.5"/>
+                                            </value>
+                                            <interpretationCode code="L" codeSystem="2.16.840.1.113883.5.83" displayName="Low"/>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                            <component>
+                                <!-- This observation is a non-trigger code result observation -->
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <!-- [C-CDA R1.1] Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <!-- [C-CDA R2.1] Result Observation (V3) -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <id root="7c0704bb-9c40-41b5-9c7d-26b2d59e234g"/>
+                                    <code code="731-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Lymphocytes [#/​volume] in Blood by Automated count"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20161107"/>
+                                    <value unit="10*3/uL" value="5.2" xsi:type="PQ"/>
+                                    <interpretationCode code="H" codeSystem="2.16.840.1.113883.1.11.78" displayName="High"/>
+                                    <referenceRange>
+                                        <observationRange>
+                                            <value xsi:type="IVL_PQ">
+                                                <low unit="10*3/uL" value="1.0"/>
+                                                <high unit="10*3/uL" value="4.8"/>
+                                            </value>
+                                            <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" displayName="Normal"/>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry typeCode="DRIV">
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <!-- [C-CDA R1.1] Result Organizer -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <!-- [C-CDA R2.1] Result Organizer (V3) -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
+                            <id root="a4307cb2-b3b4-4f42-be03-1d9077376f4a"/>
+                            <code code="11585-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Bordetella pertussis Ab [Units/volume] in Serum"/>
+                            <!-- statusCode must be set to completed because the statusCode of the observation is
+              completed -->
+                            <statusCode code="completed"/>
+                            <effectiveTime>
+                                <low value="20161107"/>
+                                <high value="20161107"/>
+                            </effectiveTime>
+                            <component>
+                                <!-- This observation is a trigger code final result observation - 
+                                     only the code is a trigger code and thus
+                                     only the code must contain @sdtc:valueSet and @sdtc:valueSetVersion.
+                                     Final result is indicated by statusCode="final"  -->
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <!-- [C-CDA R1.1] Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <!-- [C-CDA R2.1] Result Observation (V3) -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <!-- [eICR R2 STU1.1] Initial Case Report Trigger Code Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.15.2.3.2" extension="2016-12-01"/>
+                                    <id root="bf9c0a26-4524-4395-b3ce-100450b9c9ad"/>
+                                    <!-- This code is a trigger code from RCTC subset: "Trigger code for laboratory
+                  test names"
+                                         @sdtc:valueSet and @sdtc:valueSetVersion shall be present -->
+                                    <code code="11585-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Bordetella pertussis Ab [Units/volume] in Serum" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                                    <!-- statusCode is set to completed indicating that this is a final result -->
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20161107"/>
+                                    <!-- This value is a physical quantity and thus cannot be a trigger code -->
+                                    <value xsi:type="PQ" unit="[iU]/mL" value="100"/>
+                                    <!-- This interpretation code denotes that this patient value is above high normal -->
+                                    <interpretationCode code="H" displayName="High" codeSystem="2.16.840.1.113883.5.83" codeSystemName="ObservationInterpretation"/>
+                                    <referenceRange>
+                                        <observationRange>
+                                            <!-- Reference range: PT IgG: <45 IU/mL -->
+                                            <value xsi:type="IVL_PQ">
+                                                <high inclusive="false" unit="[iU]/mL" value="45"/>
+                                            </value>
+                                            <!-- This interpretation code denotes that this reference range is for normal
+                      results. 
+                                                This is not the interpretation of a specific patient value-->
+                                            <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" displayName="Normal"/>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry typeCode="DRIV">
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <!-- [C-CDA R1.1] Result Organizer -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <!-- [C-CDA R2.1] Result Organizer (V3) -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
+                            <id root="a4307cb2-b3b4-4f42-be03-1d9077376f4b"/>
+                            <code code="548-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Bordetella pertussis [Presence] in Throat by Organism specific culture"/>
+                            <!-- statusCode must be set to active because the statusCode of the observation is
+              active -->
+                            <statusCode code="active"/>
+                            <effectiveTime>
+                                <low value="20161107"/>
+                                <high value="20161107"/>
+                            </effectiveTime>
+                            <component>
+                                <!-- This observation is a trigger code preliminary result observation - 
+                                     both the code and value are trigger codes and thus 
+                                     both the code and the value must contain @sdtc:valueSet and @sdtc:valueSetVersion.
+                                     Preliminary result is indicated by statusCode="active" -->
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <!-- [C-CDA R1.1] Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <!-- [C-CDA R2.1] Result Observation (V3) -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <!-- [eICR R2 STU1.1] Initial Case Report Trigger Code Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.15.2.3.2" extension="2016-12-01"/>
+                                    <id root="bf9c0a26-4524-4395-b3ce-100450b9c9ac"/>
+                                    <!-- This code is a trigger code from RCTC subset: "Trigger code for laboratory
+                  test names" 
+                                         @sdtc:valueSet and @sdtc:valueSetVersion shall be present -->
+                                    <code code="548-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Bordetella pertussis [Presence] in Throat by Organism specific culture" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                                    <!-- statusCode is set to active indicating that this is a preliminary result -->
+                                    <statusCode code="active"/>
+                                    <effectiveTime value="20161107"/>
+                                    <!-- This value is a trigger code from RCTC subset: "Trigger code for organism or
+                  substance" 
+                                         @sdtc:valueSet and @sdtc:valueSetVersion shall be present -->
+                                    <value xsi:type="CD" code="5247005" displayName="Bordetella pertussis (organism)" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="19/05/2016"/>
+                                    <!-- This interpretation code denotes that this patient value is abnormal 
+                                         (bordetella pertussis (organism) was present in the culture) -->
+                                    <interpretationCode code="A" displayName="Abnormal" codeSystem="2.16.840.1.113883.5.83" codeSystemName="ObservationInterpretation"/>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry typeCode="DRIV">
+                        <!---->
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <!--[C-CDA
+              R1.1] Result Organizer -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <!--[C-CDA
+              R2.1] Result Organizer (V3)-->
+                            <templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <id root="2047cca3-559f-45da-8775-406538fa4815"/>
+                            <code code="94310-0 " codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime>
+                                <low value="20200513"/>
+                                <high value="20200513"/>
+                            </effectiveTime>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <!--[C-CDA
+                  R1.1] Result Observation -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <!--[C-CDA
+                  R2.1] Result Observation (V3)-->
+                                    <templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <id root="9890e2c3-019a-4168-8403-a0a069994440"/>
+                                    <code code="94310-0 " codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="20200429" xsi:type="CD"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20200513"/>
+                                    <value code="260373001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" displayName="Detected (qualifier value)" xsi:type="CD"/>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry typeCode="DRIV">
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
+                            <id root="24323852-d5a0-47bd-9d0d-8dea227b84ad"/>
+                            <code code="57180-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="Neisseria gonorrhoeae DNA [Presence] in Nasopharynx by NAA with probe detection"/>
+                            <statusCode code="completed"/>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <id root="2.16.840.1.113883.4.945.1" extension="http://localhost:4080/Observation/scenario-3-observation-2/_history/21532502-fcbf-470c-9e5e-71b7f4d3830c"/>
+                                    <code code="57180-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="Neisseria gonorrhoeae DNA [Presence] in Nasopharynx by NAA with probe detection"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20200513153000"/>
+                                    <value xsi:type="CD" code="260373001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Detected (qualifier value)"/>
+                                    <interpretationCode code="A" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Abnormal"/>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry typeCode="DRIV">
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
+                            <id root="94fc09ba-06a8-40df-84f9-c68270da1440"/>
+                            <code code="53926-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="Chlamydia trachomatis rRNA [Presence] in Vaginal fluid by NAA with probe detection"/>
+                            <statusCode code="completed"/>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <id root="2.16.840.1.113883.4.945.1" extension="http://localhost:4080/Observation/scenario-3-observation-1/_history/d3b78eb6-8926-4ea2-9b01-55b1162d978e"/>
+                                    <code code="53926-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="Chlamydia trachomatis rRNA [Presence] in Vaginal fluid by NAA with probe detection"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20200513153000"/>
+                                    <value xsi:type="CD" code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not Detected"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry typeCode="DRIV">
+                        <organizer classCode="BATTERY" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2015-08-01"/>
+                            <id root="bcf43cb4-6d72-474f-975d-352c6a233734"/>
+                            <code code="94310-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org" displayName="SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection"/>
+                            <statusCode code="completed"/>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2015-08-01"/>
+                                    <templateId root="2.16.840.1.113883.10.20.15.2.3.2" extension="2016-12-01"/>
+                                    <id root="2.16.840.1.113883.4.945.1" extension="http://localhost:4080/Observation/scenario-3-observation-3/_history/cf098ab8-e3d7-4c1b-8272-43536d093cf0"/>
+                                    <code code="94310-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="SARS-like Coronavirus N gene [Presence] in Unspecified specimen by NAA with probe detection" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2021-01-13"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20200514153000"/>
+                                    <value xsi:type="CD" code="260415000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="sct" displayName="Not Detected"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                </section>
+            </component>
+            <!--
+                ********************************************************
+                Social History Section (V3)
+                ********************************************************
+            -->
+            <component>
+                <section nullFlavor="NI">
+                    <!-- [C-CDA 1.1] Social History Section -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.17"/>
+                    <!-- [C-CDA 2.1] Social History Section (V3) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.17" extension="2015-08-01"/>
+                    <code code="29762-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Social History"/>
+                    <title>Social History</title>
+                    <text>
+                        <title>Output from CDC PRIME DIBBs `message-refiner` API by request of STLT</title>
+                        <table border="1">
+                            <tr>
+                                <td>Section details have been removed as requested</td>
+                            </tr>
+                        </table>
+                    </text>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
 </ClinicalDocument>
