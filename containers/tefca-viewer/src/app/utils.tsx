@@ -18,11 +18,13 @@ import classNames from "classnames";
  */
 export function FormatPhoneAsDigits(givenPhone: string) {
   // Start by getting rid of all existing separators for a clean slate
-  const newPhone: string = givenPhone.replace(/\D/g, "");
-  if (newPhone.length != 10) {
-    return givenPhone;
+  if (givenPhone) {
+    const newPhone: string = givenPhone.replace(/\D/g, "");
+    if (newPhone.length != 10) {
+      return givenPhone;
+    }
+    return newPhone;
   }
-  return newPhone;
 }
 
 export interface DisplayData {
