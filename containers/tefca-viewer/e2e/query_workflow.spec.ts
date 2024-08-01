@@ -49,7 +49,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
       "This site is for demo purposes only. Please do not enter PII on this website.",
     );
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient", exact: true })
+      page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
 
     // Put in the search parameters for the elusive fruit person
@@ -165,25 +165,25 @@ test.describe("test query user journey", () => {
   test("query/test page loads", async ({ page }) => {
     // Check that interactable elements are present
     await expect(
-      page.getByRole("button", { name: "Data Usage Policy" })
+      page.getByRole("button", { name: "Data Usage Policy" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "TEFCA Viewer" })
+      page.getByRole("link", { name: "TEFCA Viewer" }),
     ).toBeVisible();
 
     // Check that each expected text section is present
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient", exact: true })
+      page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Query information", exact: true })
+      page.getByRole("heading", { name: "Query information", exact: true }),
     ).toBeVisible();
     await expect(page.getByLabel("Query", { exact: true })).toBeVisible();
     await expect(
-      page.getByLabel("FHIR Server (QHIN)", { exact: true })
+      page.getByLabel("FHIR Server (QHIN)", { exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Patient information", exact: true })
+      page.getByRole("heading", { name: "Patient information", exact: true }),
     ).toBeVisible();
     await expect(page.getByLabel("Patient", { exact: true })).toBeVisible();
   });
@@ -200,7 +200,7 @@ test.describe("test query user journey", () => {
 
     // Make sure we have a results page with a single patient
     await expect(
-      page.getByRole("heading", { name: "Query Results" })
+      page.getByRole("heading", { name: "Query Results" }),
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
@@ -225,7 +225,7 @@ test.describe("test query user journey", () => {
 
     // Make sure we have a results page with a single patient
     await expect(
-      page.getByRole("heading", { name: "Query Results" })
+      page.getByRole("heading", { name: "Query Results" }),
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
