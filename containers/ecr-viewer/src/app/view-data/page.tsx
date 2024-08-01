@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
 import SideNav from "./components/SideNav";
-import { processSnomedCode } from "./service";
 import { Grid, GridContainer, Icon, Button } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 import EcrSummary from "./components/EcrSummary";
@@ -61,7 +60,6 @@ const ECRViewerPage: React.FC = () => {
           }
         } else {
           const bundle: ApiResponse = await response.json();
-          processSnomedCode(snomedCode);
           setFhirBundle(bundle.fhirBundle);
           setMappings(bundle.fhirPathMappings);
         }
