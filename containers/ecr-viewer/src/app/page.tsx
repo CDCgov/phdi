@@ -20,7 +20,7 @@ const HomePage: React.FC = async () => {
   return (
     <div className="ecr-library-viewer-container">
       <Header />
-      <main>
+      <main className="ecr-library-main">
         {isNonIntegratedViewer ? (
           <ListECRViewer listFhirData={listFhirData} />
         ) : (

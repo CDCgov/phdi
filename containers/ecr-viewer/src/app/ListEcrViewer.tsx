@@ -19,11 +19,11 @@ export default function ListECRViewer({
   listFhirData,
 }: ListEcrViewerProps): JSX.Element {
   const header = [
-    "Patient",
-    "Received Date",
-    "Encounter Date",
-    "Reportable Condition",
-    "RCKMS Rule Summary",
+    { value: "Patient", className: "minw-160" },
+    { value: "Received Date", className: "minw-132" },
+    { value: "Encounter Date", className: "minw-140" },
+    { value: "Reportable Condition", className: "minw-188" },
+    { value: "RCKMS Rule Summary", className: "minw-184" },
   ];
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 25;
@@ -55,8 +55,12 @@ export default function ListECRViewer({
           <thead>
             <tr>
               {header.map((column) => (
-                <th key={`${column}`} scope="col">
-                  {column}
+                <th
+                  key={`${column.value}`}
+                  scope="col"
+                  className={column.className}
+                >
+                  {column.value}
                 </th>
               ))}
             </tr>

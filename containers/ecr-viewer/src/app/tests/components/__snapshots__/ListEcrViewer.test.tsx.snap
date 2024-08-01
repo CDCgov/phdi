@@ -15,26 +15,31 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
         <thead>
           <tr>
             <th
+              class="minw-160"
               scope="col"
             >
               Patient
             </th>
             <th
+              class="minw-132"
               scope="col"
             >
               Received Date
             </th>
             <th
+              class="minw-140"
               scope="col"
             >
               Encounter Date
             </th>
             <th
+              class="minw-188"
               scope="col"
             >
               Reportable Condition
             </th>
             <th
+              class="minw-184"
               scope="col"
             >
               RCKMS Rule Summary
