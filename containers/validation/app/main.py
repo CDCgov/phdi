@@ -21,7 +21,7 @@ ecr_config = load_ecr_config()
 app = BaseService(
     service_name="DIBBs Validation Service",
     service_path="/validation",
-    description_path=Path(__file__).parent.parent / "description.md",
+    description_path=Path(__file__).parent.parent / "README.md",
     openapi_url="/validation/openapi.json",
 ).start()
 
