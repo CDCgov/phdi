@@ -254,19 +254,32 @@ td {
   overflow: visible;
 }
 
+.back-button-wrapper {
+  margin-top:1.5rem;
+  display: flex;
+  .usa-icon{
+    color: #71767A;
+    margin-right: .5rem;
+  }
+  .usa-button {
+    text-decoration-line: underline;
+    align-items: center;
+  }
+}
+
 .content-wrapper {
   display: flex;
   max-width: 1440px;
   justify-content: center;
-  gap: 48px;
+  gap: 3rem;
   overflow: visible;
+  margin-top: 1.5rem;
 }
 
 .nav-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 48px;
   width: 250px;
 }
 
@@ -275,7 +288,6 @@ td {
   flex-shrink: 0;
   flex-basis: auto;
   position: sticky;
-  top: 0;
 }
 
 .ecr-viewer-container {
@@ -284,7 +296,6 @@ td {
   justify-content: left;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 48px;
 }
 
 .ecr-content {
@@ -513,7 +524,7 @@ h3 {
 
 .usa-summary-box {
   padding: 0.75rem 1.5rem 1.5rem 1.5rem;
-  h3 {
+  h3:not(.usa-accordion__heading) {
     margin: 0px;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -535,4 +546,8 @@ h3 {
   button {
     padding: .88rem .75rem;
   }
+}
+
+.top-275 {
+  top: 2.75rem;
 }

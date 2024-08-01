@@ -18,20 +18,16 @@ interface PatientBannerProps {
  * @returns a react element for Patient Banner
  */
 const PatientBanner = ({ bundle, mappings }: PatientBannerProps) => {
-  if (process.env.STANDALONE_VIEWER) {
-    return;
-  } else {
-    return (
-      <div className="patient-banner">
-        <span className="patient-banner-name">
-          {evaluatePatientName(bundle, mappings)}
-        </span>
-        <span className=".patient-banner-dob">
-          {formatDate(evaluate(bundle, mappings.patientDOB)[0]) || ""}
-        </span>
-      </div>
-    );
-  }
+  return (
+    <div className="patient-banner">
+      <span className="patient-banner-name">
+        {evaluatePatientName(bundle, mappings)}
+      </span>
+      <span className=".patient-banner-dob">
+        {formatDate(evaluate(bundle, mappings.patientDOB)[0]) || ""}
+      </span>
+    </div>
+  );
 };
 
 export default PatientBanner;

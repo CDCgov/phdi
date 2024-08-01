@@ -18,7 +18,7 @@
     "cypress:run": "cypress run"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.515.0",
+    "@aws-sdk/client-s3": "^3.621.0",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/auto-instrumentations-node": "^0.48.0",
     "@opentelemetry/exporter-jaeger": "^1.25.1",
