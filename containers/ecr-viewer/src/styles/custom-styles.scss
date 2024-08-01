@@ -150,7 +150,7 @@ h4 {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden;
+  // overflow: hidden;
 
   main {
     overflow: auto;
@@ -161,9 +161,9 @@ h4 {
 .ecr-library-wrapper {
   width: 100%;
   height: calc(100% - 4rem);
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
+  // display: flex;
+  // flex-wrap: wrap;
+  // flex-direction: column;
   overflow: auto;
 }
 
@@ -301,17 +301,17 @@ td {
   }
 
   width: 100%;
-  display: flex;
+  // display: flex;
   padding: 0.75rem 1.5rem;
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
   align-self: stretch;
-  position: fixed;
-  bottom: 0px;
-  background-color: white;
+  // position: fixed;
+  // bottom: 0px;
+  // background-color: white;
 
   box-shadow: 0 -0.25rem 0.25rem rgba(0, 0, 0, 0.1);
-  z-index: 999;
+  // z-index: 999;
 }
 
 .main-container {
