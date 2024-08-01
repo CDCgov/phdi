@@ -133,16 +133,13 @@ export default function LandingPage() {
           onPointerEnterCapture={undefined}
           onPointerLeaveCapture={undefined}
         >
-          <ModalHeading
-            id="data-usage-policy-modal-heading"
-            style={{ fontSize: "1.25rem" }}
-          >
+          <ModalHeading id="data-usage-policy-modal-heading">
             Customize your demo experience
           </ModalHeading>
           <div className="usa-prose">
             <p id="modal-2-description">
-              Select a scenario to see how you might use the TEFCA Query
-              Connector and what kind of data would be returned.
+              Select a scenario to see what kinds of data you can gather using
+              the TEFCA Query Connector.
             </p>
             <div className="modal-options">
               <Button

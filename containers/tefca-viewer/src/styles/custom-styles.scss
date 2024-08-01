@@ -465,29 +465,38 @@ html {
 }
 
 .custom-modal {
-  width: 80%;
-  max-width: 640px;
-  padding: 0.25rem;
-  margin: auto;
+  max-width: 704px;
 }
 
 .modal-options {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 20px;
   margin-top: 1rem;
   justify-content: space-around;
+  line-height: 4;
 }
 
 .usa-modal--lg {
   background-color: #edeff0;
+  padding-top: 0;
 }
 
-.custom-modal .usa-modal__main {
-  padding-bottom: 1.25rem;
-  padding-top: 1.25rem;
-  width: 100%;
-  max-width: 40rem;
+.usa-modal__main {
+  margin: 0 auto;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0 !important;
+  padding-bottom: 30px !important;
+}
+
+.usa-modal__heading {
+  font-family: "Source Sans Pro Web" !important;
+  font-size: 19.5px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 16px;
 }
 
 .modal-option {
