@@ -107,14 +107,14 @@ export type demoDataUseCase = keyof typeof demoData;
 /*Labels and values for the query options dropdown on the query page*/
 export const demoQueryOptions = [
   { value: "cancer", label: "Cancer case investigation" },
-  { value: "sti-chlamydia", label: "Chlamydia case investigation" },
-  { value: "sti-gonorrhea", label: "Gonorrhea case investigation" },
+  { value: "chlamydia", label: "Chlamydia case investigation" },
+  { value: "gonorrhea", label: "Gonorrhea case investigation" },
   { value: "newborn-screening", label: "Newborn screening follow-up" },
   {
     value: "social-determinants",
     label: "Gather social determinants of health",
   },
-  { value: "sti-syphilis", label: "Syphilis case investigation" },
+  { value: "syphilis", label: "Syphilis case investigation" },
 ];
 
 type Option = {
@@ -125,13 +125,13 @@ type Option = {
 /* Labels and values for the patient options that are available based on the query option selected */
 export const patientOptions: Record<string, Option[]> = {
   cancer: [{ value: "cancer", label: "A patient with leukemia" }],
-  "sti-chlamydia": [
+  chlamydia: [
     {
       value: "sti-chlamydia-positive",
       label: "A male patient with a positive chlamydia lab test",
     },
   ],
-  "sti-gonorrhea": [
+  gonorrhea: [
     {
       value: "sti-gonorrhea-positive",
       label: "A male patient with a positive gonorrhea lab test",
@@ -157,7 +157,7 @@ export const patientOptions: Record<string, Option[]> = {
       label: "A patient with housing insecurity",
     },
   ],
-  "sti-syphilis": [
+  syphilis: [
     {
       value: "sti-syphilis-positive",
       label: "A patient with a positive syphilis lab test",
