@@ -23,6 +23,10 @@ export class CustomQuery {
   encounterQuery: string = "";
   encounterClassTypeQuery: string = "";
 
+  // Some queries need to be batched in waves because their encounter references
+  // might depend on demographic information
+  hasSecondEncounterQuery: boolean = false;
+
   /**
    * Creates a CustomQuery Object. The constructor accepts a JSONspec, a
    * DIBBs-defined JSON structure consisting of four keys corresponding to
@@ -37,6 +41,7 @@ export class CustomQuery {
       this.snomedCodes = jsonSpec?.snomedCodes || [];
       this.rxnormCodes = jsonSpec?.rxnormCodes || [];
       this.classTypeCodes = jsonSpec?.classTypeCodes || [];
+      this.hasSecondEncounterQuery = jsonSpec?.hasSecondEncounterQuery || false;
       this.compileQueries(patientId);
     } catch (error) {
       console.error("Could not create CustomQuery Object: ", error);

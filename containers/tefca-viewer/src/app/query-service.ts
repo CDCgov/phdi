@@ -14,10 +14,9 @@ import {
 
 import FHIRClient from "./fhir-servers";
 import { USE_CASES, FHIR_SERVERS } from "./constants";
+import * as dq from "./demoQueries";
 
 import { CustomQuery } from "./CustomQuery";
-
-import * as fs from "fs";
 
 /**
  * The query response when the request source is from the Viewer UI.
@@ -45,19 +44,15 @@ export type UseCaseQueryRequest = {
   phone?: string;
 };
 
-const UseCaseQueryMap: {
-  [key in USE_CASES]: (
-    patientId: string,
-    fhirClient: FHIRClient,
-    queryResponse: QueryResponse,
-  ) => Promise<QueryResponse>;
+const UseCaseToStructMap: {
+  [key in USE_CASES]: dq.QueryStruct;
 } = {
-  "social-determinants": socialDeterminantsQuery,
-  "newborn-screening": newbornScreeningQuery,
-  syphilis: syphilisQuery,
-  gonorrhea: gonorrheaQuery,
-  chlamydia: chlamydiaQuery,
-  cancer: cancerQuery,
+  "social-determinants": dq.SOCIAL_DETERMINANTS_QUERY,
+  "newborn-screening": dq.NEWBORN_SCREENING_QUERY,
+  syphilis: dq.SYPHILIS_QUERY,
+  gonorrhea: dq.GONORRHEA_QUERY,
+  chlamydia: dq.CHLAMYDIA_QUERY,
+  cancer: dq.CANCER_QUERY,
 };
 
 // Expected responses from the FHIR server
@@ -123,27 +118,6 @@ async function queryEncounters(
   }
   return queryResponse;
 }
-
-/**
- * Helper function to read a JSON file from a given file path. Since utils
- * are tagged with 'use-client', this will be compiled and packed for browser
- * use, meaning we don't have access to the `fs` filesystem module. We need
- * to use JSON APIs instead.
- * @param filePath The relative string path to the file.
- * @returns A JSON object of the string representation of the file.
- */
-function readJSONFile(filePath: string): any {
-  try {
-    const data = fs.readFileSync(filePath, "utf-8");
-    return JSON.parse(data);
-  } catch (error) {
-    console.error(`Error reading JSON file from ${filePath}:`, error);
-    return null;
-  }
-}
-
-// WORKING DIRECTORY
-// /app/containers/tefca-viewer
 
 /**
  * Query a FHIR server for a patient based on demographics provided in the request. If
@@ -222,135 +196,42 @@ export async function UseCaseQuery(
 
   const patientId = queryResponse.Patient[0].id ?? "";
 
-  await UseCaseQueryMap[request.use_case](patientId, fhirClient, queryResponse);
-
-  return queryResponse;
-}
-
-/**
- * Social Determinant of Health use case query.
- * @param patientId - The ID of the patient to query.
- * @param fhirClient - The client to query the FHIR server.
- * @param queryResponse - The response object to store the results.
- * @returns - The response object containing the query results.
- */
-async function socialDeterminantsQuery(
-  patientId: string,
-  fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
-): Promise<QueryResponse> {
-  const query = `/Observation?subject=${patientId}&category=social-history`;
-  const response = await fhirClient.get(query);
-  return await parseFhirSearch(response, queryResponse);
-}
-
-/**
- * Newborn Screening use case query.
- * @param patientId - The ID of the patient to query.
- * @param fhirClient - The client to query the FHIR server.
- * @param queryResponse - The response object to store the results.
- * @returns - The response object containing the query results.
- */
-async function newbornScreeningQuery(
-  patientId: string,
-  fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
-): Promise<QueryResponse> {
-  const newbornSpec = readJSONFile(
-    "/app/customQueries/newbornScreeningQuery.json",
+  await generalizedQuery(
+    request.use_case,
+    patientId,
+    fhirClient,
+    queryResponse,
   );
-  const newbornQuery = new CustomQuery(newbornSpec, patientId);
-  const response = await fhirClient.get(newbornQuery.getQuery("observation"));
-  return await parseFhirSearch(response, queryResponse);
+
+  return queryResponse;
 }
 
-/**
- * Syphilis use case query.
- * @param patientId - The ID of the patient to query.
- * @param fhirClient - The client to query the FHIR server.
- * @param queryResponse - The response object to store the results.
- * @returns - The response object containing the query results.
- */
-async function syphilisQuery(
+async function generalizedQuery(
+  useCase: USE_CASES,
   patientId: string,
   fhirClient: FHIRClient,
   queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
-  const syphilisSpec = readJSONFile("/app/customQueries/syphilisQuery.json");
-  const syphilisQuery = new CustomQuery(syphilisSpec, patientId);
-  const queryRequests: string[] = syphilisQuery.getAllQueries();
-  const bundleResponse = await fhirClient.getBatch(queryRequests);
-  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
-  queryResponse = await queryEncounters(patientId, fhirClient, queryResponse);
-  return queryResponse;
-}
+  const querySpec = UseCaseToStructMap[useCase];
+  const builtQuery = new CustomQuery(querySpec, patientId);
+  let response: fetch.Response | fetch.Response[];
 
-/**
- * Gonorrhea use case query.
- * @param patientId - The ID of the patient to query.
- * @param fhirClient - The client to query the FHIR server.
- * @param queryResponse - The response object to store the results.
- * @returns - The response object containing the query results.
- */
-async function gonorrheaQuery(
-  patientId: string,
-  fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
-): Promise<QueryResponse> {
-  const gonorrheaSpec = readJSONFile("/app/customQueries/gonorrheaQuery.json");
-  const gonorrheaQuery = new CustomQuery(gonorrheaSpec, patientId);
-  const queryRequests: string[] = gonorrheaQuery.getAllQueries();
-  const bundleResponse = await fhirClient.getBatch(queryRequests);
-  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
-  queryResponse = await queryEncounters(patientId, fhirClient, queryResponse);
-  return queryResponse;
-}
-
-/**
- * Chlamydia use case query.
- * @param patientId - The ID of the patient to query.
- * @param fhirClient - The client to query the FHIR server.
- * @param queryResponse - The response object to store the results.
- * @returns - The response object containing the query results.
- */
-async function chlamydiaQuery(
-  patientId: string,
-  fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
-): Promise<QueryResponse> {
-  const chlamydiaSpec = readJSONFile(
-    "/app/containers/tefca-viewer/src/app/customQueries/chlamydiaQuery.json",
-  );
-  const chlamydiaQuery = new CustomQuery(chlamydiaSpec, patientId);
-  const queryRequests: string[] = chlamydiaQuery.getAllQueries();
-  const bundleResponse = await fhirClient.getBatch(queryRequests);
-  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
-  queryResponse = await queryEncounters(patientId, fhirClient, queryResponse);
-  return queryResponse;
-}
-
-/**
- * Cancer use case query.
- * @param patientId - The ID of the patient to query.
- * @param fhirClient - The client to query the FHIR server.
- * @param queryResponse - The response object to store the results.
- * @returns - The response object containing the query results.
- */
-async function cancerQuery(
-  patientId: string,
-  fhirClient: FHIRClient,
-  queryResponse: QueryResponse,
-): Promise<QueryResponse> {
-  const cancerSpec = readJSONFile("/app/customQueries/cancerQuery.json");
-  const cancerQuery = new CustomQuery(cancerSpec, patientId);
-  const conditionQuery = cancerQuery.getQuery("condition");
-  const medicationRequestQuery = cancerQuery.getQuery("medication");
-  const queryRequests: Array<string> = [conditionQuery, medicationRequestQuery];
-  const bundleResponse = await fhirClient.getBatch(queryRequests);
-  queryResponse = await parseFhirSearch(bundleResponse, queryResponse);
-  queryResponse = await queryEncounters(patientId, fhirClient, queryResponse);
-
-  return queryResponse;
+  // Special cases for plain SDH or newborn screening, which just use one query
+  if (useCase === "social-determinants") {
+    response = await fhirClient.get(builtQuery.getQuery("social"));
+  } else if (useCase === "newborn-screening") {
+    response = await fhirClient.get(builtQuery.getQuery("observation"));
+  } else {
+    const queryRequests: string[] = builtQuery.getAllQueries();
+    response = await fhirClient.getBatch(queryRequests);
+  }
+  queryResponse = await parseFhirSearch(response, queryResponse);
+  if (!querySpec.hasSecondEncounterQuery) {
+    return queryResponse;
+  } else {
+    queryResponse = await queryEncounters(patientId, fhirClient, queryResponse);
+    return queryResponse;
+  }
 }
 
 /**
