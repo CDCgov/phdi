@@ -51,16 +51,6 @@ while ! docker system info > /dev/null 2>&1; do
     sleep 1
 done
 
-# Install Docker Compose if it's not already installed
-if ! command_exists docker-compose; then
-    brew install docker-compose
-fi
-
-if ! command_exists node; then
-    echo "Node.js not found, installing it now..."
-    brew install node
-fi
-
 # Clone the repository if it doesn't exist, otherwise pull the latest changes
 REPO_URL="https://github.com/CDCgov/phdi.git"
 REPO_DIR="phdi"
@@ -83,8 +73,8 @@ echo "APP_ENV=test" > .env.local
 echo "DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db" >> .env.local
 echo "NEXT_PUBLIC_NON_INTEGRATED_VIEWER=$IS_NON_INTEGRATED" >> .env.local
 
-# Build and run docker-compose with APP_ENV=TEST
-docker-compose build --no-cache && docker compose --env-file .env.local up -d
+# Build and run docker compose
+docker compose --env-file .env.local up -d ecr-viewer db --build
 
 # Wait for eCR Viewer to be available
 URL="http://localhost:3000/"
@@ -98,4 +88,4 @@ open http://localhost:3000/
 
 # Prompt to end review session
 read -p "Press enter to end review"
-docker compose down
+docker compose down -v
