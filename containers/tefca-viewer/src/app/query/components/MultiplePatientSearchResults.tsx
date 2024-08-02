@@ -12,7 +12,6 @@ import {
   UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
-import { Mode } from "../../constants";
 import ResultsView from "./ResultsView";
 
 /**
@@ -33,6 +32,7 @@ export interface MultiplePatientSearchResultsProps {
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
+ * @param root0.goBack
  * @returns - The MultiplePatientSearchResults component.
  */
 const MultiplePatientSearchResults: React.FC<
@@ -91,7 +91,7 @@ const MultiplePatientSearchResults: React.FC<
                         index,
                         originalRequest,
                         setSingleUseCaseQueryResponse,
-                        setLoading
+                        setLoading,
                       )
                     }
                   >
@@ -148,21 +148,21 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
         noteParts.push(
           <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
             {"First Name" + comma}
-          </strong>
+          </strong>,
         );
         break;
       case "last_name":
         noteParts.push(
           <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
             {"Last Name" + comma}
-          </strong>
+          </strong>,
         );
         break;
       case "dob":
         noteParts.push(
           <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
             {"DOB" + comma}
-          </strong>
+          </strong>,
         );
         break;
     }
@@ -187,7 +187,7 @@ async function viewRecord(
   index: number,
   originalRequest: UseCaseQueryRequest,
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void,
-  setLoading: (loading: boolean) => void
+  setLoading: (loading: boolean) => void,
 ): Promise<void> {
   setLoading(true);
   const queryResponse = await UseCaseQuery(originalRequest, {

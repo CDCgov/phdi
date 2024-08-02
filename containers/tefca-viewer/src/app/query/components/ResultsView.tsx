@@ -16,6 +16,8 @@ type ResultsViewProps = {
  * @param props.useCaseQueryResponse - The response from the query service.
  * @param props.setMode - The function to set the mode of the query page.
  * @param props.mode - The mode of the query page.
+ * @param props.goBack
+ * @param props.backLabel
  * @returns The QueryView component.
  */
 const ResultsView: React.FC<ResultsViewProps> = ({
