@@ -47,7 +47,7 @@ def load_vsac_api(url) -> dict:
     Loads ValueSet or CodeSystem data from the VSAC FHIR API in a json format.
     :param url: API url to hit
 
-    :return: FHIR compose data for valueset or condition in JSON format
+    :return: FHIR compose data for valueset or codesystem in JSON format
     """
     response = requests.get(
         url,
@@ -55,7 +55,6 @@ def load_vsac_api(url) -> dict:
     )
     if response.status_code == 200:
         data = response.json()
-        print(url)
     else:
         print("Failed to retrieve data:", response.status_code, response.text)
     return data
@@ -137,29 +136,34 @@ def parse_ersd(ports: dict, data: dict) -> dict:
         print(f"An error occurred: {e}")
 
 
-def build_concepts_dict(data: dict) -> dict:
+def build_valuesets_dict(data: dict) -> dict:
     """
     This is the only part of the parsed json bundle where the valueset type
-    and version are defined for each of the valuesets, so this function makes
+    is defined for each of the valuesets, so this function makes
     a dictionary that has each valueset_id as a key with its valueset type id
     and version.
+
+    It also looks up the version from the VSAC FHIR as a value for the dict.
 
     :param data: message-parser parsed eRSD json
     :return: a dictionary of each valueset URL with its valueset type and
              version.
     """
-    concepts_dict = {}
+    valuesets_dict = {}
     for valueset in data.get("valuesets"):
         concept_type = valueset.get("concept_type_id")
-        version = valueset.get("version")
         compose_codes = valueset.get("compose_codes").split(",")
         for compose_code in compose_codes:
             valueset_id = compose_code.split("/")[-1]
-            concepts_dict[valueset_id] = {
-                "concept_type": concept_type,
-                "version": version,
-            }
-    return concepts_dict
+            if valueset_id not in valuesets_dict.keys():
+                url = f"https://cts.nlm.nih.gov/fhir/ValueSet/{valueset_id}"
+                vsac_data = load_vsac_api(url)
+                version = vsac_data.get("version")
+                valuesets_dict[valueset_id] = {
+                    "concept_type": concept_type,
+                    "version": version,
+                }
+    return valuesets_dict
 
 
 def check_id_uniqueness(list_of_lists: List[List[str]]) -> bool:
@@ -178,8 +182,9 @@ def check_id_uniqueness(list_of_lists: List[List[str]]) -> bool:
 
 
 def build_valuesets_table(
-    data: dict, concepts_dict: dict
-) -> Tuple[List[List[str]], List[List[str]], dict]:
+    data: dict,
+    valuesets_dict: dict,
+) -> Tuple[List[List[str]], List[List[str]]]:
     """
     Look through eRSD json to create valuesets table, where the primary key
     is the valueset_id that contains the name and codes for each service.
@@ -191,24 +196,22 @@ def build_valuesets_table(
     junction table to avoid duplicative API calls.
 
     :param data: message-parser parsed eRSD json
-    :param concepts_dict: a dictionary of each valueset URL with its
-    service type as value
+    :param valuesets_dict: a dictionary of each valueset URL with its
+    service type and versions as values
     :return: list of lists of for each of the valueset id, name, and code info;
              list of lists of each valueset id, condition id, source/version
              dict of the valuesets with version
     """
     concepts = data.get("concepts")
+    ersd_version = data.get("valuesets")[0].get("ersd_version")
     valuesets_list = []
     junction_list = []
-    valuesets_dict = {}
     for service in concepts:
         valueset_id = service.get("valueset_id")
         valueset_name = service.get("display")
         publisher = service.get("publisher")
-        service_info = concepts_dict.get(valueset_id)
-        url = f"https://cts.nlm.nih.gov/fhir/ValueSet/{valueset_id}"
-        vsac_data = load_vsac_api(url)
-        version = vsac_data.get("version")
+        service_info = valuesets_dict.get(valueset_id)
+        version = service_info.get("version")
         id = f"{valueset_id}_{version}"
         result = [
             id,
@@ -219,9 +222,7 @@ def build_valuesets_table(
             service_info.get("concept_type"),
         ]
         valuesets_list.append(result)
-        valuesets_dict[valueset_id] = version
         # create junction table between valueset ID and condition ID
-        ersd_version = service_info.get("ersd_version", "")
         concept_codes = ast.literal_eval(service.get("valueable_codes"))
         if isinstance(concept_codes, dict):
             concept_codes = [concept_codes]
@@ -229,10 +230,10 @@ def build_valuesets_table(
             code = concept.get("coding")[0].get("code")
             junction_list.append([code, id, f"eRSD_{ersd_version}"])
     if check_id_uniqueness(valuesets_list):
-        return valuesets_list, junction_list, valuesets_dict
+        return valuesets_list, junction_list
     else:
         print("Non-unique IDs in valuesets")
-        return [], [], {}
+        return [], []
 
 
 def build_conditions_table(data: dict) -> List[List[str]]:
@@ -286,6 +287,8 @@ def build_concepts_table(
     It also creates a junction table between the valueset_id and concept_id.
 
     :param data: message-parser parsed eRSD json
+    :param valuesets_dict: a dictionary of each valueset URL with its
+    service type and versions as values
     :return: list of lists of for each unique valueset_id-code-id, name, and
     code info;
              list of lists for each valueset_id, concept_id
@@ -308,7 +311,7 @@ def build_concepts_table(
                 result = [id, code, system, display, version]
                 concepts_list.append(result)
                 # create junction table between valueset and concept
-                valueset_version = valuesets_dict.get(valueset_id)
+                valueset_version = valuesets_dict.get(valueset_id).get("version")
                 valueset_id_full = f"{valueset_id}_{valueset_version}"
                 junction_list.append([valueset_id_full, id])
     if check_id_uniqueness(concepts_list):
@@ -401,9 +404,9 @@ def main():
         container.remove()
 
     # 3. used parsed data to create needed tables as list of lists
-    concepts_dict = build_concepts_dict(parsed_data)
-    valuesets_list, condition_to_valueset_list, valuesets_dict = build_valuesets_table(
-        parsed_data, concepts_dict
+    valuesets_dict = build_valuesets_dict(parsed_data)
+    valuesets_list, condition_to_valueset_list = build_valuesets_table(
+        parsed_data, valuesets_dict
     )
     conditions_list = build_conditions_table(parsed_data)
     concepts_list, valueset_to_concept_list = build_concepts_table(
