@@ -68,7 +68,7 @@ cd ./containers/ecr-viewer
 # Checkout the specified branch
 git checkout $BRANCH_NAME
 
-# Write necessary env vars to .env.local
+# Write env vars to .env.local
 echo "APP_ENV=test" > .env.local
 echo "DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db" >> .env.local
 echo "NEXT_PUBLIC_NON_INTEGRATED_VIEWER=$IS_NON_INTEGRATED" >> .env.local
