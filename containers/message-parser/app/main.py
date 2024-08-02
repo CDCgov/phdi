@@ -52,8 +52,8 @@ parse_message_response_examples = {200: raw_parse_message_response_examples}
 @app.get("/")
 async def health_check():
     """
-    Check service status. If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the FHIR conversion service is available and running
+    This endpoint checks service status. If an HTTP 200 status code is returned
+    along with '{"status": "OK"}' then the  service is available and running
     properly.
     """
     return {"status": "OK"}
@@ -65,9 +65,9 @@ async def parse_message_endpoint(
     response: Response,
 ) -> ParseMessageResponse:
     """
-    Extract the desired values from a message. If the message is not already in
-    FHIR format, convert it to FHIR first. You can either provide a parsing schema
-    or the name of a previously loaded parsing schema.
+    This endpoint extracts the desired values from a message. If the message is
+    not already in FHIR format, convert it to FHIR first. You can either
+    provide a parsing schema or the name of a previously loaded parsing schema.
     """
     # 1. Load schema.
     if input.parsing_schema != {}:

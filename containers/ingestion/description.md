@@ -1,16 +1,17 @@
-## Getting Started with the PHDI Ingestion Service
+## Getting Started with the DIBBs Ingestion Service
 
 ### Introduction
-The PHDI ingestion service offers a REST API with endpoints for standardization and harmonization of FHIR messages. It offers name standardization, date of birth standardization, phone number standardization, geocoding, and several utilities for working with FHIR servers.
+The DIBBs Ingestion service offers a REST API with endpoints for standardization and harmonization of FHIR messages. It offers name standardization, date of birth (DoB) standardization, phone number standardization, geocoding, and several utilities for working with FHIR servers. 
 
 ### Running the Ingestion Service
 
-The ingestion service can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Python source code.
+You can run the Ingestion service using Docker, another OCI container runtime (e.g., Podman), or directly from the Python source code.
 
 #### Running with Docker (Recommended for production)
 
-To run the ingestion service with Docker follow these steps.
-1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar to what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
+To run the Ingestion service with Docker follow these steps.
+1. Confirm that you have Docker installed by running `docker -v`. If you don’t see a response similar to what’s shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
+
 ```
 ❯ docker -v
 Docker version 20.10.21, build baeda1f
@@ -22,7 +23,7 @@ Congratulations, the ingestion service should now be running on `localhost:8080`
 
 #### Running from Python Source Code
 
-We recommend running the ingestion service from a container, but if that is not feasible for a given use case, it may also be run directly from Python using the steps below.
+We recommend running the ingestion service from a container, but if that isn't feasible for a given use case, it may also be run directly from Python using the steps below.
 
 1. Ensure that both Git and Python 3.10 or higher are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
@@ -34,7 +35,7 @@ We recommend running the ingestion service from a container, but if that is not 
 
 ### Building the Docker Image
 
-To build the Docker image for the ingestion service from source code instead of downloading it from the PHDI repository, follow these steps.
+To build the Docker image for the Ingestion service from source code instead of downloading it from the PHDI repository, follow these steps.
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/ingestion/`.
