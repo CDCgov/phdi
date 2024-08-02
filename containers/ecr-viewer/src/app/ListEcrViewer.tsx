@@ -42,7 +42,7 @@ export default function ListECRViewer({
   };
 
   return (
-    <div className="main-container">
+    <div className="main-container height-full flex-column flex-align-center">
       <div className="ecr-library-wrapper width-full overflow-auto">
         <Table
           bordered={false}

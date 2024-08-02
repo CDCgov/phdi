@@ -3,7 +3,7 @@
 exports[`Home Page, ListECRViewer should match snapshot 1`] = `
 <div>
   <div
-    class="main-container"
+    class="main-container height-full flex-column flex-align-center"
   >
     <div
       class="ecr-library-wrapper width-full overflow-auto"
