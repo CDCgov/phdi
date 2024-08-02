@@ -19,11 +19,11 @@ export default function ListECRViewer({
   listFhirData,
 }: ListEcrViewerProps): JSX.Element {
   const header = [
-    "Patient",
-    "Received Date",
-    "Encounter Date",
-    "Reportable Condition",
-    "RCKMS Rule Summary",
+    { value: "Patient", className: "minw-20" },
+    { value: "Received Date", className: "minw-1605" },
+    { value: "Encounter Date", className: "minw-1705" },
+    { value: "Reportable Condition", className: "minw-2305" },
+    { value: "RCKMS Rule Summary", className: "minw-23" },
   ];
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 25;
@@ -42,25 +42,33 @@ export default function ListECRViewer({
   };
 
   return (
-    <div className="main-container">
-      <div className="homepage-wrapper">
+    <div className="main-container height-full flex-column flex-align-center">
+      <div className="ecr-library-wrapper width-full overflow-auto">
         <Table
           bordered={false}
           fullWidth={true}
-          className={"table-homepage-list"}
+          striped={true}
+          fixed={true}
+          className={"table-ecr-library margin-0"}
           data-testid="table"
         >
-          <thead>
+          <thead className={"position-sticky top-0"}>
             <tr>
               {header.map((column) => (
-                <th key={`${column}`} scope="col">
-                  {column}
+                <th
+                  key={`${column.value}`}
+                  scope="col"
+                  className={column.className}
+                >
+                  {column.value}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>{renderPage(currentPage)}</tbody>
         </Table>
+      </div>
+      <div className="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
