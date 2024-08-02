@@ -120,7 +120,7 @@ export class CustomQuery {
         return this.diagnosticReportQuery;
       case "condition":
         return this.conditionQuery;
-      case "medication":
+      case "medicationRequest":
         return this.medicationRequestQuery;
       case "social":
         return this.socialHistoryQuery;
