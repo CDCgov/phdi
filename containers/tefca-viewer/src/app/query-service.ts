@@ -15,8 +15,8 @@ import {
 import FHIRClient from "./fhir-servers";
 import { USE_CASES, FHIR_SERVERS } from "./constants";
 import * as dq from "./demoQueries";
-
 import { CustomQuery } from "./CustomQuery";
+import { GetPhoneQueryFormats } from "./format-service";
 
 /**
  * The query response when the request source is from the Viewer UI.
@@ -57,41 +57,6 @@ const UseCaseToStructMap: {
 
 // Expected responses from the FHIR server
 export type UseCaseQueryResponse = Awaited<ReturnType<typeof UseCaseQuery>>;
-
-const FORMATS_TO_SEARCH: string[] = [
-  "$1$2$3",
-  "$1-$2-$3",
-  "$1+$2+$3",
-  "($1)+$2+$3",
-  "($1)-$2-$3",
-  "($1)$2-$3",
-  "1($1)$2-$3",
-];
-
-/**
- * @todo Once the country code box is created on the search form, we'll
- * need to use that value to act as a kind of switch logic here to figure
- * out which formats we should be using.
- * Helper function to transform a cleaned, digit-only representation of
- * a phone number into multiple possible formatting options of that phone
- * number. If the given number has fewer than 10 digits, or contains any
- * delimiters, no formatting is performed and only the given number is
- * used.
- * @param phone A digit-only representation of a phone number.
- * @returns An array of formatted phone numbers.
- */
-export async function GetPhoneQueryFormats(phone: string) {
-  // Digit-only phone numbers will resolve as actual numbers
-  if (isNaN(Number(phone)) || phone.length != 10) {
-    const strippedPhone = phone.replace(" ", "+");
-    return [strippedPhone];
-  }
-  // Map the phone number into each format we want to check
-  const possibleFormats: string[] = FORMATS_TO_SEARCH.map((fmt) => {
-    return phone.replace(/(\d{3})(\d{3})(\d{4})/gi, fmt);
-  });
-  return possibleFormats;
-}
 
 /**
  * @todo Add encounters as _include in condition query & batch encounter queries
