@@ -58,7 +58,7 @@
         "data_type": "string",
         "nullable": false
       },
-      "version": {
+      "ersd_version": {
         "fhir_path": "version",
         "data_type": "string",
         "nullable": false

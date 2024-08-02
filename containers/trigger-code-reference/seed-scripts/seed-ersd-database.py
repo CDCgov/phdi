@@ -156,28 +156,6 @@ def check_id_uniqueness(list_of_lists: List[List[str]]) -> bool:
     return len(unique_ids) == len(list_of_lists)
 
 
-def build_valueset_types_table(data: dict) -> List[List[str]]:
-    """
-    Loop through parsed json bundle in order to build a small table of
-    each of the (currently) 6 valueset types as defined by APHL with its id
-    and short description of the valueset type.
-
-    :param data: message-parser parsed eRSD json
-    :return: a list of lists of the id and type of each of the valueset types
-             to load to a database
-    """
-    valueset_types_list = []
-    for valueset_types in data.get("valueset_types"):
-        id = valueset_types.get("id")
-        type = valueset_types.get("concept_type")
-        valueset_types_list.append([id, type])
-    if check_id_uniqueness(valueset_types_list):
-        return valueset_types_list
-    else:
-        print("Non-unique IDs in valueset_types")
-        return []
-
-
 def build_valuesets_table(
     data: dict, concepts_dict: dict
 ) -> Tuple[List[List[str]], List[List[str]], List[List[str]]]:
@@ -192,19 +170,18 @@ def build_valuesets_table(
     :param concepts_dict: a dictionary of each valueset URL with its
     service type as value
     :return: list of lists of for each of the valueset id, name, and code info;
-             list of lists of each valueset id, condition id;
-             list of lists of each valesetset source.
+             list of lists of each valueset id, condition id
     """
     concepts = data.get("concepts")
     valuesets_list = []
     junction_list = []
-    source_list = []
     for service in concepts:
         valueset_id = service.get("valueset_id")
         valueset_name = service.get("display")
         publisher = service.get("publisher")
         service_info = concepts_dict.get(valueset_id)
-        version = service_info.get("version", "")
+        version = service_info.get("ersd_version", "")  # TODO - REPLACE
+        ersd_version = service_info.get("ersd_version", "")
         id = f"{valueset_id}_{version}"
         result = [
             id,
@@ -221,14 +198,12 @@ def build_valuesets_table(
             concept_codes = [concept_codes]
         for concept in concept_codes:
             code = concept.get("coding")[0].get("code")
-            junction_list.append([code, id])
-        # create source table for valueset ID
-        source_list = [[i, "ersd"] for i, _ in enumerate(junction_list, start=1)]
+            junction_list.append([code, id, f"eRSD_{ersd_version}"])
     if check_id_uniqueness(valuesets_list):
-        return valuesets_list, junction_list, source_list
+        return valuesets_list, junction_list
     else:
         print("Non-unique IDs in valuesets")
-        return [], [], []
+        return [], []
 
 
 def build_conditions_table(data: dict) -> List[List[str]]:
@@ -394,28 +369,22 @@ def main():
         container.remove()
 
     # 3. used parsed data to create needed tables as list of lists
-    valueset_types_list = build_valueset_types_table(parsed_data)
     concepts_dict = build_concepts_dict(parsed_data)
-    valuesets_list, condition_to_valueset_list, condition_to_valueset_source_list = (
-        build_valuesets_table(parsed_data, concepts_dict)
+    valuesets_list, condition_to_valueset_list = build_valuesets_table(
+        parsed_data, concepts_dict
     )
     conditions_list = build_conditions_table(parsed_data)
     concepts_list, valueset_to_concept_list = build_concepts_table(
         parsed_data, concepts_dict
     )
-    terminology_sources_list = [
-        ["ersd", "electronic Reporting and Surveillance Distribution"]
-    ]
+
     # Create mini-dict to loop through for sqlite queries
     table_dict = {
-        "valueset_types": valueset_types_list,
         "valuesets": valuesets_list,
         "conditions": conditions_list,
         "concepts": concepts_list,
         "condition_to_valueset": condition_to_valueset_list,
         "valueset_to_concept": valueset_to_concept_list,
-        "condition_to_valueset_source": condition_to_valueset_source_list,
-        "terminology_sources": terminology_sources_list,
     }
 
     with sqlite3.connect("seed-scripts/ersd.db") as conn:

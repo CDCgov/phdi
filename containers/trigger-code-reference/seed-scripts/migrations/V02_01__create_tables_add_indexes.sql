@@ -1,17 +1,10 @@
--- create tables to link conditions to clinical services
-CREATE TABLE IF NOT EXISTS valueset_types (
-    id TEXT PRIMARY KEY,
-    type TEXT
-);
-
 CREATE TABLE IF NOT EXISTS valuesets (
     id TEXT PRIMARY KEY,
     oid TEXT,
     version TEXT,
     name TEXT,
     author TEXT,
-    type_id TEXT,
-    FOREIGN KEY (type_id) REFERENCES valueset_types(id)
+    type TEXT
 );
 
 CREATE TABLE IF NOT EXISTS conditions (
@@ -33,6 +26,7 @@ CREATE TABLE IF NOT EXISTS condition_to_valueset (
     id TEXT PRIMARY KEY,
     condition_id TEXT,
     valueset_id TEXT,
+    source TEXT,
     FOREIGN KEY (condition_id) REFERENCES conditions(id),
     FOREIGN KEY (valueset_id) REFERENCES valuesets(id)
 );
@@ -45,16 +39,6 @@ CREATE TABLE IF NOT EXISTS valueset_to_concept (
     FOREIGN KEY (concept_id) REFERENCES concepts(id)
 );
 
-CREATE TABLE IF NOT EXISTS condition_to_valueset_source (
-    id TEXT PRIMARY KEY,
-    map_id TEXT,
-    source_id TEXT
-);
-
-CREATE TABLE IF NOT EXISTS terminology_sources (
-    id TEXT PRIMARY KEY,
-    name TEXT
-);
 
 -- add indexes to increase performance
 -- conditions
@@ -62,10 +46,6 @@ CREATE INDEX IF NOT EXISTS "idx_conditions_id" ON conditions(id);
 
 -- valuesets
 CREATE INDEX IF NOT EXISTS "idx_valuesets_id" ON valuesets(id);
-CREATE INDEX IF NOT EXISTS "idx_valuesets_type_id" ON valuesets(type_id);
-
--- valueset_types
-CREATE INDEX IF NOT EXISTS "idx_valueset_types_id" ON valueset_types(id);
 
 -- concepts
 CREATE INDEX IF NOT EXISTS "idx_concepts_id" ON concepts(id);
