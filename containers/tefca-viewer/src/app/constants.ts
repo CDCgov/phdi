@@ -250,3 +250,10 @@ export const stateOptions = [
   { value: "AE", label: "AE - Armed Forces Middle East" },
   { value: "AP", label: "AP - Armed Forces Pacific" },
 ];
+
+export type Mode =
+  | "search"
+  | "results"
+  | "multiple-patients"
+  | "no-patients"
+  | "multiple-patients-results";

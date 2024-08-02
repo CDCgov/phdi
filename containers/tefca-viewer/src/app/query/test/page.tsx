@@ -8,7 +8,7 @@ import QueryView from "../components/QueryView";
 import MultiplePatientSearchResults from "../components/MultiplePatientSearchResults";
 import SearchForm from "../components/SearchForm";
 import NoPatientsFound from "../components/NoPatientsFound";
-export type Mode = "search" | "results" | "multiple-patients" | "no-patients";
+import { Mode } from "../../constants";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -37,7 +37,7 @@ const Query: React.FC = () => {
       )}
 
       {/* Switch the mode to view to show the results of the query */}
-      {mode === "results" && (
+      {(mode === "results" || mode === "multiple-patients-results") && (
         <>
           {useCaseQueryResponse && (
             <QueryView
