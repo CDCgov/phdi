@@ -4,7 +4,7 @@ import { UseCaseQueryResponse, UseCaseQueryRequest } from "../../query-service";
 
 // Add a comment to suppress the TypeScript error
 // @ts-ignore
-import QueryView from "../components/QueryView";
+import ResultsView from "../components/ResultsView";
 import MultiplePatientSearchResults from "../components/MultiplePatientSearchResults";
 import SearchForm from "../components/SearchForm";
 import NoPatientsFound from "../components/NoPatientsFound";
@@ -40,7 +40,7 @@ const Query: React.FC = () => {
       {(mode === "results" || mode === "multiple-patients-results") && (
         <>
           {useCaseQueryResponse && (
-            <QueryView
+            <ResultsView
               useCaseQueryResponse={useCaseQueryResponse}
               setMode={setMode}
             />

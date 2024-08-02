@@ -2,7 +2,7 @@ import { UseCaseQueryResponse } from "../../query-service";
 import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
 import React, { useEffect } from "react";
-import { Mode } from "../page";
+import { Mode } from "../../constants";
 import { Alert } from "@trussworks/react-uswds";
 
 type QueryViewProps = {
@@ -17,7 +17,7 @@ type QueryViewProps = {
  * @param props.setMode - The function to set the mode of the query page.
  * @returns The QueryView component.
  */
-const QueryView: React.FC<QueryViewProps> = ({
+const ResultsView: React.FC<QueryViewProps> = ({
   useCaseQueryResponse,
   setMode,
 }) => {
@@ -69,4 +69,4 @@ const QueryView: React.FC<QueryViewProps> = ({
     </>
   );
 };
-export default QueryView;
+export default ResultsView;
