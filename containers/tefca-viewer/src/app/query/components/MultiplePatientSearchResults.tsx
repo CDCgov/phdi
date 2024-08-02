@@ -12,7 +12,6 @@ import {
   UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
-import { Mode } from "../../constants";
 import ResultsView from "./ResultsView";
 
 /**
