@@ -30,9 +30,8 @@ export interface MultiplePatientSearchResultsProps {
  * @param root0 - MultiplePatientSearchResults props.
  * @param root0.patients - The array of Patient resources.
  * @param root0.originalRequest - The original request object.
- * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
- * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
+ * @param root0.goBack - The function to go back to the previous page.
  * @returns - The MultiplePatientSearchResults component.
  */
 const MultiplePatientSearchResults: React.FC<
@@ -178,9 +177,7 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
  * @param index - The index of the patient to view.
  * @param originalRequest - The original request object.
  * @param setUseCaseQueryResponse - The function to set the use case query response.
- * @param setMode - The function to set the mode.
  * @param setLoading - The function to set the loading state.
- * @param currentMode - The current mode of the page.
  */
 async function viewRecord(
   patients: Patient[],
