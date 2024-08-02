@@ -23,7 +23,7 @@ import {
   UseCaseQueryRequest,
 } from "../../query-service";
 import { Mode } from "../page";
-import { FormatPhoneAsDigits } from "@/app/utils";
+import { FormatPhoneAsDigits } from "@/app/format-service";
 import { useSearchParams } from "next/navigation";
 
 interface SearchFormProps {
