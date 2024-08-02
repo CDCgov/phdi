@@ -183,26 +183,6 @@ h4 {
   tbody tr:last-child td {
     border-bottom: none;
   }
-
-  .minw-20 {
-    min-width: 10rem;
-  }
-
-  .minw-1605 {
-    min-width: 8.25rem;
-  }
-
-  .minw-1705 {
-    min-width: 8.75rem;
-  }
-
-  .minw-2305 {
-    min-width: 11.75rem;
-  }
-
-  .minw-23 {
-    min-width: 11.5rem;
-  }
 }
 
 .table-clinical-problems {
@@ -585,4 +565,24 @@ h3 {
 
 .top-275 {
   top: 2.75rem;
+}
+
+.minw-20 {
+  min-width: 10rem;
+}
+
+.minw-1605 {
+  min-width: 8.25rem;
+}
+
+.minw-1705 {
+  min-width: 8.75rem;
+}
+
+.minw-2305 {
+  min-width: 11.75rem;
+}
+
+.minw-23 {
+  min-width: 11.5rem;
 }
