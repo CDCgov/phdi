@@ -69,21 +69,24 @@ app.openapi = custom_openapi
 @app.get("/")
 async def health_check():
     """
-    Check service status. If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the refiner service is available and running
-    properly.
+    This endpoint checks service status. If an HTTP 200 status code is returned
+    along with `{"status": "OK"}'` then the Message Refiner is available and
+    running properly.
     """
     return {"status": "OK"}
 
 
-@app.get("/example-collection")
+@app.get(
+    "/example-collection",
+    summary="User Acceptance Testing (UAT) Collection",
+)
 async def get_uat_collection() -> FileResponse:
     """
-    Fetches a Postman Collection of sample requests designed for UAT.
-    The Collection is a JSON-exported file consisting of five GET and POST
-    requests to endpoints of the publicly available dibbs.cloud server.
-    The requests showcase the functionality of various aspects of the TCR
-    and the message refine.
+    This endpoint fetches a Postman collection of sample requests
+    designed for UAT. The collection is a JSON-exported file consisting of five
+    GET and POST requests to endpoints of the publicly available
+    dibbs.cloud server. The requests showcase the functionality of various
+    aspects of the Trigger Code Reference and the Message Refiner.
     """
     uat_collection_path = (
         Path(__file__).parent.parent
@@ -102,6 +105,7 @@ async def get_uat_collection() -> FileResponse:
     response_model=RefineECRResponse,
     status_code=200,
     responses=refine_ecr_response_examples,
+    summary="Refine eCR",
 )
 async def refine_ecr(
     refiner_input: Request,
@@ -131,16 +135,17 @@ async def refine_ecr(
     ] = None,
 ) -> Response:
     """
-    Refines an incoming XML ECR message based on sections to include and/or trigger code
+    This endpoint refines an incoming XML eCR message based on sections to include and/or trigger code
     conditions to include, based on the parameters included in the endpoint.
 
     The return will be a formatted, refined XML, limited to just the data specified.
 
-    :param refiner_input: The request object containing the XML input.
-    :param sections_to_include: The fields to include in the refined message.
-    :param conditions_to_include: The SNOMED condition codes to use to search for
-    relevant clinical services in the ECR.
-    :return: The RefineECRResponse, the refined XML as a string.
+    ### Inputs and Outputs
+    - :param refiner_input: The request object containing the XML input.
+    - :param sections_to_include: The fields to include in the refined message.
+    - :param conditions_to_include: The SNOMED condition codes to use to search for
+      relevant clinical services in the eCR.
+    - :return: The RefineeCRResponse, the refined XML as a string.
     """
     data = await refiner_input.body()
 
