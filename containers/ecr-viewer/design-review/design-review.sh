@@ -8,6 +8,20 @@ fi
 
 BRANCH_NAME=$1
 
+# Check if the value indicating whether to view the non-integrated viewer is provided/valid
+if [ -n "$2" ]; then
+    if [[ "$2" == "true" || "$2" == "false" ]]; then
+        IS_NON_INTEGRATED=$2
+    else
+        echo "Invalid value for IS_NON_INTEGRATED. It must be 'true' or 'false'."
+        exit 1
+    fi
+else
+    IS_NON_INTEGRATED=true
+fi
+
+echo $IS_NON_INTEGRATED
+
 # Function to check if a command exists
 command_exists() {
     command -v "$1" &> /dev/null
@@ -44,6 +58,11 @@ if ! command_exists docker-compose; then
     brew install docker-compose
 fi
 
+if ! command_exists node; then
+    echo "Node.js not found, installing it now..."
+    brew install node
+fi
+
 # Clone the repository if it doesn't exist, otherwise pull the latest changes
 REPO_URL="https://github.com/CDCgov/phdi.git"
 REPO_DIR="phdi"
@@ -61,11 +80,33 @@ cd ./containers/ecr-viewer
 # Checkout the specified branch
 git checkout $BRANCH_NAME
 
-# Build and run docker-compose
-docker-compose build --no-cache && docker-compose up -d
+# TEST .env.local
+ echo "APP_ENV=test" > .env.local
+ echo "DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db" >> .env.local
+ echo "NEXT_PUBLIC_NON_INTEGRATED_VIEWER=$IS_NON_INTEGRATED" >> .env.local
+
+# Export env variables
+# export APP_ENV=test
+# export DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
+# export NEXT_PUBLIC_NON_INTEGRATED_VIEWER=$IS_NON_INTEGRATED
+
+# # Print environment variable before running docker-compose
+echo "APP_ENV before docker-compose: $APP_ENV"
+echo "NEXT_PUBLIC_NON_INTEGRATED_VIEWER before docker-compose: $NEXT_PUBLIC_NON_INTEGRATED_VIEWER"
+
+# # Run npm install if package.json exists
+# if [ -f package.json ]; then
+#     echo "Running npm install..."
+#     npm install
+# else
+#     echo "No package.json found, skipping npm install."
+# fi
+
+# Build and run docker-compose with APP_ENV=TEST
+docker-compose build --no-cache && docker compose --env-file .env.local up -d
 
 # Wait for eCR Viewer to be available
-URL="http://localhost:3000/ecr-viewer"
+URL="http://localhost:3000/"
 while ! curl -s -o /dev/null -w "%{http_code}" "$URL" | grep -q "200"; do
     echo "Waiting for $URL to be available..."
     sleep 5
@@ -73,7 +114,7 @@ done
 
 
 # Open in default browser
-open http://localhost:3000/ecr-viewer
+open http://localhost:3000/
 
 # Prompt to end review session
 read -p "Press enter to end review"
