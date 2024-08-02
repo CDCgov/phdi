@@ -1,4 +1,4 @@
-import { GetPhoneQueryFormats } from "@/app/query-service";
+import { GetPhoneQueryFormats } from "@/app/format-service";
 
 describe("GetPhoneQueryFormats", () => {
   it("should fail gracefully on partial phone number inputs", async () => {

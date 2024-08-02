@@ -18,16 +18,18 @@ const HomePage: React.FC = async () => {
   }
 
   return (
-    <main>
+    <div className="display-flex flex-column height-viewport">
       <Header />
-      {isNonIntegratedViewer ? (
-        <ListECRViewer listFhirData={listFhirData} />
-      ) : (
-        <div>
-          <h1>Sorry, this page is not available.</h1>
-        </div>
-      )}
-    </main>
+      <main className="overflow-auto height-full">
+        {isNonIntegratedViewer ? (
+          <ListECRViewer listFhirData={listFhirData} />
+        ) : (
+          <div>
+            <h1>Sorry, this page is not available.</h1>
+          </div>
+        )}
+      </main>
+    </div>
   );
 };
 
