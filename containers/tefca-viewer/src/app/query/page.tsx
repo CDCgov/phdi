@@ -34,12 +34,12 @@ const Query: React.FC = () => {
       )}
 
       {/* Switch the mode to view to show the results of the query */}
-      {(mode === "results" || mode === "multiple-patients-results") && (
+      {mode === "results" && (
         <>
           {useCaseQueryResponse && (
             <ResultsView
               useCaseQueryResponse={useCaseQueryResponse}
-              setMode={setMode}
+              goBack={() => setMode("search")}
             />
           )}
         </>
@@ -51,9 +51,8 @@ const Query: React.FC = () => {
           <MultiplePatientSearchResults
             patients={useCaseQueryResponse?.Patient ?? []}
             originalRequest={originalRequest}
-            setUseCaseQueryResponse={setUseCaseQueryResponse}
-            setMode={setMode}
             setLoading={setLoading}
+            goBack={() => setMode("search")}
           />
         </>
       )}

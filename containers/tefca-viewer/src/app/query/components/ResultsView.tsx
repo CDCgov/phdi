@@ -2,12 +2,12 @@ import { UseCaseQueryResponse } from "../../query-service";
 import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
 import React, { useEffect } from "react";
-import { Mode } from "../../constants";
 import { Alert } from "@trussworks/react-uswds";
 
-type QueryViewProps = {
+type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
-  setMode: (mode: Mode) => void;
+  goBack: () => void;
+  backLabel?: string;
 };
 
 /**
@@ -15,11 +15,13 @@ type QueryViewProps = {
  * @param props - The props for the QueryView component.
  * @param props.useCaseQueryResponse - The response from the query service.
  * @param props.setMode - The function to set the mode of the query page.
+ * @param props.mode - The mode of the query page.
  * @returns The QueryView component.
  */
-const ResultsView: React.FC<QueryViewProps> = ({
+const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
-  setMode,
+  goBack,
+  backLabel = "Return to search",
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -40,10 +42,11 @@ const ResultsView: React.FC<QueryViewProps> = ({
           dibbs@cdc.gov
         </a>
       </Alert>
+
       <div className="results-banner">
         <div className="results-banner-content usa-nav-container">
-          <a href="#" onClick={() => setMode("search")}>
-            Return to search
+          <a href="#" onClick={() => goBack()}>
+            {backLabel}
           </a>
         </div>
       </div>
