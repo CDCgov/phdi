@@ -1,4 +1,4 @@
-## Getting Started with the DIBBsValidation Service
+## Getting Started with the DIBBs Validation Service
 
 ### Introduction
 The DIBBs Validation service offers a REST API for validating healthcare messages (e.g., whether  messages are in the proper format and contain user-defined fields of interest).
