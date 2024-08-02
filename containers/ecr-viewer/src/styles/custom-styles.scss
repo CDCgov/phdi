@@ -146,25 +146,11 @@ h4 {
   }
 }
 
-.ecr-library-viewer-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-
- .ecr-library-main {
-    overflow: auto;
-    height: 100%;
-  }
-}
-
 .ecr-library-wrapper {
-  width: 100%;
   height: calc(100% - 4rem);
-  overflow: auto;
 }
 
 .table-ecr-library {
-  margin: 0 0;
   font-size: 1rem;
   border-collapse: separate;
 
@@ -177,8 +163,6 @@ h4 {
   }
 
   thead {
-    position: sticky;
-    top: 0;
     box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
 
     th {
@@ -297,9 +281,6 @@ td {
     margin: 0;
   }
 
-  width: 100%;
-  padding: 0.75rem 1.5rem;
-  align-self: stretch;
   box-shadow: 0 -0.25rem 0.25rem rgba(0, 0, 0, 0.1);
 }
 

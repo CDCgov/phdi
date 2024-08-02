@@ -43,16 +43,16 @@ export default function ListECRViewer({
 
   return (
     <div className="main-container">
-      <div className="ecr-library-wrapper">
+      <div className="ecr-library-wrapper width-full overflow-auto">
         <Table
           bordered={false}
           fullWidth={true}
           striped={true}
           fixed={true}
-          className={"table-ecr-library"}
+          className={"table-ecr-library margin-0"}
           data-testid="table"
         >
-          <thead>
+          <thead className={"position-sticky top-0"}>
             <tr>
               {header.map((column) => (
                 <th
@@ -68,7 +68,7 @@ export default function ListECRViewer({
           <tbody>{renderPage(currentPage)}</tbody>
         </Table>
       </div>
-      <div className="pagination-bar">
+      <div className="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

@@ -18,9 +18,9 @@ const HomePage: React.FC = async () => {
   }
 
   return (
-    <div className="ecr-library-viewer-container">
+    <div className="display-flex flex-column height-viewport">
       <Header />
-      <main className="ecr-library-main">
+      <main className="overflow-auto height-full">
         {isNonIntegratedViewer ? (
           <ListECRViewer listFhirData={listFhirData} />
         ) : (
