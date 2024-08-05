@@ -11,7 +11,13 @@ import {
   ModalRef,
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  MutableRefObject,
+  createRef,
+} from "react";
 
 /**
  * The landing page for the TEFCA Viewer.
@@ -35,7 +41,14 @@ export default function LandingPage() {
     setIsClient(true);
   }, []);
 
-  const handleOptionClick = (option: string) => {
+  const optionRef = useRef<HTMLButtonElement | null>(null);
+  const handleOptionClick = (
+    option: string,
+    ref: MutableRefObject<HTMLButtonElement | null>,
+  ) => {
+    console.log("option", option);
+    console.log("ref", ref);
+    ref.current?.focus();
     setSelectedOption(option);
   };
 
@@ -147,7 +160,10 @@ export default function LandingPage() {
                 className={`modal-option ${
                   selectedOption === "demo-sti-chlamydia"
                 }`}
-                onClick={() => handleOptionClick("demo-sti-chlamydia")}
+                ref={optionRef}
+                onClick={() =>
+                  handleOptionClick("demo-sti-chlamydia", optionRef)
+                }
               >
                 Chlamydia case investigation
               </Button>
@@ -156,7 +172,9 @@ export default function LandingPage() {
                 className={`modal-option ${
                   selectedOption === "demo-sti-gonorrhea"
                 }`}
-                onClick={() => handleOptionClick("demo-sti-gonorrhea")}
+                onClick={() =>
+                  handleOptionClick("demo-sti-gonorrhea", createRef())
+                }
               >
                 Gonorrhea case investigation
               </Button>
@@ -165,14 +183,16 @@ export default function LandingPage() {
                 className={`modal-option ${
                   selectedOption === "demo-sti-syphilis"
                 }`}
-                onClick={() => handleOptionClick("demo-sti-syphilis")}
+                onClick={() =>
+                  handleOptionClick("demo-sti-syphilis", createRef())
+                }
               >
                 Syphilis case investigation
               </Button>
               <Button
                 type="button"
                 className={`modal-option ${selectedOption === "demo-cancer"}`}
-                onClick={() => handleOptionClick("demo-cancer")}
+                onClick={() => handleOptionClick("demo-cancer", createRef())}
               >
                 Cancer case investigation
               </Button>
@@ -181,7 +201,9 @@ export default function LandingPage() {
                 className={`modal-option ${
                   selectedOption === "demo-newborn-screening"
                 }`}
-                onClick={() => handleOptionClick("demo-newborn-screening")}
+                onClick={() =>
+                  handleOptionClick("demo-newborn-screening", createRef())
+                }
               >
                 Newborn screening follow-up
               </Button>
@@ -192,7 +214,9 @@ export default function LandingPage() {
                     ? "selected"
                     : ""
                 }`}
-                onClick={() => handleOptionClick("demo-social-determinants")}
+                onClick={() =>
+                  handleOptionClick("demo-social-determinants", createRef())
+                }
               >
                 Gather social determinants of health for a patient
               </Button>

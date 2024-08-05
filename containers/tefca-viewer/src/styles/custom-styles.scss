@@ -468,6 +468,33 @@ html {
   max-width: 704px;
 }
 
+.usa-modal--lg {
+  background-color: #edeff0;
+  padding-top: 0;
+}
+
+.usa-modal__content {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.usa-modal__main {
+  margin: 0 auto;
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 2rem !important;
+}
+
+.usa-modal__heading {
+  font-family: "Source Sans Pro Web" !important;
+  font-size: 1.219rem !important;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 1rem;
+}
+
 .modal-options {
   display: flex;
   flex-wrap: wrap;
@@ -475,38 +502,35 @@ html {
   margin-top: 1rem;
   justify-content: space-around;
   line-height: 4;
-}
-
-.usa-modal--lg {
-  background-color: #edeff0;
-  padding-top: 0;
-}
-
-.usa-modal__main {
-  margin: 0 auto;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 0 !important;
-  padding-bottom: 30px !important;
-}
-
-.usa-modal__heading {
-  font-family: "Source Sans Pro Web" !important;
-  font-size: 19.5px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  margin-bottom: 16px;
+  align-items: stretch;
 }
 
 .modal-option {
-  flex: 1 1 30%;
+  flex: 1;
   background-color: white;
   border: 2px solid #005ea2;
   padding: 2rem;
   text-align: center;
   cursor: pointer;
   color: #1a4480;
+  align-self: stretch;
+  margin: 0;
+  aspect-ratio : 1.27;
+  font-family: "Source Sans Pro Web" !important;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  padding: 1.6rem;
+}
+
+#modal-2-description{
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 162%; /* 25.92px */
+  max-width: 100%;
+  margin-bottom: 2.5rem;
 }
 
 .modal-option:hover,
