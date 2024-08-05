@@ -29,8 +29,6 @@ $main-min-width: $ecr-viewer-container-min-width + $ecr-viewer-gap + $nav-wrappe
   border-top: 8px solid #EDEFF0;
 }
 
-
-
 h2 {
   font-size: 2.5rem;
   margin-top: 0;
@@ -558,28 +556,4 @@ h3 {
   .usa-accordion__button {
     padding: .88rem .75rem;
   }
-}
-
-.top-275 {
-  top: 2.75rem;
-}
-
-.minw-20 {
-  min-width: 10rem;
-}
-
-.minw-1605 {
-  min-width: 8.25rem;
-}
-
-.minw-1705 {
-  min-width: 8.75rem;
-}
-
-.minw-2305 {
-  min-width: 11.75rem;
-}
-
-.minw-23 {
-  min-width: 11.5rem;
 }
