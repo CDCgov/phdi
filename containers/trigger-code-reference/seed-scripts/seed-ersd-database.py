@@ -393,17 +393,17 @@ def main():
     5. Create tables and add indexes.
     6. Insert data into tables.
     """
-    # 1. extract and transform eRSD data
+    # 1. Load eRSD data json from APHL API.
     ersd_data = load_ersd(ERSD_URL)
 
-    # 2. use message-parser to parse eRSD data, then spin down service
+    # 2. Post eRSD data json to message-parser to get parsed data.
     container = start_docker_service(dockerfile_path, tag, ports)
     parsed_data = parse_ersd(ports, ersd_data)
     if container:
         container.stop()
         container.remove()
 
-    # 3. used parsed data to create needed tables as list of lists
+    # 3. se parsed data to create list of lists for each table.
     valuesets_dict = build_valuesets_dict(parsed_data)
     valuesets_list, condition_to_valueset_list = build_valuesets_table(
         parsed_data, valuesets_dict
@@ -423,16 +423,16 @@ def main():
     }
 
     with sqlite3.connect("seed-scripts/ersd.db") as conn:
-        # 4. Delete existing tables in eRSD database
+        # 4. Delete existing tables in sqlite database.
         for table_name in table_dict.keys():
             delete_table(conn, table_name)
 
-        # 5. Create tables in eRSD database
+        # 5. Create tables and add indexes.
         apply_migration(
             conn, "seed-scripts/migrations/V02_01__create_tables_add_indexes.sql"
         )
 
-        # 6. Insert data into the tables
+        # 6. Insert data into tables.
         for table_name, table_rows in table_dict.items():
             if "_to_" in table_name:  # use to add sequential row number
                 load_table(conn, table_name, table_rows, True)
