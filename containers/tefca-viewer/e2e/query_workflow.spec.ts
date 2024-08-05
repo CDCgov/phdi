@@ -255,5 +255,21 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     // Check that there are multiple rows in the table
     await expect(page.locator("tbody").locator("tr")).toHaveCount(9);
+
+    // Click on the first patient's "View Record" button
+    await page.locator(':nth-match(:text("View Record"), 1)').click();
+
+    // Make sure we have a results page with a single patient & appropriate back buttons
+    await expect(
+      page.getByRole("heading", { name: "Query Results" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "New patient search" })
+    ).toBeVisible();
+
+    await page.getByRole("link", { name: "Return to search results" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Multiple Records Found" })
+    ).toBeVisible();
   });
 });
