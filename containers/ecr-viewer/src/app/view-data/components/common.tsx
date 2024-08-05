@@ -235,6 +235,17 @@ export const returnProblemsTable = (
   );
 };
 
+const treatmentDetailHeaders = BuildHeaders([
+  { columnName: "Name", className: "bg-gray-5 minw-28 width-62" },
+  { columnName: "Type", className: "bg-gray-5 minw-10" },
+  { columnName: "Priority", className: "bg-gray-5 minw-10" },
+  {
+    columnName: "Associated Diagnoses",
+    className: "bg-gray-5 minw-23 width-38",
+  },
+  { columnName: "Date/Time", className: "bg-gray-5 minw-23 width-38" },
+]);
+
 /**
  * Returns a table displaying pending results information.
  * @param fhirBundle - The FHIR bundle containing care team data.
@@ -253,13 +264,6 @@ export const returnPendingResultsTable = (
   );
 
   if (pendingResultsTableJson?.tables?.[0]) {
-    const headers = BuildHeaders([
-      { columnName: "Name", className: "bg-gray-5 minw-15" },
-      { columnName: "Type", className: "bg-gray-5 minw-15" },
-      { columnName: "Priority", className: "bg-gray-5 minw-15" },
-      { columnName: "Associated Diagnoses", className: "bg-gray-5 minw-15" },
-      { columnName: "Date/Time", className: "bg-gray-5 minw-15" },
-    ]);
     const tableRows = pendingResultsTableJson.tables[0].map(
       (entry: TableRow, index: number) => {
         return (
@@ -276,7 +280,7 @@ export const returnPendingResultsTable = (
 
     return (
       <BuildTable
-        headers={headers}
+        headers={treatmentDetailHeaders}
         tableRows={tableRows}
         caption="Pending Results"
         className={"caption-normal-weight margin-top-0 margin-bottom-2"}
@@ -304,16 +308,6 @@ export const returnScheduledOrdersTable = (
   );
 
   if (scheduledOrdersTableJson?.tables?.[0]) {
-    const headers = BuildHeaders([
-      { columnName: "Name", className: "bg-gray-5 minw-15" },
-      { columnName: "Type", className: "bg-gray-5 minw-15" },
-      { columnName: "Priority", className: "bg-gray-5 minw-15" },
-      {
-        columnName: "Associated Diagnoses",
-        className: "bg-gray-5 minw-15",
-      },
-      { columnName: "Date/Time", className: "bg-gray-5 minw-15" },
-    ]);
     const tableRows = scheduledOrdersTableJson.tables?.[0].map(
       (entry: TableRow, index: number) => {
         return (
@@ -330,7 +324,7 @@ export const returnScheduledOrdersTable = (
 
     return (
       <BuildTable
-        headers={headers}
+        headers={treatmentDetailHeaders}
         tableRows={tableRows}
         caption="Scheduled Orders"
         className={"margin-top-1 caption-normal-weight margin-y-0"}
