@@ -3,38 +3,45 @@
 exports[`Home Page, ListECRViewer should match snapshot 1`] = `
 <div>
   <div
-    class="main-container"
+    class="main-container height-full flex-column flex-align-center"
   >
     <div
-      class="homepage-wrapper"
+      class="ecr-library-wrapper width-full overflow-auto"
     >
       <table
-        class="usa-table usa-table--borderless width-full table-homepage-list"
+        class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W usa-table--striped table-ecr-library margin-0"
         data-testid="table"
       >
-        <thead>
+        <thead
+          class="position-sticky top-0"
+        >
           <tr>
             <th
+              class="minw-20"
               scope="col"
             >
               Patient
             </th>
             <th
+              class="minw-1605"
               scope="col"
             >
               Received Date
             </th>
             <th
+              class="minw-1705"
               scope="col"
             >
               Encounter Date
             </th>
             <th
+              class="minw-2305"
               scope="col"
             >
               Reportable Condition
             </th>
             <th
+              class="minw-23"
               scope="col"
             >
               RCKMS Rule Summary
@@ -119,6 +126,10 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
           </tr>
         </tbody>
       </table>
+    </div>
+    <div
+      class="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch"
+    >
       <nav
         aria-label="Pagination"
         class="usa-pagination"
