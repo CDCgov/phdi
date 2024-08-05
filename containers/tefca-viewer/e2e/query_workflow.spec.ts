@@ -261,15 +261,15 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     // Make sure we have a results page with a single patient & appropriate back buttons
     await expect(
-      page.getByRole("heading", { name: "Query Results" })
+      page.getByRole("heading", { name: "Query Results" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "New patient search" })
+      page.getByRole("link", { name: "New patient search" }),
     ).toBeVisible();
 
     await page.getByRole("link", { name: "Return to search results" }).click();
     await expect(
-      page.getByRole("heading", { name: "Multiple Records Found" })
+      page.getByRole("heading", { name: "Multiple Records Found" }),
     ).toBeVisible();
   });
 });
