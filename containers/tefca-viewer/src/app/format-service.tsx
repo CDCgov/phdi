@@ -6,6 +6,7 @@ import {
   ContactPoint,
   Identifier,
 } from "fhir/r4";
+
 /**
  * Formats a string.
  * @param input - The string to format.
@@ -199,3 +200,60 @@ export const formatDate = (dateString?: string): string | undefined => {
     }
   }
 };
+
+/**
+ * @todo Add country code form box on search form
+ * @todo Update documentation here once that's done to reflect switch
+ * logic of country code
+ *
+ * Helper function to strip out non-digit characters from a phone number
+ * entered into the search tool. Right now, we're not going to worry about
+ * country code or international numbers, so we'll just make an MVP
+ * assumption of 10 regular digits.
+ * @param givenPhone The original phone number the user typed.
+ * @returns The phone number as a pure digit string. If the cleaned number
+ * is fewer than 10 digits, just return the original.
+ */
+export function FormatPhoneAsDigits(givenPhone: string) {
+  // Start by getting rid of all existing separators for a clean slate
+  const newPhone: string = givenPhone.replace(/\D/g, "");
+  if (newPhone.length != 10) {
+    return givenPhone;
+  }
+  return newPhone;
+}
+
+const FORMATS_TO_SEARCH: string[] = [
+  "$1$2$3",
+  "$1-$2-$3",
+  "$1+$2+$3",
+  "($1)+$2+$3",
+  "($1)-$2-$3",
+  "($1)$2-$3",
+  "1($1)$2-$3",
+];
+
+/**
+ * @todo Once the country code box is created on the search form, we'll
+ * need to use that value to act as a kind of switch logic here to figure
+ * out which formats we should be using.
+ * Helper function to transform a cleaned, digit-only representation of
+ * a phone number into multiple possible formatting options of that phone
+ * number. If the given number has fewer than 10 digits, or contains any
+ * delimiters, no formatting is performed and only the given number is
+ * used.
+ * @param phone A digit-only representation of a phone number.
+ * @returns An array of formatted phone numbers.
+ */
+export async function GetPhoneQueryFormats(phone: string) {
+  // Digit-only phone numbers will resolve as actual numbers
+  if (isNaN(Number(phone)) || phone.length != 10) {
+    const strippedPhone = phone.replace(" ", "+");
+    return [strippedPhone];
+  }
+  // Map the phone number into each format we want to check
+  const possibleFormats: string[] = FORMATS_TO_SEARCH.map((fmt) => {
+    return phone.replace(/(\d{3})(\d{3})(\d{4})/gi, fmt);
+  });
+  return possibleFormats;
+}

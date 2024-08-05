@@ -5,7 +5,7 @@ describe("Home Page", () => {
 
   it("Should load the home page listing all eCR IDs", () => {
     cy.get('[data-testid="table"]').should("exist");
-    cy.get('[data-testid="table"]').should("have.class", "table-homepage-list");
+    cy.get('[data-testid="table"]').should("have.class", "table-ecr-library");
     cy.contains("Patient");
     cy.contains("Received Date");
     cy.contains("Encounter Date");

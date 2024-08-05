@@ -1,7 +1,7 @@
 "use server";
 
 import { Patient } from "fhir/r4";
-import { FormatPhoneAsDigits } from "@/app/utils";
+import { FormatPhoneAsDigits } from "@/app/format-service";
 
 export type PatientIdentifiers = {
   first_name?: string;
