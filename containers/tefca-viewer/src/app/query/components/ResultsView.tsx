@@ -2,12 +2,13 @@ import { UseCaseQueryResponse } from "../../query-service";
 import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
 import React, { useEffect } from "react";
-import { Alert } from "@trussworks/react-uswds";
+import { Alert, Icon } from "@trussworks/react-uswds";
 
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
   goBack: () => void;
   backLabel?: string;
+  goBackToMultiplePatients?: () => void;
 };
 
 /**
@@ -21,7 +22,7 @@ type ResultsViewProps = {
 const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
   goBack,
-  backLabel = "Return to search",
+  goBackToMultiplePatients,
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,8 +46,22 @@ const ResultsView: React.FC<ResultsViewProps> = ({
 
       <div className="results-banner">
         <div className="results-banner-content usa-nav-container">
-          <a href="#" onClick={() => goBack()}>
-            {backLabel}
+          {goBackToMultiplePatients && (
+            <>
+              <a
+                href="#"
+                onClick={() => goBackToMultiplePatients()}
+                className="back-link"
+              >
+                <Icon.ArrowBack />
+                Return to search results
+              </a>
+              <div className="results-banner-divider">|</div>
+            </>
+          )}
+
+          <a href="#" onClick={() => goBack()} className="back-link">
+            New patient search
           </a>
         </div>
       </div>

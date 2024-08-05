@@ -50,8 +50,10 @@ const MultiplePatientSearchResults: React.FC<
     return (
       <ResultsView
         useCaseQueryResponse={singleUseCaseQueryResponse}
-        goBack={() => setSingleUseCaseQueryResponse(undefined)}
-        backLabel="Return to search results"
+        goBack={goBack}
+        goBackToMultiplePatients={() =>
+          setSingleUseCaseQueryResponse(undefined)
+        }
       />
     );
   }
@@ -89,7 +91,7 @@ const MultiplePatientSearchResults: React.FC<
                         index,
                         originalRequest,
                         setSingleUseCaseQueryResponse,
-                        setLoading,
+                        setLoading
                       )
                     }
                   >
@@ -146,21 +148,21 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
         noteParts.push(
           <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
             {"First Name" + comma}
-          </strong>,
+          </strong>
         );
         break;
       case "last_name":
         noteParts.push(
           <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
             {"Last Name" + comma}
-          </strong>,
+          </strong>
         );
         break;
       case "dob":
         noteParts.push(
           <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
             {"DOB" + comma}
-          </strong>,
+          </strong>
         );
         break;
     }
@@ -183,7 +185,7 @@ async function viewRecord(
   index: number,
   originalRequest: UseCaseQueryRequest,
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void,
-  setLoading: (loading: boolean) => void,
+  setLoading: (loading: boolean) => void
 ): Promise<void> {
   setLoading(true);
   const queryResponse = await UseCaseQuery(originalRequest, {
