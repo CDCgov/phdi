@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Table } from "@trussworks/react-uswds";
 import { Patient } from "fhir/r4";
 import {
@@ -12,7 +12,7 @@ import {
   UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
-import { Mode } from "../page";
+import ResultsView from "./ResultsView";
 
 /**
  * The props for the MultiplePatientSearchResults component.
@@ -20,9 +20,8 @@ import { Mode } from "../page";
 export interface MultiplePatientSearchResultsProps {
   patients: Patient[];
   originalRequest: UseCaseQueryRequest;
-  setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
-  setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
+  goBack: () => void;
 }
 
 /**
@@ -30,23 +29,35 @@ export interface MultiplePatientSearchResultsProps {
  * @param root0 - MultiplePatientSearchResults props.
  * @param root0.patients - The array of Patient resources.
  * @param root0.originalRequest - The original request object.
- * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
- * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
+ * @param root0.goBack - The function to go back to the previous page.
  * @returns - The MultiplePatientSearchResults component.
  */
 const MultiplePatientSearchResults: React.FC<
   MultiplePatientSearchResultsProps
-> = ({
-  patients,
-  originalRequest,
-  setUseCaseQueryResponse,
-  setMode,
-  setLoading,
-}) => {
+> = ({ patients, originalRequest, setLoading, goBack }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  // Determines whether to show the results of a single patient (ResultsView) or
+  // go back to the multiple patients view (below)
+  const [singleUseCaseQueryResponse, setSingleUseCaseQueryResponse] =
+    useState<UseCaseQueryResponse>();
+
+  if (singleUseCaseQueryResponse) {
+    // If a single patient is selected, show the button for returning to the search results
+    // & take user back to the search results by setting the singleUseCaseQueryResponse to undefined
+    return (
+      <ResultsView
+        useCaseQueryResponse={singleUseCaseQueryResponse}
+        goBack={goBack}
+        goBackToMultiplePatients={() =>
+          setSingleUseCaseQueryResponse(undefined)
+        }
+      />
+    );
+  }
+
   return (
     <>
       <div className="multiple-patient-search-results">
@@ -79,8 +90,7 @@ const MultiplePatientSearchResults: React.FC<
                         patients,
                         index,
                         originalRequest,
-                        setUseCaseQueryResponse,
-                        setMode,
+                        setSingleUseCaseQueryResponse,
                         setLoading,
                       )
                     }
@@ -93,7 +103,7 @@ const MultiplePatientSearchResults: React.FC<
           </tbody>
         </Table>
         <h3>Not seeing what you are looking for?</h3>
-        <a href="#" onClick={() => setMode("search")}>
+        <a href="#" onClick={() => goBack()}>
           Return to patient search
         </a>
       </div>
@@ -118,7 +128,9 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
   searchElements = searchElements.filter((element) => element !== undefined);
 
   let noteParts = [
-    <>The following records match by the values provided for </>,
+    <Fragment key="start">
+      The following records match by the values provided for{" "}
+    </Fragment>,
   ];
   let comma = ", ";
   if (searchElements.length <= 2) {
@@ -127,29 +139,35 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
   for (let i = 0; i < searchElements.length; i++) {
     if (i === searchElements.length - 1) {
       if (searchElements.length > 1) {
-        noteParts.push(<>and </>);
+        noteParts.push(<Fragment key="and">and </Fragment>);
       }
       comma = "";
     }
     switch (searchElements[i]) {
       case "first_name":
         noteParts.push(
-          <strong style={{ fontWeight: 550 }}>{"First Name" + comma}</strong>,
+          <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
+            {"First Name" + comma}
+          </strong>,
         );
         break;
       case "last_name":
         noteParts.push(
-          <strong style={{ fontWeight: 550 }}>{"Last Name" + comma}</strong>,
+          <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
+            {"Last Name" + comma}
+          </strong>,
         );
         break;
       case "dob":
         noteParts.push(
-          <strong style={{ fontWeight: 550 }}>{"DOB" + comma}</strong>,
+          <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
+            {"DOB" + comma}
+          </strong>,
         );
         break;
     }
   }
-  noteParts.push(<>:</>);
+  noteParts.push(<Fragment key=":">:</Fragment>);
   return <p className="font-sans-lg text-light">{noteParts}</p>;
 }
 
@@ -160,7 +178,6 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
  * @param index - The index of the patient to view.
  * @param originalRequest - The original request object.
  * @param setUseCaseQueryResponse - The function to set the use case query response.
- * @param setMode - The function to set the mode.
  * @param setLoading - The function to set the loading state.
  */
 async function viewRecord(
@@ -168,7 +185,6 @@ async function viewRecord(
   index: number,
   originalRequest: UseCaseQueryRequest,
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void,
-  setMode: (mode: Mode) => void,
   setLoading: (loading: boolean) => void,
 ): Promise<void> {
   setLoading(true);
@@ -176,6 +192,6 @@ async function viewRecord(
     Patient: [patients[index]],
   });
   setUseCaseQueryResponse(queryResponse);
-  setMode("results");
+
   setLoading(false);
 }

@@ -16,13 +16,14 @@ import {
   demoQueryOptions,
   patientOptions,
   stateOptions,
+  Mode,
 } from "../../constants";
 import {
   UseCaseQueryResponse,
   UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
-import { Mode } from "../page";
+
 import { FormatPhoneAsDigits } from "@/app/format-service";
 import { useSearchParams } from "next/navigation";
 
