@@ -17,6 +17,7 @@ type ResultsViewProps = {
  * @param props.useCaseQueryResponse - The response from the query service.
  * @param props.goBack - The function to go back to the previous page.
  * @param props.backLabel - The label for the back button.
+ * @param props.goBackToMultiplePatients
  * @returns The QueryView component.
  */
 const ResultsView: React.FC<ResultsViewProps> = ({
