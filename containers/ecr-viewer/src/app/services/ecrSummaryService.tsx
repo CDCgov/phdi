@@ -1,5 +1,5 @@
 import { Bundle, Condition, Extension, Observation } from "fhir/r4";
-import { PathMappings } from "@/app/utils";
+import { evaluateData, PathMappings } from "@/app/utils";
 import {
   formatDate,
   formatStartEndDateTime,
@@ -52,7 +52,7 @@ export const evaluateEcrSummaryPatientDetails = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
-  return [
+  return evaluateData([
     {
       title: "Patient Name",
       value: evaluatePatientName(fhirBundle, fhirPathMappings),
@@ -70,7 +70,7 @@ export const evaluateEcrSummaryPatientDetails = (
       title: "Patient Contact",
       value: evaluatePatientContactInfo(fhirBundle, fhirPathMappings),
     },
-  ];
+  ]);
 };
 
 /**
@@ -83,7 +83,7 @@ export const evaluateEcrSummaryEncounterDetails = (
   fhirBundle: Bundle,
   fhirPathMappings: PathMappings,
 ) => {
-  return [
+  return evaluateData([
     {
       title: "Facility Name",
       value: evaluate(fhirBundle, fhirPathMappings.facilityName),
@@ -104,7 +104,7 @@ export const evaluateEcrSummaryEncounterDetails = (
       title: "Encounter Type",
       value: evaluate(fhirBundle, fhirPathMappings.encounterType),
     },
-  ];
+  ]);
 };
 
 /**
