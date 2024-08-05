@@ -236,14 +236,14 @@ export const returnProblemsTable = (
 };
 
 const treatmentDetailHeaders = BuildHeaders([
-  { columnName: "Name", className: "bg-gray-5 minw-28 width-62" },
+  { columnName: "Name", className: "bg-gray-5 minw-15 width-62" },
   { columnName: "Type", className: "bg-gray-5 minw-10" },
   { columnName: "Priority", className: "bg-gray-5 minw-10" },
   {
     columnName: "Associated Diagnoses",
     className: "bg-gray-5 minw-23 width-38",
   },
-  { columnName: "Date/Time", className: "bg-gray-5 minw-23 width-38" },
+  { columnName: "Date/Time", className: "bg-gray-5 minw-15 width-38" },
 ]);
 
 /**
