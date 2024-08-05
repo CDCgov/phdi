@@ -73,21 +73,48 @@ Can be found in [api-documentation.md](api-documentation.md).
 Note: The diagram omits infrastructure related to OpenTelemetry. OpenTelemetry enables logging and performance tracking; it is omitted for ease of viewing.
 
 ```mermaid
-graph TD;
-    db[PostgreSQL Database]
-    ecr-viewer[Next.js App]
+flowchart LR
 
-    db -- "5432:5432" --> ecr-viewer
-    ecr-viewer -- "3000:3000" --> ecr-viewer
+  subgraph requests["Requests"]
+    direction TB
+    subgraph GET["fas:fa-download <code>GET</code>"]
+      hc["<code>/</code>\n(health check)"]
+      viewdata["<code>/view-data</code>\n(List View)"]
+      detail["<code>/view-data/id</code>\n(Detail View)"]
 
-
-    subgraph Volumes
-        db_vol1["./seed-scripts/sql/:/docker-entrypoint-initdb.d/"]
-        db_vol2["./seed-scripts/sql/.pgpass/:/usr/local/lib/.pgpass"]
     end
+    subgraph POST["fas:fa-upload <code>POST</code>"]
+      ecr["<code>/api/save-fhir-data</code>\n(Save ECR to source)"]
+    end
+  end
 
-    db -- uses --> db_vol1
-    db -- uses --> db_vol2
+  
+  subgraph service[REST API Service]
+    direction TB
+    subgraph mr["fab:fa-docker container"]
+      viewer["fab:fa-python <code>ecr-viewer<br>HTTP:3000/</code>"]
+	  postgres["fab:fa-python <code>postgres<br>HTTP:3000/</code>"]
+    end
+    subgraph aws["fab:fa-docker AWS"]
+      s3["fab:fa-python <code>S3</code>"]
+    end
+    mr <--> |<br><code>GET /fhir-data</code>| aws
+	mr <==> |<code>POST /save-fhir-data</code>| aws
+
+  end
+
+  subgraph response["Responses"]
+    subgraph JSON["fa:fa-file-alt <code>JSON</code>"]
+      rsp-hc["fa:fa-file-code <code>OK</code> fa:fa-thumbs-up"]
+      fhirdata["fa:fa-file-code FHIR Data"]
+	  post-ecr["200"]
+    end
+  end
+
+hc -.-> mr -.-> rsp-hc
+viewdata --> mr --> fhirdata
+detail --> mr --> fhirdata
+ecr ===> mr ===> post-ecr
 ```
 
 #### Application API
