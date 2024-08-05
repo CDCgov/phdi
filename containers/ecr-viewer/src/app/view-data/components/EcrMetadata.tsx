@@ -84,7 +84,7 @@ const EcrMetadata = ({
         >
           <thead>
             <tr>
-              <th className="reportability_summary_header">
+              <th className="width-25p">
                 <ToolTipElement
                   content={"Reportable Condition"}
                   toolTip={
@@ -100,7 +100,7 @@ const EcrMetadata = ({
                   }
                 />
               </th>
-              <th className="reportability_summary_header">
+              <th className="width-25p">
                 <ToolTipElement
                   content={"Jurisdiction Sent eCR"}
                   toolTip={

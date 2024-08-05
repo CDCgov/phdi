@@ -30,7 +30,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <thead>
               <tr>
                 <th
-                  class="reportability_summary_header"
+                  class="width-25p"
                 >
                   <span
                     class="usa-tooltip"
@@ -86,7 +86,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
                   </span>
                 </th>
                 <th
-                  class="reportability_summary_header"
+                  class="width-25p"
                 >
                   <span
                     class="usa-tooltip"
