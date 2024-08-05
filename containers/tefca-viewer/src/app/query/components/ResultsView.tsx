@@ -7,7 +7,6 @@ import { Alert, Icon } from "@trussworks/react-uswds";
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
   goBack: () => void;
-  backLabel?: string;
   goBackToMultiplePatients?: () => void;
 };
 
@@ -16,7 +15,7 @@ type ResultsViewProps = {
  * @param props - The props for the QueryView component.
  * @param props.useCaseQueryResponse - The response from the query service.
  * @param props.goBack - The function to go back to the previous page.
- * @param props.backLabel - The label for the back button.
+ * @param props.goBackToMultiplePatients - The function to go back to the multiple patients selection page.
  * @returns The QueryView component.
  */
 const ResultsView: React.FC<ResultsViewProps> = ({
