@@ -59,7 +59,7 @@ def get_concepts_list(snomed_code: list) -> List[tuple]:
     """
     sql_query = """
     SELECT
-        vs.type_id AS valueset_type,
+        vs.type AS valueset_type,
         GROUP_CONCAT(cs.code, '|') AS codes,
         cs.code_system AS system
     FROM
@@ -75,9 +75,8 @@ def get_concepts_list(snomed_code: list) -> List[tuple]:
     WHERE
         c.id = ?
     GROUP BY
-        vs.type_id, cs.code_system
+        vs.type, cs.code_system
     """
-
     # Connect to the SQLite database, execute sql query, then close
     try:
         with sqlite3.connect("seed-scripts/ersd.db") as conn:
