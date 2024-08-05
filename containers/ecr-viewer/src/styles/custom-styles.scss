@@ -146,16 +146,42 @@ h4 {
   }
 }
 
-.table-homepage-list {
-  max-width: 840px !important;
-  font-size: 16px !important;
+.ecr-library-wrapper {
+  height: calc(100% - 4rem);
+}
 
-  thead th {
-    background-color: white !important;
+.table-ecr-library {
+  font-size: 1rem;
+  border-collapse: separate;
+
+  &.usa-table--striped tbody tr:nth-child(odd) td {
+    background-color: white;
   }
 
-  tbody td:first-child {
-    width: 644px;
+  &.usa-table--striped tbody tr:nth-child(even) td {
+    background-color: color("base-lightest");
+  }
+
+  thead {
+    box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
+
+    th {
+      background-color: color("base-lighter");
+      border-bottom: 1px solid var(--Base-base, #71767A);
+    }
+  }
+
+  thead tr th:first-child, tbody tr td:first-child {
+    padding-left: 1.5rem;
+  }
+
+  tbody td {
+    border-top: 0;
+    border-bottom: 1px solid var(--ink, #111);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
   }
 }
 
@@ -230,27 +256,16 @@ td {
   font-weight: bold;
 }
 
-.homepage-wrapper {
-  display: flex;
-  max-width: 1440px;
-  gap: 48px;
-  overflow: visible;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: column;
-
-  .usa-table {
-    margin-bottom: 0 !important;
-  }
-
+.pagination-bar {
   .usa-pagination {
-    margin-top: 0 !important;
+    margin: 0;
   }
+
+  box-shadow: 0 -0.25rem 0.25rem rgba(0, 0, 0, 0.1);
 }
 
 .main-container {
   display: flex;
-  justify-content: center;
   overflow: visible;
 }
 
@@ -288,7 +303,6 @@ td {
   flex-shrink: 0;
   flex-basis: auto;
   position: sticky;
-  top: 0;
 }
 
 .ecr-viewer-container {
@@ -525,7 +539,7 @@ h3 {
 
 .usa-summary-box {
   padding: 0.75rem 1.5rem 1.5rem 1.5rem;
-  h3 {
+  h3:not(.usa-accordion__heading) {
     margin: 0px;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -547,4 +561,28 @@ h3 {
   button {
     padding: .88rem .75rem;
   }
+}
+
+.top-275 {
+  top: 2.75rem;
+}
+
+.minw-20 {
+  min-width: 10rem;
+}
+
+.minw-1605 {
+  min-width: 8.25rem;
+}
+
+.minw-1705 {
+  min-width: 8.75rem;
+}
+
+.minw-2305 {
+  min-width: 11.75rem;
+}
+
+.minw-23 {
+  min-width: 11.5rem;
 }
