@@ -3,7 +3,7 @@ import SideNav, {
   sortHeadings,
   countObjects,
 } from "@/app/view-data/components/SideNav";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 describe("SectionConfig", () => {
@@ -102,6 +102,17 @@ describe("SectionConfig", () => {
       </>,
     );
     expect(container.innerHTML).toContain('<a href="#section-1" class="">');
+  });
+
+  it("should have top-275 when non-integrated viewer", () => {
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
+    render(<SideNav />);
+    expect(screen.getByRole("navigation")).toHaveClass("top-275");
+  });
+  it("should have top0 when integrated viewer", () => {
+    delete process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER;
+    render(<SideNav />);
+    expect(screen.getByRole("navigation")).toHaveClass("top-0");
   });
 });
 
