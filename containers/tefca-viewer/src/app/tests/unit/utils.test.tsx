@@ -30,7 +30,7 @@ describe("DataDisplay Component", () => {
     // Check if the className is applied to the inner container
     expect(screen.getByText("Test Value")).toHaveClass("custom-class");
     expect(screen.getByText("Test Value").parentElement).toHaveClass(
-      "grid-row"
+      "grid-row",
     );
   });
 
