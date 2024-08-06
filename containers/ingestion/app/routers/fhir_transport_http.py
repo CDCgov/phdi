@@ -44,11 +44,12 @@ def upload_bundle_to_fhir_server_endpoint(
     input: UploadBundleToFhirServerInput, response: Response
 ) -> StandardResponse:
     """
-    Upload all of the resources in a FHIR bundle to a FHIR server.
+    This endpoint uploads all of the resources in a FHIR bundle to a FHIR server.
 
-    :param input: A JSON formated request body with schema specified by the
+    ### Inputs and Outputs
+    - :param input: A JSON formated request body with schema specified by the
         UploadBundleToFhirServerInput model.
-    :return: A dictionary containing the status code and body of the response received
+    - :return: A dictionary containing the status code and body of the response received
         from the FHIR server.
     """
     input = dict(input)

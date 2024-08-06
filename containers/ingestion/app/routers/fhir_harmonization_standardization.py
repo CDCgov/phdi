@@ -58,12 +58,12 @@ class StandardizeNamesInput(BaseModel):
 @router.post("/standardize_names", responses=sample_name_response)
 async def standardize_names_endpoint(input: StandardizeNamesInput) -> StandardResponse:
     """
-    Standardize the names in the provided FHIR bundle or resource.
+    This endpoint standardizes the names in the provided FHIR bundle or resource.
 
-    :param input: A dictionary with the schema specified by the StandardizeNamesInput
+    ### Inputs and Outputs
+    - :param input: A dictionary with the schema specified by the StandardizeNamesInput
         model.
-
-    :return: A FHIR bundle or resource with standardized names.
+    - :return: A FHIR bundle or resource with standardized names.
     """
     input = dict(input)
     return {"status_code": "200", "bundle": standardize_names(**input)}
@@ -100,14 +100,16 @@ async def standardize_phones_endpoint(
     input: StandardizePhonesInput,
 ) -> StandardResponse:
     """
-    Standardize the phone numbers in the provided FHIR bundle or resource.
+    This endpoint standardizes the phone numbers in the provided FHIR bundle
+    or resource.
 
-    Requires an address so that country code can be generated.
+    The endpoint requires an address so that country code can be generated.
 
-    :param input: A dictionary with the schema specified by the StandardizePhonesInput
+    ### Inputs and Outputs
+
+    - :param input: A dictionary with the schema specified by the StandardizePhonesInput
         model.
-
-    :return: A FHIR bundle with standardized phone numbers.
+    - :return: A FHIR bundle with standardized phone numbers.
     """
     input = dict(input)
     return {"status_code": "200", "bundle": standardize_phones(**input)}
@@ -149,11 +151,11 @@ async def standardize_dob_endpoint(
     input: StandardizeBirthDateInput,
 ) -> StandardResponse:
     """
-    Standardize the patient date of birth in the provided FHIR bundle or resource.
+    This endpoint standardizes the patient date of birth in the provided
+    FHIR bundle or resourceDates are changed to the FHIR standard of
+    YYYY-MM-DD.
 
-    Dates are changed to the FHIR standard of YYYY-MM-DD.
-
-    Returns a FHIR bundle with standardized birth dates.
+    The endpoint returns a FHIR bundle with standardized birth dates.
     """
     input = dict(input)
     result = {}

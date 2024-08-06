@@ -152,20 +152,22 @@ async def process_zip_endpoint(
     upload_file: UploadFile = File(None),
 ) -> OrchestrationResponse:
     """
-    Wrapper function for unpacking an uploaded zip file, determining appropriate
-    parameter and application settings, and applying a config-driven workflow
-    to the data in that file. This is one of two endpoints that can actually
-    invoke and apply a config workflow to data and is meant to be used to
-    process files.
+    This endpoint provides a wrapper function for unpacking an uploaded zip
+    file, determining appropriate parameter and application settings, and
+    applying a config-driven workflow to the data in that file. This is one of
+    two endpoints that can actually invoke and apply a config workflow to data
+    and is meant to be used to process files.
 
-    :param message_type: The type of stream of the uploaded file's underlying
+    ### Inputs and Outputs
+
+    - :param message_type: The type of stream of the uploaded file's underlying
       data (e.g. ecr, elr, etc.). If the data is in FHIR format, set to FHIR.
-    :param data_type: The type of data held in the uploaded file. Eligible
+    - :param data_type: The type of data held in the uploaded file. Eligible
       values include `ecr`, `zip`, `fhir`, and `hl7`.
-    :param config_file_name: The name of the configuration file to load on
+    - :param config_file_name: The name of the configuration file to load on
       the service's back-end, specifying the workflow to apply.
-    :param upload_file: A file containing clinical health care information.
-    :return: A response holding whether the workflow application was
+    - :param upload_file: A file containing clinical health care information.
+    - :return: A response holding whether the workflow application was
       successful as well as the results of the workflow.
     """
     rr_content = None
@@ -200,13 +202,16 @@ async def process_message_endpoint(
     request: OrchestrationRequest,
 ) -> OrchestrationResponse:
     """
-    Wrapper function for unpacking a message processing input and using those
-    settings to apply a config-driven workflow to a raw string of data.
-    This endpoint is the second of two workflow-driven endpoints and is meant
-    to be used with raw string data (meaning if the data is JSON, it must be
-    string serialized with `json.dumps`).
+    This endpoint provides a wrapper function for unpacking a message
+    processing input and using those settings to apply a config-driven
+    workflow to a raw string of data. This endpoint is the second of two
+    workflow-driven endpoints and is meant to be used with raw string data
+    (meaning if the data is JSON, it must be string serialized with
+    json.dumps).
 
-    :param request: A response holding whether the workflow application was
+    ### Inputs
+
+    - :param request: A response holding whether the workflow application was
       successful as well as the results of the workflow.
     """
     process_request = dict(request)
@@ -373,10 +378,7 @@ def _filter_failed_responses(responses):
 @app.get("/configs", responses=sample_list_configs_response)
 async def list_configs() -> ListConfigsResponse:
     """
-    Get a list of all the process configs currently available. Default configs are ones
-    that are packaged by default with this service. Custom configs are any additional
-    config that users have chosen to upload to this service (this feature is not yet
-    implemented)
+    This endpoint gets a list of all the process configs currently available.
     """
     default_configs = os.listdir(Path(__file__).parent / "default_configs")
     custom_configs = os.listdir(Path(__file__).parent / "custom_configs")
@@ -394,10 +396,12 @@ async def get_config(
     processing_config_name: str, response: Response
 ) -> GetConfigResponse:
     """
-    Get the config specified by 'processing_config_name'.
+    This endpoint gets the config specified by 'processing_config_name'.
 
-    :param processing_config_name: The name of the processing configuration to retrieve.
-    :param response: The response object used to modify the response status and body.
+    ### Inputs and Outputs
+
+    - :param processing_config_name: The name of the processing configuration to retrieve.
+    - :param response: The response object used to modify the response status and body.
     """
     try:
         processing_config = load_processing_config(processing_config_name)
@@ -419,12 +423,15 @@ async def upload_config(
     response: Response,
 ) -> PutConfigResponse:
     """
-    Upload a new processing config to the service or update an existing config.
+    This endpoint uploads a new processing config to the service or update an
+    existing config.
 
-    :param processing_config_name: The name of the processing configuration to be
+    ### Inputs and Outputs
+
+    - :param processing_config_name: The name of the processing configuration to be
       uploaded or updated.
-    :param input: A Pydantic model representing the processing configuration data.
-    :param response: The response object used to modify the response status and body.
+    - :param input: A Pydantic model representing the processing configuration data.
+    - :param response: The response object used to modify the response status and body.
     """
 
     file_path = Path(__file__).parent / "custom_configs" / processing_config_name
