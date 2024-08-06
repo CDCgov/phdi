@@ -106,10 +106,11 @@ class HealthCheckResponse(BaseModel):
 @app.get("/")
 async def health_check() -> HealthCheckResponse:
     """
-    Check the status of this service and its connection to Master Patient Index(MPI). If
-    an HTTP 200 status code is returned along with '{"status": "OK"}' then the record
-    linkage service is available and running properly. The mpi_connection_status field
-    contains a description of the connection health to the MPI database.
+    This endpoint checks the status of this service and its connection to
+    Master Patient Index (MPI). If an HTTP 200 status code is returned along
+    with '{"status": "OK"}' then the Record Linkage service is available and
+    running properly. The mpi_connection_status field contains a description
+    of the connection health to the MPI database.
     """
 
     try:
@@ -134,9 +135,9 @@ async def link_record(
     response: Response,
 ) -> LinkRecordResponse:
     """
-    Compare a FHIR bundle with records in the Master Patient Index (MPI) to
-    check for matches with existing patient records If matches are found,
-    returns the bundle with updated references to existing patients.
+    This endpoint compares a FHIR bundle with records in the MPI to check for
+    matches with existing patient records. If matches are found, it returns
+    the bundle with updated references to existing patients.
     """
 
     input = dict(input)

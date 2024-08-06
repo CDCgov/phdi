@@ -41,14 +41,16 @@ async def add_patient_identifier_in_bundle_endpoint(
     input: AddPatientIdentifierInBundleInput, response: Response
 ) -> StandardResponse:
     """
-    Add a salted hash identifier to every patient resource in a FHIR bundle using. If
-    a salt is not provided in the request the value of the 'SALT_STR' environment
-    variable will be used. In the case where a salt is not provided and 'SALT_STR' is
-    not defined an HTTP 500 status code is returned.
+    This endpoint adds a salted hash identifier to every patient resource
+    in a FHIR bundle . If a salt isn't provided in the request, the value of
+    the 'SALT_STR' environment variable will be used. In the case where a salt
+    isn't  provided and 'SALT_STR' isn't defined, an HTTP 500 status code will
+    be returned.
 
-    :param input: A JSON formated request body with schema specified by the
+    ### Inputs and Outputs
+    - :param input: A JSON formatted request body with schema specified by the
         AddPatientIdentifierInBundleInput model.
-    :return: A FHIR bundle where every patient resource contains a hashed identifier.
+    - :return: A FHIR bundle where every patient resource contains a hashed identifier.
     """
 
     input = dict(input)
