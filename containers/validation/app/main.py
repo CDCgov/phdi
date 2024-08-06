@@ -103,8 +103,8 @@ async def validate_endpoint(
     input: Annotated[ValidateInput, Body(examples=sample_validate_requests)],
 ) -> ValidateResponse:
     """
-    Check if the value presented in the 'message' key is a valid example
-    of the type of message specified in the 'message_type'.
+    This endpoint checks if the value presented in the 'message' key is a
+    valid example of the type of message specified in the 'message_type'.
     """
 
     input = dict(input)

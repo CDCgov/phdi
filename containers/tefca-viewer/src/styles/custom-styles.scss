@@ -327,7 +327,8 @@ body {
   height: 5rem;
   display: flex;
   align-items: center;
-  // padding-left: 10rem;
+  display: flex;
+  gap: 10px;
 }
 
 .header-footer-content {
@@ -421,6 +422,15 @@ html {
 
   .usa-label {
     margin-top: 2;
+  }
+}
+.test-query-filler {
+  background: #faf3d1;
+  border: 1px solid #fee685;
+  border-radius: 4px;
+
+  .usa-label {
+    margin-top: 0;
   }
 }
 
@@ -539,4 +549,10 @@ html {
   background-color: white;
   color: #005ea2;
   border: 2px solid #005ea2;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
