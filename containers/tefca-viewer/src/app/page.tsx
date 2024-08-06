@@ -11,13 +11,7 @@ import {
   ModalRef,
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
-import {
-  useEffect,
-  useRef,
-  useState,
-  MutableRefObject,
-  createRef,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * The landing page for the TEFCA Viewer.
@@ -41,15 +35,10 @@ export default function LandingPage() {
     setIsClient(true);
   }, []);
 
-  const optionRef = useRef<HTMLButtonElement | null>(null);
-  const handleOptionClick = (
-    option: string,
-    ref: MutableRefObject<HTMLButtonElement | null>,
-  ) => {
-    console.log("option", option);
-    console.log("ref", ref);
-    ref.current?.focus();
+  const handleOptionClick = (option: string) => {
     setSelectedOption(option);
+    document.getElementById(option)?.focus();
+    document.getElementById("next-button")?.removeAttribute("disabled");
   };
 
   return (
@@ -160,10 +149,8 @@ export default function LandingPage() {
                 className={`modal-option ${
                   selectedOption === "demo-sti-chlamydia"
                 }`}
-                ref={optionRef}
-                onClick={() =>
-                  handleOptionClick("demo-sti-chlamydia", optionRef)
-                }
+                id="demo-sti-chlamydia"
+                onClick={() => handleOptionClick("demo-sti-chlamydia")}
               >
                 Chlamydia case investigation
               </Button>
@@ -172,9 +159,8 @@ export default function LandingPage() {
                 className={`modal-option ${
                   selectedOption === "demo-sti-gonorrhea"
                 }`}
-                onClick={() =>
-                  handleOptionClick("demo-sti-gonorrhea", createRef())
-                }
+                id="demo-sti-gonorrhea"
+                onClick={() => handleOptionClick("demo-sti-gonorrhea")}
               >
                 Gonorrhea case investigation
               </Button>
@@ -183,16 +169,16 @@ export default function LandingPage() {
                 className={`modal-option ${
                   selectedOption === "demo-sti-syphilis"
                 }`}
-                onClick={() =>
-                  handleOptionClick("demo-sti-syphilis", createRef())
-                }
+                id="demo-sti-syphilis"
+                onClick={() => handleOptionClick("demo-sti-syphilis")}
               >
                 Syphilis case investigation
               </Button>
               <Button
                 type="button"
                 className={`modal-option ${selectedOption === "demo-cancer"}`}
-                onClick={() => handleOptionClick("demo-cancer", createRef())}
+                id="demo-cancer"
+                onClick={() => handleOptionClick("demo-cancer")}
               >
                 Cancer case investigation
               </Button>
@@ -201,9 +187,8 @@ export default function LandingPage() {
                 className={`modal-option ${
                   selectedOption === "demo-newborn-screening"
                 }`}
-                onClick={() =>
-                  handleOptionClick("demo-newborn-screening", createRef())
-                }
+                id="demo-newborn-screening"
+                onClick={() => handleOptionClick("demo-newborn-screening")}
               >
                 Newborn screening follow-up
               </Button>
@@ -211,12 +196,9 @@ export default function LandingPage() {
                 type="button"
                 className={`modal-option ${
                   selectedOption === "demo-social-determinants"
-                    ? "selected"
-                    : ""
                 }`}
-                onClick={() =>
-                  handleOptionClick("demo-social-determinants", createRef())
-                }
+                id="demo-social-determinants"
+                onClick={() => handleOptionClick("demo-social-determinants")}
               >
                 Gather social determinants of health for a patient
               </Button>
@@ -224,8 +206,10 @@ export default function LandingPage() {
           </div>
           <ModalFooter>
             <Button
-              className="get-started-button"
+              className="next-button"
               type="button"
+              id="next-button"
+              disabled={true}
               onClick={handleClick}
             >
               Next
