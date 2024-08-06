@@ -11,7 +11,7 @@ export interface DisplayData {
 /**
  * Functional component for displaying data.
  * @param props - Props for the component.
- * @param props.item - The display data item to be rendered.
+ * @param props.item - The display data item(s) to be rendered.
  * @param [props.className] - Additional class name for styling purposes.
  * @returns - A React element representing the display of data.
  */
