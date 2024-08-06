@@ -1,9 +1,9 @@
 on:
   workflow_call:
-  inputs:
-    python-runner-version:
-      required: true
-      type: string
+    inputs:
+      python-runner-version:
+        required: true
+        type: string
 
 jobs:
   python-linting:
