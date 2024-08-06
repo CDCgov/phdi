@@ -165,6 +165,14 @@ const ECRViewerPage: React.FC = () => {
             </div>
           </div>
         </div>
+        <a
+          className="usa-button position-fixed right-3 bottom-0"
+          target="_blank"
+          title="External link opens in new window"
+          href="https://touchpoints.app.cloud.gov/touchpoints/e93de6ae/submit"
+        >
+          How can we improve eCR Viewer?
+        </a>
       </main>
     );
   } else {
