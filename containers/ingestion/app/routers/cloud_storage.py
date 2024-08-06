@@ -43,12 +43,13 @@ def write_blob_to_cloud_storage_endpoint(
     input: WriteBlobToStorageInput, response: Response
 ) -> StandardResponse:
     """
-    Upload the information from a blob into a specified cloud providers storage
-    organizing it by a bucket name as well as a file name.
+    This endpoint uploads the information from a blob into a specified cloud
+    provider's storage organizing it by a bucket name as well as a file name.
 
-    :param input: A JSON formated request body (blob) with schema specified by the
+    ### Inputs and Outputs
+    - :param input: A JSON formatted request body (blob) with schema specified by the
         WriteBlobToStorageInput model.
-    :return: A dictionary containing the status code and body of the response received
+    - :return: A dictionary containing the status code and body of the response received
         from the cloud provider.
     """
     input = dict(input)

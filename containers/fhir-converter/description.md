@@ -1,10 +1,10 @@
-# Getting started with the PHDI FHIR Conversion Service
+# Getting started with the DIBBs FHIR Conversion Service
 
-This service relies on Microsoft's FHIR converter to convert messages.
+This service relies on Microsoft's FHIR Converter to convert messages.
 
-If you plan to run the service via Docker, you can skip to [Running with Docker](#Running-with-docker-(recommended-for-production)). This container will automatically use the Microsoft FHIR converter without need for additional installation.
+If you plan to run the service via Docker, you can skip to [Running with Docker](#Running-with-docker-(recommended-for-production)). This container will automatically use the Microsoft FHIR Converter without need for additional installation.
 
-If you plan to run the service locally via Python, you'll need to install both the Microsoft FHIR Converter CLI and run the PHDI FHIR Converter service. Read on for installation instructions for both.
+If you plan to run the service locally via Python, you'll need to install both the Microsoft FHIR Converter CLI and run the DIBBs FHIR Converter service. Read on for installation instructions for both.
 
 ## Microsoft FHIR Converter CLI Installation Guide
 This document provides a guide for installing the [Microsoft FHIR Converter](https://github.com/microsoft/FHIR-Converter) as a Command Line Interface (CLI) tool on Windows, MacOS, and Linux systems, as well as a brief introduction to using the converter.
@@ -29,13 +29,13 @@ The instructions for installing the .NET SDK will differ depending on whether yo
 Run `wget https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh` to download the .NET installation script from Microsoft.
 From the directory containing the `dotnet-install.sh` file, run `sh ./dotnet-install.sh` to execute the script and install .NET. By default, this script installs the .NET SDK, which is perfect for our needs.
 
-_Note: Bash is required to run the script. If you are using a different shell, such as zsh, it is recommend to switch to using Bash._
+_Note: Bash is required to run the script. If you're using a different shell, such as zsh, it is recommend to switch to using Bash._
 
 ##### Add .NET to the PATH Environment Variable
 Finally, permanently add .NET to you `PATH` variable by running `echo 'export PATH="$PATH:$HOME/.dotnet"' >> ~/.bashrc`.
 
 ##### Confirm the Installation
-Restart your shell with `exec $SHELL` and then run `dotnet`. If you get a response that looks like what is shown below, then .NET was installed successfully.
+Restart your shell with `exec $SHELL` and then run `dotnet`. If you get a response that looks like what's shown below, then .NET was installed successfully.
 
 ```bash
 Usage: dotnet [options]
@@ -91,13 +91,13 @@ path-to-application:
 ### Download and Build the FHIR Converter
 
 #### Get Microsoft FHIR Converter
-Using whichever command line tool you are comfortable with (Powershell on Windows, or Terminal on Linux and MacOS), download the FHIR Converter source code from Github with the following command.
+Using whichever command line tool you're comfortable with (Powershell on Windows, or Terminal on Linux and MacOS), download the FHIR Converter source code from Github with the following command.
 
 ```bash
 git clone https://github.com/microsoft/FHIR-Converter
 ```
 
-This will install the most recent version of the tool. However, if you'd like to use a specific version, you can use a command like this one that specifically downloads the 5.0.4 release (most recent at the time of writing). 
+This will install the most recent version of the tool. However, if you would like to use a specific version, you can use a command like this one that specifically downloads the 5.0.4 release (most recent at the time of writing). 
 `git clone https://github.com/microsoft/FHIR-Converter.git --branch v5.0.4 --single-branch`
 
 #### Build the FHIR Converter Tool
@@ -107,7 +107,7 @@ _Note: If you're using Windows, it's important to perform this action using Powe
 
 ### Using the Microsoft FHIR Converter
 
-Two examples have been provided below of using the FHIR Converter via the `dotnet run` function. Please note that `--` is used to deliminate between arguments that should be passed to `dotnet` as opposed arguments that `dotnet` should be pass to the application, in this case the FHIR Converter, that it is  being used to run. Additionaly, the `-p` option is only required when not calling `dotnet run` from the `FHIR-Converter/src/Health.Fhir.Liquid.Converter.Tool/` directory. For additional information on `dotnet run` please refer to [this documentation from Microsoft](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run).
+Two examples have been provided below of using the FHIR Converter via the `dotnet run` function. Please note that `--` is used to deliminate between arguments that should be passed to `dotnet` as opposed arguments that `dotnet` should be pass to the application, in this case the FHIR Converter, that it is  being used to run. Additionally, the `-p` option is only required when not calling `dotnet run` from the `FHIR-Converter/src/Health.Fhir.Liquid.Converter.Tool/` directory. For additional information on `dotnet run` please refer to [this documentation from Microsoft](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run).
 
 #### Message in File to FHIR
 The following command can be used to convert a message from a file to FHIR.
@@ -120,17 +120,17 @@ The following command can be used to convert the contents of a message provided 
 _Note: The use of `--` in the command is to separate the command line parameters that are passed to .NET vs those that are passed to the FHIR Converter_
 
 #### Using an Alias
-To avoid the need for typing `dotnet run convert -p path-to-Microsoft.Health.Fhir.Liquid.Converter.Tool/ -- ` every time you'd like to convert HL7, it is recommended that you create an alias. Instructions for creating an alias on Windows, MacOS, and Linux can be found [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/set-alias?view=powershell-7.2), [here](https://wpbeaches.com/make-an-alias-in-bash-or-zsh-shell-in-macos-with-terminal/), and [here](https://www.geeksforgeeks.org/alias-command-in-linux-with-examples/), respectively.
+To avoid the need for typing `dotnet run convert -p path-to-Microsoft.Health.Fhir.Liquid.Converter.Tool/ -- ` every time you would like to convert HL7, it is recommended that you create an alias. Instructions for creating an alias on Windows, MacOS, and Linux can be found [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/set-alias?view=powershell-7.2), [here](https://wpbeaches.com/make-an-alias-in-bash-or-zsh-shell-in-macos-with-terminal/), and [here](https://www.geeksforgeeks.org/alias-command-in-linux-with-examples/), respectively.
 
 
-## Running the PHDI FHIR Conversion Service
+## Running the DIBBs FHIR Conversion Service
 
-Once the Microsoft FHIR converter is installed, the FHIR conversion service can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Python source code.
+Once the Microsoft FHIR Converter is installed, you can run the DIBBs FHIR Conversion service using Docker, any other OCI container runtime (e.g., Podman), or directly from the Python source code.
 
-### Running with Docker (Recommended for production)
+### Running with Docker (Recommended for Production)
 
-To run the FHIR conversion service with Docker follow these steps.
-1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar to what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
+To run the DIBBs FHIR Conversion service with Docker, follow these steps.
+1. Confirm that you have Docker installed by running `docker -v`. If you don't see a response similar to what's shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
 ```
 ❯ docker -v
 Docker version 20.10.21, build baeda1f
@@ -138,10 +138,10 @@ Docker version 20.10.21, build baeda1f
 2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/fhir-converter:latest`.
 3. Run the service with ` docker run -p 8080:8080 ghcr.io/cdcgov/phdi/fhir-converter:latest`.
 
-Congratulations, the ingestion service should now be running on `localhost:8080`!
+Congratulations, the FHIR Conversion service should now be running on `localhost:8080`! 
 
 ### Running from Python Source Code
-For local development, it may be preferred to run the service directly from Python. To do so, follow the steps below.
+For local development, you may prefer to run the service directly from Python. To do so, follow the steps below.
 
 1. Ensure that both Git and Python 3.10 or higher are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
@@ -153,7 +153,7 @@ For local development, it may be preferred to run the service directly from Pyth
 
 ### Building the Docker Image
 
-To build the Docker image for the FHIR conversion service from source code instead of downloading it from the PHDI repository, follow these steps.
+To build the Docker image for the FHIR Conversion service from source code instead of downloading it from the PHDI repository, follow these steps.
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/fhir-converter/`.
