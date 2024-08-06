@@ -81,7 +81,7 @@ const ECRViewerPage: React.FC = () => {
     );
   } else if (fhirBundle && mappings) {
     return (
-      <main className={"width-main"}>
+      <main className={"width-full minw-main"}>
         <Header />
         {isNonIntegratedViewer ? (
           <PatientBanner bundle={fhirBundle} mappings={mappings} />

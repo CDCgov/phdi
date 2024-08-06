@@ -269,6 +269,10 @@ td {
   overflow: visible;
 }
 
+.minw-main {
+  min-width: $main-min-width;
+}
+
 .width-main {
   max-width: $main-min-width + $ecr-viewer-container-max-width - $ecr-viewer-container-min-width;
   min-width: $main-min-width;
