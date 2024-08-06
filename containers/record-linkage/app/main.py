@@ -23,7 +23,6 @@ from app.utils import run_migrations
 run_migrations()
 
 
-
 settings = get_settings()
 MPI_CLIENT = DIBBsMPIConnectorClient(
     pool_size=settings["connection_pool_size"],
