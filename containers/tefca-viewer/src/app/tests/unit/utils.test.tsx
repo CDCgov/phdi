@@ -1,10 +1,10 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { DataDisplay, DisplayData } from "../../utils";
+import { DataDisplay, DataDisplayInfo } from "../../utils";
 
 describe("DataDisplay Component", () => {
   it("should render the title and value", () => {
-    const item: DisplayData = {
+    const item: DataDisplayInfo = {
       title: "Test Title",
       value: "Test Value",
     };
@@ -19,7 +19,7 @@ describe("DataDisplay Component", () => {
   });
 
   it("should apply the provided className", () => {
-    const item: DisplayData = {
+    const item: DataDisplayInfo = {
       title: "Test Title",
       value: "Test Value",
     };
@@ -35,7 +35,7 @@ describe("DataDisplay Component", () => {
   });
 
   it("should render React elements as value", () => {
-    const item: DisplayData = {
+    const item: DataDisplayInfo = {
       title: "Test Title",
       value: <span data-testid="custom-element">Custom Element</span>,
     };
@@ -47,7 +47,7 @@ describe("DataDisplay Component", () => {
   });
 
   it("should render an array of React elements as value", () => {
-    const item: DisplayData = {
+    const item: DataDisplayInfo = {
       title: "Test Title",
       value: [
         <span key="1" data-testid="element-1">
