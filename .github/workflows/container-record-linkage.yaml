@@ -26,10 +26,10 @@ env:
   CONTAINER: record-linkage
 
 jobs:
-  # python-linting:
-  #   uses: ./.github/workflows/linting-python.yaml
-  #   with:
-  #     python-runner-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+  python-linting:
+    uses: ./.github/workflows/linting-python.yaml
+    with:
+      python-runner-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
   # runs-on: ubuntu-latest
   # steps:
   #   - name: Checkout
