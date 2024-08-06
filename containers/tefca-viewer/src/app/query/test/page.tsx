@@ -4,11 +4,11 @@ import { UseCaseQueryResponse, UseCaseQueryRequest } from "../../query-service";
 
 // Add a comment to suppress the TypeScript error
 // @ts-ignore
-import QueryView from "../components/QueryView";
+import ResultsView from "../components/ResultsView";
 import MultiplePatientSearchResults from "../components/MultiplePatientSearchResults";
 import SearchForm from "../components/SearchForm";
 import NoPatientsFound from "../components/NoPatientsFound";
-export type Mode = "search" | "results" | "multiple-patients" | "no-patients";
+import { Mode } from "../../constants";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -40,9 +40,9 @@ const Query: React.FC = () => {
       {mode === "results" && (
         <>
           {useCaseQueryResponse && (
-            <QueryView
+            <ResultsView
               useCaseQueryResponse={useCaseQueryResponse}
-              setMode={setMode}
+              goBack={() => setMode("search")}
             />
           )}
         </>
@@ -54,9 +54,8 @@ const Query: React.FC = () => {
           <MultiplePatientSearchResults
             patients={useCaseQueryResponse?.Patient ?? []}
             originalRequest={originalRequest}
-            setUseCaseQueryResponse={setUseCaseQueryResponse}
-            setMode={setMode}
             setLoading={setLoading}
+            goBack={() => setMode("search")}
           />
         </>
       )}
