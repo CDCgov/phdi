@@ -21,6 +21,8 @@ from app.utils import read_json_from_assets
 settings = get_settings()
 TCR_ENDPOINT = f"{settings['tcr_url']}/get-value-sets?condition_code="
 
+# minor change
+
 
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
