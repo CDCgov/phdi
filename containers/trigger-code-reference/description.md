@@ -1,18 +1,18 @@
-## bGetting Started with the DIBBs Trigger Code Reference  Service
+## Getting Started with the DIBBs Trigger Code Reference  Service
 
 ### Introduction
 
-The DIBBs Trigger Code Reference (trigger-code-reference) service offers a REST API devoted to querying and enriching SNOMED condition code analysis. This service stores condition codes and their associated value sets so that they can be queried by users, as well as inserted into supplied FHIR bundles as tagged extensions for future path parsing.
+The DIBBs Trigger Code Reference (TCR) service offers a REST API devoted to querying and enriching SNOMED condition code analysis. This service stores condition codes and their associated value sets, which users can query and insert into supplied FHIR bundles as tagged extensions for future path parsing.
 
 ### Running the Trigger Code Reference Service
 
-The trigger code reference can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Python source code.
+You can run the TCR  using Docker. another OCI container runtime (e.g., Podman), or directly from the Python source code.
 
 #### Running with Docker (Recommended)
 
 To run the trigger code reference with Docker, follow these steps.
 
-1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar to what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
+1. Confirm that you have Docker installed by running docker -v. If you don't see a response similar to what's shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker. 
 
 ```
 ❯ docker -v
@@ -22,11 +22,11 @@ Docker version 20.10.21, build baeda1f
 2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/trigger-code-reference:latest`.
 3. Run the service with ` docker run -p 8080:8080 trigger-code-reference:latest`.
 
-Congratulations, the trigger code reference should now be running on `localhost:8080`!
+Congratulations, the TCR should now be running on `localhost:8080`!
 
 #### Running from Python Source Code
 
-We recommend running the trigger code reference from a container, but if that is not feasible for a given use-case, it may also be run directly from Python using the steps below.
+We recommend running the TCR from a container, but if that isn't feasible for a given use case,  you can also run the service directly from Python using the steps below.
 
 1. Ensure that both Git and Python 3.10 or higher are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
@@ -47,4 +47,4 @@ To build the Docker image for the trigger code reference from source instead of 
 
 ### The API
 
-When viewing these docs from the `/redoc` endpoint on a running instance of the trigger-code-reference or the PHDI website, detailed documentation on the API will be available below.
+When viewing these docs from the `/redoc` endpoint on a running instance of the TCR or the DIBBs website, detailed documentation on the API will be available below. 

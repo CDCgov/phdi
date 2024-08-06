@@ -5,12 +5,12 @@ The DIBBs record linkage service offers a REST API for linking new health care m
 
 ### Running the Record Linkage Service
 
-The record linkage service can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Python source code.
+You can run the Record Linkage service using Docker, any other OCI container runtime (e.g., Podman), or directly from the Python source code.
 
 #### Running with Docker Compose (Recommended)
 
-To run the record linkage service with Docker Compose follow these steps.
-1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
+To run the Record Linkage service with Docker Compose follow these steps.
+1. Confirm that you have Docker installed by running `docker -v`. If you don't see a response similar what's shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
 ```
 ❯ docker -v
 Docker version 20.10.21, build baeda1f
@@ -18,11 +18,11 @@ Docker version 20.10.21, build baeda1f
 
 2. Navigate to the `containers/record-linkage` folder and start the service by running `docker compose up --build`
 
-Congratulations the record-linkage should now be running on `localhost:8080`!
+Congratulations the Record Linkage service should now be running on `localhost:8080`!
 
 #### Running with Docker
 
-To run the record linkage service with Docker follow these steps.
+To run the Record Linkage service with Docker follow these steps.
 1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar to what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
 ```
 ❯ docker -v
@@ -31,11 +31,11 @@ Docker version 20.10.21, build baeda1f
 2. Download a copy of the Docker image from the DIBBs repository by running `docker pull ghcr.io/cdcgov/phdi/record-linkage:latest`.
 3. Run the service with ` docker run -p 8080:8080 record-linkage:latest`.
 
-Congratulations, the record linkage service should now be running on `localhost:8080`!
+Congratulations, the Record Linkage service should now be running on `localhost:8080`!
 
 #### Running from Python Source Code
 
-We recommend running the record linkage service from a container, but if that is not feasible for a given use case, it may also be run directly from Python using the steps below.
+We recommend running the Record Linkage service from a container, but if that isn't feasible for a given use case, you can also run the service directly from Python using the steps below. 
 
 1. Ensure that both Git and Python 3.10 or higher are installed.
 2. Clone the DIBBs repository with `git clone https://github.com/CDCgov/phdi`.
@@ -47,7 +47,7 @@ We recommend running the record linkage service from a container, but if that is
 
 ### Building the Docker Image
 
-To build the Docker image for the record linkage service from source code instead of downloading it from the DIBBs repository follow these steps.
+To build the Docker image for the Record Linkage service from source code instead of downloading it from the DIBBs repository follow these steps.
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the DIBBs repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/record-linkage/`.
@@ -55,4 +55,4 @@ To build the Docker image for the record linkage service from source code instea
 
 ### The API 
 
-When viewing these docs from the `/redoc` endpoint on a running instance of the record linkage service or the DIBBs website, detailed documentation on the API will be available below. 
+When viewing these docs from the `/redoc` endpoint on a running instance of the Record Linkage service or the DIBBs website, detailed documentation on the API will be available below. 
