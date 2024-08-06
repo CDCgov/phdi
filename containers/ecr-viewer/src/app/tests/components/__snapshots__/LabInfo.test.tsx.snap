@@ -145,31 +145,31 @@ Burbank, CA
                   <thead>
                     <tr>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Component
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Value
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Ref Range
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Test Method
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Lab Comment
@@ -475,31 +475,31 @@ Burbank, CA
                   <thead>
                     <tr>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Component
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Value
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Ref Range
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Test Method
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Lab Comment
@@ -905,31 +905,31 @@ NASHVILLE, TN
                   <thead>
                     <tr>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Component
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Value
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Ref Range
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Test Method
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Lab Comment
