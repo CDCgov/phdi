@@ -38,7 +38,16 @@ export default function LandingPage() {
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     document.getElementById(option)?.focus();
-    document.getElementById("next-button")?.removeAttribute("disabled");
+  };
+
+  const modalOptions = {
+    "demo-sti-chlamydia": "Chlamydia case investigation",
+    "demo-sti-gonorrhea": "Gonorrhea case investigation",
+    "demo-sti-syphilis": "Syphilis case investigation",
+    "demo-cancer": "Cancer case investigation",
+    "demo-newborn-screening": "Newborn screening follow-up",
+    "demo-social-determinants":
+      "Gather social determinants of health for a patient",
   };
 
   return (
@@ -114,6 +123,7 @@ export default function LandingPage() {
                 modalRef={modalRef}
                 opener
                 title="Go to the demo"
+                onClick={() => setSelectedOption(null)}
               >
                 Go to the demo
               </ModalToggleButton>
@@ -144,64 +154,18 @@ export default function LandingPage() {
               the TEFCA Query Connector.
             </p>
             <div className="modal-options">
-              <Button
-                type="button"
-                className={`modal-option ${
-                  selectedOption === "demo-sti-chlamydia"
-                }`}
-                id="demo-sti-chlamydia"
-                onClick={() => handleOptionClick("demo-sti-chlamydia")}
-              >
-                Chlamydia case investigation
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${
-                  selectedOption === "demo-sti-gonorrhea"
-                }`}
-                id="demo-sti-gonorrhea"
-                onClick={() => handleOptionClick("demo-sti-gonorrhea")}
-              >
-                Gonorrhea case investigation
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${
-                  selectedOption === "demo-sti-syphilis"
-                }`}
-                id="demo-sti-syphilis"
-                onClick={() => handleOptionClick("demo-sti-syphilis")}
-              >
-                Syphilis case investigation
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${selectedOption === "demo-cancer"}`}
-                id="demo-cancer"
-                onClick={() => handleOptionClick("demo-cancer")}
-              >
-                Cancer case investigation
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${
-                  selectedOption === "demo-newborn-screening"
-                }`}
-                id="demo-newborn-screening"
-                onClick={() => handleOptionClick("demo-newborn-screening")}
-              >
-                Newborn screening follow-up
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${
-                  selectedOption === "demo-social-determinants"
-                }`}
-                id="demo-social-determinants"
-                onClick={() => handleOptionClick("demo-social-determinants")}
-              >
-                Gather social determinants of health for a patient
-              </Button>
+              {Object.keys(modalOptions).map((option) => (
+                <Button
+                  type="button"
+                  className={`modal-option ${
+                    selectedOption === option ? "selected" : ""
+                  }`}
+                  id={option}
+                  onClick={() => handleOptionClick(option)}
+                >
+                  {modalOptions[option as keyof typeof modalOptions]}
+                </Button>
+              ))}
             </div>
           </div>
           <ModalFooter>
@@ -209,7 +173,7 @@ export default function LandingPage() {
               className="next-button"
               type="button"
               id="next-button"
-              disabled={true}
+              disabled={!selectedOption}
               onClick={handleClick}
             >
               Next
