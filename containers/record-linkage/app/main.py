@@ -19,10 +19,8 @@ from app.utils import get_settings
 from app.utils import read_json_from_assets
 from app.utils import run_migrations
 
-# Ensure MPI is configured as expected.!
+# Ensure MPI is configured as expected.
 run_migrations()
-
-# minor change
 
 settings = get_settings()
 MPI_CLIENT = DIBBsMPIConnectorClient(
