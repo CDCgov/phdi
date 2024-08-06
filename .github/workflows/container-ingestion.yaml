@@ -102,16 +102,6 @@ jobs:
           if [ -f dev-requirements.txt ]; then
             pip install -r dev-requirements.txt
           fi
-
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-
-      - name: Start Docker Compose services
-        working-directory: ./containers/${{env.CONTAINER}}
-        run: docker-compose up -d
-
       - name: Run integration tests for containers
         working-directory: ./containers/${{env.CONTAINER}}/tests/integration
         run: |
