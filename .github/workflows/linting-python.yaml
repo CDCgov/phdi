@@ -1,0 +1,28 @@
+on:
+  workflow_call:
+  inputs:
+    python-runner-version:
+      required: true
+      type: string
+
+jobs:
+  python-linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup python ${{inputs.python-runner-version}}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{inputs.python-runner-version}}
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install ruff==0.4.3
+      - name: Run linter (ruff)
+        run: |
+          ruff check --output-format=github .
+      - name: Run formatter (ruff)
+        run: |
+          ruff format --check
