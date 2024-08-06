@@ -2,24 +2,26 @@ import { UseCaseQueryResponse } from "../../query-service";
 import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
 import React, { useEffect } from "react";
-import { Mode } from "../page";
-import { Alert } from "@trussworks/react-uswds";
+import { Alert, Icon } from "@trussworks/react-uswds";
 
-type QueryViewProps = {
+type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
-  setMode: (mode: Mode) => void;
+  goBack: () => void;
+  goBackToMultiplePatients?: () => void;
 };
 
 /**
  * The QueryView component to render the query results.
  * @param props - The props for the QueryView component.
  * @param props.useCaseQueryResponse - The response from the query service.
- * @param props.setMode - The function to set the mode of the query page.
+ * @param props.goBack - The function to go back to the previous page.
+ * @param props.goBackToMultiplePatients - The function to go back to the multiple patients selection page.
  * @returns The QueryView component.
  */
-const QueryView: React.FC<QueryViewProps> = ({
+const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
-  setMode,
+  goBack,
+  goBackToMultiplePatients,
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -40,10 +42,25 @@ const QueryView: React.FC<QueryViewProps> = ({
           dibbs@cdc.gov
         </a>
       </Alert>
+
       <div className="results-banner">
         <div className="results-banner-content usa-nav-container">
-          <a href="#" onClick={() => setMode("search")}>
-            Return to search
+          {goBackToMultiplePatients && (
+            <>
+              <a
+                href="#"
+                onClick={() => goBackToMultiplePatients()}
+                className="back-link"
+              >
+                <Icon.ArrowBack />
+                Return to search results
+              </a>
+              <div className="results-banner-divider">|</div>
+            </>
+          )}
+
+          <a href="#" onClick={() => goBack()} className="back-link">
+            New patient search
           </a>
         </div>
       </div>
@@ -69,4 +86,4 @@ const QueryView: React.FC<QueryViewProps> = ({
     </>
   );
 };
-export default QueryView;
+export default ResultsView;
