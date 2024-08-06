@@ -3,7 +3,7 @@
     "resource":{
         "resourceType": "Practitioner",
         "id":"{{ ID }}",
-        {% if practitioner.assignedPerson and practitioner.assignedPerson.name and practitioner.assignedPerson.name.given.first._ -%}
+        {% if practitioner.assignedPerson and practitioner.assignedPerson.name -%}
             {% assign personNames = practitioner.assignedPerson.name | to_array -%}
             {% assign personType = "PERSON" -%}
         {% endif -%}
