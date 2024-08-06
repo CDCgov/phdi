@@ -3,7 +3,7 @@ on:
     inputs:
       python-runner-version:
         required: true
-        type: string
+        type: number
 
 jobs:
   python-linting:
