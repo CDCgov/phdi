@@ -30,6 +30,7 @@ jobs:
     uses: ./.github/workflows/linting-python.yaml
     with:
       python_runner_version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+      env: ${{ env }}
   # runs-on: ubuntu-latest
   # steps:
   #   - name: Checkout
