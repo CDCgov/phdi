@@ -266,8 +266,7 @@ body {
   .usa-table--borderless {
     tr {
       &:hover td {
-        background-color: #d9e8f6;
-        opacity: 50%;
+        background: rgba(217, 232, 246, 0.5);
       }
     }
   }
