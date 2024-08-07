@@ -1,5 +1,5 @@
 import { Patient } from "fhir/r4";
-import { DisplayData } from "@/app/utils";
+import { DataDisplayInfo } from "@/app/utils";
 import { DataDisplay } from "@/app/utils";
 import * as dateFns from "date-fns";
 import { evaluate } from "fhirpath";
@@ -46,8 +46,8 @@ export default Demographics;
  * @param patient - The patient to format demographic information for.
  * @returns The formatted demographic information as an array of DisplayData objects.
  */
-function formatDemographics(patient: Patient): DisplayData[] {
-  const demographicData: DisplayData[] = [
+function formatDemographics(patient: Patient): DataDisplayInfo[] {
+  const demographicData: DataDisplayInfo[] = [
     {
       title: "Patient Name",
       value: formatName(patient.name ?? []),
