@@ -12,6 +12,7 @@ from app.routers import fhir_transport_http
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
 
+
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
     service_name="DIBBs Ingestion Service",

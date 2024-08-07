@@ -25,7 +25,6 @@ app = BaseService(
     openapi_url="/validation/openapi.json",
 ).start()
 
-
 # Message type-specific validation
 def validate_ecr_msg(message: str, include_error_types: list) -> ValidateResponse:
     """
