@@ -22,6 +22,7 @@ RESOURCE_TO_SERVICE_TYPES = {
     "DiagnosticReport": ["dxtc", "ostc", "lotc", "lrtc", "mrtc", "sdtc"],
 }
 
+
 # Instantiate FastAPI via DIBBs' BaseService class
 app = BaseService(
     service_name="Trigger Code Reference",
