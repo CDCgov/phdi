@@ -41,13 +41,12 @@ export default function LandingPage() {
   };
 
   const modalOptions = {
-    "demo-sti-chlamydia": "Chlamydia case investigation",
-    "demo-sti-gonorrhea": "Gonorrhea case investigation",
-    "demo-sti-syphilis": "Syphilis case investigation",
-    "demo-cancer": "Cancer case investigation",
-    "demo-newborn-screening": "Newborn screening follow-up",
-    "demo-social-determinants":
-      "Gather social determinants of health for a patient",
+    chlamydia: "Chlamydia case investigation",
+    gonorrhea: "Gonorrhea case investigation",
+    syphilis: "Syphilis case investigation",
+    cancer: "Cancer case investigation",
+    "newborn-screening": "Newborn screening follow-up",
+    "social-determinants": "Gather social determinants of health for a patient",
   };
 
   return (
