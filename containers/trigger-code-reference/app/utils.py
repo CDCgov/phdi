@@ -201,31 +201,53 @@ def read_json_from_assets(filename: str) -> dict:
 
 def find_conditions(bundle: dict) -> set[str]:
     """
-    Finds conditions in a bundle of resources.
+    Extracts the SNOMED codes of reportable conditions from a FHIR bundle.
 
-    :param bundle: The bundle of resources to search.
-    :return: A set of SNOMED codes representing the conditions found.
+    :param bundle: A FHIR bundle
+    :return: A set of SNOMED codes for reportable conditions
     """
-    CONDITION_CODE = "64572001"
+
+    RR_LOINC_CODE = "88085-6"
+    LOINC_URL = "http://loinc.org"
+    REPORTABLE_CONDITION_URL = (
+        "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code"
+    )
     SNOMED_URL = "http://snomed.info/sct"
 
-    # Get all resources
-    resources = [resource["resource"] for resource in bundle["entry"]]
+    # Get list of compositions
+    compositions = []
+    for entry in bundle["entry"]:
+        if entry["resource"]["resourceType"] == "Composition":
+            compositions.append(entry["resource"])
 
-    # Filter observations that have the SNOMED code for "Condition".
-    resources_with_conditions = [
-        obs
-        for obs in resources
-        if "code" in obs
-        and any(coding["code"] == CONDITION_CODE for coding in obs["code"]["coding"])
-    ]
+    # Get list of references to reportable conditions
+    reportable_condition_ids = set()
+    for composition in compositions:
+        for section in composition["section"]:
+            for coding in section["code"]["coding"]:
+                if (
+                    coding.get("code") == RR_LOINC_CODE
+                    and coding.get("system") == LOINC_URL
+                ):
+                    for entry in section["entry"]:
+                        if "reference" in entry:
+                            reportable_condition_ids.add(entry["reference"])
 
-    # Extract unique SNOMED codes from the observations
-    snomed_codes = {
-        coding["code"]
-        for obs in resources_with_conditions
-        for coding in obs.get("valueCodeableConcept", {}).get("coding", [])
-        if coding["system"] == SNOMED_URL
-    }
+    # Get condition codes from reportable condition references
+    condition_codes = set()
+    for reportable_condition_id in reportable_condition_ids:
+        type = reportable_condition_id.split("/")[0]
+        id = reportable_condition_id.split("/")[1]
 
-    return snomed_codes
+        for resource in bundle["entry"]:
+            if (
+                resource["resource"]["resourceType"] == type
+                and resource["resource"].get("id") == id
+            ):
+                for extension in resource["resource"]["extension"]:
+                    if extension["url"] == REPORTABLE_CONDITION_URL:
+                        for coding in extension["coding"]:
+                            if coding["system"] == SNOMED_URL:
+                                condition_codes.add(coding["code"])
+
+    return condition_codes
