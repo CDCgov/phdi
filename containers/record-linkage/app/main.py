@@ -22,8 +22,6 @@ from app.utils import run_migrations
 # Ensure MPI is configured as expected.
 run_migrations()
 
-print("test 7")
-
 settings = get_settings()
 MPI_CLIENT = DIBBsMPIConnectorClient(
     pool_size=settings["connection_pool_size"],

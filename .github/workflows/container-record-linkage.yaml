@@ -28,9 +28,9 @@ env:
 jobs:
   python-linting:
     uses: ./.github/workflows/linting-python.yaml
-    with:
-      python_runner_version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-      env: ${{ env }}
+    # with:
+    #   python_runner_version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+    #   env: ${{ env }}
   unit-test-python-containers:
     runs-on: ubuntu-latest
     services:
