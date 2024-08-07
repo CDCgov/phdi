@@ -22,7 +22,7 @@ from app.utils import run_migrations
 # Ensure MPI is configured as expected.
 run_migrations()
 
-print("test 9")
+print("test 10")
 
 settings = get_settings()
 MPI_CLIENT = DIBBsMPIConnectorClient(
