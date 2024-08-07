@@ -36,8 +36,6 @@ app = BaseService(
 ).start()
 
 
-print("test 2")
-
 
 # Request and response models
 class LinkRecordInput(BaseModel):
