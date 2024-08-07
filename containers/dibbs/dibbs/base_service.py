@@ -7,7 +7,6 @@ from fastapi import Request
 from fastapi import Response
 from pydantic import BaseModel
 
-
 # create a class with the DIBBs default Creative Commons Zero v1.0 and
 # MIT license to be used by the BaseService class
 LICENSES = {

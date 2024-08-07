@@ -37,7 +37,6 @@ from app.utils import load_processing_config
 from app.utils import unzip_http
 from app.utils import unzip_ws
 
-
 # Integrate main app tracer with automatic instrumentation context
 tracer = trace.get_tracer("orchestration_main_tracer")
 
