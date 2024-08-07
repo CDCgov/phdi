@@ -45,6 +45,10 @@ To build the Docker image for the trigger code reference from source instead of 
 3. Navigate to `/phdi/containers/trigger-code-reference/`.
 4. Run `docker build -t trigger-code-reference .`.
 
+### Running via docker-compose (WIP)
+
+The DIBBS Trigger Code Reference can be run with `docker compose`. This is useful if you have an ARM based machine. This can be run with `docker compose up --build`. See the [Docker Compose documentation](https://docs.docker.com/engine/reference/commandline/compose_up/) for additional information.
+
 ### The API
 
 When viewing these docs from the `/redoc` endpoint on a running instance of the TCR or the DIBBs website, detailed documentation on the API will be available below. 
