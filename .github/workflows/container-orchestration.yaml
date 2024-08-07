@@ -24,10 +24,25 @@ env:
 
 jobs:
   orchestration-python-linting: # This job is the same as the python-linting job in linting-python.yaml but does not run if using linting-python.yaml
-    uses: ./.github/workflows/linting-python.yaml
-    with:
-      python_runner_version: 3.11 # must be hardcoded; cannot pass in from env
-
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install ruff==0.4.3
+      - name: Run linter (ruff)
+        run: |
+          ruff check --output-format=github .
+      - name: Run formatter (ruff)
+        run: |
+          ruff format --check
   orchestration-unit-test-python:
     runs-on: ubuntu-latest
     services:
