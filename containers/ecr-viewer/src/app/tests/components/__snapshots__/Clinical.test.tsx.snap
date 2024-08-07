@@ -30,7 +30,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for non table no
                 Miscellaneous Notes
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 <p>
                   This patient was only recently discharged for a recurrent GI bleed as described
