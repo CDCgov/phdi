@@ -206,7 +206,7 @@ async function generalizedQuery(
  * @param queryResponse - The response object to store the results.
  * @returns - The parsed response.
  */
-async function parseFhirSearch(
+export async function parseFhirSearch(
   response: fetch.Response | Array<fetch.Response>,
   queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
@@ -239,7 +239,9 @@ async function parseFhirSearch(
  * @param response - The response from the FHIR server.
  * @returns - The array of resources from the response.
  */
-async function processResponse(response: fetch.Response): Promise<any[]> {
+export async function processResponse(
+  response: fetch.Response,
+): Promise<any[]> {
   let resourceArray: any[] = [];
   if (response.status === 200) {
     const body = await response.json();
