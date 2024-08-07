@@ -6,7 +6,7 @@ on:
       python_runner_version:
         default: 3.11
         required: true
-        type: number
+        type: object
 
 jobs:
   python-linting:
