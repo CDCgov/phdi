@@ -1,38 +1,68 @@
-import { FormatPhoneAsDigits } from "@/app/utils";
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { DataDisplay, DataDisplayInfo } from "../../utils";
 
-describe("FormatPhoneAsDigits", () => {
-  it("should handle dashes, spacecs, and dot delimiters", () => {
-    const dashInput = "123-456-7890";
-    const expectedResult = "1234567890";
-    expect(FormatPhoneAsDigits(dashInput)).toEqual(expectedResult);
+describe("DataDisplay Component", () => {
+  it("should render the title and value", () => {
+    const item: DataDisplayInfo = {
+      title: "Test Title",
+      value: "Test Value",
+    };
 
-    const spaceInput = "123 456 7890";
-    expect(FormatPhoneAsDigits(spaceInput)).toEqual(expectedResult);
+    render(<DataDisplay item={item} />);
 
-    const dotInput = "123.456.7890";
-    expect(FormatPhoneAsDigits(dotInput)).toEqual(expectedResult);
-  });
-  it("should handle parentheticals around area codes", () => {
-    const expectedResult = "1234567890";
-    let parentheticalInput = "(123) 456 7890";
-    expect(FormatPhoneAsDigits(parentheticalInput)).toEqual(expectedResult);
+    // Check if title is rendered
+    expect(screen.getByText("Test Title")).toBeInTheDocument();
 
-    parentheticalInput = "(123)456-7890";
-    expect(FormatPhoneAsDigits(parentheticalInput)).toEqual(expectedResult);
+    // Check if value is rendered
+    expect(screen.getByText("Test Value")).toBeInTheDocument();
   });
-  it("should handle extraneous white spaces regardless of position", () => {
-    const expectedResult = "1234567890";
-    const weirdSpaceNumber = "  123  - 456 7 8 9 0  ";
-    expect(FormatPhoneAsDigits(weirdSpaceNumber)).toEqual(expectedResult);
+
+  it("should apply the provided className", () => {
+    const item: DataDisplayInfo = {
+      title: "Test Title",
+      value: "Test Value",
+    };
+    const className = "custom-class";
+
+    render(<DataDisplay item={item} className={className} />);
+
+    // Check if the className is applied to the inner container
+    expect(screen.getByText("Test Value")).toHaveClass("custom-class");
+    expect(screen.getByText("Test Value").parentElement).toHaveClass(
+      "grid-row",
+    );
   });
-  it("should gracefully fail if provided a partial number", () => {
-    const givenPhone = "456-7890";
-    const expectedResult = "456-7890";
-    expect(FormatPhoneAsDigits(givenPhone)).toEqual(expectedResult);
+
+  it("should render React elements as value", () => {
+    const item: DataDisplayInfo = {
+      title: "Test Title",
+      value: <span data-testid="custom-element">Custom Element</span>,
+    };
+
+    render(<DataDisplay item={item} />);
+
+    // Check if the custom React element is rendered
+    expect(screen.getByTestId("custom-element")).toBeInTheDocument();
   });
-  it("should gracefully fail if given a country code", () => {
-    const givenPhone = "+44 202 555 8736";
-    const expectedResult = "+44 202 555 8736";
-    expect(FormatPhoneAsDigits(givenPhone)).toEqual(expectedResult);
+
+  it("should render an array of React elements as value", () => {
+    const item: DataDisplayInfo = {
+      title: "Test Title",
+      value: [
+        <span key="1" data-testid="element-1">
+          Element 1
+        </span>,
+        <span key="2" data-testid="element-2">
+          Element 2
+        </span>,
+      ],
+    };
+
+    render(<DataDisplay item={item} />);
+
+    // Check if the array of React elements is rendered
+    expect(screen.getByTestId("element-1")).toBeInTheDocument();
+    expect(screen.getByTestId("element-2")).toBeInTheDocument();
   });
 });

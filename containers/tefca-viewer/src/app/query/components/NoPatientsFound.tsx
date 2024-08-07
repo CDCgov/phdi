@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Mode } from "../page";
+import { Mode } from "../../constants";
 
 interface NoPatientsFoundProps {
   setMode: (mode: Mode) => void;
