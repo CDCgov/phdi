@@ -104,10 +104,10 @@ describe("SectionConfig", () => {
     expect(container.innerHTML).toContain('<a href="#section-1" class="">');
   });
 
-  it("should have top-275 when non-integrated viewer", () => {
+  it("should have top-550 when non-integrated viewer", () => {
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
     render(<SideNav />);
-    expect(screen.getByRole("navigation")).toHaveClass("top-275");
+    expect(screen.getByRole("navigation")).toHaveClass("top-550");
   });
   it("should have top0 when integrated viewer", () => {
     delete process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER;
