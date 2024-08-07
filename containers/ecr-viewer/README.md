@@ -67,3 +67,67 @@ then kill it
 
 ### Developer Documentation
 Can be found in [api-documentation.md](api-documentation.md).
+
+## Architecture Diagram
+
+Note: The diagram omits infrastructure related to OpenTelemetry. OpenTelemetry enables logging and performance tracking; it is omitted for ease of viewing.
+
+```mermaid
+flowchart LR
+
+  subgraph requests["Requests"]
+    direction TB
+    subgraph GET["fas:fa-download <code>GET</code>"]
+      hc["<code>/</code>\n(health check)"]
+      viewdata["<code>/view-data</code>\n(List View)"]
+      detail["<code>/view-data/id</code>\n(Detail View)"]
+
+    end
+    subgraph POST["fas:fa-upload <code>POST</code>"]
+      ecr["<code>/api/save-fhir-data</code>\n(Save ECR to source)"]
+    end
+  end
+
+  
+  subgraph service[REST API Service]
+    direction TB
+    subgraph mr["fab:fa-docker container"]
+      viewer["fab:fa-python <code>ecr-viewer<br>HTTP:3000/</code>"]
+	  postgres["fab:fa-python <code>postgres<br>HTTP:3000/</code>"]
+    end
+    subgraph aws["fab:fa-docker AWS"]
+      s3["fab:fa-python <code>S3</code>"]
+    end
+    mr <--> |<br><code>GET /fhir-data</code>| aws
+	mr <==> |<code>POST /save-fhir-data</code>| aws
+
+  end
+
+  subgraph response["Responses"]
+    subgraph JSON["fa:fa-file-alt <code>JSON</code>"]
+      rsp-hc["fa:fa-file-code <code>OK</code> fa:fa-thumbs-up"]
+      fhirdata["fa:fa-file-code FHIR Data"]
+	  post-ecr["200"]
+    end
+  end
+
+hc -.-> mr -.-> rsp-hc
+viewdata --> mr --> fhirdata
+detail --> mr --> fhirdata
+ecr ===> mr ===> post-ecr
+```
+
+#### Application API
+```mermaid
+graph TD
+    A[ecr-viewer]
+    subgraph API Endpoints
+        direction TB
+        M[GET /fhir-data]
+        N[POST /save-fhir-data]
+    end
+    A --> M
+    A --> N
+    style A fill:#f9f,stroke:#333,stroke-width:4px,color:#000
+    style API Endpoints fill:#bfb,stroke:#333,stroke-width:2px
+```
