@@ -3,7 +3,7 @@ import { createContext, ReactNode, useState } from "react";
 import React from "react";
 import classNames from "classnames";
 
-export interface DisplayData {
+export interface DataDisplayInfo {
   title: string;
   value?: string | React.JSX.Element | React.JSX.Element[];
 }
@@ -11,18 +11,18 @@ export interface DisplayData {
 /**
  * Functional component for displaying data.
  * @param props - Props for the component.
- * @param props.item - The display data item to be rendered.
+ * @param props.item - The display data item(s) to be rendered.
  * @param [props.className] - Additional class name for styling purposes.
  * @returns - A React element representing the display of data.
  */
 export const DataDisplay: React.FC<{
-  item: DisplayData;
+  item: DataDisplayInfo;
   className?: string;
 }> = ({
   item,
   className,
 }: {
-  item: DisplayData;
+  item: DataDisplayInfo;
   className?: string;
 }): React.JSX.Element => {
   return (
