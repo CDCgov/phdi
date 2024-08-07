@@ -144,41 +144,43 @@ When viewing these docs from the `/redoc` endpoint on a running instance of the 
 
 ### Architecture Diagram
 
-```mermaid
+````mermaid
 flowchart LR
 
 subgraph requests["Requests"]
-direction TB
-subgraph GET["fas:fa-download <code>GET</code>"]
-hc["<code>/</code>\n(Health Check)"]
-schemas["<code>/schemas</code>\n(Schema List)"]
-specificSchema["<code>/schemas/{parsing_schema_name}</code>\n(Specific Schema)"]
-end
-subgraph POST["fas:fa-upload <code>POST</code>"]
-parseMessage["<code>/parse_message</code>\n(Parse HL7v2, eICR, FHIR)"]
-fhirToPhdc["<code>/fhir_to_phdc</code>\n(FHIR To PHDC)"]
-end
-subgraph PUT["fas:fa-upload <code>PUT</code>"]
-uploadSchema["<code>/schemas/{parsing_schema_name}</code>\n(Upload Schema)"]
-end
+    direction TB
+    subgraph GET["fas:fa-download <code>GET</code>"]
+        hc["<code>/</code>\n(Health Check)"]
+        schemas["<code>/schemas</code>\n(Schema List)"]
+        specificSchema["<code>/schemas/{parsing_schema_name}</code>\n(Specific Schema)"]
+    end
+
+    subgraph POST["fas:fa-upload <code>POST</code>"]
+        parseMessage["<code>/parse_message</code>\n(Parse HL7v2, eICR, FHIR)"]
+        fhirToPhdc["<code>/fhir_to_phdc</code>\n(FHIR To PHDC)"]
+    end
+
+    subgraph PUT["fas:fa-upload <code>PUT</code>"]
+        uploadSchema["<code>/schemas/{parsing_schema_name}</code>\n(Upload Schema)"]
+    end
 end
 
 subgraph service[REST API Service]
-direction TB
-subgraph container["fab:fa-docker container"]
-parser["fab:fa-python <code>message-parser<br>HTTP:8080/</code>"]
-end
+    direction TB
+    subgraph container["fab:fa-docker container"]
+    parser["fab:fa-python <code>message-parser<br>HTTP:8080/</code>"]
+    end
 end
 
 subgraph response["Responses"]
-subgraph JSON["fa:fa-file-alt <code>JSON</code>"]
-rsp-hc["fa:fa-file-code <code>OK</code> fa:fa-thumbs-up"]
-rsp-schemas["fa:fa-file-code Schema List"]
-rsp-specificSchema["fa:fa-file-code Specific Schema"]
-rsp-parseMessage["fa:fa-file-code Parsed Message"]
-rsp-fhirToPhdc["fa:fa-file-code PHDC Document"]
-rsp-uploadSchema["fa:fa-file-code Schema Upload Status"]
-end
+    subgraph JSON["fa:fa-file-alt <code>JSON</code>"]
+        rsp-hc["fa:fa-file-code <code>OK</code> fa:fa-thumbs-up"]
+        rsp-schemas["fa:fa-file-code Schema List"]
+        rsp-specificSchema["fa:fa-file-code Specific Schema"]
+        rsp-parseMessage["fa:fa-file-code Parsed Message"]
+        rsp-fhirToPhdc["fa:fa-file-code PHDC Document"]
+        rsp-uploadSchema["fa:fa-file-code Schema Upload Status"]
+    end
 end
 
 hc -.-> parser -.-> rsp-hc
@@ -186,5 +188,5 @@ schemas -.-> parser -.-> rsp-schemas
 specificSchema -.-> parser -.-> rsp-specificSchema
 parseMessage ==> parser ==> rsp-parseMessage
 fhirToPhdc ==> parser ==> rsp-fhirToPhdc
-uploadSchema --> parser --> rsp-uploadSchema
-```
+uploadSchema --> parser --> rsp-uploadSchema```
+````
