@@ -209,9 +209,6 @@ def find_conditions(bundle: dict) -> set[str]:
 
     RR_LOINC_CODE = "88085-6"
     LOINC_URL = "http://loinc.org"
-    REPORTABLE_CONDITION_URL = (
-        "https://reportstream.cdc.gov/fhir/StructureDefinition/condition-code"
-    )
     SNOMED_URL = "http://snomed.info/sct"
 
     # Get list of compositions
@@ -244,10 +241,10 @@ def find_conditions(bundle: dict) -> set[str]:
                 resource["resource"]["resourceType"] == type
                 and resource["resource"].get("id") == id
             ):
-                for extension in resource["resource"]["extension"]:
-                    if extension["url"] == REPORTABLE_CONDITION_URL:
-                        for coding in extension["coding"]:
-                            if coding["system"] == SNOMED_URL:
-                                condition_codes.add(coding["code"])
+                for codeable_concept in resource["resource"]["valueCodeableConcept"][
+                    "coding"
+                ]:
+                    if codeable_concept["system"] == SNOMED_URL:
+                        condition_codes.add(codeable_concept["code"])
 
     return condition_codes
