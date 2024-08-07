@@ -43,11 +43,7 @@ To build the Docker image for the trigger code reference from source instead of 
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/trigger-code-reference/`.
-4. Run `docker build -t trigger-code-reference .`.
-
-### Running via docker-compose (WIP)
-
-The DIBBS Trigger Code Reference can be run with `docker compose`. This is useful if you have an ARM based machine. This can be run with `docker compose up --build`. See the [Docker Compose documentation](https://docs.docker.com/engine/reference/commandline/compose_up/) for additional information.
+4. Run `docker buildx build --platform linux/amd64 -t trigger-code-reference .`.
 
 ### The API
 
