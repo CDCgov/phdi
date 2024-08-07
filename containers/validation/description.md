@@ -40,10 +40,6 @@ To build the Docker image for the Validation service from source code instead of
 3. Navigate to `/phdi/containers/validation/`.
 4. Run `docker buildx build --platform linux/amd64 -t validation .`.
 
-### Running via docker-compose (WIP)
-
-The Validation can be run with `docker compose`. This is useful if you have an ARM based machine. This can be run with `docker compose up --build`. See the [Docker Compose documentation](https://docs.docker.com/engine/reference/commandline/compose_up/) for additional information.
-
 ### The API 
 
 When viewing these docs from the `/redoc` endpoint on a running instance of the Validation service or the DIBBs website, detailed documentation on the API will be available below.
