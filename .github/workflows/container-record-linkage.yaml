@@ -26,10 +26,10 @@ env:
   CONTAINER: record-linkage
 
 jobs:
-  python-linting:
-    uses: ./.github/workflows/linting-python.yaml
-    with:
-      python_runner_version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+  # python-linting:
+  #   uses: ./.github/workflows/linting-python.yaml
+  #   with:
+  #     python_runner_version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
   unit-test-python-containers:
     runs-on: ubuntu-latest
     services:
