@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Accordion, Table, Icon } from "@trussworks/react-uswds";
+import { Accordion, Table, Icon, Checkbox } from "@trussworks/react-uswds";
 import { Mode } from "../page";
 
 interface Lab {
@@ -35,7 +35,6 @@ interface CustomizeQueryProps {
 
 /**
  * CustomizeQuery component for displaying and customizing query details.
- * CustomizeQuery component for displaying and customizing query details.
  * @param root0 - The properties object.
  * @param root0.queryType - The type of the query.
  * @param root0.labs - The list of lab tests.
@@ -57,11 +56,38 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     setActiveTab(tab);
   };
 
-  const renderAccordionItems = (items: any[]) => {
+  const handleSelectAllChange = (
+    items: any[],
+    setItems: React.Dispatch<React.SetStateAction<any[]>>,
+    checked: boolean,
+  ) => {
+    const updatedItems = items.map((item) => ({ ...item, include: checked }));
+    setItems(updatedItems);
+  };
+
+  const renderAccordionItems = (
+    items: any[],
+    setItems: React.Dispatch<React.SetStateAction<any[]>>,
+  ) => {
+    const selectedCount = items.filter((item) => item.include).length;
     return items.length
       ? [
           {
-            title: `${items.length} selected`,
+            title: (
+              <div className="accordion-title">
+                {`${selectedCount} selected `}
+                <Checkbox
+                  id="select-all"
+                  name="select-all"
+                  className="custom-checkbox"
+                  checked={selectedCount === items.length}
+                  onChange={(e) =>
+                    handleSelectAllChange(items, setItems, e.target.checked)
+                  }
+                  label={undefined}
+                />
+              </div>
+            ),
             content: (
               <Table bordered>
                 <thead>
@@ -75,10 +101,17 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                   {items.map((item, index) => (
                     <tr key={index}>
                       <td>
-                        <input
-                          type="checkbox"
+                        <Checkbox
+                          id={`checkbox-${index}`}
+                          name={`checkbox-${index}`}
+                          className="custom-checkbox"
                           checked={item.include}
-                          readOnly
+                          onChange={(e) => {
+                            const updatedItems = [...items];
+                            updatedItems[index].include = e.target.checked;
+                            setItems(updatedItems);
+                          }}
+                          label={undefined}
                         />
                       </td>
                       <td>{item.code}</td>
@@ -95,13 +128,17 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       : [];
   };
 
+  const [labsState, setLabsState] = useState(labs);
+  const [medicationsState, setMedicationsState] = useState(medications);
+  const [conditionsState, setConditionsState] = useState(conditions);
+
   return (
-    <div>
+    <div className="customize-query-container">
       <a href="#" onClick={() => setMode("search")} className="text-bold">
         <Icon.ArrowBack /> Return to patient search
       </a>
       <h1 className="font-sans-2xl text-bold">Customize query</h1>
-      <p className="font-sans-lg text-light">Query:</p>
+      <p className="font-sans-lg text-light">Query: {queryType}</p>
       <nav className="usa-nav">
         <ul className="usa-nav__primary usa-accordion">
           <li
@@ -130,18 +167,25 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           </li>
         </ul>
       </nav>
+      <hr />
       <div>
         {activeTab === "labs" && (
-          <Accordion items={renderAccordionItems(labs)} multiselectable />
+          <Accordion
+            items={renderAccordionItems(labsState, setLabsState)}
+            multiselectable
+          />
         )}
         {activeTab === "medications" && (
           <Accordion
-            items={renderAccordionItems(medications)}
+            items={renderAccordionItems(medicationsState, setMedicationsState)}
             multiselectable
           />
         )}
         {activeTab === "conditions" && (
-          <Accordion items={renderAccordionItems(conditions)} multiselectable />
+          <Accordion
+            items={renderAccordionItems(conditionsState, setConditionsState)}
+            multiselectable
+          />
         )}
       </div>
     </div>

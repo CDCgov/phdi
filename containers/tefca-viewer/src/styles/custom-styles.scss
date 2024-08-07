@@ -55,7 +55,7 @@ h4 {
   font-weight: bold;
 }
 
-.info-container > .usa-accordion__heading > .usa-accordion__button {
+.info-container>.usa-accordion__heading>.usa-accordion__button {
   font-size: 32px;
   color: white !important;
   background-color: #2e6276;
@@ -192,19 +192,11 @@ h4 {
   line-height: 18px;
 }
 
-ul.usa-sidenav
-  > li.usa-sidenav__item
-  > ul.usa-sidenav__sublist
-  > li.usa-sidenav__item
-  > a {
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a {
   font-weight: bold;
 }
 
-ul.usa-sidenav
-  > li.usa-sidenav__item
-  > ul.usa-sidenav__sublist
-  > li.usa-sidenav__item
-  > a.usa-current {
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a.usa-current {
   &::after {
     background-color: rgb(0, 94, 162);
     content: "";
@@ -381,11 +373,9 @@ html {
 }
 
 .gradient-blue-background {
-  background: linear-gradient(
-    109.54deg,
-    rgba(173, 207, 220, 0.025) 8.02%,
-    rgba(46, 98, 118, 0.5) 117.53%
-  );
+  background: linear-gradient(109.54deg,
+      rgba(173, 207, 220, 0.025) 8.02%,
+      rgba(46, 98, 118, 0.5) 117.53%);
 
   padding: 0.5rem;
   /* Optional: some padding to make the background more noticeable */
@@ -423,6 +413,7 @@ html {
     margin-top: 2;
   }
 }
+
 .test-query-filler {
   background: #faf3d1;
   border: 1px solid #fee685;
@@ -515,4 +506,106 @@ html {
   background-color: white;
   color: #005ea2;
   border: 2px solid #005ea2;
+}
+
+/* Styles for the accordion and table */
+.customize-query-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.accordion-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.usa-accordion__button {
+  background: var(--Base-base-dark, #565C65);
+  color: white;
+  width: 960px;
+  height: 86px;
+  display: flex;
+  padding: 14px 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  align-self: stretch;
+}
+
+.usa-accordion__button:hover,
+.usa-accordion__button:focus {
+  background: var(--Base-base-dark, #565C65);
+  outline: none;
+}
+
+.custom-checkbox {
+  display: flex;
+  width: 60px;
+  padding: 8px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: var(--Primary-primary, #005EA2);
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.1em solid currentColor;
+  border-radius: 0.15em;
+  display: grid;
+  place-content: center;
+}
+
+.custom-checkbox input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: transform 0.1s ease-in-out;
+  box-shadow: inset 1em 1em var(--Primary-primary, #005EA2);
+  background-color: CanvasText;
+}
+
+.custom-checkbox input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+.custom-checkbox input[type="checkbox"]:indeterminate::before {
+  transform: scale(1);
+  background: var(--Primary-primary, #005EA2);
+  content: "-";
+}
+
+.usa-nav {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
+
+.usa-nav__primary {
+  display: flex;
+  justify-content: flex-start;
+  list-style-type: none;
+  padding: 0;
+}
+
+.usa-nav__primary-item {
+  margin-right: 1rem;
+}
+
+.usa-current a {
+  font-weight: bold;
+}
+
+hr {
+  margin-top: 0;
+  margin-bottom: 2rem;
 }
