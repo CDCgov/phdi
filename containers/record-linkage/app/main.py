@@ -23,6 +23,7 @@ from app.utils import run_migrations
 run_migrations()
 
 print("test 5")
+print("test 6")
 
 settings = get_settings()
 MPI_CLIENT = DIBBsMPIConnectorClient(
