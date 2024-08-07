@@ -221,7 +221,7 @@ const SideNav: React.FC = () => {
       <nav
         className={classNames("sticky-nav", {
           "top-0": !isNonIntegratedViewer,
-          "top-275": isNonIntegratedViewer,
+          "top-550": isNonIntegratedViewer,
         })}
       >
         <UswdsSideNav items={sideNavItems} />

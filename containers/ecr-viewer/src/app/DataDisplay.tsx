@@ -40,7 +40,7 @@ export const DataDisplay: React.FC<{
         </div>
         <div
           className={classNames(
-            "grid-col-auto maxw7 text-pre-line",
+            "grid-col maxw7 text-pre-line",
             className,
             item.className ? item.className : "",
           )}
