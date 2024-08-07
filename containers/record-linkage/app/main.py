@@ -36,7 +36,7 @@ app = BaseService(
 ).start()
 
 
-print("test 1")
+print("test 2")
 
 
 # Request and response models
