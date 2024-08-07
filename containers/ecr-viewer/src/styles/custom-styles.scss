@@ -1,5 +1,12 @@
 @use 'uswds-core' as *;
 
+$ecr-viewer-container-max-width: 80rem;
+$ecr-viewer-container-min-width: 40rem;
+$ecr-viewer-gap: 3rem;
+$nav-wrapper-width: 15.625rem;
+$main-container-padding: 1rem;
+$main-min-width: $ecr-viewer-container-min-width + $ecr-viewer-gap + $nav-wrapper-width + $main-container-padding * 2;
+
 .section__line {
   border-top: 1px solid #99DEEA;
   margin-top: .5rem;
@@ -21,8 +28,6 @@
 .card__line {
   border-top: 8px solid #EDEFF0;
 }
-
-
 
 h2 {
   font-size: 2.5rem;
@@ -47,12 +52,6 @@ h4 {
   padding-bottom: 28px;
   padding-left: 32px;
   margin-top: 0px;
-}
-
-
-
-.info-container {
-  width: 775px;
 }
 
 .data-title {
@@ -266,7 +265,23 @@ td {
 
 .main-container {
   display: flex;
+  justify-content: center;
   overflow: visible;
+}
+
+.minw-main {
+  min-width: $main-min-width;
+}
+
+.width-main {
+  max-width: $main-min-width + $ecr-viewer-container-max-width - $ecr-viewer-container-min-width;
+  min-width: $main-min-width;
+  width: 100%;
+}
+
+.padding-main {
+  padding-left: $main-container-padding;
+  padding-right: $main-container-padding;
 }
 
 .back-button-wrapper {
@@ -284,9 +299,7 @@ td {
 
 .content-wrapper {
   display: flex;
-  max-width: 1440px;
-  justify-content: center;
-  gap: 3rem;
+  gap: $ecr-viewer-gap;
   overflow: visible;
   margin-top: 1.5rem;
 }
@@ -295,7 +308,8 @@ td {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 250px;
+  width: $nav-wrapper-width;
+  min-width: $nav-wrapper-width;
 }
 
 .sticky-nav {
@@ -306,20 +320,9 @@ td {
 }
 
 .ecr-viewer-container {
-  display: flex;
-  flex-basis: auto;
-  justify-content: left;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.ecr-content {
-  max-width: 1440px;
-}
-
-.ecr-content h1:first-of-type {
-  margin-top: 0;
-  padding-top: 0;
+  width: 100%;
+  max-width: $ecr-viewer-container-max-width;
+  min-width: $ecr-viewer-container-min-width;
 }
 
 .lh-18 {
@@ -369,10 +372,6 @@ ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item
       word-break: break-word
     }
   }
-}
-
-.reportability_summary_header {
-  width: 190px;
 }
 
 .usa-accordion__content {
@@ -558,31 +557,7 @@ h3 {
   .usa-accordion.accordion-rr {
     margin: .5rem 0 .75rem 0;
   }
-  button {
+  .usa-accordion__button {
     padding: .88rem .75rem;
   }
-}
-
-.top-275 {
-  top: 2.75rem;
-}
-
-.minw-20 {
-  min-width: 10rem;
-}
-
-.minw-1605 {
-  min-width: 8.25rem;
-}
-
-.minw-1705 {
-  min-width: 8.75rem;
-}
-
-.minw-2305 {
-  min-width: 11.75rem;
-}
-
-.minw-23 {
-  min-width: 11.5rem;
 }
