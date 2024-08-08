@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { Accordion, Icon, Checkbox, Table } from "@trussworks/react-uswds";
+import {
+  Accordion,
+  Button,
+  Icon,
+  Checkbox,
+  Table,
+} from "@trussworks/react-uswds";
 import { Mode } from "../page";
 import { AccordianSection, AccordianDiv } from "../component-utils";
 
@@ -10,6 +16,7 @@ interface Lab {
   display: string;
   system: string;
   include: boolean;
+  author: string;
 }
 
 interface Medication {
@@ -17,6 +24,7 @@ interface Medication {
   display: string;
   system: string;
   include: boolean;
+  author: string;
 }
 
 interface Condition {
@@ -24,6 +32,7 @@ interface Condition {
   display: string;
   system: string;
   include: boolean;
+  author: string;
 }
 
 interface CustomizeQueryProps {
@@ -73,6 +82,20 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     setItems((prevItems) => prevItems.map((item) => ({ ...item, include })));
   };
 
+  const handleApplyChanges = () => {
+    const selectedLabs = labsState.filter((lab) => lab.include);
+    const selectedMedications = medicationsState.filter(
+      (medication) => medication.include,
+    );
+    const selectedConditions = conditionsState.filter(
+      (condition) => condition.include,
+    );
+
+    console.log("Selected Labs:", selectedLabs);
+    console.log("Selected Medications:", selectedMedications);
+    console.log("Selected Conditions:", selectedConditions);
+  };
+
   const renderTable = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
@@ -88,11 +111,10 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       <tbody>
         {items.map((item, index) => (
           <tr key={index}>
-            <td>
+            <td className="custom-checkbox-cell">
               <Checkbox
                 id={`checkbox-${index}`}
                 name={`checkbox-${index}`}
-                className="custom-checkbox"
                 checked={item.include}
                 onChange={(e) => {
                   const updatedItems = [...items];
@@ -121,17 +143,24 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           {
             title: (
               <div className="accordion-title">
-                {`${selectedCount} selected `}
-                <Checkbox
-                  id="select-all"
-                  name="select-all"
-                  className="custom-checkbox"
-                  checked={selectedCount === items.length}
-                  onChange={(e) =>
-                    handleSelectAllChange(items, setItems, e.target.checked)
-                  }
-                  label={undefined}
-                />
+                <div className="accordion-header">
+                  {`${title} (${items[0].display})`}
+                  <div>{`${selectedCount} selected`}</div>
+                  <Checkbox
+                    id="select-all"
+                    name="select-all"
+                    className="custom-checkbox"
+                    checked={selectedCount === items.length}
+                    onChange={(e) =>
+                      handleSelectAllChange(items, setItems, e.target.checked)
+                    }
+                    label={undefined}
+                  />
+                </div>
+                <div className="accordion-subtitle">
+                  <strong>Author:</strong> {items[0].author}{" "}
+                  <strong>System:</strong> {items[0].system}
+                </div>
               </div>
             ),
             content: (
@@ -228,6 +257,14 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
             multiselectable
           />
         )}
+      </div>
+      <div className="button-container">
+        <Button type="button" onClick={handleApplyChanges}>
+          Apply Changes
+        </Button>
+        <Button type="button" onClick={() => setMode("search")}>
+          Cancel
+        </Button>
       </div>
     </div>
   );

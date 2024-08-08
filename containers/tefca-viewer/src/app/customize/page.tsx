@@ -11,6 +11,7 @@ const dummyLabs = [
       "Neisseria gonorrhoeae DNA [Presence] in Specimen by NAA with probe detection",
     system: "LOINC",
     include: true,
+    author: "CSTE Steward",
   },
   {
     code: "72828-7",
@@ -18,6 +19,7 @@ const dummyLabs = [
       "Chlamydia trachomatis and Neisseria gonorrhoeae DNA panel - Specimen",
     system: "LOINC",
     include: true,
+    author: "CSTE Steward",
   },
   {
     code: "21613-5",
@@ -25,17 +27,42 @@ const dummyLabs = [
       "Chlamydia trachomatis DNA [Presence] in Specimen by NAA with probe detection",
     system: "LOINC",
     include: true,
+    author: "CSTE Steward",
   },
 ];
 
 const dummyMedications = [
-  { code: "12345-6", display: "Medication A", system: "LOINC", include: true },
-  { code: "67890-1", display: "Medication B", system: "LOINC", include: true },
+  {
+    code: "12345-6",
+    display: "Medication A",
+    system: "LOINC",
+    include: true,
+    author: "Author A",
+  },
+  {
+    code: "67890-1",
+    display: "Medication B",
+    system: "LOINC",
+    include: true,
+    author: "Author B",
+  },
 ];
 
 const dummyConditions = [
-  { code: "11111-1", display: "Condition A", system: "LOINC", include: true },
-  { code: "22222-2", display: "Condition B", system: "LOINC", include: true },
+  {
+    code: "11111-1",
+    display: "Condition A",
+    system: "LOINC",
+    include: true,
+    author: "Author A",
+  },
+  {
+    code: "22222-2",
+    display: "Condition B",
+    system: "LOINC",
+    include: true,
+    author: "Author B",
+  },
 ];
 
 /**
