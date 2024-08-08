@@ -40,6 +40,9 @@ test.describe("querying with the TryTEFCA viewer", () => {
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page
+      .getByRole("button", { name: "Newborn screening follow-up" })
+      .click();
     await page.getByRole("button", { name: "Next" }).click();
 
     // Check that the info alert is visible and contains the correct text
@@ -103,6 +106,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
 
   test("unsuccessful user query: no patients", async ({ page }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page
+      .getByRole("button", {
+        name: "Gather social determinants of health for a patient",
+      })
+      .click();
     await page.getByRole("button", { name: "Next" }).click();
     await page
       .getByLabel("Query", { exact: true })
@@ -129,6 +137,9 @@ test.describe("querying with the TryTEFCA viewer", () => {
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page
+      .getByRole("button", { name: "Syphilis case investigation" })
+      .click();
     await page.getByRole("button", { name: "Next" }).click();
 
     await page.getByLabel("Query", { exact: true }).selectOption("syphilis");
