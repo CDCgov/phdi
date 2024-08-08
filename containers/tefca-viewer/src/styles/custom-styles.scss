@@ -601,11 +601,69 @@ html {
   margin-right: 1rem;
 }
 
+.usa-nav__primary-item a:hover {
+  color: #565C65;
+}
+
 .usa-current a {
   font-weight: bold;
 }
 
-hr {
-  margin-top: 0;
-  margin-bottom: 2rem;
+.custom-nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  color: #565C65;
+  font-family: "Source Sans Pro";
+  position: relative;
+  justify-content: flex-start;
+}
+
+.custom-nav li {
+  list-style: none;
+}
+
+.custom-nav a {
+  color: #565C65;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 18px;
+  font-family: "Source Sans Pro";
+}
+
+.custom-nav a:hover {
+  color: #565C65;
+  text-decoration: none;
+  font-size: 18px;
+  font-family: "Source Sans Pro";
+}
+
+.custom-nav .usa-current a {
+  font-weight: bold;
+  font-size: 18px;
+  font-family: "Source Sans Pro";
+}
+
+.custom-nav ul::after {
+  content: '';
+  display: block;
+  width: 960px;
+  height: 1px;
+  background-color: #ddd;
+  position: absolute;
+  bottom: 10px;
+  left: -560px;
+}
+
+.usa-accordion__content {
+  padding: 0;
+}
+
+.accordion-content {
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }

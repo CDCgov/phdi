@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Accordion, Table, Icon, Checkbox } from "@trussworks/react-uswds";
+import { Accordion, Icon, Checkbox, Table } from "@trussworks/react-uswds";
 import { Mode } from "../page";
+import { AccordianSection, AccordianDiv } from "../component-utils";
 
 interface Lab {
   code: string;
@@ -65,9 +66,54 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     setItems(updatedItems);
   };
 
+  const handleIncludeAll = (
+    setItems: React.Dispatch<React.SetStateAction<any[]>>,
+    include: boolean,
+  ) => {
+    setItems((prevItems) => prevItems.map((item) => ({ ...item, include })));
+  };
+
+  const renderTable = (
+    items: any[],
+    setItems: React.Dispatch<React.SetStateAction<any[]>>,
+  ) => (
+    <Table bordered>
+      <thead>
+        <tr>
+          <th>Include</th>
+          <th>Code</th>
+          <th>Display</th>
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((item, index) => (
+          <tr key={index}>
+            <td>
+              <Checkbox
+                id={`checkbox-${index}`}
+                name={`checkbox-${index}`}
+                className="custom-checkbox"
+                checked={item.include}
+                onChange={(e) => {
+                  const updatedItems = [...items];
+                  updatedItems[index].include = e.target.checked;
+                  setItems(updatedItems);
+                }}
+                label={undefined}
+              />
+            </td>
+            <td>{item.code}</td>
+            <td>{item.display}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  );
+
   const renderAccordionItems = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
+    title: string,
   ) => {
     const selectedCount = items.filter((item) => item.include).length;
     return items.length
@@ -89,37 +135,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
               </div>
             ),
             content: (
-              <Table bordered>
-                <thead>
-                  <tr>
-                    <th>Include</th>
-                    <th>Code</th>
-                    <th>Display</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((item, index) => (
-                    <tr key={index}>
-                      <td>
-                        <Checkbox
-                          id={`checkbox-${index}`}
-                          name={`checkbox-${index}`}
-                          className="custom-checkbox"
-                          checked={item.include}
-                          onChange={(e) => {
-                            const updatedItems = [...items];
-                            updatedItems[index].include = e.target.checked;
-                            setItems(updatedItems);
-                          }}
-                          label={undefined}
-                        />
-                      </td>
-                      <td>{item.code}</td>
-                      <td>{item.display}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+              <>
+                <AccordianSection>
+                  <AccordianDiv>{renderTable(items, setItems)}</AccordianDiv>
+                </AccordianSection>
+              </>
             ),
             expanded: true,
             headingLevel: "h3",
@@ -139,7 +159,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       </a>
       <h1 className="font-sans-2xl text-bold">Customize query</h1>
       <p className="font-sans-lg text-light">Query: {queryType}</p>
-      <nav className="usa-nav">
+      <nav className="usa-nav custom-nav">
         <ul className="usa-nav__primary usa-accordion">
           <li
             className={`usa-nav__primary-item ${activeTab === "labs" ? "usa-current" : ""}`}
@@ -167,23 +187,44 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           </li>
         </ul>
       </nav>
-      <hr />
+      <a
+        href="#"
+        type="button"
+        style={{ fontSize: "16px", fontFamily: "Public Sans" }}
+        onClick={() => {
+          if (activeTab === "labs") handleIncludeAll(setLabsState, true);
+          if (activeTab === "medications")
+            handleIncludeAll(setMedicationsState, true);
+          if (activeTab === "conditions")
+            handleIncludeAll(setConditionsState, true);
+        }}
+      >
+        Include all {activeTab}
+      </a>
       <div>
         {activeTab === "labs" && (
           <Accordion
-            items={renderAccordionItems(labsState, setLabsState)}
+            items={renderAccordionItems(labsState, setLabsState, "Labs")}
             multiselectable
           />
         )}
         {activeTab === "medications" && (
           <Accordion
-            items={renderAccordionItems(medicationsState, setMedicationsState)}
+            items={renderAccordionItems(
+              medicationsState,
+              setMedicationsState,
+              "Medications",
+            )}
             multiselectable
           />
         )}
         {activeTab === "conditions" && (
           <Accordion
-            items={renderAccordionItems(conditionsState, setConditionsState)}
+            items={renderAccordionItems(
+              conditionsState,
+              setConditionsState,
+              "Conditions",
+            )}
             multiselectable
           />
         )}
