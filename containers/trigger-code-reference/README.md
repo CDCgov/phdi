@@ -43,7 +43,7 @@ To build the Docker image for the trigger code reference from source instead of 
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/trigger-code-reference/`.
-4. Run `docker build -t trigger-code-reference .`.
+4. Run `docker buildx build --platform linux/amd64 -t trigger-code-reference .`.
 
 ### The API
 
