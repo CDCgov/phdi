@@ -80,9 +80,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setLastName(data.LastName);
         setDOB(data.DOB);
         setMRN(data.MRN);
-        if (data.Phone) {
-          setPhone(data.Phone);
-        }
+        setPhone(data.Phone);
         setFhirServer(data.FhirServer as FHIR_SERVERS);
         setUseCase(data.UseCase as USE_CASES);
         setAutofilled(highlightAutofilled);
