@@ -77,54 +77,52 @@ const EcrSummary: React.FC<EcrSummaryProps> = ({
       };
     });
   return (
-    <div className={"info-container"}>
-      <div
-        className="usa-summary-box padding-3"
-        aria-labelledby="summary-box-key-information"
-      >
-        <div className="usa-summary-box__body margin-bottom-05">
-          <h3
-            className="summary-box-key-information side-nav-ignore"
-            id={"patient-summary"}
-          >
-            Patient Summary
-          </h3>
-          <div className="usa-summary-box__text">
-            {patientDetails.map((item) => (
-              <DataDisplay item={item} key={item.title} />
-            ))}
-          </div>
+    <div
+      className="usa-summary-box padding-3"
+      aria-labelledby="summary-box-key-information"
+    >
+      <div className="usa-summary-box__body margin-bottom-05">
+        <h3
+          className="summary-box-key-information side-nav-ignore"
+          id={"patient-summary"}
+        >
+          Patient Summary
+        </h3>
+        <div className="usa-summary-box__text">
+          {patientDetails.map((item) => (
+            <DataDisplay item={item} key={item.title} />
+          ))}
         </div>
-        <div className="usa-summary-box__body">
-          <h3
-            className="summary-box-key-information side-nav-ignore"
-            id="encounter-summary"
-          >
-            Encounter Summary
-          </h3>
-          <div className="usa-summary-box__text">
-            {encounterDetails.map((item) => (
-              <DataDisplay item={item} key={item.title} />
-            ))}
-          </div>
+      </div>
+      <div className="usa-summary-box__body">
+        <h3
+          className="summary-box-key-information side-nav-ignore"
+          id="encounter-summary"
+        >
+          Encounter Summary
+        </h3>
+        <div className="usa-summary-box__text">
+          {encounterDetails.map((item) => (
+            <DataDisplay item={item} key={item.title} />
+          ))}
         </div>
-        <div className="usa-summary-box__body">
-          <h3
-            className={
-              "summary-box-key-information side-nav-ignore header-with-tag"
-            }
-            id={"condition-summary"}
-          >
-            <div>Condition Summary</div>
-            <div>
-              <Tag className="tag-info">
-                {numConditionsText(conditionSummaryAccordionItems.length)}
-              </Tag>
-            </div>
-          </h3>
-          <div className="usa-summary-box__text condition-details-accordion">
-            <Accordion items={conditionSummaryAccordionItems} />
+      </div>
+      <div className="usa-summary-box__body">
+        <h3
+          className={
+            "summary-box-key-information side-nav-ignore header-with-tag"
+          }
+          id={"condition-summary"}
+        >
+          <div>Condition Summary</div>
+          <div>
+            <Tag className="tag-info">
+              {numConditionsText(conditionSummaryAccordionItems.length)}
+            </Tag>
           </div>
+        </h3>
+        <div className="usa-summary-box__text condition-details-accordion">
+          <Accordion items={conditionSummaryAccordionItems} />
         </div>
       </div>
     </div>

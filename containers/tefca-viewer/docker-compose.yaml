@@ -1,5 +1,6 @@
 services:
   tefca-viewer:
+    platform: linux/amd64
     build:
       context: ../../
       dockerfile: ./containers/tefca-viewer/Dockerfile
