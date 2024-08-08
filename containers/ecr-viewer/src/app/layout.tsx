@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={"overflow-x-auto"}>{children}</body>
     </html>
   );
 }

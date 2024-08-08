@@ -55,7 +55,7 @@ h4 {
   font-weight: bold;
 }
 
-.info-container > .usa-accordion__heading > .usa-accordion__button {
+.info-container>.usa-accordion__heading>.usa-accordion__button {
   font-size: 32px;
   color: white !important;
   background-color: #2e6276;
@@ -192,19 +192,11 @@ h4 {
   line-height: 18px;
 }
 
-ul.usa-sidenav
-  > li.usa-sidenav__item
-  > ul.usa-sidenav__sublist
-  > li.usa-sidenav__item
-  > a {
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a {
   font-weight: bold;
 }
 
-ul.usa-sidenav
-  > li.usa-sidenav__item
-  > ul.usa-sidenav__sublist
-  > li.usa-sidenav__item
-  > a.usa-current {
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a.usa-current {
   &::after {
     background-color: rgb(0, 94, 162);
     content: "";
@@ -270,6 +262,16 @@ body {
   justify-content: center;
   margin: 0 auto;
   max-width: 1000px;
+
+  .usa-table--borderless {
+    tr {
+      &:hover td {
+        background: rgba(217, 232, 246, 0.5);
+      }
+    }
+  }
+
+
 }
 
 .no-patients-found {
@@ -382,11 +384,9 @@ html {
 }
 
 .gradient-blue-background {
-  background: linear-gradient(
-    109.54deg,
-    rgba(173, 207, 220, 0.025) 8.02%,
-    rgba(46, 98, 118, 0.5) 117.53%
-  );
+  background: linear-gradient(109.54deg,
+      rgba(173, 207, 220, 0.025) 8.02%,
+      rgba(46, 98, 118, 0.5) 117.53%);
 
   padding: 0.5rem;
   /* Optional: some padding to make the background more noticeable */
@@ -424,6 +424,7 @@ html {
     margin-top: 2;
   }
 }
+
 .test-query-filler {
   background: #faf3d1;
   border: 1px solid #fee685;
