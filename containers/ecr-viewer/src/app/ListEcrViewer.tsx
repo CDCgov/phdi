@@ -68,7 +68,10 @@ export default function ListECRViewer({
           <tbody>{renderPage(currentPage)}</tbody>
         </Table>
       </div>
-      <div className="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch">
+      <div className="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch display-flex flex-align-center">
+        <div className={"flex-1"}>
+          Showing {"current"} of {totalPages} eCRs
+        </div>
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -81,7 +84,32 @@ export default function ListECRViewer({
           ) => {
             handlePageChange(page);
           }}
+          className={"flex-1"}
         />
+        <div
+          className={"display-flex flex-align-center flex-1 flex-justify-end"}
+        >
+          <Label
+            htmlFor="input-select"
+            className={"margin-top-0 margin-right-1025"}
+          >
+            eCRs per page
+          </Label>
+          <Select
+            id="input-select"
+            name="input-select"
+            value={userPreferences.itemsPerPage}
+            className={"styled width-11075 margin-top-0"}
+          >
+            <React.Fragment key=".0">
+              <option value="2">2</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="75">75</option>
+              <option value="100">100</option>
+            </React.Fragment>
+          </Select>
+        </div>
       </div>
     </div>
   );
