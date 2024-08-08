@@ -1,13 +1,21 @@
 "use client";
 
-import { Table } from "@trussworks/react-uswds";
-import { useState } from "react";
+import { Label, Select, Table } from "@trussworks/react-uswds";
+import React, { useEffect, useState } from "react";
 import { Pagination } from "@trussworks/react-uswds";
 import { EcrDisplay } from "@/app/api/services/listEcrDataService";
 
 interface ListEcrViewerProps {
   listFhirData: EcrDisplay[];
 }
+
+interface UserPreferences {
+  itemsPerPage: number;
+}
+
+const defaultPreferences = {
+  itemsPerPage: 25,
+};
 
 /**
  * Renders a list of eCR data with viewer.
@@ -17,7 +25,7 @@ interface ListEcrViewerProps {
  */
 export default function ListECRViewer({
   listFhirData,
-}: ListEcrViewerProps): JSX.Element {
+}: ListEcrViewerProps): React.JSX.Element {
   const header = [
     { value: "Patient", className: "minw-20" },
     { value: "Received Date", className: "minw-1605" },
@@ -26,8 +34,19 @@ export default function ListECRViewer({
     { value: "RCKMS Rule Summary", className: "minw-23" },
   ];
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 25;
-  const totalPages = Math.ceil(listFhirData.length / itemsPerPage);
+  const [userPreferences, setUserPreferences] =
+    useState<UserPreferences>(defaultPreferences);
+
+  useEffect(() => {
+    const userPreferencesString = localStorage.getItem("userPreferences");
+    if (userPreferencesString) {
+      setUserPreferences(JSON.parse(userPreferencesString));
+    }
+  }, []);
+
+  const totalPages = Math.ceil(
+    listFhirData.length / userPreferences.itemsPerPage,
+  );
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -35,8 +54,8 @@ export default function ListECRViewer({
   };
 
   const renderPage = (pageNumber: number) => {
-    const startIndex = (pageNumber - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
+    const startIndex = (pageNumber - 1) * userPreferences.itemsPerPage;
+    const endIndex = startIndex + userPreferences.itemsPerPage;
     const pageData = listFhirData.slice(startIndex, endIndex);
     return renderListEcrTableData(pageData);
   };
@@ -100,6 +119,17 @@ export default function ListECRViewer({
             name="input-select"
             value={userPreferences.itemsPerPage}
             className={"styled width-11075 margin-top-0"}
+            onChange={(e) => {
+              const updatedUserPreferences: UserPreferences = {
+                ...userPreferences,
+                itemsPerPage: +e.target.value,
+              };
+              setUserPreferences(updatedUserPreferences);
+              localStorage.setItem(
+                "userPreferences",
+                JSON.stringify(updatedUserPreferences),
+              );
+            }}
           >
             <React.Fragment key=".0">
               <option value="2">2</option>
