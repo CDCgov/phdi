@@ -50,3 +50,37 @@ The TEFCA Viewer will eventually require other inputs from other DIBBs services.
 ### Developer Documentation
 
 Can be found in [api-documentation.md](api-documentation.md).
+
+### Architecture Diagram
+
+```mermaid
+graph TD
+  subgraph Next.js App
+    direction TB
+
+    A[API Route] -->|GET Request| B[Next.js Server]
+    A[API Route] -->|POST Request| B[Next.js Server]
+
+    B --> C[UseCaseQuery Service]
+    B --> D[Parsing Service]
+    B --> E[Error Handling Service]
+
+    C --> F[Query FHIR Server]
+    D --> G[Parse Patient Demographics]
+    E --> H[Handle Errors]
+  end
+
+  subgraph External Services
+    direction TB
+    I[FHIR Servers]
+  end
+
+  F -->|Query| I
+
+  %% Legends
+  classDef next fill:#f9f,stroke:#333,stroke-width:4px,color:#000;
+  classDef external fill:#9f9,stroke:#333,stroke-width:4px,color:#000;
+
+  class A,B,C,D,E,F,G,H next;
+  class I external;
+```
