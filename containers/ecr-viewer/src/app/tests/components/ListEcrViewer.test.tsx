@@ -52,7 +52,11 @@ describe("Pagination for home page", () => {
     ecrId: `id-${i + 1}`,
     patient_first_name: `first-${i + 1}`,
     patient_last_name: `last-${i + 1}`,
-    dateModified: `2021-01-0${(i % 9) + 1}`,
+    patient_date_of_birth: `2000-01-0${(i % 9) + 1}`,
+    reportable_condition: `condition-${i + 1}`,
+    rule_summary: `summary-${i + 1}`,
+    patient_report_date: `2021-01-0${(i % 9) + 1}`,
+    date_created: `2021-01-0${(i % 9) + 1}`,
   }));
   beforeEach(() => {
     render(<ListECRViewer listFhirData={listFhirData} />);
