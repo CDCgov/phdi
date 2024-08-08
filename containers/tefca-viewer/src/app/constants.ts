@@ -31,7 +31,7 @@ export type DemoDataFields = {
   LastName: string;
   DOB: string;
   MRN: string;
-  Phone?: string;
+  Phone: string;
   FhirServer: FHIR_SERVERS;
   UseCase: USE_CASES;
 };
@@ -65,6 +65,7 @@ export const demoData: Record<PatientType, DemoDataFields> = {
     LastName: "JMC",
     DOB: "2001-05-07",
     MRN: "b50z-wayszq-ofib",
+    Phone: "",
     FhirServer: "JMC Meld: Direct",
     UseCase: "chlamydia",
   },
@@ -73,6 +74,7 @@ export const demoData: Record<PatientType, DemoDataFields> = {
     LastName: "JMC",
     DOB: "1998-05-31",
     MRN: "JMC-1002",
+    Phone: "",
     FhirServer: "JMC Meld: Direct",
     UseCase: "gonorrhea",
   },
