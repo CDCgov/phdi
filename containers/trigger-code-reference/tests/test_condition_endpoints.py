@@ -108,6 +108,11 @@ def test_stamp_condition_extensions(patched_get_services_list):
     # We'll just try stamping one of each resource type, no need
     # to see 47 observations
     message = json.load(open(Path(__file__).parent / "assets" / "sample_ecr.json"))
+    composition = [
+        e
+        for e in message["entry"]
+        if e.get("resource").get("resourceType") == "Composition"
+    ][0]
     obs_e = [
         e
         for e in message["entry"]
@@ -123,7 +128,7 @@ def test_stamp_condition_extensions(patched_get_services_list):
         for e in message["entry"]
         if e.get("resource").get("resourceType") == "Immunization"
     ][3]
-    message["entry"] = [obs_e, cond_e, imm_e]
+    message["entry"] = [composition, obs_e, cond_e, imm_e]
 
     # Note: obviously not real conditions, we're just simulating stamping different
     # resource types according to different condition criteria
