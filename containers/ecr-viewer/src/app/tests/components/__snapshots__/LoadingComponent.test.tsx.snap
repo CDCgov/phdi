@@ -16,7 +16,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
             class="sticky-nav"
           >
             <div
-              class="nav-wrapper"
+              class="nav-wrapper padding-top-10px"
             >
               <nav
                 class="sticky-nav top-550"
