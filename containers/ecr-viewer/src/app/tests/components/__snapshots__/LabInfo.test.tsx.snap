@@ -32,7 +32,7 @@ exports[`LabInfo should match snapshot test 1`] = `
                   Lab Performing Name
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)
                 </div>
@@ -51,7 +51,7 @@ exports[`LabInfo should match snapshot test 1`] = `
                   Lab Address
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   501 S. Buena Vista Street
 Burbank, CA
@@ -72,7 +72,7 @@ Burbank, CA
                   Number of Results
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   2
                 </div>
@@ -145,31 +145,31 @@ Burbank, CA
                   <thead>
                     <tr>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Component
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Value
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Ref Range
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Test Method
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Lab Comment
@@ -251,7 +251,7 @@ Burbank, CA
                       Analysis Time
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       09/28/2022 2:00 PM PDT
                     </div>
@@ -270,7 +270,7 @@ Burbank, CA
                       Collection Time
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       09/28/2022 8:51 PM UTC
                     </div>
@@ -289,7 +289,7 @@ Burbank, CA
                       Received Time
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       09/28/2022 8:51 PM UTC
                     </div>
@@ -308,7 +308,7 @@ Burbank, CA
                       Specimen (Source)
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       Stool
                     </div>
@@ -327,7 +327,7 @@ Burbank, CA
                       Anatomical Location/Laterality
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       STOOL SPECIMEN / Unknown
                     </div>
@@ -346,7 +346,7 @@ Burbank, CA
                       Collection Method/Volume
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       <span
                         class="no-data text-italic text-base"
@@ -369,7 +369,7 @@ Burbank, CA
                       Resulting Agency Comment
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       <span
                         class="no-data text-italic text-base"
@@ -392,7 +392,7 @@ Burbank, CA
                       Authorizing Provider
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       Ambhp1 Test MD
                     </div>
@@ -411,7 +411,7 @@ Burbank, CA
                       Result Type
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       MICROBIOLOGY - GENERAL ORDERABLES
                     </div>
@@ -430,7 +430,7 @@ Burbank, CA
                       Narrative
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       <span
                         class="no-data text-italic text-base"
@@ -475,31 +475,31 @@ Burbank, CA
                   <thead>
                     <tr>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Component
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Value
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Ref Range
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Test Method
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Lab Comment
@@ -581,7 +581,7 @@ Burbank, CA
                       Analysis Time
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       09/28/2022 1:59 PM PDT
                     </div>
@@ -600,7 +600,7 @@ Burbank, CA
                       Collection Time
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       09/28/2022 8:51 PM UTC
                     </div>
@@ -619,7 +619,7 @@ Burbank, CA
                       Received Time
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       09/28/2022 8:51 PM UTC
                     </div>
@@ -638,7 +638,7 @@ Burbank, CA
                       Specimen (Source)
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       Stool
                     </div>
@@ -657,7 +657,7 @@ Burbank, CA
                       Anatomical Location/Laterality
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       STOOL SPECIMEN / Unknown
                     </div>
@@ -676,7 +676,7 @@ Burbank, CA
                       Collection Method/Volume
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       <span
                         class="no-data text-italic text-base"
@@ -699,7 +699,7 @@ Burbank, CA
                       Resulting Agency Comment
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       <span
                         class="no-data text-italic text-base"
@@ -722,7 +722,7 @@ Burbank, CA
                       Authorizing Provider
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       Ambhp1 Test MD
                     </div>
@@ -741,7 +741,7 @@ Burbank, CA
                       Result Type
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       MICROBIOLOGY - GENERAL ORDERABLES
                     </div>
@@ -760,7 +760,7 @@ Burbank, CA
                       Narrative
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       <span
                         class="no-data text-italic text-base"
@@ -798,7 +798,7 @@ Burbank, CA
                   Lab Performing Name
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   VUMC CERNER LAB
                 </div>
@@ -817,7 +817,7 @@ Burbank, CA
                   Lab Address
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   4605 TVC VUMC
 1301 Medical Center Drive
@@ -839,7 +839,7 @@ NASHVILLE, TN
                   Number of Results
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   1
                 </div>
@@ -905,31 +905,31 @@ NASHVILLE, TN
                   <thead>
                     <tr>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Component
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-40"
                         scope="col"
                       >
                         Value
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Ref Range
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Test Method
                       </th>
                       <th
-                        class="tableHeader"
+                        class="tableHeader minw-10 width-20"
                         scope="col"
                       >
                         Lab Comment
@@ -1106,7 +1106,7 @@ NASHVILLE, TN
                       Analysis Time
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       <span
                         class="no-data text-italic text-base"
@@ -1129,7 +1129,7 @@ NASHVILLE, TN
                       Collection Time
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       04/04/2022 4:55 PM UTC
                     </div>
@@ -1148,7 +1148,7 @@ NASHVILLE, TN
                       Received Time
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       04/18/2022 7:46 PM UTC
                     </div>
@@ -1167,7 +1167,7 @@ NASHVILLE, TN
                       Specimen (Source)
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       Blood
                     </div>
@@ -1186,7 +1186,7 @@ NASHVILLE, TN
                       Anatomical Location/Laterality
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       <span
                         class="no-data text-italic text-base"
@@ -1209,7 +1209,7 @@ NASHVILLE, TN
                       Collection Method/Volume
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       Collection / Unknown
                     </div>
@@ -1228,7 +1228,7 @@ NASHVILLE, TN
                       Resulting Agency Comment
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       testing comment
                     </div>
@@ -1247,7 +1247,7 @@ NASHVILLE, TN
                       Authorizing Provider
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       Carda Testprovqa MD
                     </div>
@@ -1266,7 +1266,7 @@ NASHVILLE, TN
                       Result Type
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       LAB GENETIC TESTING
                     </div>
@@ -1285,7 +1285,7 @@ NASHVILLE, TN
                       Narrative
                     </div>
                     <div
-                      class="grid-col-auto maxw7 text-pre-line lab-text-content"
+                      class="grid-col maxw7 text-pre-line lab-text-content"
                     >
                       VUMC CERNER LAB - 04/18/2022 2:57 PM CDT  MICROARRAY REPORT NARRATIVE
                     </div>
