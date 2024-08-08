@@ -35,7 +35,7 @@ get_settings()
 app = BaseService(
     service_name="DIBBs Message Parser",
     service_path="/message-parser",
-    description_path=Path(__file__).parent.parent / "description.md",
+    description_path=Path(__file__).parent.parent / "README.md",
     openapi_url="/message-parser/openapi.json",
 ).start()
 
