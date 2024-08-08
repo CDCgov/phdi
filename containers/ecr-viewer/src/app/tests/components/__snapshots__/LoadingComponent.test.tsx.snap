@@ -16,7 +16,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
             class="sticky-nav"
           >
             <div
-              class="nav-wrapper"
+              class="nav-wrapper padding-top-1-25"
             >
               <nav
                 class="sticky-nav top-550"
@@ -25,6 +25,16 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   class="usa-sidenav"
                   data-testid="sidenav"
                 >
+                  <li
+                    class="usa-sidenav__item"
+                  >
+                    <a
+                      class=""
+                      href="#ecr-summary"
+                    >
+                      eCR Summary
+                    </a>
+                  </li>
                   <li
                     class="usa-sidenav__item"
                   >
@@ -280,12 +290,22 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
           <div
             class="ecr-content"
           >
-            <h2
-              class="margin-bottom-3 side-nav-ignore"
-              id="ecr-summary"
+            <div
+              class="margin-bottom-3"
             >
-              eCR Summary
-            </h2>
+              <h2
+                class="margin-bottom-05"
+                data-sectionid="ecr-summary"
+                id="ecr-summary"
+              >
+                eCR Summary
+              </h2>
+              <div
+                class="text-base-darker line-height-sans-5"
+              >
+                Provides key info upfront to help you understand the eCR at a glance
+              </div>
+            </div>
             <div
               class="info-container"
             >
@@ -594,7 +614,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                 data-testid="gridContainer"
               >
                 <div
-                  class="grid-row"
+                  class="grid-row margin-bottom-05"
                   data-testid="grid"
                 >
                   <div
@@ -633,6 +653,11 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       Collapse all sections
                     </button>
                   </div>
+                </div>
+                <div
+                  class="text-base-darker line-height-sans-5"
+                >
+                  Displays entire eICR and RR documents to help you dig further into eCR data
                 </div>
               </div>
               <div
