@@ -526,11 +526,22 @@ html {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  color: var(--White, #FFF);
+  font-family: "Source Sans Pro";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .accordion-subtitle {
   display: block;
   font-weight: normal;
+  font-size: 16px;
+  color: var(--White, #FFF);
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  line-height: normal;
 }
 
 .usa-accordion__button {

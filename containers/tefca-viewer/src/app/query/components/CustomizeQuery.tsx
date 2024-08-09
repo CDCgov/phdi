@@ -139,7 +139,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                     }
                     label={undefined}
                   />
-                  {`${title} (${items[0].display})`}
+                  {`${items[0].display}`}
                   <div>{`${selectedCount} selected`}</div>
                 </div>
                 <div className="accordion-subtitle">
