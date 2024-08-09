@@ -524,6 +524,7 @@ html {
 .accordion-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
@@ -537,10 +538,17 @@ html {
   color: white;
   width: 100%;
   padding: 14px 20px;
+}
+
+.accordion-table-header {
   display: flex;
   justify-content: space-between;
+  padding: 8px 0;
+  font-weight: bold;
   align-items: center;
   gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .usa-accordion__button:hover,
@@ -549,104 +557,153 @@ html {
   outline: none;
 }
 
-.custom-checkbox {
+.accordion-items {
   display: flex;
-  padding: 8px;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.accordion-item-row {
+  display: flex;
+  padding: 14px 24px;
   align-items: center;
-}
-
-.custom-checkbox-cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.usa-nav {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 1rem;
-}
-
-.usa-nav__primary {
-  display: flex;
-  justify-content: flex-start;
-  list-style-type: none;
-  padding: 0;
-}
-
-.usa-nav__primary-item {
-  margin-right: 1rem;
-}
-
-.usa-nav__primary-item a:hover {
-  color: #565C65;
-}
-
-.usa-current a {
-  font-weight: bold;
-}
-
-.custom-nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  color: #565C65;
-  font-family: "Source Sans Pro";
-  position: relative;
-}
-
-.custom-nav li {
-  list-style: none;
-}
-
-.custom-nav a {
-  color: #565C65;
-  text-decoration: none;
-  font-weight: normal;
-  font-size: 18px;
-  font-family: "Source Sans Pro";
-}
-
-.custom-nav a:hover {
-  color: #565C65;
-  text-decoration: none;
-  font-size: 18px;
-  font-family: "Source Sans Pro";
-}
-
-.custom-nav .usa-current a {
-  font-weight: bold;
-  font-size: 18px;
-  font-family: "Source Sans Pro";
-}
-
-.custom-nav ul::after {
-  content: '';
-  display: block;
-  width: 960px;
-  height: 1px;
-  background-color: #ddd;
-  position: absolute;
-  bottom: 10px;
-  left: -560px;
-}
-
-.usa-accordion__content {
-  padding: 0;
-}
-
-.accordion-content {
-  margin: 0;
-  padding: 0;
+  gap: 60px;
+  align-self: stretch;
+  justify-content: space-between;
+  border-top: 1px solid black;
   width: 100%;
+  box-sizing: border-box;
 }
 
-.button-container {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  margin-top: 20px;
+.accordion-item-row:nth-child(odd) {
+  background-color: white;
 }
+
+.accordion-item-row:nth-child(even) {
+  border-bottom: 1px solid var(--Base-base, #71767A);
+  background: rgba(223, 225, 226, 0.50);
+}
+
+.accordion-item-cell.include {
+  flex: 0 0 0%;
+  text-align: left;
+}
+
+.accordion-item-cell.code {
+  flex: 0 0 0%;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.accordion-item-cell.display {
+  flex: 1 1 100%;
+  text-align: left;
+}
+
+.accordion-item-cell {
+  padding-left: 0 24px;
+  box-sizing: border-box;
+}
+
+
+// .custom-checkbox {
+//   display: flex;
+//   padding: 8px;
+//   align-items: center;
+// }
+
+// .custom-checkbox-cell {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .usa-nav {
+//   display: flex;
+//   justify-content: flex-start;
+//   margin-bottom: 1rem;
+// }
+
+// .usa-nav__primary {
+//   display: flex;
+//   justify-content: flex-start;
+//   list-style-type: none;
+//   padding: 0;
+// }
+
+// .usa-nav__primary-item {
+//   margin-right: 1rem;
+// }
+
+// .usa-nav__primary-item a:hover {
+//   color: #565C65;
+// }
+
+// .usa-current a {
+//   font-weight: bold;
+// }
+
+// .custom-nav ul {
+//   list-style-type: none;
+//   padding: 0;
+//   margin: 0;
+//   display: flex;
+//   gap: 20px;
+//   align-items: flex-start;
+//   color: #565C65;
+//   font-family: "Source Sans Pro";
+//   position: relative;
+// }
+
+// .custom-nav li {
+//   list-style: none;
+// }
+
+// .custom-nav a {
+//   color: #565C65;
+//   text-decoration: none;
+//   font-weight: normal;
+//   font-size: 18px;
+//   font-family: "Source Sans Pro";
+// }
+
+// .custom-nav a:hover {
+//   color: #565C65;
+//   text-decoration: none;
+//   font-size: 18px;
+//   font-family: "Source Sans Pro";
+// }
+
+// .custom-nav .usa-current a {
+//   font-weight: bold;
+//   font-size: 18px;
+//   font-family: "Source Sans Pro";
+// }
+
+// .custom-nav ul::after {
+//   content: '';
+//   display: block;
+//   width: 960px;
+//   height: 1px;
+//   background-color: #ddd;
+//   position: absolute;
+//   bottom: 10px;
+//   left: -560px;
+// }
+
+// .usa-accordion__content {
+//   padding: 0;
+// }
+
+// .accordion-content {
+//   margin: 0;
+//   padding: 0;
+//   width: 100%;
+// }
+
+// .button-container {
+//   display: flex;
+//   justify-content: flex-start;
+//   gap: 10px;
+//   margin-top: 20px;
+// }
