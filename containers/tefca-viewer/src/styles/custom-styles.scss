@@ -508,7 +508,7 @@ html {
   border: 2px solid #005ea2;
 }
 
-/* Styles for the accordion and table */
+/* Styles for the customize page */
 .customize-query-container {
   max-width: 960px;
   margin: 0 auto;
@@ -560,6 +560,7 @@ html {
   gap: 20px;
   width: 100%;
   box-sizing: border-box;
+  border-bottom: 1px solid #A9AEB1;
 }
 
 .usa-accordion__button:hover,
@@ -581,7 +582,7 @@ html {
   gap: 60px;
   align-self: stretch;
   justify-content: space-between;
-  border-top: 1px solid black;
+  border-bottom: 1px solid #A9AEB1;
   width: 100%;
   box-sizing: border-box;
 }
@@ -617,104 +618,152 @@ html {
 }
 
 
-// .custom-checkbox {
-//   display: flex;
-//   padding: 8px;
-//   align-items: center;
-// }
+.custom-checkbox {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+}
 
-// .custom-checkbox-cell {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
+.custom-checkbox input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  border: 2px solid var(--Primary-primary, #005EA2);
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+}
 
-// .usa-nav {
-//   display: flex;
-//   justify-content: flex-start;
-//   margin-bottom: 1rem;
-// }
+.custom-checkbox input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease-in-out;
+}
 
-// .usa-nav__primary {
-//   display: flex;
-//   justify-content: flex-start;
-//   list-style-type: none;
-//   padding: 0;
-// }
+.custom-checkbox input[type="checkbox"]:checked::before {
+  width: 26.385px;
+  height: 20.115px;
+  background-image: url('/USWDS-checkmark.svg');
+  transform: translate(-50%, -50%) scale(1);
+}
 
-// .usa-nav__primary-item {
-//   margin-right: 1rem;
-// }
+.custom-checkbox input[type="checkbox"]:checked {
+  background-color: white;
+  /* Keeps the background white when checked */
+}
 
-// .usa-nav__primary-item a:hover {
-//   color: #565C65;
-// }
+.custom-checkbox input[type="checkbox"]:indeterminate::before {
+  width: 26.385px;
+  height: 20.115px;
+  background-image: url('/USWDS-checkmark.svg');
+  transform: translate(-50%, -50%) scale(1);
+}
 
-// .usa-current a {
-//   font-weight: bold;
-// }
+.usa-nav {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
 
-// .custom-nav ul {
-//   list-style-type: none;
-//   padding: 0;
-//   margin: 0;
-//   display: flex;
-//   gap: 20px;
-//   align-items: flex-start;
-//   color: #565C65;
-//   font-family: "Source Sans Pro";
-//   position: relative;
-// }
+.usa-nav__primary {
+  display: flex;
+  justify-content: flex-start;
+  list-style-type: none;
+  padding: 0;
+}
 
-// .custom-nav li {
-//   list-style: none;
-// }
+.usa-nav__primary-item {
+  margin-right: 1rem;
+}
 
-// .custom-nav a {
-//   color: #565C65;
-//   text-decoration: none;
-//   font-weight: normal;
-//   font-size: 18px;
-//   font-family: "Source Sans Pro";
-// }
+.usa-nav__primary-item a:hover {
+  color: #565C65;
+}
 
-// .custom-nav a:hover {
-//   color: #565C65;
-//   text-decoration: none;
-//   font-size: 18px;
-//   font-family: "Source Sans Pro";
-// }
+.usa-current a {
+  font-weight: bold;
+}
 
-// .custom-nav .usa-current a {
-//   font-weight: bold;
-//   font-size: 18px;
-//   font-family: "Source Sans Pro";
-// }
+.custom-nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  color: #565C65;
+  font-family: "Source Sans Pro";
+  position: relative;
+}
 
-// .custom-nav ul::after {
-//   content: '';
-//   display: block;
-//   width: 960px;
-//   height: 1px;
-//   background-color: #ddd;
-//   position: absolute;
-//   bottom: 10px;
-//   left: -560px;
-// }
+.custom-nav li {
+  list-style: none;
+}
 
-// .usa-accordion__content {
-//   padding: 0;
-// }
+.custom-nav a {
+  color: #565C65; /* Same gray color */
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 18px;
+  font-family: "Source Sans Pro";
+}
 
-// .accordion-content {
-//   margin: 0;
-//   padding: 0;
-//   width: 100%;
-// }
+.custom-nav a:hover,
+.custom-nav a:focus {
+  color: #565C65;
+  background-color: transparent; /* Remove the background */
+  border: none; /* Remove the blue border */
+  outline: none; /* Remove the outline */
+}
 
-// .button-container {
-//   display: flex;
-//   justify-content: flex-start;
-//   gap: 10px;
-//   margin-top: 20px;
-// }
+/* Ensure the current tab is bolded but doesn't change color */
+.custom-nav .usa-current a {
+  font-weight: bold;
+  font-size: 18px;
+  font-family: "Source Sans Pro";
+  color: #565C65; /* Maintain the same gray color */
+  background-color: transparent; /* Remove any background */
+  border: none; /* Remove any border */
+  outline: none; /* Remove any outline */
+}
+.custom-nav ul::after {
+  content: '';
+  display: block;
+  width: 960px;
+  height: 1px;
+  background-color: #ddd;
+  position: absolute;
+  bottom: 10px;
+  left: -560px;
+}
+
+.usa-accordion__content {
+  padding: 0;
+}
+
+.accordion-content {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
