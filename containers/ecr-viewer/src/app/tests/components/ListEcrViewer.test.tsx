@@ -132,4 +132,15 @@ describe("Pagination for home page", () => {
 
     expect(screen.getByText("first-50 last-50")).toBeInTheDocument();
   });
+
+  it("should display 1-25 on first page", () => {
+    expect(screen.getByText("Showing 1-25 of 51 eCRs")).toBeInTheDocument();
+  });
+
+  it("should display 51-51 on third page", async () => {
+    const page3Button = screen.getByText("3", { selector: "button" });
+    await user.click(page3Button);
+
+    expect(screen.getByText("Showing 51-51 of 51 eCRs")).toBeInTheDocument();
+  });
 });

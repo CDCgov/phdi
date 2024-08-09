@@ -60,6 +60,12 @@ export default function ListECRViewer({
     return renderListEcrTableData(pageData);
   };
 
+  const startIndex = (currentPage - 1) * userPreferences.itemsPerPage + 1;
+  const endIndex = Math.min(
+    currentPage * userPreferences.itemsPerPage,
+    listFhirData.length,
+  );
+
   return (
     <div className="main-container height-full flex-column flex-align-center">
       <div className="ecr-library-wrapper width-full overflow-auto">
@@ -89,7 +95,7 @@ export default function ListECRViewer({
       </div>
       <div className="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch display-flex flex-align-center">
         <div className={"flex-1"}>
-          Showing {"current"} of {totalPages} eCRs
+          Showing {startIndex}-{endIndex} of {listFhirData.length} eCRs
         </div>
         <Pagination
           currentPage={currentPage}
