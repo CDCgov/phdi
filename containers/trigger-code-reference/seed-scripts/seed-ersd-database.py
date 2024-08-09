@@ -5,6 +5,7 @@ import sqlite3
 import time
 from pathlib import Path
 from typing import List
+from typing import Tuple
 
 import docker
 import requests
@@ -12,11 +13,13 @@ from docker.errors import APIError
 from docker.errors import BuildError
 from docker.models.containers import Container
 from dotenv import load_dotenv
+from requests.auth import HTTPBasicAuth
 
 load_dotenv()
 # eRSD constants, can be obtained at: https://ersd.aimsplatform.org/#/api-keys
 ERSD_API_KEY = os.getenv("ERSD_API_KEY")
 ERSD_URL = f"https://ersd.aimsplatform.org/api/ersd/v2specification?format=json&api-key={ERSD_API_KEY}"
+UMLS_API_KEY = os.getenv("UMLS_API_KEY")
 
 # docker constants to start message-parser service
 dockerfile_path = Path(__file__).parent.parent.parent / "message-parser"
@@ -39,6 +42,24 @@ def load_ersd(URL: str) -> dict:
     return data
 
 
+def load_vsac_api(url) -> dict:
+    """
+    Loads ValueSet or CodeSystem data from the VSAC FHIR API in a json format.
+    :param url: API url to hit
+
+    :return: FHIR compose data for valueset or codesystem in JSON format
+    """
+    response = requests.get(
+        url,
+        auth=HTTPBasicAuth("apikey", UMLS_API_KEY),
+    )
+    if response.status_code == 200:
+        data = response.json()
+    else:
+        print("Failed to retrieve data:", response.status_code, response.text)
+    return data
+
+
 def start_docker_service(dockerfile_path: str, tag: str, ports: dict) -> Container:
     """
     Builds and runs a Docker container based on a Dockerfile.
@@ -53,7 +74,7 @@ def start_docker_service(dockerfile_path: str, tag: str, ports: dict) -> Contain
     container = None
     try:
         # connect and start
-        client.images.build(path=str(dockerfile_path), tag=tag)
+        client.images.build(path=str(dockerfile_path), tag=tag, platform="linux/amd64")
         container = client.containers.run(tag, ports=ports, detach=True)
         time.sleep(1.5)  # TODO: find better way to make sure service waits
     except (BuildError, APIError) as e:
@@ -91,7 +112,6 @@ def parse_ersd(ports: dict, data: dict) -> dict:
     :param data: eRSD json bundle
     :return: parsed message.
     """
-
     # load the ersd.json schema to message-parser first
     load_ersd_schema(ports)
 
@@ -116,36 +136,41 @@ def parse_ersd(ports: dict, data: dict) -> dict:
         print(f"An error occurred: {e}")
 
 
-def build_clinical_services_dict(data: dict) -> dict:
+def build_valuesets_dict(data: dict) -> dict:
     """
-    This is the only part of the parsed json bundle where the service type
-    and version are defined for each of the value sets, so this function makes
-    a dictionary that has each value_set_id as a key with its service type id
+    This is the only part of the parsed json bundle where the valueset type
+    is defined for each of the valuesets, so this function makes
+    a dictionary that has each valueset_id as a key with its valueset type id
     and version.
 
+    It also looks up the version from the VSAC FHIR as a value for the dict.
+
     :param data: message-parser parsed eRSD json
-    :return: a dictionary of each value_set URL with its service type and
+    :return: a dictionary of each valueset URL with its valueset type and
              version.
     """
-    clinical_services_dict = {}
-    for value_set in data.get("value_sets"):
-        clinical_service_type = value_set.get("clinical_service_type_id")
-        version = value_set.get("version")
-        compose_codes = value_set.get("compose_codes").split(",")
+    valuesets_dict = {}
+    for valueset in data.get("valuesets"):
+        concept_type = valueset.get("concept_type_id")
+        compose_codes = valueset.get("compose_codes").split(",")
         for compose_code in compose_codes:
-            value_set_id = compose_code.split("/")[-1]
-            clinical_services_dict[value_set_id] = {
-                "clinical_service_type": clinical_service_type,
-                "version": version,
-            }
-    return clinical_services_dict
+            valueset_id = compose_code.split("/")[-1]
+            if valueset_id not in valuesets_dict.keys():
+                url = f"https://cts.nlm.nih.gov/fhir/ValueSet/{valueset_id}"
+                vsac_data = load_vsac_api(url)
+                version = vsac_data.get("version")
+                valuesets_dict[valueset_id] = {
+                    "concept_type": concept_type,
+                    "version": version,
+                }
+    return valuesets_dict
 
 
 def check_id_uniqueness(list_of_lists: List[List[str]]) -> bool:
     """This is a helper function that confirms that the first item
     in each list of the lists of lists is unique. This is needed to
     confirm that the assumptions we have about tables with a unique primary
-    key (value_sets, value_set_types, clinical_services) are all in fact
+    key (valuesets, valueset_types, concepts) are all in fact
     unique (i.e., the number of unique ids matches number of rows).
     If not, then the function will exit to prevent overwriting.
 
@@ -156,59 +181,59 @@ def check_id_uniqueness(list_of_lists: List[List[str]]) -> bool:
     return len(unique_ids) == len(list_of_lists)
 
 
-def build_value_set_type_table(data: dict) -> List[List[str]]:
+def build_valuesets_table(
+    data: dict,
+    valuesets_dict: dict,
+) -> Tuple[List[List[str]], List[List[str]]]:
     """
-    Loop through parsed json bundle in order to build a small table of
-    each of the (currently) 6 service types as defined by APHL with its id
-    and short description of the clinical service type.
+    Look through eRSD json to create valuesets table, where the primary key
+    is the valueset_id that contains the name and codes for each service.
+
+    It will create a junction table between valueset id, condition id, and log
+    version of the eRSD table.
+
+    It also outputs a dictionary of the valueset:version to use for the other
+    junction table to avoid duplicative API calls.
 
     :param data: message-parser parsed eRSD json
-    :return: a list of lists of the id and type of each of the service types
-             to load to a database
+    :param valuesets_dict: a dictionary of each valueset URL with its
+    service type and versions as values
+    :return: list of lists of for each of the valueset id, name, and code info;
+             list of lists of each valueset id, condition id, source/version
+             dict of the valuesets with version
     """
-    value_set_type_list = []
-    for value_set_type in data.get("value_set_type"):
-        id = value_set_type.get("id")
-        type = value_set_type.get("clinical_service_type")
-        value_set_type_list.append([id, type])
-    if check_id_uniqueness(value_set_type_list):
-        return value_set_type_list
-    else:
-        return print("Non-unique IDs in value_set_type")
-
-
-def build_value_sets_table(data: dict, clinical_services_dict: dict) -> List[List[str]]:
-    """
-    Look through eRSD json to create value sets table, where the primary key
-    is the value_set_id that contains the name and codes for each service.
-
-    It also uses the clinical services dictionary that will have the clinical
-    service type for each of the services as well as the value set version.
-
-    :param data: message-parser parsed eRSD json
-    :param clinical_services_dict: a dictionary of each value_set URL with its
-    service type as value
-    :return: list of lists of for each of the value set id, name, and code info
-    """
-    clinical_services = data.get("clinical_services")
-    value_sets_list = []
-    for service in clinical_services:
-        value_set_id = service.get("value_set_id")
-        value_set_name = service.get("display")
+    concepts = data.get("concepts")
+    ersd_version = data.get("valuesets")[0].get("ersd_version")
+    valuesets_list = []
+    junction_list = []
+    for service in concepts:
+        valueset_id = service.get("valueset_id")
+        valueset_name = service.get("display")
         publisher = service.get("publisher")
-        service_info = clinical_services_dict.get(value_set_id)
+        service_info = valuesets_dict.get(valueset_id)
+        version = service_info.get("version")
+        id = f"{valueset_id}_{version}"
         result = [
-            value_set_id,
-            service_info.get("version", ""),
-            value_set_name,
+            id,
+            valueset_id,
+            version,
+            valueset_name,
             publisher,
-            service_info.get("clinical_service_type"),
+            service_info.get("concept_type"),
         ]
-        value_sets_list.append(result)
-    if check_id_uniqueness(value_sets_list):
-        return value_sets_list
+        valuesets_list.append(result)
+        # create junction table between valueset ID and condition ID
+        concept_codes = ast.literal_eval(service.get("valueable_codes"))
+        if isinstance(concept_codes, dict):
+            concept_codes = [concept_codes]
+        for concept in concept_codes:
+            code = concept.get("coding")[0].get("code")
+            junction_list.append([code, id, f"eRSD_{ersd_version}"])
+    if check_id_uniqueness(valuesets_list):
+        return valuesets_list, junction_list
     else:
-        return print("Non-unique IDs in value_sets")
+        print("Non-unique IDs in valuesets")
+        return [], []
 
 
 def build_conditions_table(data: dict) -> List[List[str]]:
@@ -217,38 +242,62 @@ def build_conditions_table(data: dict) -> List[List[str]]:
     is a SNOMED condition code and has the name and system for each condition.
 
     :param data: message-parser parsed eRSD json
-    :return: list of lists of for each of the condition code, name, and system
+    :return: list of lists of for each of the condition code, name, system,
+             and version
     """
-    clinical_services = data.get("clinical_services")
+    concepts = data.get("concepts")
     conditions_list = []
-    for service in clinical_services:
-        value_set_id = service.get("value_set_id")
+    conditions_dict = {}
+    for service in concepts:
         valueable_codes = ast.literal_eval(service.get("valueable_codes"))
         if isinstance(valueable_codes, dict):  # one item, need to list it
             valueable_codes = [valueable_codes]
-        # valueable codes to build value_set
+        # valueable codes to build conditions
         for valueable_code in valueable_codes:
             code_system = valueable_code.get("coding")[0].get("system")
             code = valueable_code.get("coding")[0].get("code")
             code_name = valueable_code.get("text")
-            result = [code, value_set_id, code_system, code_name]
-            conditions_list.append(result)
-    return conditions_list
+            # only run code once against API then append to list of lists
+            if code not in conditions_dict.keys():
+                url = f"https://cts.nlm.nih.gov/fhir/CodeSystem/$lookup?system={code_system}&code={code}"
+                vsac_data = load_vsac_api(url)
+                version = [
+                    data.get("valueString").split("/")[-1]
+                    for data in vsac_data.get("parameter")
+                    if data.get("name") == "version"
+                ][0]
+                conditions_dict[code] = version
+                results = [code, code_system, code_name, version]
+                conditions_list.append(results)
+    if check_id_uniqueness(conditions_list):
+        return conditions_list
+    else:
+        print("Non-unique IDs in conditions")
+        return []
 
 
-def build_clinical_services_table(data: dict) -> List[List[str]]:
+def build_concepts_table(
+    data: dict,
+    valuesets_dict: dict,
+) -> Tuple[List[List[str]], List[List[str]], dict]:
     """
-    This builds the table for clinical services, which has a unique row for
-    each unique value_set_id-code combination.
+    This builds the table for concepts, which has a unique row for
+    each unique valueset_id-concept code combination.
+
+    It also creates a junction table between the valueset_id and concept_id.
 
     :param data: message-parser parsed eRSD json
-    :return: list of lists of for each unique value_set_id-code-id, name, and
-    code info
+    :param valuesets_dict: a dictionary of each valueset URL with its
+    service type and versions as values
+    :return: list of lists of for each unique valueset_id-code-id, name, and
+    code info;
+             list of lists for each valueset_id, concept_id
     """
-    clinical_services = data.get("clinical_services")
-    clinical_services_list = []
-    for service in clinical_services:
-        value_set_id = service.get("value_set_id")
+    concepts = data.get("concepts")
+    concepts_list = []
+    junction_list = []
+    for service in concepts:
+        valueset_id = service.get("valueset_id")
         compose_codes = ast.literal_eval(service.get("compose_codes"))
         if isinstance(compose_codes, dict):  # one item, need to list it
             compose_codes = [compose_codes]
@@ -258,13 +307,18 @@ def build_clinical_services_table(data: dict) -> List[List[str]]:
             for concept in compose_code.get("concept"):
                 code = concept.get("code", "")
                 display = concept.get("display", "")
-                id = f"{value_set_id}_{code}"
-                result = [id, value_set_id, code, system, display, version]
-                clinical_services_list.append(result)
-    if check_id_uniqueness(clinical_services_list):
-        return clinical_services_list
+                id = f"{valueset_id}_{code}"
+                result = [id, code, system, display, version]
+                concepts_list.append(result)
+                # create junction table between valueset and concept
+                valueset_version = valuesets_dict.get(valueset_id).get("version")
+                valueset_id_full = f"{valueset_id}_{valueset_version}"
+                junction_list.append([valueset_id_full, id])
+    if check_id_uniqueness(concepts_list):
+        return concepts_list, junction_list
     else:
-        return print("Non-unique IDs in clinical_services")
+        print("Non-unique IDs in concepts")
+        return [], []
 
 
 def apply_migration(connection: sqlite3.Connection, migration_file: str):
@@ -305,6 +359,7 @@ def load_table(
     connection: sqlite3.Connection,
     table_name: str,
     insert_rows: List[List[str]],
+    auto_increment_id: bool = False,
 ):
     """
     Takes the sqlite3 connection to insert data created in other data steps
@@ -312,7 +367,11 @@ def load_table(
     :param connection: sqlite3 connection
     :param table_name: name of the table
     :param insert_rows: list of lists of values to insert into table
+    :param auto_increment_id: boolean to determine whether table needs
+            sequential row number as primary id
     """
+    if auto_increment_id:
+        insert_rows = [[i + 1] + row for i, row in enumerate(insert_rows)]
     cursor = connection.cursor()
     try:
         values = ", ".join("?" for _ in insert_rows[0])
@@ -334,44 +393,51 @@ def main():
     5. Create tables and add indexes.
     6. Insert data into tables.
     """
-    # 1. extract and transform eRSD data
+    # 1. Load eRSD data json from APHL API.
     ersd_data = load_ersd(ERSD_URL)
 
-    # 2. use message-parser to parse eRSD data, then spin down service
+    # 2. Post eRSD data json to message-parser to get parsed data.
     container = start_docker_service(dockerfile_path, tag, ports)
     parsed_data = parse_ersd(ports, ersd_data)
     if container:
         container.stop()
         container.remove()
 
-    # 3. used parsed data to create needed tables as list of lists
-    value_set_type_list = build_value_set_type_table(parsed_data)
-    clinical_services_dict = build_clinical_services_dict(parsed_data)
-    value_sets_list = build_value_sets_table(parsed_data, clinical_services_dict)
+    # 3. se parsed data to create list of lists for each table.
+    valuesets_dict = build_valuesets_dict(parsed_data)
+    valuesets_list, condition_to_valueset_list = build_valuesets_table(
+        parsed_data, valuesets_dict
+    )
     conditions_list = build_conditions_table(parsed_data)
-    clinical_services_list = build_clinical_services_table(parsed_data)
+    concepts_list, valueset_to_concept_list = build_concepts_table(
+        parsed_data, valuesets_dict
+    )
 
     # Create mini-dict to loop through for sqlite queries
     table_dict = {
-        "value_set_type": value_set_type_list,
-        "value_sets": value_sets_list,
+        "valuesets": valuesets_list,
         "conditions": conditions_list,
-        "clinical_services": clinical_services_list,
+        "concepts": concepts_list,
+        "condition_to_valueset": condition_to_valueset_list,
+        "valueset_to_concept": valueset_to_concept_list,
     }
 
     with sqlite3.connect("seed-scripts/ersd.db") as conn:
-        # 4. Delete existing tables in eRSD database
+        # 4. Delete existing tables in sqlite database.
         for table_name in table_dict.keys():
             delete_table(conn, table_name)
 
-        # 5. Create tables in eRSD database
+        # 5. Create tables and add indexes.
         apply_migration(
-            conn, "seed-scripts/migrations/V01_01__create_tables_add_indexes.sql"
+            conn, "seed-scripts/migrations/V02_01__create_tables_add_indexes.sql"
         )
 
-        # 6. Insert data into the tables
+        # 6. Insert data into tables.
         for table_name, table_rows in table_dict.items():
-            load_table(conn, table_name, table_rows)
+            if "_to_" in table_name:  # use to add sequential row number
+                load_table(conn, table_name, table_rows, True)
+            else:
+                load_table(conn, table_name, table_rows, False)
 
 
 if __name__ == "__main__":

@@ -8,8 +8,8 @@ from app.utils import _find_codes_by_resource_type
 from app.utils import _stamp_resource_with_code_extension
 from app.utils import convert_inputs_to_list
 from app.utils import get_clean_snomed_code
-from app.utils import get_clinical_services_dict
-from app.utils import get_clinical_services_list
+from app.utils import get_concepts_dict
+from app.utils import get_concepts_list
 
 
 @pytest.fixture
@@ -42,36 +42,36 @@ def test_get_clean_snomed_code_multiple():
 
 
 # Test getting clinical code list of tuples with a valid SNOMED ID
-def test_get_clinical_services_list_normal(mock_db):
+def test_get_concepts_list_normal(mock_db):
     code = 276197005
     expected_result = [
         ("dxtc", "A36.3|A36", "http://hl7.org/fhir/sid/icd-10-cm"),
         ("sdtc", "772150003", "http://snomed.info/sct"),
     ]
     mock_db.fetchall.return_value = expected_result
-    result = get_clinical_services_list([code])
+    result = get_concepts_list([code])
     assert result == expected_result
 
 
 # Test with bad SNOMED code
-def test_get_clinical_services_list_no_results(mock_db):
+def test_get_concepts_list_no_results(mock_db):
     code = ["junk_id"]
     mock_db.fetchall.return_value = []
-    result = get_clinical_services_list(code)
+    result = get_concepts_list(code)
     assert result == []
 
 
 # Test SQL error messaging
-def test_get_clinical_services_list_sql_error(mock_db):
+def test_get_concepts_list_sql_error(mock_db):
     snomed_id = 276197005
     mock_db.execute.side_effect = sqlite3.Error("SQL error")
-    result = get_clinical_services_list([snomed_id])
+    result = get_concepts_list([snomed_id])
     assert "error" in result
     assert "SQL error" in result["error"]
 
 
 # Test transforming clinical services list to nested dictionary
-def test_get_clinical_services_dict_normal():
+def test_get_concepts_dict_normal():
     clinical_services_list = [
         ("dxtc", "A36.3|A36", "http://hl7.org/fhir/sid/icd-10-cm"),
         ("sdtc", "772150003", "http://snomed.info/sct"),
@@ -82,12 +82,12 @@ def test_get_clinical_services_dict_normal():
         ],
         "sdtc": [{"codes": ["772150003"], "system": "http://snomed.info/sct"}],
     }
-    result = get_clinical_services_dict(clinical_services_list)
+    result = get_concepts_dict(clinical_services_list)
     assert result == expected_result
 
 
 # Test clinical services dict limiting to just sdtc
-def test_get_clinical_services_dict_filter_services():
+def test_get_concepts_dict_filter_services():
     clinical_services_list = [
         ("dxtc", "A36.3|A36", "http://hl7.org/fhir/sid/icd-10-cm"),
         ("sdtc", "772150003", "http://snomed.info/sct"),
@@ -96,7 +96,7 @@ def test_get_clinical_services_dict_filter_services():
     expected_result = {
         "sdtc": [{"codes": ["772150003"], "system": "http://snomed.info/sct"}],
     }
-    result = get_clinical_services_dict(clinical_services_list, filtered_services)
+    result = get_concepts_dict(clinical_services_list, filtered_services)
     assert result == expected_result
 
 
