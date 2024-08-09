@@ -1,6 +1,7 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import ListECRViewer from "@/app/ListEcrViewer";
+import userEvent, { UserEvent } from "@testing-library/user-event";
 
 describe("Home Page, ListECRViewer", () => {
   let container: HTMLElement;
@@ -58,7 +59,10 @@ describe("Pagination for home page", () => {
     patient_report_date: `2021-01-0${(i % 9) + 1}`,
     date_created: `2021-01-0${(i % 9) + 1}`,
   }));
+  let user: UserEvent;
+
   beforeEach(() => {
+    user = userEvent.setup();
     render(<ListECRViewer listFhirData={listFhirData} />);
   });
 
@@ -67,9 +71,9 @@ describe("Pagination for home page", () => {
     expect(rows).toHaveLength(26); // 25 data rows + 1 header row
   });
 
-  it("should navigate to the next page correctly using the Next button", () => {
+  it("should navigate to the next page correctly using the Next button", async () => {
     const nextButton = screen.getByTestId("pagination-next");
-    fireEvent.click(nextButton);
+    await user.click(nextButton);
 
     const rows = screen.getAllByRole("row");
     expect(rows).toHaveLength(26);
@@ -77,12 +81,12 @@ describe("Pagination for home page", () => {
     expect(screen.getByText("first-50 last-50")).toBeInTheDocument();
   });
 
-  it("should navigate to the previous page correctly using the Previous button", () => {
+  it("should navigate to the previous page correctly using the Previous button", async () => {
     const nextButton = screen.getByTestId("pagination-next");
-    fireEvent.click(nextButton); // Must navigate past 1st page so Previous button can display
+    await user.click(nextButton); // Must navigate past 1st page so Previous button can display
 
     const previousButton = screen.getByTestId("pagination-previous");
-    fireEvent.click(previousButton);
+    await user.click(previousButton);
 
     const rows = screen.getAllByRole("row");
     expect(rows).toHaveLength(26);
@@ -90,12 +94,42 @@ describe("Pagination for home page", () => {
     expect(screen.getByText("first-25 last-25")).toBeInTheDocument();
   });
 
-  it("should navigate to a specific page correctly when clicking page button", () => {
+  it("should navigate to a specific page correctly when clicking page button", async () => {
     const page3Button = screen.getByText("3", { selector: "button" });
-    fireEvent.click(page3Button);
+    await user.click(page3Button);
 
     const rows = screen.getAllByRole("row");
     expect(rows).toHaveLength(2);
     expect(screen.getByText("first-51 last-51")).toBeInTheDocument();
+  });
+
+  it("should show 50 per page when items per page is set to 50", async () => {
+    jest.spyOn(Storage.prototype, "setItem");
+
+    await user.selectOptions(screen.getByTestId("Select"), ["50"]);
+
+    expect(screen.getByText("first-50 last-50")).toBeInTheDocument();
+  });
+
+  it("should update local storage when items per page is set to 50", async () => {
+    jest.spyOn(Storage.prototype, "setItem");
+
+    await user.selectOptions(screen.getByTestId("Select"), ["50"]);
+
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      "userPreferences",
+      JSON.stringify({ itemsPerPage: 50 }),
+    );
+  });
+
+  it("should load 50 items per page if 50 was previously set", () => {
+    const spyLocalStorage = jest.spyOn(Storage.prototype, "getItem");
+    spyLocalStorage.mockImplementationOnce(() =>
+      JSON.stringify({ itemsPerPage: 50 }),
+    );
+    cleanup();
+    render(<ListECRViewer listFhirData={listFhirData} />);
+
+    expect(screen.getByText("first-50 last-50")).toBeInTheDocument();
   });
 });
