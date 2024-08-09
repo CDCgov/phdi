@@ -26,7 +26,7 @@ RESOURCE_TO_SERVICE_TYPES = {
 app = BaseService(
     service_name="Trigger Code Reference",
     service_path="/trigger-code-reference",
-    description_path=Path(__file__).parent.parent / "description.md",
+    description_path=Path(__file__).parent.parent / "README.md",
     openapi_url="/trigger-code-reference/openapi.json",
 ).start()
 

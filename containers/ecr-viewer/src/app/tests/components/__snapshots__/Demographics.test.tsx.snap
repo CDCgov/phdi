@@ -30,7 +30,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Patient Name
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 Test patient
               </div>
@@ -49,7 +49,7 @@ exports[`Demographics should match snapshot 1`] = `
                 DOB
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 06/01/1996
               </div>
@@ -68,7 +68,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Current Age
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 27
               </div>
@@ -87,7 +87,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Vital Status
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 Alive
               </div>
@@ -106,7 +106,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Sex
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 female
               </div>
@@ -125,7 +125,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Race
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 Asian/Pacific Islander
               </div>
@@ -144,7 +144,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Ethnicity
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 Not Hispanic or Latino
               </div>
@@ -163,7 +163,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Tribal
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 test
               </div>
@@ -182,7 +182,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Preferred Language
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 test
               </div>
@@ -201,7 +201,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Patient Address
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 test address
               </div>
@@ -220,7 +220,7 @@ exports[`Demographics should match snapshot 1`] = `
                 County
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 test
               </div>
@@ -239,7 +239,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Contact
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 test contact
               </div>
@@ -258,7 +258,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Emergency Contact
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 N/A
               </div>
@@ -277,7 +277,7 @@ exports[`Demographics should match snapshot 1`] = `
                 Patient IDs
               </div>
               <div
-                class="grid-col-auto maxw7 text-pre-line"
+                class="grid-col maxw7 text-pre-line"
               >
                 123-4567-890
               </div>

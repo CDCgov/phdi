@@ -311,9 +311,21 @@ export const evaluateDiagnosticReportData = (
   mappings: PathMappings,
 ): React.JSX.Element | undefined => {
   const columnInfo: ColumnInfoInput[] = [
-    { columnName: "Component", infoPath: "observationComponent" },
-    { columnName: "Value", infoPath: "observationValue" },
-    { columnName: "Ref Range", infoPath: "observationReferenceRange" },
+    {
+      columnName: "Component",
+      infoPath: "observationComponent",
+      className: "minw-10 width-40",
+    },
+    {
+      columnName: "Value",
+      infoPath: "observationValue",
+      className: "minw-10 width-40",
+    },
+    {
+      columnName: "Ref Range",
+      infoPath: "observationReferenceRange",
+      className: "minw-10 width-20",
+    },
     {
       columnName: "Test Method",
       infoPath: "observationDeviceReference",
@@ -321,11 +333,13 @@ export const evaluateDiagnosticReportData = (
         const device = evaluateReference(fhirBundle, mappings, ref) as Device;
         return device.deviceName?.[0]?.name;
       },
+      className: "minw-10 width-20",
     },
     {
       columnName: "Lab Comment",
       infoPath: "observationNote",
       hiddenBaseText: "comment",
+      className: "minw-10 width-20",
     },
   ];
   return evaluateObservationTable(report, fhirBundle, mappings, columnInfo);

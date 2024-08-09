@@ -111,7 +111,7 @@ class BaseService:
         @self.app.get("/")
         async def health_check() -> StatusResponse:
             """
-            Check service status. If an HTTP 200 status code is returned along with
+            This endpoint checks service status. If an HTTP 200 status code is returned along with
             '{"status": "OK"}' then the service is available and running properly.
             """
             return STATUS_OK
