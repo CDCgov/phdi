@@ -7,11 +7,11 @@
     }
   },
   "Filtered value set retrieval": {
-    "summary": "Retrieves and filteres COVID-related value sets using a clinical services filter",
+    "summary": "Retrieves and filters COVID-related value sets using a concept type filter",
     "description": "This example queries the SQLite database for value sets related to condition code 840539006; we're interested only in lab-related services for this code, so we filter out diagnostics.",
     "value": {
       "condition_code": "840539006",
-      "filter_clinical_services": "lrtc,ostc"
+      "filter_concepts": "lrtc,ostc"
     }
   }
 }
