@@ -217,11 +217,11 @@ const SideNav: React.FC = () => {
   let sideNavItems = buildSideNav(sectionConfigs);
 
   return (
-    <div className="nav-wrapper">
+    <div className="nav-wrapper padding-top-1-25">
       <nav
         className={classNames("sticky-nav", {
           "top-0": !isNonIntegratedViewer,
-          "top-275": isNonIntegratedViewer,
+          "top-550": isNonIntegratedViewer,
         })}
       >
         <UswdsSideNav items={sideNavItems} />

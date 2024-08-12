@@ -31,7 +31,7 @@ exports[`Encounter should match snapshot 1`] = `
                   Facility ID
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   2.16.840.1.113883.4.6
                 </div>
@@ -50,7 +50,7 @@ exports[`Encounter should match snapshot 1`] = `
                   Facility Name
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   PRM- Palmdale Regional Medical Center
                 </div>
@@ -69,7 +69,7 @@ exports[`Encounter should match snapshot 1`] = `
                   Facility Type
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   Healthcare Provider
                 </div>
@@ -102,7 +102,7 @@ exports[`Encounter should match snapshot 1`] = `
                   Provider Name
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   test provider name
                 </div>
@@ -121,7 +121,7 @@ exports[`Encounter should match snapshot 1`] = `
                   Provider Contact
                 </div>
                 <div
-                  class="grid-col-auto maxw7 text-pre-line"
+                  class="grid-col maxw7 text-pre-line"
                 >
                   test provider contact
                 </div>

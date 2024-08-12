@@ -11,8 +11,8 @@ from app.utils import _find_codes_by_resource_type
 from app.utils import _stamp_resource_with_code_extension
 from app.utils import find_conditions
 from app.utils import get_clean_snomed_code
-from app.utils import get_clinical_services_dict
-from app.utils import get_clinical_services_list
+from app.utils import get_concepts_dict
+from app.utils import get_concepts_list
 from app.utils import read_json_from_assets
 
 RESOURCE_TO_SERVICE_TYPES = {
@@ -26,7 +26,7 @@ RESOURCE_TO_SERVICE_TYPES = {
 app = BaseService(
     service_name="Trigger Code Reference",
     service_path="/trigger-code-reference",
-    description_path=Path(__file__).parent.parent / "description.md",
+    description_path=Path(__file__).parent.parent / "README.md",
     openapi_url="/trigger-code-reference/openapi.json",
 ).start()
 
@@ -78,8 +78,8 @@ async def stamp_condition_extensions(
     conditions = find_conditions(input.bundle)
 
     for cond in conditions:
-        cond_list = get_clinical_services_list([cond])
-        cond_dict = get_clinical_services_dict(cond_list)
+        cond_list = get_concepts_list([cond])
+        cond_dict = get_concepts_dict(cond_list)
         stamp_codes_to_service_codes[cond] = cond_dict
 
     bundle_entries = input.bundle.get("entry", [])
@@ -135,7 +135,7 @@ get_value_sets_response_examples = {200: get_value_sets_response_examples_raw}
 @app.get("/get-value-sets", status_code=200, responses=get_value_sets_response_examples)
 async def get_value_sets_for_condition(
     condition_code: Annotated[str, Query(examples=get_value_sets_request_examples)],
-    filter_clinical_services: Annotated[
+    filter_concepts: Annotated[
         str, Query(examples=get_value_sets_request_examples)
     ] = None,
 ) -> Response:
@@ -145,9 +145,9 @@ async def get_value_sets_for_condition(
 
     :param condition_code: A query param supplied as a string representing a
       single SNOMED condition code.
-    :param filter_clinical_services: (Optional) A comma-separated string of
-      clinical service types (defined by the abbreviation codes above) to
-      keep. By default, all (currently) 6 clinical service types are
+    :param filter_concepts: (Optional) A comma-separated string of
+      value set types (defined by the abbreviation codes above) to
+      keep. By default, all (currently) 6 value set types are
       returned; use this parameter to return only types of interest.
     :return: An HTTP Response containing the value sets of the queried code.
     """
@@ -158,10 +158,8 @@ async def get_value_sets_for_condition(
         )
     else:
         clean_snomed_code = get_clean_snomed_code(condition_code)
-        clinical_services_list = get_clinical_services_list(clean_snomed_code)
-        values = get_clinical_services_dict(
-            clinical_services_list, filter_clinical_services
-        )
+        concepts_list = get_concepts_list(clean_snomed_code)
+        values = get_concepts_dict(concepts_list, filter_concepts)
     return values
 
 

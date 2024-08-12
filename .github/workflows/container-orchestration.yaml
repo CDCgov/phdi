@@ -23,7 +23,7 @@ env:
   CONTAINER: orchestration
 
 jobs:
-  orchestration-python-linting:
+  orchestration-python-linting: # This job is the same as the python-linting job in linting-python.yaml but does not run if using linting-python.yaml
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
