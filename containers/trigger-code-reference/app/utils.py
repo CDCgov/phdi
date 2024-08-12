@@ -48,93 +48,92 @@ def get_clean_snomed_code(snomed_code: Union[list, str, int, float]) -> list:
     return clean_snomed_code
 
 
-def get_clinical_services_list(snomed_code: list) -> List[tuple]:
+def get_concepts_list(snomed_code: list) -> List[tuple]:
     """
     This will take a SNOMED code and runs a SQL query joins condition code,
     joins it to value sets, then uses the value set ids to get the
-    clinical service type, clinical service codes, and clinical service system
-    from the eRSD database grouped by clinical service type and system.
+    value set type, concept codes, and concept system
+    from the eRSD database grouped by value set type and system.
 
     :param snomed_code: SNOMED code to check
-    :return: A list of tuples with clinical service type, a delimited-string of
+    :return: A list of tuples with value set type, a delimited-string of
     the relevant codes and code systems as objects within.
     """
     sql_query = """
     SELECT
-        vs.clinical_service_type_id AS clinical_service_type,
+        vs.type AS valueset_type,
         GROUP_CONCAT(cs.code, '|') AS codes,
         cs.code_system AS system
     FROM
         conditions c
-    JOIN
-        value_sets vs ON c.value_set_id = vs.id
-    JOIN
-        clinical_services cs ON cs.value_set_id = vs.id
+    LEFT JOIN
+        condition_to_valueset cv ON c.id = cv.condition_id
+    LEFT JOIN
+        valuesets vs ON cv.valueset_id = vs.id
+    LEFT JOIN
+        valueset_to_concept vc ON vs.id = vc.valueset_id
+    LEFT JOIN
+        concepts cs ON vc.concept_id = cs.id
     WHERE
         c.id = ?
     GROUP BY
-        vs.clinical_service_type_id, cs.code_system
+        vs.type, cs.code_system
     """
-
     # Connect to the SQLite database, execute sql query, then close
     try:
         with sqlite3.connect("seed-scripts/ersd.db") as conn:
             cursor = conn.cursor()
             code = get_clean_snomed_code(snomed_code)
             cursor.execute(sql_query, code)
-            clinical_services_list = cursor.fetchall()
+            concept_list = cursor.fetchall()
             # We know it's not an actual error because we didn't get kicked to
             # except, so just return the lack of results
-            if not clinical_services_list:
+            if not concept_list:
                 return []
-        return clinical_services_list
+        return concept_list
     except sqlite3.Error as e:
         return {"error": f"An SQL error occurred: {str(e)}"}
 
 
-def get_clinical_services_dict(
-    clinical_services_list: List[tuple],
-    filter_clinical_services: Union[str, list] = None,
+def get_concepts_dict(
+    concept_list: List[tuple],
+    filter_concept_list: Union[str, list] = None,
 ) -> dict:
     """
     This function parses a list of tuples containing data on clinical codes
     into a dictionary for use in the /get-value-sets API endpoint.
 
-    There is an optional parameter to return select clinical service type(s)
+    There is an optional parameter to return select value set type(s)
     specified as either a string or a list.
 
-    :param clinical_services_list: A list of tuples with clinical service type,
+    :param concept_list: A list of tuples with value set type,
     a delimited-string of relevant codes and code systems as objects within.
-    :param filter_clinical_services: (Optional) List of clinical service types
-    specified to keep. By default, all (currently) 6 clinical service types are
+    :param filter_concept_list: (Optional) List of value set types
+    specified to keep. By default, all (currently) 6 value set types are
     returned; use this parameter to return only types of interest.
-    :return: A nested dictionary with clinical service type as the key, a list
+    :return: A nested dictionary with value set type as the key, a list
     of the relevant codes and code systems as objects within.
     """
     # Convert to the final structured format
-    clinical_service_dict = {}
-    for clinical_service_type, codes_string, system in clinical_services_list:
-        # If clinical_service_type is not yet in the dictionary, initialize
-        if clinical_service_type not in clinical_service_dict:
-            clinical_service_dict[clinical_service_type] = []
+    concept_dict = {}
+    for concept_type, codes_string, system in concept_list:
+        # If concept_type is not yet in the dictionary, initialize
+        if concept_type not in concept_dict:
+            concept_dict[concept_type] = []
         # Append a new entry with the codes and their system
-        clinical_service_dict[clinical_service_type].append(
+        concept_dict[concept_type].append(
             {"codes": codes_string.split("|"), "system": system}
         )
 
-    # Optional: Remove clinical service types not in specified list if provided
-    if filter_clinical_services:
-        clinical_services = convert_inputs_to_list(filter_clinical_services)
+    # Optional: Remove value set types not in specified list if provided
+    if filter_concept_list:
+        concepts = convert_inputs_to_list(filter_concept_list)
         # Create a list of types to remove
-        remove_list = [
-            type
-            for type in clinical_service_dict.keys()
-            if type not in clinical_services
-        ]
+        remove_list = [type for type in concept_dict.keys() if type not in concepts]
         # Remove the types
         for type in remove_list:
-            clinical_service_dict.pop(type, None)
-    return clinical_service_dict
+            concept_dict.pop(type, None)
+    return concept_dict
 
 
 def _find_codes_by_resource_type(resource: dict) -> List[str]:
