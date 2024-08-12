@@ -25,8 +25,14 @@ import {
   returnPlannedProceduresTable,
   returnProblemsTable,
 } from "../view-data/components/common";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
-import { TooltipDiv, ToolTipElement } from "@/app/ToolTipElement";
+import {
+  DataDisplay,
+  DisplayDataProps,
+} from "@/app/view-data/components/DataDisplay";
+import {
+  TooltipDiv,
+  ToolTipElement,
+} from "@/app/view-data/components/ToolTipElement";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();

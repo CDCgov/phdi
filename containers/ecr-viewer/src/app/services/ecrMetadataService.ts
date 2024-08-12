@@ -11,7 +11,7 @@ import {
   evaluateReference,
   evaluateFacilityId,
 } from "./evaluateFhirDataService";
-import { DisplayDataProps } from "@/app/DataDisplay";
+import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 
 export interface ReportableConditions {
   [condition: string]: {

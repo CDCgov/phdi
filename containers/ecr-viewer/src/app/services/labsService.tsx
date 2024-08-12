@@ -16,7 +16,10 @@ import EvaluateTable, {
   ColumnInfoInput,
 } from "@/app/view-data/components/EvaluateTable";
 import { evaluateReference, evaluateValue } from "./evaluateFhirDataService";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import {
+  DataDisplay,
+  DisplayDataProps,
+} from "@/app/view-data/components/DataDisplay";
 
 export interface LabReport {
   result: Array<Reference>;

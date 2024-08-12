@@ -31,7 +31,7 @@ import {
 } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import parse from "html-react-parser";
-import { DisplayDataProps } from "@/app/DataDisplay";
+import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 import {
   AdministeredMedication,
   AdministeredMedicationTableData,

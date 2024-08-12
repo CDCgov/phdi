@@ -11,7 +11,7 @@ import {
   evaluatePatientAddress,
   evaluateFacilityAddress,
 } from "./evaluateFhirDataService";
-import { DisplayDataProps } from "@/app/DataDisplay";
+import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 import { returnProblemsTable } from "@/app/view-data/components/common";
 import { LabReport, evaluateLabInfoData } from "./labsService";
 import { ConditionSummary } from "@/app/view-data/components/EcrSummary";
