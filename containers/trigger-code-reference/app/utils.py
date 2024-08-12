@@ -218,7 +218,7 @@ def find_conditions(bundle: dict) -> set[str]:
     for type, id in triggering_IDs:
         result = fhirpathpy.evaluate(
             bundle,
-            f"Bundle.entry.resource.ofType({type}).where(id='{id}').code.coding.where(system = 'http://snomed.info/sct').code",
+            f"Bundle.entry.resource.ofType({type}).where(id='{id}').valueCodeableConcept.coding.where(system = 'http://snomed.info/sct').code",
         )
 
         if result:
