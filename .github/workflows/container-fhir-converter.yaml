@@ -26,25 +26,10 @@ env:
 
 jobs:
   python-linting:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install dependencies
-        run: |
-          pip install -U pip
-          pip install ruff==0.4.3
-      - name: Run linter (ruff)
-        run: |
-          ruff check --output-format=github .
-      - name: Run formatter (ruff)
-        run: |
-          ruff format --check
+    uses: ./.github/workflows/linting-python.yaml
+    with:
+      python_runner_version: 3.11 # must be hardcoded; cannot pass in from env
+
   unit-test-python-containers:
     runs-on: ubuntu-latest
     steps:
@@ -101,6 +86,10 @@ jobs:
           if [ -f dev-requirements.txt ]; then
             pip install -r dev-requirements.txt
           fi
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
       - name: Run integration tests for containers
         working-directory: ./containers/${{env.CONTAINER}}/tests/integration
         run: |

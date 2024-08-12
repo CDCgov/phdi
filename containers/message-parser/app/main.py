@@ -35,7 +35,7 @@ get_settings()
 app = BaseService(
     service_name="DIBBs Message Parser",
     service_path="/message-parser",
-    description_path=Path(__file__).parent.parent / "description.md",
+    description_path=Path(__file__).parent.parent / "README.md",
     openapi_url="/message-parser/openapi.json",
 ).start()
 
@@ -52,9 +52,9 @@ parse_message_response_examples = {200: raw_parse_message_response_examples}
 @app.get("/")
 async def health_check():
     """
-    Check service status. If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the FHIR conversion service is available and running
-    properly.
+    This endpoint checks service status. If an HTTP 200 status code is
+    returned along with '{"status": "OK"}' then the service is available and
+    running properly.
     """
     return {"status": "OK"}
 
@@ -65,9 +65,9 @@ async def parse_message_endpoint(
     response: Response,
 ) -> ParseMessageResponse:
     """
-    Extract the desired values from a message. If the message is not already in
-    FHIR format, convert it to FHIR first. You can either provide a parsing schema
-    or the name of a previously loaded parsing schema.
+    This endpoint extracts the desired values from a message. If the message is
+    not already in FHIR format, convert it to FHIR first. You can either
+    provide a parsing schema or the name of a previously loaded parsing schema.
     """
     # 1. Load schema.
     if input.parsing_schema != {}:
@@ -124,13 +124,19 @@ raw_fhir_to_phdc_response_examples = read_json_from_assets(
 fhir_to_phdc_response_examples = {200: raw_fhir_to_phdc_response_examples}
 
 
-@app.post("/fhir_to_phdc", status_code=200, responses=fhir_to_phdc_response_examples)
+@app.post(
+    "/fhir_to_phdc",
+    status_code=200,
+    responses=fhir_to_phdc_response_examples,
+    summary="FHIR To PHDC Endpoint",
+)
 async def fhir_to_phdc_endpoint(
     input: Annotated[FhirToPhdcInput, Body(examples=fhir_to_phdc_request_examples)],
     response: Response,
 ):
     """
-    Convert a FHIR bundle to a Public Health Document Container (PHDC).
+    This endpoint converts a FHIR bundle to a Public Health Document Container
+    (PHDC).
     """
 
     # 1. Identify the parsing schema based on the supplied phdc type
@@ -166,10 +172,7 @@ sample_list_schemas_response = {200: raw_list_schemas_response}
 @app.get("/schemas", responses=sample_list_schemas_response)
 async def list_schemas() -> ListSchemasResponse:
     """
-    Get a list of all the parsing schemas currently available. Default schemas are ones
-    that are packaged by default with this service. Custom schemas are any additional
-    schema that users have chosen to upload to this service (this feature is not yet
-    implemented)
+    This endpoint gets a list of all the parsing schemas currently available.
     """
     default_schemas = os.listdir(Path(__file__).parent / "default_schemas")
     custom_schemas = os.listdir(Path(__file__).parent / "custom_schemas")
@@ -226,7 +229,8 @@ async def upload_schema(
     response: Response,
 ) -> PutSchemaResponse:
     """
-    Upload a new parsing schema to the service or update an existing schema.
+    This endpoint uploads a new parsing schema to the service or updates an
+    existing schema.
     """
 
     file_path = Path(__file__).parent / "custom_schemas" / parsing_schema_name

@@ -95,7 +95,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(page.locator("tbody").locator("tr")).toHaveCount(5);
 
     // Now let's use the return to search to go back to a blank form
-    await page.getByRole("link", { name: "Return to search" }).click();
+    await page.getByRole("link", { name: "New patient search" }).click();
     await expect(
       page.getByRole("heading", { name: "Search for a Patient" }),
     ).toBeVisible();
@@ -154,7 +154,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
   });
 });
 
-test.describe("test query user journey", () => {
+test.describe("Test the user journey of a 'tester'", () => {
   test.beforeEach(async ({ page }) => {
     // Start every test on direct tester page
     await page.goto("http://localhost:3000/tefca-viewer/query/test", {
@@ -231,5 +231,45 @@ test.describe("test query user journey", () => {
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
     await expect(page.getByText("Patient Identifiers")).toBeVisible();
     await expect(page.getByText("MRN: 18091")).toBeVisible();
+  });
+
+  test("Query with multiple patients returned", async ({ page }) => {
+    // Query for a patient with multiple results
+    await page
+      .getByLabel("Query", { exact: true })
+      .selectOption("Chlamydia case investigation");
+    await page
+      .getByLabel("FHIR Server (QHIN)", { exact: true })
+      .selectOption("JMC Meld: Direct");
+    await page.getByLabel("Last Name").fill("JMC");
+
+    await page.getByRole("button", { name: "Search for patient" }).click();
+    // Make sure all the elements for the multiple patients view appear
+    await expect(
+      page.getByRole("heading", { name: "Multiple Records Found" }),
+    ).toBeVisible();
+    // Check that there is a Table element with the correct headers
+    await expect(page.locator("thead").locator("tr")).toHaveText(
+      "NameDOBContactAddressMRNActions",
+    );
+
+    // Check that there are multiple rows in the table
+    await expect(page.locator("tbody").locator("tr")).toHaveCount(9);
+
+    // Click on the first patient's "View Record" button
+    await page.locator(':nth-match(:text("View Record"), 1)').click();
+
+    // Make sure we have a results page with a single patient & appropriate back buttons
+    await expect(
+      page.getByRole("heading", { name: "Query Results" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "New patient search" }),
+    ).toBeVisible();
+
+    await page.getByRole("link", { name: "Return to search results" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Multiple Records Found" }),
+    ).toBeVisible();
   });
 });

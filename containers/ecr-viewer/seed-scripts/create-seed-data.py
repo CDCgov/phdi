@@ -93,18 +93,18 @@ def convert_files():
                     print(f"Converted {folder} successfully.")
                 else:
                     print(f"Failed to convert {folder}. Response: {response.text}")
-    if os.environ.get("NEXT_PUBLIC_STANDALONE_VIEWER") == "true":
+    if os.environ.get("NEXT_PUBLIC_NON_INTEGRATED_VIEWER") == "true":
         return fhir_bundles, metadata
     else:
         return fhir_bundles
 
 
-if os.environ.get("NEXT_PUBLIC_STANDALONE_VIEWER") == "true":
-    print("Running standalone viewer")
+if os.environ.get("NEXT_PUBLIC_NON_INTEGRATED_VIEWER") == "true":
+    print("Running non integrated viewer")
     bundle_arr, metadata = convert_files()
     save_sql_insert_fhir(bundle_arr)
     save_sql_insert_metadata(metadata)
 else:
-    print("Running non standalone viewer")
+    print("Running viewer")
     bundle_arr = convert_files()
     save_sql_insert_fhir(bundle_arr)
