@@ -117,10 +117,15 @@ async function patientQuery(
     const phonesToSearch = request.phone.split(";");
     let phonePossibilities: string[] = [];
     for (const phone of phonesToSearch) {
-      const possibilities = await GetPhoneQueryFormats(phone);
-      phonePossibilities.push(...possibilities);
+      let possibilities = await GetPhoneQueryFormats(phone);
+      possibilities = possibilities.filter((phone) => phone !== "");
+      if (possibilities.length !== 0) {
+        phonePossibilities.push(...possibilities);
+      }
     }
-    query += `phone=${phonePossibilities.join(",")}&`;
+    if (phonePossibilities.length > 0) {
+      query += `phone=${phonePossibilities.join(",")}&`;
+    }
   }
 
   const response = await fhirClient.get(query);

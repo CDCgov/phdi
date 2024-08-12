@@ -478,6 +478,9 @@ describe("GetPhoneQueryFormats", () => {
     const expectedResult = ["+44.202.456.7890"];
     expect(await GetPhoneQueryFormats(phoneWithStuff)).toEqual(expectedResult);
   });
+  it("should fail gracefully when given an empty string or missing phone number", async () => {
+    expect(await GetPhoneQueryFormats("")).toEqual([""]);
+  });
   it("should fully process ten-digit input strings", async () => {
     const inputPhone = "1234567890";
     const expectedResult = [
