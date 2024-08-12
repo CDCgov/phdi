@@ -7,7 +7,7 @@ import {
 } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import * as dateFns from "date-fns";
-import { PathMappings, evaluateData } from "../utils";
+import { PathMappings, evaluateData } from "../view-data/utils/utils";
 import {
   formatAddress,
   formatName,

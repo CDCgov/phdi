@@ -1,6 +1,6 @@
 import React from "react";
 import { Bundle, Device, Observation, Organization, Reference } from "fhir/r4";
-import { PathMappings, noData } from "@/app/utils";
+import { PathMappings, noData } from "@/app/view-data/utils/utils";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {

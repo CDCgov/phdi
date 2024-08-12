@@ -3,7 +3,7 @@ import {
   formatContactPoint,
   formatDateTime,
 } from "@/app/services/formatService";
-import { PathMappings, evaluateData } from "@/app/utils";
+import { PathMappings, evaluateData } from "@/app/view-data/utils/utils";
 import { Bundle, Organization } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import {

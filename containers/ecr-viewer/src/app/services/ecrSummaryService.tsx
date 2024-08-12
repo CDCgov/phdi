@@ -1,5 +1,5 @@
 import { Bundle, Condition, Extension, Observation } from "fhir/r4";
-import { evaluateData, PathMappings } from "@/app/utils";
+import { evaluateData, PathMappings } from "@/app/view-data/utils/utils";
 import {
   formatDate,
   formatStartEndDateTime,

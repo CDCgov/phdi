@@ -15,7 +15,11 @@ import {
   toSentenceCase,
   formatDate,
 } from "@/app/services/formatService";
-import { PathMappings, evaluateData, noData } from "@/app/utils";
+import {
+  PathMappings,
+  evaluateData,
+  noData,
+} from "@/app/view-data/utils/utils";
 import {
   Bundle,
   CarePlanActivity,

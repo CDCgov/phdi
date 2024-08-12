@@ -1,4 +1,4 @@
-import { isDataAvailable } from "@/app/utils";
+import { isDataAvailable } from "@/app/view-data/utils/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "./assets/BundleTravelHistory.json";
