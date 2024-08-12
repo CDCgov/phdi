@@ -4,6 +4,8 @@ from pathlib import Path
 from typing import List
 from typing import Union
 
+import fhirpathpy
+
 
 def convert_inputs_to_list(value: Union[list, str, int, float]) -> list:
     """
@@ -207,44 +209,18 @@ def find_conditions(bundle: dict) -> set[str]:
     :return: A set of SNOMED codes for reportable conditions
     """
 
-    RR_LOINC_CODE = "88085-6"
-    LOINC_URL = "http://loinc.org"
-    SNOMED_URL = "http://snomed.info/sct"
+    path_to_reportability_response_info_section = fhirpathpy.compile(
+        "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').entry"
+    )
+    trigger_entries = path_to_reportability_response_info_section(bundle)
+    triggering_IDs = [x["reference"].split("/") for x in trigger_entries]
+    codes = set()
+    for type, id in triggering_IDs:
+        codes.add(
+            fhirpathpy.evaluate(
+                bundle,
+                f"Bundle.entry.resource.ofType({type}).where(id='{id}').code.coding.where(system = 'http://snomed.info/sct').code",
+            )[0]
+        )
 
-    # Get list of compositions
-    compositions = []
-    for entry in bundle["entry"]:
-        if entry["resource"]["resourceType"] == "Composition":
-            compositions.append(entry["resource"])
-
-    # Get list of references to reportable conditions
-    reportable_condition_ids = set()
-    for composition in compositions:
-        for section in composition["section"]:
-            for coding in section["code"]["coding"]:
-                if (
-                    coding.get("code") == RR_LOINC_CODE
-                    and coding.get("system") == LOINC_URL
-                ):
-                    for entry in section["entry"]:
-                        if "reference" in entry:
-                            reportable_condition_ids.add(entry["reference"])
-
-    # Get condition codes from reportable condition references
-    condition_codes = set()
-    for reportable_condition_id in reportable_condition_ids:
-        type = reportable_condition_id.split("/")[0]
-        id = reportable_condition_id.split("/")[1]
-
-        for resource in bundle["entry"]:
-            if (
-                resource["resource"]["resourceType"] == type
-                and resource["resource"].get("id") == id
-            ):
-                for codeable_concept in resource["resource"]["valueCodeableConcept"][
-                    "coding"
-                ]:
-                    if codeable_concept["system"] == SNOMED_URL:
-                        condition_codes.add(codeable_concept["code"])
-
-    return condition_codes
+    return codes
