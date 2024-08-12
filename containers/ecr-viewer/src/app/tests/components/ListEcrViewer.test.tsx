@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
-import ListECRViewer from "@/app/ListEcrViewer";
+import ListECRViewer from "@/app/components/ListEcrViewer";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 
 describe("Home Page, ListECRViewer", () => {

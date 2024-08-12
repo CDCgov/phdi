@@ -2,8 +2,8 @@
 
 import { Label, Select, Table } from "@trussworks/react-uswds";
 import React, { useEffect, useState } from "react";
-import { Pagination } from "@trussworks/react-uswds";
 import { EcrDisplay } from "@/app/api/services/listEcrDataService";
+import { Pagination } from "@/app/components/Pagination";
 
 interface ListEcrViewerProps {
   listFhirData: EcrDisplay[];
