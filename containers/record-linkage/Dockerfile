@@ -6,7 +6,7 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY ./app /code/app
-COPY ./description.md /code/description.md
+COPY ./README.md /code/README.md
 COPY ./migrations /code/migrations
 COPY ./assets /code/assets
 
