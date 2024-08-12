@@ -183,14 +183,18 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       <nav className="usa-nav custom-nav">
         <ul className="usa-nav__primary usa-accordion">
           <li
-            className={`usa-nav__primary-item ${activeTab === "labs" ? "usa-current" : ""}`}
+            className={`usa-nav__primary-item ${
+              activeTab === "labs" ? "usa-current" : ""
+            }`}
           >
             <a href="#labs" onClick={() => handleTabChange("labs")}>
               Labs
             </a>
           </li>
           <li
-            className={`usa-nav__primary-item ${activeTab === "medications" ? "usa-current" : ""}`}
+            className={`usa-nav__primary-item ${
+              activeTab === "medications" ? "usa-current" : ""
+            }`}
           >
             <a
               href="#medications"
@@ -200,7 +204,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
             </a>
           </li>
           <li
-            className={`usa-nav__primary-item ${activeTab === "conditions" ? "usa-current" : ""}`}
+            className={`usa-nav__primary-item ${
+              activeTab === "conditions" ? "usa-current" : ""
+            }`}
           >
             <a href="#conditions" onClick={() => handleTabChange("conditions")}>
               Conditions
