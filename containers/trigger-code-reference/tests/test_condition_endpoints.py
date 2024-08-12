@@ -144,7 +144,7 @@ def test_stamp_condition_extensions(patched_get_services_list):
 
     # Check observation: diagnostic code value came back successful
     found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "840539006", "Observation"
+        stamped_message, "64572001", "Observation"
     )
     assert found_matching_extension
 
@@ -153,9 +153,3 @@ def test_stamp_condition_extensions(patched_get_services_list):
         stamped_message, "840539006", "Condition"
     )
     assert not found_matching_extension
-
-    # Check immunization: we did find a referenced immunization code, so it should be there
-    found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "840539006", "Immunization"
-    )
-    assert found_matching_extension

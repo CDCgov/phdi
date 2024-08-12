@@ -216,11 +216,12 @@ def find_conditions(bundle: dict) -> set[str]:
     triggering_IDs = [x["reference"].split("/") for x in trigger_entries]
     codes = set()
     for type, id in triggering_IDs:
-        codes.add(
-            fhirpathpy.evaluate(
-                bundle,
-                f"Bundle.entry.resource.ofType({type}).where(id='{id}').code.coding.where(system = 'http://snomed.info/sct').code",
-            )[0]
+        result = fhirpathpy.evaluate(
+            bundle,
+            f"Bundle.entry.resource.ofType({type}).where(id='{id}').code.coding.where(system = 'http://snomed.info/sct').code",
         )
+
+        if result:
+            codes.add(result[0])
 
     return codes
