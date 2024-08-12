@@ -24,7 +24,7 @@ def test_openapi():
 
 @pytest.mark.integration
 def test_tcr_stamping(setup, fhir_bundle):
-    reportable_condition_code = "840539006"
+    reportable_condition_code = "64572001"
     request = {"bundle": fhir_bundle}
     stamp_response = httpx.post(STAMP_ENDPOINT, json=request)
     assert stamp_response.status_code == 200
