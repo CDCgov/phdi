@@ -1,6 +1,8 @@
 import React from "react";
 import classnames from "classnames";
-import { Button, Icon, Link } from "@trussworks/react-uswds";
+import { Button, Icon } from "@trussworks/react-uswds";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 type PaginationProps = {
   pathname: string; // pathname of results page
@@ -54,7 +56,7 @@ const PaginationPage = ({
         </Button>
       ) : (
         <Link
-          href={`${pathname}?page=${page}`}
+          href={createPageURL(pathname, page)}
           className={linkClasses}
           aria-label={`Page ${page}`}
           aria-current={isCurrent ? "page" : undefined}
@@ -200,7 +202,7 @@ export const Pagination = ({
             </Button>
           ) : (
             <Link
-              href={`${pathname}?page=${prevPage}`}
+              href={createPageURL(pathname, prevPage || 0)}
               className={classnames(
                 "usa-pagination__link usa-pagination__previous-page",
                 { "visibility-hidden": !prevPage },
@@ -246,7 +248,7 @@ export const Pagination = ({
             </Button>
           ) : (
             <Link
-              href={`${pathname}?page=${nextPage}`}
+              href={createPageURL(pathname, nextPage || 0)}
               className={classnames(
                 "usa-pagination__link usa-pagination__next-page",
                 { "visibility-hidden": !nextPage },
@@ -261,4 +263,17 @@ export const Pagination = ({
       </ul>
     </nav>
   );
+};
+
+/**
+ * Custom function used to create a new path with existing search parameters
+ * @param pathname - pathname of the string
+ * @param pageNumber - number to append to url params
+ * @returns - string of path and search params
+ */
+const createPageURL = (pathname: string, pageNumber: number | string) => {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+  params.set("page", pageNumber.toString());
+  return `${pathname}?${params.toString()}`;
 };
