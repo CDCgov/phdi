@@ -2,6 +2,13 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import React from "react";
 import { Pagination } from "../../components/Pagination";
 
+const mockSearchParams = new URLSearchParams();
+jest.mock("next/navigation", () => {
+  return {
+    useSearchParams: () => mockSearchParams,
+  };
+});
+
 describe("Pagination component", () => {
   const testPages = 24;
   const testThreePages = 3;

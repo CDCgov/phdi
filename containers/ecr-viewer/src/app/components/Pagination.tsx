@@ -196,6 +196,7 @@ export const Pagination = ({
               aria-label="Previous page"
               data-testid="pagination-previous"
               onClick={onClickPrevious}
+              hidden={!prevPage}
             >
               <Icon.NavigateBefore aria-hidden={true} />
               <span className="usa-pagination__link-text">Previous</span>
@@ -207,6 +208,7 @@ export const Pagination = ({
                 "usa-pagination__link usa-pagination__previous-page",
                 { "visibility-hidden": !prevPage },
               )}
+              hidden={!prevPage}
               aria-label="Previous page"
             >
               <Icon.NavigateBefore aria-hidden={true} />
@@ -239,6 +241,7 @@ export const Pagination = ({
                 "usa-pagination__link usa-pagination__next-page",
                 { "visibility-hidden": !nextPage },
               )}
+              hidden={!nextPage}
               aria-label="Next page"
               data-testid="pagination-next"
               onClick={onClickNext}
@@ -253,6 +256,7 @@ export const Pagination = ({
                 "usa-pagination__link usa-pagination__next-page",
                 { "visibility-hidden": !nextPage },
               )}
+              hidden={!nextPage}
               aria-label="Next page"
             >
               <span className="usa-pagination__link-text">Next</span>
