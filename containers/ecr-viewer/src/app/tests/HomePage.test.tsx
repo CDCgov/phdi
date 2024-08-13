@@ -1,38 +1,43 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import HomePage from "@/app/page";
-import { any } from "prop-types";
 import { listEcrData } from "@/app/api/services/listEcrDataService";
 
 jest.mock("../../app/api/services/listEcrDataService");
+jest.mock("../components/ListEcrViewer");
 
 describe("Home Page", () => {
-  let container: HTMLElement;
   afterEach(() => {
     delete process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER;
     jest.clearAllMocks();
   });
   it("env false value, should not show the homepage", async () => {
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "false";
-    container = render(await HomePage(any, any)).container;
-    expect(container).toContainHTML("Sorry, this page is not available.");
+    render(await HomePage({ searchParams: {} }));
+    expect(
+      screen.getByText("Sorry, this page is not available."),
+    ).toBeInTheDocument();
   });
   it("env invalid value, should not show the homepage", async () => {
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "foo";
-    container = render(await HomePage(any, any)).container;
-    expect(container).toContainHTML("Sorry, this page is not available.");
+    render(await HomePage({ searchParams: {} }));
+    expect(
+      screen.getByText("Sorry, this page is not available."),
+    ).toBeInTheDocument();
   });
   it("env no value, should not show the homepage", async () => {
-    container = render(await HomePage(any, any)).container;
-    expect(container).toContainHTML("Sorry, this page is not available.");
+    render(await HomePage({ searchParams: {} }));
+    expect(
+      screen.getByText("Sorry, this page is not available."),
+    ).toBeInTheDocument();
   });
   it("env true value, should show the homepage", async () => {
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
     const mockData = [{ id: 1, name: "Test Ecr" }];
     (listEcrData as jest.Mock).mockResolvedValue(mockData);
-    container = render(await HomePage(mockData)).container;
-    await waitFor(() => {
-      expect(listEcrData).toHaveBeenCalled();
-      expect(container).not.toContainHTML("Sorry, this page is not available.");
-    });
+    render(await HomePage({ searchParams: {} }));
+    expect(listEcrData).toHaveBeenCalled();
+    expect(
+      screen.queryByText("Sorry, this page is not available"),
+    ).not.toBeInTheDocument();
   });
 });
