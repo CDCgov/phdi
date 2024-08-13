@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import CustomizeQuery from "../query/components/CustomizeQuery"; // Adjust the path if necessary
-import { Mode } from "../query/page";
+import { Mode } from "../constants";
 
 const dummyLabs = [
   {
