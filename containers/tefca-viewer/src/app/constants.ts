@@ -258,3 +258,17 @@ export type Mode =
   | "multiple-patients"
   | "no-patients"
   | "multiple-patients-results";
+
+export interface ValueSetItem {
+  code: string;
+  display: string;
+  system: string;
+  include: boolean;
+  author: string;
+}
+
+export interface ValueSet {
+  labs: ValueSetItem[];
+  medications: ValueSetItem[];
+  conditions: ValueSetItem[];
+}

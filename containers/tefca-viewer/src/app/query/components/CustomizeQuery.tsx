@@ -3,20 +3,7 @@
 import React, { useState } from "react";
 import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
 import { AccordianSection, AccordianDiv } from "../component-utils";
-
-interface ValueSetItem {
-  code: string;
-  display: string;
-  system: string;
-  include: boolean;
-  author: string;
-}
-
-interface ValueSet {
-  labs: ValueSetItem[];
-  medications: ValueSetItem[];
-  conditions: ValueSetItem[];
-}
+import { ValueSet } from "../../constants";
 
 interface CustomizeQueryProps {
   queryType: string;
