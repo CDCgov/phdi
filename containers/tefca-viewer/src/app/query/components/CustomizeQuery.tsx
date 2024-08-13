@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
-import { Mode } from "../../constants";
 import { AccordianSection, AccordianDiv } from "../component-utils";
 
 interface ValueSetItem {
@@ -21,26 +20,28 @@ interface ValueSet {
 
 interface CustomizeQueryProps {
   queryType: string;
-  valueSet: ValueSet;
-  setMode: (mode: Mode) => void;
+  ValueSet: ValueSet;
+  setMode: (mode: string) => void;
 }
 
 /**
  * CustomizeQuery component for displaying and customizing query details.
  * @param root0 - The properties object.
  * @param root0.queryType - The type of the query.
- * @param root0.valueSet - The value set of labs, conditions, and medications.
+ * @param root0.ValueSet - The value set of labs, conditions, and medications.
  * @param root0.setMode - The function to set the mode.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   queryType,
-  valueSet,
+  ValueSet,
   setMode,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
 
-  const handleTabChange = (tab: string) => {
+  const [valueSetState, setValueSetState] = useState<ValueSet>(ValueSet);
+
+  const handleTabChange = (tab: keyof ValueSet) => {
     setActiveTab(tab);
   };
 
@@ -63,6 +64,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       [key]: prevValueSet[key].map((item) => ({ ...item, include })),
     }));
   };
+
   const handleApplyChanges = () => {
     const selectedItems = Object.keys(valueSetState).reduce((acc, key) => {
       const items = valueSetState[key as keyof ValueSet];
@@ -151,8 +153,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         ]
       : [];
   };
-
-  const [valueSetState, setValueSetState] = useState<ValueSet>(valueSet);
 
   return (
     <div className="customize-query-container">
