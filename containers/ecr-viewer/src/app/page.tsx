@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
-import ListECRViewer from "@/app/components/ListEcrViewer";
+import EcrPaginationWrapper from "@/app/components/EcrPaginationWrapper";
 import EcrTable from "@/app/components/EcrTable";
 
 /**
@@ -30,9 +30,9 @@ const HomePage = async ({
       <Header />
       <main className="overflow-auto height-full">
         {isNonIntegratedViewer ? (
-          <ListECRViewer totalCount={listFhirData.length}>
+          <EcrPaginationWrapper totalCount={listFhirData.length}>
             <EcrTable currentPage={currentPage} itemsPerPage={itemsPerPage} />
-          </ListECRViewer>
+          </EcrPaginationWrapper>
         ) : (
           <div>
             <h1>Sorry, this page is not available.</h1>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home Page, ListECRViewer should match snapshot 1`] = `
+exports[`EcrPaginationWrapper should match snapshot 1`] = `
 <div>
   <div
     class="main-container height-full flex-column flex-align-center"

@@ -5,7 +5,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { Pagination } from "@/app/components/Pagination";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-interface ListEcrViewerProps {
+interface EcrPaginationWrapperProps {
   totalCount: number;
   children: ReactNode;
 }
@@ -22,10 +22,13 @@ const defaultPreferences = {
  * Renders a list of eCR data with viewer.
  * @param props - The properties passed to the component.
  * @param props.totalCount - Total number of eCRs
- * @param props.children - Contents of the ListEcrViewer
+ * @param props.children - Contents of the wrapper
  * @returns The JSX element (table) representing the rendered list of eCRs.
  */
-const ListECRViewer = ({ totalCount, children }: ListEcrViewerProps) => {
+const EcrPaginationWrapper = ({
+  totalCount,
+  children,
+}: EcrPaginationWrapperProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -111,4 +114,4 @@ const ListECRViewer = ({ totalCount, children }: ListEcrViewerProps) => {
   );
 };
 
-export default ListECRViewer;
+export default EcrPaginationWrapper;

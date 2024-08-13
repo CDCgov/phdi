@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
-import ListECRViewer from "@/app/components/ListEcrViewer";
+import EcrPaginationWrapper from "@/app/components/EcrPaginationWrapper";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 
 const mockPush = jest.fn();
@@ -15,13 +15,13 @@ jest.mock("next/navigation", () => {
   };
 });
 
-describe("Home Page, ListECRViewer", () => {
+describe("EcrPaginationWrapper", () => {
   let container: HTMLElement;
   beforeAll(() => {
     container = render(
-      <ListECRViewer totalCount={100}>
+      <EcrPaginationWrapper totalCount={100}>
         <br />
-      </ListECRViewer>,
+      </EcrPaginationWrapper>,
     ).container;
   });
   it("should match snapshot", () => {
@@ -32,7 +32,7 @@ describe("Home Page, ListECRViewer", () => {
   });
 });
 
-describe("Pagination for home page", () => {
+describe("Pagination for EcrPaginationWrapper", () => {
   let user: UserEvent;
 
   beforeEach(() => {
@@ -42,9 +42,9 @@ describe("Pagination for home page", () => {
 
   it("should have 4 pages when there are 100 and default page length is used", async () => {
     render(
-      <ListECRViewer totalCount={100}>
+      <EcrPaginationWrapper totalCount={100}>
         <br />
-      </ListECRViewer>,
+      </EcrPaginationWrapper>,
     );
 
     expect(screen.getByText("1"));
@@ -57,9 +57,9 @@ describe("Pagination for home page", () => {
 
   it("should only update the route once on load", () => {
     render(
-      <ListECRViewer totalCount={100}>
+      <EcrPaginationWrapper totalCount={100}>
         <br />
-      </ListECRViewer>,
+      </EcrPaginationWrapper>,
     );
     expect(mockPush).toHaveBeenCalledExactlyOnceWith("?itemsPerPage=25");
   });
@@ -68,9 +68,9 @@ describe("Pagination for home page", () => {
     jest.spyOn(Storage.prototype, "setItem");
 
     render(
-      <ListECRViewer totalCount={100}>
+      <EcrPaginationWrapper totalCount={100}>
         <br />
-      </ListECRViewer>,
+      </EcrPaginationWrapper>,
     );
     await user.selectOptions(screen.getByTestId("Select"), ["50"]);
 
@@ -83,9 +83,9 @@ describe("Pagination for home page", () => {
   it("should update local storage when items per page is set to 50", async () => {
     jest.spyOn(Storage.prototype, "setItem");
     render(
-      <ListECRViewer totalCount={100}>
+      <EcrPaginationWrapper totalCount={100}>
         <br />
-      </ListECRViewer>,
+      </EcrPaginationWrapper>,
     );
 
     await user.selectOptions(screen.getByTestId("Select"), ["50"]);
@@ -102,9 +102,9 @@ describe("Pagination for home page", () => {
       JSON.stringify({ itemsPerPage: 50 }),
     );
     render(
-      <ListECRViewer totalCount={100}>
+      <EcrPaginationWrapper totalCount={100}>
         <br />
-      </ListECRViewer>,
+      </EcrPaginationWrapper>,
     );
 
     expect(screen.getByText("Showing 1-50 of 100 eCRs")).toBeInTheDocument();
@@ -114,9 +114,9 @@ describe("Pagination for home page", () => {
   it("should display 51-51 on third page", async () => {
     mockSearchParams.set("page", "3");
     render(
-      <ListECRViewer totalCount={51}>
+      <EcrPaginationWrapper totalCount={51}>
         <br />
-      </ListECRViewer>,
+      </EcrPaginationWrapper>,
     );
 
     expect(screen.getByText("Showing 51-51 of 51 eCRs")).toBeInTheDocument();
