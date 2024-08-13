@@ -4,9 +4,12 @@ import {
   AccordionDiv,
 } from "../component-utils";
 import { Table } from "@trussworks/react-uswds";
-import { ToolTipElement } from "@/app/ToolTipElement";
+import { ToolTipElement } from "@/app/view-data/components/ToolTipElement";
 import { ReportableConditions } from "../../services/ecrMetadataService";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import {
+  DataDisplay,
+  DisplayDataProps,
+} from "@/app/view-data/components/DataDisplay";
 import React from "react";
 
 interface EcrMetadataProps {

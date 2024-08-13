@@ -1,5 +1,5 @@
 import { Bundle, Condition, Extension, Observation } from "fhir/r4";
-import { evaluateData, PathMappings } from "@/app/utils";
+import { evaluateData, PathMappings } from "@/app/view-data/utils/utils";
 import {
   formatDate,
   formatStartEndDateTime,
@@ -11,7 +11,7 @@ import {
   evaluatePatientAddress,
   evaluateFacilityAddress,
 } from "./evaluateFhirDataService";
-import { DisplayDataProps } from "@/app/DataDisplay";
+import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 import { returnProblemsTable } from "@/app/view-data/components/common";
 import { LabReport, evaluateLabInfoData } from "./labsService";
 import { ConditionSummary } from "@/app/view-data/components/EcrSummary";

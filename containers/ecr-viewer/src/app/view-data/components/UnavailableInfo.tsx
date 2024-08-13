@@ -1,6 +1,9 @@
 import React from "react";
 import { AccordionSection } from "@/app/view-data/component-utils";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import {
+  DataDisplay,
+  DisplayDataProps,
+} from "@/app/view-data/components/DataDisplay";
 
 interface UnavailableInfoProps {
   demographicsUnavailableData: DisplayDataProps[];

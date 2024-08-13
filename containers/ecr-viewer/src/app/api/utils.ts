@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import yaml from "js-yaml";
-import { PathMappings } from "@/app/utils";
+import { PathMappings } from "@/app/view-data/utils/utils";
 
 /**
  * Loads the YAML configuration for path mappings from a predefined file location.
