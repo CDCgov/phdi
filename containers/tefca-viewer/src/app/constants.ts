@@ -257,7 +257,8 @@ export type Mode =
   | "results"
   | "multiple-patients"
   | "no-patients"
-  | "multiple-patients-results";
+  | "multiple-patients-results"
+  | "customize-queries";
 
 /*Type to specify the expected components for each item in a value set that will be 
 displayed in the CustomizeQuery component*/

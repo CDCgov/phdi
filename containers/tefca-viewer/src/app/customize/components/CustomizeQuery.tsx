@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
-import { AccordianSection, AccordianDiv } from "../component-utils";
+import { AccordianSection, AccordianDiv } from "../../query/component-utils";
 import { ValueSet } from "../../constants";
 
 interface CustomizeQueryProps {
@@ -83,7 +83,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
             />
           </div>
           <div className="accordion-header-cell code">{item.code}</div>
-          <div className="accordion-header-cell include">{item.display}</div>
+          <div className="accordion-header-cell display">{item.display}</div>
         </div>
       ))}
     </div>
