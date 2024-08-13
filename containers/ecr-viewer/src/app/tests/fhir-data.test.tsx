@@ -18,7 +18,7 @@ beforeEach(() => {
 });
 
 const mockYamlConfig = {}; // Adjust this to match what loadYamlConfig() would return
-jest.mock("../utils", () => ({
+jest.mock("../view-data/utils/utils", () => ({
   loadYamlConfig: jest.fn().mockReturnValue(mockYamlConfig),
   streamToJson: jest.fn().mockResolvedValue({
     resourceType: "Bundle",

@@ -1,4 +1,4 @@
-import { PathMappings } from "../../utils";
+import { PathMappings } from "../utils/utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
 import UnavailableInfo from "./UnavailableInfo";

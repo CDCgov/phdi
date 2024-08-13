@@ -15,7 +15,11 @@ import {
   toSentenceCase,
   formatDate,
 } from "@/app/services/formatService";
-import { PathMappings, evaluateData, noData } from "@/app/utils";
+import {
+  PathMappings,
+  evaluateData,
+  noData,
+} from "@/app/view-data/utils/utils";
 import {
   Bundle,
   CarePlanActivity,
@@ -31,7 +35,7 @@ import {
 } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import parse from "html-react-parser";
-import { DisplayDataProps } from "@/app/DataDisplay";
+import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 import {
   AdministeredMedication,
   AdministeredMedicationTableData,

@@ -5,7 +5,7 @@ import YAML from "js-yaml";
 import { Bundle, Condition } from "fhir/r4";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import { returnProblemsTable } from "@/app/view-data/components/common";
-import { PathMappings } from "@/app/utils";
+import { PathMappings } from "@/app/view-data/utils/utils";
 
 describe("Active Problems Table", () => {
   let container: HTMLElement;

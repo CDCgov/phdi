@@ -170,13 +170,19 @@ export const EcrLoadingSkeleton = () => {
           </div>
           <div className={"ecr-viewer-container"}>
             <div className="ecr-content">
-              <h2 className="margin-bottom-3 side-nav-ignore" id="ecr-summary">
-                eCR Summary
-              </h2>
+              <div className="margin-bottom-3">
+                <h2 className="margin-bottom-05" id="ecr-summary">
+                  eCR Summary
+                </h2>
+                <div className="text-base-darker line-height-sans-5">
+                  Provides key info upfront to help you understand the eCR at a
+                  glance
+                </div>
+              </div>
               <EcrSummaryLoadingSkeleton />
               <div className="margin-top-10">
                 <GridContainer className={"padding-0 margin-bottom-3"}>
-                  <Grid row>
+                  <Grid row className="margin-bottom-05">
                     <Grid>
                       <h2 className="margin-bottom-0" id="ecr-document">
                         eCR Document
@@ -194,6 +200,10 @@ export const EcrLoadingSkeleton = () => {
                       />
                     </Grid>
                   </Grid>
+                  <div className="text-base-darker line-height-sans-5">
+                    Displays entire eICR and RR documents to help you dig
+                    further into eCR data
+                  </div>
                 </GridContainer>
                 <AccordionLoadingSkeleton />
               </div>

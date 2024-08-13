@@ -7,7 +7,7 @@ import {
 } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import * as dateFns from "date-fns";
-import { PathMappings, evaluateData } from "../utils";
+import { PathMappings, evaluateData } from "../view-data/utils/utils";
 import {
   formatAddress,
   formatName,
@@ -16,7 +16,7 @@ import {
 } from "./formatService";
 import fhirpath_r4_model from "fhirpath/fhir-context/r4";
 import { Element } from "fhir/r4";
-import { DisplayDataProps } from "@/app/DataDisplay";
+import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 
 /**
  * Evaluates patient name from the FHIR bundle and formats it into structured data for display.

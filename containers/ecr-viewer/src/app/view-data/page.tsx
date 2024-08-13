@@ -3,7 +3,7 @@ import AccordionContent from "@/app/view-data/components/AccordionContent";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import { PathMappings } from "../utils";
+import { PathMappings } from "./utils/utils";
 import SideNav from "./components/SideNav";
 import { Grid, GridContainer, Icon, Button } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
@@ -27,8 +27,10 @@ const ECRViewerPage: React.FC = () => {
   const [mappings, setMappings] = useState<PathMappings>({});
   const [errors, setErrors] = useState<Error>();
   const searchParams = useSearchParams();
-  const fhirId = searchParams ? searchParams.get("id") ?? "" : "";
-  const snomedCode = searchParams ? searchParams.get("snomed-code") ?? "" : "";
+  const fhirId = searchParams ? (searchParams.get("id") ?? "") : "";
+  const snomedCode = searchParams
+    ? (searchParams.get("snomed-code") ?? "")
+    : "";
   const isNonIntegratedViewer =
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
 
@@ -108,9 +110,15 @@ const ECRViewerPage: React.FC = () => {
             <div className="content-wrapper">
               <SideNav />
               <div className={"ecr-viewer-container"}>
-                <h2 className="margin-bottom-3" id="ecr-summary">
-                  eCR Summary
-                </h2>
+                <div className="margin-bottom-3">
+                  <h2 className="margin-bottom-05" id="ecr-summary">
+                    eCR Summary
+                  </h2>
+                  <div className="text-base-darker line-height-sans-5">
+                    Provides key info upfront to help you understand the eCR at
+                    a glance
+                  </div>
+                </div>
                 <EcrSummary
                   patientDetails={
                     evaluateEcrSummaryPatientDetails(fhirBundle, mappings)
@@ -131,7 +139,7 @@ const ECRViewerPage: React.FC = () => {
                   <GridContainer
                     className={"padding-0 margin-bottom-3 maxw-none"}
                   >
-                    <Grid row>
+                    <Grid row className="margin-bottom-05">
                       <Grid>
                         <h2 className="margin-bottom-0" id="ecr-document">
                           eCR Document
@@ -151,6 +159,10 @@ const ECRViewerPage: React.FC = () => {
                         />
                       </Grid>
                     </Grid>
+                    <div className="text-base-darker line-height-sans-5">
+                      Displays entire eICR and RR documents to help you dig
+                      further into eCR data
+                    </div>
                   </GridContainer>
                   <AccordionContent
                     fhirPathMappings={mappings}
