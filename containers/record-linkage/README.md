@@ -56,3 +56,31 @@ To build the Docker image for the Record Linkage service from source code instea
 ### The API 
 
 When viewing these docs from the `/redoc` endpoint on a running instance of the Record Linkage service or the DIBBs website, detailed documentation on the API will be available below. 
+
+### Architecture Diagram
+
+```mermaid
+graph TD
+    subgraph Docker Compose Services
+        A[PostgreSQL Database]
+        B[Record Linkage Service]
+    end
+
+    A -->|Health Check & Data| B
+
+    subgraph Record Linkage Service Components
+        B1[BaseService]
+        B2[LinkRecordInput]
+        B3[LinkRecordResponse]
+        B4[HealthCheckResponse]
+        B5[link_record Endpoint]
+        B6[Health Check Endpoint]
+    end
+
+    B -->|Uses| B1
+    B1 -->|Handles| B5
+    B5 -->|Accepts| B2
+    B5 -->|Returns| B3
+    B1 -->|Monitors| B6
+    B6 -->|Returns| B4
+```
