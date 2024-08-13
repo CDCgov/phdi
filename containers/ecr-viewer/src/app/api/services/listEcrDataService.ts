@@ -220,7 +220,11 @@ const getFhirMetadata = async (
  */
 export const getTotalEcrCount = async (): Promise<number> => {
   if (process.env.SOURCE === S3_SOURCE) {
-    let listS3 = await list_s3();
+    const bucketName = process.env.ECR_BUCKET_NAME;
+    const command = new ListObjectsV2Command({
+      Bucket: bucketName,
+    });
+    let listS3 = s3Client.send(command);
     return listS3.Contents?.length || 0;
   } else if (process.env.SOURCE === POSTGRES_SOURCE) {
     let number = await database.manyOrNone("SELECT count(*) FROM fhir");
