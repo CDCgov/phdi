@@ -683,10 +683,13 @@ html {
   transform: translate(-50%, -50%) scale(1);
 }
 
+// navigations
 .usa-nav {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .usa-nav__primary {
@@ -708,6 +711,11 @@ html {
   font-weight: bold;
 }
 
+.custom-nav {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .custom-nav ul {
   list-style-type: none;
   padding: 0;
@@ -716,8 +724,8 @@ html {
   gap: 20px;
   align-items: flex-start;
   color: #565C65;
-  font-family: "Source Sans Pro";
-  position: relative;
+  // font-family: "Source Sans Pro";
+  position: left;
 }
 
 .custom-nav li {
@@ -725,40 +733,60 @@ html {
 }
 
 .custom-nav a {
-  color: #565C65; /* Same gray color */
+  color: #565C65;
   text-decoration: none;
   font-weight: normal;
   font-size: 18px;
-  font-family: "Source Sans Pro";
+  // font-family: "Source Sans Pro";
 }
 
 .custom-nav a:hover,
 .custom-nav a:focus {
   color: #565C65;
-  background-color: transparent; /* Remove the background */
-  border: none; /* Remove the blue border */
-  outline: none; /* Remove the outline */
+  background-color: transparent;
+  border: none;
+  outline: none;
 }
 
-/* Ensure the current tab is bolded but doesn't change color */
 .custom-nav .usa-current a {
+  position: relative;
   font-weight: bold;
   font-size: 18px;
-  font-family: "Source Sans Pro";
-  color: #565C65; /* Maintain the same gray color */
-  background-color: transparent; /* Remove any background */
-  border: none; /* Remove any border */
-  outline: none; /* Remove any outline */
+  color: #565C65;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  /* Remove default underline */
 }
+
+.custom-nav .usa-current a::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  /* Position the underline just below the text */
+  left: 0;
+  width: 100%;
+  height: 4px;
+  /* Stroke width */
+  background-color: #005EA2;
+  /* Blue color for the underline */
+}
+
+/* Adjust this rule to avoid interference */
 .custom-nav ul::after {
   content: '';
   display: block;
-  width: 960px;
+  width: 100%;
+  /* Make the width relative to the parent */
   height: 1px;
   background-color: #ddd;
   position: absolute;
-  bottom: 10px;
-  left: -560px;
+  bottom: 0;
+  /* Align it with the bottom of the container */
+  left: 0;
+  right: 0;
+  /* Ensures it spans the entire width of the container */
 }
 
 .usa-accordion__content {
@@ -777,10 +805,24 @@ html {
   gap: 10px;
   margin-top: 20px;
   padding-bottom: 20px;
-}  
+}
 
 .back-link {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+}
+
+hr.custom-hr {
+  width: 100%;
+  height: 1px;
+  background-color: #ddd;
+  margin-top: 0;
+  margin-bottom: 0;
+  border: none;
+  position: relative;
+  top: -6px;
+  /* Adjust this to align it with the blue underline */
+  z-index: -1;
+  /* Place it behind the blue underline */
 }

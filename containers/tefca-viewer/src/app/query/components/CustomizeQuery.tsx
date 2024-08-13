@@ -175,39 +175,41 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   return (
     <div className="customize-query-container">
-      <a href="#" onClick={() => setMode("search")} className="text-bold">
+      <a
+        href="#"
+        onClick={() => setMode("search")}
+        className="text-bold"
+        style={{ fontSize: "16px", fontFamily: "Public Sans" }}
+      >
         <Icon.ArrowBack /> Return to patient search
       </a>
       <h1 className="font-sans-2xl text-bold">Customize query</h1>
       <p className="font-sans-lg text-light">Query: {queryType}</p>
       <nav className="usa-nav custom-nav">
-        <ul className="usa-nav__primary usa-accordion">
-          <li
-            className={`usa-nav__primary-item ${activeTab === "labs" ? "usa-current" : ""}`}
-          >
-            <a href="#labs" onClick={() => handleTabChange("labs")}>
-              Labs
-            </a>
-          </li>
-          <li
-            className={`usa-nav__primary-item ${activeTab === "medications" ? "usa-current" : ""}`}
-          >
-            <a
-              href="#medications"
-              onClick={() => handleTabChange("medications")}
-            >
-              Medications
-            </a>
-          </li>
-          <li
-            className={`usa-nav__primary-item ${activeTab === "conditions" ? "usa-current" : ""}`}
-          >
-            <a href="#conditions" onClick={() => handleTabChange("conditions")}>
-              Conditions
-            </a>
-          </li>
-        </ul>
+        <li
+          className={`usa-nav__primary-item ${activeTab === "labs" ? "usa-current" : ""}`}
+        >
+          <a href="#labs" onClick={() => handleTabChange("labs")}>
+            Labs
+          </a>
+        </li>
+        <li
+          className={`usa-nav__primary-item ${activeTab === "medications" ? "usa-current" : ""}`}
+        >
+          <a href="#medications" onClick={() => handleTabChange("medications")}>
+            Medications
+          </a>
+        </li>
+        <li
+          className={`usa-nav__primary-item ${activeTab === "conditions" ? "usa-current" : ""}`}
+        >
+          <a href="#conditions" onClick={() => handleTabChange("conditions")}>
+            Conditions
+          </a>
+        </li>
       </nav>
+      <ul className="usa-nav__primary usa-accordion"></ul>
+      <hr className="custom-hr"></hr>
       <a
         href="#"
         type="button"
