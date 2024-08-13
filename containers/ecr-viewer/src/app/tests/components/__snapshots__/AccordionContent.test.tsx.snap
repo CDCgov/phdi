@@ -1,0 +1,1298 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot test for Accordion Content Given no data, info message for empty sections should appear 1`] = `
+<div>
+  <div
+    class="usa-accordion info-container"
+    data-allow-multiple="true"
+    data-testid="accordion"
+  >
+    <h3
+      class="usa-accordion__heading"
+    >
+      <button
+        aria-controls="patient-info_1"
+        aria-expanded="true"
+        class="usa-accordion__button"
+        data-testid="accordionButton_patient-info_1"
+        type="button"
+      >
+        <span>
+          Patient Info
+        </span>
+      </button>
+    </h3>
+    <div
+      class="usa-accordion__content usa-prose"
+      data-testid="accordionItem_patient-info_1"
+    >
+      <p
+        class="text-italic padding-bottom-05"
+      >
+        No patient information was found in this eCR.
+      </p>
+    </div>
+    <h3
+      class="usa-accordion__heading"
+    >
+      <button
+        aria-controls="encounter-info_2"
+        aria-expanded="true"
+        class="usa-accordion__button"
+        data-testid="accordionButton_encounter-info_2"
+        type="button"
+      >
+        <span>
+          Encounter Info
+        </span>
+      </button>
+    </h3>
+    <div
+      class="usa-accordion__content usa-prose"
+      data-testid="accordionItem_encounter-info_2"
+    >
+      <p
+        class="text-italic padding-bottom-05"
+      >
+        No encounter information was found in this eCR.
+      </p>
+    </div>
+    <h3
+      class="usa-accordion__heading"
+    >
+      <button
+        aria-controls="clinical-info_3"
+        aria-expanded="true"
+        class="usa-accordion__button"
+        data-testid="accordionButton_clinical-info_3"
+        type="button"
+      >
+        <span>
+          Clinical Info
+        </span>
+      </button>
+    </h3>
+    <div
+      class="usa-accordion__content usa-prose"
+      data-testid="accordionItem_clinical-info_3"
+    >
+      <p
+        class="text-italic padding-bottom-05"
+      >
+        No clinical information was found in this eCR.
+      </p>
+    </div>
+    <h3
+      class="usa-accordion__heading"
+    >
+      <button
+        aria-controls="lab-info_4"
+        aria-expanded="true"
+        class="usa-accordion__button"
+        data-testid="accordionButton_lab-info_4"
+        type="button"
+      >
+        <span>
+          Lab Info
+        </span>
+      </button>
+    </h3>
+    <div
+      class="usa-accordion__content usa-prose"
+      data-testid="accordionItem_lab-info_4"
+    >
+      <p
+        class="text-italic padding-bottom-05"
+      >
+        No lab information was found in this eCR.
+      </p>
+    </div>
+    <h3
+      class="usa-accordion__heading"
+    >
+      <button
+        aria-controls="ecr-metadata_5"
+        aria-expanded="true"
+        class="usa-accordion__button"
+        data-testid="accordionButton_ecr-metadata_5"
+        type="button"
+      >
+        <span>
+          eCR Metadata
+        </span>
+      </button>
+    </h3>
+    <div
+      class="usa-accordion__content usa-prose"
+      data-testid="accordionItem_ecr-metadata_5"
+    >
+      <p
+        class="text-italic padding-bottom-05"
+      >
+        No eCR metadata was found in this eCR.
+      </p>
+    </div>
+    <h3
+      class="usa-accordion__heading"
+    >
+      <button
+        aria-controls="unavailable-info_6"
+        aria-expanded="true"
+        class="usa-accordion__button"
+        data-testid="accordionButton_unavailable-info_6"
+        type="button"
+      >
+        <span>
+          Unavailable Info
+        </span>
+      </button>
+    </h3>
+    <div
+      class="usa-accordion__content usa-prose"
+      data-testid="accordionItem_unavailable-info_6"
+    >
+      <div>
+        <div
+          class="margin-top-0"
+        >
+          <div
+            class="padding-bottom-3"
+          >
+            <div
+              class="usa-summary-box__body"
+            >
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Demographics
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        DOB
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Current Age
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Sex
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Race
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Ethnicity
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Tribal Affiliation
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Preferred Language
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Patient Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        County
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Emergency Contact
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        <span
+                          class="usa-tooltip"
+                          data-testid="tooltipWrapper"
+                        >
+                          <div
+                            class="usa-tooltip__trigger usa-tooltip"
+                            data-testid="triggerElement"
+                            position="top"
+                            tabindex="0"
+                            title=""
+                          >
+                            Patient IDs
+                          </div>
+                          <span
+                            aria-hidden="true"
+                            class="usa-tooltip__body"
+                            data-testid="tooltipBody"
+                            role="tooltip"
+                            title="Unique patient identifier(s) from their medical record. For example, a patient's social security number or medical record number."
+                          >
+                            Unique patient identifier(s) from their medical record. For example, a patient's social security number or medical record number.
+                          </span>
+                        </span>
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Social History
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Occupation
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Tobacco Use
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Travel History
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Homeless Status
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Pregnancy Status
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Alcohol Use
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Sexual Orientation
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Gender Identity
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Occupation
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Encounter Details
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Encounter Date/Time
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Encounter Type
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Encounter ID
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Facility Name
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Facility Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Facility Contact
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Facility Type
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Facility ID
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Clinical Notes
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Miscellaneous Notes
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Provider Details
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Provider Name
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Provider Contact
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Symptoms and Problems
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Problems List
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Diagnostics and Vital Signs
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Vital Signs
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Immunizations
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Immunization History
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Treatment Details
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Procedures
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Planned Procedures
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Plan of Treatment
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Administered Medications
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Care Team
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  eCR Metadata
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        <span
+                          class="usa-tooltip"
+                          data-testid="tooltipWrapper"
+                        >
+                          <div
+                            class="usa-tooltip__trigger usa-tooltip"
+                            data-testid="triggerElement"
+                            position="top"
+                            tabindex="0"
+                            title=""
+                          >
+                            eICR Identifier
+                          </div>
+                          <span
+                            aria-hidden="true"
+                            class="usa-tooltip__body"
+                            data-testid="tooltipBody"
+                            role="tooltip"
+                            title="Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records."
+                          >
+                            Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.
+                          </span>
+                        </span>
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Document Author
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Author Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Author Contact
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Date/Time eCR Created
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        <span
+                          class="usa-tooltip"
+                          data-testid="tooltipWrapper"
+                        >
+                          <div
+                            class="usa-tooltip__trigger usa-tooltip short-tooltip"
+                            data-testid="triggerElement"
+                            position="top"
+                            tabindex="0"
+                            title=""
+                          >
+                            Sender Software
+                          </div>
+                          <span
+                            aria-hidden="true"
+                            class="usa-tooltip__body"
+                            data-testid="tooltipBody"
+                            role="tooltip"
+                            title="EHR system used by the sending provider."
+                          >
+                            EHR system used by the sending provider.
+                          </span>
+                        </span>
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Sender Facility Name
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Facility Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Facility Contact
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
+                        Facility ID
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
