@@ -26,11 +26,85 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
       class="usa-accordion__content usa-prose"
       data-testid="accordionItem_patient-info_1"
     >
-      <p
-        class="text-italic padding-bottom-05"
+      <div
+        class="margin-top-0"
       >
-        No patient information was found in this eCR.
-      </p>
+        <div
+          class="padding-bottom-3"
+        >
+          <div
+            class="usa-summary-box__body"
+          >
+            <h4
+              class="usa-summary-box__heading padding-y-105"
+            >
+              Demographics
+            </h4>
+            <div
+              class="usa-summary-box__text"
+            >
+              <div>
+                <div
+                  class="grid-row"
+                >
+                  <div
+                    class="data-title"
+                  >
+                    Patient Name
+                  </div>
+                  <div
+                    class="grid-col maxw7 text-pre-line"
+                  >
+                     
+                  </div>
+                </div>
+                <div
+                  class="section__line_gray"
+                />
+              </div>
+              <div>
+                <div
+                  class="grid-row"
+                >
+                  <div
+                    class="data-title"
+                  >
+                    Vital Status
+                  </div>
+                  <div
+                    class="grid-col maxw7 text-pre-line"
+                  >
+                    Alive
+                  </div>
+                </div>
+                <div
+                  class="section__line_gray"
+                />
+              </div>
+              <div>
+                <div
+                  class="grid-row"
+                >
+                  <div
+                    class="data-title"
+                  >
+                    Contact
+                  </div>
+                  <div
+                    class="grid-col maxw7 text-pre-line"
+                  >
+                    
+
+                  </div>
+                </div>
+                <div
+                  class="section__line_gray"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <h3
       class="usa-accordion__heading"

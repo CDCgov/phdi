@@ -51,6 +51,25 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
     evaluate(fhirBundle, fhirPathMappings["diagnosticReports"]),
     fhirPathMappings,
   );
+  const hasUnavailableData = () => {
+    const unavailableDataArrays = [
+      demographicsData.unavailableData,
+      social_data.unavailableData,
+      encounterData.unavailableData,
+      clinicalData.reasonForVisitDetails.unavailableData,
+      clinicalData.activeProblemsDetails.unavailableData,
+      providerData.unavailableData,
+      clinicalData.vitalData.unavailableData,
+      clinicalData.immunizationsDetails.unavailableData,
+      clinicalData.treatmentData.unavailableData,
+      clinicalData.clinicalNotes.unavailableData,
+      ...ecrMetadata.eicrDetails.unavailableData,
+      ...ecrMetadata.ecrSenderDetails.unavailableData,
+    ];
+    return unavailableDataArrays.some(
+      (array) => Array.isArray(array) && array.length > 0,
+    );
+  };
 
   const accordionItems: any[] = [
     {
@@ -159,20 +178,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
       title: "Unavailable Info",
       content: (
         <div>
-          {[
-            demographicsData.unavailableData,
-            social_data.unavailableData,
-            encounterData.unavailableData,
-            clinicalData.reasonForVisitDetails.unavailableData,
-            clinicalData.activeProblemsDetails.unavailableData,
-            providerData.unavailableData,
-            clinicalData.vitalData.unavailableData,
-            clinicalData.immunizationsDetails.unavailableData,
-            clinicalData.treatmentData.unavailableData,
-            clinicalData.clinicalNotes.unavailableData,
-            ...ecrMetadata.eicrDetails.unavailableData,
-            ...ecrMetadata.ecrSenderDetails.unavailableData,
-          ].some((array) => Array.isArray(array) && array.length > 0) ? (
+          {hasUnavailableData() ? (
             <UnavailableInfo
               demographicsUnavailableData={demographicsData.unavailableData}
               socialUnavailableData={social_data.unavailableData}
