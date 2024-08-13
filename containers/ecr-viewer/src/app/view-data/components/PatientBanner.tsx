@@ -1,6 +1,6 @@
 import { evaluatePatientName } from "@/app/services/evaluateFhirDataService";
 import { formatDate } from "@/app/services/formatService";
-import { PathMappings } from "@/app/utils";
+import { PathMappings } from "@/app/view-data/utils/utils";
 import { Bundle } from "fhir/r4";
 
 import { evaluate } from "fhirpath";

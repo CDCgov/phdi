@@ -1,4 +1,4 @@
-import { isDataAvailable } from "@/app/utils";
+import { isDataAvailable } from "@/app/view-data/utils/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "./assets/BundleTravelHistory.json";
@@ -25,8 +25,14 @@ import {
   returnPlannedProceduresTable,
   returnProblemsTable,
 } from "../view-data/components/common";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
-import { TooltipDiv, ToolTipElement } from "@/app/ToolTipElement";
+import {
+  DataDisplay,
+  DisplayDataProps,
+} from "@/app/view-data/components/DataDisplay";
+import {
+  TooltipDiv,
+  ToolTipElement,
+} from "@/app/view-data/components/ToolTipElement";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();

@@ -5,7 +5,7 @@ import YAML from "js-yaml";
 import { Bundle, Immunization } from "fhir/r4";
 import BundleClinicalInfo from "@/app/tests/assets/BundleClinicalInfo.json";
 import { returnImmunizations } from "@/app/view-data/components/common";
-import { PathMappings } from "@/app/utils";
+import { PathMappings } from "@/app/view-data/utils/utils";
 
 describe("Immunizations Table", () => {
   let container: HTMLElement;
