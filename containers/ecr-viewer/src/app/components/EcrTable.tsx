@@ -2,13 +2,13 @@ import { Table } from "@trussworks/react-uswds";
 import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
 
 /**
- * eCR Table list
+ * eCR Table
  * @param props - The properties passed to the component.
  * @param props.currentPage - The current page to be displayed
  * @param props.itemsPerPage - The number of items to be displayed in the table
  * @returns - eCR Table element
  */
-const EcrList = async ({
+const EcrTable = async ({
   currentPage,
   itemsPerPage,
 }: {
@@ -84,4 +84,4 @@ const renderListEcrTableData = (listFhirData: EcrDisplay[]) => {
   });
 };
 
-export default EcrList;
+export default EcrTable;

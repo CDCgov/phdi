@@ -1,11 +1,11 @@
 import { axe } from "jest-axe";
 import { render } from "@testing-library/react";
-import EcrList from "@/app/components/EcrList";
+import EcrTable from "@/app/components/EcrTable";
 import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
 
 jest.mock("../../api/services/listEcrDataService");
 
-describe("EcrList", () => {
+describe("EcrTable", () => {
   const mockedListEcrData = jest.mocked(listEcrData);
   const mockData: EcrDisplay[] = Array.from({ length: 51 }, (_, i) => ({
     ecrId: `id-${i + 1}`,
@@ -26,7 +26,7 @@ describe("EcrList", () => {
   it("should match snapshot", async () => {
     mockedListEcrData.mockResolvedValue(mockData);
     const { container } = render(
-      await EcrList({ currentPage: 1, itemsPerPage: 25 }),
+      await EcrTable({ currentPage: 1, itemsPerPage: 25 }),
     );
     expect(container).toMatchSnapshot();
   });
@@ -34,7 +34,7 @@ describe("EcrList", () => {
   it("should pass accessibility", async () => {
     mockedListEcrData.mockResolvedValue(mockData);
     const { container } = render(
-      await EcrList({ currentPage: 1, itemsPerPage: 25 }),
+      await EcrTable({ currentPage: 1, itemsPerPage: 25 }),
     );
     expect(await axe(container)).toHaveNoViolations();
   });

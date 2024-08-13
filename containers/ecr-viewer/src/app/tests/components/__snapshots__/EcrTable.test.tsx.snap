@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EcrList should match snapshot 1`] = `
+exports[`EcrTable should match snapshot 1`] = `
 <div>
   <div
     class="ecr-library-wrapper width-full overflow-auto"

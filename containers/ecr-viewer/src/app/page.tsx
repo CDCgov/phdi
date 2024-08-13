@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header";
 import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
 import ListECRViewer from "@/app/components/ListEcrViewer";
-import EcrList from "@/app/components/EcrList";
+import EcrTable from "@/app/components/EcrTable";
 
 /**
  * Functional component for rendering the home page that lists all eCRs.
@@ -31,7 +31,7 @@ const HomePage = async ({
       <main className="overflow-auto height-full">
         {isNonIntegratedViewer ? (
           <ListECRViewer totalCount={listFhirData.length}>
-            <EcrList currentPage={currentPage} itemsPerPage={itemsPerPage} />
+            <EcrTable currentPage={currentPage} itemsPerPage={itemsPerPage} />
           </ListECRViewer>
         ) : (
           <div>
