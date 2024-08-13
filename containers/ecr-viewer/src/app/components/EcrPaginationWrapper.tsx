@@ -47,7 +47,6 @@ const EcrPaginationWrapper = ({
   useEffect(() => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     current.set("itemsPerPage", userPreferences.itemsPerPage.toString());
-
     const search = current.toString();
     const query = search ? `?${search}` : "";
     router.push(`${pathname}${query}`);
@@ -71,6 +70,7 @@ const EcrPaginationWrapper = ({
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
+          maxSlots={6}
           pathname={""}
           className={"flex-1"}
         />
