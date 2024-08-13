@@ -31,7 +31,7 @@ const PaginationPage = ({
     page: number,
   ) => void;
 }) => {
-  const linkClasses = classnames("usa-pagination__button", {
+  const linkClasses = classnames("usa-pagination__button text-bold", {
     "usa-current": isCurrent,
   });
 
@@ -190,7 +190,7 @@ export const Pagination = ({
               type="button"
               unstyled
               className={classnames(
-                "usa-pagination__link usa-pagination__previous-page",
+                "usa-pagination__link usa-pagination__previous-page text-bold",
                 { "visibility-hidden": !prevPage },
               )}
               aria-label="Previous page"
@@ -205,7 +205,7 @@ export const Pagination = ({
             <Link
               href={createPageURL(pathname, prevPage || 0)}
               className={classnames(
-                "usa-pagination__link usa-pagination__previous-page",
+                "usa-pagination__link usa-pagination__previous-page text-bold",
                 { "visibility-hidden": !prevPage },
               )}
               hidden={!prevPage}
@@ -238,7 +238,7 @@ export const Pagination = ({
               type="button"
               unstyled
               className={classnames(
-                "usa-pagination__link usa-pagination__next-page",
+                "usa-pagination__link usa-pagination__next-page text-bold",
                 { "visibility-hidden": !nextPage },
               )}
               hidden={!nextPage}
@@ -253,7 +253,7 @@ export const Pagination = ({
             <Link
               href={createPageURL(pathname, nextPage || 0)}
               className={classnames(
-                "usa-pagination__link usa-pagination__next-page",
+                "usa-pagination__link usa-pagination__next-page text-bold",
                 { "visibility-hidden": !nextPage },
               )}
               hidden={!nextPage}

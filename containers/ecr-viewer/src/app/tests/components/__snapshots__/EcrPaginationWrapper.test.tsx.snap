@@ -32,7 +32,7 @@ exports[`EcrPaginationWrapper should match snapshot 1`] = `
           >
             <a
               aria-label="Previous page"
-              class="usa-pagination__link usa-pagination__previous-page visibility-hidden"
+              class="usa-pagination__link usa-pagination__previous-page text-bold visibility-hidden"
               hidden=""
               href="?page=0"
             >
@@ -63,7 +63,7 @@ exports[`EcrPaginationWrapper should match snapshot 1`] = `
             <a
               aria-current="page"
               aria-label="Page 1"
-              class="usa-pagination__button usa-current"
+              class="usa-pagination__button text-bold usa-current"
               href="?page=1"
             >
               1
@@ -74,7 +74,7 @@ exports[`EcrPaginationWrapper should match snapshot 1`] = `
           >
             <a
               aria-label="Page 2"
-              class="usa-pagination__button"
+              class="usa-pagination__button text-bold"
               href="?page=2"
             >
               2
@@ -85,7 +85,7 @@ exports[`EcrPaginationWrapper should match snapshot 1`] = `
           >
             <a
               aria-label="Page 3"
-              class="usa-pagination__button"
+              class="usa-pagination__button text-bold"
               href="?page=3"
             >
               3
@@ -96,7 +96,7 @@ exports[`EcrPaginationWrapper should match snapshot 1`] = `
           >
             <a
               aria-label="Page 4"
-              class="usa-pagination__button"
+              class="usa-pagination__button text-bold"
               href="?page=4"
             >
               4
@@ -107,7 +107,7 @@ exports[`EcrPaginationWrapper should match snapshot 1`] = `
           >
             <a
               aria-label="Next page"
-              class="usa-pagination__link usa-pagination__next-page"
+              class="usa-pagination__link usa-pagination__next-page text-bold"
               href="?page=2"
             >
               <span
