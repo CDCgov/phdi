@@ -122,8 +122,8 @@ const list_s3 = async (startIndex: number, itemsPerPage: number) => {
   try {
     const command = new ListObjectsV2Command({
       Bucket: bucketName,
+      //StartAfter: startIndex.toString(),
       MaxKeys: itemsPerPage,
-      StartAfter: startIndex.toString(),
     });
 
     return await s3Client.send(command);
@@ -229,5 +229,7 @@ export const getTotalEcrCount = async (): Promise<number> => {
   } else if (process.env.SOURCE === POSTGRES_SOURCE) {
     let number = await database.manyOrNone("SELECT count(*) FROM fhir");
     return number[0].count;
+  } else {
+    return 0;
   }
 };
