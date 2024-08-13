@@ -757,36 +757,28 @@ html {
   border: none;
   outline: none;
   text-decoration: none;
-  /* Remove default underline */
 }
 
 .custom-nav .usa-current a::after {
   content: '';
   position: absolute;
   bottom: -8px;
-  /* Position the underline just below the text */
   left: 0;
   width: 100%;
   height: 4px;
-  /* Stroke width */
   background-color: #005EA2;
-  /* Blue color for the underline */
 }
 
-/* Adjust this rule to avoid interference */
 .custom-nav ul::after {
   content: '';
   display: block;
   width: 100%;
-  /* Make the width relative to the parent */
   height: 1px;
   background-color: #ddd;
   position: absolute;
   bottom: 0;
-  /* Align it with the bottom of the container */
   left: 0;
   right: 0;
-  /* Ensures it spans the entire width of the container */
 }
 
 .usa-accordion__content {
@@ -822,7 +814,5 @@ hr.custom-hr {
   border: none;
   position: relative;
   top: -6px;
-  /* Adjust this to align it with the blue underline */
   z-index: -1;
-  /* Place it behind the blue underline */
 }
