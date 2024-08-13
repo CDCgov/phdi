@@ -51,58 +51,6 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
     evaluate(fhirBundle, fhirPathMappings["diagnosticReports"]),
     fhirPathMappings,
   );
-  // TODO ANGELA: DELETE
-  // demographicsData.availableData = [];
-  // encounterData.availableData = [];
-  // providerData.availableData = [];
-
-  // const emptyClinicalData = {
-  //   clinicalNotes: { availableData: [] },
-  //   reasonForVisitDetails: { availableData: [] },
-  //   activeProblemsDetails: { availableData: [] },
-  //   vitalData: { availableData: [] },
-  //   immunizationsDetails: { availableData: [] },
-  //   treatmentData: { availableData: [] },
-  // };
-
-  // const ecrMetadata = {
-  //   rrDetails: {},
-  //   eicrDetails: {
-  //     availableData: [],
-  //     unavailableData: [] // Ensure this is an empty array
-  //   },
-  //   ecrSenderDetails: {
-  //     availableData: [],
-  //     unavailableData: [] // Ensure this is an empty array
-  //   },
-  // }
-
-  // const testFixtureNoData = {
-  //   demographicsData: {
-  //     unavailableData: []
-  //   },
-  //   social_data: {
-  //     unavailableData: []
-  //   },
-  //   encounterData: {
-  //     unavailableData: []
-  //   },
-  //   clinicalData: {
-  //     reasonForVisitDetails: { unavailableData: [] },
-  //     activeProblemsDetails: { unavailableData: [] },
-  //     vitalData: { unavailableData: [] },
-  //     immunizationsDetails: { unavailableData: [] },
-  //     treatmentData: { unavailableData: [] },
-  //     clinicalNotes: { unavailableData: [] }
-  //   },
-  //   providerData: {
-  //     unavailableData: []
-  //   },
-  //   ecrMetadata: {
-  //     eicrDetails: { unavailableData: [] },
-  //     ecrSenderDetails: { unavailableData: [] }
-  //   }
-  // };
 
   const accordionItems: any[] = [
     {
@@ -118,7 +66,9 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
               )}
             </>
           ) : (
-            <p>No patient information was found in this eCR.</p>
+            <p className="text-italic padding-bottom-05">
+              No patient information was found in this eCR.
+            </p>
           )}
         </>
       ),
@@ -136,7 +86,9 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
               providerData={providerData.availableData}
             />
           ) : (
-            <p>No encounter information was found in this eCR.</p>
+            <p className="text-italic padding-bottom-05">
+              No encounter information was found in this eCR.
+            </p>
           )}
         </>
       ),
@@ -161,7 +113,9 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
           treatmentData={clinicalData.treatmentData.availableData}
         />
       ) : (
-        <p>No clinical information was found in this eCR.</p>
+        <p className="text-italic padding-bottom-05">
+          No clinical information was found in this eCR.
+        </p>
       ),
       expanded: true,
       headingLevel: "h3",
@@ -172,7 +126,9 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
         labInfoData.length > 0 ? (
           <LabInfo labResults={labInfoData} />
         ) : (
-          <p>No lab information was found in this eCR.</p>
+          <p className="text-italic padding-bottom-05">
+            No lab information was found in this eCR.
+          </p>
         ),
       expanded: true,
       headingLevel: "h3",
@@ -190,7 +146,9 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
               rrDetails={ecrMetadata.rrDetails}
             />
           ) : (
-            <p>No clinical information was found in this eCR.</p>
+            <p className="text-italic padding-bottom-05">
+              No eCR metadata was found in this eCR.
+            </p>
           )}
         </>
       ),
@@ -200,7 +158,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
     {
       title: "Unavailable Info",
       content: (
-        <div className="padding-top-105">
+        <div>
           {[
             demographicsData.unavailableData,
             social_data.unavailableData,
@@ -238,61 +196,15 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
               ]}
             />
           ) : (
-            <p>All possible information was found in this eCR.</p>
+            <p className="text-italic padding-bottom-105 margin-0">
+              All possible information was found in this eCR.
+            </p>
           )}
         </div>
       ),
       expanded: true,
       headingLevel: "h3",
     },
-    // { // TODO ANGELA: DELETE LATER
-    // title: "Unavailable Info",
-    // content: (
-    //   <div className="padding-top-105">
-    //     {[
-    //       testFixtureNoData.demographicsData.unavailableData,
-    //       testFixtureNoData.social_data.unavailableData,
-    //       testFixtureNoData.encounterData.unavailableData,
-    //       testFixtureNoData.clinicalData.reasonForVisitDetails.unavailableData,
-    //       testFixtureNoData.clinicalData.activeProblemsDetails.unavailableData,
-    //       testFixtureNoData.providerData.unavailableData,
-    //       testFixtureNoData.clinicalData.vitalData.unavailableData,
-    //       testFixtureNoData.clinicalData.immunizationsDetails.unavailableData,
-    //       testFixtureNoData.clinicalData.treatmentData.unavailableData,
-    //       testFixtureNoData.clinicalData.clinicalNotes.unavailableData,
-    //       ...testFixtureNoData.ecrMetadata.eicrDetails.unavailableData,
-    //       ...testFixtureNoData.ecrMetadata.ecrSenderDetails.unavailableData,
-    //     ].some(array => Array.isArray(array) && array.length > 0) ? (
-    //       <UnavailableInfo
-    //         demographicsUnavailableData={testFixtureNoData.demographicsData.unavailableData}
-    //         socialUnavailableData={testFixtureNoData.social_data.unavailableData}
-    //         encounterUnavailableData={testFixtureNoData.encounterData.unavailableData}
-    //         reasonForVisitUnavailableData={
-    //           testFixtureNoData.clinicalData.reasonForVisitDetails.unavailableData
-    //         }
-    //         activeProblemsUnavailableData={
-    //           testFixtureNoData.clinicalData.activeProblemsDetails.unavailableData
-    //         }
-    //         providerUnavailableData={testFixtureNoData.providerData.unavailableData}
-    //         vitalUnavailableData={testFixtureNoData.clinicalData.vitalData.unavailableData}
-    //         immunizationsUnavailableData={
-    //           testFixtureNoData.clinicalData.immunizationsDetails.unavailableData
-    //         }
-    //         treatmentData={testFixtureNoData.clinicalData.treatmentData.unavailableData}
-    //         clinicalNotesData={testFixtureNoData.clinicalData.clinicalNotes.unavailableData}
-    //         ecrMetadataUnavailableData={[
-    //           ...testFixtureNoData.ecrMetadata.eicrDetails.unavailableData,
-    //           ...testFixtureNoData.ecrMetadata.ecrSenderDetails.unavailableData,
-    //         ]}
-    //       />
-    //     ) : (
-    //       <p>All possible information was found in this eCR.</p>
-    //     )}
-    //   </div>
-    // ),
-    // expanded: true,
-    // headingLevel: "h3",
-    // }
   ];
 
   return <AccordionContainer accordionItems={accordionItems} />;
