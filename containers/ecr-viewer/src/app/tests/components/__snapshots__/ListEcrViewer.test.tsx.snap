@@ -6,137 +6,17 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
     class="main-container height-full flex-column flex-align-center"
   >
     <div
-      class="ecr-library-wrapper width-full overflow-auto"
-    >
-      <table
-        class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W usa-table--striped table-ecr-library margin-0"
-        data-testid="table"
-      >
-        <thead
-          class="position-sticky top-0"
-        >
-          <tr>
-            <th
-              class="minw-20"
-              scope="col"
-            >
-              Patient
-            </th>
-            <th
-              class="minw-1605"
-              scope="col"
-            >
-              Received Date
-            </th>
-            <th
-              class="minw-1705"
-              scope="col"
-            >
-              Encounter Date
-            </th>
-            <th
-              class="minw-2305"
-              scope="col"
-            >
-              Reportable Condition
-            </th>
-            <th
-              class="minw-23"
-              scope="col"
-            >
-              RCKMS Rule Summary
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <a
-                href="/view-data?id=12345"
-              >
-                John
-                 
-                Doe
-              </a>
-              <br />
-              DOB: 01/01/1970
-            </td>
-            <td>
-              04/16/2024 9:40 PM UTC
-            </td>
-            <td>
-              04/16/2024 9:40 PM UTC
-            </td>
-            <td>
-              COVID-19
-            </td>
-            <td>
-              Positive
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a
-                href="/view-data?id=23456"
-              >
-                Jane
-                 
-                Doe
-              </a>
-              <br />
-              DOB: 02/01/1955
-            </td>
-            <td>
-              04/16/2024 9:41 PM UTC
-            </td>
-            <td>
-              04/16/2024 9:40 PM UTC
-            </td>
-            <td>
-              COVID-19
-            </td>
-            <td>
-              Positive
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a
-                href="/view-data?id=34567"
-              >
-                Dan
-                 
-                Doe
-              </a>
-              <br />
-              DOB: 12/01/1984
-            </td>
-            <td>
-              04/16/2024 9:42 PM UTC
-            </td>
-            <td>
-              04/16/2024 9:40 PM UTC
-            </td>
-            <td>
-              COVID-19
-            </td>
-            <td>
-              Positive
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div
       class="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch display-flex flex-align-center"
     >
       <div
         class="flex-1"
       >
         Showing 
-        current
-         of 
         1
+        -
+        25
+         of 
+        100
          eCRs
       </div>
       <nav
@@ -147,17 +27,107 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
           class="usa-pagination__list"
         >
           <li
+            class="usa-pagination__item usa-pagination__arrow"
+          >
+            <a
+              aria-label="Previous page"
+              class="usa-pagination__link usa-pagination__previous-page visibility-hidden"
+              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=0"
+            >
+              <svg
+                aria-hidden="true"
+                class="usa-icon"
+                focusable="false"
+                height="1em"
+                role="img"
+                viewBox="0 0 24 24"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                />
+              </svg>
+              <span
+                class="usa-pagination__link-text"
+              >
+                Previous
+              </span>
+            </a>
+          </li>
+          <li
             class="usa-pagination__item usa-pagination__page-no"
           >
-            <button
+            <a
               aria-current="page"
               aria-label="Page 1"
-              class="usa-button usa-button--unstyled usa-pagination__button usa-current"
-              data-testid="pagination-page-number"
-              type="button"
+              class="usa-pagination__button usa-current"
+              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=1"
             >
               1
-            </button>
+            </a>
+          </li>
+          <li
+            class="usa-pagination__item usa-pagination__page-no"
+          >
+            <a
+              aria-label="Page 2"
+              class="usa-pagination__button"
+              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=2"
+            >
+              2
+            </a>
+          </li>
+          <li
+            class="usa-pagination__item usa-pagination__page-no"
+          >
+            <a
+              aria-label="Page 3"
+              class="usa-pagination__button"
+              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=3"
+            >
+              3
+            </a>
+          </li>
+          <li
+            class="usa-pagination__item usa-pagination__page-no"
+          >
+            <a
+              aria-label="Page 4"
+              class="usa-pagination__button"
+              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=4"
+            >
+              4
+            </a>
+          </li>
+          <li
+            class="usa-pagination__item usa-pagination__arrow"
+          >
+            <a
+              aria-label="Next page"
+              class="usa-pagination__link usa-pagination__next-page"
+              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=2"
+            >
+              <span
+                class="usa-pagination__link-text"
+              >
+                Next
+              </span>
+              <svg
+                aria-hidden="true"
+                class="usa-icon"
+                focusable="false"
+                height="1em"
+                role="img"
+                viewBox="0 0 24 24"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </a>
           </li>
         </ul>
       </nav>

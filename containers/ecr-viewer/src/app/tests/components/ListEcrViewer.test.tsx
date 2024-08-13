@@ -3,42 +3,31 @@ import { axe } from "jest-axe";
 import ListECRViewer from "@/app/components/ListEcrViewer";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 
+const mockUseRouterPush = jest.fn();
+const mockUseSearchParams = jest.fn();
+const mockUsePathname = jest.fn();
+
+jest.mock("next/navigation", () => {
+  return {
+    useRouter: () => ({
+      push: jest.fn(),
+      replace: jest.fn(),
+      prefetch: jest.fn(),
+    }),
+    useSearchParams: () => ({
+      get: () => {},
+      entries: () => [],
+    }),
+    usePathname: () => ({}),
+  };
+});
+
 describe("Home Page, ListECRViewer", () => {
   let container: HTMLElement;
   beforeAll(() => {
-    const listData = [
-      {
-        ecrId: "12345",
-        date_created: "04/16/2024 9:40 PM UTC",
-        patient_first_name: "John",
-        patient_last_name: "Doe",
-        patient_date_of_birth: "01/01/1970",
-        patient_report_date: "04/16/2024 9:40 PM UTC",
-        reportable_condition: "COVID-19",
-        rule_summary: "Positive",
-      },
-      {
-        ecrId: "23456",
-        date_created: "04/16/2024 9:41 PM UTC",
-        patient_first_name: "Jane",
-        patient_last_name: "Doe",
-        patient_date_of_birth: "02/01/1955",
-        patient_report_date: "04/16/2024 9:40 PM UTC",
-        reportable_condition: "COVID-19",
-        rule_summary: "Positive",
-      },
-      {
-        ecrId: "34567",
-        date_created: "04/16/2024 9:42 PM UTC",
-        patient_first_name: "Dan",
-        patient_last_name: "Doe",
-        patient_date_of_birth: "12/01/1984",
-        patient_report_date: "04/16/2024 9:40 PM UTC",
-        reportable_condition: "COVID-19",
-        rule_summary: "Positive",
-      },
-    ];
-    container = render(<ListECRViewer listFhirData={listData} />).container;
+    container = render(
+      <ListECRViewer totalCount={100}></ListECRViewer>,
+    ).container;
   });
   it("should match snapshot", () => {
     expect(container).toMatchSnapshot();
