@@ -219,17 +219,17 @@ const getFhirMetadata = async (
  * @returns A promise resolving to the total number of eCRs.
  */
 export const getTotalEcrCount = async (): Promise<number> => {
+  let count = 0;
   if (process.env.SOURCE === S3_SOURCE) {
     const bucketName = process.env.ECR_BUCKET_NAME;
     const command = new ListObjectsV2Command({
       Bucket: bucketName,
     });
     let listS3 = s3Client.send(command);
-    return listS3.Contents?.length || 0;
+    count = listS3.Contents?.length || 0;
   } else if (process.env.SOURCE === POSTGRES_SOURCE) {
     let number = await database.manyOrNone("SELECT count(*) FROM fhir");
-    return number[0].count;
-  } else {
-    return 0;
+    count = number[0].count;
   }
+  return count;
 };
