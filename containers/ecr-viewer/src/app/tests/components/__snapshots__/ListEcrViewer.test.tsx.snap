@@ -33,6 +33,7 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
             <a
               aria-label="Previous page"
               class="usa-pagination__link usa-pagination__previous-page visibility-hidden"
+              hidden=""
               href="?page=0"
             >
               <svg
