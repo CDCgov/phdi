@@ -3,7 +3,7 @@ import AccordionContent from "@/app/view-data/components/AccordionContent";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import { PathMappings } from "../utils";
+import { PathMappings } from "./utils/utils";
 import SideNav from "./components/SideNav";
 import { Grid, GridContainer, Icon, Button } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";

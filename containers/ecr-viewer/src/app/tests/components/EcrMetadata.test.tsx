@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import EcrMetadata from "../../view-data/components/EcrMetadata";
 import React from "react";
-import { DisplayDataProps } from "@/app/DataDisplay";
+import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 import { ReportableConditions } from "@/app/services/ecrMetadataService";
 
 describe("ECR Metadata", () => {
