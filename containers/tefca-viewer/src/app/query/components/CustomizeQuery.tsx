@@ -213,7 +213,12 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       <a
         href="#"
         type="button"
-        style={{ fontSize: "16px", fontFamily: "Public Sans" }}
+        style={{
+          fontSize: "16px",
+          fontFamily: "Public Sans",
+          paddingTop: "20px",
+          paddingBottom: "20px",
+        }}
         onClick={() => {
           if (activeTab === "labs") handleIncludeAll(setLabsState, true);
           if (activeTab === "medications")
