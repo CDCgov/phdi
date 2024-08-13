@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
-import { Mode } from "../page";
+import { Mode } from "../../constants";
 import { AccordianSection, AccordianDiv } from "../component-utils";
 
 interface Lab {
