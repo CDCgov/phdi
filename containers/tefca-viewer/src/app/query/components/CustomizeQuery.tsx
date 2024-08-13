@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
-import { Mode } from "../page";
+import { Mode } from "../../constants";
 import { AccordianSection, AccordianDiv } from "../component-utils";
 
-interface Lab {
+interface ValueSetItem {
   code: string;
   display: string;
   system: string;
@@ -13,27 +13,15 @@ interface Lab {
   author: string;
 }
 
-interface Medication {
-  code: string;
-  display: string;
-  system: string;
-  include: boolean;
-  author: string;
-}
-
-interface Condition {
-  code: string;
-  display: string;
-  system: string;
-  include: boolean;
-  author: string;
+interface ValueSet {
+  labs: ValueSetItem[];
+  medications: ValueSetItem[];
+  conditions: ValueSetItem[];
 }
 
 interface CustomizeQueryProps {
   queryType: string;
-  labs: Lab[];
-  medications: Medication[];
-  conditions: Condition[];
+  valueSet: ValueSet;
   setMode: (mode: Mode) => void;
 }
 
@@ -41,17 +29,13 @@ interface CustomizeQueryProps {
  * CustomizeQuery component for displaying and customizing query details.
  * @param root0 - The properties object.
  * @param root0.queryType - The type of the query.
- * @param root0.labs - The list of lab tests.
- * @param root0.medications - The list of medications.
- * @param root0.conditions - The list of conditions.
+ * @param root0.valueSet - The value set of labs, conditions, and medications.
  * @param root0.setMode - The function to set the mode.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   queryType,
-  labs,
-  medications,
-  conditions,
+  valueSet,
   setMode,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
@@ -70,24 +54,23 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   };
 
   const handleIncludeAll = (
-    setItems: React.Dispatch<React.SetStateAction<any[]>>,
+    setValueSet: React.Dispatch<React.SetStateAction<ValueSet>>,
+    key: keyof ValueSet,
     include: boolean,
   ) => {
-    setItems((prevItems) => prevItems.map((item) => ({ ...item, include })));
+    setValueSet((prevValueSet) => ({
+      ...prevValueSet,
+      [key]: prevValueSet[key].map((item) => ({ ...item, include })),
+    }));
   };
-
   const handleApplyChanges = () => {
-    const selectedLabs = labsState.filter((lab) => lab.include);
-    const selectedMedications = medicationsState.filter(
-      (medication) => medication.include,
-    );
-    const selectedConditions = conditionsState.filter(
-      (condition) => condition.include,
-    );
+    const selectedItems = Object.keys(valueSetState).reduce((acc, key) => {
+      const items = valueSetState[key as keyof ValueSet];
+      acc[key as keyof ValueSet] = items.filter((item) => item.include);
+      return acc;
+    }, {} as ValueSet);
 
-    console.log("Selected Labs:", selectedLabs);
-    console.log("Selected Medications:", selectedMedications);
-    console.log("Selected Conditions:", selectedConditions);
+    console.log(selectedItems);
   };
 
   const renderItems = (
@@ -169,9 +152,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       : [];
   };
 
-  const [labsState, setLabsState] = useState(labs);
-  const [medicationsState, setMedicationsState] = useState(medications);
-  const [conditionsState, setConditionsState] = useState(conditions);
+  const [valueSetState, setValueSetState] = useState<ValueSet>(valueSet);
 
   return (
     <div className="customize-query-container">
@@ -218,44 +199,26 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         href="#"
         type="button"
         style={{ fontSize: "16px", fontFamily: "Public Sans" }}
-        onClick={() => {
-          if (activeTab === "labs") handleIncludeAll(setLabsState, true);
-          if (activeTab === "medications")
-            handleIncludeAll(setMedicationsState, true);
-          if (activeTab === "conditions")
-            handleIncludeAll(setConditionsState, true);
-        }}
+        onClick={() =>
+          handleIncludeAll(setValueSetState, activeTab as keyof ValueSet, true)
+        }
       >
         Include all {activeTab}
       </a>
       <div>
-        {activeTab === "labs" && (
-          <Accordion
-            items={renderAccordionItems(labsState, setLabsState, "Labs")}
-            multiselectable
-            bordered
-          />
-        )}
-        {activeTab === "medications" && (
-          <Accordion
-            items={renderAccordionItems(
-              medicationsState,
-              setMedicationsState,
-              "Medications",
-            )}
-            multiselectable
-          />
-        )}
-        {activeTab === "conditions" && (
-          <Accordion
-            items={renderAccordionItems(
-              conditionsState,
-              setConditionsState,
-              "Conditions",
-            )}
-            multiselectable
-          />
-        )}
+        <Accordion
+          items={renderAccordionItems(
+            valueSetState[activeTab as keyof ValueSet],
+            (updatedItems) =>
+              setValueSetState((prevState) => ({
+                ...prevState,
+                [activeTab]: updatedItems,
+              })),
+            activeTab.charAt(0).toUpperCase() + activeTab.slice(1),
+          )}
+          multiselectable
+          bordered
+        />
       </div>
       <div className="button-container">
         <Button type="button" onClick={handleApplyChanges}>
