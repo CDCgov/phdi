@@ -38,7 +38,7 @@ exports[`EcrPaginationWrapper should match snapshot 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="usa-icon"
+                class="usa-icon text-ink"
                 focusable="false"
                 height="1em"
                 role="img"
@@ -117,7 +117,7 @@ exports[`EcrPaginationWrapper should match snapshot 1`] = `
               </span>
               <svg
                 aria-hidden="true"
-                class="usa-icon"
+                class="usa-icon text-ink"
                 focusable="false"
                 height="1em"
                 role="img"
