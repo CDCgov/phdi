@@ -69,7 +69,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     <div className="accordion-items">
       {items.map((item, index) => (
         <div key={index} className="accordion-item-row">
-          <div className="accordion-item-cell">
+          <div className="accordion-header-cell include">
             <Checkbox
               id={`checkbox-${index}`}
               name={`checkbox-${index}`}
@@ -82,8 +82,8 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
               label={undefined}
             />
           </div>
-          <div className="accordion-item-cell">{item.code}</div>
-          <div className="accordion-item-cell">{item.display}</div>
+          <div className="accordion-header-cell code">{item.code}</div>
+          <div className="accordion-header-cell include">{item.display}</div>
         </div>
       ))}
     </div>
@@ -125,9 +125,13 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                 <AccordianSection>
                   <AccordianDiv>
                     <div className="accordion-table-header">
-                      <div className="accordion-header-cell">Include</div>
-                      <div className="accordion-header-cell">Code</div>
-                      <div className="accordion-header-cell">Display</div>
+                      <div className="accordion-header-cell include">
+                        Include
+                      </div>
+                      <div className="accordion-header-cell code">Code</div>
+                      <div className="accordion-header-cell display">
+                        Display
+                      </div>
                     </div>
                     {renderItems(items, setItems)}
                   </AccordianDiv>
