@@ -124,48 +124,47 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   ) => {
     const selectedCount = items.filter((item) => item.include).length;
     return items.length
-      ? [
-          {
-            title: (
-              <div className="accordion-title">
-                <div className="accordion-header">
-                  <Checkbox
-                    id="select-all"
-                    name="select-all"
-                    className="custom-checkbox"
-                    checked={selectedCount === items.length}
-                    onChange={(e) =>
-                      handleSelectAllChange(items, setItems, e.target.checked)
-                    }
-                    label={undefined}
-                  />
-                  {`${items[0].display}`}
-                  <div>{`${selectedCount} selected`}</div>
-                </div>
-                <div className="accordion-subtitle">
-                  <strong>Author:</strong> {items[0].author}{" "}
-                  <strong>System:</strong> {items[0].system}
-                </div>
+      ? items.map((item, index) => ({
+          id: `${title}-${index}`,
+          title: (
+            <div className="accordion-title">
+              <div className="accordion-header">
+                <Checkbox
+                  id="select-all"
+                  name="select-all"
+                  className="custom-checkbox"
+                  checked={selectedCount === items.length}
+                  onChange={(e) =>
+                    handleSelectAllChange(items, setItems, e.target.checked)
+                  }
+                  label={undefined}
+                />
+                {`${item.display}`}
+                <div>{`${selectedCount} selected`}</div>
               </div>
-            ),
-            content: (
-              <>
-                <AccordianSection>
-                  <AccordianDiv>
-                    <div className="accordion-table-header">
-                      <div className="accordion-header-cell">Include</div>
-                      <div className="accordion-header-cell">Code</div>
-                      <div className="accordion-header-cell">Display</div>
-                    </div>
-                    {renderItems(items, setItems)}
-                  </AccordianDiv>
-                </AccordianSection>
-              </>
-            ),
-            expanded: true,
-            headingLevel: "h3",
-          },
-        ]
+              <div className="accordion-subtitle">
+                <strong>Author:</strong> {item.author} <strong>System:</strong>{" "}
+                {item.system}
+              </div>
+            </div>
+          ),
+          content: (
+            <>
+              <AccordianSection>
+                <AccordianDiv>
+                  <div className="accordion-table-header">
+                    <div className="accordion-header-cell">Include</div>
+                    <div className="accordion-header-cell">Code</div>
+                    <div className="accordion-header-cell">Display</div>
+                  </div>
+                  {renderItems(items, setItems)}
+                </AccordianDiv>
+              </AccordianSection>
+            </>
+          ),
+          expanded: true,
+          headingLevel: "h3" as "h3",
+        }))
       : [];
   };
 
