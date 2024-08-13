@@ -1,24 +1,17 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import ListECRViewer from "@/app/components/ListEcrViewer";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 
-const mockUseRouterPush = jest.fn();
-const mockUseSearchParams = jest.fn();
-const mockUsePathname = jest.fn();
-
+const mockPush = jest.fn();
+const mockSearchParams = new URLSearchParams();
 jest.mock("next/navigation", () => {
   return {
     useRouter: () => ({
-      push: jest.fn(),
-      replace: jest.fn(),
-      prefetch: jest.fn(),
+      push: mockPush,
     }),
-    useSearchParams: () => ({
-      get: () => {},
-      entries: () => [],
-    }),
-    usePathname: () => ({}),
+    useSearchParams: () => mockSearchParams,
+    usePathname: () => "",
   };
 });
 
@@ -26,7 +19,9 @@ describe("Home Page, ListECRViewer", () => {
   let container: HTMLElement;
   beforeAll(() => {
     container = render(
-      <ListECRViewer totalCount={100}></ListECRViewer>,
+      <ListECRViewer totalCount={100}>
+        <br />
+      </ListECRViewer>,
     ).container;
   });
   it("should match snapshot", () => {
@@ -38,70 +33,60 @@ describe("Home Page, ListECRViewer", () => {
 });
 
 describe("Pagination for home page", () => {
-  const listFhirData = Array.from({ length: 51 }, (_, i) => ({
-    ecrId: `id-${i + 1}`,
-    patient_first_name: `first-${i + 1}`,
-    patient_last_name: `last-${i + 1}`,
-    patient_date_of_birth: `2000-01-0${(i % 9) + 1}`,
-    reportable_condition: `condition-${i + 1}`,
-    rule_summary: `summary-${i + 1}`,
-    patient_report_date: `2021-01-0${(i % 9) + 1}`,
-    date_created: `2021-01-0${(i % 9) + 1}`,
-  }));
   let user: UserEvent;
 
   beforeEach(() => {
     user = userEvent.setup();
-    render(<ListECRViewer listFhirData={listFhirData} />);
+    jest.resetAllMocks();
   });
 
-  it("should render first page correctly", () => {
-    const rows = screen.getAllByRole("row");
-    expect(rows).toHaveLength(26); // 25 data rows + 1 header row
+  it("should have 4 pages when there are 100 and default page length is used", async () => {
+    render(
+      <ListECRViewer totalCount={100}>
+        <br />
+      </ListECRViewer>,
+    );
+
+    expect(screen.getByText("1"));
+    expect(screen.getByText("2"));
+    expect(screen.getByText("3"));
+    expect(screen.getByText("4"));
+    expect(screen.queryByText("5")).not.toBeInTheDocument();
+    expect(screen.getByText("Showing 1-25 of 100 eCRs"));
   });
 
-  it("should navigate to the next page correctly using the Next button", async () => {
-    const nextButton = screen.getByTestId("pagination-next");
-    await user.click(nextButton);
-
-    const rows = screen.getAllByRole("row");
-    expect(rows).toHaveLength(26);
-    expect(screen.getByText("first-26 last-26")).toBeInTheDocument();
-    expect(screen.getByText("first-50 last-50")).toBeInTheDocument();
+  it("should only update the route once on load", () => {
+    render(
+      <ListECRViewer totalCount={100}>
+        <br />
+      </ListECRViewer>,
+    );
+    expect(mockPush).toHaveBeenCalledExactlyOnceWith("?itemsPerPage=25");
   });
 
-  it("should navigate to the previous page correctly using the Previous button", async () => {
-    const nextButton = screen.getByTestId("pagination-next");
-    await user.click(nextButton); // Must navigate past 1st page so Previous button can display
-
-    const previousButton = screen.getByTestId("pagination-previous");
-    await user.click(previousButton);
-
-    const rows = screen.getAllByRole("row");
-    expect(rows).toHaveLength(26);
-    expect(screen.getByText("first-1 last-1")).toBeInTheDocument();
-    expect(screen.getByText("first-25 last-25")).toBeInTheDocument();
-  });
-
-  it("should navigate to a specific page correctly when clicking page button", async () => {
-    const page3Button = screen.getByText("3", { selector: "button" });
-    await user.click(page3Button);
-
-    const rows = screen.getAllByRole("row");
-    expect(rows).toHaveLength(2);
-    expect(screen.getByText("first-51 last-51")).toBeInTheDocument();
-  });
-
-  it("should show 50 per page when items per page is set to 50", async () => {
+  it("should display 50 per page when items per page is set to 50", async () => {
     jest.spyOn(Storage.prototype, "setItem");
 
+    render(
+      <ListECRViewer totalCount={100}>
+        <br />
+      </ListECRViewer>,
+    );
     await user.selectOptions(screen.getByTestId("Select"), ["50"]);
 
-    expect(screen.getByText("first-50 last-50")).toBeInTheDocument();
+    expect(screen.getByText("1"));
+    expect(screen.getByText("2"));
+    expect(screen.getByText("Showing 1-50 of 100 eCRs"));
+    expect(mockPush).toHaveBeenLastCalledWith("?itemsPerPage=50");
   });
 
   it("should update local storage when items per page is set to 50", async () => {
     jest.spyOn(Storage.prototype, "setItem");
+    render(
+      <ListECRViewer totalCount={100}>
+        <br />
+      </ListECRViewer>,
+    );
 
     await user.selectOptions(screen.getByTestId("Select"), ["50"]);
 
@@ -116,19 +101,23 @@ describe("Pagination for home page", () => {
     spyLocalStorage.mockImplementationOnce(() =>
       JSON.stringify({ itemsPerPage: 50 }),
     );
-    cleanup();
-    render(<ListECRViewer listFhirData={listFhirData} />);
+    render(
+      <ListECRViewer totalCount={100}>
+        <br />
+      </ListECRViewer>,
+    );
 
-    expect(screen.getByText("first-50 last-50")).toBeInTheDocument();
-  });
-
-  it("should display 1-25 on first page", () => {
-    expect(screen.getByText("Showing 1-25 of 51 eCRs")).toBeInTheDocument();
+    expect(screen.getByText("Showing 1-50 of 100 eCRs")).toBeInTheDocument();
+    expect(mockPush).toHaveBeenLastCalledWith("?itemsPerPage=50");
   });
 
   it("should display 51-51 on third page", async () => {
-    const page3Button = screen.getByText("3", { selector: "button" });
-    await user.click(page3Button);
+    mockSearchParams.set("page", "3");
+    render(
+      <ListECRViewer totalCount={51}>
+        <br />
+      </ListECRViewer>,
+    );
 
     expect(screen.getByText("Showing 51-51 of 51 eCRs")).toBeInTheDocument();
   });

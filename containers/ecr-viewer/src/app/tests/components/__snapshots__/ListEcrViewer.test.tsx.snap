@@ -5,6 +5,7 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
   <div
     class="main-container height-full flex-column flex-align-center"
   >
+    <br />
     <div
       class="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch display-flex flex-align-center"
     >
@@ -32,7 +33,7 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
             <a
               aria-label="Previous page"
               class="usa-pagination__link usa-pagination__previous-page visibility-hidden"
-              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=0"
+              href="?page=0"
             >
               <svg
                 aria-hidden="true"
@@ -62,7 +63,7 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
               aria-current="page"
               aria-label="Page 1"
               class="usa-pagination__button usa-current"
-              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=1"
+              href="?page=1"
             >
               1
             </a>
@@ -73,7 +74,7 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
             <a
               aria-label="Page 2"
               class="usa-pagination__button"
-              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=2"
+              href="?page=2"
             >
               2
             </a>
@@ -84,7 +85,7 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
             <a
               aria-label="Page 3"
               class="usa-pagination__button"
-              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=3"
+              href="?page=3"
             >
               3
             </a>
@@ -95,7 +96,7 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
             <a
               aria-label="Page 4"
               class="usa-pagination__button"
-              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=4"
+              href="?page=4"
             >
               4
             </a>
@@ -106,7 +107,7 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
             <a
               aria-label="Next page"
               class="usa-pagination__link usa-pagination__next-page"
-              href="?get=%28%29%3D%3E%7B%7D&entries=%28%29%3D%3E%5B%5D&page=2"
+              href="?page=2"
             >
               <span
                 class="usa-pagination__link-text"
@@ -148,9 +149,9 @@ exports[`Home Page, ListECRViewer should match snapshot 1`] = `
           name="input-select"
         >
           <option
-            value="2"
+            value="6"
           >
-            2
+            6
           </option>
           <option
             value="25"

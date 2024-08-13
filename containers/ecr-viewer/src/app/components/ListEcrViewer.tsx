@@ -1,12 +1,13 @@
 "use client";
 
-import { Label, Select, Table } from "@trussworks/react-uswds";
-import React, { useEffect, useState } from "react";
-import { EcrDisplay } from "@/app/api/services/listEcrDataService";
+import { Label, Select } from "@trussworks/react-uswds";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Pagination } from "@/app/components/Pagination";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface ListEcrViewerProps {
-  listFhirData: EcrDisplay[];
+  totalCount: number;
+  children: ReactNode;
 }
 
 interface UserPreferences {
@@ -19,21 +20,17 @@ const defaultPreferences = {
 
 /**
  * Renders a list of eCR data with viewer.
- * @param listFhirData - The list of eCRs to render.
- * @param listFhirData.listFhirData The array of eCRs IDs and date values.
+ * @param props - The properties passed to the component.
+ * @param props.totalCount - Total number of eCRs
+ * @param props.children - Contents of the ListEcrViewer
  * @returns The JSX element (table) representing the rendered list of eCRs.
  */
-export default function ListECRViewer({
-  listFhirData,
-}: ListEcrViewerProps): React.JSX.Element {
-  const header = [
-    { value: "Patient", className: "minw-20" },
-    { value: "Received Date", className: "minw-1605" },
-    { value: "Encounter Date", className: "minw-1705" },
-    { value: "Reportable Condition", className: "minw-2305" },
-    { value: "RCKMS Rule Summary", className: "minw-23" },
-  ];
-  const [currentPage, setCurrentPage] = useState(1);
+const ListECRViewer = ({ totalCount, children }: ListEcrViewerProps) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const currentPage = Number(searchParams.get("page")) || 1;
   const [userPreferences, setUserPreferences] =
     useState<UserPreferences>(defaultPreferences);
 
@@ -44,71 +41,34 @@ export default function ListECRViewer({
     }
   }, []);
 
-  const totalPages = Math.ceil(
-    listFhirData.length / userPreferences.itemsPerPage,
-  );
+  useEffect(() => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set("itemsPerPage", userPreferences.itemsPerPage.toString());
 
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-    renderPage(pageNumber);
-  };
+    const search = current.toString();
+    const query = search ? `?${search}` : "";
+    router.push(`${pathname}${query}`);
+  }, [userPreferences]);
 
-  const renderPage = (pageNumber: number) => {
-    const startIndex = (pageNumber - 1) * userPreferences.itemsPerPage;
-    const endIndex = startIndex + userPreferences.itemsPerPage;
-    const pageData = listFhirData.slice(startIndex, endIndex);
-    return renderListEcrTableData(pageData);
-  };
+  const totalPages = Math.ceil(totalCount / userPreferences.itemsPerPage);
 
   const startIndex = (currentPage - 1) * userPreferences.itemsPerPage + 1;
   const endIndex = Math.min(
     currentPage * userPreferences.itemsPerPage,
-    listFhirData.length,
+    totalCount,
   );
 
   return (
     <div className="main-container height-full flex-column flex-align-center">
-      <div className="ecr-library-wrapper width-full overflow-auto">
-        <Table
-          bordered={false}
-          fullWidth={true}
-          striped={true}
-          fixed={true}
-          className={"table-ecr-library margin-0"}
-          data-testid="table"
-        >
-          <thead className={"position-sticky top-0"}>
-            <tr>
-              {header.map((column) => (
-                <th
-                  key={`${column.value}`}
-                  scope="col"
-                  className={column.className}
-                >
-                  {column.value}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>{renderPage(currentPage)}</tbody>
-        </Table>
-      </div>
+      {children}
       <div className="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch display-flex flex-align-center">
         <div className={"flex-1"}>
-          Showing {startIndex}-{endIndex} of {listFhirData.length} eCRs
+          Showing {startIndex}-{endIndex} of {totalCount} eCRs
         </div>
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           pathname={""}
-          onClickNext={() => handlePageChange(currentPage + 1)}
-          onClickPrevious={() => handlePageChange(currentPage - 1)}
-          onClickPageNumber={(
-            _event: React.MouseEvent<HTMLButtonElement>,
-            page: number,
-          ) => {
-            handlePageChange(page);
-          }}
           className={"flex-1"}
         />
         <div
@@ -137,8 +97,8 @@ export default function ListECRViewer({
               );
             }}
           >
-            <React.Fragment key=".0">
-              <option value="2">2</option>
+            <React.Fragment>
+              <option value="6">6</option>
               <option value="25">25</option>
               <option value="50">50</option>
               <option value="75">75</option>
@@ -149,30 +109,6 @@ export default function ListECRViewer({
       </div>
     </div>
   );
-}
-
-/**
- * Renders table rows given a list of eCRs. Each row contains an eCR ID linked to its
- * individual eCR viewer page and the stored date.
- * @param listFhirData - The list of eCRs to render.
- * @returns An array of JSX table row elements representing the list of eCRs.
- */
-const renderListEcrTableData = (listFhirData: EcrDisplay[]) => {
-  return listFhirData.map((item, index) => {
-    return (
-      <tr key={`table-row-${index}`}>
-        <td>
-          <a href={`/view-data?id=${item.ecrId}`}>
-            {item.patient_first_name} {item.patient_last_name}
-          </a>
-          <br />
-          {"DOB: " + item.patient_date_of_birth || ""}
-        </td>
-        <td>{item.date_created}</td>
-        <td>{item.patient_report_date}</td>
-        <td>{item.reportable_condition}</td>
-        <td>{item.rule_summary}</td>
-      </tr>
-    );
-  });
 };
+
+export default ListECRViewer;
