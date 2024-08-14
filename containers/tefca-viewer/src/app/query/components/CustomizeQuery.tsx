@@ -185,12 +185,12 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       <h1 className="font-sans-2xl text-bold" style={{ paddingBottom: "0px" }}>
         Customize query
       </h1>
-      <p
+      <div
         className="font-sans-lg text-light"
         style={{ paddingBottom: "0px", paddingTop: "4px" }}
       >
         Query: {queryType}
-      </p>
+      </div>
       <nav className="usa-nav custom-nav">
         <li
           className={`usa-nav__primary-item ${activeTab === "labs" ? "usa-current" : ""}`}
