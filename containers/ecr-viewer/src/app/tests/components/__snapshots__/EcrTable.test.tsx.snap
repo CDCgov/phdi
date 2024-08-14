@@ -671,7 +671,6 @@ exports[`EcrTable should match snapshot 1`] = `
             rule-summary-25
           </td>
         </tr>
-<<<<<<< HEAD
         <tr>
           <td>
             <a
@@ -1322,8 +1321,6 @@ exports[`EcrTable should match snapshot 1`] = `
             rule-summary-51
           </td>
         </tr>
-=======
->>>>>>> main
       </tbody>
     </table>
   </div>
