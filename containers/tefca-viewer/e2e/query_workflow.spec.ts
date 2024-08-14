@@ -163,6 +163,33 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(page.getByText("Patient Identifiers")).toBeVisible();
     await expect(page.getByText("34972316")).toBeVisible();
   });
+
+  test("social determinants query with generalized function", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
+    await page
+      .getByLabel("Query", { exact: true })
+      .selectOption("social-determinants");
+    await page.getByRole("button", { name: "Search for patient" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Query Results" }),
+    ).toBeVisible();
+  });
+
+  test("form-fillable STI query using generalized function", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
+    await page.getByLabel("Query", { exact: true }).selectOption("chlamydia");
+    await page.getByLabel("Phone Number").fill("");
+    await page.getByRole("button", { name: "Search for patient" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Query Results" }),
+    ).toBeVisible();
+  });
 });
 
 test.describe("Test the user journey of a 'tester'", () => {
