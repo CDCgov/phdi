@@ -3,7 +3,7 @@ import {
   DataDisplay,
   DataTableDisplay,
   DisplayDataProps,
-} from "@/app/DataDisplay";
+} from "@/app/view-data/components/DataDisplay";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import { Accordion, Tag } from "@trussworks/react-uswds";
 

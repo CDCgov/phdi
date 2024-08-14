@@ -3,7 +3,7 @@ import {
   formatContactPoint,
   formatDateTime,
 } from "@/app/services/formatService";
-import { PathMappings, evaluateData } from "@/app/utils";
+import { PathMappings, evaluateData } from "@/app/view-data/utils/utils";
 import { Bundle, Organization } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import {
@@ -11,7 +11,7 @@ import {
   evaluateReference,
   evaluateFacilityId,
 } from "./evaluateFhirDataService";
-import { DisplayDataProps } from "@/app/DataDisplay";
+import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 
 export interface ReportableConditions {
   [condition: string]: {

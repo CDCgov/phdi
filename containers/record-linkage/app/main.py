@@ -30,7 +30,7 @@ MPI_CLIENT = DIBBsMPIConnectorClient(
 app = BaseService(
     service_name="DIBBs Record Linkage Service",
     service_path="/record-linkage",
-    description_path=Path(__file__).parent.parent / "description.md",
+    description_path=Path(__file__).parent.parent / "README.md",
     include_health_check_endpoint=False,
     openapi_url="/record-linkage/openapi.json",
 ).start()

@@ -1,5 +1,5 @@
 import React from "react";
-import { ToolTipElement } from "@/app/ToolTipElement";
+import { ToolTipElement } from "@/app/view-data/components/ToolTipElement";
 import { ContactPoint } from "fhir/r4";
 
 interface Metadata {
