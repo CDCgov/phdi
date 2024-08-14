@@ -4,6 +4,8 @@ from pathlib import Path
 from typing import List
 from typing import Union
 
+import fhirpathpy
+
 
 def convert_inputs_to_list(value: Union[list, str, int, float]) -> list:
     """
@@ -200,31 +202,25 @@ def read_json_from_assets(filename: str) -> dict:
 
 def find_conditions(bundle: dict) -> set[str]:
     """
-    Finds conditions in a bundle of resources.
+    Extracts the SNOMED codes of reportable conditions from a FHIR bundle.
 
-    :param bundle: The bundle of resources to search.
-    :return: A set of SNOMED codes representing the conditions found.
+    :param bundle: A FHIR bundle
+    :return: A set of SNOMED codes for reportable conditions
     """
-    CONDITION_CODE = "64572001"
-    SNOMED_URL = "http://snomed.info/sct"
 
-    # Get all resources
-    resources = [resource["resource"] for resource in bundle["entry"]]
+    path_to_reportability_response_info_section = fhirpathpy.compile(
+        "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').entry"
+    )
+    trigger_entries = path_to_reportability_response_info_section(bundle)
+    triggering_IDs = [x["reference"].split("/") for x in trigger_entries]
+    codes = set()
+    for type, id in triggering_IDs:
+        result = fhirpathpy.evaluate(
+            bundle,
+            f"Bundle.entry.resource.ofType({type}).where(id='{id}').valueCodeableConcept.coding.where(system = 'http://snomed.info/sct').code",
+        )
 
-    # Filter observations that have the SNOMED code for "Condition".
-    resources_with_conditions = [
-        obs
-        for obs in resources
-        if "code" in obs
-        and any(coding["code"] == CONDITION_CODE for coding in obs["code"]["coding"])
-    ]
+        if result:
+            codes.add(result[0])
 
-    # Extract unique SNOMED codes from the observations
-    snomed_codes = {
-        coding["code"]
-        for obs in resources_with_conditions
-        for coding in obs.get("valueCodeableConcept", {}).get("coding", [])
-        if coding["system"] == SNOMED_URL
-    }
-
-    return snomed_codes
+    return codes
