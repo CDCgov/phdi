@@ -20,9 +20,7 @@ import { mockClient } from "aws-sdk-client-mock";
 const s3Mock = mockClient(S3Client);
 
 describe("listEcrDataService", () => {
-  let log = jest.spyOn(console, "log").mockImplementation(() => {});
   beforeEach(() => {
-    log.mockReset();
     s3Mock.reset();
   });
 
@@ -222,7 +220,7 @@ describe("listEcrDataService", () => {
     ]);
   });
 
-  it("should console log data from the fhir_metadata table", async () => {
+  it("should get data from the fhir_metadata table", async () => {
     process.env.SOURCE = "postgres";
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
     database.manyOrNone<{
@@ -267,21 +265,6 @@ describe("listEcrDataService", () => {
         patient_report_date: "06/20/2024 12:00 AM EDT",
         reportable_condition: "sick",
         rule_summary: "stuff",
-      },
-    ]);
-    expect(log).toHaveBeenCalledExactlyOnceWith([
-      {
-        date_created: "2024-06-21T12:00:00Z",
-        ecr_id: "1234",
-        patient_birth_date: new Date("1990-01-01T05:00:00.000Z"),
-        patient_name_first: "boy",
-        patient_name_last: "lnam",
-        report_date: new Date("2024-06-20T04:00:00.000Z"),
-        reportable_condition: "sick",
-        rule_summary: "stuff",
-        data: "",
-        data_link: "",
-        data_source: "DB",
       },
     ]);
   });
@@ -331,16 +314,6 @@ describe("listEcrDataService", () => {
         {
           dateModified: "06/23/2024 8:00 AM EDT",
           ecrId: "id1",
-        },
-      ]);
-      expect(log).toHaveBeenCalledExactlyOnceWith([
-        {
-          ecr_id: "id1",
-          date_created: "2024-06-21T12:00:00Z",
-          patient_name_last: "lnam",
-          patient_birth_date: "1990-01-01T05:00:00.000Z",
-          report_date: "2024-06-20T04:00:00.000Z",
-          reportable_condition: "sick",
         },
       ]);
     });
