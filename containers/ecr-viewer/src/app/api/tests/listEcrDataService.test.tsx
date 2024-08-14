@@ -164,11 +164,9 @@ describe("listEcrDataService", () => {
     process.env.SOURCE = "postgres";
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
     database.manyOrNone = jest.fn(() => Promise.resolve([]));
-    let startIndex = 0;
-    let itemsPerPage = 25;
-    const actual = await listEcrData(startIndex, itemsPerPage);
+    const actual = await listEcrData();
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY",
+      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
     );
     expect(actual).toBeEmpty();
   });
@@ -203,12 +201,10 @@ describe("listEcrDataService", () => {
       ]),
     );
 
-    let startIndex = 0;
-    let itemsPerPage = 25;
-    const actual: EcrDisplay[] = await listEcrData(startIndex, itemsPerPage);
+    const actual: EcrDisplay[] = await listEcrData();
 
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY",
+      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
     );
     expect(actual).toEqual([
       {
@@ -254,12 +250,10 @@ describe("listEcrDataService", () => {
       ]),
     );
 
-    let startIndex = 0;
-    let itemsPerPage = 25;
-    const actual: EcrDisplay[] = await listEcrData(startIndex, itemsPerPage);
+    const actual: EcrDisplay[] = await listEcrData();
 
     expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY",
+      "SELECT fhir.ecr_id, date_created, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary FROM fhir LEFT OUTER JOIN fhir_metadata on fhir.ecr_id = fhir_metadata.ecr_id order by date_created DESC",
     );
     expect(actual).toEqual([
       {
@@ -283,9 +277,7 @@ describe("listEcrDataService", () => {
           { Key: "id1", LastModified: new Date("2024-06-23T12:00:00Z") },
         ],
       });
-      let startIndex = 0;
-      let itemsPerPage = 25;
-      const actual = await listEcrData(startIndex, itemsPerPage);
+      const actual = await listEcrData();
 
       expect(actual).toEqual([
         {
@@ -316,9 +308,7 @@ describe("listEcrDataService", () => {
           ]),
       );
 
-      let startIndex = 0;
-      let itemsPerPage = 25;
-      const actual = await listEcrData(startIndex, itemsPerPage);
+      const actual = await listEcrData();
 
       expect(actual).toEqual([
         {

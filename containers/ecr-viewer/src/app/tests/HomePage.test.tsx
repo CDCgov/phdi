@@ -1,9 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import HomePage from "@/app/page";
-import {
-  listEcrData,
-  getTotalEcrCount,
-} from "@/app/api/services/listEcrDataService";
+import { listEcrData } from "@/app/api/services/listEcrDataService";
 
 jest.mock("../../app/api/services/listEcrDataService");
 jest.mock("../components/EcrPaginationWrapper");
@@ -38,7 +35,7 @@ describe("Home Page", () => {
     const mockData = [{ id: 1, name: "Test Ecr" }];
     (listEcrData as jest.Mock).mockResolvedValue(mockData);
     render(await HomePage({ searchParams: {} }));
-    expect(getTotalEcrCount).toHaveBeenCalled();
+    expect(listEcrData).toHaveBeenCalled();
     expect(
       screen.queryByText("Sorry, this page is not available"),
     ).not.toBeInTheDocument();

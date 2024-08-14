@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import { getTotalEcrCount } from "@/app/api/services/listEcrDataService";
+import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
 import EcrPaginationWrapper from "@/app/components/EcrPaginationWrapper";
 import EcrTable from "@/app/components/EcrTable";
 
@@ -20,9 +20,9 @@ const HomePage = async ({
 
   const isNonIntegratedViewer =
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
-  let totalCount: number = 0;
+  let listFhirData: EcrDisplay[] = [];
   if (isNonIntegratedViewer) {
-    totalCount = await getTotalEcrCount();
+    listFhirData = await listEcrData();
   }
 
   return (
@@ -30,7 +30,7 @@ const HomePage = async ({
       <Header />
       <main className="overflow-auto height-full">
         {isNonIntegratedViewer ? (
-          <EcrPaginationWrapper totalCount={totalCount}>
+          <EcrPaginationWrapper totalCount={listFhirData.length}>
             <EcrTable currentPage={currentPage} itemsPerPage={itemsPerPage} />
           </EcrPaginationWrapper>
         ) : (
