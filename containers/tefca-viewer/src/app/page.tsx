@@ -12,6 +12,7 @@ import {
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { modalOptions } from "./constants";
 
 /**
  * The landing page for the TEFCA Viewer.
@@ -38,15 +39,6 @@ export default function LandingPage() {
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     document.getElementById(option)?.focus();
-  };
-
-  const modalOptions = {
-    chlamydia: "Chlamydia case investigation",
-    gonorrhea: "Gonorrhea case investigation",
-    syphilis: "Syphilis case investigation",
-    cancer: "Cancer case investigation",
-    "newborn-screening": "Newborn screening follow-up",
-    "social-determinants": "Gather social determinants of health for a patient",
   };
 
   return (

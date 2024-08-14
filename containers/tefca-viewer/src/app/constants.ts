@@ -12,6 +12,19 @@ export const UseCases = [
 export type USE_CASES = (typeof UseCases)[number];
 
 /**
+ * Map of use cases to their corresponding modal options labels.
+ */
+
+export const modalOptions: Record<USE_CASES, string> = {
+  chlamydia: "Chlamydia case investigation",
+  gonorrhea: "Gonorrhea case investigation",
+  syphilis: "Syphilis case investigation",
+  cancer: "Cancer case investigation",
+  "newborn-screening": "Newborn screening follow-up",
+  "social-determinants": "Gather social determinants of health for a patient",
+};
+
+/**
  * The FHIR servers that can be used in the app
  */
 export const FhirServers = [
