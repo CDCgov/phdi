@@ -178,12 +178,14 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         href="#"
         onClick={() => setMode("search")}
         className="text-bold"
-        style={{ fontSize: "16px", fontFamily: "Public Sans" }}
+        style={{ fontSize: "16px" }}
       >
         <Icon.ArrowBack /> Return to patient search
       </a>
       <h1 className="font-sans-2xl text-bold">Customize query</h1>
-      <p className="font-sans-lg text-light">Query: {queryType}</p>
+      <p className="font-sans-lg text-light" style={{ paddingBottom: "0px" }}>
+        Query: {queryType}
+      </p>
       <nav className="usa-nav custom-nav">
         <li
           className={`usa-nav__primary-item ${activeTab === "labs" ? "usa-current" : ""}`}
@@ -212,12 +214,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       <a
         href="#"
         type="button"
-        style={{
-          fontSize: "16px",
-          fontFamily: "Public Sans",
-          paddingTop: "20px",
-          paddingBottom: "20px",
-        }}
+        className="include-all-link"
         onClick={() => {
           if (activeTab === "labs") handleIncludeAll(setLabsState, true);
           if (activeTab === "medications")

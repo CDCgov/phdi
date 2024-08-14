@@ -714,6 +714,8 @@ html {
 .custom-nav {
   display: flex;
   justify-content: flex-start;
+  gap: 32px;
+  padding-top: 32px;
 }
 
 .custom-nav ul {
@@ -779,6 +781,18 @@ html {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.include-all-link {
+  font-size: 16px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.include-all-link:hover,
+.include-all-link:focus {
+  border: none;
+  outline: none;
 }
 
 .usa-accordion__content {
