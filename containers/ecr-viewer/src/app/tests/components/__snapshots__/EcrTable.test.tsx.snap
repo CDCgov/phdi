@@ -671,6 +671,656 @@ exports[`EcrTable should match snapshot 1`] = `
             rule-summary-25
           </td>
         </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-26"
+            >
+              first-26
+               
+              last-26
+            </a>
+            <br />
+            DOB: 2000-01-08
+          </td>
+          <td>
+            2021-01-08
+          </td>
+          <td>
+            2021-01-08
+          </td>
+          <td>
+            reportable-condition-26
+          </td>
+          <td>
+            rule-summary-26
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-27"
+            >
+              first-27
+               
+              last-27
+            </a>
+            <br />
+            DOB: 2000-01-09
+          </td>
+          <td>
+            2021-01-09
+          </td>
+          <td>
+            2021-01-09
+          </td>
+          <td>
+            reportable-condition-27
+          </td>
+          <td>
+            rule-summary-27
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-28"
+            >
+              first-28
+               
+              last-28
+            </a>
+            <br />
+            DOB: 2000-01-01
+          </td>
+          <td>
+            2021-01-01
+          </td>
+          <td>
+            2021-01-01
+          </td>
+          <td>
+            reportable-condition-28
+          </td>
+          <td>
+            rule-summary-28
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-29"
+            >
+              first-29
+               
+              last-29
+            </a>
+            <br />
+            DOB: 2000-01-02
+          </td>
+          <td>
+            2021-01-02
+          </td>
+          <td>
+            2021-01-02
+          </td>
+          <td>
+            reportable-condition-29
+          </td>
+          <td>
+            rule-summary-29
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-30"
+            >
+              first-30
+               
+              last-30
+            </a>
+            <br />
+            DOB: 2000-01-03
+          </td>
+          <td>
+            2021-01-03
+          </td>
+          <td>
+            2021-01-03
+          </td>
+          <td>
+            reportable-condition-30
+          </td>
+          <td>
+            rule-summary-30
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-31"
+            >
+              first-31
+               
+              last-31
+            </a>
+            <br />
+            DOB: 2000-01-04
+          </td>
+          <td>
+            2021-01-04
+          </td>
+          <td>
+            2021-01-04
+          </td>
+          <td>
+            reportable-condition-31
+          </td>
+          <td>
+            rule-summary-31
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-32"
+            >
+              first-32
+               
+              last-32
+            </a>
+            <br />
+            DOB: 2000-01-05
+          </td>
+          <td>
+            2021-01-05
+          </td>
+          <td>
+            2021-01-05
+          </td>
+          <td>
+            reportable-condition-32
+          </td>
+          <td>
+            rule-summary-32
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-33"
+            >
+              first-33
+               
+              last-33
+            </a>
+            <br />
+            DOB: 2000-01-06
+          </td>
+          <td>
+            2021-01-06
+          </td>
+          <td>
+            2021-01-06
+          </td>
+          <td>
+            reportable-condition-33
+          </td>
+          <td>
+            rule-summary-33
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-34"
+            >
+              first-34
+               
+              last-34
+            </a>
+            <br />
+            DOB: 2000-01-07
+          </td>
+          <td>
+            2021-01-07
+          </td>
+          <td>
+            2021-01-07
+          </td>
+          <td>
+            reportable-condition-34
+          </td>
+          <td>
+            rule-summary-34
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-35"
+            >
+              first-35
+               
+              last-35
+            </a>
+            <br />
+            DOB: 2000-01-08
+          </td>
+          <td>
+            2021-01-08
+          </td>
+          <td>
+            2021-01-08
+          </td>
+          <td>
+            reportable-condition-35
+          </td>
+          <td>
+            rule-summary-35
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-36"
+            >
+              first-36
+               
+              last-36
+            </a>
+            <br />
+            DOB: 2000-01-09
+          </td>
+          <td>
+            2021-01-09
+          </td>
+          <td>
+            2021-01-09
+          </td>
+          <td>
+            reportable-condition-36
+          </td>
+          <td>
+            rule-summary-36
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-37"
+            >
+              first-37
+               
+              last-37
+            </a>
+            <br />
+            DOB: 2000-01-01
+          </td>
+          <td>
+            2021-01-01
+          </td>
+          <td>
+            2021-01-01
+          </td>
+          <td>
+            reportable-condition-37
+          </td>
+          <td>
+            rule-summary-37
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-38"
+            >
+              first-38
+               
+              last-38
+            </a>
+            <br />
+            DOB: 2000-01-02
+          </td>
+          <td>
+            2021-01-02
+          </td>
+          <td>
+            2021-01-02
+          </td>
+          <td>
+            reportable-condition-38
+          </td>
+          <td>
+            rule-summary-38
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-39"
+            >
+              first-39
+               
+              last-39
+            </a>
+            <br />
+            DOB: 2000-01-03
+          </td>
+          <td>
+            2021-01-03
+          </td>
+          <td>
+            2021-01-03
+          </td>
+          <td>
+            reportable-condition-39
+          </td>
+          <td>
+            rule-summary-39
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-40"
+            >
+              first-40
+               
+              last-40
+            </a>
+            <br />
+            DOB: 2000-01-04
+          </td>
+          <td>
+            2021-01-04
+          </td>
+          <td>
+            2021-01-04
+          </td>
+          <td>
+            reportable-condition-40
+          </td>
+          <td>
+            rule-summary-40
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-41"
+            >
+              first-41
+               
+              last-41
+            </a>
+            <br />
+            DOB: 2000-01-05
+          </td>
+          <td>
+            2021-01-05
+          </td>
+          <td>
+            2021-01-05
+          </td>
+          <td>
+            reportable-condition-41
+          </td>
+          <td>
+            rule-summary-41
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-42"
+            >
+              first-42
+               
+              last-42
+            </a>
+            <br />
+            DOB: 2000-01-06
+          </td>
+          <td>
+            2021-01-06
+          </td>
+          <td>
+            2021-01-06
+          </td>
+          <td>
+            reportable-condition-42
+          </td>
+          <td>
+            rule-summary-42
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-43"
+            >
+              first-43
+               
+              last-43
+            </a>
+            <br />
+            DOB: 2000-01-07
+          </td>
+          <td>
+            2021-01-07
+          </td>
+          <td>
+            2021-01-07
+          </td>
+          <td>
+            reportable-condition-43
+          </td>
+          <td>
+            rule-summary-43
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-44"
+            >
+              first-44
+               
+              last-44
+            </a>
+            <br />
+            DOB: 2000-01-08
+          </td>
+          <td>
+            2021-01-08
+          </td>
+          <td>
+            2021-01-08
+          </td>
+          <td>
+            reportable-condition-44
+          </td>
+          <td>
+            rule-summary-44
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-45"
+            >
+              first-45
+               
+              last-45
+            </a>
+            <br />
+            DOB: 2000-01-09
+          </td>
+          <td>
+            2021-01-09
+          </td>
+          <td>
+            2021-01-09
+          </td>
+          <td>
+            reportable-condition-45
+          </td>
+          <td>
+            rule-summary-45
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-46"
+            >
+              first-46
+               
+              last-46
+            </a>
+            <br />
+            DOB: 2000-01-01
+          </td>
+          <td>
+            2021-01-01
+          </td>
+          <td>
+            2021-01-01
+          </td>
+          <td>
+            reportable-condition-46
+          </td>
+          <td>
+            rule-summary-46
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-47"
+            >
+              first-47
+               
+              last-47
+            </a>
+            <br />
+            DOB: 2000-01-02
+          </td>
+          <td>
+            2021-01-02
+          </td>
+          <td>
+            2021-01-02
+          </td>
+          <td>
+            reportable-condition-47
+          </td>
+          <td>
+            rule-summary-47
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-48"
+            >
+              first-48
+               
+              last-48
+            </a>
+            <br />
+            DOB: 2000-01-03
+          </td>
+          <td>
+            2021-01-03
+          </td>
+          <td>
+            2021-01-03
+          </td>
+          <td>
+            reportable-condition-48
+          </td>
+          <td>
+            rule-summary-48
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-49"
+            >
+              first-49
+               
+              last-49
+            </a>
+            <br />
+            DOB: 2000-01-04
+          </td>
+          <td>
+            2021-01-04
+          </td>
+          <td>
+            2021-01-04
+          </td>
+          <td>
+            reportable-condition-49
+          </td>
+          <td>
+            rule-summary-49
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-50"
+            >
+              first-50
+               
+              last-50
+            </a>
+            <br />
+            DOB: 2000-01-05
+          </td>
+          <td>
+            2021-01-05
+          </td>
+          <td>
+            2021-01-05
+          </td>
+          <td>
+            reportable-condition-50
+          </td>
+          <td>
+            rule-summary-50
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              href="/view-data?id=id-51"
+            >
+              first-51
+               
+              last-51
+            </a>
+            <br />
+            DOB: 2000-01-06
+          </td>
+          <td>
+            2021-01-06
+          </td>
+          <td>
+            2021-01-06
+          </td>
+          <td>
+            reportable-condition-51
+          </td>
+          <td>
+            rule-summary-51
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

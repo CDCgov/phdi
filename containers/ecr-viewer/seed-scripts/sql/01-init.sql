@@ -17,5 +17,6 @@ CREATE TABLE IF NOT EXISTS fhir_metadata(
   reportable_condition VARCHAR(10000),
   rule_summary VARCHAR(10000),
   report_date DATE,
+  date_created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   PRIMARY KEY (ecr_id)
 )
