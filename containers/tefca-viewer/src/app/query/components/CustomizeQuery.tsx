@@ -182,8 +182,13 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       >
         <Icon.ArrowBack /> Return to patient search
       </a>
-      <h1 className="font-sans-2xl text-bold">Customize query</h1>
-      <p className="font-sans-lg text-light" style={{ paddingBottom: "0px" }}>
+      <h1 className="font-sans-2xl text-bold" style={{ paddingBottom: "0px" }}>
+        Customize query
+      </h1>
+      <p
+        className="font-sans-lg text-light"
+        style={{ paddingBottom: "0px", paddingTop: "4px" }}
+      >
         Query: {queryType}
       </p>
       <nav className="usa-nav custom-nav">
