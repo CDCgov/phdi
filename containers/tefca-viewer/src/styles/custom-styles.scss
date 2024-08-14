@@ -732,6 +732,8 @@ html {
 
 .custom-nav li {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .custom-nav a {
@@ -739,6 +741,8 @@ html {
   text-decoration: none;
   font-weight: normal;
   font-size: 18px;
+  padding: 0;
+  margin: 0;
   // font-family: "Source Sans Pro";
 }
 
