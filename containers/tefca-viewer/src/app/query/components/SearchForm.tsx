@@ -247,46 +247,51 @@ const SearchForm: React.FC<SearchFormProps> = ({
         )}
         {userJourney === "demo" && (
           <div className="usa-summary-box usa-summary-box demo-query-filler">
-            <Label className="usa-label" htmlFor="query">
-              <b>Select a sample query and patient to populate the form.</b>
-            </Label>
+            <b>
+              Select a query type and a sample patient to populate the form with
+              sample data for a query.
+            </b>
             <Label htmlFor="query">Query</Label>
-            <div className="display-flex flex-align-start">
-              <div className="usa-combo-box flex-1" data-enhanced="true">
-                <select
-                  id="query"
-                  name="query"
-                  className="usa-select  margin-top-1"
-                  value={useCase}
-                  onChange={(event) => {
-                    handleDemoQueryChange(event.target.value);
-                    setUseCase(event.target.value as USE_CASES);
-                  }}
-                >
-                  {demoQueryOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <Label htmlFor="patient">Patient</Label>
-                <select
-                  id="patient"
-                  name="patient"
-                  className="usa-select margin-top-1"
-                  value={patientOption}
-                  onChange={(event) => {
-                    setPatientOption(event.target.value);
-                  }}
-                >
-                  {patientOptions[useCase]?.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div className="display-flex flex-align-start query-customize-wrapper">
+              <select
+                id="query"
+                name="query"
+                className="usa-select margin-top-1"
+                value={useCase}
+                onChange={(event) => {
+                  handleDemoQueryChange(event.target.value);
+                  setUseCase(event.target.value as USE_CASES);
+                }}
+              >
+                {demoQueryOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <a
+                href="/customize"
+                className="usa-button usa-button--outline customize-query-button"
+              >
+                Customize query
+              </a>
             </div>
+            <Label htmlFor="patient">Patient</Label>
+            <select
+              id="patient"
+              name="patient"
+              className="usa-select margin-top-1"
+              value={patientOption}
+              onChange={(event) => {
+                setPatientOption(event.target.value);
+              }}
+            >
+              {patientOptions[useCase]?.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
         )}
         <Fieldset>
