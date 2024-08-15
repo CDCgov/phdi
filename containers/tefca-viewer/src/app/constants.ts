@@ -12,6 +12,19 @@ export const UseCases = [
 export type USE_CASES = (typeof UseCases)[number];
 
 /**
+ * Map of use cases to their corresponding modal options labels.
+ */
+
+export const modalOptions: Record<USE_CASES, string> = {
+  chlamydia: "Chlamydia case investigation",
+  gonorrhea: "Gonorrhea case investigation",
+  syphilis: "Syphilis case investigation",
+  cancer: "Cancer case investigation",
+  "newborn-screening": "Newborn screening follow-up",
+  "social-determinants": "Gather social determinants of health for a patient",
+};
+
+/**
  * The FHIR servers that can be used in the app
  */
 export const FhirServers = [
@@ -31,7 +44,7 @@ export type DemoDataFields = {
   LastName: string;
   DOB: string;
   MRN: string;
-  Phone?: string;
+  Phone: string;
   FhirServer: FHIR_SERVERS;
   UseCase: USE_CASES;
 };
@@ -65,6 +78,7 @@ export const demoData: Record<PatientType, DemoDataFields> = {
     LastName: "JMC",
     DOB: "2001-05-07",
     MRN: "b50z-wayszq-ofib",
+    Phone: "",
     FhirServer: "JMC Meld: Direct",
     UseCase: "chlamydia",
   },
@@ -73,6 +87,7 @@ export const demoData: Record<PatientType, DemoDataFields> = {
     LastName: "JMC",
     DOB: "1998-05-31",
     MRN: "JMC-1002",
+    Phone: "",
     FhirServer: "JMC Meld: Direct",
     UseCase: "gonorrhea",
   },

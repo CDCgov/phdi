@@ -12,6 +12,7 @@ import {
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { modalOptions } from "./constants";
 
 /**
  * The landing page for the TEFCA Viewer.
@@ -37,6 +38,7 @@ export default function LandingPage() {
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
+    document.getElementById(option)?.focus();
   };
 
   return (
@@ -112,6 +114,7 @@ export default function LandingPage() {
                 modalRef={modalRef}
                 opener
                 title="Go to the demo"
+                onClick={() => setSelectedOption(null)}
               >
                 Go to the demo
               </ModalToggleButton>
@@ -133,70 +136,35 @@ export default function LandingPage() {
           onPointerEnterCapture={undefined}
           onPointerLeaveCapture={undefined}
         >
-          <ModalHeading
-            id="data-usage-policy-modal-heading"
-            style={{ fontSize: "1.25rem" }}
-          >
+          <ModalHeading id="data-usage-policy-modal-heading">
             Customize your demo experience
           </ModalHeading>
           <div className="usa-prose">
             <p id="modal-2-description">
-              Select a scenario to see how you might use the TEFCA Query
-              Connector and what kind of data would be returned.
+              Select a scenario to see what kinds of data you can gather using
+              the TEFCA Query Connector.
             </p>
             <div className="modal-options">
-              <Button
-                type="button"
-                className={`modal-option ${selectedOption === "chlamydia"}`}
-                onClick={() => handleOptionClick("chlamydia")}
-              >
-                Chlamydia case investigation
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${selectedOption === "gonorrhea"}`}
-                onClick={() => handleOptionClick("gonorrhea")}
-              >
-                Gonorrhea case investigation
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${selectedOption === "syphilis"}`}
-                onClick={() => handleOptionClick("syphilis")}
-              >
-                Syphilis case investigation
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${selectedOption === "cancer"}`}
-                onClick={() => handleOptionClick("cancer")}
-              >
-                Cancer case investigation
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${
-                  selectedOption === "newborn-screening"
-                }`}
-                onClick={() => handleOptionClick("newborn-screening")}
-              >
-                Newborn screening follow-up
-              </Button>
-              <Button
-                type="button"
-                className={`modal-option ${
-                  selectedOption === "social-determinants" ? "selected" : ""
-                }`}
-                onClick={() => handleOptionClick("social-determinants")}
-              >
-                Gather social determinants of health for a patient
-              </Button>
+              {Object.keys(modalOptions).map((option) => (
+                <Button
+                  type="button"
+                  className={`modal-option ${
+                    selectedOption === option ? "selected" : ""
+                  }`}
+                  id={option}
+                  onClick={() => handleOptionClick(option)}
+                >
+                  {modalOptions[option as keyof typeof modalOptions]}
+                </Button>
+              ))}
             </div>
           </div>
           <ModalFooter>
             <Button
-              className="get-started-button"
+              className="next-button"
               type="button"
+              id="next-button"
+              disabled={!selectedOption}
               onClick={handleClick}
             >
               Next

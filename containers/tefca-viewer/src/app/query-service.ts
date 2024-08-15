@@ -117,10 +117,15 @@ async function patientQuery(
     const phonesToSearch = request.phone.split(";");
     let phonePossibilities: string[] = [];
     for (const phone of phonesToSearch) {
-      const possibilities = await GetPhoneQueryFormats(phone);
-      phonePossibilities.push(...possibilities);
+      let possibilities = await GetPhoneQueryFormats(phone);
+      possibilities = possibilities.filter((phone) => phone !== "");
+      if (possibilities.length !== 0) {
+        phonePossibilities.push(...possibilities);
+      }
     }
-    query += `phone=${phonePossibilities.join(",")}&`;
+    if (phonePossibilities.length > 0) {
+      query += `phone=${phonePossibilities.join(",")}&`;
+    }
   }
 
   const response = await fhirClient.get(query);
@@ -206,7 +211,7 @@ async function generalizedQuery(
  * @param queryResponse - The response object to store the results.
  * @returns - The parsed response.
  */
-async function parseFhirSearch(
+export async function parseFhirSearch(
   response: fetch.Response | Array<fetch.Response>,
   queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
@@ -239,7 +244,9 @@ async function parseFhirSearch(
  * @param response - The response from the FHIR server.
  * @returns - The array of resources from the response.
  */
-async function processResponse(response: fetch.Response): Promise<any[]> {
+export async function processResponse(
+  response: fetch.Response,
+): Promise<any[]> {
   let resourceArray: any[] = [];
   if (response.status === 200) {
     const body = await response.json();

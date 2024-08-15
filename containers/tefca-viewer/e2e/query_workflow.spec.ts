@@ -40,6 +40,9 @@ test.describe("querying with the TryTEFCA viewer", () => {
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page
+      .getByRole("button", { name: "Newborn screening follow-up" })
+      .click();
     await page.getByRole("button", { name: "Next" }).click();
 
     // Check that the info alert is visible and contains the correct text
@@ -103,6 +106,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
 
   test("unsuccessful user query: no patients", async ({ page }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page
+      .getByRole("button", {
+        name: "Gather social determinants of health for a patient",
+      })
+      .click();
     await page.getByRole("button", { name: "Next" }).click();
     await page
       .getByLabel("Query", { exact: true })
@@ -129,6 +137,9 @@ test.describe("querying with the TryTEFCA viewer", () => {
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page
+      .getByRole("button", { name: "Syphilis case investigation" })
+      .click();
     await page.getByRole("button", { name: "Next" }).click();
 
     await page.getByLabel("Query", { exact: true }).selectOption("syphilis");
@@ -151,6 +162,33 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(page.getByText("937-379-3497")).toBeVisible();
     await expect(page.getByText("Patient Identifiers")).toBeVisible();
     await expect(page.getByText("34972316")).toBeVisible();
+  });
+
+  test("social determinants query with generalized function", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
+    await page
+      .getByLabel("Query", { exact: true })
+      .selectOption("social-determinants");
+    await page.getByRole("button", { name: "Search for patient" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Query Results" }),
+    ).toBeVisible();
+  });
+
+  test("form-fillable STI query using generalized function", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
+    await page.getByLabel("Query", { exact: true }).selectOption("chlamydia");
+    await page.getByLabel("Phone Number").fill("");
+    await page.getByRole("button", { name: "Search for patient" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Query Results" }),
+    ).toBeVisible();
   });
 });
 
