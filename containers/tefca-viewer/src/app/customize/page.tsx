@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomizeQuery from "../query/components/CustomizeQuery"; // Adjust the path if necessary
-import { Mode } from "../query/page";
+import { Mode } from "../constants";
+import { useRouter } from "next/navigation";
 
 const dummyLabs = [
   {
@@ -71,14 +72,18 @@ const dummyConditions = [
  */
 const PreviewCustomizeQuery: React.FC = () => {
   const [mode, setMode] = useState<Mode>("customize-queries");
+  const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
 
-  if (mode === "search") {
-    return (
-      <div>
-        <p>Uh...I didn't want to develop this functionality further...</p>
-      </div>
-    );
-  }
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handleBack = () => {
+    if (isMounted) {
+      router.back();
+    }
+  };
 
   return (
     <div>
@@ -88,6 +93,7 @@ const PreviewCustomizeQuery: React.FC = () => {
         medications={dummyMedications}
         conditions={dummyConditions}
         setMode={setMode}
+        onBack={handleBack}
       />
     </div>
   );
