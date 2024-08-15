@@ -30,15 +30,9 @@ export type EcrDisplay = {
 };
 
 /**
- * Handles GET requests by fetching data from different sources based on the environment configuration.
- * It supports fetching from S3 and Postgres. If the `SOURCE` environment variable is not set to
- * a supported source, it returns a JSON response indicating an invalid source.
  * @param startIndex - The index of the first item to fetch
  * @param itemsPerPage - The number of items to fetch
- * @returns A promise that resolves to a `NextResponse` object
- *   if the source is invalid, or the result of fetching from the specified source.
- *   The specific return type (e.g., the type returned by `list_s3` or `list_postgres`)
- *   may vary based on the source and is thus marked as `unknown`.
+ * @returns A promise resolving to a list of eCR metadata
  */
 export async function listEcrData(
   startIndex: number,

@@ -109,16 +109,7 @@ describe("listEcrDataService", () => {
     });
 
     it("should return data when found", async () => {
-      database.manyOrNone<{
-        ecr_id: string;
-        date_created: string;
-        patient_birth_date: string;
-        patient_name_first: string;
-        patient_name_last: string;
-        report_date: string;
-        reportable_condition: string;
-        rule_summary: string;
-      }> = jest.fn(() =>
+      database.manyOrNone<{ EcrMetadataModel }> = jest.fn(() =>
         Promise.resolve<EcrMetadataModel[]>([
           {
             ecr_id: "1234",
@@ -158,16 +149,7 @@ describe("listEcrDataService", () => {
     });
 
     it("should get data from the fhir_metadata table", async () => {
-      database.manyOrNone<{
-        ecr_id: string;
-        date_created: string;
-        patient_birth_date: string;
-        patient_name_first: string;
-        patient_name_last: string;
-        report_date: string;
-        reportable_condition: string;
-        rule_summary: string;
-      }> = jest.fn(() =>
+      database.manyOrNone<{ EcrMetadataModel }> = jest.fn(() =>
         Promise.resolve<EcrMetadataModel[]>([
           {
             ecr_id: "1234",
