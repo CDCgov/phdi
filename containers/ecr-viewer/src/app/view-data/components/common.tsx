@@ -470,17 +470,17 @@ export const returnVitalsTable = (
     {
       vitalReading: "Height",
       result: formattedVitals.height || noData,
-      date: formatDateTime(heightDate),
+      date: formatDateTime(heightDate) || noData,
     },
     {
       vitalReading: "Weight",
       result: formattedVitals.weight || noData,
-      date: formatDateTime(weightDate),
+      date: formatDateTime(weightDate) || noData,
     },
     {
       vitalReading: "BMI",
       result: formattedVitals.bmi || noData,
-      date: formatDateTime(bmiDate),
+      date: formatDateTime(bmiDate) || noData,
     },
   ];
   const headers = BuildHeaders([
