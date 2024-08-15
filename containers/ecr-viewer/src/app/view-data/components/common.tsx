@@ -14,6 +14,7 @@ import {
   formatVitals,
   toSentenceCase,
   formatDate,
+  formatDateTime,
 } from "@/app/services/formatService";
 import {
   PathMappings,
@@ -437,13 +438,16 @@ export const returnVitalsTable = (
     fhirBundle,
     mappings["patientHeightMeasurement"],
   )[0];
+  const heightDate = evaluate(fhirBundle, mappings["patientHeightDate"])[0];
   const weightAmount = evaluate(fhirBundle, mappings["patientWeight"])[0];
   const weightUnit = evaluate(
     fhirBundle,
     mappings["patientWeightMeasurement"],
   )[0];
+  const weightDate = evaluate(fhirBundle, mappings["patientWeightDate"])[0];
   const bmiAmount = evaluate(fhirBundle, mappings["patientBmi"])[0];
   const bmiUnit = evaluate(fhirBundle, mappings["patientBmiMeasurement"])[0];
+  const bmiDate = evaluate(fhirBundle, mappings["patientBmiDate"])[0];
 
   const formattedVitals = formatVitals(
     heightAmount,
@@ -463,9 +467,21 @@ export const returnVitalsTable = (
   }
 
   const vitalsData = [
-    { vitalReading: "Height", result: formattedVitals.height || noData },
-    { vitalReading: "Weight", result: formattedVitals.weight || noData },
-    { vitalReading: "BMI", result: formattedVitals.bmi || noData },
+    {
+      vitalReading: "Height",
+      result: formattedVitals.height || noData,
+      date: formatDateTime(heightDate) || noData,
+    },
+    {
+      vitalReading: "Weight",
+      result: formattedVitals.weight || noData,
+      date: formatDateTime(weightDate) || noData,
+    },
+    {
+      vitalReading: "BMI",
+      result: formattedVitals.bmi || noData,
+      date: formatDateTime(bmiDate) || noData,
+    },
   ];
   const headers = BuildHeaders([
     { columnName: "Vital Reading" },
@@ -477,7 +493,7 @@ export const returnVitalsTable = (
       <tr key={`table-row-${index}`}>
         <td>{entry.vitalReading}</td>
         <td>{entry.result}</td>
-        <td>{noData}</td>
+        <td>{entry.date}</td>
       </tr>
     );
   });

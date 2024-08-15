@@ -279,11 +279,14 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
 
     // Check Vital Signs table contents
     const expectedValues = ["65 in", "150 lb", "25 kg/m2"];
+    const expectedDate = "03/14/2022 1:48 PM -04:00";
 
     // Check if all expected values are present in the document
     expectedValues.forEach((value) => {
       expect(screen.getByText(value)).toBeInTheDocument();
     });
+    const numVitalSignsDate = screen.queryAllByText(expectedDate);
+    expect(numVitalSignsDate.length).toBe(3);
   });
 
   it("eCR Viewer renders reason for visit given FHIR bundle with reason for visit info", () => {
