@@ -190,6 +190,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         style={{ paddingBottom: "0px", paddingTop: "4px" }}
       >
         Query: {queryType}
+        {/* TODO: need to port over queryType from /query */}
       </div>
       <nav className="usa-nav custom-nav">
         <li
