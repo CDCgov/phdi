@@ -177,7 +177,12 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   return (
     <div className="customize-query-container">
-      <a href="#" onClick={onBack} className="text-bold">
+      <a
+        href="#"
+        onClick={onBack}
+        className="text-bold"
+        style={{ fontSize: "16px" }}
+      >
         <Icon.ArrowBack /> Return to patient search
       </a>
       <h1 className="font-sans-2xl text-bold" style={{ paddingBottom: "0px" }}>
