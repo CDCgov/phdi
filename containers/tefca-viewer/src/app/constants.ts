@@ -257,4 +257,5 @@ export type Mode =
   | "results"
   | "multiple-patients"
   | "no-patients"
-  | "multiple-patients-results";
+  | "multiple-patients-results"
+  | "customize-queries";
