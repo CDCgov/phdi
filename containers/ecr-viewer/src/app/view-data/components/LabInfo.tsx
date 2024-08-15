@@ -10,7 +10,10 @@ import {
   formatString,
 } from "@/app/services/formatService";
 import { LabReportElementData } from "@/app/services/labsService";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import {
+  DataDisplay,
+  DisplayDataProps,
+} from "@/app/view-data/components/DataDisplay";
 
 interface LabInfoProps {
   labResults: LabReportElementData[];

@@ -10,7 +10,7 @@ import {
   DataDisplay,
   DataTableDisplay,
   DisplayDataProps,
-} from "@/app/DataDisplay";
+} from "@/app/view-data/components/DataDisplay";
 
 interface ClinicalProps {
   reasonForVisitDetails: DisplayDataProps[];

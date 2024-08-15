@@ -1,4 +1,4 @@
-import { noData } from "@/app/utils";
+import { noData } from "@/app/view-data/utils/utils";
 import { formatDate } from "@/app/services/formatService";
 import {
   BuildHeaders,

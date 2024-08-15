@@ -1,6 +1,6 @@
 import React from "react";
 import { removeHtmlElements } from "@/app/services/formatService";
-import { DisplayDataProps } from "@/app/DataDisplay";
+import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 
 export interface PathMappings {
   [key: string]: string;

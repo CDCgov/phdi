@@ -80,9 +80,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setLastName(data.LastName);
         setDOB(data.DOB);
         setMRN(data.MRN);
-        if (data.Phone) {
-          setPhone(data.Phone);
-        }
+        setPhone(data.Phone);
         setFhirServer(data.FhirServer as FHIR_SERVERS);
         setUseCase(data.UseCase as USE_CASES);
         setAutofilled(highlightAutofilled);
@@ -306,7 +304,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   setFirstName(event.target.value);
                 }}
                 style={{
-                  backgroundColor: autofilled ? autofillColor : undefined,
+                  backgroundColor:
+                    autofilled && firstName ? autofillColor : undefined,
                 }}
               />
             </div>
@@ -322,7 +321,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   setLastName(event.target.value);
                 }}
                 style={{
-                  backgroundColor: autofilled ? autofillColor : undefined,
+                  backgroundColor:
+                    autofilled && lastName ? autofillColor : undefined,
                 }}
               />
             </div>
@@ -342,7 +342,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   setPhone(event.target.value);
                 }}
                 style={{
-                  backgroundColor: autofilled ? autofillColor : undefined,
+                  backgroundColor:
+                    autofilled && phone ? autofillColor : undefined,
                 }}
               />
             </div>
@@ -365,7 +366,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
                       setDOB(event.target.value);
                     }}
                     style={{
-                      backgroundColor: autofilled ? autofillColor : undefined,
+                      backgroundColor:
+                        autofilled && dob ? autofillColor : undefined,
                     }}
                   />
                 </div>
@@ -439,7 +441,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   setMRN(event.target.value);
                 }}
                 style={{
-                  backgroundColor: autofilled ? autofillColor : undefined,
+                  backgroundColor:
+                    autofilled && mrn ? autofillColor : undefined,
                 }}
               />
             </div>

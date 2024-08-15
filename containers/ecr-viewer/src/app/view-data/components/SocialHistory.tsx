@@ -4,7 +4,10 @@ import {
   AccordionDiv,
 } from "../component-utils";
 import React from "react";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import {
+  DataDisplay,
+  DisplayDataProps,
+} from "@/app/view-data/components/DataDisplay";
 
 interface SocialHistoryProps {
   socialData: DisplayDataProps[];

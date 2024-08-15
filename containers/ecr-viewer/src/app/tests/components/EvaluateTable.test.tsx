@@ -1,6 +1,6 @@
 import { loadYamlConfig } from "@/app/api/utils";
 import { render, screen } from "@testing-library/react";
-import { PathMappings } from "@/app/utils";
+import { PathMappings } from "@/app/view-data/utils/utils";
 import userEvent from "@testing-library/user-event";
 import EvaluateTable, {
   BuildHeaders,
