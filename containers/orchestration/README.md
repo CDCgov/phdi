@@ -53,7 +53,10 @@ To build the Docker image for the Orchestration service from source instead of d
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/orchestration/`.
-4. Run `docker build -t orchestration .`.
+4. Make a fresh virtual environment with `python -m venv .venv`.
+5. Activate the virtual environment with `source .venv/bin/activate` (MacOS and Linux), `venv\Scripts\activate` (Windows Command Prompt), or `.venv\Scripts\Activate.ps1` (Windows PowerShell).
+6. Install all Python dependencies for the validation service with `pip install -r requirements.txt` into your virtual environment.
+7. Run `npm run local-dev`.
 
 ### The API 
 

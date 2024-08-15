@@ -51,7 +51,7 @@ To build the Docker image for the Record Linkage service from source code instea
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the DIBBs repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/record-linkage/`.
-4. Run `docker build -t record-linkage .`.
+4. Run `docker buildx build --platform linux/amd64 -t validation .`.
 
 ### The API 
 
