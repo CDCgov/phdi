@@ -27,6 +27,8 @@
     "@opentelemetry/exporter-metrics-otlp-proto": "^0.52.1",
     "@opentelemetry/exporter-trace-otlp-grpc": "^0.52.1",
     "@opentelemetry/exporter-trace-otlp-http": "^0.52.1",
+    "@opentelemetry/propagator-aws-xray": "^1.25.1",
+    "@opentelemetry/resource-detector-azure": "^0.2.9",
     "@opentelemetry/resource-detector-container": "^0.3.11",
     "@opentelemetry/resources": "^1.25.1",
     "@opentelemetry/sdk-node": "^0.52.1",
