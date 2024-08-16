@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS ecr_data (
 
 CREATE TABLE IF NOT EXISTS ecr_rr_conditions (
     uuid UUID PRIMARY KEY,
-    eICR_ID UUID REFERENCES ecr_data(eICR_ID),
-    condition VARCHAR(255)
+    eICR_ID VARCHAR(200) NOT NULL REFERENCES ecr_data(eICR_ID),
+    condition VARCHAR(255),
     rule_summary TEXT[]
 );
