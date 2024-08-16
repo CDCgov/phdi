@@ -23,9 +23,9 @@ import {
   UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
-
 import { FormatPhoneAsDigits } from "@/app/format-service";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface SearchFormProps {
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
@@ -52,6 +52,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
   userJourney: userJourney,
 }) => {
   const params = useSearchParams();
+  const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
 
   // Get the demoOption (initial selection) selected from modal via the URL
   const [useCase, setUseCase] = useState<USE_CASES>(
@@ -69,7 +71,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
 
-  const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
+  const [autofilled, setAutofilled] = useState(false);
 
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
@@ -104,6 +106,15 @@ const SearchForm: React.FC<SearchFormProps> = ({
     // setDemoOption(selectedDemoOption);
     setPatientOption(patientOptions[selectedDemoOption][0].value);
   };
+
+  // Push to /customize endpoint
+  const customizeClick = () => {
+    router.push(`/customize`);
+  };
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
     if (!useCase || !fhirServer) {
@@ -269,12 +280,13 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   </option>
                 ))}
               </select>
-              <a
-                href="/customize"
+              <Button
+                type="button"
                 className="usa-button usa-button--outline customize-query-button"
+                onClick={customizeClick}
               >
                 Customize query
-              </a>
+              </Button>
             </div>
             <Label htmlFor="patient">Patient</Label>
             <select
