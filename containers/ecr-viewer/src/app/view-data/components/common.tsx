@@ -149,7 +149,7 @@ export const returnImmunizations = (
   ];
 
   immunizationsArray.forEach((entry) => {
-    entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime);
+    entry.occurrenceDateTime = formatDateTime(entry.occurrenceDateTime ?? "");
 
     const manufacturer = evaluateReference(
       fhirBundle,
