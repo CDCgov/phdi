@@ -1,6 +1,6 @@
-CREATE TABLE ECR_DATA
+CREATE TABLE IF NOT EXISTS ECR_DATA
 (
-    eICR_ID                  UNIQUEIDENTIFIER PRIMARY KEY,
+    eICR_ID                  VARCHAR(200) PRIMARY KEY,
     set_id                   VARCHAR(255),
     fhir_reference_link      VARCHAR(255),
     last_name                VARCHAR(255),
@@ -42,25 +42,25 @@ CREATE TABLE ECR_DATA
     active_problems          VARCHAR(255)
 );
 
-CREATE TABLE ecr_rr_conditions
+CREATE TABLE IF NOT EXISTS ecr_rr_conditions
 (
-    UUID      UNIQUEIDENTIFIER PRIMARY KEY,
-    eICR_ID   UNIQUEIDENTIFIER FOREIGN KEY REFERENCES ECR_DATA (eICR_ID),
-    condition VARCHAR(255),
+    UUID      UUID PRIMARY KEY,
+    eICR_ID   VARCHAR(200) NOT NULL REFERENCES ECR_DATA (eICR_ID),
+    condition VARCHAR(255)
 );
 
-CREATE TABLE ecr_rr_rule_summaries
+CREATE TABLE IF NOT EXISTS ecr_rr_rule_summaries
 (
-    UUID                 UNIQUEIDENTIFIER PRIMARY KEY,
-    ECR_RR_CONDITIONS_ID UNIQUEIDENTIFIER FOREIGN KEY REFERENCES ecr_rr_conditions (UUID),
-    rule_summary         VARCHAR(MAX)
+    UUID                 UUID PRIMARY KEY,
+    ECR_RR_CONDITIONS_ID UUID REFERENCES ecr_rr_conditions (UUID),
+    rule_summary         TEXT
 );
 
 
-CREATE TABLE ecr_labs
+CREATE TABLE IF NOT EXISTS ecr_labs
 (
-    UUID                                   UNIQUEIDENTIFIER PRIMARY KEY,
-    eICR_ID                                UNIQUEIDENTIFIER FOREIGN KEY REFERENCES ECR_DATA (eICR_ID),
+    UUID                                   UUID PRIMARY KEY,
+    eICR_ID                                VARCHAR(200) REFERENCES ECR_DATA (eICR_ID),
     test_type                              VARCHAR(255),
     test_type_code                         VARCHAR(50),
     test_type_system                       VARCHAR(50),
