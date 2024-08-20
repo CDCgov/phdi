@@ -81,7 +81,7 @@ const PreviewCustomizeQuery: React.FC = () => {
 
   const handleBack = () => {
     if (isMounted) {
-      router.back();
+      router.push(`/query`);
     }
   };
 
