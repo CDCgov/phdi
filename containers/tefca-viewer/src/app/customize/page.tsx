@@ -93,7 +93,7 @@ const PreviewCustomizeQuery: React.FC = () => {
         medications={dummyMedications}
         conditions={dummyConditions}
         setMode={setMode}
-        onBack={handleBack}
+        goBack={handleBack}
       />
     </div>
   );

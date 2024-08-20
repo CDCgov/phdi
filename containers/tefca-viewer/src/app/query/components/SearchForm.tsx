@@ -71,7 +71,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
 
-  const [autofilled, setAutofilled] = useState(false);
+  const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
@@ -108,7 +108,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   };
 
   // Push to /customize endpoint
-  const customizeClick = () => {
+  const handleClick = () => {
     router.push(`/customize`);
   };
 
@@ -283,7 +283,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               <Button
                 type="button"
                 className="usa-button usa-button--outline customize-query-button"
-                onClick={customizeClick}
+                onClick={handleClick}
               >
                 Customize query
               </Button>
