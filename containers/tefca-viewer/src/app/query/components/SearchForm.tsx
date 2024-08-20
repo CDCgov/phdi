@@ -109,6 +109,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Push to /customize endpoint
   const handleClick = () => {
+    const queryType =
+      demoQueryOptions.find((option) => option.value === useCase)?.label || "";
+
+    // Store queryType in local state or context here (or you could use sessionStorage)
+    sessionStorage.setItem("queryType", queryType);
+    sessionStorage.setItem("useCase", useCase);
+
+    // Navigate to the customize page
     router.push(`/customize`);
   };
 

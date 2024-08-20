@@ -74,6 +74,8 @@ const PreviewCustomizeQuery: React.FC = () => {
   const [mode, setMode] = useState<Mode>("customize-queries");
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
+  const queryType = sessionStorage.getItem("queryType") || "";
+  const useCase = sessionStorage.getItem("useCase") || "";
 
   useEffect(() => {
     setIsMounted(true);
@@ -88,7 +90,7 @@ const PreviewCustomizeQuery: React.FC = () => {
   return (
     <div>
       <CustomizeQuery
-        queryType="Chlamydia case investigation"
+        queryType={queryType}
         labs={dummyLabs}
         medications={dummyMedications}
         conditions={dummyConditions}
