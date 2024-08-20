@@ -35,7 +35,6 @@ interface CustomizeQueryProps {
   medications: Medication[];
   conditions: Condition[];
   setMode: (mode: Mode) => void;
-  goBack: () => void;
 }
 
 /**
@@ -46,7 +45,6 @@ interface CustomizeQueryProps {
  * @param root0.medications - The list of medications.
  * @param root0.conditions - The list of conditions.
  * @param root0.setMode - The function to set the mode.
- * @param root0.goBack - Back button to go from /customize to /query page.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
@@ -55,7 +53,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   medications,
   conditions,
   setMode,
-  goBack,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
 
@@ -179,7 +176,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     <div className="customize-query-container">
       <a
         href="#"
-        onClick={goBack}
+        onClick={() => setMode("search")}
         className="text-bold"
         style={{ fontSize: "16px" }}
       >
