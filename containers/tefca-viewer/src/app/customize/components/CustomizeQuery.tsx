@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
-import { AccordianSection, AccordianDiv } from "../../query/component-utils";
-import { Mode, ValueSet, ValueSetItem } from "../../constants";
+import { AccordianSection } from "../../query/component-utils";
+import { Mode, ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 
 interface CustomizeQueryProps {
@@ -36,7 +36,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleSelectAllChange = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
-    checked: boolean
+    checked: boolean,
   ) => {
     const updatedItems = items.map((item) => ({ ...item, include: checked }));
     setItems(updatedItems);
@@ -45,7 +45,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleIncludeAll = (
     setValueSet: React.Dispatch<React.SetStateAction<ValueSet>>,
     key: keyof ValueSet,
-    include: boolean
+    include: boolean,
   ) => {
     setValueSet((prevValueSet) => ({
       ...prevValueSet,
@@ -84,7 +84,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                           ...prevState,
                           [activeTab]: updatedItems,
                         })),
-                      e.target.checked
+                      e.target.checked,
                     )
                   }
                   label={<span className="hide-me">Select/deselect all</span>}
