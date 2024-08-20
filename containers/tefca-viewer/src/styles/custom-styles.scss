@@ -899,33 +899,33 @@ html {
   gap: 4px;
 }
 
-.grid-container {
+.customize-query-grid-container {
   display: grid;
   grid-template-columns: 100px 100px 1fr; /* Same width for Include and Code, Display takes the remaining space */
   gap: 8px;
 }
 
-.grid-header {
+.customize-query-grid-header {
   display: contents;
   font-weight: 700;
   border-bottom: 2px solid #ddd;
 }
 
-.grid-body {
+.customize-query-grid-body {
   display: contents;
 }
 
-.grid-row {
+.customize-query-grid-row {
   display: contents;
   padding: 8px 0;
 }
 
-.grid-row > div {
+.customize-query-grid-row > div {
   padding: 8px;
   border-bottom: 1px solid #ddd;
 }
 
-.striped-row:nth-child(even) {
+.customize-query-striped-row:nth-child(even) {
   background-color: #f9f9f9;
 }
 

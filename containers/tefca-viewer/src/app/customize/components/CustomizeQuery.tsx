@@ -106,15 +106,18 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
             className: "accordion-item",
             content: (
               <AccordianSection>
-                <div className="grid-container customize-query-table">
-                  <div className="grid-header">
+                <div className="customize-query-grid-container customize-query-table">
+                  <div className="customize-query-grid-header">
                     <div>Include</div>
                     <div>Code</div>
                     <div>Display</div>
                   </div>
-                  <div className="grid-body">
+                  <div className="customize-query-grid-body">
                     {items.map((item, index) => (
-                      <div className="grid-row striped-row" key={item.code}>
+                      <div
+                        className="customize-query-grid-row customize-query-striped-row"
+                        key={item.code}
+                      >
                         <div>
                           <Checkbox
                             id={`checkbox-${index}`}
@@ -149,49 +152,58 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   return (
     <div className="customize-query-container">
-      <a href="#" onClick={() => setMode("search")} className="text-bold">
+      <a
+        href="#"
+        onClick={() => setMode("search")}
+        className="text-bold"
+        style={{ fontSize: "16px" }}
+      >
         <Icon.ArrowBack /> Return to patient search
       </a>
-      <h1 className="font-sans-2xl text-bold">Customize query</h1>
-      <p className="font-sans-lg text-light">Query: {queryType}</p>
+      <h1 className="font-sans-2xl text-bold" style={{ paddingBottom: "0px" }}>
+        Customize query
+      </h1>
+      <div
+        className="font-sans-lg text-light"
+        style={{ paddingBottom: "0px", paddingTop: "4px" }}
+      >
+        Query: {queryType}
+      </div>
       <nav className="usa-nav custom-nav">
-        <ul className="usa-nav__primary usa-accordion">
-          <li
-            className={`usa-nav__primary-item ${
-              activeTab === "labs" ? "usa-current" : ""
-            }`}
-          >
-            <a href="#labs" onClick={() => handleTabChange("labs")}>
-              Labs
-            </a>
-          </li>
-          <li
-            className={`usa-nav__primary-item ${
-              activeTab === "medications" ? "usa-current" : ""
-            }`}
-          >
-            <a
-              href="#medications"
-              onClick={() => handleTabChange("medications")}
-            >
-              Medications
-            </a>
-          </li>
-          <li
-            className={`usa-nav__primary-item ${
-              activeTab === "conditions" ? "usa-current" : ""
-            }`}
-          >
-            <a href="#conditions" onClick={() => handleTabChange("conditions")}>
-              Conditions
-            </a>
-          </li>
-        </ul>
+        <li
+          className={`usa-nav__primary-item ${
+            activeTab === "labs" ? "usa-current" : ""
+          }`}
+        >
+          <a href="#labs" onClick={() => handleTabChange("labs")}>
+            Labs
+          </a>
+        </li>
+        <li
+          className={`usa-nav__primary-item ${
+            activeTab === "medications" ? "usa-current" : ""
+          }`}
+        >
+          <a href="#medications" onClick={() => handleTabChange("medications")}>
+            Medications
+          </a>
+        </li>
+        <li
+          className={`usa-nav__primary-item ${
+            activeTab === "conditions" ? "usa-current" : ""
+          }`}
+        >
+          <a href="#conditions" onClick={() => handleTabChange("conditions")}>
+            Conditions
+          </a>
+        </li>
       </nav>
+      <ul className="usa-nav__primary usa-accordion"></ul>
+      <hr className="custom-hr"></hr>
       <a
         href="#"
         type="button"
-        style={{ fontSize: "16px", fontFamily: "Public Sans" }}
+        className="include-all-link"
         onClick={() =>
           handleIncludeAll(setValueSetState, activeTab as keyof ValueSet, true)
         }
