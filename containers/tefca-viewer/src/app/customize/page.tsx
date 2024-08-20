@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomizeQuery from "../query/components/CustomizeQuery"; // Adjust the path if necessary
-import SearchForm from "../query/components/SearchForm";
 import { Mode } from "../constants";
+import { useRouter } from "next/navigation";
 
 const dummyLabs = [
   {
@@ -71,29 +71,30 @@ const dummyConditions = [
  * @returns The PreviewCustomizeQuery component.
  */
 const PreviewCustomizeQuery: React.FC = () => {
-  const [mode, setMode] = useState<Mode>("search");
-  const [queryType, setQueryType] = useState<string>("");
+  const [mode, setMode] = useState<Mode>("customize-queries");
+  const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handleBack = () => {
+    if (isMounted) {
+      router.back();
+    }
+  };
 
   return (
     <div>
-      {mode === "search" && (
-        <SearchForm
-          setOriginalRequest={() => {}}
-          setUseCaseQueryResponse={() => {}}
-          setMode={setMode}
-          setLoading={() => {}}
-          userJourney="demo"
-        />
-      )}
-      {mode === "customize-queries" && (
-        <CustomizeQuery
-          queryType={queryType}
-          labs={dummyLabs}
-          medications={dummyMedications}
-          conditions={dummyConditions}
-          setMode={setMode}
-        />
-      )}
+      <CustomizeQuery
+        queryType="Chlamydia case investigation"
+        labs={dummyLabs}
+        medications={dummyMedications}
+        conditions={dummyConditions}
+        setMode={setMode}
+        goBack={handleBack}
+      />
     </div>
   );
 };
