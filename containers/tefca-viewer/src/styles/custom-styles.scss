@@ -542,15 +542,16 @@ html {
 
 .accordion-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  // justify-content: space-between;
+  // align-items: center;
   width: 100%;
   color: var(--White, #fff);
-  font-family: "Source Sans Pro";
+  // font-family: "Source Sans Pro";
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  gap: 20px;
 }
 
 .accordion-header-cell {
@@ -585,7 +586,7 @@ html {
   font-weight: normal;
   font-size: 16px;
   color: var(--White, #fff);
-  font-family: "Source Sans Pro";
+  // font-family: "Source Sans Pro";
   font-size: 16px;
   line-height: normal;
 }
@@ -661,6 +662,47 @@ html {
 .accordion-item-cell {
   padding-left: 0 24px;
   box-sizing: border-box;
+}
+
+.accordion-item {
+  padding-bottom: 0 !important;
+
+  & > div > div.padding-bottom-3 {
+    padding-bottom: 0;
+  }
+
+  & > button {
+    background-image: none !important;
+  }
+
+  .striped-row:nth-child(even) td,
+  .striped-row:nth-child(even) th {
+    background-color: #f0f0f0;
+  }
+}
+
+.customize-query-table {
+  border: none;
+}
+
+.hide-checkbox-label {
+  background-color: transparent;
+  & > label {
+    margin-top: 0;
+    width: 24px;
+    height: 24px;
+
+    &::before {
+      margin-left: 0;
+      width: 24px;
+      height: 24px;
+      background-size: 14px auto !important;
+    }
+
+    & > .hide-me {
+      display: none;
+    }
+  }
 }
 
 .custom-checkbox {
@@ -817,4 +859,40 @@ html {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 100px 100px 1fr; /* Same width for Include and Code, Display takes the remaining space */
+  gap: 8px;
+}
+
+.grid-header {
+  display: contents;
+  font-weight: 700;
+  border-bottom: 2px solid #ddd;
+}
+
+.grid-body {
+  display: contents;
+}
+
+.grid-row {
+  display: contents;
+  padding: 8px 0;
+}
+
+.grid-row > div {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.striped-row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.hide-checkbox-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
