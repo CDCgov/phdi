@@ -92,7 +92,7 @@ exports[`Immunizations Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
-          11/10/2020
+          11/10/2020 7:20 AM -04:00
         </td>
         <td
           class="text-top"
