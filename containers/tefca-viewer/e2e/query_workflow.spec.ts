@@ -168,6 +168,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page
+      .getByRole("button", {
+        name: "Gather social determinants of health for a patient",
+      })
+      .click();
     await page.getByRole("button", { name: "Next" }).click();
     await page
       .getByLabel("Query", { exact: true })
@@ -182,6 +187,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
+    await page
+      .getByRole("button", {
+        name: "Chlamydia case investigation",
+      })
+      .click();
     await page.getByRole("button", { name: "Next" }).click();
     await page.getByLabel("Query", { exact: true }).selectOption("chlamydia");
     await page.getByLabel("Phone Number").fill("");
