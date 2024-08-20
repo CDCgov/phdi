@@ -85,6 +85,6 @@ export const processMetadata = (
  * @returns A promise resolving to the total number of eCRs.
  */
 export const getTotalEcrCount = async (): Promise<number> => {
-  let number = await database.manyOrNone("SELECT count(*) FROM fhir_metadata");
-  return number[0].count;
+  let number = await database.one("SELECT count(*) FROM fhir_metadata");
+  return number.count;
 };
