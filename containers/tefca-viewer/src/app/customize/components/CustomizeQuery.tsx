@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
 import { AccordianSection, AccordianDiv } from "../../query/component-utils";
-import { ValueSet } from "../../constants";
+import { Mode, ValueSet, ValueSetItem } from "../../constants";
+import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 
 interface CustomizeQueryProps {
   queryType: string;
   ValueSet: ValueSet;
-  setMode: (mode: string) => void;
+  setMode: (mode: Mode) => void;
 }
 
 /**
@@ -35,7 +36,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleSelectAllChange = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
-    checked: boolean,
+    checked: boolean
   ) => {
     const updatedItems = items.map((item) => ({ ...item, include: checked }));
     setItems(updatedItems);
@@ -44,7 +45,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleIncludeAll = (
     setValueSet: React.Dispatch<React.SetStateAction<ValueSet>>,
     key: keyof ValueSet,
-    include: boolean,
+    include: boolean
   ) => {
     setValueSet((prevValueSet) => ({
       ...prevValueSet,
@@ -62,88 +63,89 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     console.log(selectedItems);
   };
 
-  const renderItems = (
-    items: any[],
-    setItems: React.Dispatch<React.SetStateAction<any[]>>,
-  ) => (
-    <div className="accordion-items">
-      {items.map((item, index) => (
-        <div key={index} className="accordion-item-row">
-          <div className="accordion-header-cell include">
-            <Checkbox
-              id={`checkbox-${index}`}
-              name={`checkbox-${index}`}
-              checked={item.include}
-              onChange={(e) => {
-                const updatedItems = [...items];
-                updatedItems[index].include = e.target.checked;
-                setItems(updatedItems);
-              }}
-              label={undefined}
-            />
-          </div>
-          <div className="accordion-header-cell code">{item.code}</div>
-          <div className="accordion-header-cell display">{item.display}</div>
-        </div>
-      ))}
-    </div>
-  );
-
-  const renderAccordionItems = (
-    items: any[],
-    setItems: React.Dispatch<React.SetStateAction<any[]>>,
-    title: string,
-  ) => {
+  const accordionItems: AccordionItemProps[] = useMemo(() => {
+    const items = valueSetState[activeTab as keyof ValueSet];
     const selectedCount = items.filter((item) => item.include).length;
     return items.length
       ? [
           {
             title: (
-              <div className="accordion-title">
-                <div className="accordion-header">
-                  <Checkbox
-                    id="select-all"
-                    name="select-all"
-                    className="custom-checkbox"
-                    checked={selectedCount === items.length}
-                    onChange={(e) =>
-                      handleSelectAllChange(items, setItems, e.target.checked)
-                    }
-                    label={undefined}
-                  />
+              <div className="accordion-header display-flex flex-no-wrap flex-align-start">
+                <Checkbox
+                  id="select-all"
+                  name="select-all"
+                  className="hide-checkbox-label"
+                  checked={selectedCount === items.length}
+                  onChange={(e) =>
+                    handleSelectAllChange(
+                      items,
+                      (updatedItems) =>
+                        setValueSetState((prevState) => ({
+                          ...prevState,
+                          [activeTab]: updatedItems,
+                        })),
+                      e.target.checked
+                    )
+                  }
+                  label={<span className="hide-me">Select/deselect all</span>}
+                />
+                <div>
                   {`${items[0].display}`}
-                  <div>{`${selectedCount} selected`}</div>
+
+                  <span className="accordion-subtitle margin-top-2">
+                    <strong>Author:</strong> {items[0].author}{" "}
+                    <strong>System:</strong> {items[0].system}
+                  </span>
                 </div>
-                <div className="accordion-subtitle">
-                  <strong>Author:</strong> {items[0].author}{" "}
-                  <strong>System:</strong> {items[0].system}
-                </div>
+
+                <span className="margin-left-auto">{`${selectedCount} selected`}</span>
+                <Icon.ExpandLess size={4} />
               </div>
             ),
+            id: items[0].author + ":" + items[0].system,
+            className: "accordion-item",
             content: (
-              <>
-                <AccordianSection>
-                  <AccordianDiv>
-                    <div className="accordion-table-header">
-                      <div className="accordion-header-cell include">
-                        Include
+              <AccordianSection>
+                <div className="grid-container customize-query-table">
+                  <div className="grid-header">
+                    <div>Include</div>
+                    <div>Code</div>
+                    <div>Display</div>
+                  </div>
+                  <div className="grid-body">
+                    {items.map((item, index) => (
+                      <div className="grid-row striped-row" key={item.code}>
+                        <div>
+                          <Checkbox
+                            id={`checkbox-${index}`}
+                            name={`checkbox-${index}`}
+                            checked={item.include}
+                            className="hide-checkbox-label"
+                            onChange={(e) => {
+                              const updatedItems = [...items];
+                              updatedItems[index].include = e.target.checked;
+                              setValueSetState((prevState) => ({
+                                ...prevState,
+                                [activeTab]: updatedItems,
+                              }));
+                            }}
+                            label={<span className="hide-me">Include</span>}
+                          />
+                        </div>
+                        <div>{item.code}</div>
+                        <div>{item.display}</div>
                       </div>
-                      <div className="accordion-header-cell code">Code</div>
-                      <div className="accordion-header-cell display">
-                        Display
-                      </div>
-                    </div>
-                    {renderItems(items, setItems)}
-                  </AccordianDiv>
-                </AccordianSection>
-              </>
+                    ))}
+                  </div>
+                </div>
+              </AccordianSection>
             ),
             expanded: true,
             headingLevel: "h3",
           },
         ]
       : [];
-  };
+  }, [valueSetState, activeTab]);
 
   return (
     <div className="customize-query-container">
@@ -197,19 +199,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         Include all {activeTab}
       </a>
       <div>
-        <Accordion
-          items={renderAccordionItems(
-            valueSetState[activeTab as keyof ValueSet],
-            (updatedItems) =>
-              setValueSetState((prevState) => ({
-                ...prevState,
-                [activeTab]: updatedItems,
-              })),
-            activeTab.charAt(0).toUpperCase() + activeTab.slice(1),
-          )}
-          multiselectable
-          bordered
-        />
+        <Accordion items={accordionItems} multiselectable bordered />
       </div>
       <div className="button-container">
         <Button type="button" onClick={handleApplyChanges}>
