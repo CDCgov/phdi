@@ -63,7 +63,7 @@ describe("Immunizations Table", () => {
         },
         resourceType: "Immunization",
         primarySource: true,
-        occurrenceDateTime: "11/10/2020",
+        occurrenceDateTime: "2020-11-10T07:20:00-04:00",
         lotNumber: "369258741",
         manufacturer: {
           reference: "Organization/b5c77b86-2764-79f9-10bf-5da5e63eb7c1",
