@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS ECR_DATA
+CREATE TABLE ECR_DATA
 (
     eICR_ID                  VARCHAR(200) PRIMARY KEY,
     set_id                   VARCHAR(255),
@@ -45,14 +45,14 @@ CREATE TABLE IF NOT EXISTS ECR_DATA
     active_problems          VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS ecr_rr_conditions
+CREATE TABLE ecr_rr_conditions
 (
     UUID      VARCHAR(200) PRIMARY KEY,
     eICR_ID   VARCHAR(200) NOT NULL REFERENCES ECR_DATA (eICR_ID),
     condition VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS ecr_rr_rule_summaries
+CREATE TABLE ecr_rr_rule_summaries
 (
     UUID                 VARCHAR(200) PRIMARY KEY,
     ECR_RR_CONDITIONS_ID VARCHAR(200) REFERENCES ecr_rr_conditions (UUID),
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS ecr_rr_rule_summaries
 );
 
 
-CREATE TABLE IF NOT EXISTS ecr_labs
+CREATE TABLE ecr_labs
 (
     UUID                                   VARCHAR(200) PRIMARY KEY,
     eICR_ID                                VARCHAR(200) REFERENCES ECR_DATA (eICR_ID),
