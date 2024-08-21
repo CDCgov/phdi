@@ -41,8 +41,8 @@ CREATE TABLE ECR_DATA
     encounter_start_time     TIME,
     encounter_end_date       DATE,
     encounter_end_time       TIME,
-    reason_for_visit         VARCHAR(255),
-    active_problems          VARCHAR(255)
+    reason_for_visit         VARCHAR,
+    active_problems          VARCHAR
 );
 
 CREATE TABLE ecr_rr_conditions
@@ -56,7 +56,7 @@ CREATE TABLE ecr_rr_rule_summaries
 (
     UUID                 VARCHAR(200) PRIMARY KEY,
     ECR_RR_CONDITIONS_ID VARCHAR(200) REFERENCES ecr_rr_conditions (UUID),
-    rule_summary         TEXT
+    rule_summary         VARCHAR
 );
 
 

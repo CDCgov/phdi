@@ -11,11 +11,11 @@ CREATE TABLE ecr_data (
 CREATE TABLE ecr_rr_conditions (
     uuid VARCHAR(200) PRIMARY KEY,
     eICR_ID VARCHAR(200) NOT NULL REFERENCES ecr_data(eICR_ID),
-    condition VARCHAR(255)
+    condition VARCHAR
 );
 
 CREATE TABLE ecr_rr_rule_summaries (
     uuid VARCHAR(200) PRIMARY KEY,
     ecr_rr_conditions_id VARCHAR(200) REFERENCES ecr_rr_conditions(uuid),
-    rule_summary TEXT
+    rule_summary VARCHAR
 );
