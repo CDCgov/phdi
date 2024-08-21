@@ -49,7 +49,7 @@ CREATE TABLE ecr_rr_conditions
 (
     UUID      VARCHAR(200) PRIMARY KEY,
     eICR_ID   VARCHAR(200) NOT NULL REFERENCES ECR_DATA (eICR_ID),
-    condition VARCHAR(255)
+    condition VARCHAR
 );
 
 CREATE TABLE ecr_rr_rule_summaries
