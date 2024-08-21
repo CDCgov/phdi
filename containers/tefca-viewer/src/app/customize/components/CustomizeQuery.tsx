@@ -42,7 +42,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleSelectAllChange = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
-    checked: boolean
+    checked: boolean,
   ) => {
     const updatedItems = items.map((item) => ({ ...item, include: checked }));
     setItems(updatedItems);
@@ -51,7 +51,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleIncludeAll = (
     setValueSet: React.Dispatch<React.SetStateAction<ValueSet>>,
     key: keyof ValueSet,
-    include: boolean
+    include: boolean,
   ) => {
     setValueSet((prevValueSet) => ({
       ...prevValueSet,
@@ -88,7 +88,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                           ...prevState,
                           [activeTab]: updatedItems,
                         })),
-                      e.target.checked
+                      e.target.checked,
                     )
                   }
                   label={<span className="hide-me">Select/deselect all</span>}
