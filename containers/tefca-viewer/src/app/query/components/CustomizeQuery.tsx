@@ -42,7 +42,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleSelectAllChange = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
-    checked: boolean,
+    checked: boolean
   ) => {
     const updatedItems = items.map((item) => ({ ...item, include: checked }));
     setItems(updatedItems);
@@ -51,7 +51,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleIncludeAll = (
     setValueSet: React.Dispatch<React.SetStateAction<ValueSet>>,
     key: keyof ValueSet,
-    include: boolean,
+    include: boolean
   ) => {
     setValueSet((prevValueSet) => ({
       ...prevValueSet,
@@ -88,7 +88,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                           ...prevState,
                           [activeTab]: updatedItems,
                         })),
-                      e.target.checked,
+                      e.target.checked
                     )
                   }
                   label={<span className="hide-me">Select/deselect all</span>}
@@ -98,13 +98,19 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
                   <span className="accordion-subtitle margin-top-2">
                     <strong>Author:</strong> {items[0].author}{" "}
-                    <strong>System:</strong> {items[0].system}
+                    <strong style={{ marginLeft: "20px" }}>System:</strong>{" "}
+                    {items[0].system}
                   </span>
                 </div>
-
                 <span className="margin-left-auto">{`${selectedCount} selected`}</span>
-                {/* <Icon.ExpandLess size={4} /> */}
-                <div onClick={handleToggleExpand} style={{ cursor: "pointer" }}>
+                <div
+                  onClick={handleToggleExpand}
+                  style={{
+                    cursor: "pointer",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
                   {isExpanded ? (
                     <Icon.ExpandLess size={4} />
                   ) : (
@@ -118,10 +124,16 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
             content: (
               <AccordianSection>
                 <div className="customize-query-grid-container customize-query-table">
-                  <div className="customize-query-grid-header">
-                    <div>Include</div>
-                    <div>Code</div>
-                    <div>Display</div>
+                  <div className="customize-query-grid-header margin-top-10">
+                    <div style={{ marginLeft: "24px", marginTop: "10px" }}>
+                      Include
+                    </div>
+                    <div style={{ marginLeft: "6px", marginTop: "10px" }}>
+                      Code
+                    </div>
+                    <div style={{ marginLeft: "6px", marginTop: "10px" }}>
+                      Display
+                    </div>
                   </div>
                   <div className="customize-query-grid-body">
                     {items.map((item, index) => (
@@ -129,7 +141,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                         className="customize-query-grid-row customize-query-striped-row"
                         key={item.code}
                       >
-                        <div>
+                        <div style={{ marginLeft: "24px" }}>
                           <Checkbox
                             id={`checkbox-${index}`}
                             name={`checkbox-${index}`}

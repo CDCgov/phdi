@@ -848,7 +848,7 @@ html {
 .customize-query-grid-container {
   display: grid;
   grid-template-columns: 100px 100px 1fr; /* Same width for Include and Code, Display takes the remaining space */
-  gap: 8px;
+  gap: 0px;
 }
 
 .customize-query-grid-header {

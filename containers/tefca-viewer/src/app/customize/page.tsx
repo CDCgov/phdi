@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import CustomizeQuery from "./components/CustomizeQuery"; // Adjust the path if necessary
+import CustomizeQuery from "../query/components/CustomizeQuery"; // Adjust the path if necessary
 import { Mode } from "../constants";
 
 const dummyLabs = [
