@@ -11,6 +11,7 @@ import {
   dummyConditions,
   dummyLabs,
   dummyMedications,
+  USE_CASES,
 } from "../constants";
 import CustomizeQuery from "./components/CustomizeQuery";
 
@@ -42,7 +43,7 @@ const Query: React.FC = () => {
             setUseCase={setUseCase}
             setQueryType={setQueryType}
             userJourney="demo"
-            useCase={useCase}
+            useCase={useCase as USE_CASES}
           />
         </Suspense>
       )}
