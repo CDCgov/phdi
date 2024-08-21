@@ -42,6 +42,7 @@ const Query: React.FC = () => {
             setUseCase={setUseCase}
             setQueryType={setQueryType}
             userJourney="demo"
+            useCase={useCase}
           />
         </Suspense>
       )}
