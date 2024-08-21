@@ -152,7 +152,6 @@ h4 {
 
 .content-wrapper {
   display: flex;
-  // max-width: 1440px;
   justify-content: center;
   gap: 48px;
   overflow: visible;
@@ -542,11 +541,8 @@ html {
 
 .accordion-header {
   display: flex;
-  // justify-content: space-between;
-  // align-items: center;
   width: 100%;
   color: var(--White, #fff);
-  // font-family: "Source Sans Pro";
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
@@ -586,7 +582,6 @@ html {
   font-weight: normal;
   font-size: 16px;
   color: var(--White, #fff);
-  // font-family: "Source Sans Pro";
   font-size: 16px;
   line-height: normal;
 }
@@ -765,7 +760,6 @@ html {
   font-size: 18px;
   padding: 0;
   margin: 0;
-  // font-family: "Source Sans Pro";
 }
 
 .custom-nav a:hover,
