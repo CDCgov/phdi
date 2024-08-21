@@ -6,6 +6,7 @@ import MultiplePatientSearchResults from "./components/MultiplePatientSearchResu
 import SearchForm from "./components/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
 import { Mode } from "../constants";
+import CustomizeQuery from "./components/CustomizeQuery";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -64,6 +65,16 @@ const Query: React.FC = () => {
         <div className="overlay">
           <div className="spinner"></div>
         </div>
+      )}
+
+      {mode === "customize-queries" && (
+        <>
+          <CustomizeQuery
+            //Valueset data
+            //Query type
+            goBack={() => setMode("search")}
+          />
+        </>
       )}
     </div>
   );
