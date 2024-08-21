@@ -90,10 +90,12 @@ const PreviewCustomizeQuery: React.FC = () => {
   return (
     <div>
       <CustomizeQuery
-        queryType={queryType}
-        labs={dummyLabs}
-        medications={dummyMedications}
-        conditions={dummyConditions}
+        queryType="Chlamydia case investigation"
+        ValueSet={{
+          labs: dummyLabs,
+          medications: dummyMedications,
+          conditions: dummyConditions,
+        }}
         setMode={setMode}
         goBack={handleBack}
       />
