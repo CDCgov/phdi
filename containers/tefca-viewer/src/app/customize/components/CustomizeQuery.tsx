@@ -5,6 +5,7 @@ import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
 import { AccordianSection } from "../../query/component-utils";
 import { Mode, ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
+import { is } from "date-fns/locale";
 
 interface CustomizeQueryProps {
   queryType: string;
@@ -28,6 +29,12 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const [activeTab, setActiveTab] = useState("labs");
 
   const [valueSetState, setValueSetState] = useState<ValueSet>(ValueSet);
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  /*Keeps track of whether the accordion is expanded to change the direction of the arrow*/
+  const handleToggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   const handleTabChange = (tab: keyof ValueSet) => {
     setActiveTab(tab);
@@ -97,7 +104,14 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                 </div>
 
                 <span className="margin-left-auto">{`${selectedCount} selected`}</span>
-                <Icon.ExpandLess size={4} />
+                {/* <Icon.ExpandLess size={4} /> */}
+                <div onClick={handleToggleExpand} style={{ cursor: "pointer" }}>
+                  {isExpanded ? (
+                    <Icon.ExpandLess size={4} />
+                  ) : (
+                    <Icon.ExpandMore size={4} />
+                  )}
+                </div>
               </div>
             ),
             id: items[0].author + ":" + items[0].system,
@@ -146,7 +160,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           },
         ]
       : [];
-  }, [valueSetState, activeTab]);
+  }, [valueSetState, activeTab, isExpanded]);
 
   return (
     <div className="customize-query-container">
