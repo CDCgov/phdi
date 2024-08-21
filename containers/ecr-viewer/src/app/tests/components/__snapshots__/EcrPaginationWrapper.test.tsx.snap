@@ -1,0 +1,182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EcrPaginationWrapper should match snapshot 1`] = `
+<div>
+  <div
+    class="main-container height-full flex-column flex-align-center"
+  >
+    <br />
+    <div
+      class="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch display-flex flex-align-center"
+    >
+      <div
+        class="flex-1"
+      >
+        Showing 
+        1
+        -
+        25
+         of 
+        100
+         eCRs
+      </div>
+      <nav
+        aria-label="Pagination"
+        class="usa-pagination flex-1"
+      >
+        <ul
+          class="usa-pagination__list"
+        >
+          <li
+            class="usa-pagination__item usa-pagination__arrow"
+          >
+            <a
+              aria-label="Previous page"
+              class="usa-pagination__link usa-pagination__previous-page text-bold visibility-hidden"
+              hidden=""
+              href="?page=0"
+            >
+              <svg
+                aria-hidden="true"
+                class="usa-icon text-ink"
+                focusable="false"
+                height="1em"
+                role="img"
+                viewBox="0 0 24 24"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                />
+              </svg>
+              <span
+                class="usa-pagination__link-text"
+              >
+                Previous
+              </span>
+            </a>
+          </li>
+          <li
+            class="usa-pagination__item usa-pagination__page-no"
+          >
+            <a
+              aria-current="page"
+              aria-label="Page 1"
+              class="usa-pagination__button text-bold usa-current"
+              href="?page=1"
+            >
+              1
+            </a>
+          </li>
+          <li
+            class="usa-pagination__item usa-pagination__page-no"
+          >
+            <a
+              aria-label="Page 2"
+              class="usa-pagination__button text-bold"
+              href="?page=2"
+            >
+              2
+            </a>
+          </li>
+          <li
+            class="usa-pagination__item usa-pagination__page-no"
+          >
+            <a
+              aria-label="Page 3"
+              class="usa-pagination__button text-bold"
+              href="?page=3"
+            >
+              3
+            </a>
+          </li>
+          <li
+            class="usa-pagination__item usa-pagination__page-no"
+          >
+            <a
+              aria-label="Page 4"
+              class="usa-pagination__button text-bold"
+              href="?page=4"
+            >
+              4
+            </a>
+          </li>
+          <li
+            class="usa-pagination__item usa-pagination__arrow"
+          >
+            <a
+              aria-label="Next page"
+              class="usa-pagination__link usa-pagination__next-page text-bold"
+              href="?page=2"
+            >
+              <span
+                class="usa-pagination__link-text"
+              >
+                Next
+              </span>
+              <svg
+                aria-hidden="true"
+                class="usa-icon text-ink"
+                focusable="false"
+                height="1em"
+                role="img"
+                viewBox="0 0 24 24"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div
+        class="display-flex flex-align-center flex-1 flex-justify-end"
+      >
+        <label
+          class="usa-label margin-top-0 margin-right-1025"
+          data-testid="label"
+          for="input-select"
+        >
+          eCRs per page
+        </label>
+        <select
+          class="usa-select styled width-11075 margin-top-0"
+          data-testid="Select"
+          id="input-select"
+          name="input-select"
+        >
+          <option
+            value="6"
+          >
+            6
+          </option>
+          <option
+            value="25"
+          >
+            25
+          </option>
+          <option
+            value="50"
+          >
+            50
+          </option>
+          <option
+            value="75"
+          >
+            75
+          </option>
+          <option
+            value="100"
+          >
+            100
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+`;
