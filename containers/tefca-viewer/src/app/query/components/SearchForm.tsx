@@ -32,6 +32,8 @@ interface SearchFormProps {
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
+  setUseCase: (useCase: USE_CASES) => void;
+  setQueryType: (queryType: string) => void;
   userJourney: "test" | "demo";
 }
 
@@ -41,6 +43,8 @@ interface SearchFormProps {
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
+ * @param root0.setUseCase -
+ * @param root0.setQueryType -
  * @param root0.userJourney - The user journey.
  * @returns - The SearchForm component.
  */
@@ -49,14 +53,16 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setUseCaseQueryResponse,
   setMode,
   setLoading,
-  userJourney: userJourney,
+  setUseCase,
+  setQueryType,
+  userJourney,
 }) => {
   const params = useSearchParams();
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
 
-  // Get the demoOption (initial selection) selected from modal via the URL
-  const [useCase, setUseCase] = useState<USE_CASES>(
+  // Use a single useCase state
+  const [useCase, setUseCaseState] = useState<USE_CASES>(
     (params.get("useCase") as USE_CASES) || "cancer",
   );
 
@@ -71,7 +77,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
 
-  const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
+  const [autofilled, setAutofilled] = useState(false);
 
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
@@ -86,11 +92,18 @@ const SearchForm: React.FC<SearchFormProps> = ({
           setPhone(data.Phone);
         }
         setFhirServer(data.FhirServer as FHIR_SERVERS);
+
+        setUseCaseState(data.UseCase as USE_CASES);
         setUseCase(data.UseCase as USE_CASES);
+        setQueryType(
+          demoQueryOptions.find((option) => option.value === data.UseCase)
+            ?.label || "",
+        );
+
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption],
+    [patientOption, setUseCase, setQueryType],
   );
 
   // Fills fields if patientOption changes (auto-fill)
@@ -105,20 +118,17 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const handleDemoQueryChange = (selectedDemoOption: string) => {
     // setDemoOption(selectedDemoOption);
     setPatientOption(patientOptions[selectedDemoOption][0].value);
+    setUseCaseState(selectedDemoOption as USE_CASES);
+    setUseCase(selectedDemoOption as USE_CASES);
+    setQueryType(
+      demoQueryOptions.find((option) => option.value === selectedDemoOption)
+        ?.label || "",
+    );
   };
 
   // Push to /customize endpoint
   const handleClick = () => {
-    const queryType =
-      demoQueryOptions.find((option) => option.value === useCase)?.label || "";
-
-    // Store queryType in local state or context here (or you could use sessionStorage)
-    sessionStorage.setItem("queryType", queryType);
-    sessionStorage.setItem("useCase", useCase);
-
-    // Navigate to the customize page
-    router.push(`/customize`);
-    //setMode("customize-queries");
+    setMode("customize-queries");
   };
 
   useEffect(() => {

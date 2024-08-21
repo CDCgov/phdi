@@ -5,7 +5,13 @@ import ResultsView from "./components/ResultsView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
 import SearchForm from "./components/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
-import { Mode } from "../constants";
+import {
+  Mode,
+  demoQueryOptions,
+  dummyConditions,
+  dummyLabs,
+  dummyMedications,
+} from "../constants";
 import CustomizeQuery from "./components/CustomizeQuery";
 
 /**
@@ -19,6 +25,10 @@ const Query: React.FC = () => {
   const [useCaseQueryResponse, setUseCaseQueryResponse] =
     useState<UseCaseQueryResponse>();
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
+  const [useCase, setUseCase] = useState("cancer");
+  const [queryType, setQueryType] = useState<string>(
+    demoQueryOptions.find((option) => option.value === useCase)?.label || "",
+  );
 
   return (
     <div>
@@ -29,6 +39,8 @@ const Query: React.FC = () => {
             setLoading={setLoading}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
+            setUseCase={setUseCase}
+            setQueryType={setQueryType}
             userJourney="demo"
           />
         </Suspense>
@@ -70,8 +82,13 @@ const Query: React.FC = () => {
       {mode === "customize-queries" && (
         <>
           <CustomizeQuery
-            //Valueset data
-            //Query type
+            queryType={queryType}
+            ValueSet={{
+              labs: dummyLabs,
+              medications: dummyMedications,
+              conditions: dummyConditions,
+            }}
+            setMode={setMode}
             goBack={() => setMode("search")}
           />
         </>
