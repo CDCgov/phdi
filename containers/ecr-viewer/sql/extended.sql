@@ -44,22 +44,22 @@ CREATE TABLE IF NOT EXISTS ECR_DATA
 
 CREATE TABLE IF NOT EXISTS ecr_rr_conditions
 (
-    UUID      UUID PRIMARY KEY,
+    UUID      VARCHAR(200) PRIMARY KEY,
     eICR_ID   VARCHAR(200) NOT NULL REFERENCES ECR_DATA (eICR_ID),
     condition VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS ecr_rr_rule_summaries
 (
-    UUID                 UUID PRIMARY KEY,
-    ECR_RR_CONDITIONS_ID UUID REFERENCES ecr_rr_conditions (UUID),
+    UUID                 VARCHAR(200) PRIMARY KEY,
+    ECR_RR_CONDITIONS_ID VARCHAR(200) REFERENCES ecr_rr_conditions (UUID),
     rule_summary         TEXT
 );
 
 
 CREATE TABLE IF NOT EXISTS ecr_labs
 (
-    UUID                                   UUID PRIMARY KEY,
+    UUID                                   VARCHAR(200) PRIMARY KEY,
     eICR_ID                                VARCHAR(200) REFERENCES ECR_DATA (eICR_ID),
     test_type                              VARCHAR(255),
     test_type_code                         VARCHAR(50),
