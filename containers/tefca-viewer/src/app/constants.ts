@@ -259,3 +259,21 @@ export type Mode =
   | "no-patients"
   | "multiple-patients-results"
   | "customize-queries";
+
+/*Type to specify the expected components for each item in a value set that will be 
+displayed in the CustomizeQuery component*/
+export interface ValueSetItem {
+  code: string;
+  display: string;
+  system: string;
+  include: boolean;
+  author: string;
+}
+
+/*Type to specify the expected expected types of valueset items that will be displayed 
+as separate tabs in the CusomizeQuery component*/
+export interface ValueSet {
+  labs: ValueSetItem[];
+  medications: ValueSetItem[];
+  conditions: ValueSetItem[];
+}
