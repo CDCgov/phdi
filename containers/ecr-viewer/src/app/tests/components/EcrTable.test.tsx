@@ -7,7 +7,7 @@ jest.mock("../../api/services/listEcrDataService");
 
 describe("EcrTable", () => {
   const mockedListEcrData = jest.mocked(listEcrData);
-  const mockData: EcrDisplay[] = Array.from({ length: 51 }, (_, i) => ({
+  const mockData: EcrDisplay[] = Array.from({ length: 25 }, (_, i) => ({
     ecrId: `id-${i + 1}`,
     patient_first_name: `first-${i + 1}`,
     patient_last_name: `last-${i + 1}`,
