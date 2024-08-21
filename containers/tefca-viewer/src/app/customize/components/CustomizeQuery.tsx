@@ -5,7 +5,6 @@ import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
 import { AccordianSection } from "../../query/component-utils";
 import { Mode, ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
-import { is } from "date-fns/locale";
 
 interface CustomizeQueryProps {
   queryType: string;

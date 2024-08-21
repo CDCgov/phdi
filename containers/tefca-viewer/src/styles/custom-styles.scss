@@ -705,60 +705,6 @@ html {
   }
 }
 
-.custom-checkbox {
-  display: flex;
-  width: 36px;
-  height: 36px;
-  justify-content: center;
-  align-items: center;
-}
-
-.custom-checkbox input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: white;
-  border: 2px solid var(--Primary-primary, #005ea2);
-  width: 36px;
-  height: 36px;
-  border-radius: 4px;
-  cursor: pointer;
-  position: relative;
-}
-
-.custom-checkbox input[type="checkbox"]::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.2s ease-in-out;
-}
-
-.custom-checkbox input[type="checkbox"]:checked::before {
-  width: 26.385px;
-  height: 20.115px;
-  background-image: url("/USWDS-checkmark.svg");
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.custom-checkbox input[type="checkbox"]:checked {
-  background-color: white;
-  /* Keeps the background white when checked */
-}
-
-.custom-checkbox input[type="checkbox"]:indeterminate::before {
-  width: 26.385px;
-  height: 20.115px;
-  background-image: url("/USWDS-checkmark.svg");
-  transform: translate(-50%, -50%) scale(1);
-}
-
 // navigations
 .usa-nav {
   display: flex;
