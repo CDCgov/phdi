@@ -43,7 +43,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
           content: content,
           expanded: collapsedByDefault,
           id: title,
-          headingLevel: "h5",
+          headingLevel: "h2",
           className: `acc_item_${organizationId}`,
         },
       ]}

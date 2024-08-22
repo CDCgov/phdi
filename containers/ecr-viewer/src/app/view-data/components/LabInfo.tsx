@@ -39,7 +39,7 @@ export const LabInfo = ({ labResults }: LabInfoProps): React.JSX.Element => {
             : ".accordion-rr";
           const buttonSelectorClass = labResult.organizationId
             ? `.acc_item_${labResult.organizationId}`
-            : "h5";
+            : "h2";
           const labName = `Lab Results from 
                 ${truncateLabNameWholeWord(
                   labResult.organizationDisplayDataProps[0].value as string,
