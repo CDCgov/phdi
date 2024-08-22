@@ -44,7 +44,7 @@ RUN /root/.pyenv/shims/pip install -r requirements.txt
 # Copy FastAPI app
 COPY app /code/app
 COPY assets /code/assets
-COPY description.md /code/description.md
+COPY README.md /code/README.md
 COPY /CustomFhir/Loinc.csv /code/
 
 # Copy eCR templates
