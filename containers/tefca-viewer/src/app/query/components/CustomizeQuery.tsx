@@ -1,39 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
-import { Mode } from "../../constants";
-import { AccordianSection, AccordianDiv } from "../component-utils";
-
-interface Lab {
-  code: string;
-  display: string;
-  system: string;
-  include: boolean;
-  author: string;
-}
-
-interface Medication {
-  code: string;
-  display: string;
-  system: string;
-  include: boolean;
-  author: string;
-}
-
-interface Condition {
-  code: string;
-  display: string;
-  system: string;
-  include: boolean;
-  author: string;
-}
+import { AccordianSection } from "../../query/component-utils";
+import { Mode, ValueSet } from "../../constants";
+import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 
 interface CustomizeQueryProps {
   queryType: string;
-  labs: Lab[];
-  medications: Medication[];
-  conditions: Condition[];
+  ValueSet: ValueSet;
   setMode: (mode: Mode) => void;
 }
 
@@ -41,22 +16,26 @@ interface CustomizeQueryProps {
  * CustomizeQuery component for displaying and customizing query details.
  * @param root0 - The properties object.
  * @param root0.queryType - The type of the query.
- * @param root0.labs - The list of lab tests.
- * @param root0.medications - The list of medications.
- * @param root0.conditions - The list of conditions.
+ * @param root0.ValueSet - The value set of labs, conditions, and medications.
  * @param root0.setMode - The function to set the mode.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   queryType,
-  labs,
-  medications,
-  conditions,
+  ValueSet,
   setMode,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
 
-  const handleTabChange = (tab: string) => {
+  const [valueSetState, setValueSetState] = useState<ValueSet>(ValueSet);
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  /*Keeps track of whether the accordion is expanded to change the direction of the arrow*/
+  const handleToggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const handleTabChange = (tab: keyof ValueSet) => {
     setActiveTab(tab);
   };
 
@@ -70,107 +49,129 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   };
 
   const handleIncludeAll = (
-    setItems: React.Dispatch<React.SetStateAction<any[]>>,
+    setValueSet: React.Dispatch<React.SetStateAction<ValueSet>>,
+    key: keyof ValueSet,
     include: boolean,
   ) => {
-    setItems((prevItems) => prevItems.map((item) => ({ ...item, include })));
+    setValueSet((prevValueSet) => ({
+      ...prevValueSet,
+      [key]: prevValueSet[key].map((item) => ({ ...item, include })),
+    }));
   };
 
   const handleApplyChanges = () => {
-    const selectedLabs = labsState.filter((lab) => lab.include);
-    const selectedMedications = medicationsState.filter(
-      (medication) => medication.include,
-    );
-    const selectedConditions = conditionsState.filter(
-      (condition) => condition.include,
-    );
-
-    console.log("Selected Labs:", selectedLabs);
-    console.log("Selected Medications:", selectedMedications);
-    console.log("Selected Conditions:", selectedConditions);
+    const selectedItems = Object.keys(valueSetState).reduce((acc, key) => {
+      const items = valueSetState[key as keyof ValueSet];
+      acc[key as keyof ValueSet] = items.filter((item) => item.include);
+      return acc;
+    }, {} as ValueSet);
   };
 
-  const renderItems = (
-    items: any[],
-    setItems: React.Dispatch<React.SetStateAction<any[]>>,
-  ) => (
-    <div className="accordion-items">
-      {items.map((item, index) => (
-        <div key={index} className="accordion-item-row">
-          <div className="accordion-item-cell">
-            <Checkbox
-              id={`checkbox-${index}`}
-              name={`checkbox-${index}`}
-              checked={item.include}
-              onChange={(e) => {
-                const updatedItems = [...items];
-                updatedItems[index].include = e.target.checked;
-                setItems(updatedItems);
-              }}
-              label={undefined}
-            />
-          </div>
-          <div className="accordion-item-cell">{item.code}</div>
-          <div className="accordion-item-cell">{item.display}</div>
-        </div>
-      ))}
-    </div>
-  );
-
-  const renderAccordionItems = (
-    items: any[],
-    setItems: React.Dispatch<React.SetStateAction<any[]>>,
-    title: string,
-  ) => {
+  const accordionItems: AccordionItemProps[] = useMemo(() => {
+    const items = valueSetState[activeTab as keyof ValueSet];
     const selectedCount = items.filter((item) => item.include).length;
     return items.length
-      ? items.map((item, index) => ({
-          id: `${title}-${index}`,
-          title: (
-            <div className="accordion-title">
-              <div className="accordion-header">
+      ? [
+          {
+            title: (
+              <div className="accordion-header display-flex flex-no-wrap flex-align-start">
                 <Checkbox
                   id="select-all"
                   name="select-all"
-                  className="custom-checkbox"
+                  className="hide-checkbox-label"
                   checked={selectedCount === items.length}
                   onChange={(e) =>
-                    handleSelectAllChange(items, setItems, e.target.checked)
+                    handleSelectAllChange(
+                      items,
+                      (updatedItems) =>
+                        setValueSetState((prevState) => ({
+                          ...prevState,
+                          [activeTab]: updatedItems,
+                        })),
+                      e.target.checked,
+                    )
                   }
-                  label={undefined}
+                  label={<span className="hide-me">Select/deselect all</span>}
                 />
-                {`${item.display}`}
-                <div>{`${selectedCount} selected`}</div>
-              </div>
-              <div className="accordion-subtitle">
-                <strong>Author:</strong> {item.author} <strong>System:</strong>{" "}
-                {item.system}
-              </div>
-            </div>
-          ),
-          content: (
-            <>
-              <AccordianSection>
-                <AccordianDiv>
-                  <div className="accordion-table-header">
-                    <div className="accordion-header-cell">Include</div>
-                    <div className="accordion-header-cell">Code</div>
-                    <div className="accordion-header-cell">Display</div>
-                  </div>
-                  {renderItems(items, setItems)}
-                </AccordianDiv>
-              </AccordianSection>
-            </>
-          ),
-          expanded: true,
-          headingLevel: "h3" as "h3",
-        }))
-      : [];
-  };
+                <div>
+                  {`${items[0].display}`}
 
-  const [labsState, setLabsState] = useState(labs);
-  const [medicationsState, setMedicationsState] = useState(medications);
-  const [conditionsState, setConditionsState] = useState(conditions);
+                  <span className="accordion-subtitle margin-top-2">
+                    <strong>Author:</strong> {items[0].author}{" "}
+                    <strong style={{ marginLeft: "20px" }}>System:</strong>{" "}
+                    {items[0].system}
+                  </span>
+                </div>
+                <span className="margin-left-auto">{`${selectedCount} selected`}</span>
+                <div
+                  onClick={handleToggleExpand}
+                  style={{
+                    cursor: "pointer",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  {isExpanded ? (
+                    <Icon.ExpandLess size={4} />
+                  ) : (
+                    <Icon.ExpandMore size={4} />
+                  )}
+                </div>
+              </div>
+            ),
+            id: items[0].author + ":" + items[0].system,
+            className: "accordion-item",
+            content: (
+              <AccordianSection>
+                <div className="customize-query-grid-container customize-query-table">
+                  <div className="customize-query-grid-header margin-top-10">
+                    <div style={{ marginLeft: "24px", marginTop: "10px" }}>
+                      Include
+                    </div>
+                    <div style={{ marginLeft: "6px", marginTop: "10px" }}>
+                      Code
+                    </div>
+                    <div style={{ marginLeft: "6px", marginTop: "10px" }}>
+                      Display
+                    </div>
+                  </div>
+                  <div className="customize-query-grid-body">
+                    {items.map((item, index) => (
+                      <div
+                        className="customize-query-grid-row customize-query-striped-row"
+                        key={item.code}
+                      >
+                        <div style={{ marginLeft: "24px" }}>
+                          <Checkbox
+                            id={`checkbox-${index}`}
+                            name={`checkbox-${index}`}
+                            checked={item.include}
+                            className="hide-checkbox-label"
+                            onChange={(e) => {
+                              const updatedItems = [...items];
+                              updatedItems[index].include = e.target.checked;
+                              setValueSetState((prevState) => ({
+                                ...prevState,
+                                [activeTab]: updatedItems,
+                              }));
+                            }}
+                            label={<span className="hide-me">Include</span>}
+                          />
+                        </div>
+                        <div>{item.code}</div>
+                        <div>{item.display}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </AccordianSection>
+            ),
+            expanded: true,
+            headingLevel: "h3",
+          },
+        ]
+      : [];
+  }, [valueSetState, activeTab, isExpanded]);
 
   return (
     <div className="customize-query-container">
@@ -194,21 +195,27 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       </div>
       <nav className="usa-nav custom-nav">
         <li
-          className={`usa-nav__primary-item ${activeTab === "labs" ? "usa-current" : ""}`}
+          className={`usa-nav__primary-item ${
+            activeTab === "labs" ? "usa-current" : ""
+          }`}
         >
           <a href="#labs" onClick={() => handleTabChange("labs")}>
             Labs
           </a>
         </li>
         <li
-          className={`usa-nav__primary-item ${activeTab === "medications" ? "usa-current" : ""}`}
+          className={`usa-nav__primary-item ${
+            activeTab === "medications" ? "usa-current" : ""
+          }`}
         >
           <a href="#medications" onClick={() => handleTabChange("medications")}>
             Medications
           </a>
         </li>
         <li
-          className={`usa-nav__primary-item ${activeTab === "conditions" ? "usa-current" : ""}`}
+          className={`usa-nav__primary-item ${
+            activeTab === "conditions" ? "usa-current" : ""
+          }`}
         >
           <a href="#conditions" onClick={() => handleTabChange("conditions")}>
             Conditions
@@ -221,44 +228,14 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         href="#"
         type="button"
         className="include-all-link"
-        onClick={() => {
-          if (activeTab === "labs") handleIncludeAll(setLabsState, true);
-          if (activeTab === "medications")
-            handleIncludeAll(setMedicationsState, true);
-          if (activeTab === "conditions")
-            handleIncludeAll(setConditionsState, true);
-        }}
+        onClick={() =>
+          handleIncludeAll(setValueSetState, activeTab as keyof ValueSet, true)
+        }
       >
         Include all {activeTab}
       </a>
       <div>
-        {activeTab === "labs" && (
-          <Accordion
-            items={renderAccordionItems(labsState, setLabsState, "Labs")}
-            multiselectable
-            bordered
-          />
-        )}
-        {activeTab === "medications" && (
-          <Accordion
-            items={renderAccordionItems(
-              medicationsState,
-              setMedicationsState,
-              "Medications",
-            )}
-            multiselectable
-          />
-        )}
-        {activeTab === "conditions" && (
-          <Accordion
-            items={renderAccordionItems(
-              conditionsState,
-              setConditionsState,
-              "Conditions",
-            )}
-            multiselectable
-          />
-        )}
+        <Accordion items={accordionItems} multiselectable bordered />
       </div>
       <div className="button-container">
         <Button type="button" onClick={handleApplyChanges}>
