@@ -80,7 +80,7 @@ const Query: React.FC = () => {
           <div className="spinner"></div>
         </div>
       )}
-
+      {/* Show the customize query view to select and change what is returned in results */}
       {mode === "customize-queries" && (
         <>
           <CustomizeQuery
