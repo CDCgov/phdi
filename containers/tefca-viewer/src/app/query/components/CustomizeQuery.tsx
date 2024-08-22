@@ -3,13 +3,12 @@
 import React, { useMemo, useState } from "react";
 import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
 import { AccordianSection } from "../../query/component-utils";
-import { Mode, ValueSet } from "../../constants";
+import { ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 
 interface CustomizeQueryProps {
   queryType: string;
   ValueSet: ValueSet;
-  setMode: (mode: Mode) => void;
   goBack: () => void;
 }
 
@@ -18,14 +17,12 @@ interface CustomizeQueryProps {
  * @param root0 - The properties object.
  * @param root0.queryType - The type of the query.
  * @param root0.ValueSet - The value set of labs, conditions, and medications.
- * @param root0.setMode - The function to set the mode.
  * @param root0.goBack - Back button to go from /customize to /query page.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   queryType,
   ValueSet,
-  setMode,
   goBack,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
@@ -243,7 +240,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         <Button type="button" onClick={handleApplyChanges}>
           Apply Changes
         </Button>
-        <Button type="button" onClick={() => setMode("search")}>
+        <Button type="button" onClick={() => goBack()}>
           Cancel
         </Button>
       </div>

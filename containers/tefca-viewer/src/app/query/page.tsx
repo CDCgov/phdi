@@ -90,7 +90,6 @@ const Query: React.FC = () => {
               medications: dummyMedications,
               conditions: dummyConditions,
             }}
-            setMode={setMode}
             goBack={() => setMode("search")}
           />
         </>
