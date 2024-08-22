@@ -1,4 +1,4 @@
-import { Accordion, Tag } from "@trussworks/react-uswds";
+import { Accordion, HeadingLevel, Tag } from "@trussworks/react-uswds";
 import React from "react";
 
 interface AccordionLabResultsProps {
@@ -7,6 +7,7 @@ interface AccordionLabResultsProps {
   content: React.JSX.Element[];
   organizationId: string;
   collapsedByDefault?: boolean;
+  headingLevel?: HeadingLevel;
 }
 
 /**
@@ -17,6 +18,7 @@ interface AccordionLabResultsProps {
  * @param props.content - The content within the accordian.
  * @param props.organizationId - The id of the organization you are getting lab results for.
  * @param props.collapsedByDefault - Whether or not to collapse by default for the accordion
+ * @param props.headingLevel - Heading level for the Accordion menu title.
  * @returns React element representing the AccordionLabResults component.
  */
 export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
@@ -25,6 +27,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
   content,
   organizationId,
   collapsedByDefault = false,
+  headingLevel = "h5"
 }: AccordionLabResultsProps): React.JSX.Element => {
   return (
     <Accordion
@@ -43,7 +46,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
           content: content,
           expanded: collapsedByDefault,
           id: title,
-          headingLevel: "h2",
+          headingLevel,
           className: `acc_item_${organizationId}`,
         },
       ]}
