@@ -35,10 +35,12 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     setIsExpanded(!isExpanded);
   };
 
+  // Keeps track of which side nav tab to display to users
   const handleTabChange = (tab: keyof ValueSet) => {
     setActiveTab(tab);
   };
 
+  // Allows all items to be selected within an accordion section
   const handleSelectAllChange = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
@@ -59,6 +61,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     }));
   };
 
+  // Will eventually be the json object storing the parsed data to return on the results page
   const handleApplyChanges = () => {
     const selectedItems = Object.keys(valueSetState).reduce((acc, key) => {
       const items = valueSetState[key as keyof ValueSet];
