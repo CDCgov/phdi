@@ -181,7 +181,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       <div style={{ paddingTop: "24px" }}>
         <a
           href="#"
-          onClick={() => setMode("search")}
+          onClick={() => goBack()}
           className="text-bold"
           style={{ fontSize: "16px" }}
         >
