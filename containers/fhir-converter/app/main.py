@@ -15,9 +15,7 @@ from app.constants import sample_response
 from app.service import convert_to_fhir
 from app.service import resolve_references
 
-description = (Path(__file__).parent.parent / "description.md").read_text(
-    encoding="utf-8"
-)
+description = (Path(__file__).parent.parent / "README.md").read_text(encoding="utf-8")
 
 app = FastAPI(
     title="PHDI FHIR Converter Service",
@@ -68,7 +66,7 @@ async def convert(
 
     In order to successfully call this function, the Microsoft FHIR Converter tool
     must be installed. For information on how to do this, please refer to the
-    description.md file. The source code for the converter can be found at
+    README.md file. The source code for the converter can be found at
     https://github.com/microsoft/FHIR-Converter.
     """
     fhir_converter_input = dict(input)
