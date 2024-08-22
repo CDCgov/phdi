@@ -1,3 +1,4 @@
+import { BlobServiceClient } from "@azure/storage-blob";
 import { NextResponse } from "next/server";
 import pgPromise from "pg-promise";
 import {
@@ -8,6 +9,9 @@ import {
 import { Bundle } from "fhir/r4";
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
+const blobClient = BlobServiceClient.fromConnectionString(
+  process.env.AZURE_STORAGE_CONNECTION_STRING!,
+);
 
 /**
  * Saves a FHIR bundle to a postgres database.
@@ -81,6 +85,51 @@ export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
   } catch (error: any) {
     return NextResponse.json(
       { message: "Failed to insert data to S3. " + error.message },
+      { status: 400 },
+    );
+  }
+};
+
+/**
+ * Saves a FHIR bundle to Azure Blob Storage.
+ * @async
+ * @function saveToAzure
+ * @param fhirBundle - The FHIR bundle to be saved.
+ * @param ecrId - The unique ID for the eCR associated with the FHIR bundle.
+ * @returns A promise that resolves when the FHIR bundle is successfully saved to Azure Blob Storage.
+ * @throws {Error} Throws an error if the FHIR bundle cannot be saved to Azure Blob Storage.
+ */
+export const saveToAzure = async (fhirBundle: Bundle, ecrId: string) => {
+  if (!process.env.AZURE_CONTAINER_NAME)
+    throw Error("Azure container name not found");
+
+  const containerName = process.env.AZURE_CONTAINER_NAME;
+  const blobName = `${ecrId}.json`;
+  const body = JSON.stringify(fhirBundle);
+
+  try {
+    const containerClient = blobClient.getContainerClient(containerName);
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+    const response = await blockBlobClient.upload(body, body.length, {
+      blobHTTPHeaders: { blobContentType: "application/json" },
+    });
+
+    if (response._response.status !== 201) {
+      throw new Error(`HTTP Status Code: ${response._response.status}`);
+    }
+
+    return NextResponse.json(
+      { message: "Success. Saved FHIR bundle to Azure Blob Storage: " + ecrId },
+      { status: 200 },
+    );
+  } catch (error: any) {
+    return NextResponse.json(
+      {
+        message:
+          "Failed to insert FHIR bundle to Azure Blob Storage. " +
+          error.message,
+      },
       { status: 400 },
     );
   }

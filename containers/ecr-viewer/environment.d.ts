@@ -13,6 +13,6 @@ namespace NodeJS {
     NEXT_RUNTIME: string;
     NEXT_PUBLIC_NON_INTEGRATED_VIEWER: "true" | "false";
     NEXTAUTH_SECRET: string;
-    SOURCE: "s3" | "postgres";
+    SOURCE: "s3" | "azure" | "postgres";
   }
 }

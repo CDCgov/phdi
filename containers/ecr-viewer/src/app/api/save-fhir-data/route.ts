@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { saveToS3, saveToPostgres } from "./save-fhir-data-service";
+import {
+  saveToS3,
+  saveToAzure,
+  saveToPostgres,
+} from "./save-fhir-data-service";
 
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
+const AZURE_SOURCE = "azure";
 
 /**
  * Handles POST requests and saves the FHIR Bundle to the database.
@@ -50,6 +55,8 @@ export async function POST(request: NextRequest) {
 
   if (saveSource === S3_SOURCE) {
     return saveToS3(fhirBundle, ecrId);
+  } else if (saveSource === AZURE_SOURCE) {
+    return saveToAzure(fhirBundle, ecrId);
   } else if (saveSource === POSTGRES_SOURCE) {
     return await saveToPostgres(fhirBundle, ecrId);
   } else {
