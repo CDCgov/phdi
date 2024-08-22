@@ -426,6 +426,13 @@ html {
   background: #faf3d1;
   border: 1px solid #fee685;
   border-radius: 4px;
+  display: flex;
+  width: 596px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 
   .usa-label {
     margin-top: 2;
@@ -440,6 +447,33 @@ html {
   .usa-label {
     margin-top: 0;
   }
+}
+
+.query-customize-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.customize-query-button {
+  background-color: white;
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  height: 40px;
+  width: 158px;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+}
+
+.usa-button--outline:hover,
+.usa-button--outline.usa-button--hover {
+  background-color: white;
+}
+
+.margin-top-1 {
+  margin-top: 0.5rem;
+  width: 360px;
 }
 
 .custom-alert {
