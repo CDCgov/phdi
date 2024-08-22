@@ -17,7 +17,7 @@ interface CustomizeQueryProps {
  * @param root0 - The properties object.
  * @param root0.queryType - The type of the query.
  * @param root0.ValueSet - The value set of labs, conditions, and medications.
- * @param root0.goBack - Back button to go from /customize to /query page.
+ * @param root0.goBack - Back button to go from "customize-queries" to "search" component.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
