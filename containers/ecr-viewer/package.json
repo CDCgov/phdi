@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "next dev",
     "local-dev": "npm run docker-compose-with-logs && npm run dev",
+    "local-dev-azure": "npm run docker-compose-azure && npm run dev",
+    "local-dev-aws": "npm run docker-compose-aws && npm run dev",
     "docker-compose-with-logs": "docker compose up db -d && docker compose logs",
+    "docker-compose-azure": "docker compose -f docker-compose.yml -f compose.storage.yml up db azure-storage -d && docker compose logs",
+    "docker-compose-aws": "docker compose -f docker-compose.yml -f compose.storage.yml up aws-storage db -d && docker compose logs",
     "setup-local-env": "./setup-env.sh",
     "build": "next build",
     "start": "next start",

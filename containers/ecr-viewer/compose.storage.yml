@@ -1,0 +1,21 @@
+services:
+  # Azure Blob Storage emulator
+  azure-storage:
+    image: mcr.microsoft.com/azure-storage/azurite
+    hostname: azurite
+    restart: always
+    command: "azurite --blobHost 0.0.0.0 --blobPort 10000 -l data"
+    ports:
+      - "10000:10000"
+
+  # AWS S3 Storage emulator
+  aws-storage:
+    container_name: "localstack-main"
+    image: localstack/localstack:s3-latest
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+    environment:
+      - DEBUG=1
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
