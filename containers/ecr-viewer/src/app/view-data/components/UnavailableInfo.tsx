@@ -10,8 +10,7 @@ interface UnavailableInfoProps {
   socialUnavailableData: DisplayDataProps[];
   encounterUnavailableData: DisplayDataProps[];
   providerUnavailableData: DisplayDataProps[];
-  reasonForVisitUnavailableData: DisplayDataProps[];
-  activeProblemsUnavailableData: DisplayDataProps[];
+  symptomsProblemsUnavailableData: DisplayDataProps[];
   vitalUnavailableData: DisplayDataProps[];
   treatmentData: DisplayDataProps[];
   clinicalNotesData: DisplayDataProps[];
@@ -26,8 +25,7 @@ interface UnavailableInfoProps {
  * @param props.socialUnavailableData The unavailable social data
  * @param props.encounterUnavailableData The unavailable encounter data
  * @param props.providerUnavailableData The unavailable provider data
- * @param props.reasonForVisitUnavailableData The unavailable reason for visit data
- * @param props.activeProblemsUnavailableData The unavailable active problems data
+ * @param props.symptomsProblemsUnavailableData The unavailable symptoms and problems data
  * @param props.immunizationsUnavailableData The unavailable immunizations data
  * @param props.vitalUnavailableData The unavailable vital data
  * @param props.treatmentData The unavailable treatment data
@@ -40,8 +38,7 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
   socialUnavailableData,
   encounterUnavailableData,
   providerUnavailableData,
-  reasonForVisitUnavailableData,
-  activeProblemsUnavailableData,
+  symptomsProblemsUnavailableData,
   immunizationsUnavailableData,
   vitalUnavailableData,
   treatmentData,
@@ -79,9 +76,8 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
         renderSection("Clinical Notes", clinicalNotesData)}
       {providerUnavailableData.length > 0 &&
         renderSection("Provider Details", providerUnavailableData)}
-      {(reasonForVisitUnavailableData?.length > 0 ||
-        activeProblemsUnavailableData?.length > 0) &&
-        renderSection("Symptoms and Problems", activeProblemsUnavailableData)}
+      {symptomsProblemsUnavailableData?.length > 0 &&
+        renderSection("Symptoms and Problems", symptomsProblemsUnavailableData)}
       {vitalUnavailableData?.length > 0 &&
         renderSection("Diagnostics and Vital Signs", vitalUnavailableData)}
       {immunizationsUnavailableData?.length > 0 &&
