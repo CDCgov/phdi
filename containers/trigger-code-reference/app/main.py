@@ -1,3 +1,4 @@
+import string
 from pathlib import Path
 from typing import Annotated
 
@@ -107,6 +108,16 @@ async def stamp_condition_extensions(
                         for code_sys_obj in stamp_checks[stype]:
                             for rcode in r_codes:
                                 if rcode in code_sys_obj["codes"]:
+                                    should_stamp = True
+                                    break
+                                # Do an extra check for "formatless" codes in case
+                                # the match comes out of the GEM
+                                if (
+                                    rcode.translate(
+                                        str.maketrans("", "", string.punctuation)
+                                    )
+                                    in code_sys_obj["codes"]
+                                ):
                                     should_stamp = True
                                     break
                             if should_stamp:

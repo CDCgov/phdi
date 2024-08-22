@@ -2,6 +2,7 @@ import ast
 import json
 import os
 import sqlite3
+import string
 import time
 from pathlib import Path
 from typing import List
@@ -242,7 +243,7 @@ def build_conditions_table(data: dict) -> List[List[str]]:
     is a SNOMED condition code and has the name and system for each condition.
 
     :param data: message-parser parsed eRSD json
-    :return: list of lists of for each of the condition code, name, system,
+    :return: list of lists for each of the condition code, name, system,
              and version
     """
     concepts = data.get("concepts")
@@ -308,7 +309,10 @@ def build_concepts_table(
                 code = concept.get("code", "")
                 display = concept.get("display", "")
                 id = f"{valueset_id}_{code}"
-                result = [id, code, system, display, version]
+                gem_formatted_code = code.translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+                result = [id, code, system, display, gem_formatted_code, version]
                 concepts_list.append(result)
                 # create junction table between valueset and concept
                 valueset_version = valuesets_dict.get(valueset_id).get("version")
@@ -319,6 +323,28 @@ def build_concepts_table(
     else:
         print("Non-unique IDs in concepts")
         return [], []
+
+
+def build_crosswalk_table():
+    """
+    Reads the ICD-10-CM Generalized Equivalency Mappings file published by CMS
+    to create a crosswalk table between ICD10 codes and a selected set of ICD9
+    codes (the selected set are those relevant to ICD10 codes).
+    """
+    table_rows = []
+    row_id = 1
+    with open("seed-scripts/diagnosis_gems_2018/2018_I10gem.txt", "r") as gem:
+        for row in gem:
+            line = row.strip()
+            if line != "":
+                # Some formatting in the file is a tab, others are 4 spaces...
+                code_components = line.split()
+                code_components = [row_id] + [
+                    x for x in code_components if x.strip() != ""
+                ]
+                table_rows.append(code_components)
+                row_id += 1
+    return table_rows
 
 
 def apply_migration(connection: sqlite3.Connection, migration_file: str):
@@ -394,46 +420,57 @@ def main():
     6. Insert data into tables.
     """
     # 1. Load eRSD data json from APHL API.
+    print("Loading eRSD data...")
     ersd_data = load_ersd(ERSD_URL)
 
     # 2. Post eRSD data json to message-parser to get parsed data.
+    print("Instantiating the message parser...")
     container = start_docker_service(dockerfile_path, tag, ports)
+    print("Parsing the eRSD...")
     parsed_data = parse_ersd(ports, ersd_data)
     if container:
         container.stop()
         container.remove()
 
     # 3. se parsed data to create list of lists for each table.
+    print("Building valuesets and condition mappings...")
     valuesets_dict = build_valuesets_dict(parsed_data)
     valuesets_list, condition_to_valueset_list = build_valuesets_table(
         parsed_data, valuesets_dict
     )
+    print("Building concepts and valueset mappings")
     conditions_list = build_conditions_table(parsed_data)
     concepts_list, valueset_to_concept_list = build_concepts_table(
         parsed_data, valuesets_dict
     )
+    print("Building GEM crosswalks...")
+    crosswalk_list = build_crosswalk_table()
 
     # Create mini-dict to loop through for sqlite queries
     table_dict = {
         "valuesets": valuesets_list,
         "conditions": conditions_list,
         "concepts": concepts_list,
+        "crosswalk": crosswalk_list,
         "condition_to_valueset": condition_to_valueset_list,
         "valueset_to_concept": valueset_to_concept_list,
     }
 
     with sqlite3.connect("seed-scripts/ersd.db") as conn:
         # 4. Delete existing tables in sqlite database.
+        print("Deleting existing / old tables...")
         for table_name in table_dict.keys():
             delete_table(conn, table_name)
 
         # 5. Create tables and add indexes.
+        print("Applying fresh DB migration...")
         apply_migration(
             conn, "seed-scripts/migrations/V02_01__create_tables_add_indexes.sql"
         )
 
         # 6. Insert data into tables.
         for table_name, table_rows in table_dict.items():
+            print("Loading " + table_name + " table...")
             if "_to_" in table_name:  # use to add sequential row number
                 load_table(conn, table_name, table_rows, True)
             else:

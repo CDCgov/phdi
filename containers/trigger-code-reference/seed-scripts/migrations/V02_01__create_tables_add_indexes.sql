@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS concepts (
     code TEXT,
     code_system TEXT,
     display TEXT,
+    gem_formatted_code TEXT,
     version TEXT
 );
 
@@ -37,6 +38,14 @@ CREATE TABLE IF NOT EXISTS valueset_to_concept (
     concept_id TEXT,
     FOREIGN KEY (valueset_id) REFERENCES valuesets(id),
     FOREIGN KEY (concept_id) REFERENCES concepts(id)
+);
+
+CREATE TABLE IF NOT EXISTS crosswalk (
+    id TEXT PRIMARY KEY,
+    icd10_code TEXT,
+    icd9_code TEXT,
+    match_flags TEXT,
+    FOREIGN KEY (icd10_code) REFERENCES concepts(gem_formatted_code)
 );
 
 
