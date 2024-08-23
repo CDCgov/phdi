@@ -7,7 +7,7 @@ What changes are being proposed?
 Fixes #
 
 ## Acceptance Criteria
-Please copy the acceptance criteria for your ticket and paste it here for your reviewer(s)
+Please copy the acceptance criteria from your ticket and paste it here for your reviewer(s)
 
 ## Additional Information
 Anything else the review team should know?
