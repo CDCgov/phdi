@@ -82,9 +82,11 @@ export const get_s3 = async (request: NextRequest) => {
  * @returns A promise resolving to a NextResponse object.
  */
 export const get_azure = async (request: NextRequest) => {
+  // TODO: Make this global after we get Azure access
   const blobClient = BlobServiceClient.fromConnectionString(
     process.env.AZURE_STORAGE_CONNECTION_STRING!,
   );
+
   const params = request.nextUrl.searchParams;
   const ecr_id = params.get("id");
 

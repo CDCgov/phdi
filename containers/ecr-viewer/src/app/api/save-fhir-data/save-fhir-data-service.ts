@@ -97,9 +97,11 @@ export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to Azure Blob Storage.
  */
 export const saveToAzure = async (fhirBundle: Bundle, ecrId: string) => {
+  // TODO: Make this global after we get Azure access
   const blobClient = BlobServiceClient.fromConnectionString(
     process.env.AZURE_STORAGE_CONNECTION_STRING!,
   );
+
   if (!process.env.AZURE_CONTAINER_NAME)
     throw Error("Azure container name not found");
 
