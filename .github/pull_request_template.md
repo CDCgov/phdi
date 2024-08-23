@@ -6,6 +6,9 @@ What changes are being proposed?
 ## Related Issue
 Fixes #
 
+## Acceptance Criteria
+Please copy the acceptance criteria for your ticket and paste it here for your reviewer(s)
+
 ## Additional Information
 Anything else the review team should know?
 
