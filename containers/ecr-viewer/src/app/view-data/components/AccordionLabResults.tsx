@@ -47,7 +47,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
           expanded: collapsedByDefault,
           id: title,
           headingLevel,
-          className: `acc_item_${organizationId}`,
+          className: `acc_item_${organizationId} side-nav-ignore`,
         },
       ]}
       className={`accordion-rr accordion_${organizationId} margin-bottom-3`}
