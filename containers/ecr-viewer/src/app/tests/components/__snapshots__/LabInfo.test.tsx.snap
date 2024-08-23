@@ -113,7 +113,7 @@ Burbank, CA
               data-testid="accordion"
             >
               <h5
-                class="usa-accordion__heading acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9"
+                class="usa-accordion__heading acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9 side-nav-ignore"
               >
                 <button
                   aria-controls="STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
@@ -133,7 +133,7 @@ Burbank, CA
                 </button>
               </h5>
               <div
-                class="usa-accordion__content usa-prose acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9"
+                class="usa-accordion__content usa-prose acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9 side-nav-ignore"
                 data-testid="accordionItem_STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
                 hidden=""
                 id="STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
@@ -450,7 +450,7 @@ Burbank, CA
               data-testid="accordion"
             >
               <h5
-                class="usa-accordion__heading acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9"
+                class="usa-accordion__heading acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9 side-nav-ignore"
               >
                 <button
                   aria-controls="STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
@@ -463,7 +463,7 @@ Burbank, CA
                 </button>
               </h5>
               <div
-                class="usa-accordion__content usa-prose acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9"
+                class="usa-accordion__content usa-prose acc_item_9e215f4e-aac1-10cb-e412-020cd13a6ad9 side-nav-ignore"
                 data-testid="accordionItem_STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
                 hidden=""
                 id="STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS"
@@ -880,7 +880,7 @@ NASHVILLE, TN
               data-testid="accordion"
             >
               <h5
-                class="usa-accordion__heading acc_item_22c6cdd0-bde1-e220-9ba4-2c2802f795ad"
+                class="usa-accordion__heading acc_item_22c6cdd0-bde1-e220-9ba4-2c2802f795ad side-nav-ignore"
               >
                 <button
                   aria-controls="Cytogenomic SNP microarray"
@@ -893,7 +893,7 @@ NASHVILLE, TN
                 </button>
               </h5>
               <div
-                class="usa-accordion__content usa-prose acc_item_22c6cdd0-bde1-e220-9ba4-2c2802f795ad"
+                class="usa-accordion__content usa-prose acc_item_22c6cdd0-bde1-e220-9ba4-2c2802f795ad side-nav-ignore"
                 data-testid="accordionItem_Cytogenomic SNP microarray"
                 hidden=""
                 id="Cytogenomic SNP microarray"
