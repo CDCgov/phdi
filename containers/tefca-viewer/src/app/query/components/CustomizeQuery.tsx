@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import { Accordion, Button, Icon, Checkbox } from "@trussworks/react-uswds";
+import React, { useMemo, useState, useEffect } from "react";
+import { Accordion, Button, Icon } from "@trussworks/react-uswds";
 import { AccordianSection } from "../../query/component-utils";
 import { ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
@@ -30,7 +30,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const [valueSetState, setValueSetState] = useState<ValueSet>(ValueSet);
   const [isExpanded, setIsExpanded] = useState(true);
 
-  /*Keeps track of whether the accordion is expanded to change the direction of the arrow*/
+  // Keeps track of whether the accordion is expanded to change the direction of the arrow
   const handleToggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -70,6 +70,18 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     }, {} as ValueSet);
   };
 
+  useEffect(() => {
+    const items = valueSetState[activeTab as keyof ValueSet];
+    const selectedCount = items.filter((item) => item.include).length;
+    const topCheckbox = document.getElementById(
+      "select-all",
+    ) as HTMLInputElement;
+    if (topCheckbox) {
+      topCheckbox.indeterminate =
+        selectedCount > 0 && selectedCount < items.length;
+    }
+  }, [valueSetState, activeTab]);
+
   const accordionItems: AccordionItemProps[] = useMemo(() => {
     const items = valueSetState[activeTab as keyof ValueSet];
     const selectedCount = items.filter((item) => item.include).length;
@@ -78,9 +90,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           {
             title: (
               <div className="accordion-header display-flex flex-no-wrap flex-align-start">
-                <Checkbox
+                <input
+                  type="checkbox"
                   id="select-all"
-                  name="select-all"
                   className="hide-checkbox-label"
                   checked={selectedCount === items.length}
                   onChange={(e) =>
@@ -94,7 +106,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                       e.target.checked,
                     )
                   }
-                  label={<span className="hide-me">Select/deselect all</span>}
                 />
                 <div>
                   {`${items[0].display}`}
@@ -144,23 +155,19 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                         className="customize-query-grid-row customize-query-striped-row"
                         key={item.code}
                       >
-                        <div style={{ marginLeft: "24px" }}>
-                          <Checkbox
-                            id={`checkbox-${index}`}
-                            name={`checkbox-${index}`}
-                            checked={item.include}
-                            className="hide-checkbox-label"
-                            onChange={(e) => {
-                              const updatedItems = [...items];
-                              updatedItems[index].include = e.target.checked;
-                              setValueSetState((prevState) => ({
-                                ...prevState,
-                                [activeTab]: updatedItems,
-                              }));
-                            }}
-                            label={<span className="hide-me">Include</span>}
-                          />
-                        </div>
+                        <input
+                          type="checkbox"
+                          className="hide-checkbox-label"
+                          checked={item.include}
+                          onChange={(e) => {
+                            const updatedItems = [...items];
+                            updatedItems[index].include = e.target.checked;
+                            setValueSetState((prevState) => ({
+                              ...prevState,
+                              [activeTab]: updatedItems,
+                            }));
+                          }}
+                        />
                         <div>{item.code}</div>
                         <div>{item.display}</div>
                       </div>
@@ -199,27 +206,21 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       </div>
       <nav className="usa-nav custom-nav">
         <li
-          className={`usa-nav__primary-item ${
-            activeTab === "labs" ? "usa-current" : ""
-          }`}
+          className={`usa-nav__primary-item ${activeTab === "labs" ? "usa-current" : ""}`}
         >
           <a href="#labs" onClick={() => handleTabChange("labs")}>
             Labs
           </a>
         </li>
         <li
-          className={`usa-nav__primary-item ${
-            activeTab === "medications" ? "usa-current" : ""
-          }`}
+          className={`usa-nav__primary-item ${activeTab === "medications" ? "usa-current" : ""}`}
         >
           <a href="#medications" onClick={() => handleTabChange("medications")}>
             Medications
           </a>
         </li>
         <li
-          className={`usa-nav__primary-item ${
-            activeTab === "conditions" ? "usa-current" : ""
-          }`}
+          className={`usa-nav__primary-item ${activeTab === "conditions" ? "usa-current" : ""}`}
         >
           <a href="#conditions" onClick={() => handleTabChange("conditions")}>
             Conditions
