@@ -27,7 +27,7 @@ export const AccordionLabResults: React.FC<AccordionLabResultsProps> = ({
   content,
   organizationId,
   collapsedByDefault = false,
-  headingLevel = "h5"
+  headingLevel = "h5",
 }: AccordionLabResultsProps): React.JSX.Element => {
   return (
     <Accordion
