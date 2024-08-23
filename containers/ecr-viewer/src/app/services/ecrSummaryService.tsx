@@ -328,6 +328,7 @@ export const evaluateEcrSummaryRelevantLabResults = (
     fhirBundle,
     relevantLabs,
     fhirPathMappings,
+    "h4",
   );
 
   resultsArray = relevantLabElements.flatMap((element) =>
