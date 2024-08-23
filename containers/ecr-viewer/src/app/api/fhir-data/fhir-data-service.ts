@@ -10,9 +10,6 @@ import { loadYamlConfig, streamToJson } from "../utils";
 import { database } from "@/app/api/fhir-data/db";
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
-const blobClient = BlobServiceClient.fromConnectionString(
-  process.env.AZURE_STORAGE_CONNECTION_STRING!,
-);
 
 /**
  * Retrieves FHIR data from PostgreSQL database based on eCR ID.
@@ -85,6 +82,9 @@ export const get_s3 = async (request: NextRequest) => {
  * @returns A promise resolving to a NextResponse object.
  */
 export const get_azure = async (request: NextRequest) => {
+  const blobClient = BlobServiceClient.fromConnectionString(
+    process.env.AZURE_STORAGE_CONNECTION_STRING!,
+  );
   const params = request.nextUrl.searchParams;
   const ecr_id = params.get("id");
 

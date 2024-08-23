@@ -9,9 +9,6 @@ import {
 import { Bundle } from "fhir/r4";
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
-const blobClient = BlobServiceClient.fromConnectionString(
-  process.env.AZURE_STORAGE_CONNECTION_STRING!,
-);
 
 /**
  * Saves a FHIR bundle to a postgres database.
@@ -100,6 +97,9 @@ export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to Azure Blob Storage.
  */
 export const saveToAzure = async (fhirBundle: Bundle, ecrId: string) => {
+  const blobClient = BlobServiceClient.fromConnectionString(
+    process.env.AZURE_STORAGE_CONNECTION_STRING!,
+  );
   if (!process.env.AZURE_CONTAINER_NAME)
     throw Error("Azure container name not found");
 
