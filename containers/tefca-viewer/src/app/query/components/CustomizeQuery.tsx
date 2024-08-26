@@ -96,8 +96,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                   style={{
                     width: "36px",
                     height: "36px",
-                    backgroundColor: "#fff",
-                    border: "1px solid #A9AEB1",
+                    backgroundColor: selectedCount === 0 ? "#565C65" : "#fff",
+                    border:
+                      selectedCount === 0
+                        ? "3px white solid"
+                        : "1px solid #A9AEB1",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
