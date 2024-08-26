@@ -90,13 +90,21 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           {
             title: (
               <div className="accordion-header display-flex flex-no-wrap flex-align-start">
-                <input
-                  type="checkbox"
+                <div
                   id="select-all"
                   className="hide-checkbox-label"
-                  style={{ width: "36px", height: "36px" }}
-                  checked={selectedCount === items.length}
-                  onChange={(e) =>
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    backgroundColor:
+                      selectedCount === items.length ? "#005ea2" : "#fff",
+                    border: "1px solid #A9AEB1",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    cursor: "pointer",
+                  }}
+                  onClick={() =>
                     handleSelectAllChange(
                       items,
                       (updatedItems) =>
@@ -104,10 +112,19 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                           ...prevState,
                           [activeTab]: updatedItems,
                         })),
-                      e.target.checked,
+                      selectedCount !== items.length,
                     )
                   }
-                />
+                >
+                  {selectedCount === items.length && (
+                    <Icon.Check
+                      className="usa-icon"
+                      style={{ backgroundColor: "white" }}
+                      size={4}
+                      color="#565C65"
+                    />
+                  )}
+                </div>
                 <div>
                   {`${items[0].display}`}
 
@@ -156,19 +173,37 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                         className="customize-query-grid-row customize-query-striped-row"
                         key={item.code}
                       >
-                        <input
-                          type="checkbox"
+                        <div
                           className="hide-checkbox-label"
-                          checked={item.include}
-                          onChange={(e) => {
+                          style={{
+                            // width: "24px",
+                            // height: "24px",
+                            // backgroundColor: item.include ? "#005ea2" : "#fff",
+                            border: "1px solid #A9AEB1",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
                             const updatedItems = [...items];
-                            updatedItems[index].include = e.target.checked;
+                            updatedItems[index].include =
+                              !updatedItems[index].include;
                             setValueSetState((prevState) => ({
                               ...prevState,
                               [activeTab]: updatedItems,
                             }));
                           }}
-                        />
+                        >
+                          {item.include && (
+                            <Icon.Check
+                              className="usa-icon"
+                              style={{ backgroundColor: "white" }}
+                              size={4}
+                              color="#005EA2"
+                            />
+                          )}
+                        </div>
                         <div>{item.code}</div>
                         <div>{item.display}</div>
                       </div>

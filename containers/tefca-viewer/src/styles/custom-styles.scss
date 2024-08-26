@@ -882,7 +882,7 @@ html {
 .customize-query-grid-header {
   display: contents;
   font-weight: 700;
-  border-bottom: 2px solid #b;
+  border-bottom: 1px solid #71767A;
 }
 
 .customize-query-grid-body {
@@ -896,7 +896,6 @@ html {
 
 .customize-query-grid-row>div {
   padding: 8px;
-  // border-bottom: 1px solid #ddd;
 }
 
 .customize-query-striped-row:nth-child(even) {
