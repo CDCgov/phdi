@@ -929,6 +929,25 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       <div
                         class="data-title"
                       >
+                        Reason for Visit
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title"
+                      >
                         Problems List
                       </div>
                       <div

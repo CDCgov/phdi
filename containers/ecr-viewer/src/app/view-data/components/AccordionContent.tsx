@@ -183,12 +183,10 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
               demographicsUnavailableData={demographicsData.unavailableData}
               socialUnavailableData={social_data.unavailableData}
               encounterUnavailableData={encounterData.unavailableData}
-              reasonForVisitUnavailableData={
-                clinicalData.reasonForVisitDetails.unavailableData
-              }
-              activeProblemsUnavailableData={
-                clinicalData.activeProblemsDetails.unavailableData
-              }
+              symptomsProblemsUnavailableData={[
+                ...clinicalData.reasonForVisitDetails.unavailableData,
+                ...clinicalData.activeProblemsDetails.unavailableData,
+              ]}
               providerUnavailableData={providerData.unavailableData}
               vitalUnavailableData={clinicalData.vitalData.unavailableData}
               immunizationsUnavailableData={
