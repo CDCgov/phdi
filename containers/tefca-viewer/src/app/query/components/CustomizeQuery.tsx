@@ -96,8 +96,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                   style={{
                     width: "36px",
                     height: "36px",
-                    backgroundColor:
-                      selectedCount === items.length ? "#005ea2" : "#fff",
+                    backgroundColor: "#fff",
                     border: "1px solid #A9AEB1",
                     display: "flex",
                     justifyContent: "center",
@@ -118,6 +117,14 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                 >
                   {selectedCount === items.length && (
                     <Icon.Check
+                      className="usa-icon"
+                      style={{ backgroundColor: "white" }}
+                      size={4}
+                      color="#565C65"
+                    />
+                  )}
+                  {selectedCount > 0 && selectedCount < items.length && (
+                    <Icon.Remove
                       className="usa-icon"
                       style={{ backgroundColor: "white" }}
                       size={4}
@@ -176,9 +183,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                         <div
                           className="hide-checkbox-label"
                           style={{
-                            // width: "24px",
-                            // height: "24px",
-                            // backgroundColor: item.include ? "#005ea2" : "#fff",
                             border: "1px solid #A9AEB1",
                             display: "flex",
                             justifyContent: "center",
