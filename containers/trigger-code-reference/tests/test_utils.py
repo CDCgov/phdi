@@ -44,13 +44,17 @@ def test_get_clean_snomed_code_multiple():
 # Test getting clinical code list of tuples with a valid SNOMED ID
 def test_get_concepts_list_normal(mock_db):
     code = 276197005
-    expected_result = [
+    db_result = [
+        ("dxtc", "A36.3|A36", "http://hl7.org/fhir/sid/icd-10-cm", "0363|0036"),
+        ("sdtc", "772150003", "http://snomed.info/sct", None),
+    ]
+    mock_db.fetchall.return_value = db_result
+    result = get_concepts_list([code])
+    assert result == [
         ("dxtc", "A36.3|A36", "http://hl7.org/fhir/sid/icd-10-cm"),
+        ("dxtc", "0363|0036", "http://hl7.org/fhir/sid/icd-9-cm"),
         ("sdtc", "772150003", "http://snomed.info/sct"),
     ]
-    mock_db.fetchall.return_value = expected_result
-    result = get_concepts_list([code])
-    assert result == expected_result
 
 
 # Test with bad SNOMED code
