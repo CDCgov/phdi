@@ -708,6 +708,9 @@ html {
 
 .hide-checkbox-label {
   background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 
   &>label {
     margin-top: 0;
@@ -870,13 +873,16 @@ html {
   display: grid;
   grid-template-columns: 100px 100px 1fr;
   /* Same width for Include and Code, Display takes the remaining space */
-  gap: 0px;
+  gap: 14px;
+  padding-left: 10px;
+  border-radius: 4px;
+  padding-bottom: 14px;
 }
 
 .customize-query-grid-header {
   display: contents;
   font-weight: 700;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid #b;
 }
 
 .customize-query-grid-body {
@@ -890,17 +896,11 @@ html {
 
 .customize-query-grid-row>div {
   padding: 8px;
-  border-bottom: 1px solid #ddd;
+  // border-bottom: 1px solid #ddd;
 }
 
 .customize-query-striped-row:nth-child(even) {
   background-color: #f9f9f9;
-}
-
-.hide-checkbox-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
 }
 
 hr.custom-hr {

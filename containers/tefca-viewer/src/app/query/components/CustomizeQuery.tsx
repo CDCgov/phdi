@@ -94,6 +94,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                   type="checkbox"
                   id="select-all"
                   className="hide-checkbox-label"
+                  style={{ width: "36px", height: "36px" }}
                   checked={selectedCount === items.length}
                   onChange={(e) =>
                     handleSelectAllChange(
