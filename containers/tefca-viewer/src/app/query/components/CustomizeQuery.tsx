@@ -102,6 +102,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                     justifyContent: "center",
                     alignItems: "center",
                     cursor: "pointer",
+                    borderRadius: "4px",
                   }}
                   onClick={() =>
                     handleSelectAllChange(
@@ -188,6 +189,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                             justifyContent: "center",
                             alignItems: "center",
                             cursor: "pointer",
+                            borderRadius: "4px",
+                            width: "36px",
+                            height: "36px",
+                            marginLeft: "30px",
+                            backgroundColor: "#fff",
                           }}
                           onClick={() => {
                             const updatedItems = [...items];
