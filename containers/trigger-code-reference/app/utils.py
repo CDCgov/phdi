@@ -48,22 +48,51 @@ def get_clean_snomed_code(snomed_code: Union[list, str, int, float]) -> list:
     return clean_snomed_code
 
 
+def format_icd9_crosswalks(db_list: List[tuple]) -> List[tuple]:
+    """
+    Utility function to transform the returned tuple rows from the DB into a
+    list of properly formatted three-part tuples. This function handles ICD-9
+    formatting, since the GEM files only give us the relationship between ICD
+    9 and 10 rather than system and OID information itself, so this inserts
+    the missing formatting expected by the rest of the system.
+
+    :param db_list: The list of returned tuples from the SQLite DB.
+    :return: A list of tuples three elements long, formatted as the return for
+      `get_concepts_list`.
+    """
+    formatted_list = []
+    for vs_type in db_list:
+        if vs_type[3] is not None and vs_type[3] != "":
+            formatted_list.append((vs_type[0], vs_type[1], vs_type[2]))
+            formatted_list.append(
+                (vs_type[0], vs_type[3], "http://hl7.org/fhir/sid/icd-9-cm")
+            )
+        else:
+            formatted_list.append((vs_type[0], vs_type[1], vs_type[2]))
+    return formatted_list
+
+
 def get_concepts_list(snomed_code: list) -> List[tuple]:
     """
-    This will take a SNOMED code and runs a SQL query joins condition code,
-    joins it to value sets, then uses the value set ids to get the
+    Given a SNOMED code, this function runs a SQL query that joins
+    conditions to value sets, then uses the value set ids to get the
     value set type, concept codes, and concept system
-    from the eRSD database grouped by value set type and system.
+    from the eRSD database grouped by value set type and system. It
+    also uses the GEM crosswalk tables to find any ICD-9 conversion
+    codes that might be represented under the given condition's
+    umbrella.
 
     :param snomed_code: SNOMED code to check
-    :return: A list of tuples with value set type, a delimited-string of
-    the relevant codes and code systems as objects within.
+    :return: A list of tuples with valueset type, a delimited-string of
+      the relevant codes (including any found ICD-9 conversions, if they
+      exist), and code systems as objects within.
     """
     sql_query = """
     SELECT
         vs.type AS valueset_type,
         GROUP_CONCAT(cs.code, '|') AS codes,
-        cs.code_system AS system
+        cs.code_system AS system,
+        GROUP_CONCAT(icd9_conversions, '|') AS crosswalk_conversions
     FROM
         conditions c
     LEFT JOIN
@@ -74,6 +103,8 @@ def get_concepts_list(snomed_code: list) -> List[tuple]:
         valueset_to_concept vc ON vs.id = vc.valueset_id
     LEFT JOIN
         concepts cs ON vc.concept_id = cs.id
+    LEFT JOIN 
+        (SELECT icd10_code, GROUP_CONCAT(icd9_code, '|') AS icd9_conversions from icd_crosswalk GROUP BY icd10_code) ON gem_formatted_code = icd10_code 
     WHERE
         c.id = ?
     GROUP BY
@@ -86,11 +117,16 @@ def get_concepts_list(snomed_code: list) -> List[tuple]:
             code = get_clean_snomed_code(snomed_code)
             cursor.execute(sql_query, code)
             concept_list = cursor.fetchall()
+
             # We know it's not an actual error because we didn't get kicked to
             # except, so just return the lack of results
             if not concept_list:
                 return []
-        return concept_list
+
+        # Add any existing ICD-9 codes into the main code components
+        # Tuples are immutable so we'll need to make some fresh ones
+        refined_list = format_icd9_crosswalks(concept_list)
+        return refined_list
     except sqlite3.Error as e:
         return {"error": f"An SQL error occurred: {str(e)}"}
 
