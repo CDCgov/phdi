@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { get_s3, get_azure, get_postgres } from "./fhir-data-service";
-
-const S3_SOURCE = "s3";
-const POSTGRES_SOURCE = "postgres";
-const AZURE_SOURCE = "azure";
+import { S3_SOURCE, AZURE_SOURCE, POSTGRES_SOURCE } from "@/app/api/utils";
 
 /**
  * Handles GET requests by fetching data from different sources based on the environment configuration.

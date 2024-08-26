@@ -4,10 +4,7 @@ import {
   saveToAzure,
   saveToPostgres,
 } from "./save-fhir-data-service";
-
-const S3_SOURCE = "s3";
-const POSTGRES_SOURCE = "postgres";
-const AZURE_SOURCE = "azure";
+import { S3_SOURCE, AZURE_SOURCE, POSTGRES_SOURCE } from "@/app/api/utils";
 
 /**
  * Handles POST requests and saves the FHIR Bundle to the database.
