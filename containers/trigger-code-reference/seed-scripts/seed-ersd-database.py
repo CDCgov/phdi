@@ -451,7 +451,7 @@ def main():
         "valuesets": valuesets_list,
         "conditions": conditions_list,
         "concepts": concepts_list,
-        "crosswalk": crosswalk_list,
+        "icd_crosswalk": crosswalk_list,
         "condition_to_valueset": condition_to_valueset_list,
         "valueset_to_concept": valueset_to_concept_list,
     }

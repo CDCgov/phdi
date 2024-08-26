@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS valueset_to_concept (
     FOREIGN KEY (concept_id) REFERENCES concepts(id)
 );
 
-CREATE TABLE IF NOT EXISTS crosswalk (
+CREATE TABLE IF NOT EXISTS icd_crosswalk (
     id TEXT PRIMARY KEY,
     icd10_code TEXT,
     icd9_code TEXT,

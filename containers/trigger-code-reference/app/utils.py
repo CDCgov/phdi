@@ -104,7 +104,7 @@ def get_concepts_list(snomed_code: list) -> List[tuple]:
     LEFT JOIN
         concepts cs ON vc.concept_id = cs.id
     LEFT JOIN 
-        (SELECT icd10_code, GROUP_CONCAT(icd9_code, '|') AS icd9_conversions from crosswalk GROUP BY icd10_code) ON gem_formatted_code = icd10_code 
+        (SELECT icd10_code, GROUP_CONCAT(icd9_code, '|') AS icd9_conversions from icd_crosswalk GROUP BY icd10_code) ON gem_formatted_code = icd10_code 
     WHERE
         c.id = ?
     GROUP BY
