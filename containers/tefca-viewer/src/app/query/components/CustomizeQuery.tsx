@@ -89,10 +89,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       ? [
           {
             title: (
-              <div
-                className="accordion-header display-flex flex-no-wrap flex-align-start"
-                onClick={handleToggleExpand}
-              >
+              <div className="accordion-header display-flex flex-no-wrap flex-align-start">
                 <div
                   id="select-all"
                   className="hide-checkbox-label"
@@ -296,9 +293,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       </div>
       <div className="button-container">
         <Button type="button" onClick={handleApplyChanges}>
-          Apply Changes
+          Apply changes
         </Button>
-        <Button type="button" onClick={() => goBack()}>
+        <Button type="button" outline onClick={() => goBack()}>
           Cancel
         </Button>
       </div>
