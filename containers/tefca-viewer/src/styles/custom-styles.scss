@@ -227,6 +227,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: rgba(247, 249, 250, 1);
 }
 
 .main-body {
@@ -282,6 +283,7 @@ body {
 
 .usa-footer {
   margin-top: auto;
+  background-color: green !important;
 }
 
 .get-started-button {
@@ -906,7 +908,7 @@ hr.custom-hr {
   margin-top: 0;
   margin-bottom: 0;
   border: none;
-  position: relative;
+  position: static;
   top: -6px;
   z-index: -1;
   border-top: 1px solid #71767a;
