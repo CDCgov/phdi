@@ -13,7 +13,6 @@ from fastapi import status
 from fastapi import UploadFile
 from fastapi import WebSocket
 from fastapi import WebSocketDisconnect
-from fastapi.middleware.cors import CORSMiddleware
 from opentelemetry import metrics
 from opentelemetry import trace
 from opentelemetry.trace.status import StatusCode
@@ -67,13 +66,6 @@ app = BaseService(
     openapi_url="/orchestration/openapi.json",
 ).start()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 upload_config_response = load_config_assets(
     upload_config_response_examples, PutConfigResponse
