@@ -19,6 +19,7 @@ sqlalchemy
 requests-mock
 psycopg2-binary==2.9.9
 pytest-mock
+pyyaml
 opentelemetry-distro
 opentelemetry-exporter-otlp
 opentelemetry-exporter-prometheus
