@@ -10,16 +10,31 @@ import { Bundle } from "fhir/r4";
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
+interface BundleMetaData {
+  patient_name_last: string;
+  patient_name_first: string;
+  patient_birth_date: string;
+  data_source: string;
+  reportable_condition: string;
+  rule_summary: string;
+  report_date: string;
+}
+
 /**
  * Saves a FHIR bundle to a postgres database.
  * @async
  * @function saveToS3
  * @param fhirBundle - The FHIR bundle to be saved.
+ * @param bundleMetaData - The metadata associated with the FHIR bundle.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns A promise that resolves when the FHIR bundle is successfully saved to postgres.
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to postgress.
  */
-export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
+export const saveToPostgres = async (
+  fhirBundle: Bundle,
+  bundleMetaData: BundleMetaData,
+  ecrId: string,
+) => {
   const db_url = process.env.DATABASE_URL || "";
   const db = pgPromise();
   const database = db(db_url);
@@ -32,9 +47,43 @@ export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
 
   try {
     const saveECR = await database.one(addFhir);
-
     return NextResponse.json(
       { message: "Success. Saved FHIR Bundle to database: " + saveECR.ecr_id },
+      { status: 200 },
+    );
+  } catch (error: any) {
+    console.error("Error inserting data to database:", error);
+    return NextResponse.json(
+      { message: "Failed to insert data to database. " + error.message },
+      { status: 400 },
+    );
+  }
+
+  let addMetaData;
+  if (bundleMetaData) {
+    addMetaData = new PQ({
+      text: "INSERT INTO fhir_metadata (ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+      values: [
+        ecrId,
+        bundleMetaData.patient_name_first,
+        bundleMetaData.patient_name_last,
+        bundleMetaData.patient_birth_date,
+        bundleMetaData.data_source,
+        bundleMetaData.reportable_condition,
+        bundleMetaData.rule_summary,
+        bundleMetaData.report_date,
+      ],
+    });
+  }
+
+  try {
+    const saveMetadata = await database.one(addMetaData);
+    return NextResponse.json(
+      {
+        message:
+          "Success. Saved FHIR metadata bundle to database: " +
+          saveMetadata.ecr_id,
+      },
       { status: 200 },
     );
   } catch (error: any) {
