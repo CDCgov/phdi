@@ -28,7 +28,7 @@ Congratulations, the eCR Viewer should now be running on `localhost:8080`!
 
 We recommend running the eCR Viewer from a container, but if that isn't feasible for a given use-case, it may also be run directly from Node using the steps below.
 
-1. Ensure that both Git and Node 18.x or higher are installed.
+1. Ensure that both Git, Docker, and Node 18.x or higher are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/ecr-viewer/`.
 4. Install all of the Node dependencies for the eCR Viewer with `npm install`.
