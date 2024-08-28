@@ -1,4 +1,29 @@
 services:
+  # PostgreSQL DB for custom query and value set storage
+  db:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    # Once we have the migrations set up, we may need to use a mounted volume
+    # copy to get them into the container and create our table structure.
+    # The excerpt below is copied from the ECR Viewer, which has the most
+    # similar structure to what we're doing.
+    # volumes:
+    #  - ./sql/:/docker-entrypoint-initdb.d/
+    #  - ./seed-scripts/sql/:/docker-entrypoint-initdb.d/
+    #  - ./seed-scripts/sql/.pgpass/:/usr/local/lib/.pgpass
+    environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=tefca_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
+  # Next.js app
   tefca-viewer:
     platform: linux/amd64
     build:
@@ -7,4 +32,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: production
+      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/tefca_db}
+      - NODE_ENV=production
+    depends_on:
+      db:
+        condition: service_healthy
