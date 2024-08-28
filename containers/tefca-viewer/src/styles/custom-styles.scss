@@ -55,7 +55,7 @@ h4 {
   font-weight: bold;
 }
 
-.info-container > .usa-accordion__heading > .usa-accordion__button {
+.info-container>.usa-accordion__heading>.usa-accordion__button {
   font-size: 32px;
   color: white !important;
   background-color: #2e6276;
@@ -191,19 +191,11 @@ h4 {
   line-height: 18px;
 }
 
-ul.usa-sidenav
-  > li.usa-sidenav__item
-  > ul.usa-sidenav__sublist
-  > li.usa-sidenav__item
-  > a {
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a {
   font-weight: bold;
 }
 
-ul.usa-sidenav
-  > li.usa-sidenav__item
-  > ul.usa-sidenav__sublist
-  > li.usa-sidenav__item
-  > a.usa-current {
+ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a.usa-current {
   &::after {
     background-color: rgb(0, 94, 162);
     content: "";
@@ -235,6 +227,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: rgba(247, 249, 250, 1);
 }
 
 .main-body {
@@ -242,6 +235,7 @@ body {
   grid-template-columns: 1fr; // Defines a single column
   justify-content: center; // Centers the column in the container
   row-gap: 0.1em; // Adjusts the gap between rows/items
+  background-color: rgba(247, 249, 250, 1);
 }
 
 .home {
@@ -289,6 +283,7 @@ body {
 
 .usa-footer {
   margin-top: auto;
+  background-color: green !important;
 }
 
 .get-started-button {
@@ -389,11 +384,9 @@ html {
 }
 
 .gradient-blue-background {
-  background: linear-gradient(
-    109.54deg,
-    rgba(173, 207, 220, 0.025) 8.02%,
-    rgba(46, 98, 118, 0.5) 117.53%
-  );
+  background: linear-gradient(109.54deg,
+      rgba(173, 207, 220, 0.025) 8.02%,
+      rgba(46, 98, 118, 0.5) 117.53%);
 
   padding: 0.5rem;
   /* Optional: some padding to make the background more noticeable */
@@ -592,7 +585,8 @@ html {
 }
 
 .accordion-header-cell.include {
-  width: 60px; /* Fixed width */
+  width: 60px;
+  /* Fixed width */
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -611,6 +605,7 @@ html {
   align-items: flex-start;
   justify-content: space-between;
 }
+
 .accordion-subtitle {
   display: block;
   font-weight: normal;
@@ -696,11 +691,11 @@ html {
 .accordion-item {
   padding-bottom: 0 !important;
 
-  & > div > div.padding-bottom-3 {
+  &>div>div.padding-bottom-3 {
     padding-bottom: 0;
   }
 
-  & > button {
+  &>button {
     background-image: none !important;
   }
 
@@ -716,7 +711,11 @@ html {
 
 .hide-checkbox-label {
   background-color: transparent;
-  & > label {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  &>label {
     margin-top: 0;
     width: 24px;
     height: 24px;
@@ -728,7 +727,7 @@ html {
       background-size: 14px auto !important;
     }
 
-    & > .hide-me {
+    &>.hide-me {
       display: none;
     }
   }
@@ -875,14 +874,18 @@ html {
 
 .customize-query-grid-container {
   display: grid;
-  grid-template-columns: 100px 100px 1fr; /* Same width for Include and Code, Display takes the remaining space */
-  gap: 0px;
+  grid-template-columns: 100px 100px 1fr;
+  /* Same width for Include and Code, Display takes the remaining space */
+  gap: 14px;
+  padding-left: 10px;
+  border-radius: 4px;
+  padding-bottom: 14px;
 }
 
 .customize-query-grid-header {
   display: contents;
   font-weight: 700;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 1px solid #71767A;
 }
 
 .customize-query-grid-body {
@@ -894,30 +897,16 @@ html {
   padding: 8px 0;
 }
 
-.customize-query-grid-row > div {
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
-}
-
 .customize-query-striped-row:nth-child(even) {
   background-color: #f9f9f9;
-}
-
-.hide-checkbox-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
 }
 
 hr.custom-hr {
   width: 100%;
   height: 0px;
   background-color: #ddd;
-  margin-top: 0;
+  margin-top: -6px;
   margin-bottom: 0;
   border: none;
-  position: relative;
-  top: -6px;
-  z-index: -1;
   border-top: 1px solid #71767a;
 }
