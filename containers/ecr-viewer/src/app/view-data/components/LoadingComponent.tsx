@@ -1,12 +1,20 @@
 "use client";
-import { Accordion, Grid, GridContainer } from "@trussworks/react-uswds";
+import {
+  Accordion,
+  Button,
+  Grid,
+  GridContainer,
+  Icon,
+} from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "./ExpandCollapseButtons";
-import SideNav from "./SideNav";
 import {
   AccordionDiv,
   AccordionH4,
   AccordionSection,
 } from "../component-utils";
+import Header from "@/app/Header";
+import classNames from "classnames";
+import { SideNav } from "@trussworks/react-uswds";
 
 /**
  * Renders the loading blobs in gray or in blue
@@ -42,6 +50,38 @@ const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
   );
 };
 
+const SideNavLoadingSkeleton = ({
+  isNonIntegratedViewer,
+}: {
+  isNonIntegratedViewer: boolean;
+}) => {
+  const sideNavLoadingItems = [
+    <a>eCR Summary</a>,
+    <a>eCR Document</a>,
+    <a>Patient Info</a>,
+    <SideNav items={[renderLoadingBlobs(1)]} isSubnav={true} />,
+    <a>Clinical Info</a>,
+    <SideNav items={[renderLoadingBlobs(1)]} isSubnav={true} />,
+    <a>Lab Info</a>,
+    <SideNav items={[renderLoadingBlobs(1)]} isSubnav={true} />,
+    <a>eCR Metadata</a>,
+    <SideNav items={[renderLoadingBlobs(1)]} isSubnav={true} />,
+    <a>Unavailable Info</a>,
+  ];
+
+  return (
+    <div className="nav-wrapper padding-top-1-25">
+      <nav
+        className={classNames("sticky-nav", {
+          "top-0": !isNonIntegratedViewer,
+          "top-550": isNonIntegratedViewer,
+        })}
+      >
+        <SideNav items={sideNavLoadingItems} />
+      </nav>
+    </div>
+  );
+};
 /**
  * Renders ECR Summary of the loading state
  * @returns A JSX component with rows of blobs.
@@ -159,17 +199,33 @@ const AccordionLoadingSkeleton = () => {
  * @returns ECR page loading skeleton
  */
 export const EcrLoadingSkeleton = () => {
+  const _isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
   return (
-    <div>
+    <main className={"width-full minw-main"}>
+      <Header />
       <div className="main-container">
-        <div className="content-wrapper">
-          <div className="nav-wrapper">
-            <nav className="sticky-nav">
-              <SideNav />
-            </nav>
+        <div className={"width-main padding-main"}>
+          <div className="back-button-wrapper">
+            {_isNonIntegratedViewer ? (
+              <Button
+                unstyled={true}
+                type="button"
+                className={"display-flex"}
+                onClick={() => window.history.back()}
+              >
+                <Icon.ArrowBack size={3} />
+                Back to eCR Library
+              </Button>
+            ) : (
+              ""
+            )}
           </div>
-          <div className={"ecr-viewer-container"}>
-            <div className="ecr-content">
+          <div className="content-wrapper">
+            <SideNavLoadingSkeleton
+              isNonIntegratedViewer={_isNonIntegratedViewer ? true : false}
+            />
+            <div className={"ecr-viewer-container"}>
               <div className="margin-bottom-3">
                 <h2 className="margin-bottom-05" id="ecr-summary">
                   eCR Summary
@@ -181,7 +237,9 @@ export const EcrLoadingSkeleton = () => {
               </div>
               <EcrSummaryLoadingSkeleton />
               <div className="margin-top-10">
-                <GridContainer className={"padding-0 margin-bottom-3"}>
+                <GridContainer
+                  className={"padding-0 margin-bottom-3 maxw-none"}
+                >
                   <Grid row className="margin-bottom-05">
                     <Grid>
                       <h2 className="margin-bottom-0" id="ecr-document">
@@ -211,6 +269,14 @@ export const EcrLoadingSkeleton = () => {
           </div>
         </div>
       </div>
-    </div>
+      <a
+        className="usa-button position-fixed right-3 bottom-0"
+        target="_blank"
+        title="External link opens in new window"
+        href="https://touchpoints.app.cloud.gov/touchpoints/e93de6ae/submit"
+      >
+        How can we improve eCR Viewer?
+      </a>
+    </main>
   );
 };
