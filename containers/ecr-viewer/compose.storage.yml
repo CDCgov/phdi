@@ -13,7 +13,7 @@ services:
     container_name: "localstack-main"
     image: localstack/localstack:s3-latest
     ports:
-      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4566:4566" # LocalStack Gateway
     environment:
       - DEBUG=1
     volumes:

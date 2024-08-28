@@ -9,10 +9,10 @@ import {
 import { loadYamlConfig, streamToJson } from "../utils";
 import { database } from "@/app/api/fhir-data/db";
 
-const s3Client = new S3Client({ 
-  region: process.env.AWS_REGION, 
-  endpoint: process.env.AWS_CUSTOM_ENDPOINT, 
-  forcePathStyle: process.env.AWS_CUSTOM_ENDPOINT !== undefined 
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION,
+  endpoint: process.env.AWS_CUSTOM_ENDPOINT,
+  forcePathStyle: process.env.AWS_CUSTOM_ENDPOINT !== undefined,
 });
 
 /**
