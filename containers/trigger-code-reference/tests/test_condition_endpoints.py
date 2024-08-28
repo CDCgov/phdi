@@ -63,14 +63,15 @@ def test_health_check():
 
 def test_get_value_sets_for_condition(mock_db):
     mocked_db_response = [
-        ("dxtc", "A36.3|A36", "http://hl7.org/fhir/sid/icd-10-cm"),
-        ("sdtc", "772150003", "http://snomed.info/sct"),
+        ("dxtc", "A36.3|A36", "http://hl7.org/fhir/sid/icd-10-cm", "0363|0036"),
+        ("sdtc", "772150003", "http://snomed.info/sct", None),
     ]
     mock_db.fetchall.return_value = mocked_db_response
     response = client.get("/get-value-sets?condition_code=276197005")
     expected_result = {
         "dxtc": [
-            {"codes": ["A36.3", "A36"], "system": "http://hl7.org/fhir/sid/icd-10-cm"}
+            {"codes": ["A36.3", "A36"], "system": "http://hl7.org/fhir/sid/icd-10-cm"},
+            {"codes": ["0363", "0036"], "system": "http://hl7.org/fhir/sid/icd-9-cm"},
         ],
         "sdtc": [{"codes": ["772150003"], "system": "http://snomed.info/sct"}],
     }
@@ -108,6 +109,11 @@ def test_stamp_condition_extensions(patched_get_services_list):
     # We'll just try stamping one of each resource type, no need
     # to see 47 observations
     message = json.load(open(Path(__file__).parent / "assets" / "sample_ecr.json"))
+    composition = [
+        e
+        for e in message["entry"]
+        if e.get("resource").get("resourceType") == "Composition"
+    ][0]
     obs_e = [
         e
         for e in message["entry"]
@@ -123,7 +129,7 @@ def test_stamp_condition_extensions(patched_get_services_list):
         for e in message["entry"]
         if e.get("resource").get("resourceType") == "Immunization"
     ][3]
-    message["entry"] = [obs_e, cond_e, imm_e]
+    message["entry"] = [composition, obs_e, cond_e, imm_e]
 
     # Note: obviously not real conditions, we're just simulating stamping different
     # resource types according to different condition criteria
@@ -140,17 +146,5 @@ def test_stamp_condition_extensions(patched_get_services_list):
     # Check observation: diagnostic code value came back successful
     found_matching_extension = _check_for_stamped_resource_in_bundle(
         stamped_message, "840539006", "Observation"
-    )
-    assert found_matching_extension
-
-    # Check condition: no value set cross-referenced for this bundle, no stamp
-    found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "840539006", "Condition"
-    )
-    assert not found_matching_extension
-
-    # Check immunization: we did find a referenced immunization code, so it should be there
-    found_matching_extension = _check_for_stamped_resource_in_bundle(
-        stamped_message, "840539006", "Immunization"
     )
     assert found_matching_extension

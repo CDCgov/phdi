@@ -97,8 +97,10 @@ describe("UnavailableInfo", () => {
         socialUnavailableData={socialUnavailability}
         encounterUnavailableData={encounterUnavailableData}
         providerUnavailableData={providerUnavailableData}
-        reasonForVisitUnavailableData={reasonForVisitUnavailableData}
-        activeProblemsUnavailableData={activeProblemsUnavailableData}
+        symptomsProblemsUnavailableData={[
+          ...reasonForVisitUnavailableData,
+          ...activeProblemsUnavailableData,
+        ]}
         immunizationsUnavailableData={immunizationsUnavailableData}
         vitalUnavailableData={vitalUnavailableData}
         treatmentData={treatmentUnavailableData}

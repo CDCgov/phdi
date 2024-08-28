@@ -1,6 +1,6 @@
 import React from "react";
 import { Bundle, Device, Observation, Organization, Reference } from "fhir/r4";
-import { PathMappings, noData } from "@/app/utils";
+import { PathMappings, noData } from "@/app/view-data/utils/utils";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import { AccordionLabResults } from "@/app/view-data/components/AccordionLabResults";
 import {
@@ -16,7 +16,11 @@ import EvaluateTable, {
   ColumnInfoInput,
 } from "@/app/view-data/components/EvaluateTable";
 import { evaluateReference, evaluateValue } from "./evaluateFhirDataService";
-import { DataDisplay, DisplayDataProps } from "@/app/DataDisplay";
+import {
+  DataDisplay,
+  DisplayDataProps,
+} from "@/app/view-data/components/DataDisplay";
+import { HeadingLevel } from "@trussworks/react-uswds";
 
 export interface LabReport {
   result: Array<Reference>;
@@ -403,12 +407,14 @@ export const evaluateOrganismsReportData = (
  * @param fhirBundle - The FHIR bundle containing lab and RR data.
  * @param labReports - An array of DiagnosticReport objects
  * @param mappings - An object containing the FHIR path mappings.
+ * @param accordionHeadingLevel - Heading level for the title of AccordionLabResults.
  * @returns An array of the Diagnostic reports Elements and Organization Display Data
  */
 export const evaluateLabInfoData = (
   fhirBundle: Bundle,
   labReports: any[],
   mappings: PathMappings,
+  accordionHeadingLevel?: HeadingLevel,
 ): LabReportElementData[] => {
   // the keys are the organization id, the value is an array of jsx elements of diagnsotic reports
   let organizationElements: ResultObject = {};
@@ -519,6 +525,7 @@ export const evaluateLabInfoData = (
         abnormalTag={checkAbnormalTag(labReportJson)}
         content={content}
         organizationId={organizationId}
+        headingLevel={accordionHeadingLevel}
       />
     );
     organizationElements = groupElementByOrgId(

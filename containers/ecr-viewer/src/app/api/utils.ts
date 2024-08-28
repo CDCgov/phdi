@@ -1,7 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
 import yaml from "js-yaml";
-import { PathMappings } from "@/app/utils";
+import { PathMappings } from "@/app/view-data/utils/utils";
+
+export const S3_SOURCE = "s3";
+export const POSTGRES_SOURCE = "postgres";
+export const AZURE_SOURCE = "azure";
 
 /**
  * Loads the YAML configuration for path mappings from a predefined file location.

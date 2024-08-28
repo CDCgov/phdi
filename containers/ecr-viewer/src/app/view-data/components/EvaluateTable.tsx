@@ -1,5 +1,5 @@
 import { Element } from "fhir/r4";
-import { PathMappings, noData } from "@/app/utils";
+import { PathMappings, noData } from "@/app/view-data/utils/utils";
 import { Button, Table } from "@trussworks/react-uswds";
 import classNames from "classnames";
 import React, { ReactNode, useState } from "react";

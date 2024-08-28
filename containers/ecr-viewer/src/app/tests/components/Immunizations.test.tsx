@@ -5,7 +5,7 @@ import YAML from "js-yaml";
 import { Bundle, Immunization } from "fhir/r4";
 import BundleClinicalInfo from "@/app/tests/assets/BundleClinicalInfo.json";
 import { returnImmunizations } from "@/app/view-data/components/common";
-import { PathMappings } from "@/app/utils";
+import { PathMappings } from "@/app/view-data/utils/utils";
 
 describe("Immunizations Table", () => {
   let container: HTMLElement;
@@ -63,7 +63,7 @@ describe("Immunizations Table", () => {
         },
         resourceType: "Immunization",
         primarySource: true,
-        occurrenceDateTime: "11/10/2020",
+        occurrenceDateTime: "2020-11-10T07:20:00-04:00",
         lotNumber: "369258741",
         manufacturer: {
           reference: "Organization/b5c77b86-2764-79f9-10bf-5da5e63eb7c1",
