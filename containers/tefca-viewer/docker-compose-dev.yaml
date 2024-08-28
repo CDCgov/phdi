@@ -1,23 +1,20 @@
 services:
-  tefca-viewer:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  db:
+    image: "postgres:alpine"
     ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: development
-  tefca-fhir-server:
-    image: "hapiproject/hapi:latest"
-    ports:
-      - "8080:8080"
-  tefca-data-loader:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - "./src/app/tests/assets/BundleHAPIServer.json:/etc/BundleHAPIServer.json"
-      - "./post_request.sh:/post_request.sh"
-    command: ["sh", "post_request.sh"]
-    depends_on:
-      - tefca-fhir-server
+      - "5432:5432"
+    # Once we have the migrations set up, we may need to use a mounted volume
+    # copy to get them into the container and create our table structure.
+    # The excerpt below is copied from the ECR Viewer, which has the most
+    # similar structure to what we're doing.
+    # volumes:
+    #  - ./sql/:/docker-entrypoint-initdb.d/
+    #  - ./seed-scripts/sql/:/docker-entrypoint-initdb.d/
+    #  - ./seed-scripts/sql/.pgpass/:/usr/local/lib/.pgpass
+    env_file:
+      - "./tefca.env"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 2s
+      timeout: 5s
+      retries: 20

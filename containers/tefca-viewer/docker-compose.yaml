@@ -12,11 +12,8 @@ services:
     #  - ./sql/:/docker-entrypoint-initdb.d/
     #  - ./seed-scripts/sql/:/docker-entrypoint-initdb.d/
     #  - ./seed-scripts/sql/.pgpass/:/usr/local/lib/.pgpass
-    environment:
-      - POSTGRES_USER=postgres
-      - PGUSER=postgres
-      - POSTGRES_PASSWORD=pw
-      - POSTGRES_DB=tefca_db
+    env_file:
+      - "./tefca.env"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 2s
@@ -31,8 +28,9 @@ services:
       dockerfile: ./containers/tefca-viewer/Dockerfile
     ports:
       - "3000:3000"
+    env_file:
+      - "./tefca.env"
     environment:
-      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/tefca_db}
       - NODE_ENV=production
     depends_on:
       db:
