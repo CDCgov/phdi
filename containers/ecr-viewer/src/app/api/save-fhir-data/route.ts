@@ -14,6 +14,7 @@ import { S3_SOURCE, AZURE_SOURCE, POSTGRES_SOURCE } from "@/app/api/utils";
 export async function POST(request: NextRequest) {
   let requestBody;
   let fhirBundle;
+  let bundleMetadata;
   let saveSource;
   let ecrId;
 
@@ -22,6 +23,10 @@ export async function POST(request: NextRequest) {
     fhirBundle = requestBody.fhirBundle;
     saveSource = requestBody.saveSource;
     ecrId = requestBody.fhirBundle.entry[0].resource.id;
+
+    if (requestBody.bundleMetadata) {
+      bundleMetadata = requestBody.bundleMetadata;
+    }
   } catch (error: any) {
     console.error("Error reading request body:", error);
     return NextResponse.json(
@@ -55,7 +60,7 @@ export async function POST(request: NextRequest) {
   } else if (saveSource === AZURE_SOURCE) {
     return saveToAzure(fhirBundle, ecrId);
   } else if (saveSource === POSTGRES_SOURCE) {
-    return await saveToPostgres(fhirBundle, ecrId);
+    return await saveToPostgres(fhirBundle, bundleMetadata, ecrId);
   } else {
     return NextResponse.json(
       {
