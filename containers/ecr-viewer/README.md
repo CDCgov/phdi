@@ -32,7 +32,7 @@ We recommend running the eCR Viewer from a container, but if that isn't feasible
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/ecr-viewer/`.
 4. Install all of the Node dependencies for the eCR Viewer with `npm install`.
-5. Run the eCR Viewer on `localhost:3000` with `npm run dev`.
+5. Run the eCR Viewer on `localhost:3000` with `npm run local-dev`.
 
 ### Building the Docker Image
 
