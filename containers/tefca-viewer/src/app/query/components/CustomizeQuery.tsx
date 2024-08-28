@@ -273,7 +273,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         </li>
       </nav>
       <ul className="usa-nav__primary usa-accordion"></ul>
-      <hr className="custom-hr"></hr>
+      <div
+        style={{ width: "100%", height: "100%", border: "1px #71767A solid" }}
+      ></div>{" "}
       <a
         href="#"
         type="button"

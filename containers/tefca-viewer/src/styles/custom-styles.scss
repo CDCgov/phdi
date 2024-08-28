@@ -654,6 +654,12 @@ html {
   line-height: normal;
 }
 
+.usa-accordion {
+  // border: 1px solid #565C65;
+  border-radius: 4px;
+  padding: 0px;
+}
+
 .usa-accordion__button {
   background: var(--Base-base-dark, #565c65);
   color: white;
@@ -666,6 +672,7 @@ html {
   justify-content: space-between;
   padding: 8px 0;
   font-weight: bold;
+  word-wrap: break-word;
   align-items: center;
   gap: 20px;
   width: 100%;
@@ -778,7 +785,7 @@ html {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 8px;
   width: 100%;
 }
 
@@ -790,7 +797,7 @@ html {
 }
 
 .usa-nav__primary-item {
-  margin-right: 1rem;
+  margin-right: 8px;
 }
 
 .usa-nav__primary-item a:hover {
@@ -892,6 +899,13 @@ html {
   padding: 0;
 }
 
+.usa-accordion--bordered .usa-accordion__content {
+  border-bottom: 1px solid #71767A;
+  border-left: 1px solid #71767A;
+  border-right: 1px solid #71767A;
+  border-radius: 4px;
+}
+
 .accordion-content {
   margin: 0;
   padding: 0;
@@ -926,7 +940,7 @@ html {
 
 .customize-query-grid-header {
   display: grid;
-  grid-template-columns: 160px 160px 1fr;
+  grid-template-columns: 130px 160px 1fr;
   align-items: center;
   padding: 0px 24px;
   border-bottom: 1px solid #71767A;
@@ -943,12 +957,13 @@ html {
   display: grid;
   grid-template-columns: 160px 160px 1fr;
   align-items: center;
-  padding: 14px 24px;
-  border-bottom: 1px solid #71767A;
+  padding: 14px 0px;
 }
 
 .customize-query-grid-row:nth-child(even) {
   background-color: rgba(223, 225, 226, 0.50);
+  border-bottom: 1px solid #71767A;
+  border-top: 1px solid #71767A;
 }
 
 .customize-query-grid-cell {
