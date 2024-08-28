@@ -785,7 +785,7 @@ html {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   width: 100%;
 }
 
@@ -964,6 +964,10 @@ html {
   background-color: rgba(223, 225, 226, 0.50);
   border-bottom: 1px solid #71767A;
   border-top: 1px solid #71767A;
+}
+
+.customize-query-grid-row:last-child {
+  border-bottom: none;
 }
 
 .customize-query-grid-cell {
