@@ -99,7 +99,10 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       ? [
           {
             title: (
-              <div className="accordion-header display-flex flex-no-wrap flex-align-start">
+              <div
+                className="accordion-header display-flex flex-no-wrap flex-align-start"
+                onClick={handleToggleExpand}
+              >
                 <div
                   id="select-all"
                   className="hide-checkbox-label"
