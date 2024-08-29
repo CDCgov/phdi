@@ -2,7 +2,7 @@
 
 source tefca.env
 
-# Define the database connection string using environment variables
+# Define the database connection
 PG_CONN="postgresql://postgres:pw@db:5432/tefca_db"
 
 tables=("concepts" "valuesets" "conditions")
