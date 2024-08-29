@@ -60,7 +60,9 @@
         {% if contact.classCode == "ECON" -%}
         "contact": [
              {
-                "relationship": {{ contact.code.originalText._ | to_json_string | downcase }},
+                {% if contact.code.originalText._ %}
+                  "relationship": {{ contact.code.originalText._ | to_json_string | downcase }},
+                {% endif %}
                 "name":[
                     {% assign names = contact.associatedPerson.name | to_array -%}
                     {% for name in names -%}
