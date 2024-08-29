@@ -10,12 +10,8 @@ services:
 
   # AWS S3 Storage emulator
   aws-storage:
-    container_name: "localstack-main"
-    image: localstack/localstack:s3-latest
+    image: gresau/localstack-persist:3
     ports:
-      - "127.0.0.1:4566:4566" # LocalStack Gateway
-    environment:
-      - DEBUG=1
+      - "4566:4566"
     volumes:
-      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./volume:/persisted-data"
