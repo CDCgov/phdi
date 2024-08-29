@@ -25,7 +25,7 @@ run-docker:
 run-python:
 	@echo "Running Record Linkage service from Python source on localhost:$(RECORD_LINKAGE_PORT)..."
 	python3 -m venv .venv && \
-	source .venv/bin/activate && \
+	. .venv/bin/activate && \
 	pip install -r requirements.txt && \
 	python -m uvicorn app.main:app --host 0.0.0.0 --port $(RECORD_LINKAGE_PORT)
 
