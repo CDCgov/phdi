@@ -165,6 +165,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                     cursor: "pointer",
                     alignItems: "center",
                     display: "flex",
+                    margin: "-3px",
                   }}
                 >
                   {isExpanded ? (
