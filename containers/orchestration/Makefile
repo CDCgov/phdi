@@ -23,7 +23,7 @@ run-docker:
 run-python:
 	@echo "Running Orchestration from Python source on localhost:8080..."
 	python3 -m venv .venv && \
-	source .venv/bin/activate && \
+	. .venv/bin/activate && \
 	pip install -r requirements.txt && \
 	python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload --env-file local-dev.env
 
