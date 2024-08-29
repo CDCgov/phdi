@@ -120,7 +120,8 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                     cursor: "pointer",
                     borderRadius: "4px",
                   }}
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.stopPropagation();
                     handleSelectAllChange(
                       items,
                       (updatedItems) =>
@@ -129,8 +130,8 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                           [activeTab]: updatedItems,
                         })),
                       selectedCount !== items.length,
-                    )
-                  }
+                    );
+                  }}
                 >
                   {selectedCount === items.length && (
                     <Icon.Check
@@ -206,7 +207,10 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                             marginLeft: "30px",
                             backgroundColor: "#fff",
                           }}
-                          onClick={() => toggleInclude(index)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleInclude(index);
+                          }}
                         >
                           {item.include && (
                             <Icon.Check
