@@ -21,3 +21,29 @@ services:
     command: ["sh", "post_request.sh"]
     depends_on:
       - tefca-fhir-server
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pw
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  flyway:
+    image: flyway/flyway:latest
+    depends_on:
+      - db
+    entrypoint: ["flyway", "migrate"]
+    environment:
+      FLYWAY_URL: jdbc:postgresql://db:5432/postgres
+      FLYWAY_USER: postgres
+      FLYWAY_PASSWORD: pw
+      FLYWAY_LOCATIONS: filesystem:/app/migrations
+    volumes:
+      - .:/app
+
+volumes:
+  pgdata:
