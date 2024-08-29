@@ -26,6 +26,15 @@
       "endpoint": "/stamp-condition-extensions"
     },
     {
+      "name:": "save_bundle",
+      "service": "save_bundle",
+      "url": "${ECR_VIEWER_URL}",
+      "endpoint": "/api/save-fhir-data",
+      "params": {
+        "saveSource": "postgres"
+      }
+    },
+    {
       "name": "message_parser_values",
       "service": "message_parser",
       "endpoint": "/parse_message",
@@ -33,15 +42,6 @@
         "message_format": "fhir",
         "parsing_schema_name": "philly_ecr.json",
         "credential_manager": "azure"
-      }
-    },
-    {
-      "name:": "save_bundle",
-      "service": "save_bundle",
-      "url": "${ECR_VIEWER_URL}",
-      "endpoint": "/api/save-fhir-data",
-      "params": {
-        "saveSource": "postgres"
       }
     }
   ],
