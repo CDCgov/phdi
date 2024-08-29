@@ -52,9 +52,11 @@ CREATE TABLE IF NOT EXISTS icd_crosswalk (
 
 CREATE TABLE IF NOT EXISTS query (
     query_id UUID DEFAULT uuid_generate_v4 (),
-    icd10_code TEXT,
-    icd9_code TEXT,
-    match_flags TEXT,
+    author VARCHAR(255),
+    date_created TIMESTAMP,
+    date_last_modified TIMESTAMP,
+    time_window_number INT,
+    time_window_unit VARCHAR(80),
     PRIMARY KEY (query_id));
 
 CREATE TABLE IF NOT EXISTS query_to_valueset (
