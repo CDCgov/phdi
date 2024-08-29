@@ -53,11 +53,7 @@ export const saveToPostgres = async (
   });
 
   try {
-    const saveECR = await database.one(addFhir);
-    return NextResponse.json(
-      { message: "Success. Saved FHIR Bundle to database: " + saveECR.ecr_id },
-      { status: 200 },
-    );
+    await database.one(addFhir);
   } catch (error: any) {
     console.error("Error inserting data to database:", error);
     return NextResponse.json(
@@ -66,9 +62,8 @@ export const saveToPostgres = async (
     );
   }
 
-  let addMetaData;
   if (bundleMetaData) {
-    addMetaData = new PQ({
+    const addMetaData = new PQ({
       text: "INSERT INTO fhir_metadata (ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
       values: [
         ecrId,
@@ -81,25 +76,35 @@ export const saveToPostgres = async (
         bundleMetaData.report_date,
       ],
     });
+
+    try {
+      await database.one(addMetaData);
+      return NextResponse.json(
+        {
+          message:
+            "Success. Saved FHIR bundle and metadata to database: " + ecrId,
+        },
+        { status: 200 },
+      );
+    } catch (error: any) {
+      console.error("Error inserting metadata to database:", error);
+      return NextResponse.json(
+        {
+          message:
+            "Successfully inserted bundle to database but failed to insert data to database. " +
+            error.message,
+        },
+        { status: 400 },
+      );
+    }
   }
 
-  try {
-    const saveMetadata = await database.one(addMetaData);
-    return NextResponse.json(
-      {
-        message:
-          "Success. Saved FHIR metadata bundle to database: " +
-          saveMetadata.ecr_id,
-      },
-      { status: 200 },
-    );
-  } catch (error: any) {
-    console.error("Error inserting data to database:", error);
-    return NextResponse.json(
-      { message: "Failed to insert data to database. " + error.message },
-      { status: 400 },
-    );
-  }
+  return NextResponse.json(
+    {
+      message: "Success. Saved FHIR bundle to database: " + ecrId,
+    },
+    { status: 200 },
+  );
 };
 
 /**
