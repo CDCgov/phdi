@@ -61,6 +61,16 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     }));
   };
 
+  // Handles the toggle of the 'include' state for individual items
+  const toggleInclude = (index: number) => {
+    const updatedItems = [...valueSetState[activeTab as keyof ValueSet]];
+    updatedItems[index].include = !updatedItems[index].include;
+    setValueSetState((prevState) => ({
+      ...prevState,
+      [activeTab]: updatedItems,
+    }));
+  };
+
   // Will eventually be the json object storing the parsed data to return on the results page
   const handleApplyChanges = () => {
     const selectedItems = Object.keys(valueSetState).reduce((acc, key) => {
@@ -89,7 +99,10 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       ? [
           {
             title: (
-              <div className="accordion-header display-flex flex-no-wrap flex-align-start">
+              <div
+                className="accordion-header display-flex flex-no-wrap flex-align-start"
+                onClick={handleToggleExpand}
+              >
                 <div
                   id="select-all"
                   className="hide-checkbox-label"
@@ -107,7 +120,8 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                     cursor: "pointer",
                     borderRadius: "4px",
                   }}
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.stopPropagation();
                     handleSelectAllChange(
                       items,
                       (updatedItems) =>
@@ -116,8 +130,8 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                           [activeTab]: updatedItems,
                         })),
                       selectedCount !== items.length,
-                    )
-                  }
+                    );
+                  }}
                 >
                   {selectedCount === items.length && (
                     <Icon.Check
@@ -152,6 +166,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                     cursor: "pointer",
                     alignItems: "center",
                     display: "flex",
+                    margin: "-3px",
                   }}
                 >
                   {isExpanded ? (
@@ -168,15 +183,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
               <AccordianSection>
                 <div className="customize-query-grid-container customize-query-table">
                   <div className="customize-query-grid-header margin-top-10">
-                    <div style={{ marginLeft: "24px", marginTop: "10px" }}>
-                      Include
-                    </div>
-                    <div style={{ marginLeft: "6px", marginTop: "10px" }}>
-                      Code
-                    </div>
-                    <div style={{ marginLeft: "6px", marginTop: "10px" }}>
-                      Display
-                    </div>
+                    <div className="accordion-table-header">Include</div>
+                    <div className="accordion-table-header">Code</div>
+                    <div className="accordion-table-header">Display</div>
                   </div>
                   <div className="customize-query-grid-body">
                     {items.map((item, index) => (
@@ -198,14 +207,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                             marginLeft: "30px",
                             backgroundColor: "#fff",
                           }}
-                          onClick={() => {
-                            const updatedItems = [...items];
-                            updatedItems[index].include =
-                              !updatedItems[index].include;
-                            setValueSetState((prevState) => ({
-                              ...prevState,
-                              [activeTab]: updatedItems,
-                            }));
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleInclude(index);
                           }}
                         >
                           {item.include && (
