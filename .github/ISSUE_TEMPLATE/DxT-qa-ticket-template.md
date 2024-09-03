@@ -1,8 +1,8 @@
 ---
-name: AIE QA Ticket Template
+name: DxT QA Ticket Template
 about: Template for eCR Viewer QA efforts
 title: ''
-labels: aie, quality-assurance-testing
+labels: DxT, quality-assurance-testing
 assignees: ''
 
 ---
