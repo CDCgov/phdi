@@ -3,6 +3,11 @@ namespace NodeJS {
   interface ProcessEnv {
     APP_ENV: "test" | "middleware" | "prod";
     AWS_REGION: string;
+    AWS_CUSTOM_ENDPOINT: string;
+    AWS_ACCESS_KEY_ID: string;
+    AWS_SECRET_ACCESS_KEY: string;
+    AZURE_STORAGE_CONNECTION_STRING: string;
+    AZURE_CONTAINER_NAME: string;
     DATABASE_SCHEMA: "core" | "extended";
     DATABASE_TYPE: string;
     DATABASE_URL: string;
@@ -13,6 +18,6 @@ namespace NodeJS {
     NEXT_RUNTIME: string;
     NEXT_PUBLIC_NON_INTEGRATED_VIEWER: "true" | "false";
     NEXTAUTH_SECRET: string;
-    SOURCE: "s3" | "postgres";
+    SOURCE: "s3" | "azure" | "postgres";
   }
 }

@@ -1,8 +1,8 @@
 ---
-name: AIE Bug Template
+name: DxT Bug Template
 about: Capture bugs with this
 title: ''
-labels: aie
+labels: DxT
 assignees: ''
 
 ---
