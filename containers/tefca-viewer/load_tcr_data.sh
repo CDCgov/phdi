@@ -11,7 +11,7 @@ tables=("concepts" "valuesets" "conditions")
 for table in "${tables[@]}"; do
     psql "$PG_CONN" -c "CREATE TABLE IF NOT EXISTS $table (id INT, name VARCHAR(80));" -tA
     echo "Table $table created."
-    pgsl "$PG_CONN" -c "INSERT INTO $table (id, name) VALUES (1, item);"
+    psql "$PG_CONN" -c "INSERT INTO $table (id, name) VALUES (1, item);"
 done
 ### END TEMP
 
