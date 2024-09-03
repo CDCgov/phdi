@@ -1,8 +1,8 @@
 ---
-name: AIE Spike Template
+name: DxT Spike Template
 about: Used for exploratory engineering spikes
 title: ''
-labels: aie
+labels: DxT
 assignees: ''
 
 ---

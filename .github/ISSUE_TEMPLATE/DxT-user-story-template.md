@@ -1,8 +1,8 @@
 ---
-name: AIE User Story Template
-about: Create a new user story for the AIE eCR team
+name: DxT User Story Template
+about: Create a new user story for the DxT eCR team
 title: ''
-labels: aie
+labels: DxT
 assignees: ''
 
 ---
