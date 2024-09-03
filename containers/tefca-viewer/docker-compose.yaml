@@ -14,14 +14,6 @@ services:
     image: "postgres:alpine"
     ports:
       - "5432:5432"
-    # Once we have the migrations set up, we may need to use a mounted volume
-    # copy to get them into the container and create our table structure.
-    # The excerpt below is copied from the ECR Viewer, which has the most
-    # similar structure to what we're doing.
-    # volumes:
-    #  - ./sql/:/docker-entrypoint-initdb.d/
-    #  - ./seed-scripts/sql/:/docker-entrypoint-initdb.d/
-    #  - ./seed-scripts/sql/.pgpass/:/usr/local/lib/.pgpass
     env_file:
       - "./tefca.env"
     healthcheck:
