@@ -5,6 +5,7 @@ import {
   Grid,
   GridContainer,
   Icon,
+  SideNav,
 } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "./ExpandCollapseButtons";
 import {
@@ -14,7 +15,8 @@ import {
 } from "../component-utils";
 import Header from "@/app/Header";
 import classNames from "classnames";
-import { SideNav } from "@trussworks/react-uswds";
+// import SideNav from "./SideNav";
+// import { SideNav } from "@trussworks/react-uswds";
 
 /**
  * Renders the loading blobs in gray or in blue
@@ -28,7 +30,7 @@ const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
   const sectionLineStyle = isGray ? "section__line_gray" : "section__line";
 
   return (
-    <>
+    <div>
       {rows.map((_, index) => (
         <div key={index}>
           <div className="grid-row">
@@ -43,10 +45,35 @@ const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
               &nbsp;
             </div>
           </div>
-          <div className={`${sectionLineStyle}`} />
+          {numberOfRows > 1 ? (
+            <div className={`${sectionLineStyle}`}></div>
+          ) : (
+            ""
+          )}
         </div>
       ))}
-    </>
+    </div>
+  );
+};
+
+const renderSideNavLoadingItems = () => {
+  const loadingBlobStyle = "loading-blob-gray";
+
+  return (
+    <div>
+      <div className="grid-row">
+        <div className="grid-col-4">
+          <div
+            className={`${loadingBlobStyle}-small loading-blob margin-right-1 loading-blob`}
+          >
+            &nbsp;
+          </div>
+        </div>
+        <div className={`loading-blob grid-col-8 ${loadingBlobStyle}-big`}>
+          &nbsp;
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -58,15 +85,36 @@ const SideNavLoadingSkeleton = ({
   const sideNavLoadingItems = [
     <a>eCR Summary</a>,
     <a>eCR Document</a>,
-    <a>Patient Info</a>,
-    <SideNav items={[renderLoadingBlobs(1)]} isSubnav={true} />,
-    <a>Clinical Info</a>,
-    <SideNav items={[renderLoadingBlobs(1)]} isSubnav={true} />,
-    <a>Lab Info</a>,
-    <SideNav items={[renderLoadingBlobs(1)]} isSubnav={true} />,
-    <a>eCR Metadata</a>,
-    <SideNav items={[renderLoadingBlobs(1)]} isSubnav={true} />,
-    <a>Unavailable Info</a>,
+    <SideNav
+      items={[
+        <a>Patient Info</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+        <a>Clinical Info</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+        <a>Lab Info</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+        <a>eCR Metadata</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+        <a>Unavailable Info</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+      ]}
+      isSubnav={true}
+    />,
   ];
 
   return (
@@ -225,6 +273,7 @@ export const EcrLoadingSkeleton = () => {
             <SideNavLoadingSkeleton
               isNonIntegratedViewer={_isNonIntegratedViewer ? true : false}
             />
+            {/* <SideNav /> */}
             <div className={"ecr-viewer-container"}>
               <div className="margin-bottom-3">
                 <h2 className="margin-bottom-05" id="ecr-summary">
