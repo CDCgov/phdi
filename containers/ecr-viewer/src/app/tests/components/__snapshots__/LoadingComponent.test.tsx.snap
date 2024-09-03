@@ -2,300 +2,320 @@
 
 exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
 <div>
-  <div>
+  <main
+    class="width-full minw-main"
+  >
+    <header
+      class="usa-header usa-header--basic"
+    >
+      <div
+        class="usa-nav-container"
+      >
+        <div
+          class="usa-navbar"
+        >
+          <div
+            class="usa-logo"
+          >
+            <h1>
+              <a
+                href="/"
+                title="<Project title>"
+              >
+                DIBBs eCR Viewer
+              </a>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </header>
     <div
       class="main-container"
     >
       <div
-        class="content-wrapper"
+        class="width-main padding-main"
       >
         <div
-          class="nav-wrapper"
+          class="back-button-wrapper"
         >
-          <nav
-            class="sticky-nav"
+          <button
+            class="usa-button usa-button--unstyled display-flex"
+            data-testid="button"
+            type="button"
           >
-            <div
-              class="nav-wrapper padding-top-1-25"
+            <svg
+              class="usa-icon usa-icon--size-3"
+              focusable="false"
+              height="1em"
+              role="img"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <nav
-                class="sticky-nav top-550"
-              >
-                <ul
-                  class="usa-sidenav"
-                  data-testid="sidenav"
-                >
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <a
-                      class=""
-                      href="#ecr-summary"
-                    >
-                      eCR Summary
-                    </a>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <a
-                      class=""
-                      href="#ecr-document"
-                    >
-                      eCR Document
-                    </a>
-                  </li>
-                  <li
-                    class="usa-sidenav__item"
-                  >
-                    <ul
-                      class="usa-sidenav__sublist"
-                      data-testid="sidenav"
-                    >
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#patient-info"
-                        >
-                          Patient Info
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <ul
-                          class="usa-sidenav__sublist"
-                          data-testid="sidenav"
-                        >
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#demographics"
-                            >
-                              Demographics
-                            </a>
-                          </li>
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#social-history"
-                            >
-                              Social History
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#encounter-info"
-                        >
-                          Encounter Info
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <ul
-                          class="usa-sidenav__sublist"
-                          data-testid="sidenav"
-                        >
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#encounter-details"
-                            >
-                              Encounter Details
-                            </a>
-                          </li>
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#provider-details"
-                            >
-                              Provider Details
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#clinical-info"
-                        >
-                          Clinical Info
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <ul
-                          class="usa-sidenav__sublist"
-                          data-testid="sidenav"
-                        >
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#symptoms-and-problems"
-                            >
-                              Symptoms and Problems
-                            </a>
-                          </li>
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#treatment-details"
-                            >
-                              Treatment Details
-                            </a>
-                          </li>
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#immunizations"
-                            >
-                              Immunizations
-                            </a>
-                          </li>
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#diagnostic-and-vital-signs"
-                            >
-                              Diagnostic and Vital Signs
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#lab-info"
-                        >
-                          Lab Info
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <ul
-                          class="usa-sidenav__sublist"
-                          data-testid="sidenav"
-                        >
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#lab-results-from"
-                            >
-                              Lab Results from
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#ecr-metadata"
-                        >
-                          eCR Metadata
-                        </a>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <ul
-                          class="usa-sidenav__sublist"
-                          data-testid="sidenav"
-                        >
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#rr-details"
-                            >
-                              RR Details
-                            </a>
-                          </li>
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#eicr-details"
-                            >
-                              eICR Details
-                            </a>
-                          </li>
-                          <li
-                            class="usa-sidenav__item"
-                          >
-                            <a
-                              class=""
-                              href="#ecr-sender-details"
-                            >
-                              eCR Sender Details
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li
-                        class="usa-sidenav__item"
-                      >
-                        <a
-                          class=""
-                          href="#unavailable-info"
-                        >
-                          Unavailable Info
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </nav>
+              <path
+                d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+              />
+            </svg>
+            Back to eCR Library
+          </button>
         </div>
         <div
-          class="ecr-viewer-container"
+          class="content-wrapper"
         >
           <div
-            class="ecr-content"
+            class="nav-wrapper padding-top-1-25"
+          >
+            <nav
+              class="sticky-nav top-550"
+            >
+              <ul
+                class="usa-sidenav"
+                data-testid="sidenav"
+              >
+                <li
+                  class="usa-sidenav__item"
+                >
+                  <a>
+                    eCR Summary
+                  </a>
+                </li>
+                <li
+                  class="usa-sidenav__item"
+                >
+                  <a>
+                    eCR Document
+                  </a>
+                </li>
+                <li
+                  class="usa-sidenav__item"
+                >
+                  <ul
+                    class="usa-sidenav__sublist"
+                    data-testid="sidenav"
+                  >
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <a>
+                        Patient Info
+                      </a>
+                    </li>
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <ul
+                        class="usa-sidenav__sublist"
+                        data-testid="sidenav"
+                      >
+                        <li
+                          class="usa-sidenav__item"
+                        >
+                          <a>
+                            <div>
+                              <div
+                                class="grid-row"
+                              >
+                                <div
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                >
+                                   
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <a>
+                        Clinical Info
+                      </a>
+                    </li>
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <ul
+                        class="usa-sidenav__sublist"
+                        data-testid="sidenav"
+                      >
+                        <li
+                          class="usa-sidenav__item"
+                        >
+                          <a>
+                            <div>
+                              <div
+                                class="grid-row"
+                              >
+                                <div
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                >
+                                   
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <a>
+                        Lab Info
+                      </a>
+                    </li>
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <ul
+                        class="usa-sidenav__sublist"
+                        data-testid="sidenav"
+                      >
+                        <li
+                          class="usa-sidenav__item"
+                        >
+                          <a>
+                            <div>
+                              <div
+                                class="grid-row"
+                              >
+                                <div
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                >
+                                   
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <a>
+                        eCR Metadata
+                      </a>
+                    </li>
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <ul
+                        class="usa-sidenav__sublist"
+                        data-testid="sidenav"
+                      >
+                        <li
+                          class="usa-sidenav__item"
+                        >
+                          <a>
+                            <div>
+                              <div
+                                class="grid-row"
+                              >
+                                <div
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                >
+                                   
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <a>
+                        Unavailable Info
+                      </a>
+                    </li>
+                    <li
+                      class="usa-sidenav__item"
+                    >
+                      <ul
+                        class="usa-sidenav__sublist"
+                        data-testid="sidenav"
+                      >
+                        <li
+                          class="usa-sidenav__item"
+                        >
+                          <a>
+                            <div>
+                              <div
+                                class="grid-row"
+                              >
+                                <div
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                >
+                                   
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div
+            class="ecr-viewer-container"
           >
             <div
               class="margin-bottom-3"
             >
               <h2
                 class="margin-bottom-05"
-                data-sectionid="ecr-summary"
                 id="ecr-summary"
               >
                 eCR Summary
@@ -319,96 +339,98 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   Patient Summary
                 </h3>
                 <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
                 </div>
                 <h3
                   class="summary-box-key-information side-nav-ignore font-sans-lg"
@@ -416,96 +438,98 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   Encounter Summary
                 </h3>
                 <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
                 </div>
                 <h3
                   class="summary-box-key-information side-nav-ignore font-sans-lg"
@@ -513,96 +537,98 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   Condition Summary
                 </h3>
                 <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="grid-row"
-                  >
+                  <div>
                     <div
-                      class="grid-col-4"
+                      class="grid-row"
                     >
                       <div
-                        class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        class="grid-col-4"
+                      >
+                        <div
+                          class="loading-blob-blue-small loading-blob margin-right-1 loading-blob"
+                        >
+                           
+                        </div>
+                      </div>
+                      <div
+                        class="loading-blob grid-col-8 loading-blob-blue-big"
                       >
                          
                       </div>
                     </div>
                     <div
-                      class="loading-blob grid-col-8 loading-blob-blue-big"
-                    >
-                       
-                    </div>
+                      class="section__line"
+                    />
                   </div>
-                  <div
-                    class="section__line"
-                  />
                 </div>
               </div>
             </div>
@@ -610,7 +636,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
               class="margin-top-10"
             >
               <div
-                class="grid-container padding-0 margin-bottom-3"
+                class="grid-container padding-0 margin-bottom-3 maxw-none"
                 data-testid="gridContainer"
               >
                 <div
@@ -623,7 +649,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                   >
                     <h2
                       class="margin-bottom-0"
-                      data-sectionid="ecr-document"
                       id="ecr-document"
                     >
                       eCR Document
@@ -667,7 +692,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
               >
                 <h3
                   class="usa-accordion__heading"
-                  data-sectionid="patient-info"
                 >
                   <button
                     aria-expanded="true"
@@ -693,7 +717,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="demographics"
                           id="summary-box-key-information"
                         >
                           <span
@@ -706,234 +729,236 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -950,7 +975,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="social-history"
                           id="summary-box-key-information"
                         >
                           <span
@@ -963,73 +987,75 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1038,7 +1064,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                 </div>
                 <h3
                   class="usa-accordion__heading"
-                  data-sectionid="encounter-info"
                 >
                   <button
                     aria-expanded="true"
@@ -1064,7 +1089,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="encounter-details"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1077,165 +1101,167 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1252,7 +1278,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="provider-details"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1265,50 +1290,52 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1317,7 +1344,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                 </div>
                 <h3
                   class="usa-accordion__heading"
-                  data-sectionid="clinical-info"
                 >
                   <button
                     aria-expanded="true"
@@ -1343,7 +1369,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="symptoms-and-problems"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1356,73 +1381,75 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1439,7 +1466,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="treatment-details"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1452,96 +1478,98 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1558,7 +1586,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="immunizations"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1571,27 +1598,26 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
-                              <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1608,7 +1634,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="diagnostic-and-vital-signs"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1621,50 +1646,52 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1673,7 +1700,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                 </div>
                 <h3
                   class="usa-accordion__heading"
-                  data-sectionid="lab-info"
                 >
                   <button
                     aria-expanded="true"
@@ -1699,7 +1725,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="lab-results-from"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1712,96 +1737,98 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1810,7 +1837,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                 </div>
                 <h3
                   class="usa-accordion__heading"
-                  data-sectionid="ecr-metadata"
                 >
                   <button
                     aria-expanded="true"
@@ -1836,7 +1862,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="rr-details"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1849,27 +1874,26 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
-                              <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1886,7 +1910,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="eicr-details"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1899,27 +1922,26 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
-                              <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1936,7 +1958,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                       >
                         <h4
                           class="usa-summary-box__heading padding-y-105"
-                          data-sectionid="ecr-sender-details"
                           id="summary-box-key-information"
                         >
                           <span
@@ -1949,142 +1970,144 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                           class="usa-summary-box__text"
                         >
                           <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
-                          </div>
-                          <div>
-                            <div
-                              class="grid-row"
-                            >
+                            <div>
                               <div
-                                class="grid-col-4"
+                                class="grid-row"
                               >
                                 <div
-                                  class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  class="grid-col-4"
+                                >
+                                  <div
+                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
+                                  >
+                                     
+                                  </div>
+                                </div>
+                                <div
+                                  class="loading-blob grid-col-8 loading-blob-gray-big"
                                 >
                                    
                                 </div>
                               </div>
                               <div
-                                class="loading-blob grid-col-8 loading-blob-gray-big"
-                              >
-                                 
-                              </div>
+                                class="section__line_gray"
+                              />
                             </div>
-                            <div
-                              class="section__line_gray"
-                            />
                           </div>
                         </div>
                       </div>
@@ -2093,7 +2116,6 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                 </div>
                 <h3
                   class="usa-accordion__heading"
-                  data-sectionid="unavailable-info"
                 >
                   <button
                     aria-expanded="true"
@@ -2114,6 +2136,14 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
         </div>
       </div>
     </div>
-  </div>
+    <a
+      class="usa-button position-fixed right-3 bottom-0"
+      href="https://touchpoints.app.cloud.gov/touchpoints/e93de6ae/submit"
+      target="_blank"
+      title="External link opens in new window"
+    >
+      How can we improve eCR Viewer?
+    </a>
+  </main>
 </div>
 `;
