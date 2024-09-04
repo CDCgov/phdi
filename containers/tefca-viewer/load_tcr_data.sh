@@ -7,14 +7,6 @@ PG_CONN="postgresql://postgres:pw@db:5432/tefca_db"
 
 tables=("concepts" "valuesets" "conditions")
 
-### TEMP: Remove this once flyway is implemented
-for table in "${tables[@]}"; do
-    psql "$PG_CONN" -c "CREATE TABLE IF NOT EXISTS $table (id INT, name VARCHAR(80));" -tA
-    echo "Table $table created."
-    psql "$PG_CONN" -c "INSERT INTO $table (id, name) VALUES (1, item);"
-done
-### END TEMP
-
 # Function to check if tables contain data
 check_tables() {
   for table in "${tables[@]}"; do
