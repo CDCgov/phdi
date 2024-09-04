@@ -105,11 +105,16 @@ export const saveToPostgres = async (
  * @async
  * @function saveToS3
  * @param fhirBundle - The FHIR bundle to be saved.
+ * @param bundleMetadata - The metadata associated with the FHIR bundle.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns A promise that resolves when the FHIR bundle is successfully saved to the S3 bucket.
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to the S3 bucket.
  */
-export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
+export const saveToS3 = async (
+  fhirBundle: Bundle,
+  bundleMetadata: BundleMetaData,
+  ecrId: string,
+) => {
   const bucketName = process.env.ECR_BUCKET_NAME;
   const objectKey = `${ecrId}.json`;
   const body = JSON.stringify(fhirBundle);
@@ -129,14 +134,46 @@ export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
     if (httpStatusCode !== 200) {
       throw new Error(`HTTP Status Code: ${httpStatusCode}`);
     }
-    return NextResponse.json(
-      { message: "Success. Saved FHIR Bundle to S3: " + ecrId },
-      { status: 200 },
-    );
   } catch (error: any) {
     return NextResponse.json(
       { message: "Failed to insert data to S3. " + error.message },
       { status: 400 },
+    );
+  }
+
+  if (bundleMetadata) {
+    const metadataKey = `${ecrId}_metadata.json`;
+    const metadataBody = JSON.stringify(bundleMetadata);
+
+    try {
+      const input = {
+        Body: metadataBody,
+        Bucket: bucketName,
+        Key: metadataKey,
+        ContentType: "application/json",
+      };
+
+      const command = new PutObjectCommand(input);
+      const response: PutObjectCommandOutput = await s3Client.send(command);
+      const httpStatusCode = response?.$metadata?.httpStatusCode;
+
+      if (httpStatusCode !== 200) {
+        throw new Error(`HTTP Status Code: ${httpStatusCode}`);
+      }
+    } catch (error: any) {
+      return NextResponse.json(
+        {
+          message:
+            "Successfully inserted bundle to S3 but failed to insert metadata to S3. " +
+            error.message,
+        },
+        { status: 400 },
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Success. Saved FHIR Bundle to S3: " + ecrId },
+      { status: 200 },
     );
   }
 };
@@ -174,11 +211,6 @@ export const saveToAzure = async (fhirBundle: Bundle, ecrId: string) => {
     if (response._response.status !== 201) {
       throw new Error(`HTTP Status Code: ${response._response.status}`);
     }
-
-    return NextResponse.json(
-      { message: "Success. Saved FHIR bundle to Azure Blob Storage: " + ecrId },
-      { status: 200 },
-    );
   } catch (error: any) {
     return NextResponse.json(
       {
