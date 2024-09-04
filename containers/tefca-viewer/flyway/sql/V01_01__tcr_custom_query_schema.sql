@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS icd_crosswalk (
 
 CREATE TABLE IF NOT EXISTS query (
     id UUID DEFAULT uuid_generate_v4 (),
+    query_name VARCHAR(255),
     author VARCHAR(255),
     date_created TIMESTAMP,
     date_last_modified TIMESTAMP,
