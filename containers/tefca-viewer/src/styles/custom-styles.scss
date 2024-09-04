@@ -150,15 +150,13 @@ h4 {
 
 .main-container {
   max-width: calc($ecr-viewer-max-width - 2 * $ecr-viewer-content-margin);
-  padding: 0 0 4.5rem 0;
+  padding: 3rem 0 4.5rem 0;
 }
-
 
 .nav-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 3rem;
 }
 
 .sticky-nav {
