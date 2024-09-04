@@ -86,18 +86,20 @@ const Query: React.FC = () => {
         </div>
       )}
       {/* Show the customize query view to select and change what is returned in results */}
-      {mode === "customize-queries" && useCaseQueryResponse && (
+      {mode === "customize-queries" && (
         <>
-          <CustomizeQuery
-            useCaseQueryResponse={useCaseQueryResponse}
-            queryType={queryType}
-            ValueSet={{
-              labs: dummyLabs,
-              medications: dummyMedications,
-              conditions: dummyConditions,
-            }}
-            goBack={() => setMode("search")}
-          />
+          {useCaseQueryResponse && (
+            <CustomizeQuery
+              useCaseQueryResponse={useCaseQueryResponse}
+              queryType={queryType}
+              ValueSet={{
+                labs: dummyLabs,
+                medications: dummyMedications,
+                conditions: dummyConditions,
+              }}
+              goBack={() => setMode("search")}
+            />
+          )}
         </>
       )}
     </div>
