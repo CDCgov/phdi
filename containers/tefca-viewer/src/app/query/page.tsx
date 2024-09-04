@@ -14,7 +14,6 @@ import {
   USE_CASES,
 } from "../constants";
 import CustomizeQuery from "./components/CustomizeQuery";
-import { useEffect } from "react";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -32,10 +31,6 @@ const Query: React.FC = () => {
     demoQueryOptions.find((option) => option.value === useCase)?.label || "",
   );
 
-  useEffect(() => {
-    console.log("Mode:", mode);
-    console.log("useCaseQueryResponse:", useCaseQueryResponse);
-  }, [mode, useCaseQueryResponse]);
   return (
     <div>
       {mode === "search" && (

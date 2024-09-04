@@ -38,13 +38,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     return <div>Loading...</div>;
   }
 
-  useEffect(() => {
-    console.log(
-      "useCaseQueryResponse in CustomizeQuery:",
-      useCaseQueryResponse,
-    );
-  }, [useCaseQueryResponse]);
-
   // Keeps track of whether the accordion is expanded to change the direction of the arrow
   const handleToggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -93,6 +86,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       acc[key as keyof ValueSet] = items.filter((item) => item.include);
       return acc;
     }, {} as ValueSet);
+    goBack();
   };
 
   useEffect(() => {
