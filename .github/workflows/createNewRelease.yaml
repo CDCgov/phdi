@@ -259,13 +259,13 @@ jobs:
           ref: docs
 
       - name: Download phdi docs from artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: phdi-docs
           path: ./docs/${{ needs.tag-release.outputs.version }}/sdk
 
       - name: Download container docs from artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: container-docs
           path: ./docs/${{ needs.tag-release.outputs.version }}/containers
