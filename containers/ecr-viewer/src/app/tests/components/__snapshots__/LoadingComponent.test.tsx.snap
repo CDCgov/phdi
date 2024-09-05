@@ -30,6 +30,16 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
       </div>
     </header>
     <div
+      class="patient-banner"
+    >
+      <span
+        class="patient-banner-name"
+      />
+      <span
+        class=".patient-banner-dob"
+      />
+    </div>
+    <div
       class="main-container"
     >
       <div
@@ -116,16 +126,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                                 class="grid-row"
                               >
                                 <div
-                                  class="grid-col-4"
-                                >
-                                  <div
-                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
-                                  >
-                                     
-                                  </div>
-                                </div>
-                                <div
-                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                  class="loading-blob grid-col-8 loading-blob-gray-big width-full"
                                 >
                                    
                                 </div>
@@ -158,16 +159,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                                 class="grid-row"
                               >
                                 <div
-                                  class="grid-col-4"
-                                >
-                                  <div
-                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
-                                  >
-                                     
-                                  </div>
-                                </div>
-                                <div
-                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                  class="loading-blob grid-col-8 loading-blob-gray-big width-full"
                                 >
                                    
                                 </div>
@@ -200,16 +192,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                                 class="grid-row"
                               >
                                 <div
-                                  class="grid-col-4"
-                                >
-                                  <div
-                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
-                                  >
-                                     
-                                  </div>
-                                </div>
-                                <div
-                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                  class="loading-blob grid-col-8 loading-blob-gray-big width-full"
                                 >
                                    
                                 </div>
@@ -242,16 +225,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                                 class="grid-row"
                               >
                                 <div
-                                  class="grid-col-4"
-                                >
-                                  <div
-                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
-                                  >
-                                     
-                                  </div>
-                                </div>
-                                <div
-                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                  class="loading-blob grid-col-8 loading-blob-gray-big width-full"
                                 >
                                    
                                 </div>
@@ -284,16 +258,7 @@ exports[`Snapshot test for EcrLoadingSkeleton should match snapshot 1`] = `
                                 class="grid-row"
                               >
                                 <div
-                                  class="grid-col-4"
-                                >
-                                  <div
-                                    class="loading-blob-gray-small loading-blob margin-right-1 loading-blob"
-                                  >
-                                     
-                                  </div>
-                                </div>
-                                <div
-                                  class="loading-blob grid-col-8 loading-blob-gray-big"
+                                  class="loading-blob grid-col-8 loading-blob-gray-big width-full"
                                 >
                                    
                                 </div>
