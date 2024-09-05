@@ -15,6 +15,7 @@ import {
 } from "../component-utils";
 import Header from "@/app/Header";
 import classNames from "classnames";
+import PatientBanner from "./PatientBanner";
 // import SideNav from "./SideNav";
 // import { SideNav } from "@trussworks/react-uswds";
 
@@ -62,7 +63,9 @@ const renderSideNavLoadingItems = () => {
   return (
     <div>
       <div className="grid-row">
-        <div className={`loading-blob grid-col-8 ${loadingBlobStyle}-big`}>
+        <div
+          className={`loading-blob grid-col-8 ${loadingBlobStyle}-big width-full`}
+        >
           &nbsp;
         </div>
       </div>
@@ -245,6 +248,11 @@ export const EcrLoadingSkeleton = () => {
   return (
     <main className={"width-full minw-main"}>
       <Header />
+      {_isNonIntegratedViewer ? (
+        <PatientBanner bundle={undefined} mappings={undefined} />
+      ) : (
+        ""
+      )}
       <div className="main-container">
         <div className={"width-main padding-main"}>
           <div className="back-button-wrapper">
