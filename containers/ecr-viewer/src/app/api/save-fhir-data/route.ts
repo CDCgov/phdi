@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message:
-          "Save location is undefined. Please provide a valid value for 'saveSource' (postgres or s3).",
+          'Save location is undefined. Please provide a valid value for \'saveSource\' ("postgres", "s3", or "azure").',
       },
       { status: 400 },
     );
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message:
-          "Invalid save source. Please provide a valid source (postgres or s3)",
+          'Invalid save source. Please provide a valid value for \'saveSource\' ("postgres", "s3", or "azure").',
       },
       { status: 400 },
     );
