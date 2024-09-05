@@ -62,13 +62,6 @@ const renderSideNavLoadingItems = () => {
   return (
     <div>
       <div className="grid-row">
-        <div className="grid-col-4">
-          <div
-            className={`${loadingBlobStyle}-small loading-blob margin-right-1 loading-blob`}
-          >
-            &nbsp;
-          </div>
-        </div>
         <div className={`loading-blob grid-col-8 ${loadingBlobStyle}-big`}>
           &nbsp;
         </div>
