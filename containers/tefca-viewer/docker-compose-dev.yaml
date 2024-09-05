@@ -21,3 +21,13 @@ services:
       interval: 2s
       timeout: 5s
       retries: 20
+  load_tcr_data:
+    image: "postgres:alpine"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - "./tefca.env:/tefca.env"
+      - "./load_tcr_data.sh:/load_tcr_data.sh"
+    entrypoint:
+      ["/bin/sh", "-c", "chmod +x /load_tcr_data.sh && /load_tcr_data.sh"]
