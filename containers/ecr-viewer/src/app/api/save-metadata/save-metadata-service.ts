@@ -1,12 +1,21 @@
+import {
+  PutObjectCommand,
+  PutObjectCommandOutput,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { NextResponse } from "next/server";
 import pgPromise from "pg-promise";
-import {
-  S3Client,
-  PutObjectCommand,
-  PutObjectCommandOutput,
-} from "@aws-sdk/client-s3";
-import { Bundle } from "fhir/r4";
+
+interface BundleMetadata {
+  last_name: string;
+  first_name: string;
+  birth_date: string;
+  data_source: string;
+  reportable_condition: string;
+  rule_summary: string;
+  report_date: string;
+}
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
@@ -18,33 +27,45 @@ const s3Client = new S3Client({
  * Saves a FHIR bundle to a postgres database.
  * @async
  * @function saveToS3
- * @param fhirBundle - The FHIR bundle to be saved.
+ * @param metadata - The FHIR bundle to be saved.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns A promise that resolves when the FHIR bundle is successfully saved to postgres.
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to postgress.
  */
-export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
+export const saveToPostgres = async (
+  metadata: BundleMetadata,
+  ecrId: string,
+) => {
   const db_url = process.env.DATABASE_URL || "";
   const db = pgPromise();
   const database = db(db_url);
 
   const { ParameterizedQuery: PQ } = pgPromise;
-  const addFhir = new PQ({
-    text: "INSERT INTO fhir VALUES ($1, $2) RETURNING ecr_id",
-    values: [ecrId, fhirBundle],
+  const addMetadata = new PQ({
+    text: "INSERT INTO fhir_metadata (ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING ecr_id",
+    values: [
+      ecrId,
+      metadata.first_name,
+      metadata.last_name,
+      metadata.birth_date,
+      "DB",
+      metadata.reportable_condition,
+      metadata.rule_summary,
+      metadata.report_date,
+    ],
   });
 
   try {
-    const saveECR = await database.one(addFhir);
+    const saveECR = await database.one(addMetadata);
 
     return NextResponse.json(
-      { message: "Success. Saved FHIR Bundle to database: " + saveECR.ecr_id },
+      { message: "Success. Saved metadata to database: " + saveECR.ecr_id },
       { status: 200 },
     );
   } catch (error: any) {
-    console.error("Error inserting data to database:", error);
+    console.error("Error inserting metadata to database:", error);
     return NextResponse.json(
-      { message: "Failed to insert data to database. " + error.message },
+      { message: "Failed to insert metadata to database. " + error.message },
       { status: 400 },
     );
   }
@@ -54,15 +75,15 @@ export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
  * Saves a FHIR bundle to an AWS S3 bucket.
  * @async
  * @function saveToS3
- * @param fhirBundle - The FHIR bundle to be saved.
+ * @param metadata - The FHIR bundle to be saved.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns A promise that resolves when the FHIR bundle is successfully saved to the S3 bucket.
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to the S3 bucket.
  */
-export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
+export const saveToS3 = async (metadata: BundleMetadata, ecrId: string) => {
   const bucketName = process.env.ECR_BUCKET_NAME;
   const objectKey = `${ecrId}.json`;
-  const body = JSON.stringify(fhirBundle);
+  const body = JSON.stringify(metadata);
 
   try {
     const input = {
@@ -80,7 +101,7 @@ export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
       throw new Error(`HTTP Status Code: ${httpStatusCode}`);
     }
     return NextResponse.json(
-      { message: "Success. Saved FHIR Bundle to S3: " + ecrId },
+      { message: "Success. Saved metadata to S3: " + ecrId },
       { status: 200 },
     );
   } catch (error: any) {
@@ -95,12 +116,12 @@ export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
  * Saves a FHIR bundle to Azure Blob Storage.
  * @async
  * @function saveToAzure
- * @param fhirBundle - The FHIR bundle to be saved.
+ * @param metadata - The FHIR bundle to be saved.
  * @param ecrId - The unique ID for the eCR associated with the FHIR bundle.
  * @returns A promise that resolves when the FHIR bundle is successfully saved to Azure Blob Storage.
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to Azure Blob Storage.
  */
-export const saveToAzure = async (fhirBundle: Bundle, ecrId: string) => {
+export const saveToAzure = async (metadata: BundleMetadata, ecrId: string) => {
   // TODO: Make this global after we get Azure access
   const blobClient = BlobServiceClient.fromConnectionString(
     process.env.AZURE_STORAGE_CONNECTION_STRING!,
@@ -111,7 +132,7 @@ export const saveToAzure = async (fhirBundle: Bundle, ecrId: string) => {
 
   const containerName = process.env.AZURE_CONTAINER_NAME;
   const blobName = `${ecrId}.json`;
-  const body = JSON.stringify(fhirBundle);
+  const body = JSON.stringify(metadata);
 
   try {
     const containerClient = blobClient.getContainerClient(containerName);
@@ -126,15 +147,14 @@ export const saveToAzure = async (fhirBundle: Bundle, ecrId: string) => {
     }
 
     return NextResponse.json(
-      { message: "Success. Saved FHIR bundle to Azure Blob Storage: " + ecrId },
+      { message: "Success. Saved metadata to Azure Blob Storage: " + ecrId },
       { status: 200 },
     );
   } catch (error: any) {
     return NextResponse.json(
       {
         message:
-          "Failed to insert FHIR bundle to Azure Blob Storage. " +
-          error.message,
+          "Failed to insert metadata to Azure Blob Storage. " + error.message,
       },
       { status: 400 },
     );
