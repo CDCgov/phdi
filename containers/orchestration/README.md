@@ -77,7 +77,7 @@ curl --location 'https://your_url_here/orchestration/process-zip' \
 --form 'message_type="ecr"' \
 --form 'include_error_types="[errors]"' \
 --form 'config_file_name="sample-orchestration-s3-config.json"' \
---form 'upload_file=@"/path_to_your_zip/sample.zip"' \
+--form 'upload_file=@"/path_to_your_zip/sample.zip";type=application/zip' \
 --form 'data_type="zip"'
 ```
 

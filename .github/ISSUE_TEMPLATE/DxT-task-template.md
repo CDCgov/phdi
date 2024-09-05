@@ -1,8 +1,8 @@
 ---
-name: AIE Task Template
+name: DxT Task Template
 about: A generic template for any task that can be adapted for multiple uses
 title: ''
-labels: aie
+labels: DxT
 assignees: ''
 
 ---

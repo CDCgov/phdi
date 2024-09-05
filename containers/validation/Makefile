@@ -25,7 +25,7 @@ run-docker:
 run-python:
 	@echo "Running Validation service from Python source on localhost:$(VALIDATION_PORT)..."
 	python3 -m venv .venv && \
-	source .venv/bin/activate && \
+	. .venv/bin/activate && \
 	pip install -r requirements.txt && \
 	python -m uvicorn app.main:app --host 0.0.0.0 --port $(VALIDATION_PORT)
 

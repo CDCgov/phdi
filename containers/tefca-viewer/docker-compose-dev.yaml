@@ -1,23 +1,33 @@
 services:
-  tefca-viewer:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: development
-  tefca-fhir-server:
-    image: "hapiproject/hapi:latest"
-    ports:
-      - "8080:8080"
-  tefca-data-loader:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+  # Flyway migrations and DB version control
+  flyway:
+    image: flyway/flyway:10.16-alpine
+    command: -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate
     volumes:
-      - "./src/app/tests/assets/BundleHAPIServer.json:/etc/BundleHAPIServer.json"
-      - "./post_request.sh:/post_request.sh"
-    command: ["sh", "post_request.sh"]
+      - ./flyway/sql:/flyway/sql
+      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
     depends_on:
-      - tefca-fhir-server
+      - db
+
+  # Postgresql DB
+  db:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    env_file:
+      - "./tefca.env"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+  load_tcr_data:
+    image: "postgres:alpine"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - "./tefca.env:/tefca.env"
+      - "./load_tcr_data.sh:/load_tcr_data.sh"
+    entrypoint:
+      ["/bin/sh", "-c", "chmod +x /load_tcr_data.sh && /load_tcr_data.sh"]
