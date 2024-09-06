@@ -25,6 +25,11 @@ const dbClient = new Pool({
   connectionTimeoutMillis: 20_000, // Timeout for establishing a new connection
 });
 
+/**
+ *
+ * @param name
+ * @param query
+ */
 export const getQuerybyName = async (name: string, query: string) => {
   const values = [name];
 
