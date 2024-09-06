@@ -64,21 +64,19 @@ const ResultsView: React.FC<ResultsViewProps> = ({
           </a>
         </div>
       </div>
-      <div className="main-container">
-        <div className="content-wrapper">
-          <div className="nav-wrapper">
-            <nav className="sticky-nav">
-              <SideNav />
-            </nav>
-          </div>
-          <div className={"ecr-viewer-container"}>
-            <div className="ecr-content">
-              <h2 className="margin-bottom-3" id="ecr-summary">
-                Query Results
-              </h2>
-              <div className="margin-top-6">
-                <AccordionContainer queryResponse={useCaseQueryResponse} />
-              </div>
+      <div className="main-container grid-container grid-row">
+        <div className="nav-wrapper tablet:grid-col-3">
+          <nav className="sticky-nav">
+            <SideNav />
+          </nav>
+        </div>
+        <div className="tablet:grid-col-9">
+          <div className="ecr-content">
+            <h2 className="margin-bottom-3" id="ecr-summary">
+              Query Results
+            </h2>
+            <div className="margin-top-6">
+              <AccordionContainer queryResponse={useCaseQueryResponse} />
             </div>
           </div>
         </div>
