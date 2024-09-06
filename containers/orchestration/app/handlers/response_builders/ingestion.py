@@ -1,8 +1,9 @@
-from app.handlers import tracer
-from app.handlers.ServiceHandlerResponse import ServiceHandlerResponse
 from opentelemetry import trace
 from opentelemetry.trace.status import StatusCode
 from requests import Response
+
+from app.handlers import tracer
+from app.handlers.ServiceHandlerResponse import ServiceHandlerResponse
 
 
 def unpack_validation_response(response: Response) -> ServiceHandlerResponse:

@@ -1,6 +1,7 @@
+from opentelemetry import trace
+
 from app.handlers import tracer
 from app.models import OrchestrationRequest
-from opentelemetry import trace
 
 MESSAGE_TO_TEMPLATE_MAP = {
     "fhir": "",
