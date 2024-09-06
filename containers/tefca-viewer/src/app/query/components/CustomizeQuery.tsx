@@ -6,6 +6,7 @@ import { AccordianSection } from "../../query/component-utils";
 import { ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import { UseCaseQueryResponse } from "../../query-service";
+import LoadingView from "./LoadingView";
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
@@ -35,7 +36,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const [isExpanded, setIsExpanded] = useState(true);
 
   if (!useCaseQueryResponse) {
-    return <div>Loading...</div>;
+    return <LoadingView loading={true} />;
   }
 
   // Keeps track of whether the accordion is expanded to change the direction of the arrow
