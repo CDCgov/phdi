@@ -8,24 +8,26 @@ from fastapi import WebSocket
 from opentelemetry import trace
 from opentelemetry.trace.status import StatusCode
 
-from app.handlers import build_fhir_converter_request
-from app.handlers import build_geocoding_request
-from app.handlers import build_ingestion_dob_request
-from app.handlers import build_ingestion_name_request
-from app.handlers import build_ingestion_phone_request
-from app.handlers import build_message_parser_message_request
-from app.handlers import build_message_parser_phdc_request
-from app.handlers import build_save_fhir_data_body
-from app.handlers import build_stamp_condition_extensions_request
-from app.handlers import build_validation_request
-from app.handlers import ServiceHandlerResponse
-from app.handlers import unpack_fhir_converter_response
-from app.handlers import unpack_fhir_to_phdc_response
-from app.handlers import unpack_ingestion_standardization
-from app.handlers import unpack_parsed_message_response
-from app.handlers import unpack_save_fhir_data_response
-from app.handlers import unpack_stamp_condition_extensions_response
-from app.handlers import unpack_validation_response
+from app.handlers.ServiceHandlerResponse import build_fhir_converter_request
+from app.handlers.ServiceHandlerResponse import build_geocoding_request
+from app.handlers.ServiceHandlerResponse import build_ingestion_dob_request
+from app.handlers.ServiceHandlerResponse import build_ingestion_name_request
+from app.handlers.ServiceHandlerResponse import build_ingestion_phone_request
+from app.handlers.ServiceHandlerResponse import build_message_parser_message_request
+from app.handlers.ServiceHandlerResponse import build_message_parser_phdc_request
+from app.handlers.ServiceHandlerResponse import build_save_fhir_data_body
+from app.handlers.ServiceHandlerResponse import build_stamp_condition_extensions_request
+from app.handlers.ServiceHandlerResponse import build_validation_request
+from app.handlers.ServiceHandlerResponse import ServiceHandlerResponse
+from app.handlers.ServiceHandlerResponse import unpack_fhir_converter_response
+from app.handlers.ServiceHandlerResponse import unpack_fhir_to_phdc_response
+from app.handlers.ServiceHandlerResponse import unpack_ingestion_standardization
+from app.handlers.ServiceHandlerResponse import unpack_parsed_message_response
+from app.handlers.ServiceHandlerResponse import unpack_save_fhir_data_response
+from app.handlers.ServiceHandlerResponse import (
+    unpack_stamp_condition_extensions_response,
+)
+from app.handlers.ServiceHandlerResponse import unpack_validation_response
 from app.models import OrchestrationRequest
 from app.utils import format_service_url
 
@@ -40,6 +42,7 @@ SERVICE_URLS = {
     "message_parser": os.environ.get("MESSAGE_PARSER_URL"),
     "trigger_code_reference": os.environ.get("TRIGGER_CODE_REFERENCE_URL"),
     "save_bundle": os.environ.get("ECR_VIEWER_URL"),
+    "save_metadata": os.environ.get("ECR_VIEWER_URL"),
 }
 
 # Mappings of endpoint names to the service input and output building
@@ -56,6 +59,7 @@ ENDPOINT_TO_REQUEST_BODY = {
     "parse_message": build_message_parser_message_request,
     "fhir_to_phdc": build_message_parser_phdc_request,
     "save-fhir-data": build_save_fhir_data_body,
+    # "save-metadata": build_save_fhir_metadata_body,
 }
 ENDPOINT_TO_RESPONSE = {
     "validate": unpack_validation_response,
@@ -68,6 +72,7 @@ ENDPOINT_TO_RESPONSE = {
     "parse_message": unpack_parsed_message_response,
     "fhir_to_phdc": unpack_fhir_to_phdc_response,
     "save-fhir-data": unpack_save_fhir_data_response,
+    # "save-fhir_metadata": unpack_save_fhir_metadata_response,
 }
 
 
