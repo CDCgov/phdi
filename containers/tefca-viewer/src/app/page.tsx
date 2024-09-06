@@ -35,8 +35,8 @@ export default function LandingPage() {
 
   useEffect(() => {
     const queryResults = getQuerybyName(
-      // "Chlamydia trachomatis infection (disorder)",
-      "blah",
+      "Chlamydia trachomatis infection (disorder)",
+      // "blah",
       getQuerybyNameSQL
     );
   }, []);
