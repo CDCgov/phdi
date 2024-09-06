@@ -336,8 +336,11 @@ export function formatTablesToJSON(htmlString: string): TableJson[] {
   if (liArray.length > 0) {
     liArray.forEach((li) => {
       const tables: any[] = [];
-      const resultId = li.getAttribute("data-id");
-      const resultName = li.childNodes[0].textContent?.trim() ?? "";
+      const resultId = getDataId(li);
+      const firstChildNode = getFirstNonCommentChild(li);
+      const resultName = firstChildNode
+        ? (firstChildNode.textContent?.trim() ?? "")
+        : "";
       li.querySelectorAll("table").forEach((table) => {
         tables.push(processTable(table));
       });
@@ -346,12 +349,50 @@ export function formatTablesToJSON(htmlString: string): TableJson[] {
   } else {
     doc.querySelectorAll("table").forEach((table) => {
       const resultName = table.caption?.textContent;
-      const resultId = table.getAttribute("data-id") ?? undefined;
+      const resultId = getDataId(table) ?? undefined;
       jsonArray.push({ resultId, resultName, tables: [processTable(table)] });
     });
   }
-
   return jsonArray;
+}
+
+/**
+ * Returns the first non-comment child node of the given HTML element.
+ * This function iterates over all child nodes of the provided element and returns the first child that is not a comment node.
+ * If all child nodes are comments, or if there are no children, it returns `null`.
+ * @param li - The HTML element to search for the first non-comment child node.
+ * @returns - The first non-comment child node, or `null` if none is found.
+ */
+export function getFirstNonCommentChild(li: HTMLElement): ChildNode | null {
+  for (let i = 0; i < li.childNodes.length; i++) {
+    const node = li.childNodes[i];
+    if (node.nodeType !== Node.COMMENT_NODE) {
+      return node; // Return the first non-comment node
+    }
+  }
+  return null; // Return null if no non-comment node is found
+}
+
+/**
+ * Extracts the `data-id` value from the element or an HTML comment within the child nodes.
+ * The `data-id` is either expected to be an attribute (`data-id="some-id"`) or in the format: `<!-- data-id: some-id -->`.
+ * @param elem - The element to search for the `data-id`.
+ * @returns  - The extracted `data-id` value if found, otherwise `null`.
+ */
+export function getDataId(elem: HTMLLIElement | HTMLTableElement) {
+  if (elem.getAttribute("data-id")) return elem.getAttribute("data-id");
+  for (let i = 0; i < elem.childNodes.length; i++) {
+    const node = elem.childNodes[i];
+    if (node.nodeType === Node.COMMENT_NODE) {
+      // Extract the comment content and parse out the data-id
+      const commentText = node.nodeValue?.trim() || "";
+      const match = commentText.match(/data-id:\s*([^\s]+)/);
+      if (match) {
+        return match[1];
+      }
+    }
+  }
+  return null; // Return null if no match is found
 }
 
 /**
