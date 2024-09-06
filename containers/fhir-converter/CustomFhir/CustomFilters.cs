@@ -19,10 +19,11 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
   /// </summary>
   public partial class Filters
   {
-    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul", "paragraph", "caption" };
+    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul", "p", "caption" };
     private static Dictionary<string, string> replaceTags = new Dictionary<string, string>{
         {"list", "ul"},
-        {"item", "li"}
+        {"item", "li"},
+        {"paragraph", "p"}
     };
     private static Dictionary<string, string>? loincDict;
 
@@ -115,7 +116,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
       if (addTag)
       {
-        var tagHtml = tagId != null ? $"<{tag} data-id='{tagId}'>" : $"<{tag}>";
+        var tagHtml = tagId != null ? $"<{tag}><!-- data-id: {tagId} -->" : $"<{tag}>";
         stringBuilder.Append(tagHtml);
       }
       stringBuilder.Append(ToHtmlString(value));
@@ -140,54 +141,54 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     // Overloaded method with default level value
     public static void PrintObject(object obj)
     {
-        var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
-        var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
-        if (devMode != "true" || debugLog != "true")
-        {
-            return;
-        }
-      
-        PrintObject(obj, 0);
+      var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
+      var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
+      if (devMode != "true" || debugLog != "true")
+      {
+        return;
+      }
+
+      PrintObject(obj, 0);
     }
 
     private static void PrintObject(object obj, int level)
     {
-        var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
-        var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
-        if (devMode != "true" || debugLog != "true")
-        {
-            return;
-        }
-      
-        string indent = new string(' ', level * 4);
+      var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
+      var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
+      if (devMode != "true" || debugLog != "true")
+      {
+        return;
+      }
 
-        if (obj is Dictionary<string, object> dict)
+      string indent = new string(' ', level * 4);
+
+      if (obj is Dictionary<string, object> dict)
+      {
+        Console.WriteLine($"{indent}{{");
+        foreach (var kvp in dict)
         {
-            Console.WriteLine($"{indent}{{");
-            foreach (var kvp in dict)
-            {
-                Console.Write($"{indent}    \"{kvp.Key}\": ");
-                PrintObject(kvp.Value, level + 1);
-            }
-            Console.WriteLine($"{indent}}}");
+          Console.Write($"{indent}    \"{kvp.Key}\": ");
+          PrintObject(kvp.Value, level + 1);
         }
-        else if (obj is List<object> list)
+        Console.WriteLine($"{indent}}}");
+      }
+      else if (obj is List<object> list)
+      {
+        Console.WriteLine($"{indent}[");
+        foreach (var item in list)
         {
-            Console.WriteLine($"{indent}[");
-            foreach (var item in list)
-            {
-                PrintObject(item, level + 1);
-            }
-            Console.WriteLine($"{indent}]");
+          PrintObject(item, level + 1);
         }
-        else if (obj is string str)
-        {
-            Console.WriteLine($"{indent}\"{str}\",");
-        }
-        else
-        {
-            Console.WriteLine($"{indent}{obj},");
-        }
+        Console.WriteLine($"{indent}]");
+      }
+      else if (obj is string str)
+      {
+        Console.WriteLine($"{indent}\"{str}\",");
+      }
+      else
+      {
+        Console.WriteLine($"{indent}{obj},");
+      }
     }
 
     /// <summary>
@@ -253,11 +254,11 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       {
         for (int i = 0; i < listData.Count; i++)
         {
-            stringBuilder.Append(ToHtmlStringJoinBr(listData[i]));
-            if (i < listData.Count - 1)
-            {
-                stringBuilder.Append("<br>");
-            }
+          stringBuilder.Append(ToHtmlStringJoinBr(listData[i]));
+          if (i < listData.Count - 1)
+          {
+            stringBuilder.Append("<br>");
+          }
         }
       }
       else if (data is IDictionary<string, object> dict)
