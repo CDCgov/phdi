@@ -16,3 +16,16 @@ const dbClient = new Pool({
 });
 
 export default dbClient;
+
+export const getQuerybyId = async (id: string) => {
+  const query = "SELECT * FROM query WHERE id = $1";
+  const values = [id];
+
+  try {
+    const result = await dbClient.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    throw error;
+  }
+};
