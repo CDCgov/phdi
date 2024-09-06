@@ -1,6 +1,7 @@
-from app.handlers import tracer
-from app.models import OrchestrationRequest
 from opentelemetry import trace
+
+from app.handlers.tracer import tracer
+from app.models import OrchestrationRequest
 
 
 def build_stamp_condition_extensions_request(
