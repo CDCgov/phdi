@@ -1,0 +1,53 @@
+{
+  "workflow": [
+    {
+      "service": "validation",
+      "url": "${VALIDATION_URL}",
+      "endpoint": "/validate",
+      "params": {
+        "include_error_types": "error"
+      }
+    },
+    {
+      "service": "fhir_converter",
+      "url": "${FHIR_CONVERTER_URL}",
+      "endpoint": "/convert-to-fhir"
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_names"
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_dob",
+      "params": {
+        "dob_format": ""
+      }
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
+    },
+    {
+      "service": "save_bundle",
+      "url": "${ECR_VIEWER_URL}",
+      "endpoint": "/api/save-fhir-data",
+      "params": {
+        "saveSource": "azure"
+      }
+    },
+    {
+      "service": "message_parser",
+      "url": "${MESSAGE_PARSER_URL}",
+      "endpoint": "/parse_message",
+      "params": {
+        "message_format": "fhir",
+        "parsing_schema_name": "ecr.json",
+        "credential_manager": "azure"
+      }
+    }
+  ]
+}

@@ -1,5 +1,9 @@
 @use "uswds-core" as *;
 
+// taken as values from Figma
+$ecr-viewer-max-width: 90rem;
+$ecr-viewer-content-margin: 6.5rem;
+
 .section__line {
   border-top: 1px solid #99deea;
   margin-top: 0.5rem;
@@ -150,24 +154,14 @@ h4 {
 }
 
 .main-container {
-  display: flex;
-  justify-content: center;
-  overflow: visible;
-}
-
-.content-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 48px;
-  overflow: visible;
+  max-width: calc($ecr-viewer-max-width - 2 * $ecr-viewer-content-margin);
+  padding: 3rem 0 4.5rem 0;
 }
 
 .nav-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 48px;
-  min-width: 250px;
 }
 
 .sticky-nav {
@@ -176,15 +170,6 @@ h4 {
   flex-basis: auto;
   position: sticky;
   top: 0;
-}
-
-.ecr-viewer-container {
-  display: flex;
-  flex-basis: auto;
-  justify-content: left;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 48px;
 }
 
 .ecr-content h2:first-of-type {
@@ -593,11 +578,6 @@ html {
 }
 
 /* Styles for the customize page */
-.customize-query-container {
-  max-width: 960px;
-  margin: 0 auto;
-}
-
 .accordion-title {
   display: flex;
   flex-direction: column;
