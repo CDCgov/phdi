@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { modalOptions } from "./constants";
-import { getSavedQueryByName } from "./database-service";
+import { filterQueryRows, getSavedQueryByName } from "./database-service";
 
 /**
  * The landing page for the TEFCA Viewer.
@@ -34,9 +34,14 @@ export default function LandingPage() {
   };
 
   useEffect(() => {
-    const queryResults = getSavedQueryByName(
-      "Chlamydia trachomatis infection (disorder)",
-    );
+    const nestedCall = async () => {
+      const queryResults = await getSavedQueryByName(
+        "Chlamydia trachomatis infection (disorder)",
+      );
+      const filteredResults = filterQueryRows(queryResults, "labs");
+      console.log(filteredResults);
+    };
+    nestedCall().catch(console.error);
   }, []);
   useEffect(() => {
     setIsClient(true);
