@@ -273,10 +273,3 @@ export type Mode =
   | "multiple-patients"
   | "no-patients"
   | "multiple-patients-results";
-
-export const getQuerybyNameSQL = `select q.query_name, q.id, qtv.valueset_id, qic.concept_id, qic.include, c.code, c.code_system, c.display 
-      from query q 
-      join query_to_valueset qtv on q.id = qtv.query_id 
-      join query_included_concepts qic on qtv.id = qic.query_by_valueset_id 
-      join concepts c on qic.concept_id = c.id 
-      where q.query_name = $1;`;

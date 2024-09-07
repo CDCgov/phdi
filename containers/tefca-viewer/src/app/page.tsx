@@ -12,8 +12,8 @@ import {
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { modalOptions, getQuerybyNameSQL } from "./constants";
-import { getQuerybyName } from "./database-service";
+import { modalOptions } from "./constants";
+import { getSavedQueryByName } from "./database-service";
 
 /**
  * The landing page for the TEFCA Viewer.
@@ -34,10 +34,8 @@ export default function LandingPage() {
   };
 
   useEffect(() => {
-    const queryResults = getQuerybyName(
+    const queryResults = getSavedQueryByName(
       "Chlamydia trachomatis infection (disorder)",
-      // "blah",
-      getQuerybyNameSQL,
     );
   }, []);
   useEffect(() => {
