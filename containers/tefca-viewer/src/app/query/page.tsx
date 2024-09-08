@@ -97,6 +97,7 @@ const Query: React.FC = () => {
     </div>
   );
 };
+
 export default Query;
 function LoadingView({ loading }: { loading: boolean }) {
   if (loading) {

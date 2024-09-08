@@ -1,6 +1,7 @@
 "use server";
 import { Pool, PoolConfig, QueryResultRow } from "pg";
 import dotenv from "dotenv";
+import { ValueSetItem } from "./constants";
 
 const getQuerybyNameSQL = `
 select q.query_name, q.id, q.author, qtv.valueset_id, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
@@ -76,4 +77,24 @@ export const filterQueryRows = (
     valuesetFilters.includes(row["type"]),
   );
   return results;
+};
+
+/**
+ * Helper function that transforms a set of database rows into a list of
+ * ValueSet item structs for display on the CustomizeQuery page.
+ * @param rows The rows returned from the DB.
+ * @returns A list of ValueSetItems constructed from the DB rows.
+ */
+export const mapQueryRowsToValueSetItems = (rows: QueryResultRow[]) => {
+  const vsItems = rows.map((r) => {
+    const vsTranslation: ValueSetItem = {
+      code: r["code"],
+      display: r["display"],
+      system: r["code_system"],
+      include: r["include"],
+      author: r["author"],
+    };
+    return vsTranslation;
+  });
+  return vsItems;
 };
