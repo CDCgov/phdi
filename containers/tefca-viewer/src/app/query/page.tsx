@@ -14,6 +14,7 @@ import {
   USE_CASES,
 } from "../constants";
 import CustomizeQuery from "./components/CustomizeQuery";
+import LoadingView from "./components/LoadingView";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -75,37 +76,28 @@ const Query: React.FC = () => {
       )}
       {/* Show the no patients found view if there are no patients */}
       {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
-      {loading && (
-        <div className="overlay">
-          <div className="spinner"></div>
-        </div>
-      )}
+
+      {/* Use LoadingView component for loading state */}
+      <LoadingView loading={loading} />
+
       {/* Show the customize query view to select and change what is returned in results */}
       {mode === "customize-queries" && (
         <>
-          <CustomizeQuery
-            queryType={queryType}
-            ValueSet={{
-              labs: dummyLabs,
-              medications: dummyMedications,
-              conditions: dummyConditions,
-            }}
-            goBack={() => setMode("search")}
-          />
+          {useCaseQueryResponse && (
+            <CustomizeQuery
+              useCaseQueryResponse={useCaseQueryResponse}
+              queryType={queryType}
+              ValueSet={{
+                labs: dummyLabs,
+                medications: dummyMedications,
+                conditions: dummyConditions,
+              }}
+              goBack={() => setMode("search")}
+            />
+          )}
         </>
       )}
     </div>
   );
 };
 export default Query;
-function LoadingView({ loading }: { loading: boolean }) {
-  if (loading) {
-    return (
-      <div>
-        <h2>Loading...</h2>
-      </div>
-    );
-  } else {
-    return null;
-  }
-}
