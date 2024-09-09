@@ -131,21 +131,21 @@ const SearchForm: React.FC<SearchFormProps> = ({
     );
   };
 
-  // Push to /customize endpoint
-  const handleClick = () => {
-    setMode("customize-queries");
-  };
-
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function HandleSubmit(
+    event?: React.FormEvent<HTMLFormElement>,
+    customizeQuery = false,
+  ) {
     if (!localUseCase || !fhirServer) {
       console.error("Use case and FHIR server are required.");
       return;
     }
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     setLoading(true);
 
     const originalRequest = {
@@ -160,12 +160,20 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest);
     setUseCaseQueryResponse(queryResponse);
-    if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
-      setMode("no-patients");
-    } else if (queryResponse.Patient.length === 1) {
-      setMode("results");
+    // Check if it's a customize query or a standard search
+    if (customizeQuery) {
+      if (queryResponse) {
+        setMode("customize-queries");
+      }
     } else {
-      setMode("multiple-patients");
+      // Normal flow: switch modes based on the query response
+      if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
+        setMode("no-patients");
+      } else if (queryResponse.Patient.length === 1) {
+        setMode("results");
+      } else {
+        setMode("multiple-patients");
+      }
     }
     setLoading(false);
   }
@@ -307,7 +315,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               <Button
                 type="button"
                 className="usa-button usa-button--outline customize-query-button"
-                onClick={handleClick}
+                onClick={() => HandleSubmit(undefined, true)}
               >
                 Customize query
               </Button>
