@@ -59,7 +59,7 @@ export const getSavedQueryByName = async (name: string) => {
  * @param type One of "labs", "medications", or "conditions".
  * @returns A list of rows containing only the predicate service type.
  */
-export const filterQueryRows = (
+export const filterQueryRows = async (
   dbResults: QueryResultRow[],
   type: "labs" | "medications" | "conditions",
 ) => {
@@ -85,7 +85,7 @@ export const filterQueryRows = (
  * @param rows The rows returned from the DB.
  * @returns A list of ValueSetItems constructed from the DB rows.
  */
-export const mapQueryRowsToValueSetItems = (rows: QueryResultRow[]) => {
+export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
   const vsItems = rows.map((r) => {
     const vsTranslation: ValueSetItem = {
       code: r["code"],

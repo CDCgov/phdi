@@ -8,10 +8,8 @@ import NoPatientsFound from "./components/NoPatientsFound";
 import {
   Mode,
   demoQueryOptions,
-  dummyConditions,
-  dummyLabs,
-  dummyMedications,
   USE_CASES,
+  UseCaseToQueryNameMap,
 } from "../constants";
 import CustomizeQuery from "./components/CustomizeQuery";
 
@@ -26,7 +24,7 @@ const Query: React.FC = () => {
   const [useCaseQueryResponse, setUseCaseQueryResponse] =
     useState<UseCaseQueryResponse>();
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
-  const [useCase, setUseCase] = useState("cancer");
+  const [useCase, setUseCase] = useState<USE_CASES>("cancer");
   const [queryType, setQueryType] = useState<string>(
     demoQueryOptions.find((option) => option.value === useCase)?.label || "",
   );
@@ -85,11 +83,7 @@ const Query: React.FC = () => {
         <>
           <CustomizeQuery
             queryType={queryType}
-            ValueSet={{
-              labs: dummyLabs,
-              medications: dummyMedications,
-              conditions: dummyConditions,
-            }}
+            queryName={UseCaseToQueryNameMap[useCase]}
             goBack={() => setMode("search")}
           />
         </>
