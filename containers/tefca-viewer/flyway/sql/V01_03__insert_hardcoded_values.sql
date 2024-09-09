@@ -1,6 +1,5 @@
 BEGIN;
 
-
 INSERT INTO conditions VALUES('1','DIBBs Local Code System','Newborn Screening','20240909');
 INSERT INTO conditions VALUES('2','DIBBs Local Code System','Cancer (Leukemia)','20240909');
 INSERT INTO conditions VALUES('3','DIBBs Local Code System','Social Determinants of Health','20240909'); -- has no valuesets
@@ -11,7 +10,6 @@ INSERT INTO valuesets VALUES('1_20240909','1','20240909','Newborn Screening','DI
 -- Cancer (Leukemia) valueset(s)
 INSERT INTO valuesets VALUES('2_20240909','2','20240909','Cancer (Leukemia)','DIBBs','dxtc');
 INSERT INTO valuesets VALUES('3_20240909','3','20240909','Cancer Leukemia','DIBBs','mrtc');
-
 
 -- Newborn Screening concepts
 INSERT INTO concepts VALUES('1_73700-7','73700-7','http://loinc.org','CCHD newborn screening interpretation','737007','2024-09');
@@ -30,9 +28,12 @@ INSERT into concepts VALUES('1_92814006','92814006','http://www.nlm.nih.gov/rese
 INSERT into concepts VALUES('1_828265','828265','http://www.nlm.nih.gov/research/umls/rxnorm','1 ML alemtuzumab 30 MG/ML Injection','828265','2024-09');
 
 
---  
+-- Newborn Screening condition to valueset mappings
 INSERT INTO condition_to_valueset VALUES('1514','1','1_20240909','DIBBs');
-INSERT INTO condition_to_valueset VALUES('1515','2','1_92814006','DIBBs');
+
+-- Cancer (Leukemia) condition to valueset mappings
+INSERT INTO condition_to_valueset VALUES('1515','2','2_20240909','DIBBs');
+INSERT INTO condition_to_valueset VALUES('1516','3','3_20240909','DIBBs');
 
 
 -- Newborn Screening valueset to concept mappings
@@ -46,8 +47,11 @@ INSERT INTO valueset_to_concept VALUES('45280','1_20240909','1_73739-5');
 INSERT INTO valueset_to_concept VALUES('45281','1_20240909','1_73742-9');
 INSERT INTO valueset_to_concept VALUES('45282','1_20240909','1_2708-6');
 INSERT INTO valueset_to_concept VALUES('45283','1_20240909','1_8336-0');
-INSERT INTO valueset_to_concept VALUES('45284','1_92814006','1_92814006');
+INSERT INTO valueset_to_concept VALUES('45284','1_20240909','1_92814006');
 
+-- Cancer (Leukemia) valueset to concept mappings
+INSERT INTO valueset_to_concept VALUES('45285','2_20240909','1_92814006');
+INSERT INTO valueset_to_concept VALUES('45286','3_20240909','1_828265');
 
 COMMIT;
 
