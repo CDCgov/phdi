@@ -13,6 +13,9 @@ import {
 } from "../constants";
 import CustomizeQuery from "./components/CustomizeQuery";
 import LoadingView from "./components/LoadingView";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.min.css";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -85,10 +88,13 @@ const Query: React.FC = () => {
             useCaseQueryResponse={useCaseQueryResponse}
             queryType={queryType}
             queryName={UseCaseToQueryNameMap[useCase]}
-            goBack={() => setMode("search")}
+            goBack={() => {
+              setMode("search");
+            }}
           />
         </>
       )}
+      <ToastContainer icon={false} />
     </div>
   );
 };
