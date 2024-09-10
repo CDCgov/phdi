@@ -5,13 +5,18 @@ import { Accordion, Button, Icon } from "@trussworks/react-uswds";
 import { AccordianSection } from "../../query/component-utils";
 import { ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
-import { UseCaseQueryResponse } from "../../query-service";
+import {
+  getSavedQueryByName,
+  filterQueryRows,
+  mapQueryRowsToValueSetItems,
+} from "@/app/database-service";
+import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
   queryType: string;
-  ValueSet: ValueSet;
+  queryName: string;
   goBack: () => void;
 }
 
@@ -20,19 +25,23 @@ interface CustomizeQueryProps {
  * @param root0 - The properties object.
  * @param root0.useCaseQueryResponse - The response from the query service.
  * @param root0.queryType - The type of the query.
- * @param root0.ValueSet - The value set of labs, conditions, and medications.
+ * @param root0.queryName - The name of the query to customize.
  * @param root0.goBack - Back button to go from "customize-queries" to "search" component.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   useCaseQueryResponse,
   queryType,
-  ValueSet,
+  queryName,
   goBack,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
 
-  const [valueSetState, setValueSetState] = useState<ValueSet>(ValueSet);
+  const [valueSetState, setValueSetState] = useState<ValueSet>({
+    labs: [],
+    medications: [],
+    conditions: [],
+  });
   const [isExpanded, setIsExpanded] = useState(true);
 
   if (!useCaseQueryResponse) {
@@ -89,6 +98,41 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     }, {} as ValueSet);
     goBack();
   };
+
+  useEffect(() => {
+    // Gate whether we actually update state after fetching so we
+    // avoid name-change race conditions
+    let isSubscribed = true;
+
+    const fetchQuery = async () => {
+      const queryResults = await getSavedQueryByName(queryName);
+      const labs = await mapQueryRowsToValueSetItems(
+        await filterQueryRows(queryResults, "labs"),
+      );
+      const meds = await mapQueryRowsToValueSetItems(
+        await filterQueryRows(queryResults, "medications"),
+      );
+      const conds = await mapQueryRowsToValueSetItems(
+        await filterQueryRows(queryResults, "conditions"),
+      );
+
+      // Only update if the fetch hasn't altered state yet
+      if (isSubscribed) {
+        setValueSetState({
+          labs: labs,
+          medications: meds,
+          conditions: conds,
+        } as ValueSet);
+      }
+    };
+
+    fetchQuery().catch(console.error);
+
+    // Destructor hook to prevent future state updates
+    return () => {
+      isSubscribed = false;
+    };
+  }, [queryName]);
 
   useEffect(() => {
     const items = valueSetState[activeTab as keyof ValueSet];

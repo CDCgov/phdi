@@ -8,10 +8,8 @@ import NoPatientsFound from "./components/NoPatientsFound";
 import {
   Mode,
   demoQueryOptions,
-  dummyConditions,
-  dummyLabs,
-  dummyMedications,
   USE_CASES,
+  UseCaseToQueryNameMap,
 } from "../constants";
 import CustomizeQuery from "./components/CustomizeQuery";
 import LoadingView from "./components/LoadingView";
@@ -25,9 +23,9 @@ const Query: React.FC = () => {
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
   const [useCaseQueryResponse, setUseCaseQueryResponse] =
-    useState<UseCaseQueryResponse>();
+    useState<UseCaseQueryResponse>({});
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
-  const [useCase, setUseCase] = useState("cancer");
+  const [useCase, setUseCase] = useState<USE_CASES>("cancer");
   const [queryType, setQueryType] = useState<string>(
     demoQueryOptions.find((option) => option.value === useCase)?.label || "",
   );
@@ -83,21 +81,16 @@ const Query: React.FC = () => {
       {/* Show the customize query view to select and change what is returned in results */}
       {mode === "customize-queries" && (
         <>
-          {useCaseQueryResponse && (
-            <CustomizeQuery
-              useCaseQueryResponse={useCaseQueryResponse}
-              queryType={queryType}
-              ValueSet={{
-                labs: dummyLabs,
-                medications: dummyMedications,
-                conditions: dummyConditions,
-              }}
-              goBack={() => setMode("search")}
-            />
-          )}
+          <CustomizeQuery
+            useCaseQueryResponse={useCaseQueryResponse}
+            queryType={queryType}
+            queryName={UseCaseToQueryNameMap[useCase]}
+            goBack={() => setMode("search")}
+          />
         </>
       )}
     </div>
   );
 };
+
 export default Query;
