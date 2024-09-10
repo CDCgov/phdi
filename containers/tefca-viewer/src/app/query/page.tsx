@@ -27,11 +27,11 @@ const Query: React.FC = () => {
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
   const [useCase, setUseCase] = useState<USE_CASES>("cancer");
   const [queryType, setQueryType] = useState<string>(
-    demoQueryOptions.find((option) => option.value === useCase)?.label || "",
+    demoQueryOptions.find((option) => option.value === useCase)?.label || ""
   );
 
   return (
-    <div>
+    <div className="main-container">
       {mode === "search" && (
         <Suspense fallback="...Loading">
           <SearchForm

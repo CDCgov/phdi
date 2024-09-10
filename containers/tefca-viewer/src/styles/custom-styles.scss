@@ -1,9 +1,5 @@
 @use "uswds-core" as *;
 
-// taken as values from Figma
-$ecr-viewer-max-width: 90rem;
-$ecr-viewer-content-margin: 6.5rem;
-
 .section__line {
   border-top: 1px solid #99deea;
   margin-top: 0.5rem;
@@ -140,11 +136,6 @@ h4 {
 
 .usa-sidenav__item a:not(.usa-sidenav__sublist a) {
   font-weight: bold;
-}
-
-.main-container {
-  max-width: calc($ecr-viewer-max-width - 2 * $ecr-viewer-content-margin);
-  padding: 3rem 0 4.5rem 0;
 }
 
 .nav-wrapper {
@@ -639,20 +630,6 @@ html {
   padding: 0px;
 }
 
-.accordion-table-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  font-weight: bold;
-  word-wrap: break-word;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-left: 6px;
-  margin-top: 10px;
-}
-
 .accordion-items {
   display: flex;
   flex-direction: column;
@@ -716,10 +693,6 @@ html {
   .striped-row:nth-child(even) th {
     background-color: #f0f0f0;
   }
-}
-
-.customize-query-table {
-  border: none;
 }
 
 .hide-checkbox-label {
@@ -890,69 +863,6 @@ html {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-}
-
-.customize-query-container {
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-.customize-query-grid-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
-
-.customize-query-grid-header {
-  display: grid;
-  grid-template-columns: 130px 160px 1fr;
-  align-items: center;
-  padding: 0px 24px;
-  border-bottom: 1px solid #71767a;
-  width: 100%;
-}
-
-.customize-query-grid-body {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.customize-query-grid-row {
-  display: grid;
-  grid-template-columns: 160px 160px 1fr;
-  align-items: center;
-  padding: 14px 0px;
-}
-
-.customize-query-grid-row:nth-child(even) {
-  background-color: rgba(223, 225, 226, 0.5);
-  border-bottom: 1px solid #71767a;
-  border-top: 1px solid #71767a;
-}
-
-.customize-query-grid-row:last-child {
-  border-bottom: none;
-}
-
-.customize-query-grid-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.customize-query-grid-cell.code {
-  justify-content: flex-start;
-}
-
-.customize-query-grid-cell.display {
-  justify-content: flex-start;
-}
-
-.customize-query-grid-cell.include {
-  justify-content: center;
-  width: 60px;
 }
 
 hr.custom-hr {

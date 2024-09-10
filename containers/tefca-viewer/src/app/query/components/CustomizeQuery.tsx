@@ -2,7 +2,6 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import { Accordion, Button, Icon } from "@trussworks/react-uswds";
-import { AccordianSection } from "../../query/component-utils";
 import { ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import {
@@ -12,6 +11,7 @@ import {
 } from "@/app/database-service";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
+import CustomQueryResultTable from "./CustomQueryResultsTable";
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
@@ -62,7 +62,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleSelectAllChange = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
-    checked: boolean,
+    checked: boolean
   ) => {
     const updatedItems = items.map((item) => ({ ...item, include: checked }));
     setItems(updatedItems);
@@ -71,7 +71,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleIncludeAll = (
     setValueSet: React.Dispatch<React.SetStateAction<ValueSet>>,
     key: keyof ValueSet,
-    include: boolean,
+    include: boolean
   ) => {
     setValueSet((prevValueSet) => ({
       ...prevValueSet,
@@ -107,13 +107,13 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     const fetchQuery = async () => {
       const queryResults = await getSavedQueryByName(queryName);
       const labs = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "labs"),
+        await filterQueryRows(queryResults, "labs")
       );
       const meds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "medications"),
+        await filterQueryRows(queryResults, "medications")
       );
       const conds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "conditions"),
+        await filterQueryRows(queryResults, "conditions")
       );
 
       // Only update if the fetch hasn't altered state yet
@@ -138,7 +138,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     const items = valueSetState[activeTab as keyof ValueSet];
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
-      "select-all",
+      "select-all"
     ) as HTMLInputElement;
     if (topCheckbox) {
       topCheckbox.indeterminate =
@@ -183,7 +183,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                           ...prevState,
                           [activeTab]: updatedItems,
                         })),
-                      selectedCount !== items.length,
+                      selectedCount !== items.length
                     );
                   }}
                 >
@@ -234,54 +234,10 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
             id: items[0].author + ":" + items[0].system,
             className: "accordion-item",
             content: (
-              <AccordianSection>
-                <div className="customize-query-grid-container customize-query-table">
-                  <div className="customize-query-grid-header margin-top-10">
-                    <div className="accordion-table-header">Include</div>
-                    <div className="accordion-table-header">Code</div>
-                    <div className="accordion-table-header">Display</div>
-                  </div>
-                  <div className="customize-query-grid-body">
-                    {items.map((item, index) => (
-                      <div
-                        className="customize-query-grid-row customize-query-striped-row"
-                        key={item.code}
-                      >
-                        <div
-                          className="hide-checkbox-label"
-                          style={{
-                            border: "1px solid #A9AEB1",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            cursor: "pointer",
-                            borderRadius: "4px",
-                            width: "36px",
-                            height: "36px",
-                            marginLeft: "30px",
-                            backgroundColor: "#fff",
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleInclude(index);
-                          }}
-                        >
-                          {item.include && (
-                            <Icon.Check
-                              className="usa-icon"
-                              style={{ backgroundColor: "white" }}
-                              size={4}
-                              color="#005EA2"
-                            />
-                          )}
-                        </div>
-                        <div>{item.code}</div>
-                        <div>{item.display}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </AccordianSection>
+              <CustomQueryResultTable
+                items={items}
+                toggleInclude={toggleInclude}
+              ></CustomQueryResultTable>
             ),
             expanded: true,
             headingLevel: "h3",
