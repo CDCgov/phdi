@@ -23,9 +23,8 @@ import {
   UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
+
 import { FormatPhoneAsDigits } from "@/app/format-service";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 
 interface SearchFormProps {
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
@@ -60,23 +59,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
   useCase,
   userJourney,
 }) => {
-  const params = useSearchParams();
-  const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
-
-  // Initialize the local useCase state with the value from URL params or the parent component
-  const [localUseCase, setLocalUseCase] = useState<USE_CASES>(
-    (params.get("useCase") as USE_CASES) || useCase,
-  );
-
-  // Keep the local useCase in sync with the parent useCase
-  useEffect(() => {
-    setLocalUseCase(useCase);
-  }, [useCase]);
-
-  // Set the patient options based on the current useCase
+  //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[localUseCase]?.[0]?.value || "",
+    patientOptions[useCase]?.[0]?.value || "",
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -85,7 +70,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
 
-  const [autofilled, setAutofilled] = useState(false); // Boolean indicating if the form was autofilled, changes color if true
+  const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
@@ -98,14 +83,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setMRN(data.MRN);
         setPhone(data.Phone);
         setFhirServer(data.FhirServer as FHIR_SERVERS);
-
-        setLocalUseCase(data.UseCase as USE_CASES);
         setUseCase(data.UseCase as USE_CASES);
         setQueryType(
           demoQueryOptions.find((option) => option.value === data.UseCase)
             ?.label || "",
         );
-
         setAutofilled(highlightAutofilled);
       }
     },
@@ -120,32 +102,21 @@ const SearchForm: React.FC<SearchFormProps> = ({
     fillFields(patientOption as PatientType);
   }, [fillFields, patientOption, userJourney]);
 
-  // Handle changes to the demo query selection
+  // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
   const handleDemoQueryChange = (selectedDemoOption: string) => {
-    setPatientOption(patientOptions[selectedDemoOption][0]?.value || "");
-    setLocalUseCase(selectedDemoOption as USE_CASES);
-    setUseCase(selectedDemoOption as USE_CASES);
-    setQueryType(
-      demoQueryOptions.find((option) => option.value === selectedDemoOption)
-        ?.label || "",
-    );
+    setPatientOption(patientOptions[selectedDemoOption][0].value);
   };
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const handleClick = () => {
+    setMode("customize-queries");
+  };
 
-  async function HandleSubmit(
-    event?: React.FormEvent<HTMLFormElement>,
-    customizeQuery = false,
-  ) {
-    if (!localUseCase || !fhirServer) {
+  async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    if (!useCase || !fhirServer) {
       console.error("Use case and FHIR server are required.");
       return;
     }
-    if (event) {
-      event.preventDefault();
-    }
+    event.preventDefault();
     setLoading(true);
 
     const originalRequest = {
@@ -154,34 +125,24 @@ const SearchForm: React.FC<SearchFormProps> = ({
       dob: dob,
       mrn: mrn,
       fhir_server: fhirServer,
-      use_case: localUseCase,
+      use_case: useCase,
       phone: FormatPhoneAsDigits(phone),
     };
     setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest);
     setUseCaseQueryResponse(queryResponse);
-    // Check if it's a customize query or a standard search
-    if (customizeQuery) {
-      if (queryResponse) {
-        setMode("customize-queries");
-      }
+    if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
+      setMode("no-patients");
+    } else if (queryResponse.Patient.length === 1) {
+      setMode("results");
     } else {
-      // Normal flow: switch modes based on the query response
-      if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
-        setMode("no-patients");
-      } else if (queryResponse.Patient.length === 1) {
-        setMode("results");
-      } else {
-        setMode("multiple-patients");
-      }
+      setMode("multiple-patients");
     }
     setLoading(false);
   }
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   return (
     <>
       <Alert type="info" headingLevel="h4" slim className="custom-alert">
@@ -204,9 +165,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   id="query"
                   name="query"
                   className="usa-select  margin-top-1"
-                  value={localUseCase}
+                  value={useCase}
                   onChange={(event) => {
                     handleDemoQueryChange(event.target.value);
+                    setUseCase(event.target.value as USE_CASES);
                   }}
                 >
                   {demoQueryOptions.map((option) => (
@@ -267,7 +229,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                       setPatientOption(event.target.value);
                     }}
                   >
-                    {patientOptions[localUseCase]?.map((option) => (
+                    {patientOptions[useCase]?.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
                       </option>
@@ -291,19 +253,19 @@ const SearchForm: React.FC<SearchFormProps> = ({
         )}
         {userJourney === "demo" && (
           <div className="usa-summary-box usa-summary-box demo-query-filler">
-            <b>
-              Select a query type and a sample patient to populate the form with
-              sample data for a query.
-            </b>
+            <Label className="usa-label" htmlFor="query">
+              <b>Select a sample query and patient to populate the form.</b>
+            </Label>
             <Label htmlFor="query">Query</Label>
             <div className="display-flex flex-align-start query-customize-wrapper">
               <select
                 id="query"
                 name="query"
                 className="usa-select margin-top-1"
-                value={localUseCase}
+                value={useCase}
                 onChange={(event) => {
                   handleDemoQueryChange(event.target.value);
+                  setUseCase(event.target.value as USE_CASES);
                 }}
               >
                 {demoQueryOptions.map((option) => (
@@ -315,7 +277,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               <Button
                 type="button"
                 className="usa-button usa-button--outline customize-query-button"
-                onClick={() => HandleSubmit(undefined, true)}
+                onClick={() => handleClick()}
               >
                 Customize query
               </Button>
@@ -330,7 +292,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 setPatientOption(event.target.value);
               }}
             >
-              {patientOptions[localUseCase]?.map((option) => (
+              {patientOptions[useCase]?.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>

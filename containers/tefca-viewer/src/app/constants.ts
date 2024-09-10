@@ -11,6 +11,17 @@ export const UseCases = [
 ] as const;
 export type USE_CASES = (typeof UseCases)[number];
 
+export const UseCaseToQueryNameMap: {
+  [key in USE_CASES]: string;
+} = {
+  "social-determinants": "",
+  "newborn-screening": "",
+  syphilis: "",
+  gonorrhea: "",
+  chlamydia: "Chlamydia trachomatis infection (disorder)",
+  cancer: "",
+};
+
 /**
  * Map of use cases to their corresponding modal options labels.
  */
