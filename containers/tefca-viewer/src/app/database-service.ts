@@ -14,7 +14,7 @@ select q.query_name, q.id, q.author, qtv.valueset_id, vs.type, qic.concept_id, q
 `;
 
 // Load environment variables from tefca.env and establish a Pool configuration
-dotenv.config({ path: ["tefca.env.local", "tefca.env"] });
+dotenv.config({ path: "tefca.env" });
 const dbConfig: PoolConfig = {
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
@@ -26,7 +26,7 @@ const dbConfig: PoolConfig = {
   idleTimeoutMillis: 30000, // A client must sit idle this long before being released
   connectionTimeoutMillis: 2000, // Wait this long before timing out when connecting new client
 };
-
+console.log(dbConfig);
 const dbClient = new Pool(dbConfig);
 
 /**
