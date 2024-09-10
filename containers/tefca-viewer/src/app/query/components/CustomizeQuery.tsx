@@ -100,6 +100,10 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   };
 
   useEffect(() => {
+    // Gate whether we actually update state after fetching so we
+    // avoid name-change race conditions
+    let isSubscribed = true;
+
     const fetchQuery = async () => {
       const queryResults = await getSavedQueryByName(queryName);
       const labs = await mapQueryRowsToValueSetItems(
@@ -111,14 +115,24 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       const conds = await mapQueryRowsToValueSetItems(
         await filterQueryRows(queryResults, "conditions"),
       );
-      setValueSetState({
-        labs: labs,
-        medications: meds,
-        conditions: conds,
-      } as ValueSet);
+
+      // Only update if the fetch hasn't altered state yet
+      if (isSubscribed) {
+        setValueSetState({
+          labs: labs,
+          medications: meds,
+          conditions: conds,
+        } as ValueSet);
+      }
     };
+
     fetchQuery().catch(console.error);
-  }, []);
+
+    // Destructor hook to prevent future state updates
+    return () => {
+      isSubscribed = false;
+    };
+  }, [queryName]);
 
   useEffect(() => {
     const items = valueSetState[activeTab as keyof ValueSet];
