@@ -35,22 +35,22 @@ INSERT INTO concepts VALUES('1_2708-6','2708-6','http://loinc.org','Cannabinoids
 INSERT INTO concepts VALUES('1_8336-0','8336-0','http://loinc.org','Body weight [Percentile] Per age','83360','2024-09');
 
 -- Cancer (Leukemia) concepts
-INSERT INTO concepts VALUES('1_92814006','92814006','http://www.nlm.nih.gov/research/umls/rxnorm','Chronic lymphoid leukemia, disease (disorder)','92814006','2024-09');
+-- INSERT INTO concepts VALUES('1_92814006','92814006','http://www.nlm.nih.gov/research/umls/rxnorm','Chronic lymphoid leukemia, disease (disorder)','92814006','2024-09'); -- already in ersd
 INSERT INTO concepts VALUES('1_828265','828265','http://www.nlm.nih.gov/research/umls/rxnorm','1 ML alemtuzumab 30 MG/ML Injection','828265','2024-09');
 
 -- Missing Syphilis concepts
 INSERT INTO concepts VALUES('1_2671695','2671695','http://www.nlm.nih.gov/research/umls/rxnorm','penicillin G benzathine 2400000 UNT Injection','2671695','2024-09');
-INSERT INTO concepts VALUES('1_76272004','76272004','http://snomed.info/sct','Syphilis (disorder)','76272004','2024-09');
+-- INSERT INTO concepts VALUES('1_76272004','76272004','http://snomed.info/sct','Syphilis (disorder)','76272004','2024-09'); -- already in ersd
 INSERT INTO concepts VALUES('1_186647001','186647001','http://snomed.info/sct','Primary genital syphilis','186647001','2024-09');
 
 -- Missing Gonorhea concepts
 INSERT INTO concepts VALUES('1_434692','434692','http://www.nlm.nih.gov/research/umls/rxnorm','azithromycin 1000 MG','434692','2024-09');
 INSERT INTO concepts VALUES('1_1665005','1665005','http://www.nlm.nih.gov/research/umls/rxnorm','ceftriaxone 500 MG Injection','1665005','2024-09');
-INSERT INTO concepts VALUES('1_15628003','15628003 ','http://snomed.info/sct','Gonorrhea (disorder)','15628003','2024-09');
-INSERT INTO concepts VALUES('1_2339001','2339001 ','http://snomed.info/sct','Sexual overexposure','2339001','2024-09');
+-- INSERT INTO concepts VALUES('1_15628003','15628003 ','http://snomed.info/sct','Gonorrhea (disorder)','15628003','2024-09'); -- already in ersd
+-- INSERT INTO concepts VALUES('1_2339001','2339001 ','http://snomed.info/sct','Sexual overexposure','2339001','2024-09'); -- already in ersd
 INSERT INTO concepts VALUES('1_72531000052105','72531000052105 ','http://snomed.info/sct','Counseling for contraception','72531000052105','2024-09');
 INSERT INTO concepts VALUES('1_11350-6','11350-6','http://loinc.org','History of Sexual behavior Narrative','113506','2024-09');
-INSERT INTO concepts VALUES('1_21613-5','21613-5','http://loinc.org','Chlamydia trachomatis DNA [Presence] in Specimen by NAA with probe detection','216135','2024-09');
+-- INSERT INTO concepts VALUES('1_21613-5','21613-5','http://loinc.org','Chlamydia trachomatis DNA [Presence] in Specimen by NAA with probe detection','216135','2024-09'); -- already in ersd
 INSERT INTO concepts VALUES('1_82810-3','82810-3','http://loinc.org','Pregnancy status','828103','2024-09');
 INSERT INTO concepts VALUES('1_83317-8','83317-8','http://loinc.org','Sexual activity with anonymous partner in the past year','833178','2024-09');
 
@@ -86,27 +86,27 @@ INSERT INTO valueset_to_concept VALUES('45280','1_20240909','1_73739-5');
 INSERT INTO valueset_to_concept VALUES('45281','1_20240909','1_73742-9');
 INSERT INTO valueset_to_concept VALUES('45282','1_20240909','1_2708-6');
 INSERT INTO valueset_to_concept VALUES('45283','1_20240909','1_8336-0');
-INSERT INTO valueset_to_concept VALUES('45284','1_20240909','1_92814006');
+
 
 -- Cancer (Leukemia) valueset to concept mappings
-INSERT INTO valueset_to_concept VALUES('45285','2_20240909','1_92814006');
-INSERT INTO valueset_to_concept VALUES('45286','3_20240909','1_828265');
+INSERT INTO valueset_to_concept VALUES('45284','2_20240909','2.16.840.1.113762.1.4.1146.1407_92814006');
+INSERT INTO valueset_to_concept VALUES('45285','3_20240909','1_828265');
 
 -- Missing Syphilis valueset to concept mappings
-INSERT INTO valueset_to_concept VALUES('45287','4_20240909','1_2671695');
-INSERT INTO valueset_to_concept VALUES('45288','5_20240909','1_76272004');
-INSERT INTO valueset_to_concept VALUES('45289','6_20240909','1_186647001');
+INSERT INTO valueset_to_concept VALUES('45286','4_20240909','1_2671695');
+INSERT INTO valueset_to_concept VALUES('45287','5_20240909','2.16.840.1.113762.1.4.1146.395_76272004');
+INSERT INTO valueset_to_concept VALUES('45288','6_20240909','1_186647001');
 
 -- Missing Gonorhea valueset to concept mappings
-INSERT INTO valueset_to_concept VALUES('45290','7_20240909','1_434692');
-INSERT INTO valueset_to_concept VALUES('45291','7_20240909','1_1665005');
-INSERT INTO valueset_to_concept VALUES('45292','8_20240909','1_15628003');
-INSERT INTO valueset_to_concept VALUES('45293','8_20240909','1_2339001');
-INSERT INTO valueset_to_concept VALUES('45294','8_20240909','1_72531000052105');
-INSERT INTO valueset_to_concept VALUES('45295','9_20240909','1_11350-6');
-INSERT INTO valueset_to_concept VALUES('45296','10_20240909','1_21613-5');
-INSERT INTO valueset_to_concept VALUES('45297','10_20240909','1_82810-3');
-INSERT INTO valueset_to_concept VALUES('45298','10_20240909','1_83317-8');
+INSERT INTO valueset_to_concept VALUES('45289','7_20240909','1_434692');
+INSERT INTO valueset_to_concept VALUES('45290','7_20240909','1_1665005');
+INSERT INTO valueset_to_concept VALUES('45291','8_20240909','2.16.840.1.113762.1.4.1146.639_15628003');
+INSERT INTO valueset_to_concept VALUES('45292','8_20240909','2.16.840.1.113762.1.4.1146.2147_702339001');
+INSERT INTO valueset_to_concept VALUES('45293','8_20240909','1_72531000052105');
+INSERT INTO valueset_to_concept VALUES('45294','9_20240909','1_11350-6');
+INSERT INTO valueset_to_concept VALUES('45295','10_20240909','2.16.840.1.113762.1.4.1146.239_21613-5');
+INSERT INTO valueset_to_concept VALUES('45296','10_20240909','1_82810-3');
+INSERT INTO valueset_to_concept VALUES('45297','10_20240909','1_83317-8');
 
 
 COMMIT;
