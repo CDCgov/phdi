@@ -978,3 +978,7 @@ hr.custom-hr {
   border: none;
   border-top: 1px solid #71767a;
 }
+
+.Toastify__toast-container {
+  width: calc($ecr-viewer-max-width * 0.4) !important;
+}
