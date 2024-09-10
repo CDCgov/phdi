@@ -20,13 +20,12 @@ const dbConfig: PoolConfig = {
   password: process.env.POSTGRES_PASSWORD,
   host: process.env.POSTGRES_HOST,
   connectionString: process.env.DATABASE_URL,
-  port: 5432,
+  port: Number(process.env.POSTGRES_PORT),
   database: process.env.POSTGRES_DB,
   max: 10, // Maximum # of connections in the pool
   idleTimeoutMillis: 30000, // A client must sit idle this long before being released
   connectionTimeoutMillis: 2000, // Wait this long before timing out when connecting new client
 };
-
 const dbClient = new Pool(dbConfig);
 
 /**
