@@ -4,7 +4,6 @@ import React from "react";
 
 interface LoadingViewProps {
   loading: boolean;
-  message?: string;
 }
 
 /**
