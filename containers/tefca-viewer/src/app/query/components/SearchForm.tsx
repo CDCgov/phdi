@@ -104,7 +104,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
   const handleDemoQueryChange = (selectedDemoOption: string) => {
-    // setDemoOption(selectedDemoOption);
     setPatientOption(patientOptions[selectedDemoOption][0].value);
   };
 

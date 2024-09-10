@@ -118,7 +118,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       } as ValueSet);
     };
     fetchQuery().catch(console.error);
-  }, [queryName]);
+  }, []);
 
   useEffect(() => {
     const items = valueSetState[activeTab as keyof ValueSet];
