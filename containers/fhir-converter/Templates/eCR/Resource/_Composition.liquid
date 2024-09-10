@@ -10,21 +10,19 @@
             ]
         },
         "identifier":
-        [
+        {
+            "use":"official",
+            "type":
             {
-                "use":"official",
-                "type":
-                {
-                    {% assign codes = composition.code | to_array -%}
-                    {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
-                },
-                "value":"{{ composition.setId.extension }}",
-                "assigner": 
-                {
-                    "display": "{{ composition.setId.assigningAuthorityName }}"
-                },
+                {% assign codes = composition.code | to_array -%}
+                {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
             },
-        ],
+            "value":"{{ composition.setId.extension }}",
+            "assigner": 
+            {
+                "display": "{{ composition.setId.assigningAuthorityName }}"
+            },
+        },
         "extension":[
             {
                 "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
