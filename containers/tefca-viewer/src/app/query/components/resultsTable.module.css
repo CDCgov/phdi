@@ -1,0 +1,18 @@
+.accordionWrapper > h3 {
+  font-size: 32px;
+  color: white !important;
+  background-color: #2e6276;
+
+  &:hover {
+    background-color: #224856;
+  }
+}
+
+.accordionWrapper > div {
+  margin: 2rem 0rem;
+  padding: 2rem;
+}
+
+.accordionContainer {
+  padding: 2rem;
+}
