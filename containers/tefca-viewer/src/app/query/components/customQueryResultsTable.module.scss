@@ -1,0 +1,84 @@
+.valueSetCheckbox {
+  border: 1px solid #a9aeb1;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  background-color: #fff;
+  margin-left: 30px;
+}
+
+.accordionTableHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-weight: bold;
+  word-wrap: break-word;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: 6px;
+  margin-top: 10px;
+}
+
+.customizeQueryGridHeader {
+  display: grid;
+  grid-template-columns: 130px 160px 1fr;
+  align-items: center;
+  padding: 0px 24px;
+  border-bottom: 1px solid #71767a;
+  width: 100%;
+}
+
+.customizeQueryGridContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.customizeQueryGridBody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.customizeQueryGridRow {
+  display: grid;
+  grid-template-columns: 160px 160px 1fr;
+  align-items: center;
+  padding: 14px 0px;
+}
+
+.customizeQueryGridRow:nth-child(even) {
+  background-color: rgba(223, 225, 226, 0.5);
+  border-bottom: 1px solid #71767a;
+  border-top: 1px solid #71767a;
+}
+
+.customizeQueryGridRow:last-child {
+  border-bottom: none;
+}
+
+.customizeQueryGridCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customizeQueryGridCell.code {
+  justify-content: flex-start;
+}
+
+.customizeQueryGridCell.display {
+  justify-content: flex-start;
+}
+
+.customizeQueryGridCell.include {
+  justify-content: center;
+  width: 60px;
+}

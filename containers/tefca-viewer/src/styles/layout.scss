@@ -1,0 +1,8 @@
+// taken as values from Figma
+$ecr-viewer-max-width: 90rem;
+$ecr-viewer-content-margin: 6.5rem;
+
+.main-container {
+  width: calc($ecr-viewer-max-width - 2 * $ecr-viewer-content-margin);
+  margin: auto;
+}
