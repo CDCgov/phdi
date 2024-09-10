@@ -77,14 +77,3 @@ const Query: React.FC = () => {
   );
 };
 export default Query;
-function LoadingView({ loading }: { loading: boolean }) {
-  if (loading) {
-    return (
-      <div>
-        <h2>Loading...</h2>
-      </div>
-    );
-  } else {
-    return null;
-  }
-}
