@@ -14,13 +14,13 @@ select q.query_name, q.id, q.author, qtv.valueset_id, vs.type, qic.concept_id, q
 `;
 
 // Load environment variables from tefca.env and establish a Pool configuration
-dotenv.config({ path: "tefca.env" });
+dotenv.config({ path: ["tefca.env.local", "tefca.env"] });
 const dbConfig: PoolConfig = {
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   host: process.env.POSTGRES_HOST,
   connectionString: process.env.DATABASE_URL,
-  port: 5432,
+  port: Number(process.env.POSTGRES_PORT),
   database: process.env.POSTGRES_DB,
   max: 10, // Maximum # of connections in the pool
   idleTimeoutMillis: 30000, // A client must sit idle this long before being released
@@ -62,7 +62,7 @@ export const getSavedQueryByName = async (name: string) => {
  */
 export const filterQueryRows = async (
   dbResults: QueryResultRow[],
-  type: "labs" | "medications" | "conditions",
+  type: "labs" | "medications" | "conditions"
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
@@ -75,7 +75,7 @@ export const filterQueryRows = async (
     valuesetFilters = ["dxtc", "sdtc"];
   }
   const results = dbResults.filter((row) =>
-    valuesetFilters.includes(row["type"]),
+    valuesetFilters.includes(row["type"])
   );
   return results;
 };
