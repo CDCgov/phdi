@@ -26,7 +26,6 @@ const dbConfig: PoolConfig = {
   idleTimeoutMillis: 30000, // A client must sit idle this long before being released
   connectionTimeoutMillis: 2000, // Wait this long before timing out when connecting new client
 };
-console.log(dbConfig);
 const dbClient = new Pool(dbConfig);
 
 /**
