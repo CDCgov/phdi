@@ -10,21 +10,19 @@
             ]
         },
         "identifier":
-        [
+        {
+            "use":"official",
+            "type":
             {
-                "use":"official",
-                "type":
-                {
-                    {% assign codes = composition.code | to_array -%}
-                    {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
-                },
-                "value":"{{ composition.setId.extension }}",
-                "assigner": 
-                {
-                    "display": "{{ composition.setId.assigningAuthorityName }}"
-                },
+                {% assign codes = composition.code | to_array -%}
+                {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
             },
-        ],
+            "value":"{{ composition.setId.extension }}",
+            "assigner": 
+            {
+                "display": "{{ composition.setId.assigningAuthorityName }}"
+            },
+        },
         "extension":[
             {
                 "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
@@ -72,7 +70,12 @@
                     {
                         "status":"generated",
                         {% if component.section.text -%}
-                            "div": "{{ component.section.text | to_html_string }}",
+                            {% assign componentDiv = component.section.text | to_html_string %}
+                            {% if componentDiv contains "http://www.w3.org/1999/xhtml" %}
+                              "div": "{{ componentDiv }}",
+                            {% else -%}
+                              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ componentDiv }}</div>",
+                            {% endif -%}
                         {% elsif component.section.title._ -%}
                             "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.title._ | escape }}</div>",
                         {% else -%}

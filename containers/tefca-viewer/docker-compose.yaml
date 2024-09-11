@@ -4,14 +4,6 @@ services:
     image: "postgres:alpine"
     ports:
       - "5432:5432"
-    # Once we have the migrations set up, we may need to use a mounted volume
-    # copy to get them into the container and create our table structure.
-    # The excerpt below is copied from the ECR Viewer, which has the most
-    # similar structure to what we're doing.
-    # volumes:
-    #  - ./sql/:/docker-entrypoint-initdb.d/
-    #  - ./seed-scripts/sql/:/docker-entrypoint-initdb.d/
-    #  - ./seed-scripts/sql/.pgpass/:/usr/local/lib/.pgpass
     env_file:
       - "./tefca.env"
     healthcheck:
@@ -19,6 +11,17 @@ services:
       interval: 2s
       timeout: 5s
       retries: 20
+
+  # Flyway migrations and DB version control
+  flyway:
+    image: flyway/flyway:10.16-alpine
+    command: -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate
+    volumes:
+      - ./flyway/sql:/flyway/sql
+      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
+    depends_on:
+      db:
+        condition: service_started
 
   # Next.js app
   tefca-viewer:
@@ -35,3 +38,5 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      flyway:
+        condition: service_completed_successfully

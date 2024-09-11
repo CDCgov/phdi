@@ -38,28 +38,24 @@
               }),
             ]),
             'id': str,
-            'identifier': list([
-              dict({
-                'type': dict({
-                  'coding': list([
-                    dict({
-                      'code': '28570-0',
-                      'display': 'Procedure Note',
-                      'system': 'http://loinc.org',
-                    }),
-                  ]),
-                }),
-                'use': 'official',
-                'value': 'sTT988',
+            'identifier': dict({
+              'type': dict({
+                'coding': list([
+                  dict({
+                    'code': '28570-0',
+                    'display': 'Procedure Note',
+                    'system': 'http://loinc.org',
+                  }),
+                ]),
               }),
-            ]),
+              'use': 'official',
+              'value': 'sTT988',
+            }),
             'meta': dict({
               'profile': list([
                 'http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition',
               ]),
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'Composition',
             'section': list([
@@ -448,9 +444,7 @@
               }),
             ]),
             'meta': dict({
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'period': dict({
               'end': '2009-02-27T13:00:00-05:00',
@@ -478,9 +472,7 @@
               }),
             ]),
             'meta': dict({
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'Location',
           }),
@@ -512,9 +504,7 @@
               }),
             ]),
             'meta': dict({
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'name': 'Community Health and Hospitals',
             'resourceType': 'Organization',
@@ -556,9 +546,7 @@
               'profile': list([
                 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner',
               ]),
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'name': list([
               dict({
@@ -693,9 +681,7 @@
               'profile': list([
                 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient',
               ]),
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'name': list([
               dict({
@@ -720,9 +706,7 @@
           'fullUrl': str,
           'resource': dict({
             'meta': dict({
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'CareTeam',
             'subject': dict({
@@ -740,9 +724,7 @@
             'id': str,
             'intent': 'proposal',
             'meta': dict({
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'CarePlan',
             'status': 'unknown',
@@ -772,9 +754,7 @@
             ]),
             'id': str,
             'meta': dict({
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'name': list([
               dict({
@@ -838,9 +818,7 @@
               'profile': list([
                 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults',
               ]),
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'Observation',
             'status': 'final',
@@ -880,9 +858,7 @@
               'profile': list([
                 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation',
               ]),
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'Observation',
             'status': 'final',
@@ -931,9 +907,7 @@
               'profile': list([
                 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-travel-history',
               ]),
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'Observation',
             'status': 'final',
@@ -950,9 +924,7 @@
               'profile': list([
                 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults',
               ]),
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'Observation',
           }),
@@ -981,18 +953,14 @@
               }),
             ]),
             'id': str,
-            'identifier': list([
-              dict({
-                'use': 'official',
-              }),
-            ]),
+            'identifier': dict({
+              'use': 'official',
+            }),
             'meta': dict({
               'profile': list([
                 'http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition',
               ]),
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'Composition',
             'section': list([
@@ -1056,9 +1024,7 @@
           'resource': dict({
             'intent': 'proposal',
             'meta': dict({
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'CarePlan',
             'status': 'unknown',
@@ -1075,9 +1041,7 @@
               'profile': list([
                 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults',
               ]),
-              'source': list([
-                'ecr',
-              ]),
+              'source': 'ecr',
             }),
             'resourceType': 'Observation',
           }),
@@ -1122,9 +1086,7 @@
             }),
             'id': str,
             'meta': dict({
-              'source': list([
-                'vxu',
-              ]),
+              'source': 'vxu',
               'tag': list([
                 dict({
                   'code': 'P',
@@ -1180,9 +1142,7 @@
             ]),
             'id': str,
             'meta': dict({
-              'source': list([
-                'vxu',
-              ]),
+              'source': 'vxu',
             }),
             'occurredDateTime': '2020-05-14T01:00:00-04:00',
             'recorded': '2020-05-14T01:00:00-04:00',
@@ -1213,9 +1173,7 @@
               }),
             ]),
             'meta': dict({
-              'source': list([
-                'vxu',
-              ]),
+              'source': 'vxu',
             }),
             'resourceType': 'Organization',
           }),
@@ -1235,9 +1193,7 @@
               }),
             ]),
             'meta': dict({
-              'source': list([
-                'vxu',
-              ]),
+              'source': 'vxu',
             }),
             'resourceType': 'Organization',
           }),
@@ -1293,9 +1249,7 @@
               }),
             ]),
             'meta': dict({
-              'source': list([
-                'vxu',
-              ]),
+              'source': 'vxu',
             }),
             'name': list([
               dict({
@@ -1322,9 +1276,7 @@
             }),
             'id': str,
             'meta': dict({
-              'source': list([
-                'vxu',
-              ]),
+              'source': 'vxu',
             }),
             'resourceType': 'Encounter',
             'status': 'in-progress',
@@ -1352,9 +1304,7 @@
             ]),
             'id': str,
             'meta': dict({
-              'source': list([
-                'vxu',
-              ]),
+              'source': 'vxu',
             }),
             'patient': dict({
               'reference': str,
