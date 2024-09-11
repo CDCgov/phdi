@@ -1,6 +1,7 @@
 import fetch, { RequestInit, HeaderInit, Response } from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
 import { FHIR_SERVERS } from "./constants";
+import { configure } from "@testing-library/dom";
 /**
  * Defines the model for a FHIR server configuration
  */
@@ -30,6 +31,7 @@ export const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
     hostname: "https://gw.interop.community/CDCOPHDSTHELIOS/open/",
     init: {} as RequestInit,
   },
+  "OPHDST Meld: eHealthExchange": configureEHX("OPHDSTHelios"),
 };
 
 /**
