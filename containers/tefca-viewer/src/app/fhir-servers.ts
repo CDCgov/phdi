@@ -30,7 +30,6 @@ export const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
     hostname: "https://gw.interop.community/CDCOPHDSTHELIOS/open/",
     init: {} as RequestInit,
   },
-  "OPHDST Meld: eHealthExchange": configureEHX("OPHDSTHelios"),
 };
 
 /**
@@ -85,7 +84,7 @@ class FHIRClient {
     const fetchPromises = paths.map((path) =>
       fetch(this.hostname + path, this.init).then((response) => {
         return response;
-      }),
+      })
     );
 
     return await Promise.all(fetchPromises);

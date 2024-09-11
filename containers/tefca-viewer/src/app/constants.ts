@@ -65,7 +65,6 @@ export const FhirServers = [
   "OpenEpic: eHealthExchange",
   "CernerHelios: eHealthExchange",
   "OPHDST Meld: Direct",
-  "OPHDST Meld: eHealthExchange",
 ] as const;
 export type FHIR_SERVERS = (typeof FhirServers)[number];
 
