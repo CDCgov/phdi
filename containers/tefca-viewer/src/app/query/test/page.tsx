@@ -32,9 +32,7 @@ const Query: React.FC = () => {
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
             userJourney="test"
-            setQueryType={function (queryType: string): void {
-              throw new Error("Function not implemented.");
-            }}
+            setQueryType={() => {}}
           />
         </Suspense>
       )}
