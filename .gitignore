@@ -85,7 +85,8 @@ build/
 out
 tsconfig.tsbuildinfo
 
-*.env
+.env
+.local.env 
 
 ## Make local config file
 /containers/local-config.env
