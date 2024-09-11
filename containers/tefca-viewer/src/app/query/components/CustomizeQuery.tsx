@@ -3,7 +3,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { Accordion, Button, Icon } from "@trussworks/react-uswds";
 import { AccordianSection } from "../../query/component-utils";
-import { ValueSet } from "../../constants";
+import { QueryTypeToQueryName, ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import {
   getSavedQueryByName,
@@ -17,7 +17,6 @@ import { showRedirectConfirmation } from "./RedirectionToast";
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
   queryType: string;
-  queryName: string;
   goBack: () => void;
 }
 
@@ -26,14 +25,12 @@ interface CustomizeQueryProps {
  * @param root0 - The properties object.
  * @param root0.useCaseQueryResponse - The response from the query service.
  * @param root0.queryType - The type of the query.
- * @param root0.queryName - The name of the query to customize.
  * @param root0.goBack - Back button to go from "customize-queries" to "search" component.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   useCaseQueryResponse,
   queryType,
-  queryName,
   goBack,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
@@ -106,6 +103,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     // avoid name-change race conditions
     let isSubscribed = true;
 
+    // Lookup the name of this queryType
+    const queryName = QueryTypeToQueryName[queryType];
+
     const fetchQuery = async () => {
       const queryResults = await getSavedQueryByName(queryName);
       const labs = await mapQueryRowsToValueSetItems(
@@ -134,7 +134,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     return () => {
       isSubscribed = false;
     };
-  }, [queryName]);
+  }, [queryType]);
 
   useEffect(() => {
     const items = valueSetState[activeTab as keyof ValueSet];
