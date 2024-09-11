@@ -59,7 +59,7 @@ const CustomizeQueryViewProps: React.FC<CustomizeQueryViewProps> = ({
   const handleSelectAllChange = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
-    checked: boolean
+    checked: boolean,
   ) => {
     const updatedItems = items.map((item) => ({ ...item, include: checked }));
     setItems(updatedItems);
@@ -68,7 +68,7 @@ const CustomizeQueryViewProps: React.FC<CustomizeQueryViewProps> = ({
   const handleIncludeAll = (
     setValueSet: React.Dispatch<React.SetStateAction<ValueSet>>,
     key: keyof ValueSet,
-    include: boolean
+    include: boolean,
   ) => {
     setValueSet((prevValueSet) => ({
       ...prevValueSet,
@@ -109,13 +109,13 @@ const CustomizeQueryViewProps: React.FC<CustomizeQueryViewProps> = ({
     const fetchQuery = async () => {
       const queryResults = await getSavedQueryByName(queryName);
       const labs = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "labs")
+        await filterQueryRows(queryResults, "labs"),
       );
       const meds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "medications")
+        await filterQueryRows(queryResults, "medications"),
       );
       const conds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "conditions")
+        await filterQueryRows(queryResults, "conditions"),
       );
 
       // Only update if the fetch hasn't altered state yet
@@ -140,7 +140,7 @@ const CustomizeQueryViewProps: React.FC<CustomizeQueryViewProps> = ({
     const items = valueSetState[activeTab as keyof ValueSet];
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
-      "select-all"
+      "select-all",
     ) as HTMLInputElement;
     if (topCheckbox) {
       topCheckbox.indeterminate =
@@ -185,7 +185,7 @@ const CustomizeQueryViewProps: React.FC<CustomizeQueryViewProps> = ({
                           ...prevState,
                           [activeTab]: updatedItems,
                         })),
-                      selectedCount !== items.length
+                      selectedCount !== items.length,
                     );
                   }}
                 >
