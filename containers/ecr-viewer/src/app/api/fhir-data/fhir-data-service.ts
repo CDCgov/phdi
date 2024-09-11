@@ -9,11 +9,14 @@ import {
 import { loadYamlConfig, streamToJson } from "../utils";
 import { database } from "@/app/api/fhir-data/db";
 
-const s3Client = process.env.APP_ENV === "dev" ? new S3Client({
-  region: process.env.AWS_REGION,
-  endpoint: process.env.AWS_CUSTOM_ENDPOINT,
-  forcePathStyle: process.env.AWS_CUSTOM_ENDPOINT !== undefined,
-}) : new S3Client({ region: process.env.AWS_REGION });
+const s3Client =
+  process.env.APP_ENV === "dev"
+    ? new S3Client({
+        region: process.env.AWS_REGION,
+        endpoint: process.env.AWS_CUSTOM_ENDPOINT,
+        forcePathStyle: process.env.AWS_CUSTOM_ENDPOINT !== undefined,
+      })
+    : new S3Client({ region: process.env.AWS_REGION });
 
 /**
  * Retrieves FHIR data from PostgreSQL database based on eCR ID.
