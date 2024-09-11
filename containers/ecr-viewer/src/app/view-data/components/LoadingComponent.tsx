@@ -16,8 +16,6 @@ import {
 import Header from "@/app/Header";
 import classNames from "classnames";
 import PatientBanner from "./PatientBanner";
-// import SideNav from "./SideNav";
-// import { SideNav } from "@trussworks/react-uswds";
 
 /**
  * Renders the loading blobs in gray or in blue
