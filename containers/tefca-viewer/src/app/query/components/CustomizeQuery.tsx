@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import { Accordion, Button, Icon } from "@trussworks/react-uswds";
-import { ValueSet, ValueSetItem } from "../../constants";
+import { ValueSetItem } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import {
   getSavedQueryByName,
