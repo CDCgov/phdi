@@ -5,8 +5,8 @@ import { UseCaseQueryResponse, UseCaseQueryRequest } from "../../query-service";
 // Add a comment to suppress the TypeScript error
 // @ts-ignore
 import ResultsView from "../views/ResultsView";
-import MultiplePatientSearchResults from "../views/MultiplePatientSearchResults";
-import SearchForm from "../views/SearchForm";
+import MultiplePatientResultsView from "../views/MultiplePatientResultsView";
+import SearchForm from "../views/PatientSearchView";
 import NoPatientsFound from "../components/NoPatientsFound";
 import { Mode, USE_CASES } from "../../constants";
 
@@ -58,7 +58,7 @@ const Query: React.FC = () => {
       {/* Show the multiple patients view if there are multiple patients */}
       {mode === "multiple-patients" && originalRequest && (
         <>
-          <MultiplePatientSearchResults
+          <MultiplePatientResultsView
             patients={useCaseQueryResponse?.Patient ?? []}
             originalRequest={originalRequest}
             setLoading={setLoading}

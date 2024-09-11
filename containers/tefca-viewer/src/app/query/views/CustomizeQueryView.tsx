@@ -14,7 +14,7 @@ import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "../components/RedirectionToast";
 
-interface CustomizeQueryProps {
+interface CustomizeQueryViewProps {
   useCaseQueryResponse: UseCaseQueryResponse;
   queryType: string;
   queryName: string;
@@ -22,15 +22,15 @@ interface CustomizeQueryProps {
 }
 
 /**
- * CustomizeQuery component for displaying and customizing query details.
+ * CustomizeQueryViewProps component for displaying and customizing query details.
  * @param root0 - The properties object.
  * @param root0.useCaseQueryResponse - The response from the query service.
  * @param root0.queryType - The type of the query.
  * @param root0.queryName - The name of the query to customize.
  * @param root0.goBack - Back button to go from "customize-queries" to "search" component.
- * @returns The CustomizeQuery component.
+ * @returns The CustomizeQueryViewProps component.
  */
-const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
+const CustomizeQueryViewProps: React.FC<CustomizeQueryViewProps> = ({
   useCaseQueryResponse,
   queryType,
   queryName,
@@ -370,7 +370,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   );
 };
 
-export default CustomizeQuery;
+export default CustomizeQueryViewProps;
 
 export const QUERY_CUSTOMIZATION_CONFIRMATION_HEADER =
   "Query Customization Successful!";
