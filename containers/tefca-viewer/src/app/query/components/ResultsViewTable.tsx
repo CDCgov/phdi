@@ -39,7 +39,8 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ queryResponse }) => {
 
   const accordionItems = [
     {
-      title: "Demographics",
+      title: "Patient Info",
+      subtitle: "Demographics",
       id: "patient-info",
       content: patient ? <Demographics patient={patient} /> : null,
     },
@@ -86,7 +87,7 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ queryResponse }) => {
                 title={item.title}
                 content={
                   <ResultsViewAccordionBody
-                    title={item.title}
+                    title={item.subtitle ?? item.title}
                     content={item.content}
                     id={item.id}
                   />
