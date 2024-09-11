@@ -1,9 +1,9 @@
 "use client";
 import React, { Suspense, useState } from "react";
 import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
-import ResultsView from "./components/ResultsView";
-import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
-import SearchForm from "./components/SearchForm";
+import ResultsView from "./views/ResultsView";
+import MultiplePatientSearchResults from "./views/MultiplePatientSearchResults";
+import SearchForm from "./views/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
 import {
   Mode,
@@ -11,8 +11,8 @@ import {
   USE_CASES,
   UseCaseToQueryNameMap,
 } from "../constants";
-import CustomizeQuery from "./components/CustomizeQuery";
-import LoadingView from "./components/LoadingView";
+import CustomizeQuery from "./views/CustomizeQuery";
+import LoadingView from "./views/LoadingView";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.min.css";
@@ -30,7 +30,7 @@ const Query: React.FC = () => {
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
   const [useCase, setUseCase] = useState<USE_CASES>("cancer");
   const [queryType, setQueryType] = useState<string>(
-    demoQueryOptions.find((option) => option.value === useCase)?.label || "",
+    demoQueryOptions.find((option) => option.value === useCase)?.label || ""
   );
 
   return (

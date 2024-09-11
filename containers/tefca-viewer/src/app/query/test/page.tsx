@@ -4,9 +4,9 @@ import { UseCaseQueryResponse, UseCaseQueryRequest } from "../../query-service";
 
 // Add a comment to suppress the TypeScript error
 // @ts-ignore
-import ResultsView from "../components/ResultsView";
-import MultiplePatientSearchResults from "../components/MultiplePatientSearchResults";
-import SearchForm from "../components/SearchForm";
+import ResultsView from "../views/ResultsView";
+import MultiplePatientSearchResults from "../views/MultiplePatientSearchResults";
+import SearchForm from "../views/SearchForm";
 import NoPatientsFound from "../components/NoPatientsFound";
 import { Mode, USE_CASES } from "../../constants";
 

@@ -1,6 +1,6 @@
 import { UseCaseQueryResponse } from "../../query-service";
-import AccordionContainer from "./AccordionContainer";
-import SideNav from "./SideNav";
+import AccordionContainer from "../components/AccordionContainer";
+import SideNav from "../components/SideNav";
 import React, { useEffect } from "react";
 import { Alert, Icon } from "@trussworks/react-uswds";
 
