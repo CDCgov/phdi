@@ -10,6 +10,8 @@ import {
   convertUTCToLocalString,
   formatVitals,
   formatContactPoint,
+  getDataId,
+  getFirstNonCommentChild,
 } from "@/app/services/formatService";
 import { ContactPoint } from "fhir/r4";
 
@@ -157,7 +159,7 @@ describe("Format Date", () => {
 describe("formatTablesToJSON", () => {
   it("should return the JSON object given an HTML string", () => {
     const htmlString =
-      "<li data-id='Result.12345'>Lab Test<table><thead><tr><th>Component</th><th>Analysis Time</th></tr></thead><tbody><tr data-id='Result.12345.Comp1'><td data-id='Result.12345.Comp1Name'>Campylobacter, NAAT</td><td>01/01/2024 1:00 PM PDT</td></tr><tr data-id='Result.12345.Comp2'><td data-id='Result.12345.Comp2Name'>Salmonella, NAAT</td><td>01/01/2024 1:00 PM PDT</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.12345.Specimen'>Stool</td><td>01/01/2024 12:00 PM PDT</td><td>01/01/2024 12:00 PM PDT</td></tr></tbody></table></li>";
+      "<li><!-- data-id: Result.12345 -->Lab Test<table><thead><tr><th>Component</th><th>Analysis Time</th></tr></thead><tbody><tr data-id='Result.12345.Comp1'><td data-id='Result.12345.Comp1Name'>Campylobacter, NAAT</td><td>01/01/2024 1:00 PM PDT</td></tr><tr data-id='Result.12345.Comp2'><td data-id='Result.12345.Comp2Name'>Salmonella, NAAT</td><td>01/01/2024 1:00 PM PDT</td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td data-id='Result.12345.Specimen'>Stool</td><td>01/01/2024 12:00 PM PDT</td><td>01/01/2024 12:00 PM PDT</td></tr></tbody></table></li>";
     const expectedResult = [
       {
         resultId: "Result.12345",
@@ -431,5 +433,116 @@ describe("formatContactPoint", () => {
     ];
     const actual = formatContactPoint(contactPoints);
     expect(actual).toEqual(["me@example.com", "medicine@example.com"]);
+  });
+});
+
+describe("getDataId", () => {
+  it("should return the correct data-id from an attribute", () => {
+    const li = document.createElement("li");
+    li.setAttribute("data-id", "attribute123");
+
+    const result = getDataId(li);
+    expect(result).toEqual("attribute123");
+  });
+
+  it("should return the correct data-id from a comment node", () => {
+    const li = document.createElement("li");
+    li.appendChild(document.createComment("data-id: abc123-abc123"));
+
+    const result = getDataId(li);
+    expect(result).toEqual("abc123-abc123");
+  });
+
+  it("should return null if there is no data-id attribute or comment node", () => {
+    const li = document.createElement("li");
+    li.textContent = "No comment or data-id attribute here";
+
+    const result = getDataId(li);
+    expect(result).toBeNull();
+  });
+
+  it("should return null if the comment does not contain a valid data-id", () => {
+    const li = document.createElement("li");
+    li.appendChild(document.createComment("some other comment"));
+
+    const result = getDataId(li);
+    expect(result).toBeNull();
+  });
+
+  it("should handle multiple child nodes and find the data-id in a comment", () => {
+    const li = document.createElement("li");
+    li.appendChild(document.createTextNode("Some text"));
+    li.appendChild(document.createComment("data-id: abc123-abc123"));
+    li.appendChild(document.createElement("span"));
+
+    const result = getDataId(li);
+    expect(result).toEqual("abc123-abc123");
+  });
+
+  it("should return the correct data-id from a table element", () => {
+    const table = document.createElement("table");
+    table.setAttribute("data-id", "table123");
+
+    const result = getDataId(table);
+    expect(result).toEqual("table123");
+  });
+
+  it("should prioritize the data-id attribute over a comment node", () => {
+    const li = document.createElement("li");
+    li.setAttribute("data-id", "attribute123");
+    li.appendChild(document.createComment("data-id: abc123-abc123"));
+
+    const result = getDataId(li);
+    expect(result).toEqual("attribute123"); // Should return the attribute value
+  });
+});
+
+describe("getFirstNonCommentChild", () => {
+  it("should return the first non-comment child node", () => {
+    const li = document.createElement("li");
+    const textNode = document.createTextNode("This is a text node");
+    li.appendChild(document.createComment("This is a comment"));
+    li.appendChild(textNode);
+    li.appendChild(document.createElement("span"));
+
+    const result = getFirstNonCommentChild(li);
+    expect(result).toBe(textNode); // The text node should be returned
+  });
+
+  it("should return null if all child nodes are comments", () => {
+    const li = document.createElement("li");
+    li.appendChild(document.createComment("This is a comment"));
+    li.appendChild(document.createComment("Another comment"));
+
+    const result = getFirstNonCommentChild(li);
+    expect(result).toBeNull(); // No non-comment node exists
+  });
+
+  it("should return the first element node if it is the first non-comment node", () => {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    li.appendChild(document.createComment("This is a comment"));
+    li.appendChild(span);
+
+    const result = getFirstNonCommentChild(li);
+    expect(result).toBe(span); // The <span> element should be returned
+  });
+
+  it("should return null if there are no child nodes", () => {
+    const li = document.createElement("li");
+
+    const result = getFirstNonCommentChild(li);
+    expect(result).toBeNull(); // No children present
+  });
+
+  it("should return the first non-comment node even if there are multiple child nodes", () => {
+    const li = document.createElement("li");
+    const div = document.createElement("div");
+    li.appendChild(document.createComment("This is a comment"));
+    li.appendChild(div);
+    li.appendChild(document.createElement("span"));
+
+    const result = getFirstNonCommentChild(li);
+    expect(result).toBe(div); // The <div> should be returned, even with more children
   });
 });

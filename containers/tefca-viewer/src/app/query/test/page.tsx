@@ -8,7 +8,7 @@ import ResultsView from "../components/ResultsView";
 import MultiplePatientSearchResults from "../components/MultiplePatientSearchResults";
 import SearchForm from "../components/SearchForm";
 import NoPatientsFound from "../components/NoPatientsFound";
-import { Mode } from "../../constants";
+import { Mode, USE_CASES } from "../../constants";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -32,6 +32,13 @@ const Query: React.FC = () => {
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
             userJourney="test"
+            setUseCase={function (useCase: USE_CASES): void {
+              throw new Error("Function not implemented.");
+            }}
+            setQueryType={function (queryType: string): void {
+              throw new Error("Function not implemented.");
+            }}
+            useCase={"social-determinants"}
           />
         </Suspense>
       )}
@@ -70,14 +77,3 @@ const Query: React.FC = () => {
   );
 };
 export default Query;
-function LoadingView({ loading }: { loading: boolean }) {
-  if (loading) {
-    return (
-      <div>
-        <h2>Loading...</h2>
-      </div>
-    );
-  } else {
-    return null;
-  }
-}
