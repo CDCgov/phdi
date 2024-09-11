@@ -1,8 +1,8 @@
 import { UseCaseQueryResponse } from "../../query-service";
-import AccordionContainer from "./AccordionContainer";
 import SideNav from "./SideNav";
 import React, { useEffect } from "react";
 import { Alert, Icon } from "@trussworks/react-uswds";
+import ResultsViewTable from "./ResultsViewTable";
 
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
@@ -76,7 +76,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({
               Query Results
             </h2>
             <div className="margin-top-6">
-              <AccordionContainer queryResponse={useCaseQueryResponse} />
+              <ResultsViewTable queryResponse={useCaseQueryResponse} />
             </div>
           </div>
         </div>
