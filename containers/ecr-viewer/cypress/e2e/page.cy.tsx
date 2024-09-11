@@ -1,6 +1,7 @@
 describe("Home Page", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/");
+    const basePath = Cypress.env("BASE_PATH") || "";
+    cy.visit(`${basePath}`);
   });
 
   it("Should load the home page listing all eCR IDs", () => {
