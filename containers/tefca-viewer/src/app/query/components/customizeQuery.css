@@ -1,0 +1,9 @@
+.customizeQueryAccordion > button {
+  background: var(--Base-base-dark, #565c65);
+}
+
+.customizeQueryAccordion > button:hover,
+.customizeQueryAccordion > button:focus {
+  background: var(--Base-base-dark, #565c65);
+  outline: none;
+}

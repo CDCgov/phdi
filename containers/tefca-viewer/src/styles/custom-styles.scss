@@ -1,8 +1,5 @@
 @use "uswds-core" as *;
-
-// taken as values from Figma
-$ecr-viewer-max-width: 90rem;
-$ecr-viewer-content-margin: 6.5rem;
+@use "_variables" as *;
 
 .section__line {
   border-top: 1px solid #99deea;
@@ -59,16 +56,6 @@ h4 {
   font-weight: bold;
 }
 
-.info-container>.usa-accordion__heading>.usa-accordion__button {
-  font-size: 32px;
-  color: white !important;
-  background-color: #2e6276;
-
-  &:hover {
-    background-color: #224856;
-  }
-}
-
 .accordion-rr {
   border: #111111 1px solid;
   border-radius: 0.25rem;
@@ -99,7 +86,6 @@ h4 {
 .usa-accordion__content {
   margin-top: -80px;
 }
-
 
 .minimize-container {
   position: absolute;
@@ -153,11 +139,6 @@ h4 {
   font-weight: bold;
 }
 
-.main-container {
-  max-width: calc($ecr-viewer-max-width - 2 * $ecr-viewer-content-margin);
-  padding: 3rem 0 4.5rem 0;
-}
-
 .nav-wrapper {
   display: flex;
   flex-direction: column;
@@ -181,11 +162,19 @@ h4 {
   line-height: 18px;
 }
 
-ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a {
+ul.usa-sidenav
+  > li.usa-sidenav__item
+  > ul.usa-sidenav__sublist
+  > li.usa-sidenav__item
+  > a {
   font-weight: bold;
 }
 
-ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item>a.usa-current {
+ul.usa-sidenav
+  > li.usa-sidenav__item
+  > ul.usa-sidenav__sublist
+  > li.usa-sidenav__item
+  > a.usa-current {
   &::after {
     background-color: rgb(0, 94, 162);
     content: "";
@@ -374,9 +363,11 @@ html {
 }
 
 .gradient-blue-background {
-  background: linear-gradient(109.54deg,
-      rgba(173, 207, 220, 0.025) 8.02%,
-      rgba(46, 98, 118, 0.5) 117.53%);
+  background: linear-gradient(
+    109.54deg,
+    rgba(173, 207, 220, 0.025) 8.02%,
+    rgba(46, 98, 118, 0.5) 117.53%
+  );
 
   padding: 0.5rem;
   /* Optional: some padding to make the background more noticeable */
@@ -640,13 +631,6 @@ html {
   padding: 0px;
 }
 
-.usa-accordion__button {
-  background: var(--Base-base-dark, #565c65);
-  color: white;
-  width: 100%;
-  padding: 14px 20px;
-}
-
 .accordion-table-header {
   display: flex;
   justify-content: space-between;
@@ -659,12 +643,6 @@ html {
   box-sizing: border-box;
   margin-left: 6px;
   margin-top: 10px;
-}
-
-.usa-accordion__button:hover,
-.usa-accordion__button:focus {
-  background: var(--Base-base-dark, #565c65);
-  outline: none;
 }
 
 .accordion-items {
@@ -718,11 +696,11 @@ html {
 .accordion-item {
   padding-bottom: 0 !important;
 
-  &>div>div.padding-bottom-3 {
+  & > div > div.padding-bottom-3 {
     padding-bottom: 0;
   }
 
-  &>button {
+  & > button {
     background-image: none !important;
   }
 
@@ -742,7 +720,7 @@ html {
   justify-content: space-between;
   align-items: flex-start;
 
-  &>label {
+  & > label {
     margin-top: 0;
     width: 24px;
     height: 24px;
@@ -754,7 +732,7 @@ html {
       background-size: 14px auto !important;
     }
 
-    &>.hide-me {
+    & > .hide-me {
       display: none;
     }
   }
@@ -880,9 +858,9 @@ html {
 }
 
 .usa-accordion--bordered .usa-accordion__content {
-  border-bottom: 1px solid #71767A;
-  border-left: 1px solid #71767A;
-  border-right: 1px solid #71767A;
+  border-bottom: 1px solid #71767a;
+  border-left: 1px solid #71767a;
+  border-right: 1px solid #71767a;
   border-radius: 4px;
 }
 
@@ -923,7 +901,7 @@ html {
   grid-template-columns: 130px 160px 1fr;
   align-items: center;
   padding: 0px 24px;
-  border-bottom: 1px solid #71767A;
+  border-bottom: 1px solid #71767a;
   width: 100%;
 }
 
@@ -941,9 +919,9 @@ html {
 }
 
 .customize-query-grid-row:nth-child(even) {
-  background-color: rgba(223, 225, 226, 0.50);
-  border-bottom: 1px solid #71767A;
-  border-top: 1px solid #71767A;
+  background-color: rgba(223, 225, 226, 0.5);
+  border-bottom: 1px solid #71767a;
+  border-top: 1px solid #71767a;
 }
 
 .customize-query-grid-row:last-child {
@@ -980,5 +958,5 @@ hr.custom-hr {
 }
 
 .Toastify__toast-container {
-  width: calc($ecr-viewer-max-width * 0.4) !important;
+  width: calc($tefca-viewer-max-width * 0.4) !important;
 }
