@@ -80,21 +80,37 @@ export const filterQueryRows = async (
 };
 
 /**
- * Helper function that transforms a set of database rows into a list of
- * ValueSet item structs for display on the CustomizeQuery page.
+ * Helper function that transforms and groups a set of database rows into a list of
+ * ValueSet items grouped by author and code_system for display on the CustomizeQuery page.
  * @param rows The rows returned from the DB.
- * @returns A list of ValueSetItems constructed from the DB rows.
+ * @returns A list of ValueSetItems grouped by author and system.
  */
 export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
-  const vsItems = rows.map((r) => {
-    const vsTranslation: ValueSetItem = {
-      code: r["code"],
-      display: r["display"],
-      system: r["code_system"],
-      include: r["include"],
-      author: r["author"],
-    };
-    return vsTranslation;
-  });
-  return vsItems;
+  // Group by author and code_system
+  const grouped = rows.reduce(
+    (acc, row) => {
+      const groupKey = `${row.author}:${row.code_system}`;
+      if (!acc[groupKey]) {
+        acc[groupKey] = {
+          author: row.author,
+          system: row.code_system,
+          items: [],
+        };
+      }
+      acc[groupKey].items.push({
+        code: row["code"],
+        display: row["display"],
+        system: row["code_system"],
+        include: row["include"],
+        author: row["author"],
+      });
+      return acc;
+    },
+    {} as Record<
+      string,
+      { author: string; system: string; items: ValueSetItem[] }
+    >,
+  );
+
+  return Object.values(grouped);
 };
