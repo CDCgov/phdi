@@ -1,0 +1,10 @@
+@use "./variables" as *;
+
+.main-container {
+  max-width: calc($tefca-viewer-max-width - 2 * $tefca-viewer-content-margin);
+  width: 100%;
+  margin: auto;
+  margin-bottom: 5rem;
+  margin-top: 1.5rem;
+  padding: 0 !important;
+}
