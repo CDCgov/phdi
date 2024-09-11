@@ -41,36 +41,30 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ queryResponse }) => {
     {
       title: "Patient Info",
       subtitle: "Demographics",
-      id: "patient-info",
       content: patient ? <Demographics patient={patient} /> : null,
     },
     {
       title: "Observations",
-      id: "observations",
       content: observations ? (
         <ObservationTable observations={observations} />
       ) : null,
     },
     {
       title: "Encounters",
-      id: "encounters",
       content: encounters ? <EncounterTable encounters={encounters} /> : null,
     },
     {
       title: "Conditions",
-      id: "conditions",
       content: conditions ? <ConditionsTable conditions={conditions} /> : null,
     },
     {
       title: "Diagnostic Reports",
-      id: "diagnostic-reports",
       content: diagnosticReports ? (
         <DiagnosticReportTable diagnosticReports={diagnosticReports} />
       ) : null,
     },
     {
       title: "Medication Requests",
-      id: "medication-requests",
       content: medicationRequests ? (
         <MedicationRequestTable medicationRequests={medicationRequests} />
       ) : null,
@@ -80,6 +74,7 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ queryResponse }) => {
   return (
     <div data-testid="accordion">
       {accordionItems.map((item) => {
+        const titleId = formatIdForAnchorTag(item.title);
         return (
           item.content && (
             <>
@@ -89,11 +84,11 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ queryResponse }) => {
                   <ResultsViewAccordionBody
                     title={item.subtitle ?? item.title}
                     content={item.content}
-                    id={item.id}
+                    id={formatIdForAnchorTag(item.subtitle ?? item.title)}
                   />
                 }
                 expanded={true}
-                id={item.id}
+                id={titleId}
                 headingLevel={"h3"}
                 accordionClassName={styles.accordionWrapper}
                 containerClassName={styles.accordionContainer}
@@ -107,3 +102,7 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ queryResponse }) => {
 };
 
 export default ResultsViewTable;
+
+function formatIdForAnchorTag(id: string) {
+  return id.toLocaleLowerCase().replace(" ", "-");
+}

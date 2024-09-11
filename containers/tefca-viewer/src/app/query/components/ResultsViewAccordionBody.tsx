@@ -2,7 +2,7 @@ import styles from "./resultsTable.module.css";
 
 type ResultsViewAccordionBodyProps = {
   title: string;
-  id: string;
+  id?: string;
   content: React.ReactNode;
 };
 
@@ -22,7 +22,9 @@ const ResultsViewAccordionBody: React.FC<ResultsViewAccordionBodyProps> = ({
 }) => {
   return (
     <>
-      <h4 className={styles.accordionHeading}>{title}</h4>
+      <h4 id={id} className={styles.accordionHeading}>
+        {title}
+      </h4>
       <div className={"usa-summary-box__text"}>{content}</div>
     </>
   );
