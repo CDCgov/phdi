@@ -61,7 +61,7 @@ const PatientSearchView: React.FC<PatientSearchViewProps> = ({
 }) => {
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[useCase]?.[0]?.value || ""
+    patientOptions[useCase]?.[0]?.value || "",
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -86,12 +86,12 @@ const PatientSearchView: React.FC<PatientSearchViewProps> = ({
         setUseCase(data.UseCase as USE_CASES);
         setQueryType(
           demoQueryOptions.find((option) => option.value === data.UseCase)
-            ?.label || ""
+            ?.label || "",
         );
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption, setUseCase, setQueryType]
+    [patientOption, setUseCase, setQueryType],
   );
 
   // Fills fields if patientOption changes (auto-fill)
