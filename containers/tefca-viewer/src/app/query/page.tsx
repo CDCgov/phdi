@@ -2,8 +2,8 @@
 import React, { Suspense, useState } from "react";
 import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import ResultsView from "./views/ResultsView";
-import MultiplePatientSearchResults from "./views/MultiplePatientSearchResults";
-import SearchForm from "./views/SearchForm";
+import MultiplePatientResultsView from "./views/MultiplePatientResultsView";
+import SearchForm from "./views/PatientSearchView";
 import NoPatientsFound from "./components/NoPatientsFound";
 import {
   Mode,
@@ -11,7 +11,7 @@ import {
   USE_CASES,
   UseCaseToQueryNameMap,
 } from "../constants";
-import CustomizeQuery from "./views/CustomizeQuery";
+import CustomizeQueryView from "./views/CustomizeQueryView";
 import LoadingView from "./views/LoadingView";
 import { ToastContainer } from "react-toastify";
 
@@ -67,7 +67,7 @@ const Query: React.FC = () => {
       {/* Show the multiple patients view if there are multiple patients */}
       {mode === "multiple-patients" && originalRequest && (
         <>
-          <MultiplePatientSearchResults
+          <MultiplePatientResultsView
             patients={useCaseQueryResponse?.Patient ?? []}
             originalRequest={originalRequest}
             setLoading={setLoading}
@@ -84,7 +84,7 @@ const Query: React.FC = () => {
       {/* Show the customize query view to select and change what is returned in results */}
       {mode === "customize-queries" && (
         <>
-          <CustomizeQuery
+          <CustomizeQueryView
             useCaseQueryResponse={useCaseQueryResponse}
             queryType={queryType}
             queryName={UseCaseToQueryNameMap[useCase]}
