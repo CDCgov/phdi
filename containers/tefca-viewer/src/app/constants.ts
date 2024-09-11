@@ -14,12 +14,12 @@ export type USE_CASES = (typeof UseCases)[number];
 export const UseCaseToQueryNameMap: {
   [key in USE_CASES]: string;
 } = {
-  "social-determinants": "",
-  "newborn-screening": "",
-  syphilis: "",
-  gonorrhea: "",
+  "social-determinants": "Social Determinants of Health",
+  "newborn-screening": "Newborn Screening",
+  syphilis: "Congenital syphilis (disorder)",
+  gonorrhea: "Gonorrhea (disorder)",
   chlamydia: "Chlamydia trachomatis infection (disorder)",
-  cancer: "",
+  cancer: "Cancer (Leukemia)",
 };
 
 /**
