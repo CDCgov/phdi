@@ -1,6 +1,6 @@
 node_modules
 .next/
-.env.local
+*.local
 certificates
 /test-results/
 /playwright-report/

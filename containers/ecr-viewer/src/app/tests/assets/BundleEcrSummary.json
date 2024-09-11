@@ -76,7 +76,7 @@
             "title": "Immunizations",
             "text": {
               "status": "generated",
-              "div": "<table><thead><tr><th>Name</th><th>Administration Dates</th><th>Next Due</th></tr></thead><tbody><tr data-id='immunization6'><td data-id='immunization6Name'>DTaP, 5 pertussis antigens vaccine (DAPTACEL)</td><td>06/15/2021</td><td></td></tr><tr data-id='immunization5'><td data-id='immunization5Name'>Hep B, adult vaccine (Engerix/Recombivax)</td><td>09/08/2020</td><td></td></tr><tr data-id='immunization4'><td data-id='immunization4Name'>SARS-COV-2 (COVID-19) Spikevax Vaccine, Moderna</td><td>01/22/2021</td><td></td></tr></tbody></table>documented as of this encounter"
+              "div": "<table><thead><tr><th>Name</th><th>Administration Dates</th><th>Next Due</th></tr></thead><tbody><tr data-id='immunization6'><td><!-- data-id: immunization6Name -->DTaP, 5 pertussis antigens vaccine (DAPTACEL)</td><td>06/15/2021</td><td></td></tr><tr data-id='immunization5'><td data-id='immunization5Name'>Hep B, adult vaccine (Engerix/Recombivax)</td><td>09/08/2020</td><td></td></tr><tr data-id='immunization4'><td data-id='immunization4Name'>SARS-COV-2 (COVID-19) Spikevax Vaccine, Moderna</td><td>01/22/2021</td><td></td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
