@@ -1,15 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  saveToS3,
-  saveToAzure,
-  saveToPostgres,
-} from "./save-fhir-data-service";
-import { S3_SOURCE, AZURE_SOURCE, POSTGRES_SOURCE } from "@/app/api/utils";
+import { saveFhirData, saveWithMetadata } from "./save-fhir-data-service";
 
 /**
  * Handles POST requests and saves the FHIR Bundle to the database.
- * @param request - The incoming request object. Expected to have a JSON body in the format `{"fhirBundle":{}, "saveSource": "postgres|s3""}`. FHIR bundle must include the ecr ID under entry[0].resource.id.
- * @returns A `NextResponse` object with a JSON payload indicating the success message and the status code set to 200. The response content type is set to `application/json`.
+ * @param request - The incoming request object. Expected to have a JSON body in the format `{"fhirBundle":{}, "saveSource": "postgres|s3|azure""}`. FHIR bundle must include the ecr ID under entry[0].resource.id.
+ * @returns A `NextResponse` object with a JSON payload indicating the success message. The response content type is set to `application/json`.
  */
 export async function POST(request: NextRequest) {
   let requestBody;
@@ -50,19 +45,14 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (saveSource === S3_SOURCE) {
-    return saveToS3(fhirBundle, ecrId);
-  } else if (saveSource === AZURE_SOURCE) {
-    return saveToAzure(fhirBundle, ecrId);
-  } else if (saveSource === POSTGRES_SOURCE) {
-    return await saveToPostgres(fhirBundle, ecrId);
-  } else {
-    return NextResponse.json(
-      {
-        message:
-          'Invalid save source. Please provide a valid value for \'saveSource\' ("postgres", "s3", or "azure").',
-      },
-      { status: 400 },
+  if (requestBody.metadata) {
+    return saveWithMetadata(
+      fhirBundle,
+      ecrId,
+      saveSource,
+      requestBody.metadata,
     );
+  } else {
+    return saveFhirData(fhirBundle, ecrId, saveSource);
   }
 }
