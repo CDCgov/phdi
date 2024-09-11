@@ -105,10 +105,10 @@ const SideNav: React.FC = () => {
           text: heading.textContent || "",
           level: heading.tagName.toLowerCase(),
           priority: headingLevels.findIndex(
-            (level) => heading.tagName.toLowerCase() == level
+            (level) => heading.tagName.toLowerCase() == level,
           ),
         };
-      }
+      },
     );
     let sortedHeadings: SectionConfig[] = sortHeadings(headings);
     setSectionConfigs(sortedHeadings);
@@ -148,7 +148,7 @@ const SideNav: React.FC = () => {
       if (section.subNavItems) {
         let subSideNavItems = buildSideNav(section.subNavItems);
         sideNavItems.push(
-          <UswdsSideNav isSubnav={true} items={subSideNavItems} />
+          <UswdsSideNav isSubnav={true} items={subSideNavItems} />,
         );
       }
     }
