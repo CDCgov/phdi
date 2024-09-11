@@ -13,6 +13,7 @@ import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
 import "./customizeQuery.css";
+
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
   queryType: string;
@@ -271,7 +272,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         id: group.author + ":" + group.system,
         className: "accordion-item",
         content: (
-          <AccordianSection>
+          <div className="padding-bottom-3">
             <div className="customize-query-grid-container customize-query-table">
               <div className="customize-query-grid-header margin-top-10">
                 <div className="accordion-table-header">Include</div>
@@ -279,7 +280,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                 <div className="accordion-table-header">Display</div>
               </div>
               <div className="customize-query-grid-body">
-                {group.items.map((item, itemIndex) => (
+                {group.items.map((item, index) => (
                   <div
                     className="customize-query-grid-row customize-query-striped-row"
                     key={item.code}
@@ -300,7 +301,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                       }}
                       onClick={(e) => {
                         e.stopPropagation();
-                        toggleInclude(groupIndex, itemIndex);
+                        toggleInclude(groupIndex, index);
                       }}
                     >
                       {item.include && (
@@ -318,7 +319,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                 ))}
               </div>
             </div>
-          </AccordianSection>
+          </div>
         ),
         expanded: true,
         headingLevel: "h3",
