@@ -5,7 +5,17 @@ import ResultsView from "./components/ResultsView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
 import SearchForm from "./components/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
-import { Mode } from "../constants";
+import {
+  Mode,
+  demoQueryOptions,
+  USE_CASES,
+  UseCaseToQueryNameMap,
+} from "../constants";
+import CustomizeQuery from "./components/CustomizeQuery";
+import LoadingView from "./components/LoadingView";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.min.css";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -16,8 +26,12 @@ const Query: React.FC = () => {
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
   const [useCaseQueryResponse, setUseCaseQueryResponse] =
-    useState<UseCaseQueryResponse>();
+    useState<UseCaseQueryResponse>({});
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
+  const [useCase, setUseCase] = useState<USE_CASES>("cancer");
+  const [queryType, setQueryType] = useState<string>(
+    demoQueryOptions.find((option) => option.value === useCase)?.label || "",
+  );
 
   return (
     <div>
@@ -28,7 +42,10 @@ const Query: React.FC = () => {
             setLoading={setLoading}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
+            setUseCase={setUseCase}
+            setQueryType={setQueryType}
             userJourney="demo"
+            useCase={useCase as USE_CASES}
           />
         </Suspense>
       )}
@@ -60,23 +77,26 @@ const Query: React.FC = () => {
       )}
       {/* Show the no patients found view if there are no patients */}
       {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
-      {loading && (
-        <div className="overlay">
-          <div className="spinner"></div>
-        </div>
+
+      {/* Use LoadingView component for loading state */}
+      <LoadingView loading={loading} />
+
+      {/* Show the customize query view to select and change what is returned in results */}
+      {mode === "customize-queries" && (
+        <>
+          <CustomizeQuery
+            useCaseQueryResponse={useCaseQueryResponse}
+            queryType={queryType}
+            queryName={UseCaseToQueryNameMap[useCase]}
+            goBack={() => {
+              setMode("search");
+            }}
+          />
+        </>
       )}
+      <ToastContainer icon={false} />
     </div>
   );
 };
+
 export default Query;
-function LoadingView({ loading }: { loading: boolean }) {
-  if (loading) {
-    return (
-      <div>
-        <h2>Loading...</h2>
-      </div>
-    );
-  } else {
-    return null;
-  }
-}

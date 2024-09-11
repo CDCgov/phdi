@@ -25,13 +25,15 @@ import {
 } from "../../query-service";
 
 import { FormatPhoneAsDigits } from "@/app/format-service";
-import { useSearchParams } from "next/navigation";
 
 interface SearchFormProps {
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
+  setUseCase: (useCase: USE_CASES) => void;
+  setQueryType: (queryType: string) => void;
+  useCase: USE_CASES; // Pass useCase from parent
   userJourney: "test" | "demo";
 }
 
@@ -41,6 +43,9 @@ interface SearchFormProps {
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
+ * @param root0.setUseCase - The function to set the use case.
+ * @param root0.setQueryType - The function to set the query type.
+ * @param root0.useCase - The current use case.
  * @param root0.userJourney - The user journey.
  * @returns - The SearchForm component.
  */
@@ -49,15 +54,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setUseCaseQueryResponse,
   setMode,
   setLoading,
-  userJourney: userJourney,
+  setUseCase,
+  setQueryType,
+  useCase,
+  userJourney,
 }) => {
-  const params = useSearchParams();
-
-  // Get the demoOption (initial selection) selected from modal via the URL
-  const [useCase, setUseCase] = useState<USE_CASES>(
-    (params.get("useCase") as USE_CASES) || "cancer",
-  );
-
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
     patientOptions[useCase]?.[0]?.value || "",
@@ -83,10 +84,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setPhone(data.Phone);
         setFhirServer(data.FhirServer as FHIR_SERVERS);
         setUseCase(data.UseCase as USE_CASES);
+        setQueryType(
+          demoQueryOptions.find((option) => option.value === data.UseCase)
+            ?.label || "",
+        );
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption],
+    [patientOption, setUseCase, setQueryType],
   );
 
   // Fills fields if patientOption changes (auto-fill)
@@ -99,8 +104,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
   const handleDemoQueryChange = (selectedDemoOption: string) => {
-    // setDemoOption(selectedDemoOption);
     setPatientOption(patientOptions[selectedDemoOption][0].value);
+  };
+
+  const handleClick = () => {
+    setMode("customize-queries");
   };
 
   async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -156,11 +164,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 <select
                   id="query"
                   name="query"
-                  className="usa-select  margin-top-1"
-                  value={useCase}
+                  className="usa-select margin-top-1"
+                  defaultValue={useCase}
                   onChange={(event) => {
                     handleDemoQueryChange(event.target.value);
-                    setUseCase(event.target.value as USE_CASES);
                   }}
                 >
                   {demoQueryOptions.map((option) => (
@@ -216,6 +223,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     id="patient"
                     name="patient"
                     className="usa-select margin-top-1"
+                    defaultValue=""
                     value={patientOption}
                     onChange={(event) => {
                       setPatientOption(event.target.value);
@@ -249,42 +257,47 @@ const SearchForm: React.FC<SearchFormProps> = ({
               <b>Select a sample query and patient to populate the form.</b>
             </Label>
             <Label htmlFor="query">Query</Label>
-            <div className="display-flex flex-align-start">
-              <div className="usa-combo-box flex-1" data-enhanced="true">
-                <select
-                  id="query"
-                  name="query"
-                  className="usa-select  margin-top-1"
-                  value={useCase}
-                  onChange={(event) => {
-                    handleDemoQueryChange(event.target.value);
-                    setUseCase(event.target.value as USE_CASES);
-                  }}
-                >
-                  {demoQueryOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <Label htmlFor="patient">Patient</Label>
-                <select
-                  id="patient"
-                  name="patient"
-                  className="usa-select margin-top-1"
-                  value={patientOption}
-                  onChange={(event) => {
-                    setPatientOption(event.target.value);
-                  }}
-                >
-                  {patientOptions[useCase]?.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div className="display-flex flex-align-start query-customize-wrapper">
+              <select
+                id="query"
+                name="query"
+                className="usa-select margin-top-1"
+                value={useCase}
+                onChange={(event) => {
+                  handleDemoQueryChange(event.target.value);
+                  setUseCase(event.target.value as USE_CASES);
+                }}
+              >
+                {demoQueryOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <Button
+                type="button"
+                className="usa-button usa-button--outline customize-query-button"
+                onClick={() => handleClick()}
+              >
+                Customize query
+              </Button>
             </div>
+            <Label htmlFor="patient">Patient</Label>
+            <select
+              id="patient"
+              name="patient"
+              className="usa-select margin-top-1"
+              value={patientOption}
+              onChange={(event) => {
+                setPatientOption(event.target.value);
+              }}
+            >
+              {patientOptions[useCase]?.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
         )}
         <Fieldset>

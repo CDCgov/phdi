@@ -1,14 +1,4 @@
 services:
-  # Flyway migrations and DB version control
-  flyway:
-    image: flyway/flyway:10.16-alpine
-    command: -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate
-    volumes:
-      - ./flyway/sql:/flyway/sql
-      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
-    depends_on:
-      - db
-
   # PostgreSQL DB for custom query and value set storage
   db:
     image: "postgres:alpine"
@@ -21,6 +11,17 @@ services:
       interval: 2s
       timeout: 5s
       retries: 20
+
+  # Flyway migrations and DB version control
+  flyway:
+    image: flyway/flyway:10.16-alpine
+    command: -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate
+    volumes:
+      - ./flyway/sql:/flyway/sql
+      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
+    depends_on:
+      db:
+        condition: service_started
 
   # Next.js app
   tefca-viewer:
@@ -37,3 +38,5 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      flyway:
+        condition: service_completed_successfully
