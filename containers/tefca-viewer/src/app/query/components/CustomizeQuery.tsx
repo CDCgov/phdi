@@ -2,8 +2,7 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import { Accordion, Button, Icon } from "@trussworks/react-uswds";
-import { AccordianSection } from "../../query/component-utils";
-import { ValueSetItem } from "../../constants";
+import { ValueSet, ValueSetItem } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import {
   getSavedQueryByName,
@@ -13,7 +12,7 @@ import {
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
-
+import "./customizeQuery.css";
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
   queryType: string;
@@ -328,7 +327,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   }, [groupedValueSetState, activeTab, isExpanded]);
 
   return (
-    <div className="customize-query-container">
+    <div className="main-container customize-query-container">
       <div style={{ paddingTop: "24px" }}>
         <a
           href="#"
@@ -392,7 +391,12 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         Include all {activeTab}
       </a>
       <div>
-        <Accordion items={accordionItems} multiselectable bordered />
+        <Accordion
+          className="customizeQueryAccordion"
+          items={accordionItems}
+          multiselectable
+          bordered
+        />
       </div>
       <div className="button-container">
         <Button type="button" onClick={handleApplyChanges}>
