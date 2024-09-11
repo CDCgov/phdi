@@ -129,7 +129,7 @@ describe("POST Save FHIR Data API Route", () => {
 
     const response = await POST(request);
     const responseJson = await response.json();
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
     expect(responseJson.message).toBe(
       "Failed to insert data to S3. HTTP Status Code: 403",
     );
@@ -183,7 +183,7 @@ describe("POST Save FHIR Data API Route - Azure", () => {
     const response = await POST(request);
     const responseJson = await response.json();
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
     expect(responseJson.message).toInclude(
       "Failed to insert FHIR bundle to Azure Blob Storage.",
     );
