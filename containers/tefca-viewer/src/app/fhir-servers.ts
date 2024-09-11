@@ -1,7 +1,6 @@
 import fetch, { RequestInit, HeaderInit, Response } from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
 import { FHIR_SERVERS } from "./constants";
-import { configure } from "@testing-library/dom";
 /**
  * Defines the model for a FHIR server configuration
  */
@@ -86,7 +85,7 @@ class FHIRClient {
     const fetchPromises = paths.map((path) =>
       fetch(this.hostname + path, this.init).then((response) => {
         return response;
-      })
+      }),
     );
 
     return await Promise.all(fetchPromises);
