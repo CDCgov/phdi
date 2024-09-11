@@ -12,6 +12,7 @@ import {
 } from "@/app/database-service";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
+import { showRedirectConfirmation } from "./RedirectionToast";
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
@@ -43,10 +44,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     conditions: [],
   });
   const [isExpanded, setIsExpanded] = useState(true);
-
-  if (!useCaseQueryResponse) {
-    return <LoadingView loading={true} />;
-  }
 
   // Keeps track of whether the accordion is expanded to change the direction of the arrow
   const handleToggleExpand = () => {
@@ -97,6 +94,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       return acc;
     }, {} as ValueSet);
     goBack();
+    showRedirectConfirmation({
+      heading: QUERY_CUSTOMIZATION_CONFIRMATION_HEADER,
+      body: QUERY_CUSTOMIZATION_CONFIRMATION_BODY,
+      headingLevel: "h4",
+    });
   };
 
   useEffect(() => {
@@ -302,6 +304,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           <Icon.ArrowBack /> Return to patient search
         </a>
       </div>
+      <LoadingView loading={!useCaseQueryResponse} />
       <h1 className="font-sans-2xl text-bold" style={{ paddingBottom: "0px" }}>
         Customize query
       </h1>
@@ -368,3 +371,8 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 };
 
 export default CustomizeQuery;
+
+export const QUERY_CUSTOMIZATION_CONFIRMATION_HEADER =
+  "Query Customization Successful!";
+export const QUERY_CUSTOMIZATION_CONFIRMATION_BODY =
+  "You've successfully customized your query. Once you're done adding patient details, submit your completed query to get results";
