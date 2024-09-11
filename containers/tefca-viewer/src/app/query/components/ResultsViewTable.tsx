@@ -40,7 +40,7 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ queryResponse }) => {
   const accordionItems = [
     {
       title: "Patient Info",
-      id: "patient",
+      id: "patient-info",
       content: patient ? <Demographics patient={patient} /> : null,
     },
     {
@@ -62,14 +62,14 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ queryResponse }) => {
     },
     {
       title: "Diagnostic Reports",
-      id: "diagnosticReports",
+      id: "diagnostic-reports",
       content: diagnosticReports ? (
         <DiagnosticReportTable diagnosticReports={diagnosticReports} />
       ) : null,
     },
     {
       title: "Medication Requests",
-      id: "medicationRequests",
+      id: "medication-requests",
       content: medicationRequests ? (
         <MedicationRequestTable medicationRequests={medicationRequests} />
       ) : null,
@@ -88,6 +88,7 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ queryResponse }) => {
                   <ResultsViewAccordionBody
                     title={item.title}
                     content={item.content}
+                    id={item.id}
                   />
                 }
                 expanded={true}
