@@ -19,7 +19,6 @@ import "react-toastify/dist/ReactToastify.min.css";
  */
 const Query: React.FC = () => {
   const [queryType, setQueryType] = useState<string>("");
-
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
   const [useCaseQueryResponse, setUseCaseQueryResponse] =
