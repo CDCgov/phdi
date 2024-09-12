@@ -68,7 +68,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   // Set the query type based on the selected useCase so it can be passed to the CustomizeQuery component
   useEffect(() => {
     setQueryType(
-      demoQueryOptions.find((option) => option.value === useCase)?.label || ""
+      demoQueryOptions.find((option) => option.value === useCase)?.label || "",
     );
   }, [useCase]);
 
