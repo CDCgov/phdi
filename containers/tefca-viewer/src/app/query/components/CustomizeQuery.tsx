@@ -18,7 +18,8 @@ import CustomizeQueryAccordionBody from "./customizeQueryComponents/CustomizeQue
 import Accordion from "./Accordion";
 
 // Define types for better structure and reusability
-export type DefinedValueSetCollection = {
+type DefinedValueSetCollection = {
+  valueset_name: string;
   author: string;
   system: string;
   items: ValueSetItem[];

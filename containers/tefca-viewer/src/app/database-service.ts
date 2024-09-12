@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { ValueSetItem } from "./constants";
 
 const getQuerybyNameSQL = `
-select q.query_name, q.id, q.author, qtv.valueset_id, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
+select q.query_name, q.id, q.author, qtv.valueset_id, vs.name as valueset_name, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
   from query q 
   left join query_to_valueset qtv on q.id = qtv.query_id 
   left join valuesets vs on qtv.valueset_id = vs.id
@@ -92,17 +92,19 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
       // Check if both author and code_system are defined
       const author = row?.author;
       const system = row?.code_system;
+      const valueset_name = row?.valueset_name;
 
-      if (!author || !system) {
+      if (!author || !system || !valueset_name) {
         console.warn(
           `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`,
         );
         return acc;
       }
 
-      const groupKey = `${author}:${system}`;
+      const groupKey = `${valueset_name}:${author}:${system}`;
       if (!acc[groupKey]) {
         acc[groupKey] = {
+          valueset_name: valueset_name,
           author: author,
           system: system,
           items: [],
@@ -114,12 +116,18 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
         system: row["code_system"],
         include: row["include"],
         author: row["author"],
+        valueset_name: row["valueset_name"],
       });
       return acc;
     },
     {} as Record<
       string,
-      { author: string; system: string; items: ValueSetItem[] }
+      {
+        valueset_name: string;
+        author: string;
+        system: string;
+        items: ValueSetItem[];
+      }
     >,
   );
 
