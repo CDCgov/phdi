@@ -2,8 +2,7 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import { Accordion, Button, Icon } from "@trussworks/react-uswds";
-import { AccordianSection } from "../../query/component-utils";
-import { ValueSet } from "../../constants";
+import { QueryTypeToQueryName, ValueSet } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import {
   getSavedQueryByName,
@@ -13,11 +12,11 @@ import {
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
+import "./customizeQuery.css";
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
   queryType: string;
-  queryName: string;
   goBack: () => void;
 }
 
@@ -26,14 +25,12 @@ interface CustomizeQueryProps {
  * @param root0 - The properties object.
  * @param root0.useCaseQueryResponse - The response from the query service.
  * @param root0.queryType - The type of the query.
- * @param root0.queryName - The name of the query to customize.
  * @param root0.goBack - Back button to go from "customize-queries" to "search" component.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   useCaseQueryResponse,
   queryType,
-  queryName,
   goBack,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
@@ -106,6 +103,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     // avoid name-change race conditions
     let isSubscribed = true;
 
+    // Lookup the name of this queryType
+    const queryName = QueryTypeToQueryName[queryType];
+
     const fetchQuery = async () => {
       const queryResults = await getSavedQueryByName(queryName);
       const labs = await mapQueryRowsToValueSetItems(
@@ -134,7 +134,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     return () => {
       isSubscribed = false;
     };
-  }, [queryName]);
+  }, [queryType]);
 
   useEffect(() => {
     const items = valueSetState[activeTab as keyof ValueSet];
@@ -236,7 +236,8 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
             id: items[0].author + ":" + items[0].system,
             className: "accordion-item",
             content: (
-              <AccordianSection>
+              <div className="padding-bottom-3">
+                <div className="usa-summary-box__body"></div>
                 <div className="customize-query-grid-container customize-query-table">
                   <div className="customize-query-grid-header margin-top-10">
                     <div className="accordion-table-header">Include</div>
@@ -283,7 +284,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                     ))}
                   </div>
                 </div>
-              </AccordianSection>
+              </div>
             ),
             expanded: true,
             headingLevel: "h3",
@@ -293,7 +294,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   }, [valueSetState, activeTab, isExpanded]);
 
   return (
-    <div className="customize-query-container">
+    <div className="main-container customize-query-container">
       <div style={{ paddingTop: "24px" }}>
         <a
           href="#"
@@ -356,7 +357,12 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         Include all {activeTab}
       </a>
       <div>
-        <Accordion items={accordionItems} multiselectable bordered />
+        <Accordion
+          className="customizeQueryAccordion"
+          items={accordionItems}
+          multiselectable
+          bordered
+        />
       </div>
       <div className="button-container">
         <Button type="button" onClick={handleApplyChanges}>
