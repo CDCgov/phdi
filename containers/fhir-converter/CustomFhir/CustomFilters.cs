@@ -15,11 +15,10 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
   /// </summary>
   public partial class Filters
   {
-    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul", "p", "caption" };
+    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul", "paragraph", "caption" };
     private static Dictionary<string, string> replaceTags = new Dictionary<string, string>{
         {"list", "ul"},
-        {"item", "li"},
-        {"paragraph", "p"}
+        {"item", "li"}
     };
     private static Dictionary<string, string>? loincDict;
 
@@ -199,6 +198,12 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       var dataDictionary = (Dictionary<string, object>)data;
       var component = dataDictionary.TryGetValue("text", out object textComponent) ? (Dictionary<string, object>)textComponent : dataDictionary;
 
+      if (component.TryGetValue("content", out object content) && content is Dictionary<string, object> contentDict)
+      {
+        contentDict.TryGetValue("_", out object? contentVal);
+        return contentVal.ToString();
+      }
+
       if (component.TryGetValue("table", out object table))
       {
         return string.Join(", ", GetReasonsFromTable((Dictionary<string, object>)table).Distinct(StringComparer.OrdinalIgnoreCase));
@@ -233,7 +238,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
       if (addTag)
       {
-        var tagHtml = tagId != null ? $"<{tag}><!-- data-id: {tagId} -->" : $"<{tag}>";
+        var tagHtml = tagId != null ? $"<{tag} data-id='{tagId}'>" : $"<{tag}>";
         stringBuilder.Append(tagHtml);
       }
       stringBuilder.Append(ToHtmlString(value));
