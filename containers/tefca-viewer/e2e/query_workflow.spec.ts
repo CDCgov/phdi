@@ -91,7 +91,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     // so we can chain things to get the table header to make sure the accordion is open
     await expect(
       page
-        .getByTestId("accordionItem_observations_2")
+        .getByTestId("accordionItem_observations")
         .getByRole("heading", { name: "Observations" }),
     ).toBeVisible();
     // We can also just directly ask the page to find us filtered table rows
