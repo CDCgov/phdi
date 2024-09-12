@@ -13,9 +13,12 @@ import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
 import "./customizeQuery.css";
+import customAccordionStyles from "./customizeQueryComponents/customizeQueryAccordion.module.css";
+import CustomizeQueryAccordionHeader from "./customizeQueryComponents/CustomizeQueryAccordionHeader";
+import CustomizeQueryAccordionBody from "./customizeQueryComponents/CustomizeQueryAccordionBody";
 
 // Define types for better structure and reusability
-type DefinedValueSetCollection = {
+export type DefinedValueSetCollection = {
   author: string;
   system: string;
   items: ValueSetItem[];
@@ -97,7 +100,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       (item) => ({
         ...item,
         include: checked, // Set all items in this group to checked or unchecked
-      }),
+      })
     );
 
     setGroupedValueSetState((prevState) => ({
@@ -133,7 +136,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           .filter((item) => item.include); // Filter included items only
         return acc;
       },
-      {} as Record<string, ValueSetItem[]>,
+      {} as Record<string, ValueSetItem[]>
     ); // Ensure type is correct for the flattened data
 
     goBack();
@@ -155,13 +158,13 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     const fetchQuery = async () => {
       const queryResults = await getSavedQueryByName(queryName);
       const labs = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "labs"),
+        await filterQueryRows(queryResults, "labs")
       );
       const meds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "medications"),
+        await filterQueryRows(queryResults, "medications")
       );
       const conds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "conditions"),
+        await filterQueryRows(queryResults, "conditions")
       );
 
       // Only update if the fetch hasn't altered state yet
@@ -184,11 +187,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   useEffect(() => {
     const items = groupedValueSetState[activeTab].flatMap(
-      (group) => group.items,
+      (group) => group.items
     );
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
-      "select-all",
+      "select-all"
     ) as HTMLInputElement;
     if (topCheckbox) {
       topCheckbox.indeterminate =
@@ -202,128 +205,23 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       const selectedCount = group.items.filter((item) => item.include).length;
       return {
         title: (
-          <div
-            className="accordion-header display-flex flex-no-wrap flex-align-start"
-            onClick={handleToggleExpand}
-          >
-            <div
-              id="select-all"
-              className="hide-checkbox-label"
-              style={{
-                width: "36px",
-                height: "36px",
-                backgroundColor: selectedCount === 0 ? "#565C65" : "#fff",
-                border:
-                  selectedCount === 0 ? "3px white solid" : "1px solid #A9AEB1",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                cursor: "pointer",
-                borderRadius: "4px",
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleSelectAllChange(
-                  groupIndex,
-                  selectedCount !== group.items.length,
-                );
-              }}
-            >
-              {selectedCount === group.items.length && (
-                <Icon.Check
-                  className="usa-icon"
-                  style={{ backgroundColor: "white" }}
-                  size={4}
-                  color="#565C65"
-                />
-              )}
-              {selectedCount > 0 && selectedCount < group.items.length && (
-                <Icon.Remove
-                  className="usa-icon"
-                  style={{ backgroundColor: "white" }}
-                  size={4}
-                  color="#565C65"
-                />
-              )}
-            </div>
-            <div>
-              {`${group.items[0].display}`}
-
-              <span className="accordion-subtitle margin-top-2">
-                <strong>Author:</strong> {group.author}{" "}
-                <strong style={{ marginLeft: "20px" }}>System:</strong>{" "}
-                {group.system}
-              </span>
-            </div>
-            <span className="margin-left-auto">{`${selectedCount} selected`}</span>
-            <div
-              onClick={handleToggleExpand}
-              style={{
-                cursor: "pointer",
-                alignItems: "center",
-                display: "flex",
-                margin: "-3px",
-              }}
-            >
-              {isExpanded ? (
-                <Icon.ExpandLess size={4} />
-              ) : (
-                <Icon.ExpandMore size={4} />
-              )}
-            </div>
-          </div>
+          <CustomizeQueryAccordionHeader
+            selectedCount={selectedCount}
+            handleSelectAllChange={handleSelectAllChange}
+            handleToggleExpand={handleToggleExpand}
+            groupIndex={groupIndex}
+            group={group}
+            isExpanded={isExpanded}
+          />
         ),
         id: group.author + ":" + group.system,
         className: "accordion-item",
         content: (
-          <div className="padding-bottom-3">
-            <div className="customize-query-grid-container customize-query-table">
-              <div className="customize-query-grid-header margin-top-10">
-                <div className="accordion-table-header">Include</div>
-                <div className="accordion-table-header">Code</div>
-                <div className="accordion-table-header">Display</div>
-              </div>
-              <div className="customize-query-grid-body">
-                {group.items.map((item, index) => (
-                  <div
-                    className="customize-query-grid-row customize-query-striped-row"
-                    key={item.code}
-                  >
-                    <div
-                      className="hide-checkbox-label"
-                      style={{
-                        border: "1px solid #A9AEB1",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "pointer",
-                        borderRadius: "4px",
-                        width: "36px",
-                        height: "36px",
-                        marginLeft: "30px",
-                        backgroundColor: "#fff",
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleInclude(groupIndex, index);
-                      }}
-                    >
-                      {item.include && (
-                        <Icon.Check
-                          className="usa-icon"
-                          style={{ backgroundColor: "white" }}
-                          size={4}
-                          color="#005EA2"
-                        />
-                      )}
-                    </div>
-                    <div>{item.code}</div>
-                    <div>{item.display}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <CustomizeQueryAccordionBody
+            group={group}
+            toggleInclude={toggleInclude}
+            groupIndex={groupIndex}
+          />
         ),
         expanded: true,
         headingLevel: "h3",
