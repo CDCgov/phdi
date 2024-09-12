@@ -16,6 +16,7 @@ import "./customizeQuery.css";
 
 // Define types for better structure and reusability
 type DefinedValueSetCollection = {
+  valueset_name: string;
   author: string;
   system: string;
   items: ValueSetItem[];
@@ -247,7 +248,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
               )}
             </div>
             <div>
-              {`${group.items[0].display}`}
+              <div>{group.valueset_name}</div>
 
               <span className="accordion-subtitle margin-top-2">
                 <strong>Author:</strong> {group.author}{" "}
@@ -273,7 +274,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
             </div>
           </div>
         ),
-        id: group.author + ":" + group.system,
+        id: `${group.valueset_name}:${group.author}:${group.system}`,
         className: "accordion-item",
         content: (
           <div className="padding-bottom-3">
