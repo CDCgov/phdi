@@ -4,7 +4,7 @@ import {
 } from "@trussworks/react-uswds";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 
-type AccordionProps = {
+export type AccordionProps = {
   title: string;
   content: string | React.ReactNode;
   expanded?: boolean;

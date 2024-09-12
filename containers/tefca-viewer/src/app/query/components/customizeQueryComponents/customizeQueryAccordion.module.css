@@ -1,0 +1,23 @@
+.checkboxLabel {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #565c65;
+  border: 1px solid #a9aeb1;
+}
+
+.checkboxLabel:active {
+  background-color: #fff;
+  border: 3px white solid;
+}
+
+.caret {
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  margin: -3px;
+}
