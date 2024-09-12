@@ -14,6 +14,21 @@ import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
 import "./customizeQuery.css";
 
+// Define types for better structure and reusability
+type DefinedValueSetCollection = {
+  author: string;
+  system: string;
+  items: ValueSetItem[];
+};
+
+type GroupedValueSet = {
+  labs: DefinedValueSetCollection[];
+  medications: DefinedValueSetCollection[];
+  conditions: DefinedValueSetCollection[];
+};
+
+type GroupedValueSetKey = keyof GroupedValueSet;
+
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
   queryType: string;
@@ -33,17 +48,14 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   queryType,
   goBack,
 }) => {
-  const [activeTab, setActiveTab] = useState("labs");
+  const [activeTab, setActiveTab] = useState<GroupedValueSetKey>("labs");
 
-  const [groupedValueSetState, setGroupedValueSetState] = useState<{
-    labs: { author: string; system: string; items: ValueSetItem[] }[];
-    medications: { author: string; system: string; items: ValueSetItem[] }[];
-    conditions: { author: string; system: string; items: ValueSetItem[] }[];
-  }>({
-    labs: [],
-    medications: [],
-    conditions: [],
-  });
+  const [groupedValueSetState, setGroupedValueSetState] =
+    useState<GroupedValueSet>({
+      labs: [],
+      medications: [],
+      conditions: [],
+    });
   const [isExpanded, setIsExpanded] = useState(true);
 
   // Keeps track of whether the accordion is expanded to change the direction of the arrow
@@ -52,15 +64,13 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   };
 
   // Keeps track of which side nav tab to display to users
-  const handleTabChange = (tab: keyof typeof groupedValueSetState) => {
+  const handleTabChange = (tab: GroupedValueSetKey) => {
     setActiveTab(tab);
   };
 
   // Handles the toggle of the 'include' state for individual items
   const toggleInclude = (groupIndex: number, itemIndex: number) => {
-    const updatedGroups = [
-      ...groupedValueSetState[activeTab as keyof typeof groupedValueSetState],
-    ];
+    const updatedGroups = [...groupedValueSetState[activeTab]];
     const updatedItems = [...updatedGroups[groupIndex].items]; // Clone the current group items
     updatedItems[itemIndex] = {
       ...updatedItems[itemIndex],
@@ -80,9 +90,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   // Allows all items to be selected within all accordion sections of the active tab
   const handleSelectAllChange = (groupIndex: number, checked: boolean) => {
-    const updatedGroups = [
-      ...groupedValueSetState[activeTab as keyof typeof groupedValueSetState],
-    ];
+    const updatedGroups = [...groupedValueSetState[activeTab]];
 
     // Update only the group at the specified index
     updatedGroups[groupIndex].items = updatedGroups[groupIndex].items.map(
@@ -100,9 +108,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   // Allows all items to be selected within the entire active tab
   const handleSelectAllForTab = (checked: boolean) => {
-    const updatedGroups = groupedValueSetState[
-      activeTab as keyof typeof groupedValueSetState
-    ].map((group) => ({
+    const updatedGroups = groupedValueSetState[activeTab].map((group) => ({
       ...group,
       items: group.items.map((item) => ({
         ...item,
@@ -120,10 +126,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleApplyChanges = () => {
     const selectedItems = Object.keys(groupedValueSetState).reduce(
       (acc, key) => {
-        const items =
-          groupedValueSetState[key as keyof typeof groupedValueSetState];
+        const items = groupedValueSetState[key as GroupedValueSetKey];
         // Flatten groups to extract items and filter them
-        acc[key as keyof typeof groupedValueSetState] = items
+        acc[key as GroupedValueSetKey] = items
           .flatMap((group) => group.items) // Extract items from each group
           .filter((item) => item.include); // Filter included items only
         return acc;
@@ -178,9 +183,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   }, [queryType]);
 
   useEffect(() => {
-    const items = groupedValueSetState[
-      activeTab as keyof typeof groupedValueSetState
-    ].flatMap((group) => group.items);
+    const items = groupedValueSetState[activeTab].flatMap(
+      (group) => group.items,
+    );
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
       "select-all",
@@ -192,8 +197,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   }, [groupedValueSetState, activeTab]);
 
   const accordionItems: AccordionItemProps[] = useMemo(() => {
-    const groups =
-      groupedValueSetState[activeTab as keyof typeof groupedValueSetState];
+    const groups = groupedValueSetState[activeTab];
     return groups.map((group, groupIndex) => {
       const selectedCount = group.items.filter((item) => item.include).length;
       return {

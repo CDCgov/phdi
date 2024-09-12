@@ -89,11 +89,22 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
   // Group by author and code_system
   const grouped = rows.reduce(
     (acc, row) => {
-      const groupKey = `${row.author}:${row.code_system}`;
+      // Check if both author and code_system are defined
+      const author = row?.author;
+      const system = row?.code_system;
+
+      if (!author || !system) {
+        console.warn(
+          `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`,
+        );
+        return acc;
+      }
+
+      const groupKey = `${author}:${system}`;
       if (!acc[groupKey]) {
         acc[groupKey] = {
-          author: row.author,
-          system: row.code_system,
+          author: author,
+          system: system,
           items: [],
         };
       }
