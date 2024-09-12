@@ -197,9 +197,9 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     public static string ConcatenateTds(IDictionary<string, object> data)
     {
       var dataDictionary = (Dictionary<string, object>)data;
-      var component = dataDictionary.TryGetValue("text", out object? textComponent) ? (Dictionary<string, object>)textComponent : dataDictionary;
+      var component = dataDictionary.TryGetValue("text", out object textComponent) ? (Dictionary<string, object>)textComponent : dataDictionary;
 
-      if (component.TryGetValue("table", out object? table))
+      if (component.TryGetValue("table", out object table))
       {
         return string.Join(", ", GetReasonsFromTable((Dictionary<string, object>)table).Distinct(StringComparer.OrdinalIgnoreCase));
       }
@@ -594,6 +594,12 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         return string.Join("<br/>", result);
       }
       return string.Empty;
+    }
+
+    public static string HandleDose(string input)
+    {
+      IConvertible convert = input;
+      return convert.ToDouble(null).ToString("0.###");
     }
   }
 }
