@@ -18,7 +18,7 @@ const s3Client = new S3Client({
 /**
  * Saves a FHIR bundle to a postgres database.
  * @async
- * @function saveToS3
+ * @function saveToPostgres
  * @param fhirBundle - The FHIR bundle to be saved.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns A promise that resolves when the FHIR bundle is successfully saved to postgres.
@@ -153,7 +153,8 @@ interface BundleMetadata {
 }
 
 /**
- *
+ * @async
+ * @function saveFhirData
  * @param fhirBundle - The FHIR bundle to be saved.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @param saveSource - The location to save the FHIR bundle. Valid values are "postgres", "s3", or "azure".
@@ -184,7 +185,7 @@ export const saveFhirData = async (
 /**
  * Saves a FHIR bundle metadata to a postgres database.
  * @async
- * @function saveToS3
+ * @function saveToMetadataPostgres
  * @param metadata - The FHIR bundle metadata to be saved.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns A promise that resolves when the FHIR bundle metadata is successfully saved to postgres.
@@ -230,11 +231,14 @@ export const saveToMetadataPostgres = async (
 };
 
 /**
+ * @async
+ * @function saveWithMetadata
  * @param fhirBundle - The FHIR bundle to be saved.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @param saveSource - The location to save the FHIR bundle. Valid values are "postgres", "s3", or "azure".
  * @param metadata - The metadata to be saved with the FHIR bundle.
  * @returns A `NextResponse` object with a JSON payload indicating the success message. The response content type is set to `application/json`.
+ * @throws {Error} Throws an error if the FHIR bundle or metadata cannot be saved.
  */
 export const saveWithMetadata = async (
   fhirBundle: Bundle,
