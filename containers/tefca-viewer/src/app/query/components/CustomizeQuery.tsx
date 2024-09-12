@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
-import { Accordion, Button, Icon } from "@trussworks/react-uswds";
+import { Button, Icon } from "@trussworks/react-uswds";
 import { QueryTypeToQueryName, ValueSetItem } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import {
@@ -16,6 +16,7 @@ import "./customizeQuery.css";
 import customAccordionStyles from "./customizeQueryComponents/customizeQueryAccordion.module.css";
 import CustomizeQueryAccordionHeader from "./customizeQueryComponents/CustomizeQueryAccordionHeader";
 import CustomizeQueryAccordionBody from "./customizeQueryComponents/CustomizeQueryAccordionBody";
+import Accordion from "./Accordion";
 
 // Define types for better structure and reusability
 export type DefinedValueSetCollection = {
@@ -294,12 +295,15 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         Include all {activeTab}
       </a>
       <div>
-        <Accordion
-          className="customizeQueryAccordion"
-          items={accordionItems}
-          multiselectable
-          bordered
-        />
+        {accordionItems.map((accordion) => {
+          return (
+            <Accordion
+              title={accordion.title}
+              content={accordion.content}
+              id={accordion.id}
+            />
+          );
+        })}
       </div>
       <div className="button-container">
         <Button type="button" onClick={handleApplyChanges}>
