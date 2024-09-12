@@ -31,9 +31,7 @@ interface SearchFormProps {
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
-  setUseCase: (useCase: USE_CASES) => void;
   setQueryType: (queryType: string) => void;
-  useCase: USE_CASES; // Pass useCase from parent
   userJourney: "test" | "demo";
 }
 
@@ -43,9 +41,7 @@ interface SearchFormProps {
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
- * @param root0.setUseCase - The function to set the use case.
  * @param root0.setQueryType - The function to set the query type.
- * @param root0.useCase - The current use case.
  * @param root0.userJourney - The user journey.
  * @returns - The SearchForm component.
  */
@@ -54,11 +50,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setUseCaseQueryResponse,
   setMode,
   setLoading,
-  setUseCase,
   setQueryType,
-  useCase,
   userJourney,
 }) => {
+  // Get the demoOption (initial selection) selected from modal via the URL
+  const [useCase, setUseCase] = useState<USE_CASES>("cancer");
+
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
     patientOptions[useCase]?.[0]?.value || "",
@@ -165,9 +162,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   id="query"
                   name="query"
                   className="usa-select margin-top-1"
-                  defaultValue={useCase}
+                  value={useCase}
                   onChange={(event) => {
                     handleDemoQueryChange(event.target.value);
+                    setUseCase(event.target.value as USE_CASES);
                   }}
                 >
                   {demoQueryOptions.map((option) => (
@@ -223,7 +221,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     id="patient"
                     name="patient"
                     className="usa-select margin-top-1"
-                    defaultValue=""
                     value={patientOption}
                     onChange={(event) => {
                       setPatientOption(event.target.value);

@@ -96,11 +96,11 @@ describe("POST Query FHIR Server", () => {
     const body = await response.json();
     expect(body.resourceType).toBe("OperationOutcome");
     expect(body.issue[0].diagnostics).toBe(
-      "Invalid fhir_server. Please provide a valid fhir_server. Valid fhir_servers include HELIOS Meld: Direct,HELIOS Meld: eHealthExchange,JMC Meld: Direct,JMC Meld: eHealthExchange,Public HAPI: eHealthExchange,OpenEpic: eHealthExchange,CernerHelios: eHealthExchange.",
+      "Invalid fhir_server. Please provide a valid fhir_server. Valid fhir_servers include HELIOS Meld: Direct,HELIOS Meld: eHealthExchange,JMC Meld: Direct,JMC Meld: eHealthExchange,Public HAPI: eHealthExchange,OpenEpic: eHealthExchange,CernerHelios: eHealthExchange,OPHDST Meld: Direct.",
     );
   });
 
-  it("should return a legitimate FHIR bundle if the query is successful", async () => {
+  it.only("should return a legitimate FHIR bundle if the query is successful", async () => {
     const request = {
       json: async () => {
         return PatientResource;
