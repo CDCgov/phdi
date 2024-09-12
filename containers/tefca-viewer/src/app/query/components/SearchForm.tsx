@@ -25,7 +25,6 @@ import {
 } from "../../query-service";
 
 import { FormatPhoneAsDigits } from "@/app/format-service";
-import { useSearchParams } from "next/navigation";
 
 interface SearchFormProps {
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
@@ -54,12 +53,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setQueryType,
   userJourney,
 }) => {
-  const params = useSearchParams();
-
   // Get the demoOption (initial selection) selected from modal via the URL
-  const [useCase, setUseCase] = useState<USE_CASES>(
-    (params.get("useCase") as USE_CASES) || "cancer",
-  );
+  const [useCase, setUseCase] = useState<USE_CASES>("cancer");
 
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
