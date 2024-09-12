@@ -50,7 +50,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setLoading,
   setQueryType,
 }) => {
-  // Get the demoOption (initial selection) selected from modal via the URL
   const [useCase, setUseCase] = useState<USE_CASES>("cancer");
 
   //Set the patient options based on the demoOption
@@ -64,7 +63,15 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
 
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
+
+  // Set the query type based on the selected useCase so it can be passed to the CustomizeQuery component
+  useEffect(() => {
+    setQueryType(
+      demoQueryOptions.find((option) => option.value === useCase)?.label || ""
+    );
+  }, [useCase]);
 
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
@@ -98,11 +105,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
   };
 
   async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (!useCase || !fhirServer) {
       console.error("Use case and FHIR server are required.");
       return;
     }
-    event.preventDefault();
     setLoading(true);
 
     const originalRequest = {
@@ -169,34 +176,75 @@ const SearchForm: React.FC<SearchFormProps> = ({
               </Button>
             </div>
             <Label htmlFor="patient">Patient</Label>
-            <select
-              id="patient"
-              name="patient"
-              className="usa-select margin-top-1"
-              value={patientOption}
-              onChange={(event) => {
-                setPatientOption(event.target.value);
-              }}
-            >
-              {patientOptions[useCase]?.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <div className="display-flex flex-align-start query-customize-wrapper">
+              <select
+                id="patient"
+                name="patient"
+                className="usa-select margin-top-1"
+                value={patientOption}
+                onChange={(event) => {
+                  setPatientOption(event.target.value);
+                }}
+              >
+                {patientOptions[useCase]?.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <Button
+                className="usa-button--outline bg-white customize-query-button"
+                type="button"
+                // value={patientOption}
+                onClick={() => {
+                  fillFields(patientOption as PatientType, false);
+                }}
+              >
+                Fill fields
+              </Button>
+            </div>
             <Button
-              className="margin-left-1  margin-top-4 usa-button--outline bg-white"
+              className="usa-button--outline bg-white margin-top-4"
               type="button"
-              value={patientOption}
               onClick={() => {
-                fillFields(patientOption as PatientType, false);
+                setShowAdvanced(!showAdvanced);
               }}
             >
-              Fill fields
+              Advanced
             </Button>
           </div>
         }
         <Fieldset>
+          {showAdvanced && (
+            <div>
+              <Label htmlFor="fhir_server">
+                <b>FHIR Server (QHIN)</b>
+              </Label>
+              <div className="grid-row grid-gap">
+                <div className="usa-combo-box">
+                  <Select
+                    id="fhir_server"
+                    name="fhir_server"
+                    value={fhirServer}
+                    onChange={(event) => {
+                      setFhirServer(event.target.value as FHIR_SERVERS);
+                    }}
+                    required
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Select FHIR Server
+                    </option>
+                    {Object.keys(fhirServers).map((fhirServer: string) => (
+                      <option key={fhirServer} value={fhirServer}>
+                        {fhirServer}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+            </div>
+          )}
           <h2 className="font-sans-md search-form-section-label">
             <strong>Name</strong>
           </h2>
