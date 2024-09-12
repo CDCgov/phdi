@@ -6,8 +6,8 @@ import { Bundle } from "fhir/r4";
 import { evaluate } from "fhirpath";
 
 interface PatientBannerProps {
-  bundle: Bundle;
-  mappings: PathMappings;
+  bundle: Bundle | undefined;
+  mappings: PathMappings | undefined;
 }
 
 /**
@@ -21,10 +21,12 @@ const PatientBanner = ({ bundle, mappings }: PatientBannerProps) => {
   return (
     <div className="patient-banner">
       <span className="patient-banner-name">
-        {evaluatePatientName(bundle, mappings)}
+        {bundle && mappings ? evaluatePatientName(bundle, mappings) : ""}
       </span>
       <span className=".patient-banner-dob">
-        {formatDate(evaluate(bundle, mappings.patientDOB)[0]) || ""}
+        {bundle && mappings
+          ? formatDate(evaluate(bundle, mappings.patientDOB)[0]) || ""
+          : ""}
       </span>
     </div>
   );
