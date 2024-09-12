@@ -5,7 +5,6 @@ import customAccordionStyles from "./customizeQueryAccordion.module.css";
 type CustomizeQueryAccordionProps = {
   selectedCount: number;
   handleSelectAllChange: (groupIndex: number, checked: boolean) => void;
-  handleToggleExpand: () => void;
   groupIndex: number;
   group: DefinedValueSetCollection;
   isExpanded: boolean;
@@ -14,16 +13,12 @@ type CustomizeQueryAccordionProps = {
 const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
   selectedCount,
   handleSelectAllChange,
-  handleToggleExpand,
   groupIndex,
   group,
   isExpanded,
 }) => {
   return (
-    <div
-      className="accordion-header display-flex flex-no-wrap flex-align-start"
-      onClick={handleToggleExpand}
-    >
+    <div className="accordion-header display-flex flex-no-wrap flex-align-start">
       <div
         id="select-all"
         className={`hide-checkbox-label ${customAccordionStyles.checkboxLabel}`}
@@ -59,10 +54,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
         </span>
       </div>
       <span className="margin-left-auto">{`${selectedCount} selected`}</span>
-      <div
-        onClick={handleToggleExpand}
-        className={`${customAccordionStyles.caret}`}
-      >
+      <div className={`${customAccordionStyles.caret}`}>
         {isExpanded ? (
           <Icon.ExpandLess size={4} />
         ) : (

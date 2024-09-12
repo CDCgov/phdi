@@ -13,7 +13,6 @@ import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
 import "./customizeQuery.css";
-import customAccordionStyles from "./customizeQueryComponents/customizeQueryAccordion.module.css";
 import CustomizeQueryAccordionHeader from "./customizeQueryComponents/CustomizeQueryAccordionHeader";
 import CustomizeQueryAccordionBody from "./customizeQueryComponents/CustomizeQueryAccordionBody";
 import Accordion from "./Accordion";
@@ -128,18 +127,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   // Will eventually be the json object storing the parsed data to return on the results page
   const handleApplyChanges = () => {
-    const selectedItems = Object.keys(groupedValueSetState).reduce(
-      (acc, key) => {
-        const items = groupedValueSetState[key as GroupedValueSetKey];
-        // Flatten groups to extract items and filter them
-        acc[key as GroupedValueSetKey] = items
-          .flatMap((group) => group.items) // Extract items from each group
-          .filter((item) => item.include); // Filter included items only
-        return acc;
-      },
-      {} as Record<string, ValueSetItem[]>
-    ); // Ensure type is correct for the flattened data
-
     goBack();
     showRedirectConfirmation({
       heading: QUERY_CUSTOMIZATION_CONFIRMATION_HEADER,
@@ -199,36 +186,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         selectedCount > 0 && selectedCount < items.length;
     }
   }, [groupedValueSetState, activeTab]);
-
-  const accordionItems: AccordionItemProps[] = useMemo(() => {
-    const groups = groupedValueSetState[activeTab];
-    return groups.map((group, groupIndex) => {
-      const selectedCount = group.items.filter((item) => item.include).length;
-      return {
-        title: (
-          <CustomizeQueryAccordionHeader
-            selectedCount={selectedCount}
-            handleSelectAllChange={handleSelectAllChange}
-            handleToggleExpand={handleToggleExpand}
-            groupIndex={groupIndex}
-            group={group}
-            isExpanded={isExpanded}
-          />
-        ),
-        id: group.author + ":" + group.system,
-        className: "accordion-item",
-        content: (
-          <CustomizeQueryAccordionBody
-            group={group}
-            toggleInclude={toggleInclude}
-            groupIndex={groupIndex}
-          />
-        ),
-        expanded: true,
-        headingLevel: "h3",
-      };
-    });
-  }, [groupedValueSetState, activeTab, isExpanded]);
 
   return (
     <div className="main-container customize-query-container">
@@ -295,13 +252,37 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         Include all {activeTab}
       </a>
       <div>
-        {accordionItems.map((accordion) => {
+        {groupedValueSetState[activeTab].map((group, groupIndex) => {
+          const selectedCount = group.items.filter(
+            (item) => item.include
+          ).length;
+          console.log(group, groupIndex);
           return (
-            <Accordion
-              title={accordion.title}
-              content={accordion.content}
-              id={accordion.id}
-            />
+            <>
+              <Accordion
+                title={
+                  <CustomizeQueryAccordionHeader
+                    selectedCount={selectedCount}
+                    handleSelectAllChange={handleSelectAllChange}
+                    groupIndex={groupIndex}
+                    group={group}
+                    isExpanded={isExpanded}
+                  />
+                }
+                content={
+                  <CustomizeQueryAccordionBody
+                    group={group}
+                    toggleInclude={toggleInclude}
+                    groupIndex={groupIndex}
+                  />
+                }
+                id={group.author + ":" + group.system}
+                handleToggle={handleToggleExpand}
+                expanded
+                headingLevel="h3"
+                accordionClassName="accordion-item"
+              />
+            </>
           );
         })}
       </div>
