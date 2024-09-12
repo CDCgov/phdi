@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.VisualBasic.FileIO;
+using DotLiquid.Util;
 
 namespace Microsoft.Health.Fhir.Liquid.Converter
 {
@@ -45,61 +41,182 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return new List<Dictionary<string, object>>();
     }
 
-    private static Dictionary<string, object>? DrillDown(Dictionary<string, object> item, List<string> list)
+    private static List<Dictionary<string, object>>? DrillDown(IDictionary<string, object> item, List<string> keys)
     {
-      if (list.Count == 0)
+      if (keys.Count == 0)
       {
-        return item;
+        return ProcessItem(item);
       }
-      string firstElement = list.First(); // Retrieve the first element
-      list.Remove(firstElement);
-      if (item.TryGetValue(firstElement, out object? element) && list.Count > 0)
+
+      string key = keys.Shift();
+
+      if (item.TryGetValue(key, out object? val) && keys.Count > 0)
       {
-        return DrillDown((Dictionary<string, object>)element, list);
+        return DrillDown(ProcessItem(val), keys);
       }
-      else if (element != null && list.Count == 0)
+      else if (val != null && keys.Count == 0)
       {
-        return element as Dictionary<string, object>;
+        return ProcessItem(val);
+      }
+
+      return null;
+    }
+
+    private static List<Dictionary<string, object>>? DrillDown(List<Dictionary<string, object>> items, List<string> keys)
+    {
+      if (keys.Count == 0)
+      {
+        return items;
+      }
+
+      string key = keys.Shift();
+
+      if (items.Count != 0)
+      {
+        var result = new List<Dictionary<string, object>>();
+
+        foreach (var item in items)
+        {
+          if (item.TryGetValue(key, out object? val) && keys.Count > 0)
+          {
+            return DrillDown(ProcessItem(val), keys);
+          }
+          else if (val != null && keys.Count == 0)
+          {
+            result.AddRange(ProcessItem(val));
+          }
+        }
+
+        return result;
+      }
+
+      return null;
+    }
+
+    private static List<string> GetReasonsFromTable(Dictionary<string, object> table)
+    {
+      var result = new List<string>();
+      var targetColumns = new[] { "REASON FOR VISIT", "Reason", "Diagnoses / Procedures" }.ToList();
+      int reasonColNum = -1;
+
+      if (table.TryGetValue("thead", out object? thead))
+      {
+        var ths = DrillDown(table, new List<string> { "thead", "tr", "th" });
+
+        foreach (var th in ths.Select((value, i) => new { i, value }))
+        {
+          if (th != null && th.value.TryGetValue("_", out object? thVal))
+          {
+            if (targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase))
+            {
+              reasonColNum = th.i;
+            }
+          }
+        }
+
+        var trs = DrillDown(table, new List<string> { "tbody", "tr" });
+
+        foreach (var tr in trs)
+        {
+          if (tr.TryGetValue("td", out object? tdObj))
+          {
+            var tds = ProcessItem(tdObj);
+            var td = tds.TryGetAtIndex(reasonColNum);
+
+            if (td != null)
+            {
+              td.TryGetValue("paragraph", out object? paragraph);
+              if (paragraph != null)
+              {
+                var paragraphs = ProcessItem(paragraph);
+                foreach (var p in paragraphs)
+                {
+                  if (p != null && p.TryGetValue("_", out object? pVal))
+                  {
+                    p.TryGetValue("styleCode", out object? styleCode);
+                    if (styleCode?.ToString() != "xcellHeader")
+                    {
+                      result.Add((string)pVal);
+                    }
+                  }
+                }
+              }
+              else if (td.TryGetValue("_", out object? val))
+              {
+                result.Add((string)val);
+              }
+            }
+          }
+        }
+
       }
       else
       {
-        return null;
-      }
-    }
-    public static string ConcatenateTds(IDictionary<string, object> data)
-    {
-      var result = new List<string>();
-      var dataDictionary = (Dictionary<string, object>)data;
-      var component = DrillDown(dataDictionary, new List<string> { "text" }) ??
-        dataDictionary;
-      var tbody = DrillDown(component, new List<string> { "list", "item", "table", "tbody" }) ??
-        DrillDown(component, new List<string> { "table", "tbody" });
+        var trs = DrillDown(table, new List<string> { "tbody", "tr" });
 
-      if (tbody != null && tbody.TryGetValue("tr", out object? tr))
-      {
-        var trs = ProcessItem(tr);
-        if (trs != null && trs.Count != 0)
+        foreach (var tr in trs)
         {
-          foreach (var r in trs)
+          if (tr.TryGetValue("th", out object? thObj)
+            && ((Dictionary<string, object>)thObj).TryGetValue("_", out object? thVal)
+            && targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase))
           {
-            if (r.TryGetValue("td", out object? rawTds))
+            if (tr.TryGetValue("td", out object? tdObj))
             {
-              var tds = ProcessItem(rawTds);
-              if (tds != null && tds.Count != 0)
+              if (tdObj != null && tdObj is Dictionary<string, object> td)
               {
-                foreach (var d in tds)
+                td.TryGetValue("paragraph", out object? paragraph);
+                if (paragraph != null)
                 {
-                  if (d != null && d.TryGetValue("_", out object? val))
+                  var paragraphs = ProcessItem(paragraph);
+                  foreach (var p in paragraphs)
                   {
-                    result.Add((string)val);
+                    if (p != null && p.TryGetValue("_", out object? pVal))
+                    {
+                      p.TryGetValue("styleCode", out object? styleCode);
+                      if (styleCode?.ToString() != "xcellHeader")
+                      {
+                        result.Add((string)pVal);
+                      }
+                    }
                   }
+                }
+                else if (td.TryGetValue("_", out object? val))
+                {
+                  result.Add((string)val);
                 }
               }
             }
           }
         }
+
       }
-      return string.Join(",", result);
+
+      return result;
+    }
+
+    public static string ConcatenateTds(IDictionary<string, object> data)
+    {
+      var dataDictionary = (Dictionary<string, object>)data;
+      var component = dataDictionary.TryGetValue("text", out object? textComponent) ? (Dictionary<string, object>)textComponent : dataDictionary;
+
+      if (component.TryGetValue("table", out object? table))
+      {
+        return string.Join(", ", GetReasonsFromTable((Dictionary<string, object>)table).Distinct(StringComparer.OrdinalIgnoreCase));
+      }
+      else
+      {
+        var result = new List<string>();
+        foreach (var t in DrillDown(component, new List<string> { "list", "item", "table" }))
+        {
+          var reasons = GetReasonsFromTable(t);
+          if (reasons.Count > 0)
+          {
+            result.AddRange(reasons);
+          }
+        }
+
+        return string.Join(", ", result.Distinct(StringComparer.OrdinalIgnoreCase));
+      }
     }
 
     private static string WrapHtmlValue(string key, object value)
@@ -427,7 +544,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
             {
               foreach (var kvp in dict)
               {
-                result.Add(kvp.Value.ToString() ?? "");
+                result.Add(kvp.Value?.ToString() ?? "");
               }
             }
             else

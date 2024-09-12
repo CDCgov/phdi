@@ -273,4 +273,12 @@ public class CustomFilterTests
     var actual = Filters.ConcatStrings(null);
     Assert.Equal("", actual);
   }
+
+  [Fact]
+  public void ConcatenateTds()
+  {
+    var inputData = new Dictionary<string, object>();
+    var actual = Filters.ConcatenateTds(new Dictionary<string, object>());
+    Assert.Equal("", actual);
+  }
 }
