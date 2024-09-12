@@ -58,7 +58,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[useCase]?.[0]?.value || "",
+    patientOptions[useCase]?.[0]?.value || ""
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -83,21 +83,21 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setUseCase(data.UseCase as USE_CASES);
         setQueryType(
           demoQueryOptions.find((option) => option.value === data.UseCase)
-            ?.label || "",
+            ?.label || ""
         );
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption, setUseCase, setQueryType],
+    [patientOption, setUseCase, setQueryType]
   );
 
   // Fills fields if patientOption changes (auto-fill)
-  useEffect(() => {
-    if (!patientOption || userJourney !== "demo") {
-      return;
-    }
-    fillFields(patientOption as PatientType);
-  }, [fillFields, patientOption, userJourney]);
+  // useEffect(() => {
+  //   if (!patientOption || userJourney !== "demo") {
+  //     return;
+  //   }
+  //   fillFields(patientOption as PatientType);
+  // }, [fillFields, patientOption, userJourney]);
 
   // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
   const handleDemoQueryChange = (selectedDemoOption: string) => {
@@ -148,7 +148,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       </Alert>
       <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
-        {userJourney === "test" && (
+        {/* {userJourney === "test" && (
           <>
             <h2 className="font-sans-lg search-form-section-label">
               <strong>Query information</strong>
@@ -247,7 +247,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               </div>
             </div>
           </>
-        )}
+        )} */}
         {userJourney === "demo" && (
           <div className="usa-summary-box usa-summary-box demo-query-filler">
             <Label className="usa-label" htmlFor="query">
@@ -295,6 +295,16 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 </option>
               ))}
             </select>
+            <Button
+              className="margin-left-1  margin-top-4 usa-button--outline bg-white"
+              type="button"
+              value={patientOption}
+              onClick={() => {
+                fillFields(patientOption as PatientType, false);
+              }}
+            >
+              Fill fields
+            </Button>
           </div>
         )}
         <Fieldset>
