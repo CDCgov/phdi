@@ -150,7 +150,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               <b>Select a sample query and patient to populate the form.</b>
             </Label>
             <Label htmlFor="query">Query</Label>
-            <div className="display-flex flex-align-start query-customize-wrapper">
+            <div className="display-flex flex-align-start query-page-wrapper">
               <select
                 id="query"
                 name="query"
@@ -169,14 +169,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
               </select>
               <Button
                 type="button"
-                className="usa-button usa-button--outline customize-query-button"
+                className="usa-button--outline bg-white query-page-button"
                 onClick={() => handleClick()}
               >
                 Customize query
               </Button>
             </div>
             <Label htmlFor="patient">Patient</Label>
-            <div className="display-flex flex-align-start query-customize-wrapper">
+            <div className="display-flex flex-align-start query-page-wrapper">
               <select
                 id="patient"
                 name="patient"
@@ -193,7 +193,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 ))}
               </select>
               <Button
-                className="usa-button--outline bg-white customize-query-button"
+                className="usa-button--outline bg-white query-page-button"
                 type="button"
                 // value={patientOption}
                 onClick={() => {
