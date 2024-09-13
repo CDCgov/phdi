@@ -22,6 +22,7 @@ import {
   UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
+import { fhirServers } from "../../fhir-servers";
 
 import { FormatPhoneAsDigits } from "@/app/format-service";
 
@@ -55,8 +56,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setLoading,
   setQueryType,
 }) => {
-  const [useCase, setUseCase] = useState<USE_CASES>("cancer");
-
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
     patientOptions[useCase]?.[0]?.value || ""
@@ -90,10 +89,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setPhone(data.Phone);
         setFhirServer(data.FhirServer as FHIR_SERVERS);
         setUseCase(data.UseCase as USE_CASES);
-        // setQueryType(
-        //     demoQueryOptions.find((option) => option.value === data.UseCase)
-        //         ?.label || "",
-        // );
         setAutofilled(highlightAutofilled);
       }
     },
