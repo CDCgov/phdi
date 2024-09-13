@@ -1,6 +1,6 @@
 import { Icon } from "@trussworks/react-uswds";
+import styles from "./customizeQuery.module.css";
 import { DefinedValueSetCollection } from "../CustomizeQuery";
-import customAccordionStyles from "./customizeQueryAccordion.module.css";
 
 type CustomizeQueryAccordionProps = {
   selectedCount: number;
@@ -18,10 +18,10 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
   isExpanded,
 }) => {
   return (
-    <div className="accordion-header display-flex flex-no-wrap flex-align-start">
+    <div className="accordion-header display-flex flex-no-wrap flex-align-start customize-query-header">
       <div
         id="select-all"
-        className={`hide-checkbox-label ${customAccordionStyles.checkboxLabel}`}
+        className={`hide-checkbox-label ${styles.customizeQueryCheckbox}`}
         onClick={(e) => {
           e.stopPropagation();
           handleSelectAllChange(
@@ -54,13 +54,6 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
         </span>
       </div>
       <span className="margin-left-auto">{`${selectedCount} selected`}</span>
-      <div className={`${customAccordionStyles.caret}`}>
-        {isExpanded ? (
-          <Icon.ExpandLess size={4} />
-        ) : (
-          <Icon.ExpandMore size={4} />
-        )}
-      </div>
     </div>
   );
 };

@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Icon } from "@trussworks/react-uswds";
 import { QueryTypeToQueryName, ValueSetItem } from "../../constants";
-import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import {
   getSavedQueryByName,
   filterQueryRows,
@@ -12,17 +11,19 @@ import {
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
-import "./customizeQuery.css";
-import CustomizeQueryAccordionHeader from "./customizeQueryComponents/CustomizeQueryAccordionHeader";
-import CustomizeQueryAccordionBody from "./customizeQueryComponents/CustomizeQueryAccordionBody";
+import styles from "./customizeQuery/customizeQuery.module.css";
+import CustomizeQueryAccordionHeader from "./customizeQuery/CustomizeQueryAccordionHeader";
+import CustomizeQueryAccordionBody from "./customizeQuery/CustomizeQueryAccordionBody";
 import Accordion from "./Accordion";
+import CustomizeQueryNav from "./customizeQuery/CustomizeQueryNav";
 
 // Define types for better structure and reusability
-type DefinedValueSetCollection = {
+export type DefinedValueSetCollection = {
   valueset_name: string;
   author: string;
   system: string;
   items: ValueSetItem[];
+  isExpanded: boolean;
 };
 
 type GroupedValueSet = {
@@ -31,7 +32,7 @@ type GroupedValueSet = {
   conditions: DefinedValueSetCollection[];
 };
 
-type GroupedValueSetKey = keyof GroupedValueSet;
+export type GroupedValueSetKey = keyof GroupedValueSet;
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
@@ -60,11 +61,10 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       medications: [],
       conditions: [],
     });
-  const [isExpanded, setIsExpanded] = useState(true);
 
-  // Keeps track of whether the accordion is expanded to change the direction of the arrow
-  const handleToggleExpand = () => {
-    setIsExpanded(!isExpanded);
+  const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    alert("yay");
+    console.log(e);
   };
 
   // Keeps track of which side nav tab to display to users
@@ -189,104 +189,54 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   }, [groupedValueSetState, activeTab]);
 
   return (
-    <div className="main-container customize-query-container">
-      <div style={{ paddingTop: "24px" }}>
-        <a
-          href="#"
-          onClick={() => goBack()}
-          className="text-bold"
-          style={{ fontSize: "16px" }}
-        >
+    <div className="main-container">
+      <div className="padding-top-3">
+        <a href="#" onClick={() => goBack()} className="back-link">
           <Icon.ArrowBack /> Return to patient search
         </a>
       </div>
       <LoadingView loading={!useCaseQueryResponse} />
-      <h1 className="font-sans-2xl text-bold" style={{ paddingBottom: "0px" }}>
+      <h1 className="font-sans-2xl text-bold margin-top-205">
         Customize query
       </h1>
-      <div
-        className="font-sans-lg text-light"
-        style={{ paddingBottom: "0px", paddingTop: "4px" }}
-      >
+      <div className="font-sans-lg text-light padding-bottom-0 padding-top-05">
         Query: {queryType}
       </div>
-      <nav className="usa-nav custom-nav">
-        <li
-          className={`usa-nav__primary-item ${
-            activeTab === "labs" ? "usa-current" : ""
-          }`}
-        >
-          <a href="#labs" onClick={() => handleTabChange("labs")}>
-            Labs
-          </a>
-        </li>
-        <li
-          className={`usa-nav__primary-item ${
-            activeTab === "medications" ? "usa-current" : ""
-          }`}
-        >
-          <a href="#medications" onClick={() => handleTabChange("medications")}>
-            Medications
-          </a>
-        </li>
-        <li
-          className={`usa-nav__primary-item ${
-            activeTab === "conditions" ? "usa-current" : ""
-          }`}
-        >
-          <a href="#conditions" onClick={() => handleTabChange("conditions")}>
-            Conditions
-          </a>
-        </li>
-      </nav>
-      <ul className="usa-nav__primary usa-accordion"></ul>
-      <hr className="custom-hr"></hr>
-      <a
-        href="#"
-        type="button"
-        className="include-all-link"
-        onClick={(e) => {
-          e.preventDefault();
-          handleSelectAllForTab(true);
-        }}
-      >
-        Include all {activeTab}
-      </a>
-      <div>
-        {groupedValueSetState[activeTab].map((group, groupIndex) => {
-          const selectedCount = group.items.filter(
-            (item) => item.include
-          ).length;
-          console.log(group, groupIndex);
-          return (
-            <>
-              <Accordion
-                title={
-                  <CustomizeQueryAccordionHeader
-                    selectedCount={selectedCount}
-                    handleSelectAllChange={handleSelectAllChange}
-                    groupIndex={groupIndex}
-                    group={group}
-                    isExpanded={isExpanded}
-                  />
-                }
-                content={
-                  <CustomizeQueryAccordionBody
-                    group={group}
-                    toggleInclude={toggleInclude}
-                    groupIndex={groupIndex}
-                  />
-                }
-                id={group.author + ":" + group.system}
-                handleToggle={handleToggleExpand}
-                expanded
-                headingLevel="h3"
-                accordionClassName="accordion-item"
+
+      <CustomizeQueryNav
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+        handleSelectAllForTab={handleSelectAllForTab}
+      />
+      {groupedValueSetState[activeTab].map((group, groupIndex) => {
+        const selectedCount = group.items.filter((item) => item.include).length;
+        return (
+          <Accordion
+            title={
+              <CustomizeQueryAccordionHeader
+                selectedCount={selectedCount}
+                handleSelectAllChange={handleSelectAllChange}
+                groupIndex={groupIndex}
+                group={group}
+                isExpanded={group.isExpanded}
               />
-            </>
-          );
-        })}
-      </div>
+            }
+            content={
+              <CustomizeQueryAccordionBody
+                group={group}
+                toggleInclude={toggleInclude}
+                groupIndex={groupIndex}
+              />
+            }
+            id={group.author + ":" + group.system}
+            expanded
+            headingLevel="h3"
+            handleToggle={handleToggle}
+            accordionClassName={`customize-accordion ${styles.customizeQueryAccordion}`}
+            containerClassName={styles.resultsContainer}
+          />
+        );
+      })}
       <div className="button-container">
         <Button type="button" onClick={handleApplyChanges}>
           Apply changes

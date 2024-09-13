@@ -1,0 +1,178 @@
+.customizeQueryNav {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+.customizeQueryNav ul {
+  display: flex;
+  align-items: flex-start;
+  color: #565c65;
+  border: none;
+}
+
+.customizeQueryNav li {
+  border: none;
+}
+
+.customizeQueryNav a {
+  padding: 0rem 1rem !important;
+}
+
+.customizeQueryNav a:hover,
+.customizeQueryNav a:focus {
+  color: #565c65;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.customizeQueryNav .currentTab {
+  position: relative;
+  font-weight: bold;
+  font-size: 18px;
+  color: #565c65;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+
+.customizeQueryNav .currentTab::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #005ea2;
+}
+
+.customizeQueryNav ul::after {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #ddd;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: none;
+}
+
+.customizeQueryCheckbox {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #a9aeb1;
+  border-radius: 0.25rem;
+}
+
+.caret {
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  margin: -3px;
+}
+
+.customizeQueryAccordion button {
+  background-color: #565c65;
+}
+
+.customizeQueryAccordion button:hover,
+.customizeQueryAccordion button:focus {
+  background-color: #565c65;
+  outline: none;
+}
+
+.customizeQueryAccordion__body {
+  border: 1px solid #71767a;
+}
+
+.resultsContainer {
+  padding-bottom: 1.25rem;
+}
+
+.customizeQueryGridContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.customizeQueryGridHeader {
+  display: grid;
+  grid-template-columns: 130px 160px 1fr;
+  align-items: center;
+  padding: 0px 24px;
+  border-bottom: 1px solid #71767a;
+  width: 100%;
+}
+
+.accordionTableHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-weight: bold;
+  word-wrap: break-word;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: 6px;
+  margin-top: 10px;
+}
+
+.customizeQueryGridRow {
+  display: grid;
+  grid-template-columns: 160px 160px 1fr;
+  align-items: center;
+  padding: 14px 0px;
+}
+
+.customizeQueryGridRow:nth-child(even) {
+  background-color: rgba(223, 225, 226, 0.5);
+  border-bottom: 1px solid #71767a;
+  border-top: 1px solid #71767a;
+}
+
+.customizeQueryGridRow:last-child {
+  border-bottom: none;
+}
+
+.usaNav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.hideCheckboxLabel {
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  & > label {
+    margin-top: 0;
+    width: 24px;
+    height: 24px;
+
+    &::before {
+      margin-left: 0;
+      width: 24px;
+      height: 24px;
+      background-size: 14px auto !important;
+    }
+
+    & > .hide-me {
+      display: none;
+    }
+  }
+}
