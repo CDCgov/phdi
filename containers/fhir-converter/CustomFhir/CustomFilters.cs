@@ -198,30 +198,40 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       var dataDictionary = (Dictionary<string, object>)data;
       var component = dataDictionary.TryGetValue("text", out object textComponent) ? (Dictionary<string, object>)textComponent : dataDictionary;
 
-      if (component.TryGetValue("content", out object content) && content is Dictionary<string, object> contentDict)
-      {
-        contentDict.TryGetValue("_", out object? contentVal);
-        return contentVal.ToString();
-      }
-
       if (component.TryGetValue("table", out object table))
       {
         return string.Join(", ", GetReasonsFromTable((Dictionary<string, object>)table).Distinct(StringComparer.OrdinalIgnoreCase));
       }
-      else
-      {
-        var result = new List<string>();
-        foreach (var t in DrillDown(component, new List<string> { "list", "item", "table" }))
-        {
-          var reasons = GetReasonsFromTable(t);
-          if (reasons.Count > 0)
-          {
-            result.AddRange(reasons);
-          }
-        }
 
-        return string.Join(", ", result.Distinct(StringComparer.OrdinalIgnoreCase));
+      if (component.TryGetValue("paragraph", out object paragraph) && paragraph is Dictionary<string, object> paragraphDict)
+      {
+        paragraphDict.TryGetValue("_", out object? paragraphVal);
+        return paragraphVal?.ToString() ?? "";
       }
+
+      if (component.TryGetValue("content", out object content) && content is Dictionary<string, object> contentDict)
+      {
+        contentDict.TryGetValue("_", out object? contentVal);
+        return contentVal?.ToString() ?? "";
+      }
+
+      if (component.TryGetValue("_", out object val))
+      {
+        return val.ToString();
+      }
+
+      var result = new List<string>();
+      foreach (var t in DrillDown(component, new List<string> { "list", "item", "table" }))
+      {
+        var reasons = GetReasonsFromTable(t);
+        if (reasons.Count > 0)
+        {
+          result.AddRange(reasons);
+        }
+      }
+
+      return string.Join(", ", result.Distinct(StringComparer.OrdinalIgnoreCase));
+
     }
 
     private static string WrapHtmlValue(string key, object value)
