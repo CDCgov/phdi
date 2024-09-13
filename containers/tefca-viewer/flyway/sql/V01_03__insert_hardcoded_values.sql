@@ -56,8 +56,8 @@ INSERT INTO concepts VALUES('1_11350-6','11350-6','http://loinc.org','History of
 INSERT INTO concepts VALUES('1_82810-3','82810-3','http://loinc.org','Pregnancy status','828103','2024-09');
 INSERT INTO concepts VALUES('1_83317-8','83317-8','http://loinc.org','Sexual activity with anonymous partner in the past year','833178','2024-09');
 
-INSERT INTO concepts VALUES('1_82122','82122','https://www.nlm.nih.gov/research/umls/rxnorm','levofloxacin','82122','2024-09');
-INSERT INTO concepts VALUES('1_1649987','1649987','https://www.nlm.nih.gov/research/umls/rxnorm','doxycycline hyclate 100 MG','1649987','2024-09');
+INSERT INTO concepts VALUES('1_82122','82122','http://www.nlm.nih.gov/research/umls/rxnorm','levofloxacin','82122','2024-09');
+INSERT INTO concepts VALUES('1_1649987','1649987','http://www.nlm.nih.gov/research/umls/rxnorm','doxycycline hyclate 100 MG','1649987','2024-09');
 INSERT INTO concepts VALUES('1_72828-7','72828-7','http://loinc.org','Chlamydia trachomatis and Neisseria gonorrhoeae DNA panel - Specimen','728287','2024-09');
 INSERT INTO concepts VALUES('1_2339001','2339001','http://snomed.info/sct','Sexual overexposure','2339001','2024-09');
 
