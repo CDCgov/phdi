@@ -35,11 +35,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   setQueryValuesets,
   goBack,
 }) => {
-  console.log("UseCaseQueryResponse:");
-  console.log(useCaseQueryResponse);
-
   const [activeTab, setActiveTab] = useState("labs");
-
   const [valueSetState, setValueSetState] = useState<ValueSet>({
     labs: [],
     medications: [],
@@ -88,7 +84,8 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     }));
   };
 
-  // Will eventually be the json object storing the parsed data to return on the results page
+  // Persist the changes made on this page to the valueset state maintained
+  // by the entire query branch of the app
   const handleApplyChanges = () => {
     const selectedItems = Object.keys(valueSetState).reduce((acc, key) => {
       const items = valueSetState[key as keyof ValueSet];
@@ -96,6 +93,8 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       return acc;
     }, {} as ValueSet);
 
+    // Use a prop spread to concatenate the three separate types of codes
+    // back into one coherent structure
     setQueryValuesets([
       ...selectedItems.labs,
       ...selectedItems.medications,
@@ -111,9 +110,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   useEffect(() => {
     // Gate whether we actually update state after fetching so we
-    // avoid name-change race conditions
+    // avoid race conditions if the user goes back to the SearchForm
     let isSubscribed = true;
 
+    // DB results are only guaranteed as Promises, so we need to async/await
+    // manipulations to the rows
     const filterVS = async () => {
       const labs = await filterValueSets(queryValuesets, "labs");
       const medications = await filterValueSets(queryValuesets, "medications");

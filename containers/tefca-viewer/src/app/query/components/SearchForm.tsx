@@ -72,8 +72,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
-  console.log("use case: " + useCase);
-
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
     (patientOption: PatientType, highlightAutofilled = true) => {
@@ -86,29 +84,27 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setPhone(data.Phone);
         setFhirServer(data.FhirServer as FHIR_SERVERS);
         setUseCase(data.UseCase as USE_CASES);
-        setQueryType(
-          demoQueryOptions.find((option) => option.value === data.UseCase)
-            ?.label || "",
-        );
+        // setQueryType(
+        //     demoQueryOptions.find((option) => option.value === data.UseCase)
+        //         ?.label || "",
+        // );
         setAutofilled(highlightAutofilled);
       }
     },
     [patientOption, setUseCase, setQueryType],
   );
 
-  // // Fills fields if patientOption changes (auto-fill)
+  // Fills fields if patientOption changes (auto-fill)
   useEffect(() => {
     if (!patientOption || userJourney !== "demo") {
       return;
     }
-    // fillFields(patientOption as PatientType);
+    fillFields(patientOption as PatientType);
   }, [fillFields, patientOption, userJourney]);
 
-  // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
+  // Change the selectedDemoOption in the dropdown and update the
+  // query type (which governs the DB fetch) accordingly
   const handleDemoQueryChange = (selectedDemoOption: string) => {
-    console.log("handling demoQuery Change");
-    // const useCaseDescriptor = patientOptions[selectedDemoOption][0];
-    // console.log(useCaseDescriptor);
     setPatientOption(patientOptions[selectedDemoOption][0].value);
     setQueryType(
       demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
@@ -139,8 +135,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
     };
     setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest);
-    console.log("calling query response via UseCaseQuery");
-    console.log(queryResponse);
     setUseCaseQueryResponse(queryResponse);
     if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
       setMode("no-patients");

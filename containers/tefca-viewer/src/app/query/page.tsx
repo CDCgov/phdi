@@ -38,25 +38,18 @@ const Query: React.FC = () => {
     useState<UseCaseQueryResponse>({});
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
 
-  console.log(queryType);
-  console.log(queryValuesets);
-
   useEffect(() => {
     // Gate whether we actually update state after fetching so we
     // avoid name-change race conditions
     let isSubscribed = true;
 
     const queryName = QueryTypeToQueryName[queryType];
-    console.log("query name: " + queryName);
     const fetchQuery = async () => {
-      console.log("fetching via useEffect");
       const queryResults = await getSavedQueryByName(queryName);
       const vsItems = await mapQueryRowsToValueSetItems(queryResults);
 
       // Only update if the fetch hasn't altered state yet
       if (isSubscribed) {
-        console.log("updating queryValuesets");
-        console.log(vsItems);
         setQueryValuesets(vsItems);
       }
     };
