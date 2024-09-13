@@ -2,13 +2,9 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import { Accordion, Button, Icon } from "@trussworks/react-uswds";
-import { QueryTypeToQueryName, ValueSet } from "../../constants";
+import { ValueSet, ValueSetItem } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
-import {
-  getSavedQueryByName,
-  filterQueryRows,
-  mapQueryRowsToValueSetItems,
-} from "@/app/database-service";
+import { filterValueSets } from "@/app/database-service";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
@@ -17,6 +13,8 @@ import "./customizeQuery.css";
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
   queryType: string;
+  queryValuesets: ValueSetItem[];
+  setQueryValuesets: (queryVS: ValueSetItem[]) => void;
   goBack: () => void;
 }
 
@@ -25,12 +23,16 @@ interface CustomizeQueryProps {
  * @param root0 - The properties object.
  * @param root0.useCaseQueryResponse - The response from the query service.
  * @param root0.queryType - The type of the query.
+ * @param root0.queryValuesets - The pre-fetched value sets from the DB.
+ * @param root0.setQueryValuesets - Function to update tracked custom query state.
  * @param root0.goBack - Back button to go from "customize-queries" to "search" component.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   useCaseQueryResponse,
   queryType,
+  queryValuesets,
+  setQueryValuesets,
   goBack,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
@@ -90,6 +92,12 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       acc[key as keyof ValueSet] = items.filter((item) => item.include);
       return acc;
     }, {} as ValueSet);
+
+    setQueryValuesets([
+      ...selectedItems.labs,
+      ...selectedItems.medications,
+      ...selectedItems.conditions,
+    ]);
     goBack();
     showRedirectConfirmation({
       heading: QUERY_CUSTOMIZATION_CONFIRMATION_HEADER,
@@ -103,32 +111,22 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     // avoid name-change race conditions
     let isSubscribed = true;
 
-    // Lookup the name of this queryType
-    const queryName = QueryTypeToQueryName[queryType];
-
-    const fetchQuery = async () => {
-      const queryResults = await getSavedQueryByName(queryName);
-      const labs = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "labs"),
-      );
-      const meds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "medications"),
-      );
-      const conds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "conditions"),
-      );
+    const filterVS = async () => {
+      const labs = await filterValueSets(queryValuesets, "labs");
+      const medications = await filterValueSets(queryValuesets, "medications");
+      const conditions = await filterValueSets(queryValuesets, "conditions");
 
       // Only update if the fetch hasn't altered state yet
       if (isSubscribed) {
         setValueSetState({
           labs: labs,
-          medications: meds,
-          conditions: conds,
+          medications: medications,
+          conditions: conditions,
         } as ValueSet);
       }
     };
 
-    fetchQuery().catch(console.error);
+    filterVS().catch(console.error);
 
     // Destructor hook to prevent future state updates
     return () => {

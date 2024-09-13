@@ -1,16 +1,20 @@
 "use client";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import ResultsView from "./components/ResultsView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
 import SearchForm from "./components/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
-import { Mode } from "../constants";
+import { Mode, QueryTypeToQueryName, ValueSetItem } from "../constants";
 import CustomizeQuery from "./components/CustomizeQuery";
 import LoadingView from "./components/LoadingView";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.min.css";
+import {
+  getSavedQueryByName,
+  mapQueryRowsToValueSetItems,
+} from "../database-service";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -18,12 +22,44 @@ import "react-toastify/dist/ReactToastify.min.css";
  * @returns - The Query component.
  */
 const Query: React.FC = () => {
-  const [queryType, setQueryType] = useState<string>("");
+  const [queryType, setQueryType] = useState<string>(
+    "Cancer case investigation",
+  );
+  const [queryValuesets, setQueryValuesets] = useState<ValueSetItem[]>(
+    [] as ValueSetItem[],
+  );
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
   const [useCaseQueryResponse, setUseCaseQueryResponse] =
     useState<UseCaseQueryResponse>({});
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
+
+  console.log("on query page");
+
+  useEffect(() => {
+    // Gate whether we actually update state after fetching so we
+    // avoid name-change race conditions
+    let isSubscribed = true;
+
+    const queryName = QueryTypeToQueryName[queryType];
+    const fetchQuery = async () => {
+      const queryResults = await getSavedQueryByName(queryName);
+      const vsItems = await mapQueryRowsToValueSetItems(queryResults);
+
+      // Only update if the fetch hasn't altered state yet
+      if (isSubscribed) {
+        setQueryValuesets(vsItems);
+        console.log(vsItems);
+      }
+    };
+
+    fetchQuery().catch(console.error);
+
+    // Destructor hook to prevent future state updates
+    return () => {
+      isSubscribed = false;
+    };
+  }, [queryType]);
 
   return (
     <div>
@@ -77,6 +113,8 @@ const Query: React.FC = () => {
           <CustomizeQuery
             useCaseQueryResponse={useCaseQueryResponse}
             queryType={queryType}
+            queryValuesets={queryValuesets}
+            setQueryValuesets={setQueryValuesets}
             goBack={() => {
               setMode("search");
             }}

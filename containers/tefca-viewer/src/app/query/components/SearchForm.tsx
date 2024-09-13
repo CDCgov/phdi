@@ -54,7 +54,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   userJourney,
 }) => {
   // Get the demoOption (initial selection) selected from modal via the URL
-  const [useCase, setUseCase] = useState<USE_CASES>("cancer");
+  const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
 
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
@@ -68,6 +68,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [mrn, setMRN] = useState<string>("");
 
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
+
+  console.log("Search form component");
 
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
@@ -101,7 +103,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
   const handleDemoQueryChange = (selectedDemoOption: string) => {
-    setPatientOption(patientOptions[selectedDemoOption][0].value);
+    const useCaseDescriptor = patientOptions[selectedDemoOption][0];
+    setPatientOption(useCaseDescriptor.value);
+    setQueryType(useCaseDescriptor.label);
   };
 
   const handleClick = () => {
@@ -127,6 +131,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     };
     setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest);
+    console.log(queryResponse);
     setUseCaseQueryResponse(queryResponse);
     if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
       setMode("no-patients");
@@ -140,6 +145,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
       <Alert type="info" headingLevel="h4" slim className="custom-alert">
