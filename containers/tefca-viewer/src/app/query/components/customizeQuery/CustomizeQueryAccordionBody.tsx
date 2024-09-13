@@ -1,6 +1,6 @@
 import { Icon } from "@trussworks/react-uswds";
 import { DefinedValueSetCollection } from "../CustomizeQuery";
-import customAccordionStyles from "./customizeQueryAccordion.module.css";
+import styles from "./customizeQuery.module.css";
 
 type CustomizeQueryAccordionBodyProps = {
   group: DefinedValueSetCollection;
@@ -11,23 +11,22 @@ type CustomizeQueryAccordionBodyProps = {
 const CustomizeQueryAccordionBody: React.FC<
   CustomizeQueryAccordionBodyProps
 > = ({ group, toggleInclude, groupIndex }) => {
-  console.log("in child body component", group.items);
   return (
-    <div className="padding-bottom-3">
-      <div className="customize-query-grid-container customize-query-table">
-        <div className="customize-query-grid-header margin-top-10">
-          <div className="accordion-table-header">Include</div>
-          <div className="accordion-table-header">Code</div>
-          <div className="accordion-table-header">Display</div>
+    <div className={`padding-bottom-3 ${styles.customizeQueryAccordion__body}`}>
+      <div className={`${styles.customizeQueryGridContainer}`}>
+        <div className={`${styles.customizeQueryGridHeader} margin-top-10`}>
+          <div className={`${styles.accordionTableHeader}`}>Include</div>
+          <div className={`${styles.accordionTableHeader}`}>Code</div>
+          <div className={`${styles.accordionTableHeader}`}>Display</div>
         </div>
-        <div className="customize-query-grid-body">
+        <div className="display-flex flex-column">
           {group.items.map((item, index) => (
             <div
-              className="customize-query-grid-row customize-query-striped-row"
+              className={`${styles.customizeQueryGridRow} ${styles.customizeQueryStripedRow}`}
               key={item.code}
             >
               <div
-                className={`hide-checkbox-label margin-4 ${customAccordionStyles.checkboxLabel} `}
+                className={`margin-4 ${styles.customizeQueryCheckbox} ${styles.customizeQueryCheckbox} ${styles.hideCheckboxLabel}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleInclude(groupIndex, index);
