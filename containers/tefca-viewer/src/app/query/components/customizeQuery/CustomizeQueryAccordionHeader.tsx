@@ -10,6 +10,15 @@ type CustomizeQueryAccordionProps = {
   isExpanded: boolean;
 };
 
+/**
+ *
+ * @param root0
+ * @param root0.selectedCount
+ * @param root0.handleSelectAllChange
+ * @param root0.groupIndex
+ * @param root0.group
+ * @param root0.isExpanded
+ */
 const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
   selectedCount,
   handleSelectAllChange,
@@ -26,7 +35,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
           e.stopPropagation();
           handleSelectAllChange(
             groupIndex,
-            selectedCount !== group.items.length
+            selectedCount !== group.items.length,
           );
         }}
       >
