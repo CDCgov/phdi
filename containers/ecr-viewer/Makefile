@@ -1,4 +1,4 @@
-.PHONY: help dev local-dev docker-compose-with-logs setup-local-env build start lint test test-watch convert-seed-data cypress-open cypress-run
+.PHONY: help dev local-dev docker-compose-with-logs setup-local-env build start lint test test-watch convert-seed-data cypress-open cypress-run cypress-run-local cypress-run-prod
 
 help:
 	@echo "\033[1;32mAvailable commands:\033[0m"
@@ -14,8 +14,11 @@ help:
 	@echo "\033[1;36mmake convert-seed-data\033[0m \033[0;33m- Runs docker compose -f ./seed-scripts/docker-compose.yml up --abort-on-container-exit\033[0m"
 	@echo "\033[1;36mmake cypress-open\033[0m \033[0;33m- Opens Cypress\033[0m"
 	@echo "\033[1;36mmake cypress-run\033[0m  \033[0;33m- Runs Cypress tests\033[0m"
+	@echo "\033[1;36mmake cypress-run-local\033[0m  \033[0;33m- Runs Cypress tests in local environment\033[0m"
+	@echo "\033[1;36mmake cypress-run-prod\033[0m  \033[0;33m- Runs Cypress tests in production environment\033[0m"
+	@echo "\033[1;36mexit\033[0m              \033[0;33m- Exit\033[0m"
 	@echo "\033[1;32mSelect a command to run:\033[0m"
-	@select option in "dev" "local-dev" "docker-compose-with-logs" "setup-local-env" "build" "start" "lint" "test" "test-watch" "convert-seed-data" "cypress-open" "cypress-run"; do \
+	@select option in "dev" "local-dev" "docker-compose-with-logs" "setup-local-env" "build" "start" "lint" "test" "test-watch" "convert-seed-data" "cypress-open" "cypress-run" "cypress-run-local" "cypress-run-prod" "exit"; do \
 		case $$option in \
 			"dev") $(MAKE) dev;; \
 			"local-dev") $(MAKE) local-dev;; \
@@ -29,6 +32,9 @@ help:
 			"convert-seed-data") $(MAKE) convert-seed-data;; \
 			"cypress-open") $(MAKE) cypress-open;; \
 			"cypress-run") $(MAKE) cypress-run;; \
+			"cypress-run-local") $(MAKE) cypress-run-local;; \
+			"cypress-run-prod") $(MAKE) cypress-run-prod;; \
+			"exit") exit;; \
 			*) echo "Invalid option. Please try again."; \
 		esac; \
 	done
@@ -80,3 +86,11 @@ cypress-open:
 cypress-run:
 	@echo "Running Cypress tests..."
 	npm run cypress:run
+
+cypress-run-local:
+	@echo "Running Cypress tests in local environment..."
+	npm run cypress:run-local
+
+cypress-run-prod:
+	@echo "Running Cypress tests in production environment..."
+	npm run cypress:run-prod
