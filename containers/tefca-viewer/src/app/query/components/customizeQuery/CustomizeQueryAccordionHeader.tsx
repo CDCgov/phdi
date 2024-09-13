@@ -34,7 +34,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
           e.stopPropagation();
           handleSelectAllChange(
             groupIndex,
-            selectedCount !== group.items.length,
+            selectedCount !== group.items.length
           );
         }}
       >
@@ -54,7 +54,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
         )}
       </div>
       <div>
-        {`${group.items[0].display}`}
+        {`${group.valueset_name}`}
 
         <span className="accordion-subtitle margin-top-2">
           <strong>Author:</strong> {group.author}{" "}
