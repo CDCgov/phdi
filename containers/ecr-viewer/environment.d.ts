@@ -1,7 +1,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 namespace NodeJS {
   interface ProcessEnv {
-    APP_ENV: "test" | "middleware" | "prod";
+    APP_ENV: "test" | "dev" | "middleware" | "prod";
     AWS_REGION: string;
     AWS_CUSTOM_ENDPOINT: string;
     AWS_ACCESS_KEY_ID: string;

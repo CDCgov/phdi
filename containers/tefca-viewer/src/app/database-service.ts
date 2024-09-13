@@ -2,6 +2,7 @@
 import { Pool, PoolConfig, QueryResultRow } from "pg";
 import dotenv from "dotenv";
 import { ValueSetItem } from "./constants";
+import { QueryStruct } from "./demoQueries";
 
 const getQuerybyNameSQL = `
 select q.query_name, q.id, q.author, qtv.valueset_id, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
@@ -52,14 +53,14 @@ export const getSavedQueryByName = async (name: string) => {
 };
 
 /**
- * Helper function to filter the rows of results returned from the DB for particular
- * types of related clinical services.
- * @param dbResults The list of results returned from the DB.
+ * Helper function to filter the valueset-mapped rows of results returned from
+ * the DB for particular types of related clinical services.
+ * @param vsItems A list of value sets mapped from DB rows.
  * @param type One of "labs", "medications", or "conditions".
  * @returns A list of rows containing only the predicate service type.
  */
-export const filterQueryRows = async (
-  dbResults: QueryResultRow[],
+export const filterValueSets = async (
+  vsItems: ValueSetItem[],
   type: "labs" | "medications" | "conditions",
 ) => {
   // Assign clinical code type based on desired filter
@@ -72,8 +73,8 @@ export const filterQueryRows = async (
   } else {
     valuesetFilters = ["dxtc", "sdtc"];
   }
-  const results = dbResults.filter((row) =>
-    valuesetFilters.includes(row["type"]),
+  const results = vsItems.filter((vs) =>
+    valuesetFilters.includes(vs.clinicalServiceType),
   );
   return results;
 };
@@ -92,8 +93,45 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
       system: r["code_system"],
       include: r["include"],
       author: r["author"],
+      clinicalServiceType: r["type"],
     };
     return vsTranslation;
   });
   return vsItems;
+};
+
+/**
+ * Formats a statefully updated list of value set items into a JSON structure
+ * used for executing custom queries.
+ * @param useCase The base use case being queried for.
+ * @param vsItems The list of value set items the user wants included.
+ * @returns A structured specification of a query that can be executed.
+ */
+export const formatValueSetItemsAsQuerySpec = async (
+  useCase: string,
+  vsItems: ValueSetItem[],
+) => {
+  let secondEncounter: boolean = false;
+  if (["cancer", "chlamydia", "gonorrhea", "syphilis"].includes(useCase)) {
+    secondEncounter = true;
+  }
+  const labCodes: string[] = vsItems
+    .filter((vs) => vs.system === "http://loinc.org")
+    .map((vs) => vs.code);
+  const snomedCodes: string[] = vsItems
+    .filter((vs) => vs.system === "http://snomed.info/sct")
+    .map((vs) => vs.code);
+  const rxnormCodes: string[] = vsItems
+    .filter((vs) => vs.system === "http://www.nlm.nih.gov/research/umls/rxnorm")
+    .map((vs) => vs.code);
+
+  const spec: QueryStruct = {
+    labCodes: labCodes,
+    snomedCodes: snomedCodes,
+    rxnormCodes: rxnormCodes,
+    classTypeCodes: [] as string[],
+    hasSecondEncounterQuery: secondEncounter,
+  };
+
+  return spec;
 };
