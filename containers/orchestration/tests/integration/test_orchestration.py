@@ -150,7 +150,7 @@ def test_failed_save_to_ecr_viewer(setup, clean_up_db):
         orchestration_response = httpx.post(
             PROCESS_ZIP_ENDPOINT, data=form_data, files=files, timeout=60
         )
-        assert orchestration_response.status_code == 400
+        assert orchestration_response.status_code == 500
 
 
 @pytest.mark.integration
