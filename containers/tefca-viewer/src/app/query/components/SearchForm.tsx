@@ -27,6 +27,8 @@ import {
 import { FormatPhoneAsDigits } from "@/app/format-service";
 
 interface SearchFormProps {
+  useCase: USE_CASES;
+  setUseCase: (useCase: USE_CASES) => void;
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
@@ -37,6 +39,8 @@ interface SearchFormProps {
 
 /**
  * @param root0 - SearchFormProps
+ * @param root0.useCase - The use case this query will cover.
+ * @param root0.setUseCase - Update stateful use case.
  * @param root0.setOriginalRequest - The function to set the original request.
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
@@ -46,6 +50,8 @@ interface SearchFormProps {
  * @returns - The SearchForm component.
  */
 const SearchForm: React.FC<SearchFormProps> = ({
+  useCase,
+  setUseCase,
   setOriginalRequest,
   setUseCaseQueryResponse,
   setMode,
@@ -53,9 +59,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setQueryType,
   userJourney,
 }) => {
-  // Get the demoOption (initial selection) selected from modal via the URL
-  const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
-
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
     patientOptions[useCase]?.[0]?.value || "",
@@ -69,7 +72,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
-  console.log("Search form component");
+  console.log("use case: " + useCase);
 
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
@@ -93,19 +96,24 @@ const SearchForm: React.FC<SearchFormProps> = ({
     [patientOption, setUseCase, setQueryType],
   );
 
-  // Fills fields if patientOption changes (auto-fill)
+  // // Fills fields if patientOption changes (auto-fill)
   useEffect(() => {
     if (!patientOption || userJourney !== "demo") {
       return;
     }
-    fillFields(patientOption as PatientType);
+    // fillFields(patientOption as PatientType);
   }, [fillFields, patientOption, userJourney]);
 
   // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
   const handleDemoQueryChange = (selectedDemoOption: string) => {
-    const useCaseDescriptor = patientOptions[selectedDemoOption][0];
-    setPatientOption(useCaseDescriptor.value);
-    setQueryType(useCaseDescriptor.label);
+    console.log("handling demoQuery Change");
+    // const useCaseDescriptor = patientOptions[selectedDemoOption][0];
+    // console.log(useCaseDescriptor);
+    setPatientOption(patientOptions[selectedDemoOption][0].value);
+    setQueryType(
+      demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
+        "",
+    );
   };
 
   const handleClick = () => {
@@ -131,6 +139,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     };
     setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest);
+    console.log("calling query response via UseCaseQuery");
     console.log(queryResponse);
     setUseCaseQueryResponse(queryResponse);
     if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
@@ -265,12 +274,17 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 id="query"
                 name="query"
                 className="usa-select margin-top-1"
+                defaultValue={""}
                 value={useCase}
                 onChange={(event) => {
                   handleDemoQueryChange(event.target.value);
                   setUseCase(event.target.value as USE_CASES);
                 }}
               >
+                <option value="" disabled>
+                  {" "}
+                  -- Select An Option --{" "}
+                </option>
                 {demoQueryOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}

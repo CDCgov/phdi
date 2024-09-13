@@ -35,6 +35,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   setQueryValuesets,
   goBack,
 }) => {
+  console.log("UseCaseQueryResponse:");
+  console.log(useCaseQueryResponse);
+
   const [activeTab, setActiveTab] = useState("labs");
 
   const [valueSetState, setValueSetState] = useState<ValueSet>({

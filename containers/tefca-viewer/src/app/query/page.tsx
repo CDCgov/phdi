@@ -5,7 +5,12 @@ import ResultsView from "./components/ResultsView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
 import SearchForm from "./components/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
-import { Mode, QueryTypeToQueryName, ValueSetItem } from "../constants";
+import {
+  Mode,
+  QueryTypeToQueryName,
+  USE_CASES,
+  ValueSetItem,
+} from "../constants";
 import CustomizeQuery from "./components/CustomizeQuery";
 import LoadingView from "./components/LoadingView";
 import { ToastContainer } from "react-toastify";
@@ -22,9 +27,8 @@ import {
  * @returns - The Query component.
  */
 const Query: React.FC = () => {
-  const [queryType, setQueryType] = useState<string>(
-    "Cancer case investigation",
-  );
+  const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
+  const [queryType, setQueryType] = useState<string>("");
   const [queryValuesets, setQueryValuesets] = useState<ValueSetItem[]>(
     [] as ValueSetItem[],
   );
@@ -34,7 +38,8 @@ const Query: React.FC = () => {
     useState<UseCaseQueryResponse>({});
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
 
-  console.log("on query page");
+  console.log(queryType);
+  console.log(queryValuesets);
 
   useEffect(() => {
     // Gate whether we actually update state after fetching so we
@@ -42,14 +47,17 @@ const Query: React.FC = () => {
     let isSubscribed = true;
 
     const queryName = QueryTypeToQueryName[queryType];
+    console.log("query name: " + queryName);
     const fetchQuery = async () => {
+      console.log("fetching via useEffect");
       const queryResults = await getSavedQueryByName(queryName);
       const vsItems = await mapQueryRowsToValueSetItems(queryResults);
 
       // Only update if the fetch hasn't altered state yet
       if (isSubscribed) {
-        setQueryValuesets(vsItems);
+        console.log("updating queryValuesets");
         console.log(vsItems);
+        setQueryValuesets(vsItems);
       }
     };
 
@@ -66,6 +74,8 @@ const Query: React.FC = () => {
       {mode === "search" && (
         <Suspense fallback="...Loading">
           <SearchForm
+            useCase={useCase}
+            setUseCase={setUseCase}
             setMode={setMode}
             setLoading={setLoading}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
