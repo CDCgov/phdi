@@ -29,21 +29,10 @@ test.describe("querying with the TryTEFCA viewer", () => {
     ).toBeVisible();
   });
 
-  // Check that the clickable logo is visible
-  // test("clickable logo is visible", async ({ page }) => {
-  //   await expect(
-  //     page.locator('a[href="/tefca-viewer"] img[alt="DIBBs Logo"]'),
-  //   ).toBeVisible();
-  // });
-
   test("successful demo user query: the quest for watermelon mcgee", async ({
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
-    await page
-      .getByRole("button", { name: "Newborn screening follow-up" })
-      .click();
-    await page.getByRole("button", { name: "Next" }).click();
 
     // Check that the info alert is visible and contains the correct text
     const alert = page.locator(".custom-alert");
@@ -107,12 +96,6 @@ test.describe("querying with the TryTEFCA viewer", () => {
   test("unsuccessful user query: no patients", async ({ page }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
     await page
-      .getByRole("button", {
-        name: "Gather social determinants of health for a patient",
-      })
-      .click();
-    await page.getByRole("button", { name: "Next" }).click();
-    await page
       .getByLabel("Query", { exact: true })
       .selectOption("social-determinants");
 
@@ -137,10 +120,6 @@ test.describe("querying with the TryTEFCA viewer", () => {
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
-    await page
-      .getByRole("button", { name: "Syphilis case investigation" })
-      .click();
-    await page.getByRole("button", { name: "Next" }).click();
 
     await page.getByLabel("Query", { exact: true }).selectOption("syphilis");
     await page
@@ -169,12 +148,6 @@ test.describe("querying with the TryTEFCA viewer", () => {
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
     await page
-      .getByRole("button", {
-        name: "Gather social determinants of health for a patient",
-      })
-      .click();
-    await page.getByRole("button", { name: "Next" }).click();
-    await page
       .getByLabel("Query", { exact: true })
       .selectOption("social-determinants");
     await page.getByRole("button", { name: "Search for patient" }).click();
@@ -187,12 +160,6 @@ test.describe("querying with the TryTEFCA viewer", () => {
     page,
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
-    await page
-      .getByRole("button", {
-        name: "Chlamydia case investigation",
-      })
-      .click();
-    await page.getByRole("button", { name: "Next" }).click();
     await page.getByLabel("Query", { exact: true }).selectOption("chlamydia");
     await page.getByLabel("Phone Number").fill("");
     await page.getByRole("button", { name: "Search for patient" }).click();

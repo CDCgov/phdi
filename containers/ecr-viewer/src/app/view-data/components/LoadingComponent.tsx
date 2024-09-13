@@ -1,12 +1,21 @@
 "use client";
-import { Accordion, Grid, GridContainer } from "@trussworks/react-uswds";
+import {
+  Accordion,
+  Button,
+  Grid,
+  GridContainer,
+  Icon,
+  SideNav,
+} from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "./ExpandCollapseButtons";
-import SideNav from "./SideNav";
 import {
   AccordionDiv,
   AccordionH4,
   AccordionSection,
 } from "../component-utils";
+import Header from "@/app/Header";
+import classNames from "classnames";
+import PatientBanner from "./PatientBanner";
 
 /**
  * Renders the loading blobs in gray or in blue
@@ -20,7 +29,7 @@ const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
   const sectionLineStyle = isGray ? "section__line_gray" : "section__line";
 
   return (
-    <>
+    <div>
       {rows.map((_, index) => (
         <div key={index}>
           <div className="grid-row">
@@ -35,13 +44,86 @@ const renderLoadingBlobs = (numberOfRows: number, isGray: boolean = true) => {
               &nbsp;
             </div>
           </div>
-          <div className={`${sectionLineStyle}`} />
+          {numberOfRows > 1 ? (
+            <div className={`${sectionLineStyle}`}></div>
+          ) : (
+            ""
+          )}
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
+const renderSideNavLoadingItems = () => {
+  const loadingBlobStyle = "loading-blob-gray";
+
+  return (
+    <div>
+      <div className="grid-row">
+        <div
+          className={`loading-blob grid-col-8 ${loadingBlobStyle}-big width-full`}
+        >
+          &nbsp;
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SideNavLoadingSkeleton = ({
+  isNonIntegratedViewer,
+}: {
+  isNonIntegratedViewer: boolean;
+}) => {
+  const sideNavLoadingItems = [
+    <a>eCR Summary</a>,
+    <a>eCR Document</a>,
+    <SideNav
+      items={[
+        <a>Patient Info</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+        <a>Clinical Info</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+        <a>Lab Info</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+        <a>eCR Metadata</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+        <a>Unavailable Info</a>,
+        <SideNav
+          items={[<a>{renderSideNavLoadingItems()}</a>]}
+          isSubnav={true}
+        ></SideNav>,
+      ]}
+      isSubnav={true}
+    />,
+  ];
+
+  return (
+    <div className="nav-wrapper padding-top-1-25">
+      <nav
+        className={classNames("sticky-nav", {
+          "top-0": !isNonIntegratedViewer,
+          "top-550": isNonIntegratedViewer,
+        })}
+      >
+        <SideNav items={sideNavLoadingItems} />
+      </nav>
+    </div>
+  );
+};
 /**
  * Renders ECR Summary of the loading state
  * @returns A JSX component with rows of blobs.
@@ -159,17 +241,39 @@ const AccordionLoadingSkeleton = () => {
  * @returns ECR page loading skeleton
  */
 export const EcrLoadingSkeleton = () => {
+  const _isNonIntegratedViewer =
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
   return (
-    <div>
+    <main className={"width-full minw-main"}>
+      <Header />
+      {_isNonIntegratedViewer ? (
+        <PatientBanner bundle={undefined} mappings={undefined} />
+      ) : (
+        ""
+      )}
       <div className="main-container">
-        <div className="content-wrapper">
-          <div className="nav-wrapper">
-            <nav className="sticky-nav">
-              <SideNav />
-            </nav>
+        <div className={"width-main padding-main"}>
+          <div className="back-button-wrapper">
+            {_isNonIntegratedViewer ? (
+              <Button
+                unstyled={true}
+                type="button"
+                className={"display-flex"}
+                onClick={() => window.history.back()}
+              >
+                <Icon.ArrowBack size={3} />
+                Back to eCR Library
+              </Button>
+            ) : (
+              ""
+            )}
           </div>
-          <div className={"ecr-viewer-container"}>
-            <div className="ecr-content">
+          <div className="content-wrapper">
+            <SideNavLoadingSkeleton
+              isNonIntegratedViewer={_isNonIntegratedViewer ? true : false}
+            />
+            {/* <SideNav /> */}
+            <div className={"ecr-viewer-container"}>
               <div className="margin-bottom-3">
                 <h2 className="margin-bottom-05" id="ecr-summary">
                   eCR Summary
@@ -181,7 +285,9 @@ export const EcrLoadingSkeleton = () => {
               </div>
               <EcrSummaryLoadingSkeleton />
               <div className="margin-top-10">
-                <GridContainer className={"padding-0 margin-bottom-3"}>
+                <GridContainer
+                  className={"padding-0 margin-bottom-3 maxw-none"}
+                >
                   <Grid row className="margin-bottom-05">
                     <Grid>
                       <h2 className="margin-bottom-0" id="ecr-document">
@@ -211,6 +317,14 @@ export const EcrLoadingSkeleton = () => {
           </div>
         </div>
       </div>
-    </div>
+      <a
+        className="usa-button position-fixed right-3 bottom-0"
+        target="_blank"
+        title="External link opens in new window"
+        href="https://touchpoints.app.cloud.gov/touchpoints/e93de6ae/submit"
+      >
+        How can we improve eCR Viewer?
+      </a>
+    </main>
   );
 };

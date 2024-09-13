@@ -26,6 +26,10 @@ export const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
   "Public HAPI: eHealthExchange": configureEHX("PublicHAPI"),
   "OpenEpic: eHealthExchange": configureEHX("OpenEpic"),
   "CernerHelios: eHealthExchange": configureEHX("CernerHelios"),
+  "OPHDST Meld: Direct": {
+    hostname: "https://gw.interop.community/CDCSepHL7Connectatho/open/",
+    init: {} as RequestInit,
+  },
 };
 
 /**
