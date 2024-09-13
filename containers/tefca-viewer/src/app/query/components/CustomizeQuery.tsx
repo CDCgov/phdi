@@ -2,13 +2,9 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import { Accordion, Button, Icon } from "@trussworks/react-uswds";
-import { QueryTypeToQueryName, ValueSet } from "../../constants";
+import { ValueSet, ValueSetItem } from "../../constants";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
-import {
-  getSavedQueryByName,
-  filterQueryRows,
-  mapQueryRowsToValueSetItems,
-} from "@/app/database-service";
+import { filterValueSets } from "@/app/database-service";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
@@ -17,6 +13,8 @@ import "./customizeQuery.css";
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
   queryType: string;
+  queryValuesets: ValueSetItem[];
+  setQueryValuesets: (queryVS: ValueSetItem[]) => void;
   goBack: () => void;
 }
 
@@ -25,16 +23,19 @@ interface CustomizeQueryProps {
  * @param root0 - The properties object.
  * @param root0.useCaseQueryResponse - The response from the query service.
  * @param root0.queryType - The type of the query.
+ * @param root0.queryValuesets - The pre-fetched value sets from the DB.
+ * @param root0.setQueryValuesets - Function to update tracked custom query state.
  * @param root0.goBack - Back button to go from "customize-queries" to "search" component.
  * @returns The CustomizeQuery component.
  */
 const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   useCaseQueryResponse,
   queryType,
+  queryValuesets,
+  setQueryValuesets,
   goBack,
 }) => {
   const [activeTab, setActiveTab] = useState("labs");
-
   const [valueSetState, setValueSetState] = useState<ValueSet>({
     labs: [],
     medications: [],
@@ -83,13 +84,22 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     }));
   };
 
-  // Will eventually be the json object storing the parsed data to return on the results page
+  // Persist the changes made on this page to the valueset state maintained
+  // by the entire query branch of the app
   const handleApplyChanges = () => {
     const selectedItems = Object.keys(valueSetState).reduce((acc, key) => {
       const items = valueSetState[key as keyof ValueSet];
       acc[key as keyof ValueSet] = items.filter((item) => item.include);
       return acc;
     }, {} as ValueSet);
+
+    // Use a prop spread to concatenate the three separate types of codes
+    // back into one coherent structure
+    setQueryValuesets([
+      ...selectedItems.labs,
+      ...selectedItems.medications,
+      ...selectedItems.conditions,
+    ]);
     goBack();
     showRedirectConfirmation({
       heading: QUERY_CUSTOMIZATION_CONFIRMATION_HEADER,
@@ -100,35 +110,27 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   useEffect(() => {
     // Gate whether we actually update state after fetching so we
-    // avoid name-change race conditions
+    // avoid race conditions if the user goes back to the SearchForm
     let isSubscribed = true;
 
-    // Lookup the name of this queryType
-    const queryName = QueryTypeToQueryName[queryType];
-
-    const fetchQuery = async () => {
-      const queryResults = await getSavedQueryByName(queryName);
-      const labs = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "labs"),
-      );
-      const meds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "medications"),
-      );
-      const conds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "conditions"),
-      );
+    // DB results are only guaranteed as Promises, so we need to async/await
+    // manipulations to the rows
+    const filterVS = async () => {
+      const labs = await filterValueSets(queryValuesets, "labs");
+      const medications = await filterValueSets(queryValuesets, "medications");
+      const conditions = await filterValueSets(queryValuesets, "conditions");
 
       // Only update if the fetch hasn't altered state yet
       if (isSubscribed) {
         setValueSetState({
           labs: labs,
-          medications: meds,
-          conditions: conds,
+          medications: medications,
+          conditions: conditions,
         } as ValueSet);
       }
     };
 
-    fetchQuery().catch(console.error);
+    filterVS().catch(console.error);
 
     // Destructor hook to prevent future state updates
     return () => {
