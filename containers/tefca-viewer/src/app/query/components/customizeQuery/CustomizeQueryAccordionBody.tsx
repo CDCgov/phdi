@@ -8,6 +8,13 @@ type CustomizeQueryAccordionBodyProps = {
   groupIndex: number;
 };
 
+/**
+ *
+ * @param root0
+ * @param root0.group
+ * @param root0.toggleInclude
+ * @param root0.groupIndex
+ */
 const CustomizeQueryAccordionBody: React.FC<
   CustomizeQueryAccordionBodyProps
 > = ({ group, toggleInclude, groupIndex }) => {

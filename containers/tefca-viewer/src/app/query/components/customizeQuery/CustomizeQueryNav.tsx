@@ -6,6 +6,13 @@ type CustomizeQueryNavProps = {
   handleTabChange: (tabName: GroupedValueSetKey) => void;
   handleSelectAllForTab: (checked: boolean) => void;
 };
+/**
+ *
+ * @param root0
+ * @param root0.handleTabChange
+ * @param root0.activeTab
+ * @param root0.handleSelectAllForTab
+ */
 const CustomizeQueryNav: React.FC<CustomizeQueryNavProps> = ({
   handleTabChange,
   activeTab,
