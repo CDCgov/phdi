@@ -101,7 +101,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       (item) => ({
         ...item,
         include: checked, // Set all items in this group to checked or unchecked
-      })
+      }),
     );
 
     setGroupedValueSetState((prevState) => ({
@@ -147,13 +147,13 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     const fetchQuery = async () => {
       const queryResults = await getSavedQueryByName(queryName);
       const labs = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "labs")
+        await filterQueryRows(queryResults, "labs"),
       );
       const meds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "medications")
+        await filterQueryRows(queryResults, "medications"),
       );
       const conds = await mapQueryRowsToValueSetItems(
-        await filterQueryRows(queryResults, "conditions")
+        await filterQueryRows(queryResults, "conditions"),
       );
 
       // Only update if the fetch hasn't altered state yet
@@ -176,11 +176,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   useEffect(() => {
     const items = groupedValueSetState[activeTab].flatMap(
-      (group) => group.items
+      (group) => group.items,
     );
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
-      "select-all"
+      "select-all",
     ) as HTMLInputElement;
     if (topCheckbox) {
       topCheckbox.indeterminate =

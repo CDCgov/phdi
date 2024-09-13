@@ -4,41 +4,19 @@ import {
   ProcessListItem,
   ProcessListHeading,
   Button,
-  Modal,
-  ModalHeading,
-  ModalFooter,
-  ModalToggleButton,
-  ModalRef,
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { modalOptions } from "./constants";
 import Image from "next/image";
+
 /**
  * The landing page for the TEFCA Viewer.
  * @returns The LandingPage component.
  */
 export default function LandingPage() {
   const router = useRouter();
-  const modalRef = useRef<ModalRef>(null);
-  const [isClient, setIsClient] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const handleClick = () => {
-    if (selectedOption) {
-      router.push(`/query?useCase=${encodeURIComponent(selectedOption)}`);
-    } else {
-      router.push(`/query`);
-    }
-  };
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const handleOptionClick = (option: string) => {
-    setSelectedOption(option);
-    document.getElementById(option)?.focus();
+    router.push(`/query`);
   };
 
   return (
@@ -112,69 +90,17 @@ export default function LandingPage() {
               Check out the TEFCA Viewer demo to try out features using sample
               data. See how the TEFCA Viewer could work for you.
             </h2>
-            {isClient && (
-              <ModalToggleButton
-                modalRef={modalRef}
-                opener
-                title="Go to the demo"
-                onClick={() => setSelectedOption(null)}
-              >
-                Go to the demo
-              </ModalToggleButton>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {isClient && (
-        <Modal
-          isLarge={true}
-          ref={modalRef}
-          className="custom-modal"
-          id="example-modal-2"
-          aria-labelledby="modal-2-heading"
-          aria-describedby="modal-2-description"
-          isInitiallyOpen={false}
-          placeholder={undefined}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-        >
-          <ModalHeading id="data-usage-policy-modal-heading">
-            Customize your demo experience
-          </ModalHeading>
-          <div className="usa-prose">
-            <p id="modal-2-description">
-              Select a scenario to see what kinds of data you can gather using
-              the TEFCA Query Connector.
-            </p>
-            <div className="modal-options">
-              {Object.keys(modalOptions).map((option) => (
-                <Button
-                  type="button"
-                  className={`modal-option ${
-                    selectedOption === option ? "selected" : ""
-                  }`}
-                  id={option}
-                  onClick={() => handleOptionClick(option)}
-                >
-                  {modalOptions[option as keyof typeof modalOptions]}
-                </Button>
-              ))}
-            </div>
-          </div>
-          <ModalFooter>
             <Button
               className="next-button"
               type="button"
               id="next-button"
-              disabled={!selectedOption}
-              onClick={handleClick}
+              onClick={() => handleClick()}
             >
-              Next
+              Go to the demo
             </Button>
-          </ModalFooter>
-        </Modal>
-      )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

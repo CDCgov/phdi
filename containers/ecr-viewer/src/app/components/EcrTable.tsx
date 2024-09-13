@@ -1,6 +1,9 @@
 import { Table } from "@trussworks/react-uswds";
 import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
 
+const basePath =
+  process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_BASEPATH : "";
+
 /**
  * eCR Table
  * @param props - The properties passed to the component.
@@ -69,7 +72,7 @@ const renderListEcrTableData = (listFhirData: EcrDisplay[]) => {
     return (
       <tr key={`table-row-${index}`}>
         <td>
-          <a href={`/view-data?id=${item.ecrId}`}>
+          <a href={`${basePath}/view-data?id=${item.ecrId}`}>
             {item.patient_first_name} {item.patient_last_name}
           </a>
           <br />
