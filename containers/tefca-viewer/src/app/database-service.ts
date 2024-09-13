@@ -61,7 +61,7 @@ export const getSavedQueryByName = async (name: string) => {
  */
 export const filterQueryRows = async (
   dbResults: QueryResultRow[],
-  type: "labs" | "medications" | "conditions"
+  type: "labs" | "medications" | "conditions",
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
@@ -74,7 +74,7 @@ export const filterQueryRows = async (
     valuesetFilters = ["dxtc", "sdtc"];
   }
   const results = dbResults.filter((row) =>
-    valuesetFilters.includes(row["type"])
+    valuesetFilters.includes(row["type"]),
   );
   return results;
 };
@@ -102,7 +102,7 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
 
       if (!author || !system || !valueset_name) {
         console.warn(
-          `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`
+          `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`,
         );
         return acc;
       }
@@ -135,7 +135,7 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
         system: string;
         items: ValueSetItem[];
       }
-    >
+    >,
   );
 
   return Object.values(grouped);
