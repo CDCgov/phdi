@@ -17,10 +17,10 @@ INSERT INTO valuesets VALUES('5_20240909','5','20240909','Syphilis Diagnosis Pro
 INSERT INTO valuesets VALUES('6_20240909','6','20240909','Suspected Syphilis Disorder','DIBBs','sdtc');
 
 -- Missing Gonorhea valueset(s)
-INSERT INTO valuesets VALUES('7_20240909','7','20240909','Gonorhea Medication','DIBBs','mrtc');
-INSERT INTO valuesets VALUES('8_20240909','8','20240909','Gonorhea Diagnosis Problem','DIBBs','dxtc');
-INSERT INTO valuesets VALUES('9_20240909','9','20240909','Gonorhea Lab Organism','DIBBs','lotc');
-INSERT INTO valuesets VALUES('10_20240909','10','20240909','Gonorhea Lab Result','DIBBs','lrtc');
+INSERT INTO valuesets VALUES('7_20240909','7','20240909','Gonorrhea Medication','DIBBs','mrtc');
+INSERT INTO valuesets VALUES('8_20240909','8','20240909','Gonorrhea Diagnosis Problem','DIBBs','dxtc');
+INSERT INTO valuesets VALUES('9_20240909','9','20240909','Gonorrhea Lab Organism','DIBBs','lotc');
+INSERT INTO valuesets VALUES('10_20240909','10','20240909','Gonorrhea Lab Result','DIBBs','lrtc');
 
 -- Missing Chlamydia valueset(s)
 INSERT INTO valuesets VALUES('11_20240910','11','20240910','Chlamydia Medication','DIBBs','mrtc');
