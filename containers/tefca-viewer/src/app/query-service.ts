@@ -73,7 +73,7 @@ export type UseCaseQueryResponse = Awaited<ReturnType<typeof UseCaseQuery>>;
 async function queryEncounters(
   patientId: string,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
   if (queryResponse.Condition && queryResponse.Condition.length > 0) {
     const conditionId = queryResponse.Condition[0].id;
@@ -95,7 +95,7 @@ async function queryEncounters(
 async function patientQuery(
   request: UseCaseQueryRequest,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<void> {
   // Query for patient
   let query = "Patient?";
@@ -135,7 +135,7 @@ async function patientQuery(
     console.error(
       `Patient search failed. Status: ${response.status} \n Body: ${
         response.text
-      } \n Headers: ${JSON.stringify(response.headers.raw())}`
+      } \n Headers: ${JSON.stringify(response.headers.raw())}`,
     );
   }
   queryResponse = await parseFhirSearch(response, queryResponse);
@@ -150,7 +150,7 @@ async function patientQuery(
  */
 export async function UseCaseQuery(
   request: UseCaseQueryRequest,
-  queryResponse: QueryResponse = {}
+  queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
   const fhirClient = new FHIRClient(request.fhir_server);
 
@@ -168,7 +168,7 @@ export async function UseCaseQuery(
     request.use_case,
     patientId,
     fhirClient,
-    queryResponse
+    queryResponse,
   );
 
   return queryResponse;
@@ -178,7 +178,7 @@ async function generalizedQuery(
   useCase: USE_CASES,
   patientId: string,
   fhirClient: FHIRClient,
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
   const querySpec = UseCaseToStructMap[useCase];
   const builtQuery = new CustomQuery(querySpec, patientId);
@@ -211,7 +211,7 @@ async function generalizedQuery(
  */
 export async function parseFhirSearch(
   response: fetch.Response | Array<fetch.Response>,
-  queryResponse: QueryResponse = {}
+  queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
   let resourceArray: any[] = [];
 
@@ -243,7 +243,7 @@ export async function parseFhirSearch(
  * @returns - The array of resources from the response.
  */
 export async function processResponse(
-  response: fetch.Response
+  response: fetch.Response,
 ): Promise<any[]> {
   let resourceArray: any[] = [];
   if (response.status === 200) {
@@ -263,7 +263,7 @@ export async function processResponse(
  * @returns - The FHIR Bundle of queried data.
  */
 export async function createBundle(
-  queryResponse: QueryResponse
+  queryResponse: QueryResponse,
 ): Promise<APIQueryResponse> {
   const bundle: Bundle = {
     resourceType: "Bundle",
