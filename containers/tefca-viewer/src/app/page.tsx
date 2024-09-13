@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { modalOptions } from "./constants";
-
+import Image from "next/image";
 /**
  * The landing page for the TEFCA Viewer.
  * @returns The LandingPage component.
@@ -56,7 +56,10 @@ export default function LandingPage() {
                 TEFCA, giving you access to more complete and timely data.
               </h2>
             </div>
-            <img src="/tefca-viewer/tefca-graphic.svg" />
+            <Image
+              alt="Graphic illustrating what TEFCA is"
+              src="/tefca-viewer/tefca-graphic.svg"
+            />
           </div>
         </div>
         <div className="home">

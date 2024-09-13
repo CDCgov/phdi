@@ -6,6 +6,16 @@ type CustomizeQueryNavProps = {
   handleTabChange: (tabName: GroupedValueSetKey) => void;
   handleSelectAllForTab: (checked: boolean) => void;
 };
+
+/**
+ * Nav component for customize query page
+ * @param param0 - props for rendering
+ * @param param0.handleTabChange - listener event for tab selection
+ * @param param0.activeTab - currently active tab
+ * @param param0.handleSelectAllForTab - Listener function to grab all the
+ * returned labs when the select all button is hit
+ * @returns Nav component for the customize query page
+ */
 const CustomizeQueryNav: React.FC<CustomizeQueryNavProps> = ({
   handleTabChange,
   activeTab,
@@ -55,6 +65,7 @@ const CustomizeQueryNav: React.FC<CustomizeQueryNavProps> = ({
       <hr className="custom-hr"></hr>
       <a
         href="#"
+        type="button"
         className="include-all-link"
         onClick={(e) => {
           e.preventDefault();

@@ -7,15 +7,23 @@ type CustomizeQueryAccordionProps = {
   handleSelectAllChange: (groupIndex: number, checked: boolean) => void;
   groupIndex: number;
   group: DefinedValueSetCollection;
-  isExpanded: boolean;
 };
 
+/**
+ * Rendering component for customize query header
+ * @param param0 - props for rendering
+ * @param param0.selectedCount - stateful tally of the number of selected valuesets
+ * @param param0.handleSelectAllChange
+ * Listner function to include all valuesets when checkbox is selected
+ * @param param0.groupIndex - index corresponding to group
+ * @param param0.group - matched concept containing all rendered valuesets
+ * @returns A component that renders the customization query body
+ */
 const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
   selectedCount,
   handleSelectAllChange,
   groupIndex,
   group,
-  isExpanded,
 }) => {
   return (
     <div className="accordion-header display-flex flex-no-wrap flex-align-start customize-query-header">

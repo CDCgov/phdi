@@ -218,7 +218,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                 handleSelectAllChange={handleSelectAllChange}
                 groupIndex={groupIndex}
                 group={group}
-                isExpanded={group.isExpanded}
               />
             }
             content={
