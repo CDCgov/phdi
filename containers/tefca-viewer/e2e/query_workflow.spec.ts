@@ -11,21 +11,21 @@ test.describe("querying with the TryTEFCA viewer", () => {
   test("landing page loads", async ({ page }) => {
     // Check that each expected text section is present
     await expect(
-      page.getByRole("heading", { name: "Data collection made easier" }),
+      page.getByRole("heading", { name: "Data collection made easier" })
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "What is it?" }),
+      page.getByRole("heading", { name: "What is it?" })
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "How does it work?" }),
+      page.getByRole("heading", { name: "How does it work?" })
     ).toBeVisible();
 
     // Check that interactable elements are present (TEFCA header and Get Started)
     await expect(
-      page.getByRole("link", { name: "TEFCA Viewer" }),
+      page.getByRole("link", { name: "TEFCA Viewer" })
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Go to the demo" }),
+      page.getByRole("button", { name: "Go to the demo" })
     ).toBeVisible();
   });
 
@@ -38,10 +38,10 @@ test.describe("querying with the TryTEFCA viewer", () => {
     const alert = page.locator(".custom-alert");
     await expect(alert).toBeVisible();
     await expect(alert).toHaveText(
-      "This site is for demo purposes only. Please do not enter PII on this website.",
+      "This site is for demo purposes only. Please do not enter PII on this website."
     );
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient", exact: true }),
+      page.getByRole("heading", { name: "Search for a Patient", exact: true })
     ).toBeVisible();
 
     // Put in the search parameters for the elusive fruit person
@@ -51,18 +51,18 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page
       .getByLabel("Patient", { exact: true })
       .selectOption("newborn-screening-referral");
+    await page.getByRole("button", { name: "Fill fields" }).click();
     await page.getByLabel("First Name").fill("Watermelon");
     await page.getByLabel("Last Name").fill("McGee");
     await page.getByLabel("Date of Birth").fill("2024-07-12");
     await page.getByLabel("Medical Record Number").fill("18091");
     await page.getByLabel("Phone Number").fill("5555555555");
-
     await page.getByRole("button", { name: "Search for patient" }).click();
 
     // Make sure we have a results page with a single patient
     // Non-interactive 'div' elements in the table should be located by text
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Query Results" })
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
@@ -73,7 +73,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     const alert2 = page.locator(".custom-alert");
     await expect(alert2).toBeVisible();
     await expect(alert2).toHaveText(
-      "Interested in learning more about using the TEFCA Query Connector for your jurisdiction? Send us an email at dibbs@cdc.gov",
+      "Interested in learning more about using the TEFCA Query Connector for your jurisdiction? Send us an email at dibbs@cdc.gov"
     );
 
     // Let's get a little schwifty: there are multiple possible resolutions for 'Observations',
@@ -81,7 +81,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(
       page
         .getByTestId("accordionItem_observations")
-        .getByRole("heading", { name: "Observations" }),
+        .getByRole("heading", { name: "Observations" })
     ).toBeVisible();
     // We can also just directly ask the page to find us filtered table rows
     await expect(page.locator("tbody").locator("tr")).toHaveCount(5);
@@ -89,7 +89,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     // Now let's use the return to search to go back to a blank form
     await page.getByRole("link", { name: "New patient search" }).click();
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient" }),
+      page.getByRole("heading", { name: "Search for a Patient" })
     ).toBeVisible();
   });
 
@@ -98,6 +98,10 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page
       .getByLabel("Query", { exact: true })
       .selectOption("social-determinants");
+    await page.getByRole("button", { name: "Advanced" }).click();
+    await page
+      .getByLabel("FHIR Server (QHIN)", { exact: true })
+      .selectOption("HELIOS Meld: Direct");
 
     await page.getByLabel("First Name").fill("Ellie");
     await page.getByLabel("Last Name").fill("Williams");
@@ -107,12 +111,12 @@ test.describe("querying with the TryTEFCA viewer", () => {
 
     // Better luck next time, user!
     await expect(
-      page.getByRole("heading", { name: "No Patients Found" }),
+      page.getByRole("heading", { name: "No Patients Found" })
     ).toBeVisible();
     await expect(page.getByText("There are no patient records")).toBeVisible();
     await page.getByRole("link", { name: "Search for a new patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient" }),
+      page.getByRole("heading", { name: "Search for a Patient" })
     ).toBeVisible();
   });
 
@@ -125,6 +129,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page
       .getByLabel("Patient", { exact: true })
       .selectOption("sti-syphilis-positive");
+    await page.getByRole("button", { name: "Fill fields" }).click();
 
     // Delete last name and MRN to force phone number as one of the 3 fields
     await page.getByLabel("Last Name").clear();
@@ -133,7 +138,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     // Among verification, make sure phone number is right
     await page.getByRole("button", { name: "Search for patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Query Results" })
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("Veronica Anne Blackstone")).toBeVisible();
@@ -150,9 +155,10 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page
       .getByLabel("Query", { exact: true })
       .selectOption("social-determinants");
+    await page.getByRole("button", { name: "Fill fields" }).click();
     await page.getByRole("button", { name: "Search for patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Query Results" })
     ).toBeVisible();
   });
 
@@ -161,10 +167,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
     await page.getByLabel("Query", { exact: true }).selectOption("chlamydia");
+    await page.getByRole("button", { name: "Fill fields" }).click();
     await page.getByLabel("Phone Number").fill("");
     await page.getByRole("button", { name: "Search for patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Query Results" })
     ).toBeVisible();
   });
 });
@@ -180,27 +187,19 @@ test.describe("Test the user journey of a 'tester'", () => {
   test("query/test page loads", async ({ page }) => {
     // Check that interactable elements are present
     await expect(
-      page.getByRole("button", { name: "Data Usage Policy" }),
+      page.getByRole("button", { name: "Data Usage Policy" })
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "TEFCA Viewer" }),
+      page.getByRole("link", { name: "TEFCA Viewer" })
     ).toBeVisible();
 
     // Check that each expected text section is present
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient", exact: true }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Query information", exact: true }),
+      page.getByRole("heading", { name: "Search for a Patient", exact: true })
     ).toBeVisible();
     await expect(page.getByLabel("Query", { exact: true })).toBeVisible();
-    await expect(
-      page.getByLabel("FHIR Server (QHIN)", { exact: true }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Patient information", exact: true }),
-    ).toBeVisible();
     await expect(page.getByLabel("Patient", { exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Advanced" })).toBeVisible();
   });
 
   test("Query for patient using auto-filled data", async ({ page }) => {
@@ -215,7 +214,7 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     // Make sure we have a results page with a single patient
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Query Results" })
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
@@ -227,6 +226,7 @@ test.describe("Test the user journey of a 'tester'", () => {
     await page
       .getByLabel("Query", { exact: true })
       .selectOption("Newborn screening follow-up");
+    await page.getByRole("button", { name: "Advanced" }).click();
     await page
       .getByLabel("FHIR Server (QHIN)", { exact: true })
       .selectOption("HELIOS Meld: Direct");
@@ -240,7 +240,7 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     // Make sure we have a results page with a single patient
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Query Results" })
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
@@ -253,6 +253,7 @@ test.describe("Test the user journey of a 'tester'", () => {
     await page
       .getByLabel("Query", { exact: true })
       .selectOption("Chlamydia case investigation");
+    await page.getByRole("button", { name: "Advanced" }).click();
     await page
       .getByLabel("FHIR Server (QHIN)", { exact: true })
       .selectOption("JMC Meld: Direct");
@@ -261,11 +262,11 @@ test.describe("Test the user journey of a 'tester'", () => {
     await page.getByRole("button", { name: "Search for patient" }).click();
     // Make sure all the elements for the multiple patients view appear
     await expect(
-      page.getByRole("heading", { name: "Multiple Records Found" }),
+      page.getByRole("heading", { name: "Multiple Records Found" })
     ).toBeVisible();
     // Check that there is a Table element with the correct headers
     await expect(page.locator("thead").locator("tr")).toHaveText(
-      "NameDOBContactAddressMRNActions",
+      "NameDOBContactAddressMRNActions"
     );
 
     // Check that there are multiple rows in the table
@@ -276,15 +277,15 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     // Make sure we have a results page with a single patient & appropriate back buttons
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Query Results" })
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "New patient search" }),
+      page.getByRole("link", { name: "New patient search" })
     ).toBeVisible();
 
     await page.getByRole("link", { name: "Return to search results" }).click();
     await expect(
-      page.getByRole("heading", { name: "Multiple Records Found" }),
+      page.getByRole("heading", { name: "Multiple Records Found" })
     ).toBeVisible();
   });
 });
