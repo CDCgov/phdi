@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { ValueSetItem } from "./constants";
 
 const getQuerybyNameSQL = `
-select q.query_name, q.id, q.author, qtv.valueset_id, vs.name as valueset_name, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
+select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author as author, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
   from query q 
   left join query_to_valueset qtv on q.id = qtv.query_id 
   left join valuesets vs on qtv.valueset_id = vs.id
@@ -61,7 +61,7 @@ export const getSavedQueryByName = async (name: string) => {
  */
 export const filterQueryRows = async (
   dbResults: QueryResultRow[],
-  type: "labs" | "medications" | "conditions",
+  type: "labs" | "medications" | "conditions"
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
@@ -74,7 +74,7 @@ export const filterQueryRows = async (
     valuesetFilters = ["dxtc", "sdtc"];
   }
   const results = dbResults.filter((row) =>
-    valuesetFilters.includes(row["type"]),
+    valuesetFilters.includes(row["type"])
   );
   return results;
 };
@@ -86,6 +86,12 @@ export const filterQueryRows = async (
  * @returns A list of ValueSetItems grouped by author and system.
  */
 export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
+  // only console.log rows if valueset_name is "Chalmydia Medication"
+  rows.forEach((row) => {
+    if (row.valueset_name === "Chlamydia Medication") {
+      console.log(row);
+    }
+  });
   // Group by author and code_system
   const grouped = rows.reduce(
     (acc, row) => {
@@ -96,12 +102,13 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
 
       if (!author || !system || !valueset_name) {
         console.warn(
-          `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`,
+          `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`
         );
         return acc;
       }
 
       const groupKey = `${valueset_name}:${author}:${system}`;
+      // console.log("groupKey", groupKey);
       if (!acc[groupKey]) {
         acc[groupKey] = {
           valueset_name: valueset_name,
@@ -128,7 +135,7 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
         system: string;
         items: ValueSetItem[];
       }
-    >,
+    >
   );
 
   return Object.values(grouped);
