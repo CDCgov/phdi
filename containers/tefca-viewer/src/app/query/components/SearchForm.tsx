@@ -58,7 +58,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 }) => {
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[useCase]?.[0]?.value || "",
+    patientOptions[useCase]?.[0]?.value || ""
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -73,7 +73,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   // Set the query type based on the selected useCase so it can be passed to the CustomizeQuery component
   useEffect(() => {
     setQueryType(
-      demoQueryOptions.find((option) => option.value === useCase)?.label || "",
+      demoQueryOptions.find((option) => option.value === useCase)?.label || ""
     );
   }, [useCase]);
 
@@ -92,7 +92,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption, setUseCase, setQueryType],
+    [patientOption, setUseCase, setQueryType]
   );
 
   // Change the selectedDemoOption in the dropdown and update the
@@ -101,7 +101,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setPatientOption(patientOptions[selectedDemoOption][0].value);
     setQueryType(
       demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
-        "",
+        ""
     );
   };
 
@@ -167,6 +167,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   setUseCase(event.target.value as USE_CASES);
                 }}
               >
+                <option value="" disabled>
+                  {" "}
+                  -- Select An Option --{" "}
+                </option>
                 {demoQueryOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
