@@ -1,6 +1,7 @@
 #nullable disable
 using Microsoft.Health.Fhir.Liquid.Converter;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace CustomFhir;
 
@@ -275,10 +276,38 @@ public class CustomFilterTests
   }
 
   [Fact]
-  public void ConcatenateTds()
+  public void ConcatenateTds_EmptyData_ReturnsEmptyString()
   {
     var inputData = new Dictionary<string, object>();
-    var actual = Filters.ConcatenateTds(new Dictionary<string, object>());
-    Assert.Equal("", actual);
+    var actual = Filters.ConcatenateTds(inputData);
+
+    Assert.Equal(string.Empty, actual);
+  }
+
+  [Fact]
+  public void ConcatenateTds_OneTable_ReturnsReasons()
+  {
+    var inputData = new Dictionary<string, object> { { "title", new Dictionary<string, object> {{ "_", "Reason for Visit" }} },
+    { "text",
+    new Dictionary<string, object> {{ "list",
+    new Dictionary<string, object> {{ "item",
+    new Dictionary<string, object> {{ "table",
+    new Dictionary<string, object>() {{ "colgroup",
+    new List<Dictionary<string, object>>() {
+    new Dictionary<string, object> {{ "col", null }} } },
+    { "thead", new Dictionary<string, object>() {{ "tr",
+    new List<Dictionary<string, object>>() {
+      new Dictionary<string, object>(){{ "th", new Dictionary<string, object> {{ "_", "Reason" }} }},
+      new Dictionary<string, object>(){{ "th", new Dictionary<string, object> {{ "_", "Comments" }} }}
+     } }} },
+    { "tbody", new Dictionary<string, object>() {{ "tr",
+    new List<Dictionary<string, object>>() {
+      new Dictionary<string, object>(){{ "td", new Dictionary<string, object> {{ "_", "Reason 1" }} }},
+      new Dictionary<string, object>(){{ "td", new Dictionary<string, object> {{ "_", "Reason 2" }} }}
+     } }} }} }} }} }} }};
+    var expected = "Reason 1, Reason 2";
+    var actual = Filters.ConcatenateTds(inputData);
+
+    Assert.Equal(expected, actual);
   }
 }
