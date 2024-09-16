@@ -1,4 +1,4 @@
-import { ValueSetItem, ValueSetType } from "@/app/constants";
+import { ValueSetItem } from "@/app/constants";
 
 export type GroupedValueSet = {
   valueSetName: string;
