@@ -70,13 +70,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
-  // Set the query type based on the selected useCase so it can be passed to the CustomizeQuery component
-  useEffect(() => {
-    setQueryType(
-      demoQueryOptions.find((option) => option.value === useCase)?.label || ""
-    );
-  }, [useCase]);
-
   // Fills fields with sample data based on the selected patientOption
   const fillFields = useCallback(
     (patientOption: PatientType, highlightAutofilled = true) => {
