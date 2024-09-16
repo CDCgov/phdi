@@ -285,7 +285,7 @@ public class CustomFilterTests
   }
 
   [Fact]
-  public void ConcatenateTds_OneTable_ReturnsReasons()
+  public void ConcatenateTds_Table_With_THead_ReturnsReasons()
   {
     var inputData = new Dictionary<string, object> { { "title", new Dictionary<string, object> {{ "_", "Reason for Visit" }} },
     { "text",
