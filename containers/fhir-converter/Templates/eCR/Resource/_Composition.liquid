@@ -10,19 +10,21 @@
             ]
         },
         "identifier":
-        {
-            "use":"official",
-            "type":
+        [
             {
-                {% assign codes = composition.code | to_array -%}
-                {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                "use":"official",
+                "type":
+                {
+                    {% assign codes = composition.code | to_array -%}
+                    {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                },
+                "value":"{{ composition.setId.extension }}",
+                "assigner": 
+                {
+                    "display": "{{ composition.setId.assigningAuthorityName }}"
+                },
             },
-            "value":"{{ composition.setId.extension }}",
-            "assigner": 
-            {
-                "display": "{{ composition.setId.assigningAuthorityName }}"
-            },
-        },
+        ],
         "extension":[
             {
                 "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
@@ -97,9 +99,25 @@
                             [
                                 {
                                     "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
-                                    "valueString" : "{{ component.section.text.content._ }}"
+                                    "valueString" : "{{ component.section.text._ }}"
                                 },
                             ],
+                            {% elsif component.section.text and component.section.text.paragraph._ and component.section.text.paragraph._ != null -%}
+                                "extension":
+                                [
+                                    {
+                                        "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                        "valueString" : "{{ component.section.text.paragraph._ }}"
+                                    },
+                                ],
+                            {% elsif component.section.text and component.section.text._ and component.section.text._ != null -%}
+                                "extension":
+                                [
+                                    {
+                                        "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                        "valueString" : "{{ component.section.text._ }}"
+                                    },
+                                ],
                         {% elsif tds and tds != '' -%}
                             "extension":
                             [

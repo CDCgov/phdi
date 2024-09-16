@@ -54,8 +54,8 @@ def convert_files():
     print("Converting files...")
     fhir_bundles = []
     metadata = []
-    # List the subfolders you want to check (TN, ME, LA)
-    subfolders = ["TN", "ME", "LA", "KY"]
+    # List the subfolders you want to check (TN, ME, LA, KY)
+    subfolders = ["LA"]
     # Iterate over the subfolders
     for subfolder in subfolders:
         subfolder_path = os.path.join(BASEDIR, "baseECR", subfolder)

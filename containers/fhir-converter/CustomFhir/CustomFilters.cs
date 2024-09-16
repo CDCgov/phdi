@@ -61,11 +61,11 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return null;
     }
 
-    private static List<Dictionary<string, object>>? DrillDown(List<Dictionary<string, object>> items, List<string> keys)
+    private static List<Dictionary<string, object>>? DrillDown(IList<Dictionary<string, object>> items, List<string> keys)
     {
       if (keys.Count == 0)
       {
-        return items;
+        return (List<Dictionary<string, object>>)items;
       }
 
       string key = keys.Shift();
@@ -92,27 +92,50 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return null;
     }
 
-    private static List<string> GetReasonsFromTable(Dictionary<string, object> table)
+    private static List<string> ReadParagraphs(object paragraphRaw)
     {
+      var paragraphs = ProcessItem(paragraphRaw);
       var result = new List<string>();
-      var targetColumns = new[] { "REASON FOR VISIT", "Reason", "Diagnoses / Procedures" }.ToList();
-      int reasonColNum = -1;
-
-      if (table.TryGetValue("thead", out object? thead))
+      foreach (var p in paragraphs)
       {
-        var ths = DrillDown(table, new List<string> { "thead", "tr", "th" });
-
-        foreach (var th in ths.Select((value, i) => new { i, value }))
+        if (p != null && p.TryGetValue("_", out object? pVal))
         {
-          if (th != null && th.value.TryGetValue("_", out object? thVal))
+          p.TryGetValue("styleCode", out object? styleCode);
+          if (styleCode?.ToString() != "xcellHeader")
           {
-            if (targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase))
-            {
-              reasonColNum = th.i;
-            }
+            result.Add(pVal.ToString());
           }
         }
+      }
 
+      return result;
+    }
+
+    private static int GetReasonColNum(IList<string> targetColumns, IDictionary<string, object> thead)
+    {
+      var ths = DrillDown(thead, new List<string> { "tr", "th" });
+      for (int i = 0; i < ths.Count(); i++)
+      {
+        var th = ths.TryGetAtIndex(i);
+        if (th != null && th.TryGetValue("_", out object? thVal))
+        {
+          if (targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase))
+          {
+            return i;
+          }
+        }
+      }
+
+      return -1;
+    }
+
+    private static List<string> GetReasonsFromTable(IDictionary<string, object> table)
+    {
+      var targetColumns = new[] { "REASON FOR VISIT", "Reason", "Diagnoses / Procedures", "text" }.ToList();
+      var result = new List<string>();
+      if (table.TryGetValue("thead", out object? thead) && thead is IDictionary<string, object> theadDict)
+      {
+        var reasonColNum = GetReasonColNum(targetColumns, theadDict);
         var trs = DrillDown(table, new List<string> { "tbody", "tr" });
 
         foreach (var tr in trs)
@@ -124,30 +147,37 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
             if (td != null)
             {
-              td.TryGetValue("paragraph", out object? paragraph);
-              if (paragraph != null)
+              // Example:
+              // <td>
+              //   <paragraph styleCode="xcellHeader">Diagnoses</paragraph>
+              //   <paragraph>Respiratory distress</paragraph>
+              // </td>
+              if (td.TryGetValue("paragraph", out object? paragraphs))
               {
-                var paragraphs = ProcessItem(paragraph);
-                foreach (var p in paragraphs)
+                result.AddRange(ReadParagraphs(paragraphs));
+              }
+
+              // Example:
+              // <td>
+              //    <content ID="text1">Respiratory distress</content>
+              // </td>
+              else if (td.TryGetValue("content", out object? content))
+              {
+                if (content is Dictionary<string, object> contentDict && contentDict.TryGetValue("_", out object? cVal))
                 {
-                  if (p != null && p.TryGetValue("_", out object? pVal))
-                  {
-                    p.TryGetValue("styleCode", out object? styleCode);
-                    if (styleCode?.ToString() != "xcellHeader")
-                    {
-                      result.Add((string)pVal);
-                    }
-                  }
+                  result.Add(cVal.ToString());
                 }
               }
+
+              // Example:
+              // <td>Respiratory distress</td>
               else if (td.TryGetValue("_", out object? val))
               {
-                result.Add((string)val);
+                result.Add(val.ToString());
               }
             }
           }
         }
-
       }
       else
       {
@@ -156,38 +186,30 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         foreach (var tr in trs)
         {
           if (tr.TryGetValue("th", out object? thObj)
-            && ((Dictionary<string, object>)thObj).TryGetValue("_", out object? thVal)
+            && thObj is Dictionary<string, object> thDict
+            && thDict.TryGetValue("_", out object? thVal)
             && targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase))
           {
-            if (tr.TryGetValue("td", out object? tdObj))
+            if (tr.TryGetValue("td", out object? tdObj) && tdObj is Dictionary<string, object> td)
             {
-              if (tdObj != null && tdObj is Dictionary<string, object> td)
+              // Example:
+              // <td>
+              //   <paragraph styleCode="xcellHeader">Diagnoses</paragraph>
+              //   <paragraph>Respiratory distress</paragraph>
+              // </td>
+              if (td.TryGetValue("paragraph", out object? paragraphs))
               {
-                td.TryGetValue("paragraph", out object? paragraph);
-                if (paragraph != null)
-                {
-                  var paragraphs = ProcessItem(paragraph);
-                  foreach (var p in paragraphs)
-                  {
-                    if (p != null && p.TryGetValue("_", out object? pVal))
-                    {
-                      p.TryGetValue("styleCode", out object? styleCode);
-                      if (styleCode?.ToString() != "xcellHeader")
-                      {
-                        result.Add((string)pVal);
-                      }
-                    }
-                  }
-                }
-                else if (td.TryGetValue("_", out object? val))
-                {
-                  result.Add((string)val);
-                }
+                result.AddRange(ReadParagraphs(paragraphs));
+              }
+              // Example:
+              // <td>Respiratory distress</td>
+              else if (td.TryGetValue("_", out object? val))
+              {
+                result.Add(val.ToString());
               }
             }
           }
         }
-
       }
 
       return result;
@@ -200,28 +222,17 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
       if (component.TryGetValue("table", out object table))
       {
-        return string.Join(", ", GetReasonsFromTable((Dictionary<string, object>)table).Distinct(StringComparer.OrdinalIgnoreCase));
+        return string.Join(", ", GetReasonsFromTable((IDictionary<string, object>)table).Distinct(StringComparer.OrdinalIgnoreCase));
       }
 
-      if (component.TryGetValue("paragraph", out object paragraph) && paragraph is Dictionary<string, object> paragraphDict)
+      var tables = DrillDown(component, new List<string> { "list", "item", "table" });
+      if (tables == null)
       {
-        paragraphDict.TryGetValue("_", out object? paragraphVal);
-        return paragraphVal?.ToString() ?? "";
-      }
-
-      if (component.TryGetValue("content", out object content) && content is Dictionary<string, object> contentDict)
-      {
-        contentDict.TryGetValue("_", out object? contentVal);
-        return contentVal?.ToString() ?? "";
-      }
-
-      if (component.TryGetValue("_", out object val))
-      {
-        return val.ToString();
+        return "";
       }
 
       var result = new List<string>();
-      foreach (var t in DrillDown(component, new List<string> { "list", "item", "table" }))
+      foreach (var t in tables)
       {
         var reasons = GetReasonsFromTable(t);
         if (reasons.Count > 0)
@@ -231,7 +242,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       }
 
       return string.Join(", ", result.Distinct(StringComparer.OrdinalIgnoreCase));
-
     }
 
     private static string WrapHtmlValue(string key, object value)
