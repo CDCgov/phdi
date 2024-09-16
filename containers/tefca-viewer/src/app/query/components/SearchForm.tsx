@@ -161,6 +161,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 id="query"
                 name="query"
                 className="usa-select margin-top-1"
+                defaultValue={""}
                 value={useCase}
                 onChange={(event) => {
                   handleDemoQueryChange(event.target.value);
@@ -169,7 +170,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               >
                 <option value="" disabled>
                   {" "}
-                  -- Select An Option --{" "}
+                  -- Select an Option --{" "}
                 </option>
                 {demoQueryOptions.map((option) => (
                   <option key={option.value} value={option.value}>
