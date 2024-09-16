@@ -40,6 +40,12 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return new List<Dictionary<string, object>>();
     }
 
+    /// <summary>
+    /// Drills down into an object representing nested XML elements, by the given keys.
+    /// </summary>
+    /// <param name="item">The object to drill down into.</param>
+    /// <param name="keys">The keys to drill down by.</param>
+    /// <returns>The result of drilling down, which can be a list of dictionaries, or null if the item is null or the key does not exist.</returns>
     private static List<Dictionary<string, object>>? DrillDown(IDictionary<string, object> item, List<string> keys)
     {
       if (keys.Count == 0)
@@ -61,6 +67,12 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return null;
     }
 
+    /// <summary>
+    ///  Drills down into a list of objects representing nested XML elements, by the given keys.
+    /// </summary>
+    /// <param name="items">The list of objects to drill down into.</param>
+    /// <param name="keys">The keys to drill down by.</param>
+    /// <returns>The result of drilling down, which can be a list of dictionaries, or null if the items is null or empty, or the key does not exist.</returns>
     private static List<Dictionary<string, object>>? DrillDown(IList<Dictionary<string, object>> items, List<string> keys)
     {
       if (keys.Count == 0)
@@ -92,7 +104,13 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return null;
     }
 
-    private static int GetReasonColNum(IList<string> targetColumns, IDictionary<string, object> thead)
+    /// <summary>
+    /// Given a Dictionary representing a thead element, return the column number of the first column that matches one of the target column names.
+    /// </summary>
+    /// <param name="targetColumns">A list of column names to search for.</param>
+    /// <param name="thead">A dictionary representing the thead element of an XML table.</param>
+    /// <returns>The column number of the first match, or -1 if no match is found.</returns>
+    private static int GetTargetColNum(IList<string> targetColumns, IDictionary<string, object> thead)
     {
       var ths = DrillDown(thead, new List<string> { "tr", "th" });
       for (int i = 0; i < ths.Count(); i++)
@@ -110,7 +128,13 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return -1;
     }
 
-    private static List<string> GetReasonFromTd(object? tdRaw)
+    /// <summary>
+    /// Given a Dictionary representing a table data cell, return a list of the reasons for visit. 
+    /// The cell is searched for paragraphs without a styleCode="xcellHeader" attribute, content elements, or a string value.
+    /// </summary>
+    /// <param name="tdRaw">A dictionary representing an XML table data cell.</param>
+    /// <returns>A list of the reasons for visit. If no matching elements are found, an empty list is returned.</returns>
+    private static List<string> GetTextFromTd(object? tdRaw)
     {
       if (tdRaw is Dictionary<string, object> td)
       {
@@ -161,13 +185,19 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return new List<string>();
     }
 
+    /// <summary>
+    /// Given a Dictionary representing a table, return a list of the reasons for visit. The table is searched for
+    /// columns named "REASON FOR VISIT", "Reason", "Diagnoses / Procedures", or "text".
+    /// </summary>
+    /// <param name="table">A dictionary representing an XML table.</param>
+    /// <returns>A list of the reasons for visit. If no matching column is found, an empty list is returned.</returns>
     private static List<string> GetReasonsFromTable(IDictionary<string, object> table)
     {
       var targetColumns = new[] { "REASON FOR VISIT", "Reason", "Diagnoses / Procedures", "text" }.ToList();
       var result = new List<string>();
       if (table.TryGetValue("thead", out object? thead) && thead is IDictionary<string, object> theadDict)
       {
-        var reasonColNum = GetReasonColNum(targetColumns, theadDict);
+        var reasonColNum = GetTargetColNum(targetColumns, theadDict);
         var trs = DrillDown(table, new List<string> { "tbody", "tr" });
 
         foreach (var tr in trs)
@@ -177,7 +207,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
             var tds = ProcessItem(tdObj);
             var td = tds.TryGetAtIndex(reasonColNum);
 
-            result.AddRange(GetReasonFromTd(td));
+            result.AddRange(GetTextFromTd(td));
           }
         }
       }
@@ -193,7 +223,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
             && targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase)
             && tr.TryGetValue("td", out object? td))
           {
-            result.AddRange(GetReasonFromTd(td));
+            result.AddRange(GetTextFromTd(td));
           }
         }
       }
@@ -201,12 +231,18 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return result;
     }
 
+
+    /// <summary>
+    /// Concatenates the reasons for visit in one or more tables into a string with ", " as the separator.
+    /// </summary>
+    /// <param name="data">A dictionary representing the "section" element containing the reasons for visit.</param>
+    /// <returns>A concatenated string of the reasons for visit.</returns>
     public static string ConcatenateTds(IDictionary<string, object> data)
     {
       var dataDictionary = (Dictionary<string, object>)data;
-      var component = dataDictionary.TryGetValue("text", out object textComponent) ? (Dictionary<string, object>)textComponent : dataDictionary;
+      var component = dataDictionary.TryGetValue("text", out object? textComponent) ? (Dictionary<string, object>)textComponent : dataDictionary;
 
-      if (component.TryGetValue("table", out object table))
+      if (component.TryGetValue("table", out object? table))
       {
         return string.Join(", ", GetReasonsFromTable((IDictionary<string, object>)table).Distinct(StringComparer.OrdinalIgnoreCase));
       }
@@ -607,7 +643,12 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return string.Empty;
     }
 
-    public static string HandleDose(string input)
+    /// <summary>
+    /// Formats quantity into valid json number.
+    /// </summary>
+    /// <param name="input">The input data to process, which is a number formatted as a string.</param>
+    /// <returns>A number formatted as a string, with a leading 0 if it's a decimal, and up to 3 decimal places.</returns>
+    public static string FormatQuantity(string input)
     {
       IConvertible convert = input;
       return convert.ToDouble(null).ToString("0.###");
