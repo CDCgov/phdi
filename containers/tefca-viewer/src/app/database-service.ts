@@ -62,7 +62,7 @@ export const getSavedQueryByName = async (name: string) => {
  */
 export const filterValueSets = async (
   vsItems: ValueSetItem[],
-  type: "labs" | "medications" | "conditions",
+  type: "labs" | "medications" | "conditions"
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
@@ -75,16 +75,16 @@ export const filterValueSets = async (
     valuesetFilters = ["dxtc", "sdtc"];
   }
   const results = vsItems.filter((vs) =>
-    valuesetFilters.includes(vs.clinicalServiceType),
+    valuesetFilters.includes(vs.clinicalServiceType)
   );
   return results;
 };
 
 /**
- * Helper function that transforms a set of database rows into a list of
- * ValueSet item structs for display on the CustomizeQuery page.
+ * Helper function that transforms and groups a set of database rows into a list of
+ * ValueSet items grouped by author and code_system for display on the CustomizeQuery page.
  * @param rows The rows returned from the DB.
- * @returns A list of ValueSetItems constructed from the DB rows.
+ * @returns A list of ValueSetItems grouped by author and system.
  */
 export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
   const vsItems = rows.map((r) => {
@@ -111,7 +111,7 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
  */
 export const formatValueSetItemsAsQuerySpec = async (
   useCase: string,
-  vsItems: ValueSetItem[],
+  vsItems: ValueSetItem[]
 ) => {
   let secondEncounter: boolean = false;
   if (["cancer", "chlamydia", "gonorrhea", "syphilis"].includes(useCase)) {

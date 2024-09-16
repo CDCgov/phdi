@@ -6,6 +6,7 @@ import {
   Button,
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 /**
  * The landing page for the TEFCA Viewer.
@@ -33,7 +34,10 @@ export default function LandingPage() {
                 TEFCA, giving you access to more complete and timely data.
               </h2>
             </div>
-            <img src="/tefca-viewer/tefca-graphic.svg" />
+            <Image
+              alt="Graphic illustrating what TEFCA is"
+              src="/tefca-viewer/tefca-graphic.svg"
+            />
           </div>
         </div>
         <div className="home">

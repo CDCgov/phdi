@@ -4,8 +4,8 @@ import {
 } from "@trussworks/react-uswds";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 
-type AccordionProps = {
-  title: string;
+export type AccordionProps = {
+  title: string | React.ReactNode;
   content: string | React.ReactNode;
   expanded?: boolean;
   id: string;
@@ -41,18 +41,13 @@ const Accordion: React.FC<AccordionProps> = ({
   containerClassName,
   accordionClassName,
 }) => {
-  const accordionItem: AccordionItemProps = {
-    title,
-    content,
-    id,
-    expanded,
-    headingLevel,
-    handleToggle,
-  };
+  const accordionItem: AccordionItemProps[] = [
+    { title, content, id, expanded, headingLevel, handleToggle },
+  ];
   return (
     <div className={containerClassName}>
       <TrussAccordion
-        items={[accordionItem]}
+        items={accordionItem}
         multiselectable={true}
         className={accordionClassName}
       />
