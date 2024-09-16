@@ -1,7 +1,7 @@
 "use server";
 import { Pool, PoolConfig, QueryResultRow } from "pg";
 import dotenv from "dotenv";
-import { ValueSetItem } from "./constants";
+import { ValueSetItem, ValueSetType } from "./constants";
 import { QueryStruct } from "./demoQueries";
 
 const getQuerybyNameSQL = `
@@ -66,7 +66,7 @@ export const filterValueSets = async (
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
-  let valuesetFilters;
+  let valuesetFilters: string[];
   if (type == "labs") {
     valuesetFilters = ["ostc", "lotc", "lrtc"];
   } else if (type == "medications") {

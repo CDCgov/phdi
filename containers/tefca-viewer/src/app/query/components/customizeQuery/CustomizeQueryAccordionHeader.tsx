@@ -1,12 +1,12 @@
 import { Icon } from "@trussworks/react-uswds";
 import styles from "./customizeQuery.module.css";
-import { DefinedValueSetCollection } from "../CustomizeQuery";
+import { GroupedValueSet } from "./customizeQueryUtils";
 
 type CustomizeQueryAccordionProps = {
   selectedCount: number;
-  handleSelectAllChange: (groupIndex: number, checked: boolean) => void;
-  groupIndex: number;
-  group: DefinedValueSetCollection;
+  handleSelectAllChange: (groupIndex: string, checked: boolean) => void;
+  groupIndex: string;
+  group: GroupedValueSet;
 };
 
 /**
@@ -34,7 +34,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
           e.stopPropagation();
           handleSelectAllChange(
             groupIndex,
-            selectedCount !== group.items.length,
+            selectedCount !== group.items.length
           );
         }}
       >
@@ -54,7 +54,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
         )}
       </div>
       <div>
-        {`${group.valueset_name}`}
+        {`${group.valueSetName}`}
 
         <span className="accordion-subtitle margin-top-2">
           <strong>Author:</strong> {group.author}{" "}

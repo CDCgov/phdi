@@ -1,11 +1,11 @@
 import { Icon } from "@trussworks/react-uswds";
-import { DefinedValueSetCollection } from "../CustomizeQuery";
 import styles from "./customizeQuery.module.css";
+import { GroupedValueSet } from "./customizeQueryUtils";
 
 type CustomizeQueryAccordionBodyProps = {
-  group: DefinedValueSetCollection;
-  toggleInclude: (groupIndex: number, itemIndex: number) => void;
-  groupIndex: number;
+  group: GroupedValueSet;
+  toggleInclude: (groupIndex: string, itemIndex: number) => void;
+  groupIndex: string;
 };
 
 /**
@@ -22,7 +22,7 @@ const CustomizeQueryAccordionBody: React.FC<
   CustomizeQueryAccordionBodyProps
 > = ({ group, toggleInclude, groupIndex }) => {
   return (
-    <div className={`padding-bottom-3 ${styles.customizeQueryAccordion__body}`}>
+    <div className={`${styles.customizeQueryAccordion__body}`}>
       <div className={`${styles.customizeQueryGridContainer}`}>
         <div className={`${styles.customizeQueryGridHeader} margin-top-10`}>
           <div className={`${styles.accordionTableHeader}`}>Include</div>

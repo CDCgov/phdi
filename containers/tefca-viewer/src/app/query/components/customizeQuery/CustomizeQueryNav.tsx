@@ -1,9 +1,9 @@
-import { GroupedValueSetKey } from "../CustomizeQuery";
+import { ValueSetType } from "@/app/constants";
 import styles from "./customizeQuery.module.css";
 
 type CustomizeQueryNavProps = {
   activeTab: string;
-  handleTabChange: (tabName: GroupedValueSetKey) => void;
+  handleTabChange: (tabName: ValueSetType) => void;
   handleSelectAllForTab: (checked: boolean) => void;
 };
 

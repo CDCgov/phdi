@@ -37,6 +37,8 @@ export default function LandingPage() {
             <Image
               alt="Graphic illustrating what TEFCA is"
               src="/tefca-viewer/tefca-graphic.svg"
+              width={250}
+              height={300}
             />
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Button, Icon } from "@trussworks/react-uswds";
-import { ValueSet, ValueSetItem } from "../../constants";
+import { ValueSetType, ValueSet, ValueSetItem } from "../../constants";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
@@ -11,24 +11,7 @@ import CustomizeQueryAccordionHeader from "./customizeQuery/CustomizeQueryAccord
 import CustomizeQueryAccordionBody from "./customizeQuery/CustomizeQueryAccordionBody";
 import Accordion from "./Accordion";
 import CustomizeQueryNav from "./customizeQuery/CustomizeQueryNav";
-import { filterValueSets } from "@/app/database-service";
-
-// Define types for better structure and reusability
-export type DefinedValueSetCollection = {
-  valueset_name: string;
-  author: string;
-  system: string;
-  items: ValueSetItem[];
-  isExpanded: boolean;
-};
-
-type GroupedValueSet = {
-  labs: DefinedValueSetCollection[];
-  medications: DefinedValueSetCollection[];
-  conditions: DefinedValueSetCollection[];
-};
-
-export type GroupedValueSetKey = keyof GroupedValueSet;
+import { mapGroupedValueSetsToValueSetTypes } from "./customizeQuery/customizeQueryUtils";
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
@@ -55,28 +38,23 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   setQueryValuesets,
   goBack,
 }) => {
-  const [activeTab, setActiveTab] = useState<GroupedValueSetKey>("labs");
-
-  const [groupedValueSetState, setGroupedValueSetState] =
-    useState<GroupedValueSet>({
-      labs: [],
-      medications: [],
-      conditions: [],
-    });
-
-  const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
-    alert("yay");
-    console.log(e);
-  };
+  const [activeTab, setActiveTab] = useState<ValueSetType>("labs");
+  const { labs, conditions, medications } =
+    mapGroupedValueSetsToValueSetTypes(queryValuesets);
+  const [valueSetOptions, setValueSetOptions] = useState({
+    labs: labs,
+    conditions: conditions,
+    medications: medications,
+  });
 
   // Keeps track of which side nav tab to display to users
-  const handleTabChange = (tab: GroupedValueSetKey) => {
+  const handleTabChange = (tab: ValueSetType) => {
     setActiveTab(tab);
   };
 
   // Handles the toggle of the 'include' state for individual items
-  const toggleInclude = (groupIndex: number, itemIndex: number) => {
-    const updatedGroups = [...groupedValueSetState[activeTab]];
+  const toggleInclude = (groupIndex: string, itemIndex: number) => {
+    const updatedGroups = valueSetOptions[activeTab];
     const updatedItems = [...updatedGroups[groupIndex].items]; // Clone the current group items
     updatedItems[itemIndex] = {
       ...updatedItems[itemIndex],
@@ -88,15 +66,15 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       items: updatedItems, // Update the group's items
     };
 
-    setGroupedValueSetState((prevState) => ({
+    setValueSetOptions((prevState) => ({
       ...prevState,
       [activeTab]: updatedGroups, // Update the state with the new group
     }));
   };
 
   // Allows all items to be selected within all accordion sections of the active tab
-  const handleSelectAllChange = (groupIndex: number, checked: boolean) => {
-    const updatedGroups = [...groupedValueSetState[activeTab]];
+  const handleSelectAllChange = (groupIndex: string, checked: boolean) => {
+    const updatedGroups = valueSetOptions[activeTab];
 
     // Update only the group at the specified index
     updatedGroups[groupIndex].items = updatedGroups[groupIndex].items.map(
@@ -106,7 +84,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       })
     );
 
-    setGroupedValueSetState((prevState) => ({
+    setValueSetOptions((prevState) => ({
       ...prevState,
       [activeTab]: updatedGroups, // Update the state for the current tab
     }));
@@ -114,15 +92,17 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   // Allows all items to be selected within the entire active tab
   const handleSelectAllForTab = (checked: boolean) => {
-    const updatedGroups = groupedValueSetState[activeTab].map((group) => ({
-      ...group,
-      items: group.items.map((item) => ({
-        ...item,
-        include: checked, // Set all items in this group to checked or unchecked
-      })),
-    }));
+    const updatedGroups = Object.values(valueSetOptions[activeTab]).map(
+      (group) => ({
+        ...group,
+        items: group.items.map((item) => ({
+          ...item,
+          include: checked, // Set all items in this group to checked or unchecked
+        })),
+      })
+    );
 
-    setGroupedValueSetState((prevState) => ({
+    setValueSetOptions((prevState) => ({
       ...prevState,
       [activeTab]: updatedGroups, // Update the state for the current tab
     }));
@@ -131,19 +111,25 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   // Persist the changes made on this page to the valueset state maintained
   // by the entire query branch of the app
   const handleApplyChanges = () => {
-    const selectedItems = Object.keys(valueSetState).reduce((acc, key) => {
-      const items = valueSetState[key as keyof ValueSet];
-      acc[key as keyof ValueSet] = items.filter((item) => item.include);
-      return acc;
-    }, {} as ValueSet);
+    const selectedLabs = Object.values(valueSetOptions["labs"]).flatMap(
+      (dict) => dict.items.filter((i) => i.include)
+    );
+    const selectedConditions = Object.values(
+      valueSetOptions["conditions"]
+    ).flatMap((dict) => dict.items.filter((i) => i.include));
+
+    const selectedMedications = Object.values(
+      valueSetOptions["medications"]
+    ).flatMap((dict) => dict.items.filter((i) => i.include));
 
     // Use a prop spread to concatenate the three separate types of codes
     // back into one coherent structure
-    setQueryValuesets([
-      ...selectedItems.labs,
-      ...selectedItems.medications,
-      ...selectedItems.conditions,
-    ]);
+    const selectedItems = [
+      ...selectedLabs,
+      ...selectedConditions,
+      ...selectedMedications,
+    ];
+    setQueryValuesets(selectedItems);
     goBack();
     showRedirectConfirmation({
       heading: QUERY_CUSTOMIZATION_CONFIRMATION_HEADER,
@@ -153,37 +139,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   };
 
   useEffect(() => {
-    // Gate whether we actually update state after fetching so we
-    // avoid race conditions if the user goes back to the SearchForm
-    let isSubscribed = true;
-
-    // DB results are only guaranteed as Promises, so we need to async/await
-    // manipulations to the rows
-    const filterVS = async () => {
-      const labs = await filterValueSets(queryValuesets, "labs");
-      const medications = await filterValueSets(queryValuesets, "medications");
-      const conditions = await filterValueSets(queryValuesets, "conditions");
-
-      // Only update if the fetch hasn't altered state yet
-      if (isSubscribed) {
-        setGroupedValueSetState({
-          labs: labs,
-          medications: medications,
-          conditions: conditions,
-        } as ValueSet);
-      }
-    };
-
-    filterVS().catch(console.error);
-
-    // Destructor hook to prevent future state updates
-    return () => {
-      isSubscribed = false;
-    };
-  }, [queryType]);
-
-  useEffect(() => {
-    const items = groupedValueSetState[activeTab].flatMap(
+    const items = Object.values(valueSetOptions[activeTab]).flatMap(
       (group) => group.items
     );
     const selectedCount = items.filter((item) => item.include).length;
@@ -194,7 +150,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       topCheckbox.indeterminate =
         selectedCount > 0 && selectedCount < items.length;
     }
-  }, [groupedValueSetState, activeTab]);
+  }, [valueSetOptions, activeTab]);
 
   return (
     <div className="main-container">
@@ -216,8 +172,10 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         handleTabChange={handleTabChange}
         handleSelectAllForTab={handleSelectAllForTab}
       />
-      {groupedValueSetState[activeTab].map((group, groupIndex) => {
-        const selectedCount = group.items.filter((item) => item.include).length;
+      {Object.entries(valueSetOptions[activeTab]).map(([groupIndex, group]) => {
+        const selectedCount =
+          group.items?.filter((item) => item.include).length ?? 0;
+
         return (
           <Accordion
             title={
@@ -238,7 +196,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
             id={group.author + ":" + group.system}
             expanded
             headingLevel="h3"
-            handleToggle={handleToggle}
             accordionClassName={`customize-accordion ${styles.customizeQueryAccordion}`}
             containerClassName={styles.resultsContainer}
           />
