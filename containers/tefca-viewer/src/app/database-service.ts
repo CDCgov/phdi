@@ -132,7 +132,6 @@ export const formatValueSetItemsAsQuerySpec = async (
     snomedCodes: snomedCodes,
     rxnormCodes: rxnormCodes,
     classTypeCodes: [] as string[],
-
     hasSecondEncounterQuery: secondEncounter,
   };
 
