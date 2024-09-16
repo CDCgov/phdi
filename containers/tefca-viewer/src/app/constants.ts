@@ -314,6 +314,7 @@ export interface ValueSetItem {
   include: boolean;
   author: string;
   clinicalServiceType: string;
+  valueSetName: string;
 }
 
 /*Type to specify the expected expected types of valueset items that will be displayed 
