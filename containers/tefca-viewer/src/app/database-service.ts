@@ -5,7 +5,7 @@ import { ValueSetItem } from "./constants";
 import { QueryStruct } from "./demoQueries";
 
 const getQuerybyNameSQL = `
-select q.query_name, q.id, q.author, qtv.valueset_id, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
+select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author as author, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
   from query q 
   left join query_to_valueset qtv on q.id = qtv.query_id 
   left join valuesets vs on qtv.valueset_id = vs.id
