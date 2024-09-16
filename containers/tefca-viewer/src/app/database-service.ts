@@ -62,7 +62,7 @@ export const getSavedQueryByName = async (name: string) => {
  */
 export const filterValueSets = async (
   vsItems: ValueSetItem[],
-  type: "labs" | "medications" | "conditions",
+  type: "labs" | "medications" | "conditions"
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
@@ -75,7 +75,7 @@ export const filterValueSets = async (
     valuesetFilters = ["dxtc", "sdtc"];
   }
   const results = vsItems.filter((vs) =>
-    valuesetFilters.includes(vs.clinicalServiceType),
+    valuesetFilters.includes(vs.clinicalServiceType)
   );
   return results;
 };
@@ -94,6 +94,7 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
       system: r["code_system"],
       include: r["include"],
       author: r["author"],
+      valueSetName: r["valueset_name"],
       clinicalServiceType: r["type"],
     };
     return vsTranslation;
@@ -110,7 +111,7 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
  */
 export const formatValueSetItemsAsQuerySpec = async (
   useCase: string,
-  vsItems: ValueSetItem[],
+  vsItems: ValueSetItem[]
 ) => {
   let secondEncounter: boolean = false;
   if (["cancer", "chlamydia", "gonorrhea", "syphilis"].includes(useCase)) {
@@ -131,6 +132,7 @@ export const formatValueSetItemsAsQuerySpec = async (
     snomedCodes: snomedCodes,
     rxnormCodes: rxnormCodes,
     classTypeCodes: [] as string[],
+
     hasSecondEncounterQuery: secondEncounter,
   };
 
