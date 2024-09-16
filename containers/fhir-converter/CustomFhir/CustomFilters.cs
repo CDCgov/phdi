@@ -92,25 +92,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return null;
     }
 
-    private static List<string> ReadParagraphs(object paragraphRaw)
-    {
-      var paragraphs = ProcessItem(paragraphRaw);
-      var result = new List<string>();
-      foreach (var p in paragraphs)
-      {
-        if (p != null && p.TryGetValue("_", out object? pVal))
-        {
-          p.TryGetValue("styleCode", out object? styleCode);
-          if (styleCode?.ToString() != "xcellHeader")
-          {
-            result.Add(pVal.ToString());
-          }
-        }
-      }
-
-      return result;
-    }
-
     private static int GetReasonColNum(IList<string> targetColumns, IDictionary<string, object> thead)
     {
       var ths = DrillDown(thead, new List<string> { "tr", "th" });
@@ -129,6 +110,57 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return -1;
     }
 
+    private static List<string> GetReasonFromTd(object? tdRaw)
+    {
+      if (tdRaw is Dictionary<string, object> td)
+      {
+        // Example:
+        // <td>
+        //   <paragraph styleCode="xcellHeader">Diagnoses</paragraph>
+        //   <paragraph>Respiratory distress</paragraph>
+        // </td>
+        if (td.TryGetValue("paragraph", out object? paragraphRaw))
+        {
+          var paragraphs = ProcessItem(paragraphRaw);
+          var result = new List<string>();
+          foreach (var p in paragraphs)
+          {
+            if (p != null && p.TryGetValue("_", out object? pVal))
+            {
+              p.TryGetValue("styleCode", out object? styleCode);
+              if (styleCode?.ToString() != "xcellHeader")
+              {
+                result.Add(pVal.ToString());
+              }
+            }
+          }
+
+          return result;
+        }
+
+        // Example:
+        // <td>
+        //    <content ID="text1">Respiratory distress</content>
+        // </td>
+        else if (td.TryGetValue("content", out object? content))
+        {
+          if (content is Dictionary<string, object> contentDict && contentDict.TryGetValue("_", out object? cVal))
+          {
+            return new List<string>() { cVal.ToString() };
+          }
+        }
+
+        // Example:
+        // <td>Respiratory distress</td>
+        else if (td.TryGetValue("_", out object? val))
+        {
+          return new List<string>() { val.ToString() };
+        }
+      }
+
+      return new List<string>();
+    }
+
     private static List<string> GetReasonsFromTable(IDictionary<string, object> table)
     {
       var targetColumns = new[] { "REASON FOR VISIT", "Reason", "Diagnoses / Procedures", "text" }.ToList();
@@ -145,37 +177,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
             var tds = ProcessItem(tdObj);
             var td = tds.TryGetAtIndex(reasonColNum);
 
-            if (td != null)
-            {
-              // Example:
-              // <td>
-              //   <paragraph styleCode="xcellHeader">Diagnoses</paragraph>
-              //   <paragraph>Respiratory distress</paragraph>
-              // </td>
-              if (td.TryGetValue("paragraph", out object? paragraphs))
-              {
-                result.AddRange(ReadParagraphs(paragraphs));
-              }
-
-              // Example:
-              // <td>
-              //    <content ID="text1">Respiratory distress</content>
-              // </td>
-              else if (td.TryGetValue("content", out object? content))
-              {
-                if (content is Dictionary<string, object> contentDict && contentDict.TryGetValue("_", out object? cVal))
-                {
-                  result.Add(cVal.ToString());
-                }
-              }
-
-              // Example:
-              // <td>Respiratory distress</td>
-              else if (td.TryGetValue("_", out object? val))
-              {
-                result.Add(val.ToString());
-              }
-            }
+            result.AddRange(GetReasonFromTd(td));
           }
         }
       }
@@ -188,26 +190,10 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
           if (tr.TryGetValue("th", out object? thObj)
             && thObj is Dictionary<string, object> thDict
             && thDict.TryGetValue("_", out object? thVal)
-            && targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase))
+            && targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase)
+            && tr.TryGetValue("td", out object? td))
           {
-            if (tr.TryGetValue("td", out object? tdObj) && tdObj is Dictionary<string, object> td)
-            {
-              // Example:
-              // <td>
-              //   <paragraph styleCode="xcellHeader">Diagnoses</paragraph>
-              //   <paragraph>Respiratory distress</paragraph>
-              // </td>
-              if (td.TryGetValue("paragraph", out object? paragraphs))
-              {
-                result.AddRange(ReadParagraphs(paragraphs));
-              }
-              // Example:
-              // <td>Respiratory distress</td>
-              else if (td.TryGetValue("_", out object? val))
-              {
-                result.Add(val.ToString());
-              }
-            }
+            result.AddRange(GetReasonFromTd(td));
           }
         }
       }
