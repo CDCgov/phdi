@@ -58,7 +58,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 }) => {
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[useCase]?.[0]?.value || ""
+    patientOptions[useCase]?.[0]?.value || "",
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -85,7 +85,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption, setUseCase, setQueryType]
+    [patientOption, setUseCase, setQueryType],
   );
 
   // Change the selectedDemoOption in the dropdown and update the
@@ -94,7 +94,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setPatientOption(patientOptions[selectedDemoOption][0].value);
     setQueryType(
       demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
-        ""
+        "",
     );
   };
 
