@@ -56,7 +56,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleSelectAllChange = (
     items: any[],
     setItems: React.Dispatch<React.SetStateAction<any[]>>,
-    checked: boolean
+    checked: boolean,
   ) => {
     const updatedItems = items.map((item) => ({ ...item, include: checked }));
     setItems(updatedItems);
@@ -65,7 +65,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleIncludeAll = (
     setValueSet: React.Dispatch<React.SetStateAction<ValueSet>>,
     key: keyof ValueSet,
-    include: boolean
+    include: boolean,
   ) => {
     setValueSet((prevValueSet) => ({
       ...prevValueSet,
@@ -141,7 +141,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     const items = valueSetState[activeTab as keyof ValueSet];
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
-      "select-all"
+      "select-all",
     ) as HTMLInputElement;
     if (topCheckbox) {
       topCheckbox.indeterminate =
@@ -186,7 +186,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                           ...prevState,
                           [activeTab]: updatedItems,
                         })),
-                      selectedCount !== items.length
+                      selectedCount !== items.length,
                     );
                   }}
                 >
