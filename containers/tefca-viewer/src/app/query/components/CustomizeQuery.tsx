@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Button, Icon } from "@trussworks/react-uswds";
-import { ValueSetType, ValueSet, ValueSetItem } from "../../constants";
+import { ValueSetType, ValueSetItem } from "../../constants";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
@@ -81,7 +81,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       (item) => ({
         ...item,
         include: checked, // Set all items in this group to checked or unchecked
-      })
+      }),
     );
 
     setValueSetOptions((prevState) => ({
@@ -99,7 +99,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           ...item,
           include: checked, // Set all items in this group to checked or unchecked
         })),
-      })
+      }),
     );
 
     setValueSetOptions((prevState) => ({
@@ -112,14 +112,14 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   // by the entire query branch of the app
   const handleApplyChanges = () => {
     const selectedLabs = Object.values(valueSetOptions["labs"]).flatMap(
-      (dict) => dict.items.filter((i) => i.include)
+      (dict) => dict.items.filter((i) => i.include),
     );
     const selectedConditions = Object.values(
-      valueSetOptions["conditions"]
+      valueSetOptions["conditions"],
     ).flatMap((dict) => dict.items.filter((i) => i.include));
 
     const selectedMedications = Object.values(
-      valueSetOptions["medications"]
+      valueSetOptions["medications"],
     ).flatMap((dict) => dict.items.filter((i) => i.include));
 
     // Use a prop spread to concatenate the three separate types of codes
@@ -140,11 +140,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   useEffect(() => {
     const items = Object.values(valueSetOptions[activeTab]).flatMap(
-      (group) => group.items
+      (group) => group.items,
     );
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
-      "select-all"
+      "select-all",
     ) as HTMLInputElement;
     if (topCheckbox) {
       topCheckbox.indeterminate =
