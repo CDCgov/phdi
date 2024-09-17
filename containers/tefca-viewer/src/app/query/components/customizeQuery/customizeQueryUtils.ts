@@ -10,9 +10,6 @@ export type GroupedValueSet = {
   system: string;
   items: ValueSetItem[];
 };
-export type GroupedValueSetDictionary = {
-  [VSNameAuthorSystem: string]: GroupedValueSet;
-};
 
 /**
  * Helper function that takes an array of value set items and groups them using
@@ -25,7 +22,7 @@ export type GroupedValueSetDictionary = {
  * share those identifiers in common, structed as a GroupedValueSet
  */
 function groupValueSetsByNameAuthorSystem(valueSetsToGroup: ValueSetItem[]) {
-  const results: GroupedValueSetDictionary = valueSetsToGroup.reduce(
+  const results = valueSetsToGroup.reduce(
     (acc, row) => {
       // Check if both author and code_system are defined
       const author = row?.author;
@@ -33,7 +30,7 @@ function groupValueSetsByNameAuthorSystem(valueSetsToGroup: ValueSetItem[]) {
       const valueSetName = row?.valueSetName;
       if (!author || !system || !valueSetName) {
         console.warn(
-          `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`,
+          `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`
         );
         return acc;
       }
@@ -58,14 +55,16 @@ function groupValueSetsByNameAuthorSystem(valueSetsToGroup: ValueSetItem[]) {
       });
       return acc;
     },
-    {} as Record<string, GroupedValueSet>,
+    {} as Record<string, GroupedValueSet>
   );
 
   return results;
 }
 
 export type TypeIndexedGroupedValueSetDictionary = {
-  [valueSetType in ValueSetType]: GroupedValueSetDictionary;
+  [valueSetType in ValueSetType]: {
+    [vsNameAuthorSystem: string]: GroupedValueSet;
+  };
 };
 
 /**
@@ -80,12 +79,12 @@ export type TypeIndexedGroupedValueSetDictionary = {
  * dictionaries, where the first index is the value set type, which indexes a
  * dictionary of GroupedValueSets indexed by valueSetName:Author:System
  */
-export function mapGroupedValueSetsToValueSetTypes(
-  vsItemArray: ValueSetItem[],
-) {
+export function mapValueSetItemsToValueSetTypes(vsItemArray: ValueSetItem[]) {
   const valueSetsByNameAuthorSystem =
     groupValueSetsByNameAuthorSystem(vsItemArray);
-  const results: { [vsType in ValueSetType]: GroupedValueSetDictionary } = {
+  const results: {
+    [vsType in ValueSetType]: { [vsNameAuthorSystem: string]: GroupedValueSet };
+  } = {
     labs: {},
     conditions: {},
     medications: {},
@@ -103,7 +102,7 @@ export function mapGroupedValueSetsToValueSetTypes(
           };
         }
       });
-    },
+    }
   );
 
   return results;
@@ -127,7 +126,7 @@ export const mapValueSetsToValueSetType = (vsItems: ValueSetItem[]) => {
   ).forEach((vsType) => {
     const itemsToInclude = vsItems.filter((vs) => {
       return valueSetTypeToClincalServiceTypeMap[vsType].includes(
-        vs.clinicalServiceType,
+        vs.clinicalServiceType
       );
     });
     results[vsType] = itemsToInclude;

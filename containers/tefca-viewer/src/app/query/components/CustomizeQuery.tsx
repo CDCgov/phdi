@@ -11,7 +11,7 @@ import CustomizeQueryAccordionHeader from "./customizeQuery/CustomizeQueryAccord
 import CustomizeQueryAccordionBody from "./customizeQuery/CustomizeQueryAccordionBody";
 import Accordion from "./Accordion";
 import CustomizeQueryNav from "./customizeQuery/CustomizeQueryNav";
-import { mapGroupedValueSetsToValueSetTypes } from "./customizeQuery/customizeQueryUtils";
+import { mapValueSetItemsToValueSetTypes } from "./customizeQuery/customizeQueryUtils";
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
@@ -40,7 +40,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<ValueSetType>("labs");
   const { labs, conditions, medications } =
-    mapGroupedValueSetsToValueSetTypes(queryValuesets);
+    mapValueSetItemsToValueSetTypes(queryValuesets);
   const [valueSetOptions, setValueSetOptions] = useState({
     labs: labs,
     conditions: conditions,
@@ -81,7 +81,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       (item) => ({
         ...item,
         include: checked, // Set all items in this group to checked or unchecked
-      }),
+      })
     );
 
     setValueSetOptions((prevState) => ({
@@ -99,7 +99,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           ...item,
           include: checked, // Set all items in this group to checked or unchecked
         })),
-      }),
+      })
     );
 
     setValueSetOptions((prevState) => ({
@@ -111,24 +111,15 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   // Persist the changes made on this page to the valueset state maintained
   // by the entire query branch of the app
   const handleApplyChanges = () => {
-    const selectedLabs = Object.values(valueSetOptions["labs"]).flatMap(
-      (dict) => dict.items.filter((i) => i.include),
-    );
-    const selectedConditions = Object.values(
-      valueSetOptions["conditions"],
-    ).flatMap((dict) => dict.items.filter((i) => i.include));
-
-    const selectedMedications = Object.values(
-      valueSetOptions["medications"],
-    ).flatMap((dict) => dict.items.filter((i) => i.include));
-
-    // Use a prop spread to concatenate the three separate types of codes
-    // back into one coherent structure
-    const selectedItems = [
-      ...selectedLabs,
-      ...selectedConditions,
-      ...selectedMedications,
-    ];
+    const selectedItems = Object.keys(valueSetOptions).reduce((acc, key) => {
+      const items = valueSetOptions[key as ValueSetType];
+      acc = acc.concat(
+        Object.values(items)
+          .flatMap((dict) => dict.items)
+          .filter((item) => item.include)
+      );
+      return acc;
+    }, [] as ValueSetItem[]);
     setQueryValuesets(selectedItems);
     goBack();
     showRedirectConfirmation({
@@ -140,11 +131,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   useEffect(() => {
     const items = Object.values(valueSetOptions[activeTab]).flatMap(
-      (group) => group.items,
+      (group) => group.items
     );
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
-      "select-all",
+      "select-all"
     ) as HTMLInputElement;
     if (topCheckbox) {
       topCheckbox.indeterminate =
