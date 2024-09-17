@@ -18,7 +18,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul", "paragraph", "caption" };
     private static Dictionary<string, string> replaceTags = new Dictionary<string, string>{
         {"list", "ul"},
-        {"item", "li"}
+        {"item", "li"},
+        {"paragraph", "p"}
     };
     private static Dictionary<string, string>? loincDict;
 
@@ -280,7 +281,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
       if (addTag)
       {
-        var tagHtml = tagId != null ? $"<{tag} data-id='{tagId}'>" : $"<{tag}>";
+        var tagHtml = tagId != null ? $"<{tag}><!-- data-id: {tagId} -->" : $"<{tag}>";
         stringBuilder.Append(tagHtml);
       }
       stringBuilder.Append(ToHtmlString(value));
@@ -591,7 +592,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
             {
               foreach (var kvp in dict)
               {
-                result.Add(kvp.Value?.ToString() ?? "");
+                result.Add(kvp.Value.ToString() ?? "");
               }
             }
             else
