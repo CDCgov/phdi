@@ -8,7 +8,6 @@ import { filterValueSets } from "@/app/database-service";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
 import { showRedirectConfirmation } from "./RedirectionToast";
-import "./customizeQuery.css";
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
