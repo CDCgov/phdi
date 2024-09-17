@@ -74,7 +74,6 @@ const Query: React.FC = () => {
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
             setQueryType={setQueryType}
-            userJourney="demo"
           />
         </Suspense>
       )}
