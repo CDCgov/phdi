@@ -1,3 +1,5 @@
+import * as dq from "./demoQueries";
+
 /**
  * The use cases that can be used in the app
  */
@@ -11,7 +13,31 @@ export const UseCases = [
 ] as const;
 export type USE_CASES = (typeof UseCases)[number];
 
-/*Labels and values for the query options dropdown on the query page*/
+export const UseCaseToQueryName: {
+  [key in USE_CASES]: string;
+} = {
+  "social-determinants": "Social Determinants of Health",
+  "newborn-screening": "Newborn Screening",
+  syphilis: "Congenital syphilis (disorder)",
+  gonorrhea: "Gonorrhea (disorder)",
+  chlamydia: "Chlamydia trachomatis infection (disorder)",
+  cancer: "Cancer (Leukemia)",
+};
+
+export const UseCaseToStructMap: {
+  [key in USE_CASES]: dq.QueryStruct;
+} = {
+  "social-determinants": dq.SOCIAL_DETERMINANTS_QUERY,
+  "newborn-screening": dq.NEWBORN_SCREENING_QUERY,
+  syphilis: dq.SYPHILIS_QUERY,
+  gonorrhea: dq.GONORRHEA_QUERY,
+  chlamydia: dq.CHLAMYDIA_QUERY,
+  cancer: dq.CANCER_QUERY,
+};
+
+/**
+ * Labels and values for the query options dropdown on the query page
+ */
 export const demoQueryOptions = [
   { value: "cancer", label: "Cancer case investigation" },
   { value: "chlamydia", label: "Chlamydia case investigation" },
@@ -41,19 +67,6 @@ export const QueryTypeToQueryName: {
 };
 
 /**
- * Map of use cases to their corresponding modal options labels.
- */
-
-export const modalOptions: Record<USE_CASES, string> = {
-  chlamydia: "Chlamydia case investigation",
-  gonorrhea: "Gonorrhea case investigation",
-  syphilis: "Syphilis case investigation",
-  cancer: "Cancer case investigation",
-  "newborn-screening": "Newborn screening follow-up",
-  "social-determinants": "Gather social determinants of health for a patient",
-};
-
-/**
  * The FHIR servers that can be used in the app
  */
 export const FhirServers = [
@@ -64,6 +77,7 @@ export const FhirServers = [
   "Public HAPI: eHealthExchange",
   "OpenEpic: eHealthExchange",
   "CernerHelios: eHealthExchange",
+  "OPHDST Meld: Direct",
 ] as const;
 export type FHIR_SERVERS = (typeof FhirServers)[number];
 
@@ -299,6 +313,8 @@ export interface ValueSetItem {
   system: string;
   include: boolean;
   author: string;
+  clinicalServiceType: string;
+  valueSetName: string;
 }
 
 /*Type to specify the expected expected types of valueset items that will be displayed 
@@ -308,65 +324,3 @@ export interface ValueSet {
   medications: ValueSetItem[];
   conditions: ValueSetItem[];
 }
-
-// Constants for the customize query to do UI work -- TODO: REMOVE ONCE COMPLETE
-export const dummyLabs = [
-  {
-    code: "24111-7",
-    display:
-      "Neisseria gonorrhoeae DNA [Presence] in Specimen by NAA with probe detection",
-    system: "LOINC",
-    include: true,
-    author: "CSTE Steward",
-  },
-  {
-    code: "72828-7",
-    display:
-      "Chlamydia trachomatis and Neisseria gonorrhoeae DNA panel - Specimen",
-    system: "LOINC",
-    include: true,
-    author: "CSTE Steward",
-  },
-  {
-    code: "21613-5",
-    display:
-      "Chlamydia trachomatis DNA [Presence] in Specimen by NAA with probe detection",
-    system: "LOINC",
-    include: true,
-    author: "CSTE Steward",
-  },
-];
-
-export const dummyMedications = [
-  {
-    code: "12345-6",
-    display: "Medication A",
-    system: "LOINC",
-    include: true,
-    author: "Author A",
-  },
-  {
-    code: "67890-1",
-    display: "Medication B",
-    system: "LOINC",
-    include: true,
-    author: "Author B",
-  },
-];
-
-export const dummyConditions = [
-  {
-    code: "11111-1",
-    display: "Condition A",
-    system: "LOINC",
-    include: true,
-    author: "Author A",
-  },
-  {
-    code: "22222-2",
-    display: "Condition B",
-    system: "LOINC",
-    include: true,
-    author: "Author B",
-  },
-];

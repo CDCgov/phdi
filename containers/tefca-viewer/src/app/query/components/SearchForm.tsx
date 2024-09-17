@@ -25,9 +25,10 @@ import {
 } from "../../query-service";
 
 import { FormatPhoneAsDigits } from "@/app/format-service";
-import { useSearchParams } from "next/navigation";
 
 interface SearchFormProps {
+  useCase: USE_CASES;
+  setUseCase: (useCase: USE_CASES) => void;
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
@@ -38,6 +39,8 @@ interface SearchFormProps {
 
 /**
  * @param root0 - SearchFormProps
+ * @param root0.useCase - The use case this query will cover.
+ * @param root0.setUseCase - Update stateful use case.
  * @param root0.setOriginalRequest - The function to set the original request.
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
@@ -47,6 +50,8 @@ interface SearchFormProps {
  * @returns - The SearchForm component.
  */
 const SearchForm: React.FC<SearchFormProps> = ({
+  useCase,
+  setUseCase,
   setOriginalRequest,
   setUseCaseQueryResponse,
   setMode,
@@ -54,13 +59,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setQueryType,
   userJourney,
 }) => {
-  const params = useSearchParams();
-
-  // Get the demoOption (initial selection) selected from modal via the URL
-  const [useCase, setUseCase] = useState<USE_CASES>(
-    (params.get("useCase") as USE_CASES) || "cancer",
-  );
-
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
     patientOptions[useCase]?.[0]?.value || "",
@@ -86,10 +84,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setPhone(data.Phone);
         setFhirServer(data.FhirServer as FHIR_SERVERS);
         setUseCase(data.UseCase as USE_CASES);
-        setQueryType(
-          demoQueryOptions.find((option) => option.value === data.UseCase)
-            ?.label || "",
-        );
+        // setQueryType(
+        //     demoQueryOptions.find((option) => option.value === data.UseCase)
+        //         ?.label || "",
+        // );
         setAutofilled(highlightAutofilled);
       }
     },
@@ -104,9 +102,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
     fillFields(patientOption as PatientType);
   }, [fillFields, patientOption, userJourney]);
 
-  // Change the selectedDemoOption (the option selected once you are past the modal) and set the patientOption to the first patientOption for the selectedDemoOption
+  // Change the selectedDemoOption in the dropdown and update the
+  // query type (which governs the DB fetch) accordingly
   const handleDemoQueryChange = (selectedDemoOption: string) => {
     setPatientOption(patientOptions[selectedDemoOption][0].value);
+    setQueryType(
+      demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
+        "",
+    );
   };
 
   const handleClick = () => {
@@ -145,6 +148,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
       <Alert type="info" headingLevel="h4" slim className="custom-alert">
@@ -264,12 +268,17 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 id="query"
                 name="query"
                 className="usa-select margin-top-1"
+                defaultValue={""}
                 value={useCase}
                 onChange={(event) => {
                   handleDemoQueryChange(event.target.value);
                   setUseCase(event.target.value as USE_CASES);
                 }}
               >
+                <option value="" disabled>
+                  {" "}
+                  -- Select An Option --{" "}
+                </option>
                 {demoQueryOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}

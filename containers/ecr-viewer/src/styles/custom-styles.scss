@@ -317,6 +317,7 @@ td {
   flex-shrink: 0;
   flex-basis: auto;
   position: sticky;
+  min-width: 100%;
 }
 
 .ecr-viewer-container {
@@ -510,6 +511,7 @@ ul.usa-sidenav>li.usa-sidenav__item>ul.usa-sidenav__sublist>li.usa-sidenav__item
   align-items: center;
   gap: 12px;
   align-self: stretch;
+  min-height: 44px;
 
   background: var(--Info-info-darker, #2E6276);
 

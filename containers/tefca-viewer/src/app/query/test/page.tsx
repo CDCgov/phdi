@@ -8,7 +8,7 @@ import ResultsView from "../components/ResultsView";
 import MultiplePatientSearchResults from "../components/MultiplePatientSearchResults";
 import SearchForm from "../components/SearchForm";
 import NoPatientsFound from "../components/NoPatientsFound";
-import { Mode } from "../../constants";
+import { Mode, USE_CASES } from "../../constants";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -16,6 +16,7 @@ import { Mode } from "../../constants";
  * @returns - The Query component.
  */
 const Query: React.FC = () => {
+  const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
   const [useCaseQueryResponse, setUseCaseQueryResponse] =
@@ -27,6 +28,8 @@ const Query: React.FC = () => {
       {mode === "search" && (
         <Suspense fallback="...Loading">
           <SearchForm
+            useCase={useCase}
+            setUseCase={setUseCase}
             setMode={setMode}
             setLoading={setLoading}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
