@@ -324,3 +324,5 @@ export interface ValueSet {
   medications: ValueSetItem[];
   conditions: ValueSetItem[];
 }
+
+export type ValueSetType = keyof ValueSet;
