@@ -47,7 +47,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     medications: medications,
   });
 
-  // Compute counts without modifying the core logic
+  // Compute counts of each tab-type
   const countLabs = Object.values(valueSetOptions.labs).flatMap(
     (group) => group.items,
   ).length;
