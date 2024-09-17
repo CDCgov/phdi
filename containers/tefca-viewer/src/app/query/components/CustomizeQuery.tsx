@@ -47,6 +47,22 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     medications: medications,
   });
 
+  // Compute counts without modifying the core logic
+  const countLabs = Object.values(valueSetOptions.labs).flatMap(
+    (group) => group.items,
+  ).length;
+  const countConditions = Object.values(valueSetOptions.conditions).flatMap(
+    (group) => group.items,
+  ).length;
+  const countMedications = Object.values(valueSetOptions.medications).flatMap(
+    (group) => group.items,
+  ).length;
+
+  // Check if there are items in the current active tab
+  const hasItemsInTabs = Object.values(valueSetOptions[activeTab]).some(
+    (group) => group.items.length > 0,
+  );
+
   // Keeps track of which side nav tab to display to users
   const handleTabChange = (tab: ValueSetType) => {
     setActiveTab(tab);
@@ -157,11 +173,16 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       <div className="font-sans-lg text-light padding-bottom-0 padding-top-05">
         Query: {queryType}
       </div>
+      <div className="font-sans-sm text-light padding-bottom-0 padding-top-05">
+        {countLabs} labs found, {countMedications} medications found,{" "}
+        {countConditions} conditions found.
+      </div>
 
       <CustomizeQueryNav
         activeTab={activeTab}
         handleTabChange={handleTabChange}
         handleSelectAllForTab={handleSelectAllForTab}
+        hasItemsInTab={hasItemsInTabs}
       />
       {Object.entries(valueSetOptions[activeTab]).map(([groupIndex, group]) => {
         const selectedCount = group.items.filter((item) => item.include).length;
