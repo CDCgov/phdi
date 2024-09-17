@@ -45,8 +45,8 @@ const options = {
   position: "bottom-left" as const,
   closeOnClick: true,
   closeButton: false,
-  className: styles.padding0,
-  bodyClassName: styles.padding0,
+  className: styles.noPaddingImportant,
+  bodyClassName: styles.noPaddingImportant,
   pauseOnFocusLoss: false,
 };
 
@@ -70,7 +70,7 @@ export function showRedirectConfirmation(content: {
       headingLevel={content.headingLevel}
       body={content.body}
     />,
-    options,
+    options
   );
 }
 

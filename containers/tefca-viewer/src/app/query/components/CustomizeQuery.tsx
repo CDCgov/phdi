@@ -81,7 +81,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       (item) => ({
         ...item,
         include: checked, // Set all items in this group to checked or unchecked
-      }),
+      })
     );
 
     setValueSetOptions((prevState) => ({
@@ -99,7 +99,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           ...item,
           include: checked, // Set all items in this group to checked or unchecked
         })),
-      }),
+      })
     );
 
     setValueSetOptions((prevState) => ({
@@ -116,7 +116,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       acc = acc.concat(
         Object.values(items)
           .flatMap((dict) => dict.items)
-          .filter((item) => item.include),
+          .filter((item) => item.include)
       );
       return acc;
     }, [] as ValueSetItem[]);
@@ -131,11 +131,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   useEffect(() => {
     const items = Object.values(valueSetOptions[activeTab]).flatMap(
-      (group) => group.items,
+      (group) => group.items
     );
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
-      "select-all",
+      "select-all"
     ) as HTMLInputElement;
     if (topCheckbox) {
       topCheckbox.indeterminate =
