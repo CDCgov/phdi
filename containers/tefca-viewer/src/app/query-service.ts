@@ -17,7 +17,7 @@ import { USE_CASES, FHIR_SERVERS, ValueSetItem } from "./constants";
 import * as dq from "./demoQueries";
 import { CustomQuery } from "./CustomQuery";
 import { GetPhoneQueryFormats } from "./format-service";
-import { formatValueSetItemsAsQuerySpec } from "./database-service";
+import { formatValueSetItemsAsQuerySpec } from "./format-service";
 
 /**
  * The query response when the request source is from the Viewer UI.

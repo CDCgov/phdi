@@ -2,7 +2,6 @@
 import { Pool, PoolConfig, QueryResultRow } from "pg";
 import dotenv from "dotenv";
 import { ValueSetItem } from "./constants";
-import { QueryStruct } from "./demoQueries";
 
 const getQuerybyNameSQL = `
 select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author as author, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
@@ -95,40 +94,4 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
     return vsTranslation;
   });
   return vsItems;
-};
-
-/**
- * Formats a statefully updated list of value set items into a JSON structure
- * used for executing custom queries.
- * @param useCase The base use case being queried for.
- * @param vsItems The list of value set items the user wants included.
- * @returns A structured specification of a query that can be executed.
- */
-export const formatValueSetItemsAsQuerySpec = async (
-  useCase: string,
-  vsItems: ValueSetItem[],
-) => {
-  let secondEncounter: boolean = false;
-  if (["cancer", "chlamydia", "gonorrhea", "syphilis"].includes(useCase)) {
-    secondEncounter = true;
-  }
-  const labCodes: string[] = vsItems
-    .filter((vs) => vs.system === "http://loinc.org")
-    .map((vs) => vs.code);
-  const snomedCodes: string[] = vsItems
-    .filter((vs) => vs.system === "http://snomed.info/sct")
-    .map((vs) => vs.code);
-  const rxnormCodes: string[] = vsItems
-    .filter((vs) => vs.system === "http://www.nlm.nih.gov/research/umls/rxnorm")
-    .map((vs) => vs.code);
-
-  const spec: QueryStruct = {
-    labCodes: labCodes,
-    snomedCodes: snomedCodes,
-    rxnormCodes: rxnormCodes,
-    classTypeCodes: [] as string[],
-    hasSecondEncounterQuery: secondEncounter,
-  };
-
-  return spec;
 };
