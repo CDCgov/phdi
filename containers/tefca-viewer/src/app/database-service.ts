@@ -17,12 +17,7 @@ select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author 
 // Load environment variables from tefca.env and establish a Pool configuration
 dotenv.config({ path: "tefca.env" });
 const dbConfig: PoolConfig = {
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOST,
   connectionString: process.env.DATABASE_URL,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DB,
   max: 10, // Maximum # of connections in the pool
   idleTimeoutMillis: 30000, // A client must sit idle this long before being released
   connectionTimeoutMillis: 2000, // Wait this long before timing out when connecting new client
