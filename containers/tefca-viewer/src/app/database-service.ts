@@ -66,7 +66,7 @@ export const filterValueSets = async (
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
-  let valuesetFilters;
+  let valuesetFilters: string[];
   if (type == "labs") {
     valuesetFilters = ["ostc", "lotc", "lrtc"];
   } else if (type == "medications") {
@@ -81,10 +81,10 @@ export const filterValueSets = async (
 };
 
 /**
- * Helper function that transforms a set of database rows into a list of
- * ValueSet item structs for display on the CustomizeQuery page.
+ * Helper function that transforms and groups a set of database rows into a list of
+ * ValueSet items grouped by author and code_system for display on the CustomizeQuery page.
  * @param rows The rows returned from the DB.
- * @returns A list of ValueSetItems constructed from the DB rows.
+ * @returns A list of ValueSetItems grouped by author and system.
  */
 export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
   const vsItems = rows.map((r) => {
