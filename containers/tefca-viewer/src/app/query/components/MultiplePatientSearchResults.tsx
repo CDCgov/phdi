@@ -108,7 +108,7 @@ const MultiplePatientSearchResults: React.FC<
           </tbody>
         </Table>
         <h3>Not seeing what you are looking for?</h3>
-        <a href="#" onClick={() => goBack()}>
+        <a href="#" className="back-link" onClick={() => goBack()}>
           Return to patient search
         </a>
       </div>

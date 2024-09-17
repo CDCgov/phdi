@@ -134,11 +134,9 @@ async function patientQuery(
   // Check for errors
   if (response.status !== 200) {
     console.error(
-      `Patient search failed. Status: ${
-        response.status
-      } \n Body: ${response.text} \n Headers: ${JSON.stringify(
-        response.headers.raw(),
-      )}`,
+      `Patient search failed. Status: ${response.status} \n Body: ${
+        response.text
+      } \n Headers: ${JSON.stringify(response.headers.raw())}`,
     );
   }
   queryResponse = await parseFhirSearch(response, queryResponse);
@@ -295,7 +293,7 @@ export async function createBundle(
     entry: [],
   };
 
-  Object.entries(queryResponse).forEach(([key, resources]) => {
+  Object.entries(queryResponse).forEach(([_, resources]) => {
     if (Array.isArray(resources)) {
       resources.forEach((resource) => {
         bundle.entry?.push({ resource });
