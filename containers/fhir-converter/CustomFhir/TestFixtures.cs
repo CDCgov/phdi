@@ -98,17 +98,6 @@ public class CustomFilterTestFixtures : IEnumerable<object[]>
     }}
   };
 
-  private Dictionary<string, object> ReasonsForVisitME = new Dictionary<string, object> { { "title", new Dictionary<string, object> {{ "_", "Reason for Visit" }} },
-    { "text",
-
-    new Dictionary<string, object> {{ "table",
-    new Dictionary<string, object> {{ "tbody",
-    new Dictionary<string, object>() {{ "tr",
-    new Dictionary<string, object>() {
-      { "th", new Dictionary<string, object> {{ "_", "Reason for Visit" } }},
-      { "td", new Dictionary<string, object> {{ "_", "Reason 1" } }}
-     } }} }} }} }};
-
   // <title>Reason for Visit</title>
   // <text>
   //     <list>
