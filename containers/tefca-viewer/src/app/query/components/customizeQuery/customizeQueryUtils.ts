@@ -33,7 +33,7 @@ function groupValueSetsByNameAuthorSystem(valueSetsToGroup: ValueSetItem[]) {
       const valueSetName = row?.valueSetName;
       if (!author || !system || !valueSetName) {
         console.warn(
-          `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`
+          `Skipping malformed row: Missing author (${author}) or system (${system}) for code (${row?.code})`,
         );
         return acc;
       }
@@ -58,7 +58,7 @@ function groupValueSetsByNameAuthorSystem(valueSetsToGroup: ValueSetItem[]) {
       });
       return acc;
     },
-    {} as Record<string, GroupedValueSet>
+    {} as Record<string, GroupedValueSet>,
   );
 
   return results;
@@ -81,7 +81,7 @@ export type TypeIndexedGroupedValueSetDictionary = {
  * dictionary of GroupedValueSets indexed by valueSetName:Author:System
  */
 export function mapGroupedValueSetsToValueSetTypes(
-  vsItemArray: ValueSetItem[]
+  vsItemArray: ValueSetItem[],
 ) {
   const valueSetsByNameAuthorSystem =
     groupValueSetsByNameAuthorSystem(vsItemArray);
@@ -103,7 +103,7 @@ export function mapGroupedValueSetsToValueSetTypes(
           };
         }
       });
-    }
+    },
   );
 
   return results;
@@ -127,7 +127,7 @@ export const mapValueSetsToValueSetType = (vsItems: ValueSetItem[]) => {
   ).forEach((vsType) => {
     const itemsToInclude = vsItems.filter((vs) => {
       return valueSetTypeToClincalServiceTypeMap[vsType].includes(
-        vs.clinicalServiceType
+        vs.clinicalServiceType,
       );
     });
     results[vsType] = itemsToInclude;

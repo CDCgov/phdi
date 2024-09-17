@@ -62,13 +62,13 @@ export const getSavedQueryByName = async (name: string) => {
  */
 export const filterValueSets = async (
   vsItems: ValueSetItem[],
-  type: "labs" | "medications" | "conditions"
+  type: "labs" | "medications" | "conditions",
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
   let valuesetFilters = valueSetTypeToClincalServiceTypeMap[type];
   const results = vsItems.filter((vs) =>
-    valuesetFilters.includes(vs.clinicalServiceType)
+    valuesetFilters.includes(vs.clinicalServiceType),
   );
   return results;
 };
@@ -104,7 +104,7 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
  */
 export const formatValueSetItemsAsQuerySpec = async (
   useCase: string,
-  vsItems: ValueSetItem[]
+  vsItems: ValueSetItem[],
 ) => {
   let secondEncounter: boolean = false;
   if (["cancer", "chlamydia", "gonorrhea", "syphilis"].includes(useCase)) {
