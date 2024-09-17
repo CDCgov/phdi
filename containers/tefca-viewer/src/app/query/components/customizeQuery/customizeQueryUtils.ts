@@ -69,15 +69,16 @@ export type TypeIndexedGroupedValueSetDictionary = {
 
 /**
  * A helper function that takes all the ValueSetItems for a given condition,
- *  parses them based on clinical code, and sorts them into the
- * value set type buckets for the condition. The result is an dictionary
+ * parses them based on clinical code, and sorts them into the
+ * ValueSetType buckets for the condition. The result is an dictionary
  * object, with index of labs, conditions, medications that we display on the
  * customize query page, where each dictionary is a separate accordion grouping
  * of ValueSetItems that users can select to filter their custom queries with
  * @param  vsItemArray - an array of ValueSetItems to group
  * @returns A dictionary of
- * dictionaries, where the first index is the value set type, which indexes a
- * dictionary of GroupedValueSets indexed by valueSetName:Author:System
+ * dictionaries, where the first index is the ValueSetType, which indexes a
+ * dictionary of GroupedValueSets. The subdictionary is indexed by
+ * valueSetName:author:system
  */
 export function mapValueSetItemsToValueSetTypes(vsItemArray: ValueSetItem[]) {
   const valueSetsByNameAuthorSystem =
@@ -95,6 +96,11 @@ export function mapValueSetItemsToValueSetTypes(vsItemArray: ValueSetItem[]) {
       const mappedSets = mapValueSetsToValueSetType(groupedValueSet.items);
 
       Object.entries(mappedSets).forEach(([valueSetTypeKey, items]) => {
+        // the sieving function below accounts for the case that a GroupedValueSet
+        // might have items that belong to more than one ValueSetType.
+        // In practice, this doesn't occur very often / will result in empty
+        // GroupedValueSets (ie the groupings on the other tabs) that we don't
+        // want to display, so we should filter those out.
         if (items.length > 0) {
           results[valueSetTypeKey as ValueSetType][nameAuthorSystem] = {
             ...groupedValueSet,
