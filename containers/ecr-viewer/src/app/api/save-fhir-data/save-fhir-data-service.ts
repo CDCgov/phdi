@@ -203,19 +203,30 @@ export const saveToMetadataPostgres = async (
   const database = db(db_url);
 
   const { ParameterizedQuery: PQ } = pgPromise;
-  const addMetadata = new PQ({
-    text: "INSERT INTO fhir_metadata (ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING ecr_id",
-    values: [
-      ecrId,
-      metadata.first_name,
-      metadata.last_name,
-      metadata.birth_date,
-      "DB",
-      metadata.reportable_condition,
-      metadata.rule_summary,
-      metadata.report_date,
-    ],
-  });
+
+  let addMetadata = undefined;
+  if (process.env.DATABASE_SCHEMA == "extended") {
+    const keys = Object.keys(metadata);
+    const columnNames = keys.join(",");
+    const values = Object.values(metadata);
+    const placeholders = keys.map((_, index) => `$${index + 1}`).join(", ");
+    const text = `INSERT INTO fhir_metadata (${columnNames}) VALUES (${placeholders})`;
+    addMetadata = new PQ({ text, values });
+  } else {
+    addMetadata = new PQ({
+      text: "INSERT INTO fhir_metadata (ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING ecr_id",
+      values: [
+        ecrId,
+        metadata.first_name,
+        metadata.last_name,
+        metadata.birth_date,
+        "DB",
+        metadata.reportable_condition,
+        metadata.rule_summary,
+        metadata.report_date,
+      ],
+    });
+  }
 
   try {
     const saveECR = await database.one(addMetadata);
