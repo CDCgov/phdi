@@ -179,7 +179,7 @@ export async function UseCaseQuery(
 }
 
 /**
- * Performs a generalized eCR-based query for collections of patients matching
+ * Performs a generalized query for collections of patients matching
  * particular criteria. The query is determined by a collection of passed-in
  * valuesets to include in the query results, and any patients found must
  * have eCR data interseecting with these valuesets.
