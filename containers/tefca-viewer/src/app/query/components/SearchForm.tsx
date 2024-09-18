@@ -16,6 +16,7 @@ import {
   patientOptions,
   stateOptions,
   Mode,
+  ValueSetItem,
 } from "../../constants";
 import {
   UseCaseQueryResponse,
@@ -28,6 +29,7 @@ import { FormatPhoneAsDigits } from "@/app/format-service";
 
 interface SearchFormProps {
   useCase: USE_CASES;
+  queryValueSets: ValueSetItem[];
   setUseCase: (useCase: USE_CASES) => void;
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
@@ -39,6 +41,7 @@ interface SearchFormProps {
 /**
  * @param root0 - SearchFormProps
  * @param root0.useCase - The use case this query will cover.
+ * @param root0.queryValueSets - Stateful collection of valuesets to use in the query.
  * @param root0.setUseCase - Update stateful use case.
  * @param root0.setOriginalRequest - The function to set the original request.
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
@@ -49,6 +52,7 @@ interface SearchFormProps {
  */
 const SearchForm: React.FC<SearchFormProps> = ({
   useCase,
+  queryValueSets,
   setUseCase,
   setOriginalRequest,
   setUseCaseQueryResponse,
@@ -120,7 +124,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       phone: FormatPhoneAsDigits(phone),
     };
     setOriginalRequest(originalRequest);
-    const queryResponse = await UseCaseQuery(originalRequest);
+    const queryResponse = await UseCaseQuery(originalRequest, queryValueSets);
     setUseCaseQueryResponse(queryResponse);
     if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
       setMode("no-patients");
