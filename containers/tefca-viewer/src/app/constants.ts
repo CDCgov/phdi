@@ -326,3 +326,9 @@ export interface ValueSet {
 }
 
 export type ValueSetType = keyof ValueSet;
+
+export const valueSetTypeToClincalServiceTypeMap = {
+  labs: ["ostc", "lotc", "lrtc"],
+  medications: ["mrtc"],
+  conditions: ["dxtc", "sdtc"],
+};
