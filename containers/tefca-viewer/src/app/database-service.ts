@@ -1,7 +1,7 @@
 "use server";
 import { Pool, PoolConfig, QueryResultRow } from "pg";
 import dotenv from "dotenv";
-import { ValueSetItem } from "./constants";
+import { ValueSetItem, valueSetTypeToClincalServiceTypeMap } from "./constants";
 
 const getQuerybyNameSQL = `
 select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author as author, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
@@ -60,14 +60,7 @@ export const filterValueSets = async (
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
-  let valuesetFilters: string[];
-  if (type == "labs") {
-    valuesetFilters = ["ostc", "lotc", "lrtc"];
-  } else if (type == "medications") {
-    valuesetFilters = ["mrtc"];
-  } else {
-    valuesetFilters = ["dxtc", "sdtc"];
-  }
+  let valuesetFilters = valueSetTypeToClincalServiceTypeMap[type];
   const results = vsItems.filter((vs) =>
     valuesetFilters.includes(vs.clinicalServiceType),
   );
