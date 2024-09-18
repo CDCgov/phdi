@@ -20,7 +20,6 @@ const dbConfig: PoolConfig = {
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   host: process.env.POSTGRES_HOST,
-  connectionString: process.env.DATABASE_URL,
   port: Number(process.env.POSTGRES_PORT),
   database: process.env.POSTGRES_DB,
   max: 10, // Maximum # of connections in the pool

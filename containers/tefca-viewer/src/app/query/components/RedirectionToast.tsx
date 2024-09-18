@@ -70,7 +70,7 @@ export function showRedirectConfirmation(content: {
       headingLevel={content.headingLevel}
       body={content.body}
     />,
-    options
+    options,
   );
 }
 
