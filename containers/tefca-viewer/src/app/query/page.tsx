@@ -20,6 +20,11 @@ import {
   getSavedQueryByName,
   mapQueryRowsToValueSetItems,
 } from "../database-service";
+import StepIndicator, {
+  CUSTOMIZE_QUERY_STEPS,
+} from "./stepIndicator/StepIndicator";
+import { Alert } from "@trussworks/react-uswds";
+import { alertBannerMap } from "./components/DisclaimerAlerts";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -30,7 +35,7 @@ const Query: React.FC = () => {
   const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
   const [queryType, setQueryType] = useState<string>("");
   const [queryValuesets, setQueryValuesets] = useState<ValueSetItem[]>(
-    [] as ValueSetItem[],
+    [] as ValueSetItem[]
   );
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
@@ -64,6 +69,12 @@ const Query: React.FC = () => {
 
   return (
     <div>
+      {Object.keys(alertBannerMap).includes(mode) &&
+        alertBannerMap[mode as Mode]}
+
+      {Object.keys(CUSTOMIZE_QUERY_STEPS).includes(mode) && (
+        <StepIndicator headingLevel="h4" curStep={mode} />
+      )}
       {mode === "search" && (
         <Suspense fallback="...Loading">
           <SearchForm

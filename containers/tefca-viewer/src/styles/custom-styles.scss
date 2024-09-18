@@ -960,3 +960,7 @@ hr.custom-hr {
 .Toastify__toast-container {
   width: calc($tefca-viewer-max-width * 0.4) !important;
 }
+
+.custom-query-step-indicator .usa-step-indicator__header {
+  display: none !important;
+}
