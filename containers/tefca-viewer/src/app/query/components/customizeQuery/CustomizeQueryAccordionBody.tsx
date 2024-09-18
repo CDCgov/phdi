@@ -31,12 +31,9 @@ const CustomizeQueryAccordionBody: React.FC<
         </div>
         <div className="display-flex flex-column">
           {group.items.map((item, index) => (
-            <div
-              className={`${styles.customizeQueryGridRow} ${styles.customizeQueryStripedRow}`}
-              key={item.code}
-            >
+            <div className={`${styles.customizeQueryGridRow}`} key={item.code}>
               <div
-                className={`margin-4 ${styles.customizeQueryCheckbox} ${styles.customizeQueryCheckbox} ${styles.hideCheckboxLabel}`}
+                className={`${styles.customizeQueryCheckbox} ${styles.customizeQueryCheckbox} ${styles.hideCheckboxLabel}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleInclude(groupIndex, index);

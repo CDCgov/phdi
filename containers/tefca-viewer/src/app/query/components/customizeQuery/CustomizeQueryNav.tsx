@@ -5,6 +5,7 @@ type CustomizeQueryNavProps = {
   activeTab: string;
   handleTabChange: (tabName: ValueSetType) => void;
   handleSelectAllForTab: (checked: boolean) => void;
+  hasItemsInTab: boolean;
 };
 
 /**
@@ -14,12 +15,14 @@ type CustomizeQueryNavProps = {
  * @param param0.activeTab - currently active tab
  * @param param0.handleSelectAllForTab - Listener function to grab all the
  * returned labs when the select all button is hit
+ * @param param0.hasItemsInTab - Boolean indicating if there are items in the current tab
  * @returns Nav component for the customize query page
  */
 const CustomizeQueryNav: React.FC<CustomizeQueryNavProps> = ({
   handleTabChange,
   activeTab,
   handleSelectAllForTab,
+  hasItemsInTab,
 }) => {
   return (
     <>
@@ -63,17 +66,23 @@ const CustomizeQueryNav: React.FC<CustomizeQueryNavProps> = ({
 
       <ul className="usa-nav__primary usa-accordion"></ul>
       <hr className="custom-hr"></hr>
-      <a
-        href="#"
-        type="button"
-        className="include-all-link"
-        onClick={(e) => {
-          e.preventDefault();
-          handleSelectAllForTab(true);
-        }}
-      >
-        Include all {activeTab}
-      </a>
+      {hasItemsInTab ? (
+        <a
+          href="#"
+          type="button"
+          className="include-all-link"
+          onClick={(e) => {
+            e.preventDefault();
+            handleSelectAllForTab(true);
+          }}
+        >
+          Include all {activeTab}
+        </a>
+      ) : (
+        <div className="font-sans-sm text-light padding-y-3">
+          No {activeTab} available for this query.
+        </div>
+      )}
     </>
   );
 };

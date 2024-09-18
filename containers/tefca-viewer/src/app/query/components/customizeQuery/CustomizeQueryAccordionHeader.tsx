@@ -26,7 +26,9 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
   group,
 }) => {
   return (
-    <div className="accordion-header display-flex flex-no-wrap flex-align-start customize-query-header">
+    <div
+      className={`${styles.accordionHeader} display-flex flex-no-wrap flex-align-start customize-query-header`}
+    >
       <div
         id="select-all"
         className={`hide-checkbox-label ${styles.customizeQueryCheckbox}`}
@@ -53,10 +55,10 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
           />
         )}
       </div>
-      <div>
+      <div className={`${styles.accordionButtonTitle}`}>
         {`${group.valueSetName}`}
 
-        <span className="accordion-subtitle margin-top-2">
+        <span className={`${styles.accordionSubtitle} margin-top-2`}>
           <strong>Author:</strong> {group.author}{" "}
           <strong style={{ marginLeft: "20px" }}>System:</strong> {group.system}
         </span>
