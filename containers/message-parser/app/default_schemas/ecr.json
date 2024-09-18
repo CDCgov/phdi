@@ -70,7 +70,7 @@
     "nullable": true
   },
   "rr_id": {
-    "fhir_path": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
+    "fhir_path": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-response').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
     "data_type": "string",
     "nullable": true
   },
