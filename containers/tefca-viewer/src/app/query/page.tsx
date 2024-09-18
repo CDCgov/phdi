@@ -68,6 +68,7 @@ const Query: React.FC = () => {
         <Suspense fallback="...Loading">
           <SearchForm
             useCase={useCase}
+            queryValueSets={queryValuesets}
             setUseCase={setUseCase}
             setMode={setMode}
             setLoading={setLoading}
@@ -98,6 +99,7 @@ const Query: React.FC = () => {
           <MultiplePatientSearchResults
             patients={useCaseQueryResponse?.Patient ?? []}
             originalRequest={originalRequest}
+            queryValueSets={queryValuesets}
             setLoading={setLoading}
             goBack={() => setMode("search")}
           />
