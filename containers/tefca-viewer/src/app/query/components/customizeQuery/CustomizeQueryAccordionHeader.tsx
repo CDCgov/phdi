@@ -36,7 +36,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
           e.stopPropagation();
           handleSelectAllChange(
             groupIndex,
-            selectedCount !== group.items.length
+            selectedCount !== group.items.length,
           );
         }}
       >
