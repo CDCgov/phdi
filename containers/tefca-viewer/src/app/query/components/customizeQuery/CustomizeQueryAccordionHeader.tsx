@@ -63,7 +63,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
           <strong style={{ marginLeft: "20px" }}>System:</strong> {group.system}
         </span>
       </div>
-      <span className={`margin-left-auto`}>{`${selectedCount} selected`}</span>
+      <span className="margin-left-auto">{`${selectedCount} selected`}</span>
     </div>
   );
 };
