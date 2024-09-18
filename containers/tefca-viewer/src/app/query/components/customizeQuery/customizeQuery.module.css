@@ -87,6 +87,31 @@
   margin: -3px;
 }
 
+.accordionHeader {
+  display: flex;
+  width: 100%;
+  color: var(--White, #fff);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  gap: 1.25rem;
+}
+
+.accordionSubtitle {
+  display: block;
+  font-weight: normal;
+  font-size: 16px;
+  color: var(--White, #fff);
+  font-size: 16px;
+  line-height: normal;
+}
+
+.accordionButtonTitle {
+  max-width: 40rem;
+  width: 100%;
+}
+
 .customizeQueryAccordion button {
   background-color: #565c65;
 }

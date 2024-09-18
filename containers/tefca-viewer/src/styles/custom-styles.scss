@@ -576,57 +576,7 @@ html {
   gap: 5px;
 }
 
-.accordion-header {
-  display: flex;
-  width: 100%;
-  color: var(--White, #fff);
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  gap: 20px;
-}
-
-.accordion-header-cell {
-  padding: 0px 24px;
-  align-items: flex-start;
-  gap: 60px;
-  align-self: stretch;
-}
-
-.accordion-header-cell.include {
-  width: 60px;
-  /* Fixed width */
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.accordion-header-cell.code {
-  display: flex;
-  width: 100px;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.accordion-header-cell.display {
-  display: flex;
-  width: 500px;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.accordion-subtitle {
-  display: block;
-  font-weight: normal;
-  font-size: 16px;
-  color: var(--White, #fff);
-  font-size: 16px;
-  line-height: normal;
-}
-
 .usa-accordion {
-  // border: 1px solid #565C65;
   border-radius: 4px;
   padding: 0px;
 }
