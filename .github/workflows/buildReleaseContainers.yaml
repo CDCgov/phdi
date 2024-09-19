@@ -89,8 +89,8 @@ jobs:
         uses: docker/build-push-action@v3
         if: ${{ contains(fromJSON('["tefca-viewer"]'), matrix.container-to-build) }}
         with:
-          context: ./containers/tefca-viewer
-          file: ./Dockerfile.flyway
+          context: .
+          file: ./containers/${{ matrix.container-to-build }}/Dockerfile.flyway
           push: true
           tags: ${{ steps.flyway-meta.outputs.tags }}
           labels: ${{ steps.flyway-meta.outputs.labels }}
