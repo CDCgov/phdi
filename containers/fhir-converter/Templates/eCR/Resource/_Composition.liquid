@@ -224,8 +224,8 @@
                 [
             
                     {
-                        "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-response",
-                        "valueIdentifier": 
+                        "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-initiation-type-extension",
+                        "valueCodeableConcept": 
                         {
                             "use":"official",
                             "type":
@@ -233,7 +233,6 @@
                                 {% assign codes = composition.section.code | to_array -%}
                                 {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
                             },
-                            "value":"{{ composition.section.id.root }}",
                         },
                     },
                     {
