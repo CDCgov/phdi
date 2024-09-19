@@ -8,7 +8,7 @@ import ResultsView from "../components/ResultsView";
 import MultiplePatientSearchResults from "../components/MultiplePatientSearchResults";
 import SearchForm from "../components/SearchForm";
 import NoPatientsFound from "../components/NoPatientsFound";
-import { Mode, USE_CASES } from "../../constants";
+import { Mode, USE_CASES, ValueSetItem } from "../../constants";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -23,18 +23,21 @@ const Query: React.FC = () => {
     useState<UseCaseQueryResponse>();
   const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
 
+  // Just some dummy variables to placate typescript until we delete this page
+  const [queryValueSets, _] = useState<ValueSetItem[]>([]);
+
   return (
     <div>
       {mode === "search" && (
         <Suspense fallback="...Loading">
           <SearchForm
             useCase={useCase}
+            queryValueSets={queryValueSets}
             setUseCase={setUseCase}
             setMode={setMode}
             setLoading={setLoading}
             setUseCaseQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
-            userJourney="test"
             setQueryType={() => {}}
           />
         </Suspense>
@@ -58,6 +61,7 @@ const Query: React.FC = () => {
           <MultiplePatientSearchResults
             patients={useCaseQueryResponse?.Patient ?? []}
             originalRequest={originalRequest}
+            queryValueSets={queryValueSets}
             setLoading={setLoading}
             goBack={() => setMode("search")}
           />
