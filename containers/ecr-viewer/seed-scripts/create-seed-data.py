@@ -44,6 +44,31 @@ def save_sql_insert_metadata(metadata):
             ) ON CONFLICT (ecr_id) DO NOTHING;\n"""
             output_file.write(query)
 
+def save_fhir(fhir_bundles, metadata=None):
+    for bundle in fhir_bundles:
+            bundle_id = bundle["entry"][0]["resource"]["id"]
+            # bundle = json.dumps(bundle)
+            # print(bundle)
+            payload = {
+                        "fhirBundle": bundle,
+                        "saveSource": "postgres", # get this from env or something eventually
+                        "ecrId": bundle_id
+                    }
+            
+            if metadata is not None:
+                payload["metadata"] = metadata
+            
+            print(f"Metadata: {metadata}")
+
+            response = requests.post(
+                                f"{URL}/process-message", json=payload
+                            )
+
+            if response.status_code == 200:
+                print(f"Saved {bundle_id}")
+            else:
+                print(f"Failed to save {bundle_id}")
+                print(response.text)
 
 def convert_files():
     """
@@ -135,14 +160,3 @@ def convert_files():
         return fhir_bundles, metadata
     else:
         return fhir_bundles
-
-
-if os.environ.get("NEXT_PUBLIC_NON_INTEGRATED_VIEWER") == "true":
-    print("Running non integrated viewer")
-    bundle_arr, metadata = convert_files()
-    save_sql_insert_fhir(bundle_arr)
-    save_sql_insert_metadata(metadata)
-else:
-    print("Running viewer")
-    bundle_arr = convert_files()
-    save_sql_insert_fhir(bundle_arr)
