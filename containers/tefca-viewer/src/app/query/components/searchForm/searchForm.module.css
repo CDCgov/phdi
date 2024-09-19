@@ -1,0 +1,10 @@
+.searchCallToActionContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.searchCallToActionButton {
+  height: 2.5rem;
+}
