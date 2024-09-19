@@ -99,14 +99,14 @@ fi
 docker compose --env-file .env.local up -d ecr-viewer db --build
 
 # Wait for eCR Viewer to be available
-URL="http://localhost:3000/"
+URL="http://localhost:3000/ecr-viewer"
 while ! curl -s -o /dev/null -w "%{http_code}" "$URL" | grep -q "200"; do
     echo "Waiting for $URL to be available..."
     sleep 5
 done
 
 # Open in default browser
-open http://localhost:3000/
+open http://localhost:3000/ecr-viewer
 
 # Prompt to end review session
 read -p "Press enter to end review"
