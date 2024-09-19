@@ -27,7 +27,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Tribal Affiliation
                 </div>
@@ -46,7 +46,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Preffered Language
                 </div>
@@ -78,7 +78,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Travel History
                 </div>
@@ -97,7 +97,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Pregnancy Status
                 </div>
@@ -116,7 +116,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Alcohol Use
                 </div>
@@ -135,7 +135,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Sexual Orientation
                 </div>
@@ -154,7 +154,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Gender Identity
                 </div>
@@ -186,7 +186,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Facility Address
                 </div>
@@ -218,7 +218,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Miscellaneous Notes
                 </div>
@@ -250,7 +250,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Provider Name
                 </div>
@@ -282,7 +282,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Reason for Visit
                 </div>
@@ -301,7 +301,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Problems List
                 </div>
@@ -333,7 +333,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Vitals
                 </div>
@@ -365,7 +365,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Immunization History
                 </div>
@@ -397,7 +397,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Procedures
                 </div>
@@ -429,7 +429,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Sender Software
                 </div>
