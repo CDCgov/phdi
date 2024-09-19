@@ -79,7 +79,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./containers/${{ env.CONTAINER }}
-          file: ./Dockerfile.flyway
+          file: ./containers/tefca-viewer/Dockerfile.flyway
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max

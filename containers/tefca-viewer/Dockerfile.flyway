@@ -1,6 +1,6 @@
 FROM flyway/flyway:10.16-alpine
 
-COPY ./flyway/sql /flyway/sql
-COPY ./flyway/conf /flyway/conf
+COPY ./containers/tefca-viewer/flyway/sql /flyway/sql
+COPY ./containers/tefca-viewer/flyway/conf /flyway/conf
 
 
