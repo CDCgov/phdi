@@ -14,11 +14,14 @@ services:
 
   # Flyway migrations and DB version control
   flyway:
-    image: flyway/flyway:10.16-alpine
+    # image: flyway/flyway:10.16-alpine
+    build:
+      context: ../../
+      dockerfile: ./containers/tefca-viewer/Dockerfile.flyway
     command: -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate
-    volumes:
-      - ./flyway/sql:/flyway/sql
-      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
+    # volumes:
+    #   - ./flyway/sql:/flyway/sql
+    #   - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
     depends_on:
       db:
         condition: service_started
