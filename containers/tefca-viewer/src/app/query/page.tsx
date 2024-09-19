@@ -30,7 +30,7 @@ const Query: React.FC = () => {
   const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
   const [queryType, setQueryType] = useState<string>("");
   const [queryValuesets, setQueryValuesets] = useState<ValueSetItem[]>(
-    [] as ValueSetItem[]
+    [] as ValueSetItem[],
   );
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
