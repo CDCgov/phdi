@@ -58,6 +58,22 @@ jobs:
           labels: |
             org.opencontainers.image.version=${{ inputs.container-tag }}
 
+      - name: Extract metadata (tags, labels) for Flyway Docker
+        id: flyway-meta
+        uses: docker/metadata-action@v4
+        if: ${{ contains(fromJSON('["tefca-viewer"]'), matrix.container-to-build) }}
+        with:
+          ref: ${{ inputs.container-tag }}
+          images: ghcr.io/${{ github.repository }}/tefca-viewer-flyway
+          # this sets the version for tags and labels for each of the containers to be
+          # be the same as the version/tag where the code was pulled from
+          tags: |
+            type=semver,pattern={{raw}},value=${{ inputs.container-tag }}
+            type=ref,event=branch
+            type=ref,event=tag,pattern={{raw}},value=${{ inputs.container-tag }}
+          labels: |
+            org.opencontainers.image.version=${{ inputs.container-tag }}
+
       - name: Build and push
         uses: docker/build-push-action@v3
         if: ${{ !contains(fromJSON('["ecr-viewer", "tefca-viewer"]'), matrix.container-to-build) }}
@@ -66,6 +82,18 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Flyway Container
+        uses: docker/build-push-action@v3
+        if: ${{ contains(fromJSON('["tefca-viewer"]'), matrix.container-to-build) }}
+        with:
+          context: ./containers/tefca-viewer
+          file: ./Dockerfile.flyway
+          push: true
+          tags: ${{ steps.flyway-meta.outputs.tags }}
+          labels: ${{ steps.flyway-meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
