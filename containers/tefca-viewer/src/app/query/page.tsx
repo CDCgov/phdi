@@ -3,7 +3,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import ResultsView from "./components/ResultsView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
-import SearchForm from "./components/SearchForm";
+import SearchForm from "./components/searchForm/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
 import {
   Mode,
@@ -30,7 +30,7 @@ const Query: React.FC = () => {
   const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
   const [queryType, setQueryType] = useState<string>("");
   const [queryValuesets, setQueryValuesets] = useState<ValueSetItem[]>(
-    [] as ValueSetItem[],
+    [] as ValueSetItem[]
   );
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
