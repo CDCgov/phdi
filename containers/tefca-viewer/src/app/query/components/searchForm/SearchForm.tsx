@@ -149,8 +149,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
       <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
         {
-          <div className="usa-summary-box usa-summary-box demo-query-filler">
-            <Label className="usa-label" htmlFor="query">
+          <div className="usa-summary-box demo-query-filler ">
+            <Label className="no-margin-top-important" htmlFor="query">
               <b>Select a sample query and patient to populate the form.</b>
             </Label>
             <Label htmlFor="query">Query</Label>

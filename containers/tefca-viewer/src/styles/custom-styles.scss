@@ -407,10 +407,6 @@ html {
   gap: 0px;
   padding-top: 20px;
   padding-bottom: 20px;
-
-  .usa-label {
-    margin-top: 2;
-  }
 }
 
 .test-query-filler {
@@ -694,4 +690,8 @@ hr.custom-hr {
 
 .customize-accordion .usa-accordion__content {
   padding: 0rem;
+}
+
+.no-margin-top-important {
+  margin-top: 0 !important;
 }
