@@ -78,7 +78,7 @@ jobs:
       - name: Build ${{ env.CONTAINER }} Flyway Container
         uses: docker/build-push-action@v3
         with:
-          context: ./containers/${{ env.CONTAINER }}
+          context: .
           file: ./containers/${{ env.CONTAINER }}/Dockerfile.flyway
           push: false
           cache-from: type=gha
