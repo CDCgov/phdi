@@ -72,7 +72,8 @@ jobs:
       - name: Build Flyway Container
         uses: docker/build-push-action@v3
         with:
-          context: ./containers/tefca-viewer/Dockerfile.flyway
+          context: ./containers/tefca-viewer
+          file: ./Dockerfile.flyway
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
