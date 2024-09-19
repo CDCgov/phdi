@@ -592,7 +592,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
             {
               foreach (var kvp in dict)
               {
-                result.Add(kvp.Value.ToString() ?? "");
+                result.Add(kvp.Value?.ToString() ?? "");
               }
             }
             else
