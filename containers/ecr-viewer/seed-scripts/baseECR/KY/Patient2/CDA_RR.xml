@@ -1,0 +1,651 @@
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:cda="urn:hl7-org:v3"
+  xmlns:sdtc="urn:hl7-org:sdtc"
+  xmlns:voc="http://www.lantanagroup.com/voc"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:hl7-org:v3 ../../schema/infrastructure/cda/CDA_SDTC.xsd">
+  <realmCode code="US" />
+  <typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3" />
+  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.1.2" />
+  <id root="b5ae8972-91ca-4cc3-9bc4-16c4835bd403" />
+  <code code="88085-6" codeSystem="2.16.840.1.113883.6.1"
+    displayName="Reportability response report Document Public health" />
+  <title>Reportability Response</title>
+  <effectiveTime value="20240326125845+0000" />
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" displayName="Normal" />
+  <languageCode code="en-US" />
+  <recordTarget>
+    <patientRole>
+      <id extension="OMH493V22M5H9KW" root="1.2.840.114350.1.13.276.2.7.3.688884.100" />
+      <id assigningAuthorityName="CE" extension="01000038"
+        root="1.2.840.114350.1.13.276.2.7.5.737384.47" />
+      <addr use="HP">
+        <streetAddressLine>3458 West Palm</streetAddressLine>
+        <county>Boyd</county>
+        <city>OWENSBORO</city>
+        <state>KY</state>
+        <postalCode>40245</postalCode>
+        <country>USA</country>
+        <useablePeriod xsi:type="IVL_TS">
+          <low value="20240325" />
+          <high nullFlavor="NA" />
+        </useablePeriod>
+      </addr>
+      <telecom use="HP" value="tel:+1-360-660-4294" />
+      <telecom use="MC" value="tel:+1-360-660-4294" />
+      <telecom value="mailto:LowesBrad7101@gmail.com" />
+      <patient>
+        <name use="L">
+          <given>Brad</given>
+          <given>Delta</given>
+          <family>Lowes</family>
+          <validTime>
+            <low nullFlavor="NA" />
+            <high nullFlavor="NA" />
+          </validTime>
+        </name>
+        <name use="P">
+          <given>Brad</given>
+          <family>Lowes</family>
+          <validTime>
+            <low value="20240325142353" />
+            <high value="20240325163249" />
+          </validTime>
+        </name>
+        <administrativeGenderCode code="M"
+          codeSystem="2.16.840.1.113883.5.1"
+          codeSystemName="AdministrativeGenderCode" displayName="Male" />
+        <birthTime value="19650323" />
+        <sdtc:deceasedInd value="false" />
+        <maritalStatusCode code="S"
+          codeSystem="2.16.840.1.113883.5.2"
+          codeSystemName="MaritalStatusCode" displayName="Single" />
+        <raceCode code="2106-3"
+          codeSystem="2.16.840.1.113883.6.238"
+          codeSystemName="CDC Race and Ethnicity" displayName="White" />
+        <ethnicGroupCode code="2186-5"
+          codeSystem="2.16.840.1.113883.6.238"
+          codeSystemName="CDC Race and Ethnicity" displayName="Not Hispanic or Latino" />
+        <languageCommunication>
+          <languageCode nullFlavor="UNK" />
+        </languageCommunication>
+      </patient>
+      <providerOrganization>
+        <id extension="1285613612" root="2.16.840.1.113883.4.6" />
+        <name>Owensboro Health</name>
+        <telecom use="WP" value="tel:+1-270-417-2000" />
+        <addr use="WP">
+          <streetAddressLine>1201 Pleasant Valley Rd</streetAddressLine>
+          <city>OWENSBORO</city>
+          <state>KY</state>
+          <postalCode>40245-3258</postalCode>
+        </addr>
+      </providerOrganization>
+    </patientRole>
+  </recordTarget>
+  <author>
+    <time value="20240326125845+0000" />
+    <assignedAuthor>
+      <id root="2.16.840.1.114222.4.1.217446" />
+      <addr>
+        <streetAddressLine>8515 Georgia Avenue, Suite 700</streetAddressLine>
+        <city>Silver Spring</city>
+        <state>MD</state>
+        <postalCode>20910</postalCode>
+        <country>US</country>
+      </addr>
+      <telecom use="WP" value="tel:+1(844)836-8377" />
+      <assignedAuthoringDevice>
+        <manufacturerModelName displayName="APHL" />
+        <softwareName displayName="AIMS" />
+      </assignedAuthoringDevice>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id root="2.16.840.1.114222.4.1.217446" />
+        <name>APHL | Association of Public Health Laboratories.</name>
+        <telecom use="WP" value="tel:+1(844)836-8377" />
+        <addr>
+          <streetAddressLine>8515 Georgia Avenue, Suite 700</streetAddressLine>
+          <city>Silver Spring</city>
+          <state>MD</state>
+          <postalCode>20910</postalCode>
+          <country>US</country>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <informationRecipient typeCode="PRCP">
+    <intendedRecipient>
+      <id extension="1023756525" root="2.16.840.1.113883.4.6" />
+      <addr use="WP">
+        <streetAddressLine>811 East Parrish Ave</streetAddressLine>
+        <streetAddressLine>Suite 102</streetAddressLine>
+        <city>OWENSBORO</city>
+        <state>KY</state>
+        <postalCode>40245</postalCode>
+        <country>USA</country>
+      </addr>
+      <telecom use="WP" value="tel:+1-270-688-2077" />
+      <telecom use="" value="fax:+1-270-688-2078" />
+      <informationRecipient>
+        <name>
+          <given>Jones</given>
+          <family>Steward</family>
+        </name>
+      </informationRecipient>
+      <receivedOrganization>
+        <name>Owensboro Health</name>
+        <addr use="WP">
+          <streetAddressLine>1201 Pleasant Valley Rd</streetAddressLine>
+          <city>OWENSBORO</city>
+          <state>KY</state>
+          <postalCode>40245-3258</postalCode>
+        </addr>
+      </receivedOrganization>
+    </intendedRecipient>
+  </informationRecipient>
+  <componentOf>
+    <encompassingEncounter>
+      <id extension="70100819" root="1.2.840.114350.1.13.276.2.7.3.698084.8" />
+      <code code="IMP" codeSystem="2.16.840.1.113883.5.4" displayName="Inpatient Encounter">
+        <originalText>Hospital Encounter</originalText>
+        <translation code="1" codeSystem="1.2.840.114350.1.72.1.30.1" />
+      </code>
+      <effectiveTime>
+        <low value="20240325143800-0500" />
+      </effectiveTime>
+      <responsibleParty>
+        <assignedEntity>
+          <id extension="1023756525" root="2.16.840.1.113883.4.6" />
+          <addr use="WP">
+            <streetAddressLine>811 East Parrish Ave</streetAddressLine>
+            <streetAddressLine>Suite 102</streetAddressLine>
+            <city>OWENSBORO</city>
+            <state>KY</state>
+            <postalCode>40245</postalCode>
+            <country>USA</country>
+          </addr>
+          <telecom use="WP" value="tel:+1-270-688-2077" />
+          <telecom value="fax:+1-270-688-2078" />
+          <assignedPerson>
+            <name>
+              <given>Jones</given>
+              <family>Steward</family>
+            </name>
+          </assignedPerson>
+          <representedOrganization>
+            <name>Owensboro Health</name>
+            <addr use="WP">
+              <streetAddressLine>1201 Pleasant Valley Rd</streetAddressLine>
+              <city>OWENSBORO</city>
+              <state>KY</state>
+              <postalCode>40245-3258</postalCode>
+            </addr>
+          </representedOrganization>
+        </assignedEntity>
+      </responsibleParty>
+      <encounterParticipant typeCode="ATND">
+        <time value="20240325143800-0500" />
+        <assignedEntity>
+          <id extension="1306838693" root="2.16.840.1.113883.4.6" />
+          <code code="208D00000X"
+            codeSystem="2.16.840.1.113883.6.101" displayName="General Practice Physician">
+            <originalText>Family Medicine</originalText>
+            <translation code="19"
+              codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4160"
+              codeSystemName="Epic.DXC.StandardProviderSpecialtyType" displayName="Family Medicine" />
+            <translation code="9"
+              codeSystem="1.2.840.114350.1.13.276.2.7.10.836982.1050"
+              codeSystemName="Epic.SER.ProviderSpecialty" displayName="Family Medicine" />
+          </code>
+          <addr use="WP">
+            <streetAddressLine>811 E Parrish Ave</streetAddressLine>
+            <streetAddressLine>Suite 102</streetAddressLine>
+            <county>Boyd</county>
+            <city>OWENSBORO</city>
+            <state>KY</state>
+            <postalCode>40245</postalCode>
+            <country>USA</country>
+          </addr>
+          <telecom use="WP" value="tel:+1-270-688-2077" />
+          <telecom value="fax:+1-270-688-2078" />
+          <assignedPerson>
+            <name use="L">
+              <given>Benny</given>
+              <family>Jerry</family>
+              <suffix qualifier="AC"> MD</suffix>
+              <validTime>
+                <low nullFlavor="UNK" />
+                <high nullFlavor="UNK" />
+              </validTime>
+            </name>
+          </assignedPerson>
+        </assignedEntity>
+      </encounterParticipant>
+      <encounterParticipant typeCode="ADM">
+        <time value="20240325143800-0500" />
+        <assignedEntity>
+          <id extension="1306838693" root="2.16.840.1.113883.4.6" />
+          <code code="208D00000X"
+            codeSystem="2.16.840.1.113883.6.101" displayName="General Practice Physician">
+            <originalText>Family Medicine</originalText>
+            <translation code="19"
+              codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4160"
+              codeSystemName="Epic.DXC.StandardProviderSpecialtyType" displayName="Family Medicine" />
+            <translation code="9"
+              codeSystem="1.2.840.114350.1.13.276.2.7.10.836982.1050"
+              codeSystemName="Epic.SER.ProviderSpecialty" displayName="Family Medicine" />
+          </code>
+          <addr use="WP">
+            <streetAddressLine>811 E Parrish Ave</streetAddressLine>
+            <streetAddressLine>Suite 102</streetAddressLine>
+            <county>Boyd</county>
+            <city>OWENSBORO</city>
+            <state>KY</state>
+            <postalCode>40245</postalCode>
+            <country>USA</country>
+          </addr>
+          <telecom use="WP" value="tel:+1-270-688-2077" />
+          <telecom value="fax:+1-270-688-2078" />
+          <assignedPerson>
+            <name use="L">
+              <given>Benny</given>
+              <family>Jerry</family>
+              <suffix qualifier="AC"> MD</suffix>
+              <validTime>
+                <low nullFlavor="UNK" />
+                <high nullFlavor="UNK" />
+              </validTime>
+            </name>
+          </assignedPerson>
+        </assignedEntity>
+      </encounterParticipant>
+      <location>
+        <healthCareFacility>
+          <id extension="100101288" root="1.2.840.114350.1.13.276.2.7.2.686980" />
+          <code code="1060-3"
+            codeSystem="2.16.840.1.113883.6.259" displayName="Medical Ward">
+            <originalText>Oncology</originalText>
+            <translation code="45"
+              codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4150"
+              codeSystemName="Epic.DepartmentSpecialty" displayName="Oncology" />
+          </code>
+          <location>
+            <name>OHRH ONCOLOGY-MEDICAL UNIT</name>
+            <addr use="WP">
+              <streetAddressLine>1201 Pleasant Valley Road</streetAddressLine>
+              <county>Boyd</county>
+              <city>Owensboro</city>
+              <state>KY</state>
+              <postalCode>40245</postalCode>
+            </addr>
+          </location>
+          <serviceProviderOrganization>
+            <id extension="100101" root="1.2.840.114350.1.13.276.2.7.2.696570" />
+            <name>OWENSBORO HEALTH REGIONAL HOSPITAL</name>
+            <telecom use="WP" value="tel:+1-270-417-2000" />
+            <addr use="WP">
+              <streetAddressLine>1201 Pleasant Valley Road</streetAddressLine>
+              <county>Boyd</county>
+              <city>Owensboro</city>
+              <state>KY</state>
+              <postalCode>40245</postalCode>
+            </addr>
+            <asOrganizationPartOf>
+              <wholeOrganization>
+                <name>Owensboro Health</name>
+                <addr use="WP">
+                  <streetAddressLine>1201 Pleasant Valley Rd</streetAddressLine>
+                  <city>OWENSBORO</city>
+                  <state>KY</state>
+                  <postalCode>40245-3258</postalCode>
+                </addr>
+              </wholeOrganization>
+            </asOrganizationPartOf>
+          </serviceProviderOrganization>
+        </healthCareFacility>
+      </location>
+    </encompassingEncounter>
+  </componentOf>
+  <component>
+    <structuredBody>
+      <component>
+        <section>
+          <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.1" />
+          <code code="88084-9"
+            codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+          <title>.</title>
+          <text>
+            <br />
+            <content styleCode="Bold">Subject:</content>
+            <paragraph>Public Health Reporting Communication: one or more conditions are reportable,
+              or may be reportable, to public health. </paragraph>
+          </text>
+          <entry typeCode="DRIV">
+            <act classCode="ACT" moodCode="INT">
+              <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.20" />
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.7" />
+              <id root="37cddf58-ca3a-409a-9a1e-4bae192fa663" />
+              <code code="131195008"
+                codeSystem="2.16.840.1.113883.6.96"
+                codeSystemName="SNOMED CT" displayName="Subject of information" />
+              <text>Public Health Reporting Communication: one or more conditions are reportable, or
+                may be reportable, to public health.</text>
+              <statusCode code="completed" />
+            </act>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.3" />
+          <code code="88082-3"
+            codeSystem="2.16.840.1.113883.6.1"
+            codeSystemName="LOINC" displayName="Initial case report processing information Document" />
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.9" />
+              <id root="6bff7990-f218-4f9d-a5aa-eb7afa6e9a3c" />
+              <code code="RR5"
+                codeSystem="2.16.840.1.114222.4.5.232"
+                codeSystemName="PHIN VS (CDC Local Coding System)"
+                displayName="Received eICR Information" />
+              <statusCode code="completed" />
+              <effectiveTime value="20240326125845+0000" />
+              <reference typeCode="REFR">
+                <externalDocument classCode="DOCCLIN" moodCode="EVN">
+                  <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.115" />
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.10" />
+                  <id assigningAuthorityName="EPC"
+                    root="1.2.840.114350.1.13.276.2.7.8.688883.114842522" />
+                  <code code="55751-2"
+                    codeSystem="2.16.840.1.113883.6.1"
+                    codeSystemName="LOINC" displayName="Public Health Case Report (eICR)" />
+                  <setId assigningAuthorityName="EPC"
+                    extension="00000000-27b7-cd91-8dac-1e9de913fa0a"
+                    root="1.2.840.114350.1.13.276.2.7.1.1" />
+                  <versionNumber value="6" />
+                </externalDocument>
+              </reference>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.29" />
+              <id root="39d966b9-8a3a-4024-93d8-138e97d5898a" />
+              <code code="RRVS19"
+                codeSystem="2.16.840.1.114222.4.5.274"
+                codeSystemName="PHIN VS (CDC Local Coding System)" displayName="eICR processed" />
+              <entryRelationship typeCode="SPRT">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.33" />
+                  <id root="80f7b4ff-4d96-46ef-ae8f-af1f9c1f206e" />
+                  <code code="RR10"
+                    codeSystem="2.16.840.1.114222.4.5.232"
+                    codeSystemName="PHIN Questions" displayName="eICR Validation Output" />
+                  <value mediaType="text/xml" xsi:type="ED">
+                    <Report xmlns="urn:aims-org:val" />
+                  </value>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.2" />
+          <code code="55112-7"
+            codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+          <title>.</title>
+          <text>
+            <content styleCode="Bold">Summary:</content>
+            <paragraph>Your organization electronically submitted an initial case report to
+              determine if reporting to public health is needed for a patient.</paragraph>
+            <paragraph>"Viral hepatitis type C (disorder)" is reportable to "Kentucky Cabinet for
+              Health and Family Services". The initial case report was sent to "Kentucky Cabinet for
+              Health and Family Services". Additional information may be required for this report.<br />
+            </paragraph>
+            <paragraph>
+              <content styleCode="Bold">"Viral hepatitis type C (disorder)" for "Kentucky Cabinet
+                for Health and Family Services" </content>
+            </paragraph>
+            <paragraph>Reporting is required within "5 Day(s)". Reporting to this Public Health
+              Agency is based on "Patient home address"<br />
+            </paragraph>
+            <paragraph>
+              <content>&gt; For questions regarding acute hepatitis C please notify the Kentucky
+                Department for Public Health (KDPH): - During regular business hours (8:00 am – 4:30
+                pm, M-F): Primary contact is: Amanda Odegard at 502-564-6773 - After hours or on
+                weekends: Call 888-9-REPORT (888-973-7678)<br />
+                                <br />
+              </content>
+            </paragraph>
+            <paragraph>Additional Resources:<br />
+            </paragraph>
+            <paragraph>
+              <content>&gt; (<linkHtml
+                  href="https://ndc.services.cdc.gov/case-definitions/hepatitis-c-acute-2020/">Information
+                only</linkHtml>)<br />
+                                <br />
+              </content>
+            </paragraph>
+          </text>
+          <entry typeCode="DRIV">
+            <act classCode="ACT" moodCode="INT">
+              <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.20" />
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.8" />
+              <id root="2a242633-c025-4619-aad6-f5c6c949d365" />
+              <code code="304561000"
+                codeSystem="2.16.840.1.113883.6.96"
+                codeSystemName="SNOMED CT"
+                displayName="Informing health care professional (procedure)" />
+              <text>Your organization electronically submitted an initial case report to determine
+                if reporting to public health is needed for a patient. </text>
+              <statusCode code="completed" />
+            </act>
+          </entry>
+          <entry typeCode="DRIV">
+            <observation classCode="OBS" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.30" />
+              <code code="RR9"
+                codeSystem="2.16.840.1.114222.4.5.232"
+                codeSystemName="PHIN Questions" displayName="Reportability response priority" />
+              <value code="RRVS15"
+                codeSystem="2.16.840.1.114222.4.5.274"
+                codeSystemName="PHIN VS (CDC Local Coding System)"
+                displayName="Information Only" xsi:type="CD" />
+            </observation>
+          </entry>
+          <entry typeCode="DRIV">
+            <organizer classCode="CLUSTER" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.34" />
+              <code code="RR11"
+                codeSystem="2.16.840.1.114222.4.5.232"
+                codeSystemName="PHIN Questions"
+                displayName="Reportability Response Coded Information" />
+              <statusCode code="completed" />
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.12" />
+                  <id root="04c547c4-6244-4752-a1a1-1ebf0133a685" />
+                  <code code="64572001"
+                    codeSystem="2.16.840.1.113883.6.96"
+                    codeSystemName="SNOMED" displayName="Condition">
+                    <translation code="75323-6"
+                      codeSystem="2.16.840.1.113883.6.1"
+                      codeSystemName="LOINC" displayName="Condition" />
+                  </code>
+                  <value code="50711007"
+                    codeSystem="2.16.840.1.113883.6.96"
+                    codeSystemName="SNOMED CT"
+                    displayName="Viral hepatitis type C (disorder)" xsi:type="CD" />
+                  <entryRelationship typeCode="COMP">
+                    <organizer classCode="CLUSTER" moodCode="EVN">
+                      <templateId
+                        extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.13" />
+                      <id root="c7ea326c-22c6-43fc-ad6d-1bb762ff867e" />
+                      <code code="RRVS5"
+                        codeSystem="2.16.840.1.114222.4.5.274"
+                        codeSystemName="Location Relevance" displayName="Patient home address" />
+                      <statusCode code="completed" />
+                      <participant typeCode="LOC">
+                        <templateId
+                          extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.3" />
+                        <participantRole>
+                          <id extension="ky" root="2.16.840.1.113883.4.6" />
+                          <code code="RR12"
+                            codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Rules Authoring Agency" />
+                          <addr use="WP">
+                            <streetAddressLine />
+                            <city />
+                            <state />
+                            <postalCode nullFlavor="NI" />
+                          </addr>
+                          <telecom nullFlavor="NI" />
+                          <playingEntity>
+                            <name>Kentucky Cabinet for Health and Family Services</name>
+                          </playingEntity>
+                        </participantRole>
+                      </participant>
+                      <participant typeCode="LOC">
+                        <templateId
+                          extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.1" />
+                        <participantRole>
+                          <id extension="ky" root="2.16.840.1.113883.4.6" />
+                          <code code="RR7"
+                            codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Routing Entity" />
+                          <addr use="WP">
+                            <streetAddressLine />
+                            <city />
+                            <state />
+                            <postalCode nullFlavor="NI" />
+                          </addr>
+                          <playingEntity>
+                            <name>Kentucky Cabinet for Health and Family Services</name>
+                          </playingEntity>
+                        </participantRole>
+                      </participant>
+                      <component typeCode="COMP">
+                        <observation
+                          classCode="OBS" moodCode="EVN">
+                          <templateId
+                            extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.19" />
+                          <id root="74ba1346-6514-47cd-baa0-75d8407a153d" />
+                          <code code="RR1"
+                            codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Determination of reportability" />
+                          <value code="RRVS1"
+                            codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Reportable" xsi:type="CD" />
+                          <entryRelationship typeCode="RSON">
+                            <observation
+                              classCode="OBS" moodCode="EVN">
+                              <templateId
+                                extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="b3e4e184-f6dc-487d-8379-7b4a032d7d53" />
+                              <code
+                                code="RR3"
+                                codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">Detection of Hepatitis C virus antibody in a
+                                clinical specimen by any method</value>
+                            </observation>
+                          </entryRelationship>
+                        </observation>
+                      </component>
+                      <component typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                          <templateId
+                            extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.20" />
+                          <id root="dafd5e02-f1b4-494b-aca8-54e96073c444" />
+                          <code code="RRVS12"
+                            codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="PHA Contact Information" />
+                          <priorityCode
+                            code="RRVS15"
+                            codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Information only" />
+                          <reference typeCode="REFR">
+
+                            <externalDocument
+                              classCode="DOC" moodCode="EVN">
+                              <templateId
+                                extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.17" />
+                              <code nullFlavor="OTH">
+                                <originalText>For questions regarding acute hepatitis C please
+                                  notify the Kentucky Department for Public Health (KDPH): - During
+                                  regular business hours (8:00 am – 4:30 pm, M-F): Primary contact
+                                  is: Amanda Odegard at 502-564-6773 - After hours or on weekends:
+                                  Call 888-9-REPORT (888-973-7678)</originalText>
+                              </code>
+                            </externalDocument>
+                          </reference>
+                        </act>
+                      </component>
+                      <component typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                          <templateId
+                            extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.20" />
+                          <id root="bad2d2b6-43c7-44d1-b4bb-4eb99032f2f1" />
+                          <code code="RRVS11"
+                            codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Additional Resources" />
+                          <priorityCode
+                            code="RRVS15"
+                            codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Information only" />
+                          <reference typeCode="REFR">
+
+                            <externalDocument
+                              classCode="DOC" moodCode="EVN">
+                              <templateId
+                                extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.17" />
+                              <code nullFlavor="OTH">
+                                <originalText />
+                              </code>
+                              <text mediaType="text/html">
+
+                                <reference
+                                  value="https://ndc.services.cdc.gov/case-definitions/hepatitis-c-acute-2020/" />
+                              </text>
+                            </externalDocument>
+                          </reference>
+                        </act>
+                      </component>
+                      <component typeCode="COMP">
+                        <observation
+                          classCode="OBS" moodCode="EVN">
+                          <templateId
+                            extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.14" />
+                          <id root="12861bca-954c-4935-b10f-0fc843dd1519" />
+                          <code code="RR4"
+                            codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Timeframe to report (urgency)" />
+                          <value unit="d"
+                            value="5" xsi:type="PQ" />
+                        </observation>
+                      </component>
+                    </organizer>
+                  </entryRelationship>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>

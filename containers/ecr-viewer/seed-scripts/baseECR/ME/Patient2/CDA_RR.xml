@@ -1,0 +1,704 @@
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:cda="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc"
+  xmlns:voc="http://www.lantanagroup.com/voc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:hl7-org:v3 ../../schema/infrastructure/cda/CDA_SDTC.xsd">
+  <realmCode code="US" />
+  <typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3" />
+  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.1.2" />
+  <id root="65d5658c-41ce-413e-999a-63f8486d08c6" />
+  <code code="88085-6" codeSystem="2.16.840.1.113883.6.1"
+    displayName="Reportability response report Document Public health" />
+  <title>Reportability Response</title>
+  <effectiveTime value="20240805163451+0000" />
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" displayName="Normal" />
+  <languageCode code="en-US" />
+  <recordTarget>
+    <patientRole>
+      <id extension="MEHKRWC6WGKB42V" root="1.2.840.114350.1.13.206.2.7.3.688884.100" />
+      <id assigningAuthorityName="MEPI" extension="E535933"
+        root="1.2.840.114350.1.13.206.2.7.5.737384.0" />
+      <addr use="HP">
+        <streetAddressLine>0000</streetAddressLine>
+        <county>CUMBERLAND</county>
+        <city>Gorham</city>
+        <state>ME</state>
+        <postalCode>04038</postalCode>
+        <country>US</country>
+        <useablePeriod xsi:type="IVL_TS">
+          <low value="20240618" />
+          <high nullFlavor="UNK" />
+        </useablePeriod>
+      </addr>
+      <addr use="HP">
+        <streetAddressLine>0000</streetAddressLine>
+        <county>CUMBERLAND</county>
+        <city>GORHAM</city>
+        <state>ME</state>
+        <postalCode>04038</postalCode>
+        <country>US</country>
+        <useablePeriod xsi:type="IVL_TS">
+          <low value="20201209" />
+          <high value="20240617" />
+        </useablePeriod>
+      </addr>
+      <telecom use="MC" value="tel:+1-207-632-9088" />
+      <telecom value="mailto:blublud1178@yahoo.com" />
+      <patient>
+        <name use="L">
+          <given>Test2</given>
+          <given></given>
+          <family>Patient2</family>
+          <validTime>
+            <low nullFlavor="NA" />
+            <high nullFlavor="NA" />
+          </validTime>
+        </name>
+        <name use="P">
+          <given>Test2</given>
+          <family>Patient2</family>
+          <validTime>
+            <low nullFlavor="UNK" />
+            <high nullFlavor="UNK" />
+          </validTime>
+        </name>
+        <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"
+          codeSystemName="AdministrativeGenderCode" displayName="Male" />
+        <birthTime value="19780711" />
+        <sdtc:deceasedInd value="false" />
+        <maritalStatusCode code="M" codeSystem="2.16.840.1.113883.5.2"
+          codeSystemName="MaritalStatusCode" displayName="Married" />
+        <religiousAffiliationCode code="1007" codeSystem="2.16.840.1.113883.5.1076"
+          codeSystemName="ReligiousAffiliation" displayName="Charismatic Church" />
+        <raceCode code="2106-3" codeSystem="2.16.840.1.113883.6.238"
+          codeSystemName="CDC Race and Ethnicity" displayName="White" />
+        <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238"
+          codeSystemName="CDC Race and Ethnicity" displayName="Not Hispanic or Latino" />
+        <languageCommunication>
+          <languageCode code="eng" />
+          <modeCode code="RWR" codeSystem="2.16.840.1.113883.5.60" displayName="Received Written" />
+          <preferenceInd value="true" />
+        </languageCommunication>
+      </patient>
+      <providerOrganization>
+        <id extension="1760436216" root="2.16.840.1.113883.3.4784.3" />
+        <name>MaineHealth Maine Medical Center POR</name>
+        <telecom use="WP" value="tel:+1-207-396-8666" />
+        <addr use="WP">
+          <streetAddressLine>22 Bramhall St</streetAddressLine>
+          <county>CUMBERLAND</county>
+          <city>Portland</city>
+          <state>ME</state>
+          <postalCode>04102-3134</postalCode>
+          <country>US</country>
+        </addr>
+      </providerOrganization>
+    </patientRole>
+  </recordTarget>
+  <author>
+    <time value="20240805163451+0000" />
+    <assignedAuthor>
+      <id root="2.16.840.1.114222.4.1.217446" />
+      <addr>
+        <streetAddressLine>8515 Georgia Avenue, Suite 700</streetAddressLine>
+        <city>Silver Spring</city>
+        <state>MD</state>
+        <postalCode>20910</postalCode>
+        <country>US</country>
+      </addr>
+      <telecom use="WP" value="tel:+1(844)836-8377" />
+      <assignedAuthoringDevice>
+        <manufacturerModelName displayName="APHL" />
+        <softwareName displayName="AIMS" />
+      </assignedAuthoringDevice>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id root="2.16.840.1.114222.4.1.217446" />
+        <name>APHL | Association of Public Health Laboratories.</name>
+        <telecom use="WP" value="tel:+1(844)836-8377" />
+        <addr>
+          <streetAddressLine>8515 Georgia Avenue, Suite 700</streetAddressLine>
+          <city>Silver Spring</city>
+          <state>MD</state>
+          <postalCode>20910</postalCode>
+          <country>US</country>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <informationRecipient typeCode="PRCP">
+    <intendedRecipient>
+      <id extension="1821484296" root="2.16.840.1.113883.4.6" />
+      <addr use="WP">
+        <streetAddressLine>22 Bramhall St</streetAddressLine>
+        <streetAddressLine>Rm 2227</streetAddressLine>
+        <city>Portland</city>
+        <state>ME</state>
+        <postalCode>04102-3134</postalCode>
+      </addr>
+      <telecom use="WP" value="tel:+1-207-662-4618" />
+      <telecom use="" value="fax:+1-207-662-6254" />
+      <informationRecipient>
+        <name>
+          <given>Raymond</given>
+          <family>Klein</family>
+        </name>
+      </informationRecipient>
+      <receivedOrganization>
+        <name>MaineHealth Maine Medical Center POR</name>
+        <addr use="WP">
+          <streetAddressLine>22 Bramhall St</streetAddressLine>
+          <county>CUMBERLAND</county>
+          <city>Portland</city>
+          <state>ME</state>
+          <postalCode>04102-3134</postalCode>
+          <country>US</country>
+        </addr>
+      </receivedOrganization>
+    </intendedRecipient>
+  </informationRecipient>
+  <componentOf>
+    <encompassingEncounter>
+      <id extension="166175177" root="1.2.840.114350.1.13.206.2.7.3.698084.8" />
+      <code code="IMP" codeSystem="2.16.840.1.113883.5.4" displayName="Inpatient Encounter">
+        <originalText>Hospital Encounter</originalText>
+        <translation code="1" codeSystem="1.2.840.114350.1.72.1.30.1" />
+      </code>
+      <effectiveTime>
+        <low value="20240803123100-0400" />
+      </effectiveTime>
+      <responsibleParty>
+        <assignedEntity>
+          <id extension="1821484296" root="2.16.840.1.113883.4.6" />
+          <addr use="WP">
+            <streetAddressLine>22 Bramhall St</streetAddressLine>
+            <streetAddressLine>Rm 2227</streetAddressLine>
+            <city>Portland</city>
+            <state>ME</state>
+            <postalCode>04102-3134</postalCode>
+          </addr>
+          <telecom use="WP" value="tel:+1-207-662-4618" />
+          <telecom value="fax:+1-207-662-6254" />
+          <assignedPerson>
+            <name>
+              <given>Raymond</given>
+              <family>Klein</family>
+            </name>
+          </assignedPerson>
+          <representedOrganization>
+            <name>MaineHealth Maine Medical Center POR</name>
+            <addr use="WP">
+              <streetAddressLine>22 Bramhall St</streetAddressLine>
+              <county>CUMBERLAND</county>
+              <city>Portland</city>
+              <state>ME</state>
+              <postalCode>04102-3134</postalCode>
+              <country>US</country>
+            </addr>
+          </representedOrganization>
+        </assignedEntity>
+      </responsibleParty>
+      <encounterParticipant typeCode="ATND">
+        <time value="20240803123100-0400" />
+        <assignedEntity>
+          <id extension="1275608556" root="2.16.840.1.113883.4.6" />
+          <code code="208D00000X" codeSystem="2.16.840.1.113883.6.101"
+            displayName="General Practice Physician">
+            <originalText>Emergency Medicine</originalText>
+            <translation code="17" codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4160"
+              codeSystemName="Epic.DXC.StandardProviderSpecialtyType"
+              displayName="Emergency Medicine" />
+            <translation code="49" codeSystem="1.2.840.114350.1.13.206.2.7.10.836982.1050"
+              codeSystemName="Epic.SER.ProviderSpecialty" displayName="Emergency Medicine" />
+          </code>
+          <addr use="WP">
+            <streetAddressLine>22 Bramhall St</streetAddressLine>
+            <county>CUMBERLAND</county>
+            <city>Portland</city>
+            <state>ME</state>
+            <postalCode>04102</postalCode>
+            <country>US</country>
+          </addr>
+          <telecom use="WP" value="tel:+1-207-662-7010" />
+          <telecom value="fax:+1-207-662-7025" />
+          <assignedPerson>
+            <name use="L">
+              <given>Stephen</given>
+              <given>Patrick</given>
+              <family>Sanders</family>
+              <suffix qualifier="AC"> MD</suffix>
+              <validTime>
+                <low nullFlavor="UNK" />
+                <high nullFlavor="UNK" />
+              </validTime>
+            </name>
+          </assignedPerson>
+        </assignedEntity>
+      </encounterParticipant>
+      <encounterParticipant typeCode="ATND">
+        <time value="20240803123100-0400" />
+        <assignedEntity>
+          <id extension="1265794044" root="2.16.840.1.113883.4.6" />
+          <code code="207R00000X" codeSystem="2.16.840.1.113883.6.101"
+            displayName="Internal Medicine">
+            <originalText>Internal Medicine</originalText>
+            <translation code="32" codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4160"
+              codeSystemName="Epic.DXC.StandardProviderSpecialtyType"
+              displayName="Internal Medicine" />
+            <translation code="17" codeSystem="1.2.840.114350.1.13.206.2.7.10.836982.1050"
+              codeSystemName="Epic.SER.ProviderSpecialty" displayName="Internal Medicine" />
+          </code>
+          <addr use="WP">
+            <streetAddressLine>22 Bramhall St</streetAddressLine>
+            <streetAddressLine>Rm 2227</streetAddressLine>
+            <county>CUMBERLAND</county>
+            <city>Portland</city>
+            <state>ME</state>
+            <postalCode>04102-3134</postalCode>
+            <country>US</country>
+          </addr>
+          <telecom use="WP" value="tel:+1-207-662-4618" />
+          <telecom value="fax:+1-207-662-6254" />
+          <assignedPerson>
+            <name use="L">
+              <given>Emily</given>
+              <given>I</given>
+              <family>Zarookian</family>
+              <suffix qualifier="AC"> MD</suffix>
+              <validTime>
+                <low nullFlavor="UNK" />
+                <high nullFlavor="UNK" />
+              </validTime>
+            </name>
+          </assignedPerson>
+        </assignedEntity>
+      </encounterParticipant>
+      <encounterParticipant typeCode="ATND">
+        <time value="20240803123100-0400" />
+        <assignedEntity>
+          <id extension="1821484296" root="2.16.840.1.113883.4.6" />
+          <code code="207R00000X" codeSystem="2.16.840.1.113883.6.101"
+            displayName="Internal Medicine">
+            <originalText>Internal Medicine</originalText>
+            <translation code="32" codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4160"
+              codeSystemName="Epic.DXC.StandardProviderSpecialtyType"
+              displayName="Internal Medicine" />
+            <translation code="17" codeSystem="1.2.840.114350.1.13.206.2.7.10.836982.1050"
+              codeSystemName="Epic.SER.ProviderSpecialty" displayName="Internal Medicine" />
+          </code>
+          <addr use="WP">
+            <streetAddressLine>22 Bramhall St</streetAddressLine>
+            <streetAddressLine>Rm 2227</streetAddressLine>
+            <city>Portland</city>
+            <state>ME</state>
+            <postalCode>04102-3134</postalCode>
+          </addr>
+          <telecom use="WP" value="tel:+1-207-662-4618" />
+          <telecom value="fax:+1-207-662-6254" />
+          <assignedPerson>
+            <name use="L">
+              <given>Raymond</given>
+              <family>Klein</family>
+              <suffix qualifier="AC"> MD</suffix>
+              <validTime>
+                <low nullFlavor="UNK" />
+                <high nullFlavor="UNK" />
+              </validTime>
+            </name>
+          </assignedPerson>
+        </assignedEntity>
+      </encounterParticipant>
+      <encounterParticipant typeCode="ADM">
+        <time value="20240803123100-0400" />
+        <assignedEntity>
+          <id extension="1265794044" root="2.16.840.1.113883.4.6" />
+          <code code="207R00000X" codeSystem="2.16.840.1.113883.6.101"
+            displayName="Internal Medicine">
+            <originalText>Internal Medicine</originalText>
+            <translation code="32" codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4160"
+              codeSystemName="Epic.DXC.StandardProviderSpecialtyType"
+              displayName="Internal Medicine" />
+            <translation code="17" codeSystem="1.2.840.114350.1.13.206.2.7.10.836982.1050"
+              codeSystemName="Epic.SER.ProviderSpecialty" displayName="Internal Medicine" />
+          </code>
+          <addr use="WP">
+            <streetAddressLine>22 Bramhall St</streetAddressLine>
+            <streetAddressLine>Rm 2227</streetAddressLine>
+            <county>CUMBERLAND</county>
+            <city>Portland</city>
+            <state>ME</state>
+            <postalCode>04102-3134</postalCode>
+            <country>US</country>
+          </addr>
+          <telecom use="WP" value="tel:+1-207-662-4618" />
+          <telecom value="fax:+1-207-662-6254" />
+          <assignedPerson>
+            <name use="L">
+              <given>Emily</given>
+              <given>I</given>
+              <family>Zarookian</family>
+              <suffix qualifier="AC"> MD</suffix>
+              <validTime>
+                <low nullFlavor="UNK" />
+                <high nullFlavor="UNK" />
+              </validTime>
+            </name>
+          </assignedPerson>
+        </assignedEntity>
+      </encounterParticipant>
+      <location>
+        <healthCareFacility>
+          <id extension="11001090" root="1.2.840.114350.1.13.206.2.7.2.686980" />
+          <code code="1061-1" codeSystem="2.16.840.1.113883.6.259"
+            displayName="Medical-Surgical Ward">
+            <originalText>Nephrology</originalText>
+            <translation code="36" codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4150"
+              codeSystemName="Epic.DepartmentSpecialty" displayName="Nephrology" />
+          </code>
+          <location>
+            <name>MaineHealth Maine Medical Center Portland Richards 5</name>
+            <addr use="WP">
+              <streetAddressLine>22 Bramhall St</streetAddressLine>
+              <county>CUMBERLAND</county>
+              <city>Portland</city>
+              <state>ME</state>
+              <postalCode>04102-3134</postalCode>
+              <country>US</country>
+            </addr>
+          </location>
+          <serviceProviderOrganization>
+            <id extension="11001" root="1.2.840.114350.1.13.206.2.7.2.696570" />
+            <name>MaineHealth Maine Medical Center POR</name>
+            <telecom use="WP" value="tel:+1-207-396-8666" />
+            <addr use="WP">
+              <streetAddressLine>22 Bramhall St</streetAddressLine>
+              <county>CUMBERLAND</county>
+              <city>Portland</city>
+              <state>ME</state>
+              <postalCode>04102-3134</postalCode>
+              <country>US</country>
+            </addr>
+            <asOrganizationPartOf>
+              <wholeOrganization>
+                <name>MaineHealth Maine Medical Center POR</name>
+                <addr use="WP">
+                  <streetAddressLine>22 Bramhall St</streetAddressLine>
+                  <county>CUMBERLAND</county>
+                  <city>Portland</city>
+                  <state>ME</state>
+                  <postalCode>04102-3134</postalCode>
+                  <country>US</country>
+                </addr>
+              </wholeOrganization>
+            </asOrganizationPartOf>
+          </serviceProviderOrganization>
+        </healthCareFacility>
+      </location>
+    </encompassingEncounter>
+  </componentOf>
+  <component>
+    <structuredBody>
+      <component>
+        <section>
+          <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.1" />
+          <code code="88084-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+          <title>.</title>
+          <text>
+            <br />
+            <content styleCode="Bold">Subject:</content>
+            <paragraph>Public Health Reporting Communication: one or more conditions are reportable,
+              or may be reportable, to public health. </paragraph>
+          </text>
+          <entry typeCode="DRIV">
+            <act classCode="ACT" moodCode="INT">
+              <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.20" />
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.7" />
+              <id root="be73bf6d-afda-4f2f-ab1c-4dd3b228ec6c" />
+              <code code="131195008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"
+                displayName="Subject of information" />
+              <text>Public Health Reporting Communication: one or more conditions are reportable, or
+                may be reportable, to public health.</text>
+              <statusCode code="completed" />
+            </act>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.3" />
+          <code code="88082-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+            displayName="Initial case report processing information Document" />
+          <text>
+            <content styleCode="Bold">eICR Information:</content>
+            <paragraph>An initial report for a possible reportable condition was received on
+              20240805163446 with the file name 1.2.840.114350.1.13.206.2.7.8.688883.470000397. The
+              eICR was processed with the warning of: outdated eRSD (RCTC) version.</paragraph>
+          </text>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.9" />
+              <id root="6bff7990-f218-4f9d-a5aa-eb7afa6e9a3c" />
+              <code code="RR5" codeSystem="2.16.840.1.114222.4.5.232"
+                codeSystemName="PHIN VS (CDC Local Coding System)"
+                displayName="Received eICR Information" />
+              <statusCode code="completed" />
+              <effectiveTime value="20240805163451+0000" />
+              <reference typeCode="REFR">
+                <externalDocument classCode="DOCCLIN" moodCode="EVN">
+                  <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.115" />
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.10" />
+                  <id assigningAuthorityName="EPC"
+                    root="1.2.840.114350.1.13.206.2.7.8.688883.470000397" />
+                  <code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                    displayName="Public Health Case Report (eICR)" />
+                  <setId assigningAuthorityName="EPC"
+                    extension="00000000-4848-224b-3ed3-d4617497f7f5"
+                    root="1.2.840.114350.1.13.206.2.7.1.1" />
+                  <versionNumber value="6" />
+                </externalDocument>
+              </reference>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.29" />
+              <id root="39d966b9-8a3a-4024-93d8-138e97d5898a" />
+              <code code="RRVS20" codeSystem="2.16.840.1.114222.4.5.274"
+                codeSystemName="PHIN VS (CDC Local Coding System)"
+                displayName="eICR was processed - with a warning" />
+              <entryRelationship typeCode="RSON">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.21" />
+                  <id root="e39d6ae2-8c6e-4638-9b33-412996586f42" />
+                  <code code="RR6" codeSystem="2.16.840.1.114222.4.5.232"
+                    codeSystemName="PHIN Questions" displayName="eICR processing status reason" />
+                  <value code="RRVS29" codeSystem="2.16.840.1.114222.4.5.274"
+                    codeSystemName="PHIN VS (CDC Local Coding System)"
+                    displayName="The eICR was processed with the warning of: outdated eRSD (RCTC) version."
+                    xsi:type="CD" />
+                  <entryRelationship typeCode="RSON">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.32" />
+                      <id root="80f7b4ff-4d96-46ef-ae8f-af1f9c1f206c" />
+                      <code code="RRVS31" codeSystem="2.16.840.1.114222.4.5.274"
+                        codeSystemName="PHIN VS (CDC Local Coding System)"
+                        displayName="Outdated eRSD (RCTC) Version Detail" />
+                      <value xsi:type="ST">2023-10-06</value>
+                    </observation>
+                  </entryRelationship>
+                  <entryRelationship typeCode="RSON">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.32" />
+                      <id root="80f7b4ff-4d96-46ef-ae8f-af1f9c1f206c" />
+                      <code code="RRVS33" codeSystem="2.16.840.1.114222.4.5.274"
+                        codeSystemName="PHIN VS (CDC Local Coding System)"
+                        displayName="Expected eRSD (RCTC) Version Detail" />
+                      <value xsi:type="ST">The expected eRSD (RCTC) version should be one of the
+                        following: 2024-06-28,1.2.3.0,3.x.x,2024-04-05 </value>
+                    </observation>
+                  </entryRelationship>
+                </observation>
+              </entryRelationship>
+              <entryRelationship typeCode="SPRT">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.33" />
+                  <id root="80f7b4ff-4d96-46ef-ae8f-af1f9c1f206e" />
+                  <code code="RR10" codeSystem="2.16.840.1.114222.4.5.232"
+                    codeSystemName="PHIN Questions" displayName="eICR Validation Output" />
+                  <value mediaType="text/xml" xsi:type="ED">
+                    <Report xmlns="urn:aims-org:val"></Report>
+                  </value>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.2" />
+          <code code="55112-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+          <title>.</title>
+          <text>
+            <content styleCode="Bold">Summary:</content>
+            <paragraph>Your organization electronically submitted an initial case report to
+              determine if reporting to public health is needed for a patient.</paragraph>
+            <paragraph>"Hemolytic uremic syndrome (disorder)" is reportable to "Maine Department of
+              Health and Human Services". The initial case report was sent to "Maine Department of
+              Health and Human Services". Additional information may be required for this report.<br /></paragraph>
+            <paragraph>The trigger code version your organization is using is out-of-date. Please
+              have your EHR administrators install the current version for complete eCR functioning.<br /></paragraph>
+            <paragraph>
+              <content styleCode="Bold">"Hemolytic uremic syndrome (disorder)" for "Maine Department
+                of Health and Human Services" </content>
+            </paragraph>
+          </text>
+          <entry typeCode="DRIV">
+            <act classCode="ACT" moodCode="INT">
+              <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.20" />
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.8" />
+              <id root="f5235fc0-d69f-4db8-82fa-558470bb7def" />
+              <code code="304561000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"
+                displayName="Informing health care professional (procedure)" />
+              <text>Your organization electronically submitted an initial case report to determine
+                if reporting to public health is needed for a patient. The eICR was processed with
+                the warning of: outdated eRSD (RCTC) version.</text>
+              <statusCode code="completed" />
+            </act>
+          </entry>
+          <entry typeCode="DRIV">
+            <observation classCode="OBS" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.30" />
+              <code code="RR9" codeSystem="2.16.840.1.114222.4.5.232"
+                codeSystemName="PHIN Questions" displayName="Reportability response priority" />
+              <value code="RRVS15" codeSystem="2.16.840.1.114222.4.5.274"
+                codeSystemName="PHIN VS (CDC Local Coding System)" displayName="Information Only"
+                xsi:type="CD" />
+            </observation>
+          </entry>
+          <entry typeCode="DRIV">
+            <organizer classCode="CLUSTER" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.34" />
+              <code code="RR11" codeSystem="2.16.840.1.114222.4.5.232"
+                codeSystemName="PHIN Questions"
+                displayName="Reportability Response Coded Information" />
+              <statusCode code="completed" />
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.12" />
+                  <id root="7c5c9a74-f41c-4bc0-a4ec-55152b6bd2f5" />
+                  <code code="64572001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED"
+                    displayName="Condition">
+                    <translation code="75323-6" codeSystem="2.16.840.1.113883.6.1"
+                      codeSystemName="LOINC" displayName="Condition" />
+                  </code>
+                  <value code="111407006" codeSystem="2.16.840.1.113883.6.96"
+                    codeSystemName="SNOMED CT" displayName="Hemolytic uremic syndrome (disorder)"
+                    xsi:type="CD" />
+                  <entryRelationship typeCode="COMP">
+                    <organizer classCode="CLUSTER" moodCode="EVN">
+                      <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.13" />
+                      <id root="7818042e-ae7e-45cd-bd70-dcba8d3608a9" />
+                      <code code="RRVS7" codeSystem="2.16.840.1.114222.4.5.274"
+                        codeSystemName="Location Relevance"
+                        displayName="Both patient home address and provider facility address" />
+                      <statusCode code="completed" />
+                      <participant typeCode="LOC">
+                        <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.3" />
+                        <participantRole>
+                          <id extension="me" root="2.16.840.1.113883.4.6" />
+                          <code code="RR12" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Rules Authoring Agency" />
+                          <addr use="WP">
+                            <streetAddressLine />
+                            <city />
+                            <state />
+                            <postalCode nullFlavor="NI" />
+                          </addr>
+                          <telecom nullFlavor="NI" />
+                          <playingEntity>
+                            <name>Maine Department of Health and Human Services</name>
+                          </playingEntity>
+                        </participantRole>
+                      </participant>
+                      <participant typeCode="LOC">
+                        <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.1" />
+                        <participantRole>
+                          <id extension="me" root="2.16.840.1.113883.4.6" />
+                          <code code="RR7" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Routing Entity" />
+                          <addr use="WP">
+                            <streetAddressLine />
+                            <city />
+                            <state />
+                            <postalCode nullFlavor="NI" />
+                          </addr>
+                          <playingEntity>
+                            <name>Maine Department of Health and Human Services</name>
+                          </playingEntity>
+                        </participantRole>
+                      </participant>
+                      <component typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.19" />
+                          <id root="3c3b3fa1-9b84-4b0f-aa70-4665b7ff0d0b" />
+                          <code code="RR1" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Determination of reportability" />
+                          <value code="RRVS1" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Reportable" xsi:type="CD" />
+                          <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="df32ae39-5e29-44db-94e4-e713707d884f" />
+                              <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">Anemia</value>
+                            </observation>
+                          </entryRelationship>
+                          <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="7321032e-e827-4dd8-9197-944bae1bdd3b" />
+                              <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">Detection of a creatinine level of ≥1.0 mg/dL in
+                                serum by any method</value>
+                            </observation>
+                          </entryRelationship>
+                          <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="883352f1-f112-437f-9148-2cd15fd030f8" />
+                              <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">Detection of a creatinine level of ≥1.5 mg/dL in
+                                serum by any method</value>
+                            </observation>
+                          </entryRelationship>
+                          <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="e3393662-290e-487e-81d6-6fd46d83f3d0" />
+                              <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">Microscopic observation of microangiopathic
+                                changes (i.e., schistocytes, burr cells, or helmet cells) in a
+                                peripheral blood smear</value>
+                            </observation>
+                          </entryRelationship>
+                          <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="68669eed-48a6-4b29-a80e-6c6344271995" />
+                              <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">Patient age ≥ 13 years </value>
+                            </observation>
+                          </entryRelationship>
+                        </observation>
+                      </component>
+                    </organizer>
+                  </entryRelationship>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>

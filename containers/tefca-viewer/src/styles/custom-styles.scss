@@ -407,10 +407,6 @@ html {
   gap: 0px;
   padding-top: 20px;
   padding-bottom: 20px;
-
-  .usa-label {
-    margin-top: 2;
-  }
 }
 
 .test-query-filler {
@@ -427,17 +423,6 @@ html {
   display: flex;
   align-items: flex-start;
   gap: 20px;
-}
-
-.query-page-button {
-  background-color: white;
-  margin-top: 0.5rem;
-  align-self: flex-start;
-  height: 40px;
-  width: 158px;
-  text-align: center;
-  font-size: 16px;
-  font-style: normal;
 }
 
 .usa-button--outline:hover,
@@ -705,4 +690,8 @@ hr.custom-hr {
 
 .customize-accordion .usa-accordion__content {
   padding: 0rem;
+}
+
+.no-margin-top-important {
+  margin-top: 0 !important;
 }
