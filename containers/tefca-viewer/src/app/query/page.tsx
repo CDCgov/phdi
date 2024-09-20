@@ -3,7 +3,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import ResultsView from "./components/ResultsView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
-import SearchForm from "./components/SearchForm";
+import SearchForm from "./components/searchForm/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
 import {
   Mode,
