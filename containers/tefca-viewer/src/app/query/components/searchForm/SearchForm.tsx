@@ -63,7 +63,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 }) => {
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[useCase]?.[0]?.value || "",
+    patientOptions[useCase]?.[0]?.value || ""
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -90,7 +90,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption, setUseCase, setQueryType],
+    [patientOption, setUseCase, setQueryType]
   );
 
   // Change the selectedDemoOption in the dropdown and update the
@@ -99,7 +99,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setPatientOption(patientOptions[selectedDemoOption][0].value);
     setQueryType(
       demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
-        "",
+        ""
     );
   };
 
@@ -142,10 +142,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   return (
     <>
-      <Alert type="info" headingLevel="h4" slim className="custom-alert">
-        This site is for demo purposes only. Please do not enter PII on this
-        website.
-      </Alert>
       <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
         {
