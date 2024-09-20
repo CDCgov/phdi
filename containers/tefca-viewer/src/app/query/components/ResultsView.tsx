@@ -1,13 +1,27 @@
 import { UseCaseQueryResponse } from "../../query-service";
-import SideNav from "./SideNav";
+import ResultsViewSideNav from "./ResultsViewSideNav";
 import React, { useEffect } from "react";
-import { Alert, Icon } from "@trussworks/react-uswds";
-import ResultsViewTable from "./ResultsViewTable";
+import ResultsViewTable from "./resultsViewAccordion/ResultsViewTable";
+import Backlink from "./backLink/Backlink";
+import styles from "../page.module.css";
+import ConditionsTable from "./ConditionsTable";
+import Demographics from "./Demographics";
+import DiagnosticReportTable from "./DiagnosticReportTable";
+import EncounterTable from "./EncounterTable";
+import MedicationRequestTable from "./MedicationRequestTable";
+import ObservationTable from "./ObservationTable";
 
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
   goBack: () => void;
   goBackToMultiplePatients?: () => void;
+  queryName?: string;
+};
+
+export type ResultsViewAccordionItem = {
+  title: string;
+  subtitle?: string;
+  content?: React.ReactNode;
 };
 
 /**
@@ -22,47 +36,101 @@ const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
   goBack,
   goBackToMultiplePatients,
+  queryName = "some name",
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const patient =
+    useCaseQueryResponse.Patient && useCaseQueryResponse.Patient.length === 1
+      ? useCaseQueryResponse.Patient[0]
+      : null;
+  const observations = useCaseQueryResponse.Observation
+    ? useCaseQueryResponse.Observation
+    : null;
+  const encounters = useCaseQueryResponse.Encounter
+    ? useCaseQueryResponse.Encounter
+    : null;
+  const conditions = useCaseQueryResponse.Condition
+    ? useCaseQueryResponse.Condition
+    : null;
+  const diagnosticReports = useCaseQueryResponse.DiagnosticReport
+    ? useCaseQueryResponse.DiagnosticReport
+    : null;
+  const medicationRequests = useCaseQueryResponse.MedicationRequest
+    ? useCaseQueryResponse.MedicationRequest
+    : null;
+
+  const accordionItems: ResultsViewAccordionItem[] = [
+    {
+      title: "Patient Info",
+      subtitle: "Demographics",
+      content: patient ? <Demographics patient={patient} /> : null,
+    },
+    {
+      title: "Observations",
+      content: observations ? (
+        <ObservationTable observations={observations} />
+      ) : null,
+    },
+    {
+      title: "Encounters",
+      content: encounters ? <EncounterTable encounters={encounters} /> : null,
+    },
+    {
+      title: "Conditions",
+      content: conditions ? <ConditionsTable conditions={conditions} /> : null,
+    },
+    {
+      title: "Diagnostic Reports",
+      content: diagnosticReports ? (
+        <DiagnosticReportTable diagnosticReports={diagnosticReports} />
+      ) : null,
+    },
+    {
+      title: "Medication Requests",
+      content: medicationRequests ? (
+        <MedicationRequestTable medicationRequests={medicationRequests} />
+      ) : null,
+    },
+  ];
+
   return (
     <>
       <div className="results-banner">
-        <div className="results-banner-content usa-nav-container">
-          {goBackToMultiplePatients && (
-            <>
-              <a
-                href="#"
-                onClick={() => goBackToMultiplePatients()}
-                className="back-link"
-              >
-                <Icon.ArrowBack />
-                Return to search results
-              </a>
-              <div className="results-banner-divider">|</div>
-            </>
-          )}
+        <div className={`${styles.resultsBannerContent}`}>
+          <Backlink
+            onClick={goBackToMultiplePatients ?? goBack}
+            label="Return to search results"
+          />
 
-          <a href="#" onClick={() => goBack()} className="back-link">
+          <button
+            className="usa-button usa-button--outline margin-left-auto"
+            onClick={() => goBack()}
+          >
             New patient search
-          </a>
+          </button>
         </div>
       </div>
-      <div className=" grid-container grid-row">
+      <div className="margin-bottom-3">
+        <h2 className="margin-0" id="ecr-summary">
+          Patient Record
+        </h2>
+        <h3>
+          Query:{" "}
+          <span className="text-normal display-inline-block"> {queryName}</span>
+        </h3>
+      </div>
+      <div className=" grid-container grid-row padding-0">
         <div className="nav-wrapper tablet:grid-col-3">
           <nav className="sticky-nav">
-            <SideNav />
+            <ResultsViewSideNav />
           </nav>
         </div>
         <div className="tablet:grid-col-9">
           <div className="ecr-content">
-            <h2 className="margin-bottom-3" id="ecr-summary">
-              Query Results
-            </h2>
-            <div className="margin-top-6">
-              <ResultsViewTable queryResponse={useCaseQueryResponse} />
-            </div>
+            <ResultsViewTable accordionItems={accordionItems} />
           </div>
         </div>
       </div>

@@ -14,6 +14,7 @@ import {
 } from "../../query-service";
 import ResultsView from "./ResultsView";
 import { ValueSetItem } from "@/app/constants";
+import Backlink from "./backLink/Backlink";
 
 /**
  * The props for the MultiplePatientSearchResults component.
@@ -96,7 +97,7 @@ const MultiplePatientSearchResults: React.FC<
                         originalRequest,
                         queryValueSets,
                         setSingleUseCaseQueryResponse,
-                        setLoading,
+                        setLoading
                       )
                     }
                   >
@@ -108,9 +109,7 @@ const MultiplePatientSearchResults: React.FC<
           </tbody>
         </Table>
         <h3>Not seeing what you are looking for?</h3>
-        <a href="#" className="back-link" onClick={() => goBack()}>
-          Return to patient search
-        </a>
+        <Backlink onClick={goBack} label="Return to patient search " />
       </div>
     </>
   );
@@ -153,21 +152,21 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
         noteParts.push(
           <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
             {"First Name" + comma}
-          </strong>,
+          </strong>
         );
         break;
       case "last_name":
         noteParts.push(
           <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
             {"Last Name" + comma}
-          </strong>,
+          </strong>
         );
         break;
       case "dob":
         noteParts.push(
           <strong key={searchElements[i]} style={{ fontWeight: 550 }}>
             {"DOB" + comma}
-          </strong>,
+          </strong>
         );
         break;
     }
@@ -192,7 +191,7 @@ async function viewRecord(
   originalRequest: UseCaseQueryRequest,
   queryValueSets: ValueSetItem[],
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void,
-  setLoading: (loading: boolean) => void,
+  setLoading: (loading: boolean) => void
 ): Promise<void> {
   setLoading(true);
   const queryResponse = await UseCaseQuery(originalRequest, queryValueSets, {
