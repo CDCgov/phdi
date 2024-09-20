@@ -64,7 +64,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({
           </a>
         </div>
       </div>
-      <div className="main-container grid-container grid-row">
+      <div className=" grid-container grid-row">
         <div className="nav-wrapper tablet:grid-col-3">
           <nav className="sticky-nav">
             <SideNav />

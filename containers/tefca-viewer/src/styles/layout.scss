@@ -7,4 +7,9 @@
   margin-bottom: 5rem;
   margin-top: 1.5rem;
   padding: 0 !important;
+
+  &--smaller-width {
+    @extend .main-container;
+    max-width: $tefca-viewer-smaller-width;
+  }
 }
