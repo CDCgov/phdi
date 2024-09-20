@@ -36,7 +36,7 @@ patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').ex
 eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
 eicrCustodianRef: "Bundle.entry.resource.where(resourceType= 'Composition').custodian.reference"
 dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
-senderSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(category.coding.code='software').type.coding.display"
+senderSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(property[0].type.coding.code='software').type.coding.display"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
 
 # Encounter Info
