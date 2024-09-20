@@ -42,6 +42,59 @@ const ResultsView: React.FC<ResultsViewProps> = ({
     window.scrollTo(0, 0);
   }, []);
 
+  const accordionItems =
+    mapQueryResponseToAccordionDataStructure(useCaseQueryResponse);
+
+  const sideNavContent = accordionItems.map((item) => {
+    return { title: item.title, subtitle: item?.subtitle };
+  });
+
+  return (
+    <>
+      <div className="results-banner">
+        <div className={`${styles.resultsBannerContent}`}>
+          <Backlink
+            onClick={goBackToMultiplePatients ?? goBack}
+            label="Return to search results"
+          />
+
+          <button
+            className="usa-button usa-button--outline margin-left-auto"
+            onClick={() => goBack()}
+          >
+            New patient search
+          </button>
+        </div>
+      </div>
+      <div className="margin-bottom-3">
+        <h2 className="margin-0" id="ecr-summary">
+          Patient Record
+        </h2>
+        <h3>
+          Query:{" "}
+          <span className="text-normal display-inline-block"> {queryName}</span>
+        </h3>
+      </div>
+      <div className=" grid-container grid-row padding-0">
+        <div className="nav-wrapper tablet:grid-col-3">
+          <nav className="sticky-nav">
+            <ResultsViewSideNav />
+          </nav>
+        </div>
+        <div className="tablet:grid-col-9">
+          <div className="ecr-content">
+            <ResultsViewTable accordionItems={accordionItems} />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+export default ResultsView;
+
+function mapQueryResponseToAccordionDataStructure(
+  useCaseQueryResponse: UseCaseQueryResponse
+) {
   const patient =
     useCaseQueryResponse.Patient && useCaseQueryResponse.Patient.length === 1
       ? useCaseQueryResponse.Patient[0]
@@ -95,46 +148,5 @@ const ResultsView: React.FC<ResultsViewProps> = ({
       ) : null,
     },
   ];
-
-  return (
-    <>
-      <div className="results-banner">
-        <div className={`${styles.resultsBannerContent}`}>
-          <Backlink
-            onClick={goBackToMultiplePatients ?? goBack}
-            label="Return to search results"
-          />
-
-          <button
-            className="usa-button usa-button--outline margin-left-auto"
-            onClick={() => goBack()}
-          >
-            New patient search
-          </button>
-        </div>
-      </div>
-      <div className="margin-bottom-3">
-        <h2 className="margin-0" id="ecr-summary">
-          Patient Record
-        </h2>
-        <h3>
-          Query:{" "}
-          <span className="text-normal display-inline-block"> {queryName}</span>
-        </h3>
-      </div>
-      <div className=" grid-container grid-row padding-0">
-        <div className="nav-wrapper tablet:grid-col-3">
-          <nav className="sticky-nav">
-            <ResultsViewSideNav />
-          </nav>
-        </div>
-        <div className="tablet:grid-col-9">
-          <div className="ecr-content">
-            <ResultsViewTable accordionItems={accordionItems} />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-export default ResultsView;
+  return accordionItems;
+}
