@@ -977,7 +977,7 @@
                 'extension': list([
                   dict({
                     'url': str,
-                    'valueIdentifier': dict({
+                    'valueCodeableConcept': dict({
                       'type': dict({
                         'coding': list([
                           dict({
@@ -988,7 +988,6 @@
                         ]),
                       }),
                       'use': 'official',
-                      'value': '4efa0e5c-c34c-429f-b5de-f1a13aef4a28',
                     }),
                   }),
                   dict({
