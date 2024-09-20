@@ -46,8 +46,8 @@ public class CustomFilterTestFixtures : IEnumerable<object[]>
                   new Dictionary<string, object>() {
                     { "colgroup", new Dictionary<string, object>() {
                       { "col", new List<Dictionary<string, object>>() {
-                        null,
-                        null,
+                        null!,
+                        null!,
                       }}
                     }},
                     { "thead", new Dictionary<string, object>() {
@@ -203,8 +203,8 @@ public class CustomFilterTestFixtures : IEnumerable<object[]>
                   new Dictionary<string, object>() {
                     { "colgroup", new Dictionary<string, object>() {
                       { "col", new List<Dictionary<string, object>>() {
-                        null,
-                        null,
+                        null!,
+                        null!,
                       }}
                     }},
                     { "thead", new Dictionary<string, object>() {
@@ -256,7 +256,7 @@ public class CustomFilterTestFixtures : IEnumerable<object[]>
                           },
                           null
                         }},
-                        { "br", null }
+                        { "br", null! }
                       },
                       new Dictionary<string, object> {
                         { "paragraph", new List<Dictionary<string, object>?>() {
@@ -277,13 +277,13 @@ public class CustomFilterTestFixtures : IEnumerable<object[]>
               { "table", new Dictionary<string, object>() {
                 { "colgroup", new Dictionary<string, object>()
                   {{ "col", new List<Dictionary<string, object>>() {
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
+                    null!,
+                    null!,
+                    null!,
+                    null!,
+                    null!,
+                    null!,
+                    null!
                   } }}
                 },
                 { "thead", new Dictionary<string, object>() {

@@ -86,15 +86,7 @@
                     "mode":"snapshot",
                     {% if component.section.templateId.root and component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.12" -%}
                         {%  assign tds = component.section | concatenate_tds -%}
-                        {% if component.section.text and component.section.text.content and component.section.text.content._ -%}
-                            "extension":
-                            [
-                                {
-                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
-                                    "valueString" : "{{ component.section.text.content._ }}"
-                                },
-                            ],
-                        {% elsif component.section.text and component.section.text._ and component.section.text._ != null -%}
+                        {% if component.section.text and component.section.text._ and component.section.text._ != null -%}
                             "extension":
                             [
                                 {
@@ -102,22 +94,22 @@
                                     "valueString" : "{{ component.section.text._ }}"
                                 },
                             ],
-                            {% elsif component.section.text and component.section.text.paragraph._ and component.section.text.paragraph._ != null -%}
-                                "extension":
-                                [
-                                    {
-                                        "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
-                                        "valueString" : "{{ component.section.text.paragraph._ }}"
-                                    },
-                                ],
-                            {% elsif component.section.text and component.section.text._ and component.section.text._ != null -%}
-                                "extension":
-                                [
-                                    {
-                                        "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
-                                        "valueString" : "{{ component.section.text._ }}"
-                                    },
-                                ],
+                        {% elsif component.section.text and component.section.text.content and component.section.text.content._ != null -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text.content._ }}"
+                                },
+                            ],
+                        {% elsif component.section.text and component.section.text.paragraph._ and component.section.text.paragraph._ != null -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text.paragraph._ }}"
+                                },
+                            ],
                         {% elsif tds and tds != '' -%}
                             "extension":
                             [

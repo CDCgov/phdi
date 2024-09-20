@@ -54,7 +54,6 @@ def convert_files():
     print("Converting files...")
     fhir_bundles = []
     metadata = []
-    # List the subfolders you want to check (TN, ME, LA, KY)
     subfolders = ["LA", "TN", "ME", "KY"]
     # Iterate over the subfolders
     for subfolder in subfolders:
