@@ -50,8 +50,10 @@ export default ResultsViewTable;
 
 /**
  *
- * @param id
+ * @param - A string (probably title cased with spaces) that we want to turn
+ *  into anchor tag format
+ * @returns - A hyphenated id that can be linked as an anchor tag
  */
-export function formatIdForAnchorTag(id: string) {
-  return id.toLocaleLowerCase().replace(" ", "-");
+export function formatIdForAnchorTag(title: string) {
+  return title.toLocaleLowerCase().replace(" ", "-");
 }
