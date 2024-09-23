@@ -62,7 +62,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 }) => {
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[useCase]?.[0]?.value || "",
+    patientOptions[useCase]?.[0]?.value || ""
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -89,7 +89,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption, setUseCase, setQueryType],
+    [patientOption, setUseCase, setQueryType]
   );
 
   // Change the selectedDemoOption in the dropdown and update the
@@ -98,7 +98,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setPatientOption(patientOptions[selectedDemoOption][0].value);
     setQueryType(
       demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
-        "",
+        ""
     );
   };
 
@@ -142,11 +142,22 @@ const SearchForm: React.FC<SearchFormProps> = ({
   return (
     <>
       <form className="content-container-smaller-width" onSubmit={HandleSubmit}>
-        <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
+        <h1 className="font-sans-2xl text-bold margin-bottom-105">
+          Search for a Patient
+        </h1>
+        <h2 className="font-sans-lg text-normal margin-top-0 margin-bottom-105">
+          Enter patient information below to search for a patient. We will query
+          the connected network to find matching records.{" "}
+        </h2>
         {
           <div className={`usa-summary-box ${styles.demoQueryFiller}`}>
-            <Label className="no-margin-top-important" htmlFor="query">
-              <b>Select a sample query and patient to populate the form.</b>
+            <Label
+              className="no-margin-top-important maxw-full font-sans text-normal"
+              htmlFor="query"
+            >
+              The demo site uses synthetic data to provide examples of possible
+              queries that you can make with the TEFCA Viewer. Select a query
+              use case, a sample patient, and then click “fill fields” below.
             </Label>
             <div className={`${styles.demoQueryDropdownContainer}`}>
               <div>

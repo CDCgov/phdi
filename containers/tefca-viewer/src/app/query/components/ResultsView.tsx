@@ -97,7 +97,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({
 export default ResultsView;
 
 function mapQueryResponseToAccordionDataStructure(
-  useCaseQueryResponse: UseCaseQueryResponse,
+  useCaseQueryResponse: UseCaseQueryResponse
 ) {
   const patient =
     useCaseQueryResponse.Patient && useCaseQueryResponse.Patient.length === 1
