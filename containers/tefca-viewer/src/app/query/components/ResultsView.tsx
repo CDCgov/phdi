@@ -85,10 +85,8 @@ const ResultsView: React.FC<ResultsViewProps> = ({
         <div className="tablet:grid-col-3">
           <ResultsViewSideNav items={sideNavContent} />
         </div>
-        <div className="tablet:grid-col-9">
-          <div className="ecr-content">
-            <ResultsViewTable accordionItems={accordionItems} />
-          </div>
+        <div className="tablet:grid-col-9 ecr-content">
+          <ResultsViewTable accordionItems={accordionItems} />
         </div>
       </div>
     </>
