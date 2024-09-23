@@ -76,12 +76,14 @@ test.describe("querying with the TryTEFCA viewer", () => {
       "Interested in learning more about using the TEFCA Query Connector for your jurisdiction? Send us an email at dibbs@cdc.gov"
     );
 
-    // Chain things to get the table header to make sure the accordion is open
+    // Let's get a little schwifty: there are multiple possible resolutions for 'Observations',
+    // so we can chain things to get the table header to make sure the accordion is open
     await expect(
       page
-        .getByTestId("accordionButton_patient-info")
-        .getByRole("heading", { name: "Demographics" })
+        .getByTestId("accordionItem_observations")
+        .getByRole("columnheader", { name: "Date" })
     ).toBeVisible();
+
     // We can also just directly ask the page to find us filtered table rows
     await expect(page.locator("tbody").locator("tr")).toHaveCount(5);
 
@@ -279,7 +281,7 @@ test.describe("Test the user journey of a 'tester'", () => {
       page.getByRole("heading", { name: "Patient Record" })
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "New patient search" })
+      page.getByRole("button", { name: "New patient search" })
     ).toBeVisible();
 
     await page.getByRole("link", { name: "Return to search results" }).click();
