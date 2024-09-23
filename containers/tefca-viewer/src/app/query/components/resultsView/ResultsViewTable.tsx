@@ -22,7 +22,7 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ accordionItems }) => {
         const titleId = formatIdForAnchorTag(item.title);
         return (
           item.content && (
-            <>
+            <div className="padding-bottom-2">
               <Accordion
                 title={item.title}
                 content={
@@ -38,7 +38,7 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ accordionItems }) => {
                 accordionClassName={styles.accordionWrapper}
                 containerClassName={styles.accordionContainer}
               />
-            </>
+            </div>
           )
         );
       })}
