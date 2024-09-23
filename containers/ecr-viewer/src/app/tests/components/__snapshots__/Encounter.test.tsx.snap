@@ -28,6 +28,56 @@ exports[`Encounter should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
+                  Encounter Type
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line"
+                >
+                  Ambulatory
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Encounter ID
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line"
+                >
+                  123456789
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4
+            class="usa-summary-box__heading padding-y-105"
+            id="facility-details"
+          >
+            Facility Details
+          </h4>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
                   Facility ID
                 </div>
                 <div

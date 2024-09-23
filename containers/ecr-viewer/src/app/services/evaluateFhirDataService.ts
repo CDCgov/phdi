@@ -344,6 +344,34 @@ export const evaluateEncounterData = (
       title: "Encounter ID",
       value: evaluateEncounterId(fhirBundle, mappings),
     },
+  ];
+  return evaluateData(encounterData);
+};
+
+/**
+ * Evaluates facility data from the FHIR bundle and formats it into structured data for display.
+ * @param fhirBundle - The FHIR bundle containing facility data.
+ * @param mappings - The object containing the fhir paths.
+ * @returns An array of evaluated and formatted facility data.
+ */
+export const evaluateFacilityData = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const facilityContactAddressRef = evaluate(
+    fhirBundle,
+    mappings["facilityContactAddress"],
+  );
+  let referenceString;
+
+  if (facilityContactAddressRef[0]) {
+    referenceString = facilityContactAddressRef[0].reference;
+  }
+  const facilityContactAddress = referenceString
+    ? evaluateReference(fhirBundle, mappings, referenceString).address[0]
+    : "";
+
+  const facilityData = [
     {
       title: "Facility Name",
       value: evaluate(fhirBundle, mappings["facilityName"])[0],
@@ -356,6 +384,16 @@ export const evaluateEncounterData = (
         evaluate(fhirBundle, mappings["facilityState"])[0],
         evaluate(fhirBundle, mappings["facilityZipCode"])[0],
         evaluate(fhirBundle, mappings["facilityCountry"])[0],
+      ),
+    },
+    {
+      title: "Facility Contact Address",
+      value: formatAddress(
+        facilityContactAddress.line,
+        facilityContactAddress.city,
+        facilityContactAddress.state,
+        facilityContactAddress.postalCode,
+        facilityContactAddress.country,
       ),
     },
     {
@@ -373,7 +411,7 @@ export const evaluateEncounterData = (
       value: evaluateFacilityId(fhirBundle, mappings),
     },
   ];
-  return evaluateData(encounterData);
+  return evaluateData(facilityData);
 };
 
 /**

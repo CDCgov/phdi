@@ -15,6 +15,7 @@ import {
   evaluateSocialData,
   evaluateEncounterData,
   evaluateProviderData,
+  evaluateFacilityData,
 } from "@/app/services/evaluateFhirDataService";
 import { evaluateClinicalData } from "./common";
 import AccordionContainer from "@repo/ui/accordionContainer";
@@ -46,6 +47,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
   const providerData = evaluateProviderData(fhirBundle, fhirPathMappings);
   const clinicalData = evaluateClinicalData(fhirBundle, fhirPathMappings);
   const ecrMetadata = evaluateEcrMetadata(fhirBundle, fhirPathMappings);
+  const facilityData = evaluateFacilityData(fhirBundle, fhirPathMappings);
   const labInfoData = evaluateLabInfoData(
     fhirBundle,
     evaluate(fhirBundle, fhirPathMappings["diagnosticReports"]),
@@ -102,6 +104,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
           providerData.availableData.length > 0 ? (
             <EncounterDetails
               encounterData={encounterData.availableData}
+              facilityData={facilityData.availableData}
               providerData={providerData.availableData}
             />
           ) : (
@@ -183,6 +186,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
               demographicsUnavailableData={demographicsData.unavailableData}
               socialUnavailableData={social_data.unavailableData}
               encounterUnavailableData={encounterData.unavailableData}
+              facilityUnavailableData={facilityData.unavailableData}
               symptomsProblemsUnavailableData={[
                 ...clinicalData.reasonForVisitDetails.unavailableData,
                 ...clinicalData.activeProblemsDetails.unavailableData,
