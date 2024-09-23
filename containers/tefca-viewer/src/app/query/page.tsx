@@ -91,6 +91,7 @@ const Query: React.FC = () => {
                 goBack={() => {
                   setMode("search");
                 }}
+                queryName={queryType}
               />
             )}
           </>

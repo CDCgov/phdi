@@ -1,5 +1,5 @@
 import React from "react";
-import Accordion from "../Accordion";
+import Accordion from "../../designSystem/Accordion";
 import styles from "./resultsTable.module.css";
 import ResultsViewAccordionBody from "./ResultsViewAccordionBody";
 import { ResultsViewAccordionItem } from "../ResultsView";
@@ -26,9 +26,9 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ accordionItems }) => {
                 title={item.title}
                 content={
                   <ResultsViewAccordionBody
-                    title={item.subtitle ?? item.title}
+                    title={item.subtitle ?? ""}
                     content={item.content}
-                    id={formatIdForAnchorTag(item.subtitle ?? item.title)}
+                    id={formatIdForAnchorTag(item.subtitle ?? "")}
                   />
                 }
                 expanded={true}

@@ -139,16 +139,7 @@ h4 {
   font-weight: bold;
 }
 
-.nav-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
 .sticky-nav {
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: auto;
   position: sticky;
   top: 0;
 }
@@ -658,4 +649,9 @@ hr.custom-hr {
 
 .no-margin-top-important {
   margin-top: 0 !important;
+}
+
+.resultsViewSideNav .usa-sidenav,
+.resultsViewSideNav .usa-sidenav__item {
+  border: none !important;
 }

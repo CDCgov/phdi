@@ -1,5 +1,5 @@
 import { UseCaseQueryResponse } from "../../query-service";
-import ResultsViewSideNav from "./ResultsViewSideNav";
+import ResultsViewSideNav, { NavSection } from "./ResultsViewSideNav";
 import React, { useEffect } from "react";
 import ResultsViewTable from "./resultsViewAccordion/ResultsViewTable";
 import Backlink from "./backLink/Backlink";
@@ -10,12 +10,13 @@ import DiagnosticReportTable from "./DiagnosticReportTable";
 import EncounterTable from "./EncounterTable";
 import MedicationRequestTable from "./MedicationRequestTable";
 import ObservationTable from "./ObservationTable";
+import { NavItem } from "../designSystem/sideNav/SideNav";
 
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
   goBack: () => void;
   goBackToMultiplePatients?: () => void;
-  queryName?: string;
+  queryName: string;
 };
 
 export type ResultsViewAccordionItem = {
@@ -36,7 +37,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
   goBack,
   goBackToMultiplePatients,
-  queryName = "some name",
+  queryName,
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,9 +46,13 @@ const ResultsView: React.FC<ResultsViewProps> = ({
   const accordionItems =
     mapQueryResponseToAccordionDataStructure(useCaseQueryResponse);
 
-  const sideNavContent = accordionItems.map((item) => {
-    return { title: item.title, subtitle: item?.subtitle };
-  });
+  const sideNavContent = accordionItems
+    .map((item) => {
+      if (item.content) {
+        return { title: item.title, subtitle: item?.subtitle };
+      }
+    })
+    .filter((i) => Boolean(i)) as NavSection[];
 
   return (
     <>
@@ -75,11 +80,10 @@ const ResultsView: React.FC<ResultsViewProps> = ({
           <span className="text-normal display-inline-block"> {queryName}</span>
         </h3>
       </div>
-      <div className=" grid-container grid-row padding-0">
-        <div className="nav-wrapper tablet:grid-col-3">
-          <nav className="sticky-nav">
-            <ResultsViewSideNav />
-          </nav>
+
+      <div className=" grid-container grid-row grid-gap-md padding-0 ">
+        <div className="tablet:grid-col-3">
+          <ResultsViewSideNav items={sideNavContent} />
         </div>
         <div className="tablet:grid-col-9">
           <div className="ecr-content">
