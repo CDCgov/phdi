@@ -76,12 +76,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
       "Interested in learning more about using the TEFCA Query Connector for your jurisdiction? Send us an email at dibbs@cdc.gov"
     );
 
-    // Let's get a little schwifty: there are multiple possible resolutions for 'Observations',
-    // so we can chain things to get the table header to make sure the accordion is open
+    // Chain things to get the table header to make sure the accordion is open
     await expect(
       page
-        .getByTestId("accordionItem_observations")
-        .getByRole("heading", { name: "Observations" })
+        .getByTestId("accordionButton_patient-info")
+        .getByRole("heading", { name: "Demographics" })
     ).toBeVisible();
     // We can also just directly ask the page to find us filtered table rows
     await expect(page.locator("tbody").locator("tr")).toHaveCount(5);
@@ -89,7 +88,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     // Now let's use the return to search to go back to a blank form
     await page.getByRole("link", { name: "New patient search" }).click();
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient" })
+      page.getByRole("heading", { name: "Search for a Patient", exact: true })
     ).toBeVisible();
   });
 
@@ -116,7 +115,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(page.getByText("There are no patient records")).toBeVisible();
     await page.getByRole("link", { name: "Search for a new patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient" })
+      page.getByRole("heading", { name: "Search for a Patient", exact: true })
     ).toBeVisible();
   });
 
