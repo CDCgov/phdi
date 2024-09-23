@@ -85,7 +85,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(page.locator("tbody").locator("tr")).toHaveCount(5);
 
     // Now let's use the return to search to go back to a blank form
-    await page.getByRole("link", { name: "New patient search" }).click();
+    await page.getByRole("button", { name: "New patient search" }).click();
     await expect(
       page.getByRole("heading", { name: "Search for a Patient", exact: true })
     ).toBeVisible();
