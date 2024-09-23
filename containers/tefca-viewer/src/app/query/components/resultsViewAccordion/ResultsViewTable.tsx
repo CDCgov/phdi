@@ -52,6 +52,7 @@ export default ResultsViewTable;
  *
  * @param - A string (probably title cased with spaces) that we want to turn
  *  into anchor tag format
+ * @param title
  * @returns - A hyphenated id that can be linked as an anchor tag
  */
 export function formatIdForAnchorTag(title: string) {
