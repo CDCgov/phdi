@@ -12,13 +12,13 @@ type ResultsViewSideNavProps = {
 };
 /**
  * ResultsViewSideNav component
- * @param root0
- * @param root0.items
+ * @param root0 - params
+ * @param root0.items - a list of nav items to display in the sidenav
  * @returns - The ResultsViewSideNav component
  */
 const ResultsViewSideNav: React.FC<ResultsViewSideNavProps> = ({ items }) => {
   const [activeItem, setActiveItem] = useState(
-    window.location.hash || formatIdForAnchorTag(items[0]?.title),
+    window.location.hash || formatIdForAnchorTag(items[0]?.title)
   );
   const hashChangeHandler = useCallback(() => {
     setActiveItem(window.location.hash);

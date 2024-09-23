@@ -9,11 +9,11 @@ type ResultsViewTable = {
 };
 
 /**
- * Returns the Accordion component to render all components of the query response.
+ * Returns the ResultsViewTable component to render all components of the query response.
  * @param props - The props for the AccordionContainer component.
- * @param props.queryResponse - The response from the query service.
- * @param props.accordionItems
- * @returns The AccordionContainer component.
+ * @param props.accordionItems - an array of items to render as an accordion
+ * group of type ResultsViewAccordionItem
+ * @returns The ResultsViewTable component.
  */
 const ResultsViewTable: React.FC<ResultsViewTable> = ({ accordionItems }) => {
   return (

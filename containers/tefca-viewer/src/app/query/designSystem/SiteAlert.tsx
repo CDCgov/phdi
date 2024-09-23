@@ -37,8 +37,10 @@ const PageModeToSiteAlertMap: { [page in Mode]?: React.ReactNode } = {
 
 /**
  *
- * @param root0
- * @param root0.page
+ * @param root0 - params
+ * @param root0.page - the page we're currently on
+ * @returns A conditionally-rendered site view page component depending on the
+ * semantic context
  */
 const SiteAlert: React.FC<SiteAlertProps> = ({ page }) => {
   return <>{PageModeToSiteAlertMap[page]}</>;

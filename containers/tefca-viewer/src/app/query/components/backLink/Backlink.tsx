@@ -7,9 +7,10 @@ type BacklinkProps = {
 
 /**
  *
- * @param root0
- * @param root0.onClick
- * @param root0.label
+ * @param root0 - params
+ * @param root0.onClick - function to handle a click (likely a goBack function)
+ * @param root0.label - Link label to display
+ * @returns A backlink component styled according to Figma
  */
 const Backlink: React.FC<BacklinkProps> = ({ onClick, label }) => {
   return (

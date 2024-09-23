@@ -18,10 +18,11 @@ export type SideNavProps = {
 
 /**
  *
- * @param root0
- * @param root0.items
- * @param root0.containerClassName
- * @param root0.sticky
+ * @param root0 - params
+ * @param root0.items - an array of NavItems to display in the sidenav
+ * @param root0.containerClassName - an optional CSS class for the sidenav container
+ * @param root0.sticky - config for whether the nav is sticky
+ * @returns A sidenav component
  */
 const SideNav: React.FC<SideNavProps> = ({
   items,
@@ -33,12 +34,12 @@ const SideNav: React.FC<SideNavProps> = ({
     const sideNavItem = buildSectionMarkUp(
       item.title,
       item.activeItem,
-      item.navItemClassName,
+      item.navItemClassName
     );
     sideNavItems.push(
       <div className={styles.subItem}>
         <UswdsSideNav items={[sideNavItem]} isSubnav={item.isSubNav} />
-      </div>,
+      </div>
     );
   }
   return (
@@ -55,7 +56,7 @@ const SideNav: React.FC<SideNavProps> = ({
 function buildSectionMarkUp(
   title: string,
   activeItem: boolean,
-  className?: string,
+  className?: string
 ): ReactNode {
   let sectionId = formatIdForAnchorTag(title);
   let sideNavItem = (
