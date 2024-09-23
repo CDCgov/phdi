@@ -20,7 +20,7 @@ import {
   getSavedQueryByName,
   mapQueryRowsToValueSetItems,
 } from "../database-service";
-import SiteAlert from "./components/siteAlert/SiteAlert";
+import SiteAlert from "./designSystem/SiteAlert";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -31,7 +31,7 @@ const Query: React.FC = () => {
   const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
   const [queryType, setQueryType] = useState<string>("");
   const [queryValuesets, setQueryValuesets] = useState<ValueSetItem[]>(
-    [] as ValueSetItem[],
+    [] as ValueSetItem[]
   );
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
