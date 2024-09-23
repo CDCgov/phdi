@@ -5,6 +5,12 @@ type BacklinkProps = {
   label: string;
 };
 
+/**
+ *
+ * @param root0
+ * @param root0.onClick
+ * @param root0.label
+ */
 const Backlink: React.FC<BacklinkProps> = ({ onClick, label }) => {
   return (
     <a href="#" onClick={onClick} className="back-link">

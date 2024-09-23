@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Button, Icon } from "@trussworks/react-uswds";
+import { Button } from "@trussworks/react-uswds";
 import { ValueSetType, ValueSetItem } from "../../constants";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
@@ -50,18 +50,18 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   // Compute counts of each tab-type
   const countLabs = Object.values(valueSetOptions.labs).flatMap(
-    (group) => group.items
+    (group) => group.items,
   ).length;
   const countConditions = Object.values(valueSetOptions.conditions).flatMap(
-    (group) => group.items
+    (group) => group.items,
   ).length;
   const countMedications = Object.values(valueSetOptions.medications).flatMap(
-    (group) => group.items
+    (group) => group.items,
   ).length;
 
   // Check if there are items in the current active tab
   const hasItemsInTabs = Object.values(valueSetOptions[activeTab]).some(
-    (group) => group.items.length > 0
+    (group) => group.items.length > 0,
   );
 
   // Keeps track of which side nav tab to display to users
@@ -98,7 +98,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       (item) => ({
         ...item,
         include: checked, // Set all items in this group to checked or unchecked
-      })
+      }),
     );
 
     setValueSetOptions((prevState) => ({
@@ -116,7 +116,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
           ...item,
           include: checked, // Set all items in this group to checked or unchecked
         })),
-      })
+      }),
     );
 
     setValueSetOptions((prevState) => ({
@@ -133,7 +133,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
       acc = acc.concat(
         Object.values(items)
           .flatMap((dict) => dict.items)
-          .filter((item) => item.include)
+          .filter((item) => item.include),
       );
       return acc;
     }, [] as ValueSetItem[]);
@@ -148,11 +148,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
 
   useEffect(() => {
     const items = Object.values(valueSetOptions[activeTab]).flatMap(
-      (group) => group.items
+      (group) => group.items,
     );
     const selectedCount = items.filter((item) => item.include).length;
     const topCheckbox = document.getElementById(
-      "select-all"
+      "select-all",
     ) as HTMLInputElement;
     if (topCheckbox) {
       topCheckbox.indeterminate =

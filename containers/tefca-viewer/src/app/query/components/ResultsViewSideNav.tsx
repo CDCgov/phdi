@@ -12,6 +12,8 @@ type ResultsViewSideNavProps = {
 };
 /**
  * ResultsViewSideNav component
+ * @param root0
+ * @param root0.items
  * @returns - The ResultsViewSideNav component
  */
 const ResultsViewSideNav: React.FC<ResultsViewSideNavProps> = ({ items }) => {
