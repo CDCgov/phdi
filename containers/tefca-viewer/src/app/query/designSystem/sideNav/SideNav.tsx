@@ -16,6 +16,13 @@ export type SideNavProps = {
   sticky?: boolean;
 };
 
+/**
+ *
+ * @param root0
+ * @param root0.items
+ * @param root0.containerClassName
+ * @param root0.sticky
+ */
 const SideNav: React.FC<SideNavProps> = ({
   items,
   containerClassName,
@@ -26,12 +33,12 @@ const SideNav: React.FC<SideNavProps> = ({
     const sideNavItem = buildSectionMarkUp(
       item.title,
       item.activeItem,
-      item.navItemClassName
+      item.navItemClassName,
     );
     sideNavItems.push(
       <div className={styles.subItem}>
         <UswdsSideNav items={[sideNavItem]} isSubnav={item.isSubNav} />
-      </div>
+      </div>,
     );
   }
   return (
@@ -48,7 +55,7 @@ const SideNav: React.FC<SideNavProps> = ({
 function buildSectionMarkUp(
   title: string,
   activeItem: boolean,
-  className?: string
+  className?: string,
 ): ReactNode {
   let sectionId = formatIdForAnchorTag(title);
   let sideNavItem = (

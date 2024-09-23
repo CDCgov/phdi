@@ -35,6 +35,11 @@ const PageModeToSiteAlertMap: { [page in Mode]?: React.ReactNode } = {
   results: contactUsDisclaimer,
 };
 
+/**
+ *
+ * @param root0
+ * @param root0.page
+ */
 const SiteAlert: React.FC<SiteAlertProps> = ({ page }) => {
   return <>{PageModeToSiteAlertMap[page]}</>;
 };
