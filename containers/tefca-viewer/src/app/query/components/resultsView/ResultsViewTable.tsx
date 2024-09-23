@@ -49,7 +49,9 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ accordionItems }) => {
 export default ResultsViewTable;
 
 /**
- * @param title A string (probably title cased with spaces) that we want to turn
+ * Helper function to format titles (probably title cased with spaces) into
+ * anchor tag format
+ * @param title A string that we want to turn
  *  into anchor tag format
  * @returns - A hyphenated id that can be linked as an anchor tag
  */
