@@ -271,7 +271,7 @@ test.describe("Test the user journey of a 'tester'", () => {
     );
 
     // Check that there are multiple rows in the table
-    await expect(page.locator("tbody").locator("tr")).toHaveCount(9);
+    await expect(page.locator("tbody").locator("tr")).toHaveCount(10);
 
     // Click on the first patient's "View Record" button
     await page.locator(':nth-match(:text("View Record"), 1)').click();
