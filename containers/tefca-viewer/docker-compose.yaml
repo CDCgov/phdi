@@ -4,8 +4,10 @@ services:
     image: "postgres:alpine"
     ports:
       - "5432:5432"
-    env_file:
-      - "./tefca.env"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=tefca_db
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 2s
@@ -31,10 +33,9 @@ services:
       dockerfile: ./containers/tefca-viewer/Dockerfile
     ports:
       - "3000:3000"
-    env_file:
-      - "./tefca.env"
     environment:
       - NODE_ENV=production
+      - DATABASE_URL=postgres://postgres:pw@db:5432/tefca_db
     depends_on:
       db:
         condition: service_healthy
