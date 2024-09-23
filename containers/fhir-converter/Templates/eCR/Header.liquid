@@ -95,9 +95,6 @@
       {% include 'Resource/Practitioner' practitioner: author.assignedAuthor ID: authorOrgAndPersonId -%}
       {% assign fullAuthorOrgPersonId = authorOrgAndPersonId | prepend: 'Practitioner/' -%}
       {% include 'Reference/Composition/Author' ID: compositionId, REF: fullAuthorOrgPersonId -%}
-      {% if deviceId -%}
-        {% include 'Reference/Device/Owner' ID: deviceId, REF: fullAuthorOrgPersonId -%}
-      {% endif -%}
     {% else -%}
       {% evaluate authorOrgId using 'Utils/GenerateId' obj: author.assignedAuthor.representedOrganization -%}
       {% include 'Resource/Organization' organization: author.assignedAuthor.representedOrganization ID: authorOrgId -%}
