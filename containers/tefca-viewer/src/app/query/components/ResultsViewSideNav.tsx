@@ -18,7 +18,7 @@ type ResultsViewSideNavProps = {
  */
 const ResultsViewSideNav: React.FC<ResultsViewSideNavProps> = ({ items }) => {
   const [activeItem, setActiveItem] = useState(
-    window.location.hash || formatIdForAnchorTag(items[0]?.title)
+    window.location.hash || formatIdForAnchorTag(items[0]?.title),
   );
   console.log(activeItem);
   const hashChangeHandler = useCallback(() => {
