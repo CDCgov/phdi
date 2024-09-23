@@ -10,8 +10,8 @@ type ResultsViewTable = {
 
 /**
  * Returns the ResultsViewTable component to render all components of the query response.
- * @param props - The props for the AccordionContainer component.
- * @param props.accordionItems - an array of items to render as an accordion
+ * @param root0 - The props for the AccordionContainer component.
+ * @param root0.accordionItems - an array of items to render as an accordion
  * group of type ResultsViewAccordionItem
  * @returns The ResultsViewTable component.
  */
