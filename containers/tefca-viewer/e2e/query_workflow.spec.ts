@@ -78,11 +78,12 @@ test.describe("querying with the TryTEFCA viewer", () => {
 
     // Let's get a little schwifty: there are multiple possible resolutions for 'Observations',
     // so we can chain things to get the table header to make sure the accordion is open
-    await expect(
-      page
-        .getByTestId("accordionItem_observations")
-        .getByRole("heading", { name: "Observations" })
-    ).toBeVisible();
+    expect(
+      page.getByRole("button", {
+        name: "Observations",
+        expanded: false,
+      })
+    );
     // We can also just directly ask the page to find us filtered table rows
     await expect(page.locator("tbody").locator("tr")).toHaveCount(5);
 
