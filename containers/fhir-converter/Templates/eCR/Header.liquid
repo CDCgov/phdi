@@ -82,6 +82,11 @@
     {% include 'Resource/Device' author: author.assignedAuthor ID: deviceId -%}
     {% assign fullDeviceId = deviceId | prepend: 'Device/' -%}
     {% include 'Reference/Composition/Author' ID: compositionId, REF: fullDeviceId -%}
+
+    {% evaluate authorOrgId using 'Utils/GenerateId' obj: author.assignedAuthor.representedOrganization -%}
+    {% include 'Resource/Organization' organization: author.assignedAuthor.representedOrganization ID: authorOrgId -%}
+    {% assign fullAuthorOrgId = AuthorOrgId | prepend: 'Organization/' -%}
+    {% include 'Reference/Device/Owner' ID: deviceId, REF: fullAuthorOrgId -%}
   {% endif -%}
 
   {% if author.assignedAuthor.representedOrganization and author.assignedAuthor.representedOrganization.name and author.assignedAuthor.representedOrganization.name._ -%}
