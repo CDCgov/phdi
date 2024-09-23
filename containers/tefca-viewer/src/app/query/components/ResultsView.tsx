@@ -1,7 +1,9 @@
 import { UseCaseQueryResponse } from "../../query-service";
-import ResultsViewSideNav, { NavSection } from "./ResultsViewSideNav";
+import ResultsViewSideNav, {
+  NavSection,
+} from "./resultsView/ResultsViewSideNav";
 import React, { useEffect } from "react";
-import ResultsViewTable from "./resultsViewAccordion/ResultsViewTable";
+import ResultsViewTable from "./resultsView/ResultsViewTable";
 import Backlink from "./backLink/Backlink";
 import styles from "../page.module.css";
 import ConditionsTable from "./ConditionsTable";

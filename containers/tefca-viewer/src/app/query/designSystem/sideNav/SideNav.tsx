@@ -1,5 +1,5 @@
 import { SideNav as UswdsSideNav } from "@trussworks/react-uswds";
-import { formatIdForAnchorTag } from "../../components/resultsViewAccordion/ResultsViewTable";
+import { formatIdForAnchorTag } from "../../components/resultsView/ResultsViewTable";
 import { ReactNode } from "react";
 import styles from "./sidenav.module.css";
 
