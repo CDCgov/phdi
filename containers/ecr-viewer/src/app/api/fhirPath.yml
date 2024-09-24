@@ -34,9 +34,11 @@ patientSexualOrientation: "Bundle.entry.resource.where(resourceType='Observation
 patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display"
 
 eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
+eicrReleaseVersion: "Bundle.entry.resource.where(resourceType='Composition').extension.where(url='https://www.hl7.org/implement/standards/product_brief.cfm?product_id=436').valueString"
 eicrCustodianRef: "Bundle.entry.resource.where(resourceType= 'Composition').custodian.reference"
 dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
-senderSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(category.coding.code='software').type.coding.display"
+ehrSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(category.coding.code='software').version.value"
+ehrManufacturerModel: "Bundle.entry.resource.where(resourceType = 'Device').where(category.coding.code='software').manufacturer"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
 
 # Encounter Info
