@@ -29,7 +29,7 @@ INSERT INTO valuesets VALUES('13_20240910','13','20240910','Suspected Chlamydia 
 
 -- Cancer (CAP) valueset(s)
 INSERT INTO valuesets VALUES('14_20240923','14','20240923','Cancer (Leukemia) Lab Result','DIBBs','lrtc');
-INSERT INTO valuesets VALUES('15_20240923','5','20240923','Suspected Cancer (Leukemia)','DIBBs','sdtc');
+INSERT INTO valuesets VALUES('15_20240923','15','20240923','Suspected Cancer (Leukemia) Diagnosis','DIBBs','sdtc');
 
 -- Newborn Screening concepts
 INSERT INTO concepts VALUES('1_73700-7','73700-7','http://loinc.org','CCHD newborn screening interpretation','737007','2024-09');
@@ -80,7 +80,7 @@ INSERT INTO condition_to_valueset VALUES('1514','1','1_20240909','DIBBs');
 
 -- Cancer (Leukemia) condition to valueset mappings
 INSERT INTO condition_to_valueset VALUES('1515','2','2_20240909','DIBBs');
-INSERT INTO condition_to_valueset VALUES('1516','3','3_20240909','DIBBs');
+INSERT INTO condition_to_valueset VALUES('1516','2','3_20240909','DIBBs');
 
 -- Missing Syphilis condition to valueset mappings
 INSERT INTO condition_to_valueset VALUES('1517','35742006','4_20240909','DIBBs');
@@ -97,6 +97,10 @@ INSERT INTO condition_to_valueset VALUES('1523','15628003','10_20240909','DIBBs'
 INSERT INTO condition_to_valueset VALUES('1524','240589008','11_20240910','DIBBs');
 INSERT INTO condition_to_valueset VALUES('1525','240589008','12_20240910','DIBBs');
 INSERT INTO condition_to_valueset VALUES('1526','240589008','13_20240910','DIBBs');
+
+-- Missing Cancer condition to valueset mappings (CAP)
+INSERT INTO condition_to_valueset VALUES('1527','2','14_20240923','DIBBs');
+INSERT INTO condition_to_valueset VALUES('1528','2','15_20240923','DIBBs');
 
 -- Newborn Screening valueset to concept mappings
 INSERT INTO valueset_to_concept VALUES('45274','1_20240909','1_73700-7');
@@ -149,8 +153,8 @@ INSERT INTO valueset_to_concept VALUES('45310','2_20240909','1_21908-9');
 INSERT INTO valueset_to_concept VALUES('45311','2_20240909','1_36929009');
 INSERT INTO valueset_to_concept VALUES('45312','2_20240909','1_60568-3');
 INSERT INTO valueset_to_concept VALUES('45313','14_20240923','1_30000.100004300');
-INSERT INTO valueset_to_concept VALUES('45314','2_20240909','1_1255068005');
-INSERT INTO valueset_to_concept VALUES('45315','2_20240909','1_9484.100004300');
+INSERT INTO valueset_to_concept VALUES('45314','14_20240923','1_1255068005');
+INSERT INTO valueset_to_concept VALUES('45315','14_20240923','1_9484.100004300');
 INSERT INTO valueset_to_concept VALUES('45316','15_20240923','1_363346000');
 INSERT INTO valueset_to_concept VALUES('45317','2_20240909','1_418689008');
 
