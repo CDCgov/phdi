@@ -28,6 +28,14 @@
                 "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
                 "valueString" : "{{ composition.versionNumber.value }}"
             },
+            {% for template in msg.ClinicalDocument.templateId %}
+                {% if template.root == "2.16.840.1.113883.10.20.15.2" %}
+                    {
+                        "url": "https://www.hl7.org/implement/standards/product_brief.cfm?product_id=436",
+                        "valueString": "{{ template.extension }}"
+                    },
+                {% endif %}
+            {% endfor %}
         ],
         "status":"final",
         "type":
