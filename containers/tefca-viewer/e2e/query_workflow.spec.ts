@@ -51,12 +51,12 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page
       .getByLabel("Patient", { exact: true })
       .selectOption("newborn-screening-referral");
+    await page.getByRole("button", { name: "Fill fields" }).click();
     await page.getByLabel("First Name").fill("Watermelon");
     await page.getByLabel("Last Name").fill("McGee");
     await page.getByLabel("Date of Birth").fill("2024-07-12");
     await page.getByLabel("Medical Record Number").fill("18091");
     await page.getByLabel("Phone Number").fill("5555555555");
-
     await page.getByRole("button", { name: "Search for patient" }).click();
 
     // Make sure we have a results page with a single patient
@@ -98,6 +98,10 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page
       .getByLabel("Query", { exact: true })
       .selectOption("social-determinants");
+    await page.getByRole("button", { name: "Advanced" }).click();
+    await page
+      .getByLabel("FHIR Server (QHIN)", { exact: true })
+      .selectOption("HELIOS Meld: Direct");
 
     await page.getByLabel("First Name").fill("Ellie");
     await page.getByLabel("Last Name").fill("Williams");
@@ -125,6 +129,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page
       .getByLabel("Patient", { exact: true })
       .selectOption("sti-syphilis-positive");
+    await page.getByRole("button", { name: "Fill fields" }).click();
 
     // Delete last name and MRN to force phone number as one of the 3 fields
     await page.getByLabel("Last Name").clear();
@@ -150,6 +155,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page
       .getByLabel("Query", { exact: true })
       .selectOption("social-determinants");
+    await page.getByRole("button", { name: "Fill fields" }).click();
     await page.getByRole("button", { name: "Search for patient" }).click();
     await expect(
       page.getByRole("heading", { name: "Query Results" }),
@@ -161,6 +167,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
   }) => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
     await page.getByLabel("Query", { exact: true }).selectOption("chlamydia");
+    await page.getByRole("button", { name: "Fill fields" }).click();
     await page.getByLabel("Phone Number").fill("");
     await page.getByRole("button", { name: "Search for patient" }).click();
     await expect(
@@ -190,17 +197,9 @@ test.describe("Test the user journey of a 'tester'", () => {
     await expect(
       page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Query information", exact: true }),
-    ).toBeVisible();
     await expect(page.getByLabel("Query", { exact: true })).toBeVisible();
-    await expect(
-      page.getByLabel("FHIR Server (QHIN)", { exact: true }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Patient information", exact: true }),
-    ).toBeVisible();
     await expect(page.getByLabel("Patient", { exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Advanced" })).toBeVisible();
   });
 
   test("Query for patient using auto-filled data", async ({ page }) => {
@@ -227,6 +226,7 @@ test.describe("Test the user journey of a 'tester'", () => {
     await page
       .getByLabel("Query", { exact: true })
       .selectOption("Newborn screening follow-up");
+    await page.getByRole("button", { name: "Advanced" }).click();
     await page
       .getByLabel("FHIR Server (QHIN)", { exact: true })
       .selectOption("HELIOS Meld: Direct");
@@ -253,6 +253,7 @@ test.describe("Test the user journey of a 'tester'", () => {
     await page
       .getByLabel("Query", { exact: true })
       .selectOption("Chlamydia case investigation");
+    await page.getByRole("button", { name: "Advanced" }).click();
     await page
       .getByLabel("FHIR Server (QHIN)", { exact: true })
       .selectOption("JMC Meld: Direct");
@@ -269,7 +270,7 @@ test.describe("Test the user journey of a 'tester'", () => {
     );
 
     // Check that there are multiple rows in the table
-    await expect(page.locator("tbody").locator("tr")).toHaveCount(9);
+    await expect(page.locator("tbody").locator("tr")).toHaveCount(10);
 
     // Click on the first patient's "View Record" button
     await page.locator(':nth-match(:text("View Record"), 1)').click();
