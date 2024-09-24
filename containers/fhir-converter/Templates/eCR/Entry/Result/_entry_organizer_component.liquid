@@ -9,7 +9,7 @@
 
       {% assign labDeviceNameReference = component.observation.text.reference.value | replace: '#', '' | append: 'TestMethodName1'-%}
       {% assign labDeviceName = text | find_object_by_id: labDeviceNameReference | to_html_string -%}
-      {% if labDeviceName != null %}
+      {% if labDeviceName != null and labDeviceName != "" %}
         {% assign deviceId = labDeviceName | generate_uuid %}
         {% assign fullDeviceId = deviceId | prepend: 'Device/' %}
         {% include 'Resource/Device2', ID: deviceId, deviceName: labDeviceName -%}
