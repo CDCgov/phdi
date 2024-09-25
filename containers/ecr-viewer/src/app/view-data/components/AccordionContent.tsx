@@ -65,6 +65,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
       clinicalData.clinicalNotes.unavailableData,
       ...ecrMetadata.eicrDetails.unavailableData,
       ...ecrMetadata.ecrSenderDetails.unavailableData,
+      ...ecrMetadata.eicrAuthorDetails.unavailableData,
     ];
     return unavailableDataArrays.some(
       (array) => Array.isArray(array) && array.length > 0,
@@ -163,6 +164,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
               eicrDetails={ecrMetadata.eicrDetails.availableData}
               eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
               rrDetails={ecrMetadata.rrDetails}
+              eicrAuthorDetails={ecrMetadata.eicrAuthorDetails.availableData}
             />
           ) : (
             <p className="text-italic padding-bottom-05">
@@ -197,6 +199,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
               ecrMetadataUnavailableData={[
                 ...ecrMetadata.eicrDetails.unavailableData,
                 ...ecrMetadata.ecrSenderDetails.unavailableData,
+                ...ecrMetadata.eicrAuthorDetails.unavailableData,
               ]}
             />
           ) : (
