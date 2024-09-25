@@ -62,7 +62,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     // Make sure we have a results page with a single patient
     // Non-interactive 'div' elements in the table should be located by text
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Patient Record" }),
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
@@ -76,20 +76,18 @@ test.describe("querying with the TryTEFCA viewer", () => {
       "Interested in learning more about using the TEFCA Query Connector for your jurisdiction? Send us an email at dibbs@cdc.gov",
     );
 
-    // Let's get a little schwifty: there are multiple possible resolutions for 'Observations',
-    // so we can chain things to get the table header to make sure the accordion is open
+    // Check to see if the accordion button is open
     await expect(
-      page
-        .getByTestId("accordionItem_observations")
-        .getByRole("heading", { name: "Observations" }),
+      page.getByRole("button", { name: "Observations", expanded: true }),
     ).toBeVisible();
+
     // We can also just directly ask the page to find us filtered table rows
     await expect(page.locator("tbody").locator("tr")).toHaveCount(5);
 
     // Now let's use the return to search to go back to a blank form
-    await page.getByRole("link", { name: "New patient search" }).click();
+    await page.getByRole("button", { name: "New patient search" }).click();
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient" }),
+      page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
   });
 
@@ -116,7 +114,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(page.getByText("There are no patient records")).toBeVisible();
     await page.getByRole("link", { name: "Search for a new patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Search for a Patient" }),
+      page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
   });
 
@@ -138,7 +136,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     // Among verification, make sure phone number is right
     await page.getByRole("button", { name: "Search for patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Patient Record" }),
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("Veronica Anne Blackstone")).toBeVisible();
@@ -158,7 +156,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page.getByRole("button", { name: "Fill fields" }).click();
     await page.getByRole("button", { name: "Search for patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Patient Record" }),
     ).toBeVisible();
   });
 
@@ -171,7 +169,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page.getByLabel("Phone Number").fill("");
     await page.getByRole("button", { name: "Search for patient" }).click();
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Patient Record" }),
     ).toBeVisible();
   });
 });
@@ -214,7 +212,7 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     // Make sure we have a results page with a single patient
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Patient Record" }),
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
@@ -240,7 +238,7 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     // Make sure we have a results page with a single patient
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Patient Record" }),
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
     await expect(page.getByText("WATERMELON SPROUT MCGEE")).toBeVisible();
@@ -277,10 +275,10 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     // Make sure we have a results page with a single patient & appropriate back buttons
     await expect(
-      page.getByRole("heading", { name: "Query Results" }),
+      page.getByRole("heading", { name: "Patient Record" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "New patient search" }),
+      page.getByRole("button", { name: "New patient search" }),
     ).toBeVisible();
 
     await page.getByRole("link", { name: "Return to search results" }).click();
