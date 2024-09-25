@@ -2,14 +2,20 @@ import {
   formatAddress,
   formatContactPoint,
   formatDateTime,
+  formatName,
 } from "@/app/services/formatService";
-import { PathMappings, evaluateData } from "@/app/view-data/utils/utils";
-import { Bundle, Organization } from "fhir/r4";
+import {
+  CompleteData,
+  evaluateData,
+  PathMappings,
+} from "@/app/view-data/utils/utils";
+import { Bundle, Organization, Reference } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import {
   evaluateFacilityAddress,
-  evaluateReference,
   evaluateFacilityId,
+  evaluatePractitionerRoleReference,
+  evaluateReference,
 } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 
@@ -17,6 +23,13 @@ export interface ReportableConditions {
   [condition: string]: {
     [trigger: string]: Set<string>;
   };
+}
+
+interface EcrMetadata {
+  eicrDetails: CompleteData;
+  ecrSenderDetails: CompleteData;
+  rrDetails: ReportableConditions;
+  eicrAuthorDetails: CompleteData;
 }
 
 /**
@@ -28,7 +41,7 @@ export interface ReportableConditions {
 export const evaluateEcrMetadata = (
   fhirBundle: Bundle,
   mappings: PathMappings,
-) => {
+): EcrMetadata => {
   const rrDetails = evaluate(fhirBundle, mappings.rrDetails);
 
   let reportableConditionsList: ReportableConditions = {};
@@ -119,9 +132,79 @@ export const evaluateEcrMetadata = (
       value: evaluateFacilityId(fhirBundle, mappings),
     },
   ];
+
+  const eicrAuthorDetails = evaluateEcrAuthorDetails(fhirBundle, mappings);
+
   return {
     eicrDetails: evaluateData(eicrDetails),
     ecrSenderDetails: evaluateData(ecrSenderDetails),
     rrDetails: reportableConditionsList,
+    eicrAuthorDetails: evaluateData(eicrAuthorDetails),
   };
+};
+
+const evaluateEcrAuthorDetails = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): DisplayDataProps[] => {
+  const authorRefs: Reference[] = evaluate(
+    fhirBundle,
+    mappings["compositionAuthorRefs"],
+  );
+  const practitionerRoleRef = authorRefs.find((ref) =>
+    ref.reference?.includes("PractitionerRole/"),
+  )?.reference;
+  const { practitioner, organization } = evaluatePractitionerRoleReference(
+    fhirBundle,
+    mappings,
+    practitionerRoleRef ?? "",
+  );
+
+  return [
+    {
+      title: "Author Name",
+      value: formatName(
+        practitioner?.name?.[0].given,
+        practitioner?.name?.[0].family,
+        practitioner?.name?.[0].prefix,
+        practitioner?.name?.[0].suffix,
+      ),
+    },
+    {
+      title: "Author Address",
+      value: practitioner?.address?.map((address) =>
+        formatAddress(
+          address.line ?? [],
+          address.city ?? "",
+          address.state ?? "",
+          address.postalCode ?? "",
+          address.country ?? "",
+        ),
+      ),
+    },
+    {
+      title: "Author Contact",
+      value: formatContactPoint(practitioner?.telecom).join("\n"),
+    },
+    {
+      title: "Author Facility Name",
+      value: organization?.name,
+    },
+    {
+      title: "Author Facility Address",
+      value: organization?.address?.map((address) =>
+        formatAddress(
+          address.line ?? [],
+          address.city ?? "",
+          address.state ?? "",
+          address.postalCode ?? "",
+          address.country ?? "",
+        ),
+      ),
+    },
+    {
+      title: "Author Facility Contact",
+      value: formatContactPoint(organization?.telecom).join("\n"),
+    },
+  ];
 };

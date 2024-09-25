@@ -33,11 +33,13 @@ patientAlcoholUse: "Bundle.entry.resource.where(resourceType='Observation').wher
 patientSexualOrientation: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='76690-7').valueString"
 patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display"
 
+#eCR Metadata
 eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
 eicrCustodianRef: "Bundle.entry.resource.where(resourceType= 'Composition').custodian.reference"
 dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
 senderSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(property[0].type.coding.code='software').type.coding.display"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
+compositionAuthorRefs: "Bundle.entry.resource.where(resourceType = 'Composition').author"
 
 # Encounter Info
 encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"
