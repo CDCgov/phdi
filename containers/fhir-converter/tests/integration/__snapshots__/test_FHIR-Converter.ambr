@@ -38,19 +38,21 @@
               }),
             ]),
             'id': str,
-            'identifier': dict({
-              'type': dict({
-                'coding': list([
-                  dict({
-                    'code': '28570-0',
-                    'display': 'Procedure Note',
-                    'system': 'http://loinc.org',
-                  }),
-                ]),
+            'identifier': list([
+              dict({
+                'type': dict({
+                  'coding': list([
+                    dict({
+                      'code': '28570-0',
+                      'display': 'Procedure Note',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'use': 'official',
+                'value': 'sTT988',
               }),
-              'use': 'official',
-              'value': 'sTT988',
-            }),
+            ]),
             'meta': dict({
               'profile': list([
                 'http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition',
@@ -953,9 +955,11 @@
               }),
             ]),
             'id': str,
-            'identifier': dict({
-              'use': 'official',
-            }),
+            'identifier': list([
+              dict({
+                'use': 'official',
+              }),
+            ]),
             'meta': dict({
               'profile': list([
                 'http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition',

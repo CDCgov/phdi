@@ -177,6 +177,29 @@ def test_success_save_to_ecr_viewer(setup, clean_up_db):
 
 
 @pytest.mark.integration
+def test_previous_response_mapping_for_ecr_viewer(setup, clean_up_db):
+    """
+    Full orchestration test of a zip file containing both an eICR and the
+    associated RR data, using the `previous_response_to_param_mapping` in the config
+    """
+    with open(
+        Path(__file__).parent.parent / "assets" / "test_zip.zip",
+        "rb",
+    ) as file:
+        form_data = {
+            "message_type": "ecr",
+            "data_type": "zip",
+            "config_file_name": "seed-ecr-viewer-config.json",
+        }
+        files = {"upload_file": ("file.zip", file)}
+        orchestration_response = httpx.post(
+            PROCESS_ZIP_ENDPOINT, data=form_data, files=files, timeout=60
+        )
+
+        assert orchestration_response.status_code == 200
+
+
+@pytest.mark.integration
 def test_process_message_fhir(setup):
     """
     Integration test of a different workflow and data type, a FHIR bundle

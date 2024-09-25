@@ -1,4 +1,19 @@
 services:
+  # Postgresql DB
+  db:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=tefca_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
   # Flyway migrations and DB version control
   flyway:
     image: flyway/flyway:10.16-alpine
@@ -7,17 +22,5 @@ services:
       - ./flyway/sql:/flyway/sql
       - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
     depends_on:
-      - db
-
-  # Postgresql DB
-  db:
-    image: "postgres:alpine"
-    ports:
-      - "5432:5432"
-    env_file:
-      - "./tefca.env"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 2s
-      timeout: 5s
-      retries: 20
+      db:
+        condition: service_started

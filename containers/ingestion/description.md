@@ -44,3 +44,56 @@ To build the Docker image for the Ingestion service from source code instead of 
 ### The API 
 
 When viewing these docs from the `/redoc` endpoint on a running instance of the ingestion service or the PHDI website, detailed documentation on the API will be available below. 
+
+## Diagrams
+
+###
+
+```mermaid
+flowchart LR
+
+  subgraph requests["Requests"]
+    direction TB
+    subgraph GET["fas:fa-download <code>GET</code>"]
+      hc["<code>/</code>\n(health check)"]
+
+    end
+    subgraph POST-standardization["fas:fa-upload <code>POST Standardization</code>"]
+      ecr["<code>/fhir/harmonization/<br>standardization/standardize_names<//code>"]
+      phones["<code>/fhir/harmonization/<br>standardization/standardize_phones<//code>"]
+      dob["<code>/fhir/harmonization/<br>standardization/standardize_dob<//code>"]
+    end
+    subgraph POST-geospatial["fas:fa-upload <code>POST Geospatial</code>"]
+      geo["<code>/fhir/geospatial/geocode/geocode_bundle<//code>"]
+    end
+    subgraph POST-linkage["fas:fa-upload <code>POST Linkage</code>"]
+      link["<code>/fhir/linkage/link/add_patient_identifier_in_bundle<//code>"]
+    end
+  end
+
+  
+  subgraph service[REST API Service]
+    direction TB
+    subgraph mr["fab:fa-docker container"]
+      viewer["fab:fa-python <code>ingestion<br>HTTP:3000/</code>"]
+    end
+    subgraph smarty["fab:fa-docker smarty"]
+      smarty-api["fab:fa-python <code>Smarty API</code>"]
+    end
+    mr <--> |<br><code>GET /geocodeAddress</code>| smarty
+
+  end
+
+  subgraph response["Responses"]
+    subgraph JSON["fa:fa-file-alt <code>JSON</code>"]
+      rsp-hc["fa:fa-file-code <code>OK</code> fa:fa-thumbs-up"]
+      fhirdata["fa:fa-file-code FHIR Data"]
+	  post-ecr["200"]
+    end
+  end
+
+hc -.-> mr -.-> rsp-hc
+POST-standardization ===> mr ===> post-ecr
+POST-linkage ==> mr ===> post-ecr
+POST-geospatial --> mr ---> post-ecr
+```

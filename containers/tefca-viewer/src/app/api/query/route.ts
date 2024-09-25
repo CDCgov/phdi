@@ -12,9 +12,14 @@ import {
   FHIR_SERVERS,
   FhirServers,
   UseCases,
+  UseCaseToQueryName,
 } from "../../constants";
 
 import { handleRequestError } from "./error-handling-service";
+import {
+  getSavedQueryByName,
+  mapQueryRowsToValueSetItems,
+} from "@/app/database-service";
 
 /**
  * Health check for TEFCA Viewer
@@ -81,6 +86,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(OperationOutcome);
   }
 
+  // Lookup default parameters for particular use-case search
+  const queryName = UseCaseToQueryName[use_case as USE_CASES];
+  const queryResults = await getSavedQueryByName(queryName);
+  const vsItems = await mapQueryRowsToValueSetItems(queryResults);
+
   // Add params & patient identifiers to UseCaseRequest
   const UseCaseRequest: UseCaseQueryRequest = {
     use_case: use_case as USE_CASES,
@@ -96,8 +106,10 @@ export async function POST(request: NextRequest) {
     ...(PatientIdentifiers.phone && { phone: PatientIdentifiers.phone }),
   };
 
-  const UseCaseQueryResponse: QueryResponse =
-    await UseCaseQuery(UseCaseRequest);
+  const UseCaseQueryResponse: QueryResponse = await UseCaseQuery(
+    UseCaseRequest,
+    vsItems,
+  );
 
   // Bundle data
   const bundle: APIQueryResponse = await createBundle(UseCaseQueryResponse);

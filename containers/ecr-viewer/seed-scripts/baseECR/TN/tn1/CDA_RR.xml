@@ -1,0 +1,896 @@
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:cda="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc"
+  xmlns:voc="http://www.lantanagroup.com/voc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:hl7-org:v3 ../schema/infrastructure/cda/CDA_SDTC.xsd">
+  <realmCode code="US" />
+  <typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3" />
+  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.1.2" />
+  <id root="e6029685-013b-439c-8b56-65e6b37b3c99" />
+  <code code="88085-6" codeSystem="2.16.840.1.113883.6.1"
+    displayName="Reportability response report Document Public health" />
+  <title>Reportability Response</title>
+  <effectiveTime value="20240729122836+0000" />
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" displayName="Normal" />
+  <languageCode code="en-US" />
+  <recordTarget>
+    <patientRole>
+      <id extension="OCNN2VK43CXGXG0" root="1.2.840.114350.1.13.66.2.7.3.688884.100" />
+      <addr use="HP">
+        <streetAddressLine>5 Central Dr</streetAddressLine>
+        <streetAddressLine>Apt 1012</streetAddressLine>
+        <county>HAMILTON</county>
+        <city>Chattanooga</city>
+        <state>TN</state>
+        <postalCode>37421</postalCode>
+        <country>US</country>
+        <useablePeriod xsi:type="IVL_TS">
+          <low value="20220901" />
+          <high nullFlavor="NA" />
+        </useablePeriod>
+      </addr>
+      <telecom use="HP" value="tel:+1-111-111-1111" />
+      <telecom use="MC" value="tel:+1-111-111-1111" />
+      <telecom value="mailto:email@gmail.com" />
+      <patient>
+        <name use="L">
+          <given>Weeping</given>
+          <given>D</given>
+          <family>Angel</family>
+          <validTime>
+            <low nullFlavor="NA" />
+            <high nullFlavor="NA" />
+          </validTime>
+        </name>
+        <name use="P">
+          <given>Weeping</given>
+          <family>Angel</family>
+          <validTime>
+            <low nullFlavor="UNK" />
+            <high nullFlavor="UNK" />
+          </validTime>
+        </name>
+        <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"
+          codeSystemName="AdministrativeGenderCode" displayName="Male" />
+        <birthTime value="20070609" />
+        <sdtc:deceasedInd value="false" />
+        <maritalStatusCode code="U" codeSystem="2.16.840.1.113883.5.2"
+          codeSystemName="MaritalStatusCode" displayName="Unknown" />
+        <raceCode code="2054-5" codeSystem="2.16.840.1.113883.6.238"
+          codeSystemName="CDC Race and Ethnicity" displayName="Black or African American" />
+        <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238"
+          codeSystemName="CDC Race and Ethnicity" displayName="Not Hispanic or Latino" />
+        <languageCommunication>
+          <languageCode nullFlavor="UNK" />
+        </languageCommunication>
+      </patient>
+      <providerOrganization>
+        <id extension="1457368524" root="2.16.840.1.113883.4.6" />
+        <name>Cempa Community Care</name>
+        <telecom use="WP" value="tel:+1-423-265-2273" />
+        <addr use="WP">
+          <streetAddressLine>1000 East Third St. Suite 300</streetAddressLine>
+          <county>HAMILTON</county>
+          <city>Chattanooga</city>
+          <state>TN</state>
+          <postalCode>37403-2153</postalCode>
+          <country>US</country>
+        </addr>
+      </providerOrganization>
+    </patientRole>
+  </recordTarget>
+  <author>
+    <time value="20240729122836+0000" />
+    <assignedAuthor>
+      <id root="2.16.840.1.114222.4.1.217446" />
+      <addr>
+        <streetAddressLine>8515 Georgia Avenue, Suite 700</streetAddressLine>
+        <city>Silver Spring</city>
+        <state>MD</state>
+        <postalCode>20910</postalCode>
+        <country>US</country>
+      </addr>
+      <telecom use="WP" value="tel:+1(844)836-8377" />
+      <assignedAuthoringDevice>
+        <manufacturerModelName displayName="APHL" />
+        <softwareName displayName="AIMS" />
+      </assignedAuthoringDevice>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id root="2.16.840.1.114222.4.1.217446" />
+        <name>APHL | Association of Public Health Laboratories.</name>
+        <telecom use="WP" value="tel:+1(844)836-8377" />
+        <addr>
+          <streetAddressLine>8515 Georgia Avenue, Suite 700</streetAddressLine>
+          <city>Silver Spring</city>
+          <state>MD</state>
+          <postalCode>20910</postalCode>
+          <country>US</country>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <informationRecipient typeCode="PRCP">
+    <intendedRecipient>
+      <id extension="1619690138" root="2.16.840.1.113883.4.6" />
+      <addr use="WP">
+        <streetAddressLine>1000 EAST THIRD ST</streetAddressLine>
+        <streetAddressLine>SUITE 300</streetAddressLine>
+        <city>CHATTANOOGA</city>
+        <state>TN</state>
+        <postalCode>37403</postalCode>
+        <country>US</country>
+      </addr>
+      <telecom use="WP" value="tel:+1-423-265-2273" />
+      <telecom use="" value="fax:+1-423-648-9935" />
+      <informationRecipient>
+        <name>
+          <given>Zachary</given>
+          <family>Campbell</family>
+        </name>
+      </informationRecipient>
+      <receivedOrganization>
+        <name>Cempa Community Care</name>
+        <addr use="WP">
+          <streetAddressLine>1000 East Third St. Suite 300</streetAddressLine>
+          <county>HAMILTON</county>
+          <city>Chattanooga</city>
+          <state>TN</state>
+          <postalCode>37403-2153</postalCode>
+          <country>US</country>
+        </addr>
+      </receivedOrganization>
+    </intendedRecipient>
+  </informationRecipient>
+  <componentOf>
+    <encompassingEncounter>
+      <id extension="744373447" root="1.2.840.114350.1.13.66.2.7.3.698084.8" />
+      <code code="AMB" codeSystem="2.16.840.1.113883.5.4" displayName="Ambulatory">
+        <originalText>Erroneous Encounter</originalText>
+        <translation code="0" codeSystem="1.2.840.114350.1.72.1.30.1" />
+      </code>
+      <effectiveTime>
+        <low value="20240724083000-0400" />
+        <high value="20240724083122-0400" />
+      </effectiveTime>
+      <responsibleParty>
+        <assignedEntity>
+          <id extension="1619690138" root="2.16.840.1.113883.4.6" />
+          <addr use="WP">
+            <streetAddressLine>1000 EAST THIRD ST</streetAddressLine>
+            <streetAddressLine>SUITE 300</streetAddressLine>
+            <city>CHATTANOOGA</city>
+            <state>TN</state>
+            <postalCode>37403</postalCode>
+            <country>US</country>
+          </addr>
+          <telecom use="WP" value="tel:+1-423-265-2273" />
+          <telecom value="fax:+1-423-648-9935" />
+          <assignedPerson>
+            <name>
+              <given>Zachary</given>
+              <family>Campbell</family>
+            </name>
+          </assignedPerson>
+          <representedOrganization>
+            <name>Cempa Community Care</name>
+            <addr use="WP">
+              <streetAddressLine>1000 East Third St. Suite 300</streetAddressLine>
+              <county>HAMILTON</county>
+              <city>Chattanooga</city>
+              <state>TN</state>
+              <postalCode>37403-2153</postalCode>
+              <country>US</country>
+            </addr>
+          </representedOrganization>
+        </assignedEntity>
+      </responsibleParty>
+      <encounterParticipant typeCode="ATND">
+        <time value="20240724083000-0400" />
+        <assignedEntity>
+          <id extension="1619690138" root="2.16.840.1.113883.4.6" />
+          <code nullFlavor="OTH">
+            <originalText>Family Medicine, NP</originalText>
+            <translation code="19" codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4160"
+              codeSystemName="Epic.DXC.StandardProviderSpecialtyType" displayName="Family Medicine" />
+            <translation code="106" codeSystem="1.2.840.114350.1.13.66.2.7.10.836982.1050"
+              codeSystemName="Epic.SER.ProviderSpecialty" displayName="Family Medicine, NP" />
+          </code>
+          <addr use="WP">
+            <streetAddressLine>1000 EAST THIRD ST</streetAddressLine>
+            <streetAddressLine>SUITE 300</streetAddressLine>
+            <county>HAMILTON</county>
+            <city>CHATTANOOGA</city>
+            <state>TN</state>
+            <postalCode>37403</postalCode>
+            <country>US</country>
+          </addr>
+          <telecom use="WP" value="tel:+1-423-265-2273" />
+          <telecom value="fax:+1-423-648-9935" />
+          <assignedPerson>
+            <name use="L">
+              <given>Zachary</given>
+              <family>Campbell</family>
+              <suffix qualifier="AC"> NP-C</suffix>
+              <validTime>
+                <low nullFlavor="UNK" />
+                <high nullFlavor="UNK" />
+              </validTime>
+            </name>
+          </assignedPerson>
+        </assignedEntity>
+      </encounterParticipant>
+      <location>
+        <healthCareFacility>
+          <id extension="235002001" root="1.2.840.114350.1.13.66.2.7.2.686980" />
+          <code code="257622000" codeSystem="2.16.840.1.113883.6.96"
+            displayName="Healthcare Facility">
+            <originalText>Infectious Diseases</originalText>
+            <translation code="30" codeSystem="1.2.840.114350.1.72.1.7.7.10.688867.4150"
+              codeSystemName="Epic.DepartmentSpecialty" displayName="Infectious Diseases" />
+          </code>
+          <location>
+            <name>Cempa Community Care Clinic</name>
+            <addr use="WP">
+              <streetAddressLine>1000 East Third St Suite 300</streetAddressLine>
+              <county>HAMILTON</county>
+              <city>Chattanooga</city>
+              <state>TN</state>
+              <postalCode>37403-2153</postalCode>
+              <country>US</country>
+            </addr>
+          </location>
+          <serviceProviderOrganization>
+            <id extension="235002" root="1.2.840.114350.1.13.66.2.7.2.696570" />
+            <name>Cempa Community Care Clinic</name>
+            <telecom use="WP" value="tel:+1-423-265-2273" />
+            <addr use="WP">
+              <streetAddressLine>1000 East Third St Suite 300</streetAddressLine>
+              <county>HAMILTON</county>
+              <city>Chattanooga</city>
+              <state>TN</state>
+              <postalCode>37403-2153</postalCode>
+              <country>US</country>
+            </addr>
+            <asOrganizationPartOf>
+              <wholeOrganization>
+                <name>Cempa Community Care</name>
+                <addr use="WP">
+                  <streetAddressLine>1000 East Third St. Suite 300</streetAddressLine>
+                  <county>HAMILTON</county>
+                  <city>Chattanooga</city>
+                  <state>TN</state>
+                  <postalCode>37403-2153</postalCode>
+                  <country>US</country>
+                </addr>
+              </wholeOrganization>
+            </asOrganizationPartOf>
+          </serviceProviderOrganization>
+        </healthCareFacility>
+      </location>
+    </encompassingEncounter>
+  </componentOf>
+  <component>
+    <structuredBody>
+      <component>
+        <section>
+          <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.1" />
+          <code code="88084-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+          <title>.</title>
+          <text>
+            <br />
+            <content styleCode="Bold">Subject:</content>
+            <paragraph>Public Health Reporting Communication: one or more conditions are reportable,
+              or may be reportable, to public health. </paragraph>
+          </text>
+          <entry typeCode="DRIV">
+            <act classCode="ACT" moodCode="INT">
+              <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.20" />
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.7" />
+              <id root="f578062e-b627-4e62-855c-5ffa56e14b5b" />
+              <code code="131195008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"
+                displayName="Subject of information" />
+              <text>Public Health Reporting Communication: one or more conditions are reportable, or
+                may be reportable, to public health.</text>
+              <statusCode code="completed" />
+            </act>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.3" />
+          <code code="88082-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+            displayName="Initial case report processing information Document" />
+          <text>
+            <content styleCode="Bold">eICR Information:</content>
+            <paragraph>An initial report for a possible reportable condition was received on
+              20240729122832 with the file name 1.2.840.114350.1.13.66.2.7.8.688883.2728380843. The
+              eICR was processed with the warning of: malformed eRSD (RCTC) version.</paragraph>
+          </text>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.9" />
+              <id root="6bff7990-f218-4f9d-a5aa-eb7afa6e9a3c" />
+              <code code="RR5" codeSystem="2.16.840.1.114222.4.5.232"
+                codeSystemName="PHIN VS (CDC Local Coding System)"
+                displayName="Received eICR Information" />
+              <statusCode code="completed" />
+              <effectiveTime value="20240729122836+0000" />
+              <reference typeCode="REFR">
+                <externalDocument classCode="DOCCLIN" moodCode="EVN">
+                  <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.115" />
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.10" />
+                  <id assigningAuthorityName="EPC"
+                    root="1.2.840.114350.1.13.66.2.7.8.688883.2728380843" />
+                  <code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                    displayName="Public Health Case Report (eICR)" />
+                  <setId assigningAuthorityName="EPC"
+                    extension="00000000-247f-f505-e118-3adff9b59515"
+                    root="1.2.840.114350.1.13.66.2.7.1.1" />
+                  <versionNumber value="10" />
+                </externalDocument>
+              </reference>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.29" />
+              <id root="39d966b9-8a3a-4024-93d8-138e97d5898a" />
+              <code code="RRVS20" codeSystem="2.16.840.1.114222.4.5.274"
+                codeSystemName="PHIN VS (CDC Local Coding System)"
+                displayName="eICR was processed - with a warning" />
+              <entryRelationship typeCode="RSON">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.21" />
+                  <id root="e39d6ae2-8c6e-4638-9b33-412996586f42" />
+                  <code code="RR6" codeSystem="2.16.840.1.114222.4.5.232"
+                    codeSystemName="PHIN Questions" displayName="eICR processing status reason" />
+                  <value code="RRVS34" codeSystem="2.16.840.1.114222.4.5.274"
+                    codeSystemName="PHIN VS (CDC Local Coding System)"
+                    displayName="The eICR was processed with the warning of: malformed eRSD (RCTC) version."
+                    xsi:type="CD" />
+                  <entryRelationship typeCode="RSON">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.32" />
+                      <id root="80f7b4ff-4d96-46ef-ae8f-af1f9c1f206c" />
+                      <code code="RRVS35" codeSystem="2.16.840.1.114222.4.5.274"
+                        codeSystemName="PHIN VS (CDC Local Coding System)"
+                        displayName="Malformed eRSD (RCTC) Version Detail" />
+                      <value xsi:type="ST">20231006</value>
+                    </observation>
+                  </entryRelationship>
+                  <entryRelationship typeCode="RSON">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.32" />
+                      <id root="80f7b4ff-4d96-46ef-ae8f-af1f9c1f206c" />
+                      <code code="RRVS33" codeSystem="2.16.840.1.114222.4.5.274"
+                        codeSystemName="PHIN VS (CDC Local Coding System)"
+                        displayName="Expected eRSD (RCTC) Version Detail" />
+                      <value xsi:type="ST">The expected eRSD (RCTC) version should be one of the
+                        following: 2024-04-05,1.2.3.0,3.x.x </value>
+                    </observation>
+                  </entryRelationship>
+                </observation>
+              </entryRelationship>
+              <entryRelationship typeCode="SPRT">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.33" />
+                  <id root="80f7b4ff-4d96-46ef-ae8f-af1f9c1f206e" />
+                  <code code="RR10" codeSystem="2.16.840.1.114222.4.5.232"
+                    codeSystemName="PHIN Questions" displayName="eICR Validation Output" />
+                  <value mediaType="text/xml" xsi:type="ED">
+                    <Report xmlns="urn:aims-org:val"> </Report>
+                  </value>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.2" />
+          <code code="55112-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+          <title>.</title>
+          <text>
+            <content styleCode="Bold">Summary:</content>
+            <paragraph>Your organization electronically submitted an initial case report to
+              determine if reporting to public health is needed for a patient.</paragraph>
+            <paragraph>"Syphilis (disorder)" is reportable to "Tennessee Department of Health". The
+              initial case report was sent to "Tennessee Department of Health". Additional
+              information may be required for this report."Human immunodeficiency virus infection
+              (disorder)" is reportable to "Tennessee Department of Health". The initial case report
+              was sent to "Tennessee Department of Health". Additional information may be required
+              for this report.<br /></paragraph>
+            <paragraph>The trigger code version your organization is using could not be determined.
+              The trigger codes may be out of date. Please have your EHR administrators update the
+              version format for complete eCR functioning.<br /></paragraph>
+            <paragraph>
+              <content styleCode="Bold">"Syphilis (disorder)" for "Tennessee Department of Health" </content>
+            </paragraph>
+            <paragraph>Reporting is required within "1 Week(s)". Reporting to this Public Health
+              Agency is based on "Patient home address"<br /></paragraph>
+            <paragraph>
+              <content>&gt; Additional information for required disease reporting must be submitted
+                to the Tennessee Department of Health within 1 week. This additional information can
+                be found here. (<linkHtml
+                  href="https://www.tn.gov/content/dam/tn/health/documents/reportable-diseases/2023-Provider-list.pdf">Action
+                requested</linkHtml>)<br /><br /></content>
+              <content>&gt; CDC website with STD treatment guidelines. (<linkHtml
+                  href="https://www.cdc.gov/std/treatment-guidelines/STI-Guidelines-2021.pdf">Information
+                only</linkHtml>)<br /><br /></content>
+              <content>&gt; If you have additional questions regarding disease reporting, the
+                Tennessee Department of Health can be reached 615-741-7247. (<linkHtml
+                  href="https://www.tn.gov/health/cedep/reportable-diseases.html">Information only</linkHtml>
+                )<br /><br /></content>
+            </paragraph>
+            <paragraph>
+              <content styleCode="Bold">"Human immunodeficiency virus infection (disorder)" for
+                "Tennessee Department of Health" </content>
+            </paragraph>
+            <paragraph>Reporting is required within "1 Week(s)". Reporting to this Public Health
+              Agency is based on "Patient home address"<br /></paragraph>
+            <paragraph>
+              <content>&gt; Additional information for required disease reporting must be submitted
+                to the Tennessee Department of Health within 1 week. This additional information can
+                be found here. (<linkHtml
+                  href="https://www.tn.gov/content/dam/tn/health/documents/reportable-diseases/2024-List-Provider.pdf">Action
+                requested</linkHtml>)<br /><br /></content>
+              <content>&gt; CDC website with STD treatment guidelines. (<linkHtml
+                  href="https://www.cdc.gov/std/treatment-guidelines/STI-Guidelines-2021.pdf">Information
+                only</linkHtml>)<br /><br /></content>
+              <content>&gt; If you have additional questions regarding disease reporting, the
+                Tennessee Department of Health can be reached 615-741-7247. (<linkHtml
+                  href="https://www.tn.gov/health/cedep/reportable-diseases.html">Information only</linkHtml>
+                )<br /><br /></content>
+            </paragraph>
+          </text>
+          <entry typeCode="DRIV">
+            <act classCode="ACT" moodCode="INT">
+              <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.20" />
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.8" />
+              <id root="a4c99a43-e228-4a74-af0e-c71ee24fa80c" />
+              <code code="304561000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"
+                displayName="Informing health care professional (procedure)" />
+              <text>Your organization electronically submitted an initial case report to determine
+                if reporting to public health is needed for a patient. The eICR was processed with
+                the warning of: malformed eRSD (RCTC) version.</text>
+              <statusCode code="completed" />
+            </act>
+          </entry>
+          <entry typeCode="DRIV">
+            <observation classCode="OBS" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.30" />
+              <code code="RR9" codeSystem="2.16.840.1.114222.4.5.232"
+                codeSystemName="PHIN Questions" displayName="Reportability response priority" />
+              <value code="RRVS16" codeSystem="2.16.840.1.114222.4.5.274"
+                codeSystemName="PHIN VS (CDC Local Coding System)" displayName="Action requested"
+                xsi:type="CD" />
+            </observation>
+          </entry>
+          <entry typeCode="DRIV">
+            <organizer classCode="CLUSTER" moodCode="EVN">
+              <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.34" />
+              <code code="RR11" codeSystem="2.16.840.1.114222.4.5.232"
+                codeSystemName="PHIN Questions"
+                displayName="Reportability Response Coded Information" />
+              <statusCode code="completed" />
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.12" />
+                  <id root="146824af-0468-4473-8696-69fc48e6acd9" />
+                  <code code="64572001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED"
+                    displayName="Condition">
+                    <translation code="75323-6" codeSystem="2.16.840.1.113883.6.1"
+                      codeSystemName="LOINC" displayName="Condition" />
+                  </code>
+                  <value code="76272004" codeSystem="2.16.840.1.113883.6.96"
+                    codeSystemName="SNOMED CT" displayName="Syphilis (disorder)" xsi:type="CD" />
+                  <entryRelationship typeCode="COMP">
+                    <organizer classCode="CLUSTER" moodCode="EVN">
+                      <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.13" />
+                      <id root="04033702-5fd3-443a-b37e-9123ee355c1c" />
+                      <code code="RRVS5" codeSystem="2.16.840.1.114222.4.5.274"
+                        codeSystemName="Location Relevance" displayName="Patient home address" />
+                      <statusCode code="completed" />
+                      <participant typeCode="LOC">
+                        <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.3" />
+                        <participantRole>
+                          <id extension="tn" root="2.16.840.1.113883.4.6" />
+                          <code code="RR12" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Rules Authoring Agency" />
+                          <addr use="WP">
+                            <streetAddressLine>Communicable and Environmental Diseases and Emergency
+                              Preparedness
+                              Andrew Johnson Tower, 4th Floor
+                              710 James Robertson Parkway
+</streetAddressLine>
+                            <city>Nashville</city>
+                            <state>TN</state>
+                            <postalCode nullFlavor="NI" />
+                          </addr>
+                          <telecom nullFlavor="NI" />
+                          <playingEntity>
+                            <name>Tennessee Department of Health</name>
+                          </playingEntity>
+                          <telecom use="WP" value="ceds.informatics@tn.gov" />
+                          <telecom use="WP" value="(615) 741-7247" />
+                          <telecom use="WP" value="(615) 741-3857" />
+                        </participantRole>
+                      </participant>
+                      <participant typeCode="LOC">
+                        <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.1" />
+                        <participantRole>
+                          <id extension="tn" root="2.16.840.1.113883.4.6" />
+                          <code code="RR7" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Routing Entity" />
+                          <addr use="WP">
+                            <streetAddressLine>Communicable and Environmental Diseases and Emergency
+                              Preparedness
+                              Andrew Johnson Tower, 4th Floor
+                              710 James Robertson Parkway
+</streetAddressLine>
+                            <city>Nashville</city>
+                            <state>TN</state>
+                            <postalCode nullFlavor="NI" />
+                          </addr>
+                          <playingEntity>
+                            <name>Tennessee Department of Health</name>
+                          </playingEntity>
+                          <telecom use="WP" value="ceds.informatics@tn.gov" />
+                          <telecom use="WP" value="(615) 741-7247" />
+                          <telecom use="WP" value="(615) 741-3857" />
+                        </participantRole>
+                      </participant>
+                      <component typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.19" />
+                          <id root="00491bf1-1447-4372-92cc-0aaa081f17d9" />
+                          <code code="RR1" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Determination of reportability" />
+                          <value code="RRVS1" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Reportable" xsi:type="CD" />
+                          <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="54dfc5d0-a55c-41e0-b658-4437b73d8354" />
+                              <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">Detection of treponemal or non-treponemal
+                                antibody in a clinical specimen by any method (e.g., Rapid Plasma
+                                Reagin (RPR), Venereal Disease Research Laboratory (VDRL),
+                                Fluorescent Treponemal Antibody Absorbed (FTA-ABS), T. pallidum
+                                Particle Agglutination (TP-PA), Enzyme Immunoassay (EIA),
+                                Chemiluminescence Immunoassay (CIA), or equivalent serologic
+                                methods) </value>
+                            </observation>
+                          </entryRelationship>
+                        </observation>
+                      </component>
+                      <component typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.20" />
+                          <id root="e2e834c9-023e-4920-b058-c57cf8322bf9" />
+                          <code code="RRVS8" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Additional reporting needs" />
+                          <priorityCode code="RRVS16" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Action requested" />
+                          <reference typeCode="REFR">
+                            <externalDocument classCode="DOC" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.17" />
+                              <code nullFlavor="OTH">
+                                <originalText>Additional information for required disease reporting
+                                  must be submitted to the Tennessee Department of Health within 1
+                                  week. This additional information can be found here.</originalText>
+                              </code>
+                              <text mediaType="text/html">
+                                <reference
+                                  value="https://www.tn.gov/content/dam/tn/health/documents/reportable-diseases/2023-Provider-list.pdf" />
+                              </text>
+                            </externalDocument>
+                          </reference>
+                        </act>
+                      </component>
+                      <component typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.20" />
+                          <id root="2228bbd5-664a-4431-8863-17e1eee3d9d0" />
+                          <code code="RRVS10" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Treatment and/or prevention" />
+                          <priorityCode code="RRVS15" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Information only" />
+                          <reference typeCode="REFR">
+                            <externalDocument classCode="DOC" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.17" />
+                              <code nullFlavor="OTH">
+                                <originalText>CDC website with STD treatment guidelines.</originalText>
+                              </code>
+                              <text mediaType="text/html">
+                                <reference
+                                  value="https://www.cdc.gov/std/treatment-guidelines/STI-Guidelines-2021.pdf" />
+                              </text>
+                            </externalDocument>
+                          </reference>
+                        </act>
+                      </component>
+                      <component typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.20" />
+                          <id root="27248475-966a-4d49-9482-f50410da0870" />
+                          <code code="RRVS12" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="PHA Contact Information" />
+                          <priorityCode code="RRVS15" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Information only" />
+                          <reference typeCode="REFR">
+                            <externalDocument classCode="DOC" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.17" />
+                              <code nullFlavor="OTH">
+                                <originalText>If you have additional questions regarding disease
+                                  reporting, the Tennessee Department of Health can be reached
+                                  615-741-7247.</originalText>
+                              </code>
+                              <text mediaType="text/html">
+                                <reference
+                                  value="https://www.tn.gov/health/cedep/reportable-diseases.html" />
+                              </text>
+                            </externalDocument>
+                          </reference>
+                        </act>
+                      </component>
+                      <component typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.14" />
+                          <id root="bb9f893a-47e8-4531-afec-7790e28e9d32" />
+                          <code code="RR4" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Timeframe to report (urgency)" />
+                          <value unit="wk" value="1" xsi:type="PQ"> </value>
+                        </observation>
+                      </component>
+                    </organizer>
+                  </entryRelationship>
+                </observation>
+              </component>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.12" />
+                  <id root="55de6833-78aa-4d30-b9f9-28115de73e36" />
+                  <code code="64572001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED"
+                    displayName="Condition">
+                    <translation code="75323-6" codeSystem="2.16.840.1.113883.6.1"
+                      codeSystemName="LOINC" displayName="Condition" />
+                  </code>
+                  <value code="86406008" codeSystem="2.16.840.1.113883.6.96"
+                    codeSystemName="SNOMED CT"
+                    displayName="Human immunodeficiency virus infection (disorder)" xsi:type="CD" />
+                  <entryRelationship typeCode="COMP">
+                    <organizer classCode="CLUSTER" moodCode="EVN">
+                      <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.13" />
+                      <id root="f7c4474d-e7c6-4401-bcc1-31e59bba73aa" />
+                      <code code="RRVS5" codeSystem="2.16.840.1.114222.4.5.274"
+                        codeSystemName="Location Relevance" displayName="Patient home address" />
+                      <statusCode code="completed" />
+                      <participant typeCode="LOC">
+                        <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.3" />
+                        <participantRole>
+                          <id extension="tn" root="2.16.840.1.113883.4.6" />
+                          <code code="RR12" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Rules Authoring Agency" />
+                          <addr use="WP">
+                            <streetAddressLine>Communicable and Environmental Diseases and Emergency
+                              Preparedness
+                              Andrew Johnson Tower, 4th Floor
+                              710 James Robertson Parkway
+</streetAddressLine>
+                            <city>Nashville</city>
+                            <state>TN</state>
+                            <postalCode nullFlavor="NI" />
+                          </addr>
+                          <telecom nullFlavor="NI" />
+                          <playingEntity>
+                            <name>Tennessee Department of Health</name>
+                          </playingEntity>
+                          <telecom use="WP" value="ceds.informatics@tn.gov" />
+                          <telecom use="WP" value="(615) 741-7247" />
+                          <telecom use="WP" value="(615) 741-3857" />
+                        </participantRole>
+                      </participant>
+                      <participant typeCode="LOC">
+                        <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.1" />
+                        <participantRole>
+                          <id extension="tn" root="2.16.840.1.113883.4.6" />
+                          <code code="RR7" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions" displayName="Routing Entity" />
+                          <addr use="WP">
+                            <streetAddressLine>Communicable and Environmental Diseases and Emergency
+                              Preparedness
+                              Andrew Johnson Tower, 4th Floor
+                              710 James Robertson Parkway
+</streetAddressLine>
+                            <city>Nashville</city>
+                            <state>TN</state>
+                            <postalCode nullFlavor="NI" />
+                          </addr>
+                          <playingEntity>
+                            <name>Tennessee Department of Health</name>
+                          </playingEntity>
+                          <telecom use="WP" value="ceds.informatics@tn.gov" />
+                          <telecom use="WP" value="(615) 741-7247" />
+                          <telecom use="WP" value="(615) 741-3857" />
+                        </participantRole>
+                      </participant>
+                      <component typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.19" />
+                          <id root="7d852d8a-6c10-4cf0-8235-5626fdcfc0fa" />
+                          <code code="RR1" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Determination of reportability" />
+                          <value code="RRVS1" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Reportable" xsi:type="CD" />
+                          <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="fb472520-0c84-4d49-9613-bc375d88881e" />
+                              <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">All result values for laboratory tests specific
+                                for detecting HIV nucleic acid (qualitative) in a clinical
+                                specimen by any method</value>
+                            </observation>
+                          </entryRelationship>
+                          <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="6138dd33-f111-4667-830a-535cf96c5244" />
+                              <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">Detection of HIV nucleic acid in a clinical
+                                specimen by any method, including qualitative, quantitative, and
+                                genotype tests</value>
+                            </observation>
+                          </entryRelationship>
+                          <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.27" />
+                              <id root="954f5079-76d2-423e-b343-d6b8e643399c" />
+                              <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232"
+                                codeSystemName="PHIN Questions"
+                                displayName="Determination of reportability rule" />
+                              <value xsi:type="ST">HIV infection or AIDS (as a diagnosis or active
+                                problem)</value>
+                            </observation>
+                          </entryRelationship>
+                        </observation>
+                      </component>
+                      <component typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.20" />
+                          <id root="f9126376-b03d-498e-845b-9544971a36d4" />
+                          <code code="RRVS8" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Additional reporting needs" />
+                          <priorityCode code="RRVS16" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Action requested" />
+                          <reference typeCode="REFR">
+                            <externalDocument classCode="DOC" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.17" />
+                              <code nullFlavor="OTH">
+                                <originalText>Additional information for required disease reporting
+                                  must be submitted to the Tennessee Department of Health within 1
+                                  week. This additional information can be found here.</originalText>
+                              </code>
+                              <text mediaType="text/html">
+                                <reference
+                                  value="https://www.tn.gov/content/dam/tn/health/documents/reportable-diseases/2024-List-Provider.pdf" />
+                              </text>
+                            </externalDocument>
+                          </reference>
+                        </act>
+                      </component>
+                      <component typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.20" />
+                          <id root="fa9d2210-7302-4056-a693-06f8aa06a131" />
+                          <code code="RRVS10" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Treatment and/or prevention" />
+                          <priorityCode code="RRVS15" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Information only" />
+                          <reference typeCode="REFR">
+                            <externalDocument classCode="DOC" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.17" />
+                              <code nullFlavor="OTH">
+                                <originalText>CDC website with STD treatment guidelines.</originalText>
+                              </code>
+                              <text mediaType="text/html">
+                                <reference
+                                  value="https://www.cdc.gov/std/treatment-guidelines/STI-Guidelines-2021.pdf" />
+                              </text>
+                            </externalDocument>
+                          </reference>
+                        </act>
+                      </component>
+                      <component typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.20" />
+                          <id root="e98ec408-32f6-427b-963d-d2bc032707aa" />
+                          <code code="RRVS12" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="PHA Contact Information" />
+                          <priorityCode code="RRVS15" codeSystem="2.16.840.1.114222.4.5.274"
+                            codeSystemName="PHIN VS (CDC Local Coding System)"
+                            displayName="Information only" />
+                          <reference typeCode="REFR">
+                            <externalDocument classCode="DOC" moodCode="EVN">
+                              <templateId extension="2017-04-01"
+                                root="2.16.840.1.113883.10.20.15.2.3.17" />
+                              <code nullFlavor="OTH">
+                                <originalText>If you have additional questions regarding disease
+                                  reporting, the Tennessee Department of Health can be reached
+                                  615-741-7247.</originalText>
+                              </code>
+                              <text mediaType="text/html">
+                                <reference
+                                  value="https://www.tn.gov/health/cedep/reportable-diseases.html" />
+                              </text>
+                            </externalDocument>
+                          </reference>
+                        </act>
+                      </component>
+                      <component typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                          <templateId extension="2017-04-01"
+                            root="2.16.840.1.113883.10.20.15.2.3.14" />
+                          <id root="cff11cbe-8c03-474b-ad67-a409750103e9" />
+                          <code code="RR4" codeSystem="2.16.840.1.114222.4.5.232"
+                            codeSystemName="PHIN Questions"
+                            displayName="Timeframe to report (urgency)" />
+                          <value unit="wk" value="1" xsi:type="PQ"> </value>
+                        </observation>
+                      </component>
+                    </organizer>
+                  </entryRelationship>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>

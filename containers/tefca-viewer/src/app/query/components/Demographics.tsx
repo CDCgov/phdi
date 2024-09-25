@@ -32,7 +32,7 @@ const Demographics: React.FC<DemographicsProps> = ({ patient }) => {
 
   return (
     <div>
-      {demographicData.map((item, index) => (
+      {demographicData.map((item) => (
         <DataDisplay item={item} key={item.title} />
       ))}
     </div>

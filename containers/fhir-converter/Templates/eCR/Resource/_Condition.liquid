@@ -72,7 +72,7 @@
 
                         {% if commentObj != null and commentObj.content != null %}
                             {% assign commentParagraphString = commentObj.paragraph | concat_strings %}
-                            {% assign commentContentString = commentObj.content | concat_strings %}
+                            {% assign commentContentString = commentObj.content | concat_strings | remove: '"' %}
                             "text": "{{ commentParagraphString | append: "<br/>" | append: commentContentString }}",
                         {% endif %}
                     {% endif -%}

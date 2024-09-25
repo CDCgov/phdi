@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.VisualBasic.FileIO;
+using DotLiquid.Util;
 
 namespace Microsoft.Health.Fhir.Liquid.Converter
 {
@@ -19,7 +15,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
   /// </summary>
   public partial class Filters
   {
-    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul", "p", "caption" };
+    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul", "paragraph", "caption" };
     private static Dictionary<string, string> replaceTags = new Dictionary<string, string>{
         {"list", "ul"},
         {"item", "li"},
@@ -45,61 +41,230 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return new List<Dictionary<string, object>>();
     }
 
-    private static Dictionary<string, object>? DrillDown(Dictionary<string, object> item, List<string> list)
+    /// <summary>
+    /// Drills down into an object representing nested XML elements, by the given keys.
+    /// </summary>
+    /// <param name="item">The object to drill down into.</param>
+    /// <param name="keys">The keys to drill down by.</param>
+    /// <returns>The result of drilling down, which can be a list of dictionaries, or null if the item is null or the key does not exist.</returns>
+    private static List<Dictionary<string, object>>? DrillDown(IDictionary<string, object> item, List<string> keys)
     {
-      if (list.Count == 0)
+      if (keys.Count == 0)
       {
-        return item;
+        return ProcessItem(item);
       }
-      string firstElement = list.First(); // Retrieve the first element
-      list.Remove(firstElement);
-      if (item.TryGetValue(firstElement, out object? element) && list.Count > 0)
-      {
-        return DrillDown((Dictionary<string, object>)element, list);
-      }
-      else if (element != null && list.Count == 0)
-      {
-        return element as Dictionary<string, object>;
-      }
-      else
-      {
-        return null;
-      }
-    }
-    public static string ConcatenateTds(IDictionary<string, object> data)
-    {
-      var result = new List<string>();
-      var dataDictionary = (Dictionary<string, object>)data;
-      var component = DrillDown(dataDictionary, new List<string> { "text" }) ??
-        dataDictionary;
-      var tbody = DrillDown(component, new List<string> { "list", "item", "table", "tbody" }) ??
-        DrillDown(component, new List<string> { "table", "tbody" });
 
-      if (tbody != null && tbody.TryGetValue("tr", out object? tr))
+      string key = keys.Shift();
+
+      if (item.TryGetValue(key, out object? val) && keys.Count > 0)
       {
-        var trs = ProcessItem(tr);
-        if (trs != null && trs.Count != 0)
+        return DrillDown(ProcessItem(val), keys);
+      }
+      else if (val != null && keys.Count == 0)
+      {
+        return ProcessItem(val);
+      }
+
+      return null;
+    }
+
+    /// <summary>
+    ///  Drills down into a list of objects representing nested XML elements, by the given keys.
+    /// </summary>
+    /// <param name="items">The list of objects to drill down into.</param>
+    /// <param name="keys">The keys to drill down by.</param>
+    /// <returns>The result of drilling down, which can be a list of dictionaries, or null if the items is null or empty, or the key does not exist.</returns>
+    private static List<Dictionary<string, object>>? DrillDown(IList<Dictionary<string, object>> items, List<string> keys)
+    {
+      if (keys.Count == 0)
+      {
+        return (List<Dictionary<string, object>>)items;
+      }
+
+      string key = keys.Shift();
+
+      if (items.Count != 0)
+      {
+        var result = new List<Dictionary<string, object>>();
+
+        foreach (var item in items)
         {
-          foreach (var r in trs)
+          if (item.TryGetValue(key, out object? val) && keys.Count > 0)
           {
-            if (r.TryGetValue("td", out object? rawTds))
-            {
-              var tds = ProcessItem(rawTds);
-              if (tds != null && tds.Count != 0)
-              {
-                foreach (var d in tds)
-                {
-                  if (d != null && d.TryGetValue("_", out object? val))
-                  {
-                    result.Add((string)val);
-                  }
-                }
-              }
-            }
+            return DrillDown(ProcessItem(val), keys);
+          }
+          else if (val != null && keys.Count == 0)
+          {
+            result.AddRange(ProcessItem(val));
+          }
+        }
+
+        return result;
+      }
+
+      return null;
+    }
+
+    /// <summary>
+    /// Given a Dictionary representing a thead element, return the column number of the first column that matches one of the target column names.
+    /// </summary>
+    /// <param name="targetColumns">A list of column names to search for.</param>
+    /// <param name="thead">A dictionary representing the thead element of an XML table.</param>
+    /// <returns>The column number of the first match, or -1 if no match is found.</returns>
+    private static int GetTargetColNum(IList<string> targetColumns, IDictionary<string, object> thead)
+    {
+      var ths = DrillDown(thead, new List<string> { "tr", "th" });
+      for (int i = 0; i < ths.Count(); i++)
+      {
+        var th = ths.TryGetAtIndex(i);
+        if (th != null && th.TryGetValue("_", out object? thVal))
+        {
+          if (targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase))
+          {
+            return i;
           }
         }
       }
-      return string.Join(",", result);
+
+      return -1;
+    }
+
+    /// <summary>
+    /// Given a Dictionary representing a table data cell, return a list of the reasons for visit. 
+    /// The cell is searched for paragraphs without a styleCode="xcellHeader" attribute, content elements, or a string value.
+    /// </summary>
+    /// <param name="tdRaw">A dictionary representing an XML table data cell.</param>
+    /// <returns>A list of the reasons for visit. If no matching elements are found, an empty list is returned.</returns>
+    private static List<string> GetTextFromTd(object? tdRaw)
+    {
+      if (tdRaw is Dictionary<string, object> td)
+      {
+        // Example:
+        // <td>
+        //   <paragraph styleCode="xcellHeader">Diagnoses</paragraph>
+        //   <paragraph>Respiratory distress</paragraph>
+        // </td>
+        if (td.TryGetValue("paragraph", out object? paragraphRaw))
+        {
+          var paragraphs = ProcessItem(paragraphRaw);
+          var result = new List<string>();
+          foreach (var p in paragraphs)
+          {
+            if (p != null && p.TryGetValue("_", out object? pVal))
+            {
+              p.TryGetValue("styleCode", out object? styleCode);
+              if (styleCode?.ToString() != "xcellHeader")
+              {
+                result.Add(pVal.ToString());
+              }
+            }
+          }
+
+          return result;
+        }
+
+        // Example:
+        // <td>
+        //    <content ID="text1">Respiratory distress</content>
+        // </td>
+        else if (td.TryGetValue("content", out object? content))
+        {
+          if (content is Dictionary<string, object> contentDict && contentDict.TryGetValue("_", out object? cVal))
+          {
+            return new List<string>() { cVal.ToString() };
+          }
+        }
+
+        // Example:
+        // <td>Respiratory distress</td>
+        else if (td.TryGetValue("_", out object? val))
+        {
+          return new List<string>() { val.ToString() };
+        }
+      }
+
+      return new List<string>();
+    }
+
+    /// <summary>
+    /// Given a Dictionary representing a table, return a list of the reasons for visit. The table is searched for
+    /// columns named "REASON FOR VISIT", "Reason", "Diagnoses / Procedures", or "text".
+    /// </summary>
+    /// <param name="table">A dictionary representing an XML table.</param>
+    /// <returns>A list of the reasons for visit. If no matching column is found, an empty list is returned.</returns>
+    private static List<string> GetReasonsFromTable(IDictionary<string, object> table)
+    {
+      var targetColumns = new[] { "REASON FOR VISIT", "Reason", "Diagnoses / Procedures", "text" }.ToList();
+      var result = new List<string>();
+      if (table.TryGetValue("thead", out object? thead) && thead is IDictionary<string, object> theadDict)
+      {
+        var reasonColNum = GetTargetColNum(targetColumns, theadDict);
+        var trs = DrillDown(table, new List<string> { "tbody", "tr" });
+
+        foreach (var tr in trs)
+        {
+          if (tr.TryGetValue("td", out object? tdObj))
+          {
+            var tds = ProcessItem(tdObj);
+            var td = tds.TryGetAtIndex(reasonColNum);
+
+            result.AddRange(GetTextFromTd(td));
+          }
+        }
+      }
+      else
+      {
+        var trs = DrillDown(table, new List<string> { "tbody", "tr" });
+
+        foreach (var tr in trs)
+        {
+          if (tr.TryGetValue("th", out object? thObj)
+            && thObj is Dictionary<string, object> thDict
+            && thDict.TryGetValue("_", out object? thVal)
+            && targetColumns.Contains(thVal.ToString(), StringComparer.OrdinalIgnoreCase)
+            && tr.TryGetValue("td", out object? td))
+          {
+            result.AddRange(GetTextFromTd(td));
+          }
+        }
+      }
+
+      return result;
+    }
+
+
+    /// <summary>
+    /// Concatenates the reasons for visit in one or more tables into a string with ", " as the separator.
+    /// </summary>
+    /// <param name="data">A dictionary representing the "section" element containing the reasons for visit.</param>
+    /// <returns>A concatenated string of the reasons for visit.</returns>
+    public static string ConcatenateTds(IDictionary<string, object> data)
+    {
+      var dataDictionary = (Dictionary<string, object>)data;
+      var component = dataDictionary.TryGetValue("text", out object? textComponent) ? (Dictionary<string, object>)textComponent : dataDictionary;
+
+      if (component.TryGetValue("table", out object? table))
+      {
+        return string.Join(", ", GetReasonsFromTable((IDictionary<string, object>)table).Distinct(StringComparer.OrdinalIgnoreCase));
+      }
+
+      var tables = DrillDown(component, new List<string> { "list", "item", "table" });
+      if (tables == null)
+      {
+        return "";
+      }
+
+      var result = new List<string>();
+      foreach (var t in tables)
+      {
+        var reasons = GetReasonsFromTable(t);
+        if (reasons.Count > 0)
+        {
+          result.AddRange(reasons);
+        }
+      }
+
+      return string.Join(", ", result.Distinct(StringComparer.OrdinalIgnoreCase));
     }
 
     private static string WrapHtmlValue(string key, object value)
@@ -427,7 +592,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
             {
               foreach (var kvp in dict)
               {
-                result.Add(kvp.Value.ToString() ?? "");
+                result.Add(kvp.Value?.ToString() ?? "");
               }
             }
             else
@@ -477,6 +642,17 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         return string.Join("<br/>", result);
       }
       return string.Empty;
+    }
+
+    /// <summary>
+    /// Formats quantity into valid json number.
+    /// </summary>
+    /// <param name="input">The input data to process, which is a number formatted as a string.</param>
+    /// <returns>A number formatted as a string, with a leading 0 if it's a decimal, and up to 3 decimal places.</returns>
+    public static string FormatQuantity(string input)
+    {
+      IConvertible convert = input;
+      return convert.ToDouble(null).ToString("0.###");
     }
   }
 }

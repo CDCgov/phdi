@@ -138,11 +138,6 @@
                     "note":
                     [
                         {
-                            "elems": [
-                                {
-                                  "elemText": "test",
-                                }
-                            ],
                             {% if valueStringObject != null %}
                               {% if valueStringObject._ != null %}
                                   {% if valueStringObject.br != null %}
@@ -157,7 +152,7 @@
                                     {% assign value = valueStringObject.content | to_html_string %}
                                   {% endif %}
                               {% endif %}
-                              "text": "{{ value | replace: '\n', '\\n'  }}",
+                              "text": "{{ value | replace: '\n', '\\n' | remove: '"' }}",
                             {% else %}
                               "text": "{{ entry.act.text.reference._ }}",
                             {% endif %}
