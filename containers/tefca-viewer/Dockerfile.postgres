@@ -1,0 +1,22 @@
+# Start from the Debian-based Postgres image (postgres:latest)
+FROM postgres:14
+
+# Install necessary build tools and dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    make \
+    git \
+    postgresql-server-dev-all \
+    bash \
+    && git clone https://github.com/petere/plsh.git \
+    && cd plsh \
+    && make && make install \
+    && cd .. && rm -rf plsh \
+    && apt-get remove -y gcc make git \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# Ensure the setup-env.sh script is executable
+
+COPY ./containers/tefca-viewer/setup-env.sh /docker-entrypoint-initdb.d/setup-env.sh
+RUN chmod +x /docker-entrypoint-initdb.d/setup-env.sh
