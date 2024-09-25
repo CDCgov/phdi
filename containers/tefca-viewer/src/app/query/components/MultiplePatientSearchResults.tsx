@@ -14,6 +14,7 @@ import {
 } from "../../query-service";
 import ResultsView from "./ResultsView";
 import { ValueSetItem } from "@/app/constants";
+import Backlink from "./backLink/Backlink";
 
 /**
  * The props for the MultiplePatientSearchResults component.
@@ -58,10 +59,10 @@ const MultiplePatientSearchResults: React.FC<
         goBackToMultiplePatients={() =>
           setSingleUseCaseQueryResponse(undefined)
         }
+        queryName={originalRequest.use_case}
       />
     );
   }
-
   return (
     <>
       <div className="multiple-patient-search-results">
@@ -108,9 +109,7 @@ const MultiplePatientSearchResults: React.FC<
           </tbody>
         </Table>
         <h3>Not seeing what you are looking for?</h3>
-        <a href="#" className="back-link" onClick={() => goBack()}>
-          Return to patient search
-        </a>
+        <Backlink onClick={goBack} label="Return to patient search " />
       </div>
     </>
   );
