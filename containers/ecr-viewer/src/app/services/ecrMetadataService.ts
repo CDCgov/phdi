@@ -119,9 +119,36 @@ export const evaluateEcrMetadata = (
       value: evaluateFacilityId(fhirBundle, mappings),
     },
   ];
+
+  const ecrCustodianDetails: DisplayDataProps[] = [
+    {
+      title: "Custodian ID",
+      value: custodian?.identifier?.[0]?.value,
+    },
+    {
+      title: "Custodian Name",
+      value: custodian?.name,
+    },
+    {
+      title: "Custodian Address",
+      value: formatAddress(
+        custodian?.address?.[0].line ?? [],
+        custodian?.address?.[0].city ?? "",
+        custodian?.address?.[0].state ?? "",
+        custodian?.address?.[0].postalCode ?? "",
+        custodian?.address?.[0].country ?? "",
+      ),
+    },
+    {
+      title: "Custodian Contact",
+      value: formatContactPoint(custodian?.telecom).join("\n"),
+    },
+  ];
+
   return {
     eicrDetails: evaluateData(eicrDetails),
     ecrSenderDetails: evaluateData(ecrSenderDetails),
+    ecrCustodianDetails: evaluateData(ecrCustodianDetails),
     rrDetails: reportableConditionsList,
   };
 };

@@ -217,6 +217,7 @@ const AccordionLoadingSkeleton = () => {
           {renderEcrDocumentFiller("RR Details", 1)}
           {renderEcrDocumentFiller("eICR Details", 1)}
           {renderEcrDocumentFiller("eCR Sender Details", 6)}
+          {renderEcrDocumentFiller("eICR Custodian Details", 4)}
         </>
       ),
       headingLevel: "h3",
