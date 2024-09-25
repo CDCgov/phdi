@@ -1,4 +1,3 @@
-# Start from the Debian-based Postgres image (postgres:latest)
 FROM postgres:16
 
 # Install necessary build tools and dependencies
