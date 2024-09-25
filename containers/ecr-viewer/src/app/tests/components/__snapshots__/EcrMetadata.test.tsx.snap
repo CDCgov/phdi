@@ -173,7 +173,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 eICR Identifier
               </div>
@@ -201,7 +201,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Date/Time eCR Created
               </div>
@@ -220,7 +220,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Sender Software
               </div>
@@ -237,7 +237,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Sender Facility Name
               </div>
@@ -256,7 +256,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Facility Address
               </div>
@@ -277,7 +277,7 @@ Palmdale, CA
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Facility Contact
               </div>
@@ -296,7 +296,7 @@ Palmdale, CA
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Facility ID
               </div>
