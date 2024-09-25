@@ -806,7 +806,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Facility Contact
                       </div>

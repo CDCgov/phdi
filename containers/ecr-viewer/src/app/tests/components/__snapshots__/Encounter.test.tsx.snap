@@ -45,7 +45,7 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Encounter ID
                 </div>
@@ -76,7 +76,7 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Facility ID
                 </div>
