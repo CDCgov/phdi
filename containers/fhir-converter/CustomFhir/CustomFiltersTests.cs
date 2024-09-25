@@ -1,6 +1,5 @@
 #nullable disable
 using Microsoft.Health.Fhir.Liquid.Converter;
-using System.Collections.Generic;
 
 namespace CustomFhir;
 
@@ -272,5 +271,22 @@ public class CustomFilterTests
   {
     var actual = Filters.ConcatStrings(null);
     Assert.Equal("", actual);
+  }
+
+  [Fact]
+  public void ConcatenateTds_EmptyData_ReturnsEmptyString()
+  {
+    var inputData = new Dictionary<string, object>();
+    var actual = Filters.ConcatenateTds(inputData);
+
+    Assert.Equal(string.Empty, actual);
+  }
+
+  [Theory]
+  [ClassData(typeof(CustomFilterTestFixtures))]
+  public void ConcatenateTds_Table_With_Thead_ReturnsReasons(IDictionary<string, object> inputData, string expected)
+  {
+    var actual = Filters.ConcatenateTds(inputData);
+    Assert.Equal(expected, actual);
   }
 }

@@ -75,6 +75,14 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Build ${{ env.CONTAINER }} Flyway Container
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./containers/${{ env.CONTAINER }}/Dockerfile.flyway
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   playwright-tests:
     timeout-minutes: 10

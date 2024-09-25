@@ -27,7 +27,7 @@
             {% if medicationAdministration.doseQuantity.value -%}
                 "dose":
                 {
-                    "value":{{ medicationAdministration.doseQuantity.value }},
+                    "value":{{ medicationAdministration.doseQuantity.value | format_quantity }},
                     "unit":"{{ medicationAdministration.doseQuantity.unit }}",
                 },
             {% endif -%}

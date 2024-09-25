@@ -13,6 +13,7 @@ import {
   UseCaseQueryRequest,
 } from "../../query-service";
 import ResultsView from "./ResultsView";
+import { ValueSetItem } from "@/app/constants";
 
 /**
  * The props for the MultiplePatientSearchResults component.
@@ -20,6 +21,7 @@ import ResultsView from "./ResultsView";
 export interface MultiplePatientSearchResultsProps {
   patients: Patient[];
   originalRequest: UseCaseQueryRequest;
+  queryValueSets: ValueSetItem[];
   setLoading: (loading: boolean) => void;
   goBack: () => void;
 }
@@ -29,13 +31,15 @@ export interface MultiplePatientSearchResultsProps {
  * @param root0 - MultiplePatientSearchResults props.
  * @param root0.patients - The array of Patient resources.
  * @param root0.originalRequest - The original request object.
+ * @param root0.queryValueSets - The stateful collection of value sets to include
+ * in the query.
  * @param root0.setLoading - The function to set the loading state.
  * @param root0.goBack - The function to go back to the previous page.
  * @returns - The MultiplePatientSearchResults component.
  */
 const MultiplePatientSearchResults: React.FC<
   MultiplePatientSearchResultsProps
-> = ({ patients, originalRequest, setLoading, goBack }) => {
+> = ({ patients, originalRequest, queryValueSets, setLoading, goBack }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -90,6 +94,7 @@ const MultiplePatientSearchResults: React.FC<
                         patients,
                         index,
                         originalRequest,
+                        queryValueSets,
                         setSingleUseCaseQueryResponse,
                         setLoading,
                       )
@@ -177,6 +182,7 @@ function searchResultsNote(request: UseCaseQueryRequest): JSX.Element {
  * @param patients - The array of patients.
  * @param index - The index of the patient to view.
  * @param originalRequest - The original request object.
+ * @param queryValueSets - The value sets to include as part of the query.
  * @param setUseCaseQueryResponse - The function to set the use case query response.
  * @param setLoading - The function to set the loading state.
  */
@@ -184,11 +190,12 @@ async function viewRecord(
   patients: Patient[],
   index: number,
   originalRequest: UseCaseQueryRequest,
+  queryValueSets: ValueSetItem[],
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void,
   setLoading: (loading: boolean) => void,
 ): Promise<void> {
   setLoading(true);
-  const queryResponse = await UseCaseQuery(originalRequest, {
+  const queryResponse = await UseCaseQuery(originalRequest, queryValueSets, {
     Patient: [patients[index]],
   });
   setUseCaseQueryResponse(queryResponse);

@@ -157,7 +157,7 @@ export const demoData: Record<PatientType, DemoDataFields> = {
     LastName: "Hill",
     DOB: "2023-08-29",
     MRN: "18091",
-    Phone: "8161112222",
+    Phone: "",
     FhirServer: "CernerHelios: eHealthExchange",
     UseCase: "newborn-screening",
   },
@@ -326,3 +326,9 @@ export interface ValueSet {
 }
 
 export type ValueSetType = keyof ValueSet;
+
+export const valueSetTypeToClincalServiceTypeMap = {
+  labs: ["ostc", "lotc", "lrtc"],
+  medications: ["mrtc"],
+  conditions: ["dxtc", "sdtc"],
+};

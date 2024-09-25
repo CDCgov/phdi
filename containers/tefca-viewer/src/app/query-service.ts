@@ -13,10 +13,11 @@ import {
 } from "fhir/r4";
 
 import FHIRClient from "./fhir-servers";
-import { USE_CASES, FHIR_SERVERS } from "./constants";
+import { USE_CASES, FHIR_SERVERS, ValueSetItem } from "./constants";
 import * as dq from "./demoQueries";
 import { CustomQuery } from "./CustomQuery";
 import { GetPhoneQueryFormats } from "./format-service";
+import { formatValueSetItemsAsQuerySpec } from "./format-service";
 
 /**
  * The query response when the request source is from the Viewer UI.
@@ -145,11 +146,13 @@ async function patientQuery(
  * Query a FHIR API for a public health use case based on patient demographics provided
  * in the request. If data is found, return in a queryResponse object.
  * @param request - UseCaseQueryRequest object containing the patient demographics and use case.
+ * @param queryValueSets - The value sets to be included in query filtering.
  * @param queryResponse - The response object to store the query results.
  * @returns - The response object containing the query results.
  */
 export async function UseCaseQuery(
   request: UseCaseQueryRequest,
+  queryValueSets: ValueSetItem[],
   queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
   const fhirClient = new FHIRClient(request.fhir_server);
@@ -166,6 +169,7 @@ export async function UseCaseQuery(
 
   await generalizedQuery(
     request.use_case,
+    queryValueSets,
     patientId,
     fhirClient,
     queryResponse,
@@ -174,13 +178,30 @@ export async function UseCaseQuery(
   return queryResponse;
 }
 
+/**
+ * Performs a generalized query for collections of patients matching
+ * particular criteria. The query is determined by a collection of passed-in
+ * valuesets to include in the query results, and any patients found must
+ * have eCR data interseecting with these valuesets.
+ * @param useCase The particular use case the query is associated with.
+ * @param queryValueSets The valuesets to include as reference points for patient
+ * data.
+ * @param patientId The ID of the patient for whom to search.
+ * @param fhirClient The client used to communicate with the FHIR server.
+ * @param queryResponse The response object for the query results.
+ * @returns A promise for an updated query response.
+ */
 async function generalizedQuery(
   useCase: USE_CASES,
+  queryValueSets: ValueSetItem[],
   patientId: string,
   fhirClient: FHIRClient,
   queryResponse: QueryResponse,
 ): Promise<QueryResponse> {
-  const querySpec = UseCaseToStructMap[useCase];
+  const querySpec = await formatValueSetItemsAsQuerySpec(
+    useCase,
+    queryValueSets,
+  );
   const builtQuery = new CustomQuery(querySpec, patientId);
   let response: fetch.Response | fetch.Response[];
 
