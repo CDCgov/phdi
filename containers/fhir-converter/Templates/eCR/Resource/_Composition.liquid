@@ -10,19 +10,21 @@
             ]
         },
         "identifier":
-        {
-            "use":"official",
-            "type":
+        [
             {
-                {% assign codes = composition.code | to_array -%}
-                {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                "use":"official",
+                "type":
+                {
+                    {% assign codes = composition.code | to_array -%}
+                    {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                },
+                "value":"{{ composition.setId.extension }}",
+                "assigner": 
+                {
+                    "display": "{{ composition.setId.assigningAuthorityName }}"
+                },
             },
-            "value":"{{ composition.setId.extension }}",
-            "assigner": 
-            {
-                "display": "{{ composition.setId.assigningAuthorityName }}"
-            },
-        },
+        ],
         "extension":[
             {
                 "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
@@ -78,12 +80,7 @@
                     {
                         "status":"generated",
                         {% if component.section.text -%}
-                            {% assign componentDiv = component.section.text | to_html_string %}
-                            {% if componentDiv contains "http://www.w3.org/1999/xhtml" %}
-                              "div": "{{ componentDiv }}",
-                            {% else -%}
-                              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ componentDiv }}</div>",
-                            {% endif -%}
+                            "div": "{{ component.section.text | to_html_string | remove: '\"' | remove: '"'}}",
                         {% elsif component.section.title._ -%}
                             "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.title._ | escape }}</div>",
                         {% else -%}
@@ -97,7 +94,15 @@
                     "mode":"snapshot",
                     {% if component.section.templateId.root and component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.12" -%}
                         {%  assign tds = component.section | concatenate_tds -%}
-                        {% if component.section.text and component.section.text.content and component.section.text.content._ -%}
+                        {% if component.section.text and component.section.text._ and component.section.text._ != null -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text._ }}"
+                                },
+                            ],
+                        {% elsif component.section.text and component.section.text.content and component.section.text.content._ != null -%}
                             "extension":
                             [
                                 {
@@ -105,12 +110,12 @@
                                     "valueString" : "{{ component.section.text.content._ }}"
                                 },
                             ],
-                        {% elsif component.section.text and component.section.text._ and component.section.text._ != null -%}
+                        {% elsif component.section.text and component.section.text.paragraph._ and component.section.text.paragraph._ != null -%}
                             "extension":
                             [
                                 {
                                     "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
-                                    "valueString" : "{{ component.section.text.content._ }}"
+                                    "valueString" : "{{ component.section.text.paragraph._ }}"
                                 },
                             ],
                         {% elsif tds and tds != '' -%}

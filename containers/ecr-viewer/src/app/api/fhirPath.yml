@@ -37,8 +37,8 @@ eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
 eicrReleaseVersion: "Bundle.entry.resource.where(resourceType='Composition').extension.where(url='https://www.hl7.org/implement/standards/product_brief.cfm?product_id=436').valueString"
 eicrCustodianRef: "Bundle.entry.resource.where(resourceType= 'Composition').custodian.reference"
 dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
-ehrSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(category.coding.code='software').version.value"
-ehrManufacturerModel: "Bundle.entry.resource.where(resourceType = 'Device').where(category.coding.code='software').manufacturer"
+ehrSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(property[0].type.coding.code='software').version.value"
+ehrManufacturerModel: "Bundle.entry.resource.where(resourceType = 'Device').where(property[0].type.coding.code='software').manufacturer"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
 
 # Encounter Info

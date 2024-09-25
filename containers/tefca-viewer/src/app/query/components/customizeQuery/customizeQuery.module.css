@@ -71,6 +71,13 @@
   background-color: #fff;
   border: 1px solid #a9aeb1;
   border-radius: 0.25rem;
+  margin: 0.5rem;
+}
+
+.customizeQueryCheckbox svg {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
 }
 
 .caret {
@@ -78,6 +85,31 @@
   align-items: center;
   display: flex;
   margin: -3px;
+}
+
+.accordionHeader {
+  display: flex;
+  width: 100%;
+  color: var(--White, #fff);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  gap: 1.25rem;
+}
+
+.accordionSubtitle {
+  display: block;
+  font-weight: normal;
+  font-size: 16px;
+  color: var(--White, #fff);
+  font-size: 16px;
+  line-height: normal;
+}
+
+.accordionButtonTitle {
+  max-width: 40rem;
+  width: 100%;
 }
 
 .customizeQueryAccordion button {
@@ -103,36 +135,37 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+
+  --column-spacing: 3.75rem 6.25rem 1fr;
+  --column-gap: 3.75rem;
 }
 
 .customizeQueryGridHeader {
   display: grid;
-  grid-template-columns: 130px 160px 1fr;
   align-items: center;
-  padding: 0px 24px;
+  padding: 0.65rem 1.5rem;
   border-bottom: 1px solid #71767a;
   width: 100%;
+  grid-template-columns: var(--column-spacing);
+  gap: var(--column-gap);
 }
 
 .accordionTableHeader {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
   font-weight: bold;
   word-wrap: break-word;
   align-items: center;
-  gap: 20px;
   width: 100%;
   box-sizing: border-box;
-  margin-left: 6px;
-  margin-top: 10px;
 }
 
 .customizeQueryGridRow {
   display: grid;
-  grid-template-columns: 160px 160px 1fr;
+  grid-template-columns: var(--column-spacing);
+  gap: var(--column-gap);
   align-items: center;
-  padding: 14px 0px;
+  padding: 0.88rem 1.5rem;
 }
 
 .customizeQueryGridRow:nth-child(even) {

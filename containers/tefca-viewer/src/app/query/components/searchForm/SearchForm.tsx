@@ -16,18 +16,21 @@ import {
   patientOptions,
   stateOptions,
   Mode,
-} from "../../constants";
+  ValueSetItem,
+} from "../../../constants";
 import {
   UseCaseQueryResponse,
   UseCaseQuery,
   UseCaseQueryRequest,
-} from "../../query-service";
-import { fhirServers } from "../../fhir-servers";
+} from "../../../query-service";
+import { fhirServers } from "../../../fhir-servers";
+import styles from "./searchForm.module.css";
 
 import { FormatPhoneAsDigits } from "@/app/format-service";
 
 interface SearchFormProps {
   useCase: USE_CASES;
+  queryValueSets: ValueSetItem[];
   setUseCase: (useCase: USE_CASES) => void;
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
@@ -39,6 +42,7 @@ interface SearchFormProps {
 /**
  * @param root0 - SearchFormProps
  * @param root0.useCase - The use case this query will cover.
+ * @param root0.queryValueSets - Stateful collection of valuesets to use in the query.
  * @param root0.setUseCase - Update stateful use case.
  * @param root0.setOriginalRequest - The function to set the original request.
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
@@ -49,6 +53,7 @@ interface SearchFormProps {
  */
 const SearchForm: React.FC<SearchFormProps> = ({
   useCase,
+  queryValueSets,
   setUseCase,
   setOriginalRequest,
   setUseCaseQueryResponse,
@@ -120,7 +125,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       phone: FormatPhoneAsDigits(phone),
     };
     setOriginalRequest(originalRequest);
-    const queryResponse = await UseCaseQuery(originalRequest);
+    const queryResponse = await UseCaseQuery(originalRequest, queryValueSets);
     setUseCaseQueryResponse(queryResponse);
     if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
       setMode("no-patients");
@@ -144,8 +149,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
       <form className="patient-search-form" onSubmit={HandleSubmit}>
         <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
         {
-          <div className="usa-summary-box usa-summary-box demo-query-filler">
-            <Label className="usa-label" htmlFor="query">
+          <div className="usa-summary-box demo-query-filler ">
+            <Label className="no-margin-top-important" htmlFor="query">
               <b>Select a sample query and patient to populate the form.</b>
             </Label>
             <Label htmlFor="query">Query</Label>
@@ -171,13 +176,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   </option>
                 ))}
               </select>
-              <Button
-                type="button"
-                className="usa-button--outline bg-white query-page-button"
-                onClick={() => handleClick()}
-              >
-                Customize query
-              </Button>
             </div>
             <Label htmlFor="patient">Patient</Label>
             <div className="display-flex flex-align-start query-page-wrapper">
@@ -196,26 +194,34 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   </option>
                 ))}
               </select>
+            </div>
+            <div className={`${styles.searchCallToActionContainer}`}>
               <Button
-                className="usa-button--outline bg-white query-page-button"
+                className={`"usa-button" ${styles.searchCallToActionButton}`}
                 type="button"
-                // value={patientOption}
                 onClick={() => {
                   fillFields(patientOption as PatientType, false);
                 }}
               >
                 Fill fields
               </Button>
+              <Button
+                type="button"
+                className={`usa-button--outline bg-white ${styles.searchCallToActionButton}`}
+                onClick={() => handleClick()}
+              >
+                Customize query
+              </Button>
+              <Button
+                className={`usa-button--unstyled margin-left-auto ${styles.searchCallToActionButton}`}
+                type="button"
+                onClick={() => {
+                  setShowAdvanced(!showAdvanced);
+                }}
+              >
+                Advanced
+              </Button>
             </div>
-            <Button
-              className="usa-button--outline bg-white margin-top-4"
-              type="button"
-              onClick={() => {
-                setShowAdvanced(!showAdvanced);
-              }}
-            >
-              Advanced
-            </Button>
           </div>
         }
         <Fieldset>
