@@ -1,13 +1,29 @@
 import { UseCaseQueryResponse } from "../../query-service";
-import SideNav from "./SideNav";
+import ResultsViewSideNav, {
+  NavSection,
+} from "./resultsView/ResultsViewSideNav";
 import React, { useEffect } from "react";
-import { Alert, Icon } from "@trussworks/react-uswds";
-import ResultsViewTable from "./ResultsViewTable";
+import ResultsViewTable from "./resultsView/ResultsViewTable";
+import Backlink from "./backLink/Backlink";
+import styles from "../page.module.css";
+import ConditionsTable from "./ConditionsTable";
+import Demographics from "./Demographics";
+import DiagnosticReportTable from "./DiagnosticReportTable";
+import EncounterTable from "./EncounterTable";
+import MedicationRequestTable from "./MedicationRequestTable";
+import ObservationTable from "./ObservationTable";
 
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
   goBack: () => void;
   goBackToMultiplePatients?: () => void;
+  queryName: string;
+};
+
+export type ResultsViewAccordionItem = {
+  title: string;
+  subtitle?: string;
+  content?: React.ReactNode;
 };
 
 /**
@@ -15,73 +31,127 @@ type ResultsViewProps = {
  * @param props - The props for the QueryView component.
  * @param props.useCaseQueryResponse - The response from the query service.
  * @param props.goBack - The function to go back to the previous page.
- * @param props.goBackToMultiplePatients - The function to go back to the multiple patients selection page.
+ * @param props.goBackToMultiplePatients - The function to go back to the
+ * multiple patients selection page.
+ * @param props.queryName - The name of the saved query to display to the user
  * @returns The QueryView component.
  */
 const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
   goBack,
   goBackToMultiplePatients,
+  queryName,
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const accordionItems =
+    mapQueryResponseToAccordionDataStructure(useCaseQueryResponse);
+
+  const sideNavContent = accordionItems
+    .map((item) => {
+      if (item.content) {
+        return { title: item.title, subtitle: item?.subtitle };
+      }
+    })
+    .filter((i) => Boolean(i)) as NavSection[];
+
   return (
     <>
-      <Alert type="info" headingLevel="h4" slim className="custom-alert">
-        Interested in learning more about using the TEFCA Query Connector for
-        your jurisdiction? Send us an email at{" "}
-        <a
-          href="mailto:dibbs@cdc.gov"
-          style={{
-            color: "inherit",
-            fontWeight: "bold",
-            textDecoration: "underline",
-          }}
-        >
-          dibbs@cdc.gov
-        </a>
-      </Alert>
-
       <div className="results-banner">
-        <div className="results-banner-content usa-nav-container">
-          {goBackToMultiplePatients && (
-            <>
-              <a
-                href="#"
-                onClick={() => goBackToMultiplePatients()}
-                className="back-link"
-              >
-                <Icon.ArrowBack />
-                Return to search results
-              </a>
-              <div className="results-banner-divider">|</div>
-            </>
-          )}
+        <div className={`${styles.resultsBannerContent}`}>
+          <Backlink
+            onClick={goBackToMultiplePatients ?? goBack}
+            label="Return to search results"
+          />
 
-          <a href="#" onClick={() => goBack()} className="back-link">
+          <button
+            className="usa-button usa-button--outline margin-left-auto"
+            onClick={() => goBack()}
+          >
             New patient search
-          </a>
+          </button>
         </div>
       </div>
-      <div className="main-container grid-container grid-row">
-        <div className="nav-wrapper tablet:grid-col-3">
-          <nav className="sticky-nav">
-            <SideNav />
-          </nav>
+      <div className="margin-bottom-3">
+        <h2 className="margin-0" id="ecr-summary">
+          Patient Record
+        </h2>
+        <h3>
+          Query:{" "}
+          <span className="text-normal display-inline-block"> {queryName}</span>
+        </h3>
+      </div>
+
+      <div className=" grid-container grid-row grid-gap-md padding-0 ">
+        <div className="tablet:grid-col-3">
+          <ResultsViewSideNav items={sideNavContent} />
         </div>
-        <div className="tablet:grid-col-9">
-          <div className="ecr-content">
-            <h2 className="margin-bottom-3" id="ecr-summary">
-              Query Results
-            </h2>
-            <div className="margin-top-6">
-              <ResultsViewTable queryResponse={useCaseQueryResponse} />
-            </div>
-          </div>
+        <div className="tablet:grid-col-9 ecr-content">
+          <ResultsViewTable accordionItems={accordionItems} />
         </div>
       </div>
     </>
   );
 };
 export default ResultsView;
+
+function mapQueryResponseToAccordionDataStructure(
+  useCaseQueryResponse: UseCaseQueryResponse,
+) {
+  const patient =
+    useCaseQueryResponse.Patient && useCaseQueryResponse.Patient.length === 1
+      ? useCaseQueryResponse.Patient[0]
+      : null;
+  const observations = useCaseQueryResponse.Observation
+    ? useCaseQueryResponse.Observation
+    : null;
+  const encounters = useCaseQueryResponse.Encounter
+    ? useCaseQueryResponse.Encounter
+    : null;
+  const conditions = useCaseQueryResponse.Condition
+    ? useCaseQueryResponse.Condition
+    : null;
+  const diagnosticReports = useCaseQueryResponse.DiagnosticReport
+    ? useCaseQueryResponse.DiagnosticReport
+    : null;
+  const medicationRequests = useCaseQueryResponse.MedicationRequest
+    ? useCaseQueryResponse.MedicationRequest
+    : null;
+
+  const accordionItems: ResultsViewAccordionItem[] = [
+    {
+      title: "Patient Info",
+      subtitle: "Demographics",
+      content: patient ? <Demographics patient={patient} /> : null,
+    },
+    {
+      title: "Observations",
+      content: observations ? (
+        <ObservationTable observations={observations} />
+      ) : null,
+    },
+    {
+      title: "Encounters",
+      content: encounters ? <EncounterTable encounters={encounters} /> : null,
+    },
+    {
+      title: "Conditions",
+      content: conditions ? <ConditionsTable conditions={conditions} /> : null,
+    },
+    {
+      title: "Diagnostic Reports",
+      content: diagnosticReports ? (
+        <DiagnosticReportTable diagnosticReports={diagnosticReports} />
+      ) : null,
+    },
+    {
+      title: "Medication Requests",
+      content: medicationRequests ? (
+        <MedicationRequestTable medicationRequests={medicationRequests} />
+      ) : null,
+    },
+  ];
+  return accordionItems;
+}

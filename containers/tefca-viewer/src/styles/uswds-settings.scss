@@ -20,23 +20,19 @@ $ASSET_PREFIX: "";
 
 /* https://designsystem.digital.gov/documentation/settings/ */
 @use "uswds-core" with (
-  // General
-  $theme-show-compile-warnings: true,
-  $theme-show-notifications: false,
-  $theme-image-path: "../../../../../../dist/img",
+    // General
+    $theme-show-compile-warnings: true,
+    $theme-show-notifications: false,
+    $theme-image-path: "../../../../../../dist/img",
 
-  // Color
+    // Color
+    // Component
+    $theme-hero-image: "../../../../dist/img/hero.jpg",
+    $theme-accordion-button-background-color: "blue-cool-60",
 
-  // Component
-  $theme-hero-image: "../../../../dist/img/hero.jpg",
-  $theme-accordion-button-background-color: 'blue-cool-60',
+    // Spacing
+    // Typography
+    $theme-font-path: "../../../../../../dist/fonts",
 
-  // Spacing
-
-  // Typography
-  $theme-font-path: "../../../../../../dist/fonts",
-
-
-  // Utilities
-
-);
+    // Utilities
+  );
