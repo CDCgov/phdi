@@ -27,7 +27,7 @@
       {% assign serviceProviderId = msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility.serviceProviderOrganization | to_json_string | generate_uuid -%}
       {% include 'Resource/Organization' organization: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility.serviceProviderOrganization ID: serviceProviderId -%}
       {% assign fullServiceProviderId = serviceProviderId | prepend: 'Organization/' -%}
-      {% include 'Reference/Encounter/ServiceProvider' ID: encounterId, REF: fullServiceProviderId, LOC: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility.serviceProviderOrganization -%}
+      {% include 'Reference/Encounter/ServiceProvider' ID: encounterId, REF: fullServiceProviderId -%}
     {% endif -%}
   {% endif -%}
 {% endif -%}
