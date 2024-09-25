@@ -1,8 +1,12 @@
 import {
   Bundle,
   CodeableConcept,
+  Encounter,
   Identifier,
   Location,
+  Organization,
+  Practitioner,
+  PractitionerRole,
   Quantity,
 } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
@@ -10,6 +14,7 @@ import * as dateFns from "date-fns";
 import { PathMappings, evaluateData } from "../view-data/utils/utils";
 import {
   formatAddress,
+  formatContactPoint,
   formatName,
   formatPhoneNumber,
   formatStartEndDateTime,
@@ -386,21 +391,83 @@ export const evaluateProviderData = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
+  const encounterRef: string | undefined = evaluate(
+    fhirBundle,
+    mappings["compositionEncounterRef"],
+  )[0];
+  const encounter: Encounter = evaluateReference(
+    fhirBundle,
+    mappings,
+    encounterRef ?? "",
+  );
+  const encounterParticipantRef: string | undefined = evaluate(
+    encounter,
+    mappings["encounterIndividualRef"],
+  )[0];
+  const practitionerRole: PractitionerRole | undefined = evaluateReference(
+    fhirBundle,
+    mappings,
+    encounterParticipantRef ?? "",
+  );
+  const practitioner: Practitioner | undefined = evaluateReference(
+    fhirBundle,
+    mappings,
+    practitionerRole?.practitioner?.reference ?? "",
+  );
+  const organization: Organization | undefined = evaluateReference(
+    fhirBundle,
+    mappings,
+    practitionerRole?.organization?.reference ?? "",
+  );
+
   const providerData = [
     {
       title: "Provider Name",
       value: formatName(
-        evaluate(fhirBundle, mappings["providerGivenName"]),
-        evaluate(fhirBundle, mappings["providerFamilyName"])[0],
+        practitioner?.name?.[0].given,
+        practitioner?.name?.[0].family,
+        practitioner?.name?.[0].prefix,
+        practitioner?.name?.[0].suffix,
+      ),
+    },
+    {
+      title: "Provider Address",
+      value: practitioner?.address?.map((address) =>
+        formatAddress(
+          address.line ?? [],
+          address.city ?? "",
+          address.state ?? "",
+          address.postalCode ?? "",
+          address.country ?? "",
+        ),
       ),
     },
     {
       title: "Provider Contact",
-      value: formatPhoneNumber(
-        evaluate(fhirBundle, mappings["providerContact"])[0],
+      value: formatContactPoint(practitioner?.telecom).join("\n"),
+    },
+    {
+      title: "Provider Facility Name",
+      value: organization?.name,
+    },
+    {
+      title: "Provider Facility Address",
+      value: organization?.address?.map((address) =>
+        formatAddress(
+          address.line ?? [],
+          address.city ?? "",
+          address.state ?? "",
+          address.postalCode ?? "",
+          address.country ?? "",
+        ),
       ),
     },
+    {
+      title: "Provider ID",
+      value: practitioner?.identifier?.map((id) => id.value).join("\n"),
+    },
   ];
+
   return evaluateData(providerData);
 };
 
