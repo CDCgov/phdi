@@ -25,7 +25,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Patient Name
               </div>
@@ -44,7 +44,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 DOB
               </div>
@@ -63,7 +63,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Current Age
               </div>
@@ -82,7 +82,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Vital Status
               </div>
@@ -101,7 +101,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Sex
               </div>
@@ -120,7 +120,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Race
               </div>
@@ -139,7 +139,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Ethnicity
               </div>
@@ -158,7 +158,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Tribal
               </div>
@@ -177,7 +177,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Preferred Language
               </div>
@@ -196,7 +196,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Patient Address
               </div>
@@ -215,7 +215,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 County
               </div>
@@ -234,7 +234,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Contact
               </div>
@@ -253,7 +253,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Emergency Contact
               </div>
@@ -272,7 +272,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Patient IDs
               </div>

@@ -173,7 +173,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 eICR Identifier
               </div>
@@ -192,7 +192,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Date/Time eCR Created
               </div>
@@ -211,7 +211,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 eICR Release Version
               </div>
@@ -230,7 +230,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 EHR Software Name
               </div>
@@ -249,7 +249,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 EHR Manufacturer Model Name
               </div>
