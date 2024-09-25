@@ -45,7 +45,6 @@ const fakeData = (source: string) => ({
       },
     ],
   },
-  saveSource: source,
 });
 
 describe("POST Save FHIR Data API Route", () => {
@@ -150,6 +149,9 @@ describe("POST Save FHIR Data API Route - Azure", () => {
     mockBlockBlobClient.upload.mockResolvedValue({
       _response: { status: 201 },
     });
+
+    process.env.SOURCE = "azure";
+
     const request = new NextRequest(
       "http://localhost:3000/api/save-fhir-data",
       {
@@ -171,6 +173,8 @@ describe("POST Save FHIR Data API Route - Azure", () => {
     mockBlockBlobClient.upload.mockRejectedValue({
       _response: { status: 400 },
     });
+
+    process.env.SOURCE = "azure";
 
     const request = new NextRequest(
       "http://localhost:3000/api/save-fhir-data",

@@ -36,13 +36,14 @@ export async function POST(request: NextRequest) {
   }
 
   if (!saveSource) {
-    return NextResponse.json(
-      {
-        message:
-          'Save location is undefined. Please provide a valid value for \'saveSource\' ("postgres", "s3", or "azure").',
-      },
-      { status: 400 },
-    );
+    saveSource = process.env.SOURCE;
+    // return NextResponse.json(
+    //   {
+    //     message:
+    //       'Save location is undefined. Please provide a valid value for \'saveSource\' ("postgres", "s3", or "azure").',
+    //   },
+    //   { status: 400 },
+    // );
   }
 
   if (requestBody.metadata) {

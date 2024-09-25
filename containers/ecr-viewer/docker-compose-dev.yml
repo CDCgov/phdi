@@ -8,7 +8,7 @@ services:
       - "3000:3000"
     environment:
       - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/ecr_viewer_db}
-      - APP_ENV=${APP_ENV:-prod}
+      - APP_ENV=${APP_ENV:-dev}
     networks:
       - ecr-viewer
 

@@ -88,6 +88,7 @@ export const saveToS3 = async (fhirBundle: Bundle, ecrId: string) => {
       { status: 200 },
     );
   } catch (error: any) {
+    console.error(error);
     return NextResponse.json(
       { message: "Failed to insert data to S3. " + error.message },
       { status: 500 },

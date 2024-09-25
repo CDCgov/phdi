@@ -32,10 +32,7 @@
       "name:": "save_bundle",
       "service": "save_bundle",
       "url": "${ECR_VIEWER_URL}",
-      "endpoint": "/api/save-fhir-data",
-      "params": {
-        "saveSource": "postgres"
-      }
+      "endpoint": "/api/save-fhir-data"
     },
     {
       "name": "message_parser_values",
