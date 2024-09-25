@@ -159,7 +159,8 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
         <>
           {Object.keys(ecrMetadata.rrDetails).length > 0 ||
           ecrMetadata.eicrDetails.availableData.length > 0 ||
-          ecrMetadata.ecrSenderDetails.availableData.length > 0 ? (
+          ecrMetadata.ecrSenderDetails.availableData.length > 0 ||
+          ecrMetadata.eicrAuthorDetails.availableData.length > 0 ? (
             <EcrMetadata
               eicrDetails={ecrMetadata.eicrDetails.availableData}
               eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
