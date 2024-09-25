@@ -55,10 +55,9 @@ facilityState: "Bundle.entry.resource.where(resourceType = 'Location')[0].addres
 facilityStreetAddress: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.line[0]"
 facilityType: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].extension.where(url = 'http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type').valueCodeableConcept.coding[0].display"
 facilityZipCode: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.postalCode"
-providerContact: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].telecom.where(system = 'phone')[0].value"
-providerFamilyName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].family"
-providerGivenName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].given"
-providerName: "idk"
+
+compositionEncounterRef: "Bundle.entry.resource.where(resourceType = 'Composition').encounter.reference"
+encounterIndividualRef: "Encounter.participant.where(type.coding.code = 'ATND').individual.reference"
 
 rrDetails: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation')"
 rrDisplayNames: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').valueCodeableConcept.coding.display"
