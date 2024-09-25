@@ -13,8 +13,6 @@ def convert_files():
     :return: A list of fhir bundles
     """
     print("Converting files...")
-    fhir_bundles = []
-    metadata = []
     subfolders = ["LA", "TN", "ME", "KY"]
     # Iterate over the subfolders
     for subfolder in subfolders:
@@ -56,9 +54,6 @@ def convert_files():
                                 ]
                                 for response in responses_json:
                                     if "stamped_ecr" in response:
-                                        fhir_bundles.append(
-                                            response["stamped_ecr"]["extended_bundle"]
-                                        )
                                         with open(
                                             os.path.join(folder_path, "bundle.json"),
                                             "w",
@@ -71,11 +66,25 @@ def convert_files():
                                                 indent=4,
                                             )
                                     if "message_parser_values" in response:
-                                        metadata.append(
-                                            response["message_parser_values"][
-                                                "parsed_values"
-                                            ]
+                                        # metadata.append(
+                                        #     response["message_parser_values"][
+                                        #         "parsed_values"
+                                        #     ]
+                                        # )
+                                        
+                                        payload = {
+                                            "message_type": "ecr",
+                                            "data_type": "ecr",
+                                            "config_file_name": "seed-ecr-viewer-config.json",
+                                            "message": eicr_file.read(),
+                                            "rr_data": rr_file.read(),
+                                        }
+
+                                        print(f"{URL}/process-message")
+                                        response = requests.post(
+                                            f"{URL}/process-message", json=payload
                                         )
+
                                         print(
                                             f"Converted {folder} in {subfolder} successfully."
                                         )
@@ -92,7 +101,5 @@ def convert_files():
                 # If the subfolder is not a directory, print a message
                 else:
                     print(f"{subfolder_path} is not a valid directory.")
-    if os.environ.get("NEXT_PUBLIC_NON_INTEGRATED_VIEWER") == "true":
-        return fhir_bundles, metadata
-    else:
-        return fhir_bundles
+    
+convert_files()

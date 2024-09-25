@@ -1,0 +1,17 @@
+services:
+  # Next.js app
+  ecr-viewer:
+    build:
+      context: ../../
+      dockerfile: ./containers/ecr-viewer/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/ecr_viewer_db}
+      - APP_ENV=${APP_ENV:-prod}
+    networks:
+      - ecr-viewer
+
+networks:
+  ecr-viewer:
+    name: "ecr_viewer_network"

@@ -7,7 +7,6 @@ services:
       - fhir-converter-service
       - ingestion-service
       - message-parser-service
-      - ecr-viewer
     ports:
       - "8080:8080"
     logging:
@@ -19,12 +18,17 @@ services:
       interval: 10s
       timeout: 20s
       retries: 5
+    networks:
+      - ecr-viewer
+      - orchestration
 
   fhir-converter-service:
     build:
       context: ../../fhir-converter/
     ports:
       - "8082:8080"
+    networks:
+      - orchestration
 
   ingestion-service:
     platform: linux/amd64
@@ -37,6 +41,8 @@ services:
     environment:
       SMARTY_AUTH_ID: ${SMARTY_AUTH_ID}
       SMARTY_AUTH_TOKEN: ${SMARTY_AUTH_TOKEN}
+    networks:
+      - orchestration
 
   message-parser-service:
     platform: linux/amd64
@@ -46,6 +52,8 @@ services:
       - "8085:8080"
     logging:
       driver: "json-file"
+    networks:
+      - orchestration
 
   trigger-code-reference-service:
     platform: linux/amd64
@@ -55,36 +63,41 @@ services:
       - "8086:8080"
     logging:
       driver: "json-file"
+    networks:
+      - orchestration
 
-  db:
-    image: "postgres:alpine"
-    ports:
-      - "5432:5432"
-    volumes:
-      - ../sql/:/docker-entrypoint-initdb.d/
-      - ./sql/:/docker-entrypoint-initdb.d/
-      - ./sql/.pgpass/:/usr/local/lib/.pgpass
-    environment:
-      - POSTGRES_USER=postgres
-      - PGUSER=postgres
-      - POSTGRES_PASSWORD=pw
-      - POSTGRES_DB=ecr_viewer_db
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 2s
-      timeout: 5s
-      retries: 20
+  # db:
+  #   image: "postgres:alpine"
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ../sql/:/docker-entrypoint-initdb.d/
+  #     - ./sql/:/docker-entrypoint-initdb.d/
+  #     - ./sql/.pgpass/:/usr/local/lib/.pgpass
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - PGUSER=postgres
+  #     - POSTGRES_PASSWORD=pw
+  #     - POSTGRES_DB=ecr_viewer_db
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready"]
+  #     interval: 2s
+  #     timeout: 5s
+  #     retries: 20
 
   # Next.js app
-  ecr-viewer:
-    build:
-      context: ../../../
-      dockerfile: ./containers/ecr-viewer/Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/ecr_viewer_db}
-      - APP_ENV=${APP_ENV:-prod}
+  # ecr-viewer:
+  #   build:
+  #     context: ../../../
+  #     dockerfile: ./containers/ecr-viewer/Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/ecr_viewer_db}
+  #     - APP_ENV=${APP_ENV:-prod}
+  #   networks:
+  #     - orchestration
+  #     - ecr-viewer
 
   convert-data:
     build: .
@@ -98,3 +111,13 @@ services:
     volumes:
       - ./sql:/code/sql
       - ./baseECR:/code/baseECR
+    networks:
+      - orchestration
+
+networks:
+  ecr-viewer:
+    name: "ecr_viewer_network"
+    external: true
+  orchestration:
+    name: "orchestration_network"
+    external: false
