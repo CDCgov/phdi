@@ -22,9 +22,11 @@ const ResultsViewAccordionBody: React.FC<ResultsViewAccordionBodyProps> = ({
 }) => {
   return (
     <>
-      <h4 id={id} className={styles.accordionHeading}>
-        {title}
-      </h4>
+      {title && (
+        <h4 id={id} className={styles.accordionHeading}>
+          {title}
+        </h4>
+      )}
       <div className={"usa-summary-box__text"}>{content}</div>
     </>
   );
