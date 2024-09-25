@@ -26,7 +26,7 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Facility ID
                 </div>
@@ -45,7 +45,7 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Facility Name
                 </div>
@@ -64,7 +64,7 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Facility Type
                 </div>
@@ -97,7 +97,7 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Provider Name
                 </div>
@@ -116,7 +116,7 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Provider Contact
                 </div>

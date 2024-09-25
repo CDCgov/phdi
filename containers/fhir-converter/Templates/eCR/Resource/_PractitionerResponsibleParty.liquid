@@ -3,17 +3,6 @@
     "resource":{
         "resourceType": "Practitioner",
         "id":"{{ ID }}",
-        {% if practitioner.assignedPerson and practitioner.assignedPerson.name and practitioner.assignedPerson.name.given._ -%}
-            {% assign actualPractitioner = practitioner.assignedPerson -%}
-            {% assign personNames = practitioner.assignedPerson.name | to_array -%}
-            {% assign personType = "PERSON" -%}
-        {% endif -%}
-        {% if practitioner.representedOrganization and practitioner.representedOrganization.name._ -%}
-            {% assign actualPractitioner = practitioner.representedOrganization -%}
-            {% assign orgNames = practitioner.representedOrganization.name | to_array -%}
-            {% assign orgType = "ORG" -%}
-        {% endif -%}
-
         "meta":
         {
             "profile":
@@ -36,45 +25,21 @@
         ],
         "name":
         [
-            {% if personType and personType == "PERSON" -%}
-                {% for personName in names -%}
-                { {% include 'DataType/HumanName' HumanName: personName -%} },
-                {% endfor -%}
-            {% endif -%}
-            {% if orgType and orgType == "ORG" -%}
-                {% for orgName in orgNames -%}
-                {
-                    "use": "usual",
-                    "text": "{{orgName._}}",
-                },
-                {% endfor -%}
-            {% endif -%}
-
+            {% assign personNames = practitioner.assignedPerson.name | to_array -%}
+            {% for personName in personNames -%}
+            { {% include 'DataType/HumanName' HumanName: personName -%} },
+            {% endfor -%}
         ],
         "address":
         [
-            {% if personType and personType == "PERSON" -%}
-                {% assign addrs = practitioner.addr | to_array -%}
-                {% for addr in addrs -%}
-                { {% include 'DataType/Address' Address: addr -%} },
-                {% endfor -%}
-            {% endif -%}
-            {% if orgType and orgType == "ORG" -%}
-                {% assign addrs = actualPractitioner.addr | to_array -%}
-                {% for addr in addrs -%}
-                { {% include 'DataType/Address' Address: addr -%} },
-                {% endfor -%}
-            {% endif -%}
+            {% assign addrs = practitioner.addr | to_array -%}
+            {% for addr in addrs -%}
+            { {% include 'DataType/Address' Address: addr -%} },
+            {% endfor -%}
         ],
         "telecom":
         [
-            {% if personType and personType == "PERSON" -%}
-                {% assign telecoms = practitioner.telecom | to_array -%}
-            {% endif -%}
-            {% if orgType and orgType == "ORG" -%}
-                {% assign telecoms = actualPractitioner.telecom | to_array -%}
-            {% endif -%}
-            
+            {% assign telecoms = practitioner.telecom | to_array -%}
             {% for telecom in telecoms -%}
             { {% include 'DataType/ContactPoint' ContactPoint: telecom -%} },
             {% endfor -%}
