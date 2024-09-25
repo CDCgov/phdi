@@ -310,6 +310,93 @@ Palmdale, CA
               class="section__line_gray"
             />
           </div>
+          <div
+            class="padding-bottom-1"
+          />
+          <h4
+            class="usa-summary-box__heading padding-y-105"
+            id="ecr-custodian-details"
+          >
+            eICR Custodian Details
+          </h4>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Custodian ID
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                1104202761
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Custodian Name
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                Vanderbilt University Medical Center
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Custodian Address
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                3401 West End Ave
+Nashville, TN
+37203, USA
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Custodian Contact
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                Work 1-615-322-5000
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
         </div>
       </div>
     </div>

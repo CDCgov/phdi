@@ -69,6 +69,32 @@ describe("Evaluate Ecr Metadata", () => {
     ]);
     expect(actual.eicrDetails.unavailableData).toBeEmpty();
   });
+  it("should have eicr Custodian Details", () => {
+    const actual = evaluateEcrMetadata(
+      BundleWithEcrMetadata as unknown as Bundle,
+      mappings,
+    );
+
+    expect(actual.ecrCustodianDetails.availableData).toEqual([
+      {
+        title: "Custodian ID",
+        value: "1104202761",
+      },
+      {
+        title: "Custodian Name",
+        value: "Vanderbilt University Medical Center",
+      },
+      {
+        title: "Custodian Address",
+        value: "3401 West End Ave\nNASHVILLE, TN\n37203, USA",
+      },
+      {
+        title: "Custodian Contact",
+        value: "Work 615-322-5000",
+      },
+    ]);
+    expect(actual.ecrCustodianDetails.unavailableData).toBeEmpty();
+  });
   it("should have rrDetails", () => {
     const actual = evaluateEcrMetadata(
       BundleWithEcrMetadata as unknown as Bundle,

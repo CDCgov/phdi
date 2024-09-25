@@ -90,6 +90,10 @@ describe("UnavailableInfo", () => {
         title: "Sender Software",
         value: "",
       },
+      {
+        title: "Custodian Contact",
+        value: "",
+      },
     ];
     container = render(
       <UnavailableInfo

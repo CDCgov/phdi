@@ -61,11 +61,30 @@ describe("ECR Metadata", () => {
         value: "2.16.840.1.113883.4.6",
       },
     ];
+    const ecrCustodianDetails: DisplayDataProps[] = [
+      {
+        title: "Custodian ID",
+        value: "1104202761",
+      },
+      {
+        title: "Custodian Name",
+        value: "Vanderbilt University Medical Center",
+      },
+      {
+        title: "Custodian Address",
+        value: "3401 West End Ave\nNashville, TN\n37203, USA",
+      },
+      {
+        title: "Custodian Contact",
+        value: "Work 1-615-322-5000",
+      },
+    ];
 
     container = render(
       <EcrMetadata
         eicrDetails={eicrDetails}
         eCRSenderDetails={ecrSenderDetails}
+        eCRCustodianDetails={ecrCustodianDetails}
         rrDetails={rrConditionsList}
       />,
     ).container;
