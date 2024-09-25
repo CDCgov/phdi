@@ -982,16 +982,14 @@
                   dict({
                     'url': str,
                     'valueCodeableConcept': dict({
-                      'type': dict({
-                        'coding': list([
-                          dict({
-                            'code': '88085-6',
-                            'display': 'Reportability response report Document Public health',
-                            'system': 'http://loinc.org',
-                          }),
-                        ]),
-                      }),
-                      'use': 'official',
+                      'coding': list([
+                        dict({
+                          'code': '88085-6',
+                          'display': 'Reportability response report Document Public health',
+                          'system': 'http://loinc.org',
+                        }),
+                      ]),
+                      'text': 'official',
                     }),
                   }),
                   dict({
