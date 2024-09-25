@@ -461,15 +461,19 @@
             "value": "Epic - Version 10.1"
           }
         ],
-        "category": {
-          "coding": [
-            {
-              "system": "http://hl7.org/fhir/device-category",
-              "code": "software",
-              "display": "software"
+        "property": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/device-category",
+                  "code": "software",
+                  "display": "software"
+                }
+              ]
             }
-          ]
-        },
+          }
+        ],
         "owner": {
           "reference": "Organization/d319a926-0eb3-5847-3b21-db8b778b4f07"
         },

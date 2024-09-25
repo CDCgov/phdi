@@ -187,6 +187,82 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="section__line_gray"
             />
           </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                Date/Time eCR Created
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                2022-05-14T12:56:38Z
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                eICR Release Version
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                R1.1 (2016-12-01)
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                EHR Software Name
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                Epic - Version 10.1
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                EHR Manufacturer Model Name
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                Epic - Version 10.1
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
         </div>
       </div>
     </div>
