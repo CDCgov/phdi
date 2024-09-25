@@ -1,3 +1,5 @@
+import * as dq from "./demoQueries";
+
 /**
  * The use cases that can be used in the app
  */
@@ -11,7 +13,31 @@ export const UseCases = [
 ] as const;
 export type USE_CASES = (typeof UseCases)[number];
 
-/*Labels and values for the query options dropdown on the query page*/
+export const UseCaseToQueryName: {
+  [key in USE_CASES]: string;
+} = {
+  "social-determinants": "Social Determinants of Health",
+  "newborn-screening": "Newborn Screening",
+  syphilis: "Congenital syphilis (disorder)",
+  gonorrhea: "Gonorrhea (disorder)",
+  chlamydia: "Chlamydia trachomatis infection (disorder)",
+  cancer: "Cancer (Leukemia)",
+};
+
+export const UseCaseToStructMap: {
+  [key in USE_CASES]: dq.QueryStruct;
+} = {
+  "social-determinants": dq.SOCIAL_DETERMINANTS_QUERY,
+  "newborn-screening": dq.NEWBORN_SCREENING_QUERY,
+  syphilis: dq.SYPHILIS_QUERY,
+  gonorrhea: dq.GONORRHEA_QUERY,
+  chlamydia: dq.CHLAMYDIA_QUERY,
+  cancer: dq.CANCER_QUERY,
+};
+
+/**
+ * Labels and values for the query options dropdown on the query page
+ */
 export const demoQueryOptions = [
   { value: "cancer", label: "Cancer case investigation" },
   { value: "chlamydia", label: "Chlamydia case investigation" },
@@ -131,7 +157,7 @@ export const demoData: Record<PatientType, DemoDataFields> = {
     LastName: "Hill",
     DOB: "2023-08-29",
     MRN: "18091",
-    Phone: "8161112222",
+    Phone: "",
     FhirServer: "CernerHelios: eHealthExchange",
     UseCase: "newborn-screening",
   },
@@ -287,6 +313,8 @@ export interface ValueSetItem {
   system: string;
   include: boolean;
   author: string;
+  clinicalServiceType: string;
+  valueSetName: string;
 }
 
 /*Type to specify the expected expected types of valueset items that will be displayed 
@@ -296,3 +324,11 @@ export interface ValueSet {
   medications: ValueSetItem[];
   conditions: ValueSetItem[];
 }
+
+export type ValueSetType = keyof ValueSet;
+
+export const valueSetTypeToClincalServiceTypeMap = {
+  labs: ["ostc", "lotc", "lrtc"],
+  medications: ["mrtc"],
+  conditions: ["dxtc", "sdtc"],
+};
