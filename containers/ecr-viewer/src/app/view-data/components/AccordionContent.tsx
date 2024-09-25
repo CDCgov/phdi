@@ -101,6 +101,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
       content: (
         <>
           {encounterData.availableData.length > 0 ||
+          facilityData.availableData.length > 0 ||
           providerData.availableData.length > 0 ? (
             <EncounterDetails
               encounterData={encounterData.availableData}
