@@ -9,11 +9,12 @@ type TableProps = {
 
 /**
  *
- * @param root0
- * @param root0.children
- * @param root0.bordered
- * @param root0.className
- * @param root0.striped
+ * @param root0 - params
+ * @param root0.children - the child table component to render
+ * @param root0.bordered - whether to render a bordered table
+ * @param root0.striped - whether to render a striped table
+ * @param root0.className - additional custom class names
+ * @returns - A UWSDS-styled table
  */
 const Table: React.FC<TableProps> = ({
   children,
