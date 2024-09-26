@@ -7,6 +7,14 @@ type TableProps = {
   striped?: boolean;
 };
 
+/**
+ *
+ * @param root0
+ * @param root0.children
+ * @param root0.bordered
+ * @param root0.className
+ * @param root0.striped
+ */
 const Table: React.FC<TableProps> = ({
   children,
   bordered,
