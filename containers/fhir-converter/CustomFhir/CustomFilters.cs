@@ -366,7 +366,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       var stringBuilder = new StringBuilder();
       if (data is string stringData)
       {
-        return stringData.Trim();
+        return stringData;
       }
       else if (data is IList listData)
       {

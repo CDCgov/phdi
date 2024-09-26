@@ -117,33 +117,44 @@ const EcrMetadata = ({
           </thead>
           <tbody>{convertDictionaryToRows(rrDetails)}</tbody>
         </Table>
-        <AccordionH4 id={"ersd-warnings"}>eRSD Warnings</AccordionH4>
-        <Table
-          class="usa-table width-full"
-          bordered
-          caption="eRSD Warning"
-          className="eRSDtable"
-          fixed={true}
-        >
-          <thead>
-            <tr>
-              <th>Warning</th>
-              <th>Version in Use</th>
-              <th>Expected Version</th>
-              <th>Suggested Solution</th>
-            </tr>
-          </thead>
-          <tbody>
-            {eRSDwarnings[0].value.map((warningItem, index) => (
-              <tr key={index}>
-                <td>{warningItem.warning}</td>
-                <td>{warningItem.versionUsed}</td>
-                <td>{warningItem.expectedVersion}</td>
-                <td>{warningItem.suggestedSolution}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        {eRSDwarnings?.length > 0 ? (
+          <div>
+            <hr />
+            <Table
+              bordered={false}
+              className="ersd-table fixed-table border-top border-left border-right border-bottom"
+              caption="eRSD Warnings"
+              fixed={true}
+              fullWidth
+            >
+              <thead>
+                <tr>
+                  <th>Warning</th>
+                  <th>Version in Use</th>
+                  <th>Expected Version</th>
+                  <th>Suggested Solution</th>
+                </tr>
+              </thead>
+              <tbody>
+                {eRSDwarnings?.[0]?.value.map((warningItem, index) => (
+                  <tr key={index}>
+                    <td className="padding-105">{warningItem.warning}</td>
+                    <td className="padding-105">{warningItem.versionUsed}</td>
+                    <td className="padding-105">
+                      {warningItem.expectedVersion}
+                    </td>
+                    <td className="padding-105">
+                      {warningItem.suggestedSolution}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <hr />
+          </div>
+        ) : (
+          ""
+        )}
         <div className={"padding-bottom-1"} />
         <AccordionH4 id={"eicr-details"}>eICR Details</AccordionH4>
         {eicrDetails.map((item, index) => {
