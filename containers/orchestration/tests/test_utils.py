@@ -151,8 +151,8 @@ def test_combine_response_bundles_with_default_response_off():
     combined = _combine_response_bundles(
         mock_response,
         {
-            "foobar": mock_response_2,
-            "bizboo": mock_response,
+            "foo": mock_response_2,
+            "biz": mock_response,
             "notIncluded": mock_response_3,
         },
         config,
