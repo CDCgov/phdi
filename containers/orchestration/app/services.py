@@ -184,7 +184,7 @@ async def call_apis(
             service = step["service"]
             endpoint = step["endpoint"]
             endpoint_name = endpoint.split("/")[-1]
-            params = step.get("params", None)
+            params = step.get("params", {})
             previous_response_to_param_mapping = step.get(
                 "previous_response_to_param_mapping", None
             )
