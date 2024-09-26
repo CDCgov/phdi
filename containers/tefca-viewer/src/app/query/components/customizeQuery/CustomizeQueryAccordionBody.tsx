@@ -33,7 +33,7 @@ const CustomizeQueryAccordionBody: React.FC<
         {group.items.map((item, index) => (
           <tr className={`${styles.customizeQueryGridRow}`} key={item.code}>
             <td
-              className={` ${styles.customizeQueryCheckbox} ${styles.hideCheckboxLabel}`}
+              className={`${styles.customizeQueryCheckbox}`}
               onClick={(e) => {
                 e.stopPropagation();
                 toggleInclude(groupIndex, index);
