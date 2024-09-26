@@ -67,12 +67,14 @@ const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
  * @param props.rrDetails - The reportable conditions details.
  * @param props.eicrDetails - The eICR details.
  * @param props.eCRSenderDetails - The eCR sender details.
+ * @param props.eRSDwarnings - The eRSD warnings.
  * @returns The JSX element representing the eCR metadata.
  */
 const EcrMetadata = ({
   rrDetails,
   eicrDetails,
   eCRSenderDetails,
+  eRSDwarnings,
 }: EcrMetadataProps) => {
   return (
     <AccordionSection>
@@ -114,6 +116,33 @@ const EcrMetadata = ({
             </tr>
           </thead>
           <tbody>{convertDictionaryToRows(rrDetails)}</tbody>
+        </Table>
+        <AccordionH4 id={"ersd-warnings"}>eRSD Warnings</AccordionH4>
+        <Table
+          class="usa-table width-full"
+          bordered
+          caption="eRSD Warning"
+          className="eRSDtable"
+          fixed={true}
+        >
+          <thead>
+            <tr>
+              <th>Warning</th>
+              <th>Version in Use</th>
+              <th>Expected Version</th>
+              <th>Suggested Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            {eRSDwarnings[0].value.map((warningItem, index) => (
+              <tr key={index}>
+                <td>{warningItem.warning}</td>
+                <td>{warningItem.versionUsed}</td>
+                <td>{warningItem.expectedVersion}</td>
+                <td>{warningItem.suggestedSolution}</td>
+              </tr>
+            ))}
+          </tbody>
         </Table>
         <div className={"padding-bottom-1"} />
         <AccordionH4 id={"eicr-details"}>eICR Details</AccordionH4>

@@ -38,6 +38,7 @@ eicrCustodianRef: "Bundle.entry.resource.where(resourceType= 'Composition').cust
 dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
 senderSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(property[0].type.coding.code='software').type.coding.display"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
+eRSDwarnings: "Bundle.entry.resource.where(resourceType= 'Composition').section.where(title = 'Reportability Response Information Section').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension').valueCodeableConcept.coding.entries.eRSDwarnings"
 
 # Encounter Info
 encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"

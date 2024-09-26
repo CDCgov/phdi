@@ -64,6 +64,40 @@ export const evaluateEcrMetadata = (
     custodianRef,
   ) as Organization;
 
+  const eRSDwarnings = evaluate(fhirBundle, mappings.eRSDwarnings);
+  let eRSDtext = [];
+
+  for (const warning of eRSDwarnings) {
+    if (warning.code == "RRVS34") {
+      eRSDtext.push({
+        warning:
+          "Sending organization is using an malformed eRSD (RCTC) version",
+        versionUsed: "2020-06-23",
+        expectedVersion:
+          "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
+        suggestedSolution:
+          "The trigger code version your organization is using could not be determined. The trigger codes may be out date. Please have your EHR administrators update the version format for complete eCR functioning.",
+      });
+    } else if (warning.code == "RRVS29") {
+      eRSDtext.push({
+        warning:
+          "Sending organization is using an outdated eRSD (RCTC) version",
+        versionUsed: "2020-06-23",
+        expectedVersion:
+          "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
+        suggestedSolution:
+          "The trigger code version your organization is using is out-of-date. Please have your EHR administration install the current version for complete eCR functioning.",
+      });
+    }
+  }
+
+  const eRSDwarningsDisplay: DisplayDataProps[] = [
+    {
+      title: "eRSD warnings",
+      value: eRSDtext,
+    },
+  ];
+
   const eicrDetails: DisplayDataProps[] = [
     {
       title: "eICR Identifier",
@@ -123,5 +157,6 @@ export const evaluateEcrMetadata = (
     eicrDetails: evaluateData(eicrDetails),
     ecrSenderDetails: evaluateData(ecrSenderDetails),
     rrDetails: reportableConditionsList,
+    eRSDwarnings: evaluateData(eRSDwarningsDisplay),
   };
 };
