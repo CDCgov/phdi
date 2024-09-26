@@ -48,10 +48,11 @@ export const config = {
  *   "auth" parameter does not exist in the request.
  */
 function set_auth_cookie(req: NextRequest) {
-  const url = req.nextUrl;
+  const url = req.nextUrl.clone();
   const auth = url.searchParams.get("auth");
   if (auth) {
     url.searchParams.delete("auth");
+    url.hostname = req.headers.get("x-forwarded-host") ?? url.hostname;
     const response = NextResponse.redirect(url);
     response.cookies.set("auth-token", auth, { httpOnly: true });
     return response;
