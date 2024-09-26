@@ -5,7 +5,10 @@ import {
 } from "../component-utils";
 import { Table } from "@trussworks/react-uswds";
 import { ToolTipElement } from "@/app/view-data/components/ToolTipElement";
-import { ReportableConditions } from "../../services/ecrMetadataService";
+import {
+  ERSDWarning,
+  ReportableConditions,
+} from "../../services/ecrMetadataService";
 import {
   DataDisplay,
   DisplayDataProps,
@@ -16,6 +19,7 @@ interface EcrMetadataProps {
   rrDetails: ReportableConditions;
   eicrDetails: DisplayDataProps[];
   eCRSenderDetails: DisplayDataProps[];
+  eRSDwarnings: ERSDWarning[];
 }
 
 interface ReportableConditionsList {
@@ -136,18 +140,19 @@ const EcrMetadata = ({
                 </tr>
               </thead>
               <tbody>
-                {eRSDwarnings?.[0]?.value.map((warningItem, index) => (
-                  <tr key={index}>
-                    <td className="padding-105">{warningItem.warning}</td>
-                    <td className="padding-105">{warningItem.versionUsed}</td>
-                    <td className="padding-105">
-                      {warningItem.expectedVersion}
-                    </td>
-                    <td className="padding-105">
-                      {warningItem.suggestedSolution}
-                    </td>
-                  </tr>
-                ))}
+                {Array.isArray(eRSDwarnings) &&
+                  eRSDwarnings.map((warningItem, index) => (
+                    <tr key={index}>
+                      <td className="padding-105">{warningItem.warning}</td>
+                      <td className="padding-105">{warningItem.versionUsed}</td>
+                      <td className="padding-105">
+                        {warningItem.expectedVersion}
+                      </td>
+                      <td className="padding-105">
+                        {warningItem.suggestedSolution}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
             <hr />

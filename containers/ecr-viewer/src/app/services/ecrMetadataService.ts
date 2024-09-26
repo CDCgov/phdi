@@ -19,6 +19,13 @@ export interface ReportableConditions {
   };
 }
 
+export interface ERSDWarning {
+  warning: string;
+  versionUsed: string;
+  expectedVersion: string;
+  suggestedSolution: string;
+}
+
 /**
  * Evaluates eCR metadata from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing eCR metadata.
@@ -65,7 +72,9 @@ export const evaluateEcrMetadata = (
   ) as Organization;
 
   const eRSDwarnings = evaluate(fhirBundle, mappings.eRSDwarnings);
-  let eRSDtext = [];
+  let eRSDtext: ERSDWarning[] = [];
+
+  console.log(eRSDwarnings);
 
   for (const warning of eRSDwarnings) {
     if (warning.code == "RRVS34") {
@@ -90,13 +99,6 @@ export const evaluateEcrMetadata = (
       });
     }
   }
-
-  const eRSDwarningsDisplay: DisplayDataProps[] = [
-    {
-      title: "eRSD warnings",
-      value: eRSDtext,
-    },
-  ];
 
   const eicrDetails: DisplayDataProps[] = [
     {
@@ -157,6 +159,6 @@ export const evaluateEcrMetadata = (
     eicrDetails: evaluateData(eicrDetails),
     ecrSenderDetails: evaluateData(ecrSenderDetails),
     rrDetails: reportableConditionsList,
-    eRSDwarnings: evaluateData(eRSDwarningsDisplay),
+    eRSDwarnings: eRSDtext,
   };
 };
