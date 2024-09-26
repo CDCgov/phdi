@@ -50,6 +50,10 @@ export const config = {
 function set_auth_cookie(req: NextRequest) {
   const url = req.nextUrl.clone();
   const auth = url.searchParams.get("auth");
+  console.log(url);
+  console.log("==========");
+  console.log(req);
+  console.log("------");
   if (auth) {
     url.searchParams.delete("auth");
     url.hostname = req.headers.get("x-forwarded-host") ?? url.hostname;
