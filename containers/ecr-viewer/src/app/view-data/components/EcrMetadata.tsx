@@ -129,7 +129,7 @@ const EcrMetadata = ({
           return <DataDisplay item={item} key={index} />;
         })}
         <div className={"padding-bottom-1"} />
-        <AccordionH4 id={"ecr-custodian-details"}>
+        <AccordionH4 id={"eicr-custodian-details"}>
           eICR Custodian Details
         </AccordionH4>
         {eCRCustodianDetails.map((item, index) => {
