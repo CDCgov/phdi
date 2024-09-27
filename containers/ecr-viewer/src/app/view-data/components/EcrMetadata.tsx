@@ -123,7 +123,7 @@ const EcrMetadata = ({
         </Table>
         {eRSDwarnings?.length > 0 ? (
           <div>
-            <div class="section__line_gray"></div>
+            <div className="section__line_gray"></div>
             <Table
               bordered={false}
               className="ersd-table fixed-table border-top border-left border-right border-bottom"
@@ -155,7 +155,7 @@ const EcrMetadata = ({
                   ))}
               </tbody>
             </Table>
-            <div class="section__line_gray"></div>
+            <div className="section__line_gray"></div>
           </div>
         ) : (
           ""
