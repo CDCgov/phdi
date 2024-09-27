@@ -3,7 +3,10 @@ import { axe } from "jest-axe";
 import EcrMetadata from "../../view-data/components/EcrMetadata";
 import React from "react";
 import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
-import { ReportableConditions } from "@/app/services/ecrMetadataService";
+import {
+  ERSDWarning,
+  ReportableConditions,
+} from "@/app/services/ecrMetadataService";
 
 describe("ECR Metadata", () => {
   let container: HTMLElement;
@@ -45,6 +48,19 @@ describe("ECR Metadata", () => {
       },
       { title: "EHR Manufacturer Model Name", value: "Epic - Version 10.1" },
     ];
+
+    const eRSDWarnings: ERSDWarning[] = [
+      {
+        warning:
+          "Sending organization is using an malformed eRSD (RCTC) version",
+        versionUsed: "2020-06-23",
+        expectedVersion:
+          "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
+        suggestedSolution:
+          "The trigger code version your organization is using could not be determined. The trigger codes may be out date. Please have your EHR administrators update the version format for complete eCR functioning.",
+      },
+    ];
+
     const ecrCustodianDetails: DisplayDataProps[] = [
       {
         title: "Custodian ID",
@@ -67,8 +83,9 @@ describe("ECR Metadata", () => {
     container = render(
       <EcrMetadata
         eicrDetails={eicrDetails}
-        eCRCustodianDetails={ecrCustodianDetails}
         rrDetails={rrConditionsList}
+        eRSDWarnings={eRSDWarnings}
+        eCRCustodianDetails={ecrCustodianDetails}
       />,
     ).container;
   });

@@ -362,9 +362,32 @@
                 "valueCodeableConcept": {
                   "coding": [
                     {
-                      "code": "RRVS19",
-                      "display": "eICR processed",
-                      "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                      "entries": [
+                        {
+                          "eRSDwarnings": [
+                            {
+                              "id": "e39d6ae2-8c6e-4638-9b33-412996586f42",
+                              "code": "RRVS29",
+                              "display": "The eICR was processed with the warning of: outdated eRSD (RCTC) version.",
+                              "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                            },
+                            {
+                              "id": "80f7b4ff-4d96-46ef-ae8f-af1f9c1f206c",
+                              "value": "2022-11-01",
+                              "code": "RRVS31",
+                              "display": "Outdated eRSD (RCTC) Version Detail",
+                              "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                            },
+                            {
+                              "id": "80f7b4ff-4d96-46ef-ae8f-af1f9c1f206c",
+                              "value": "The expected eRSD (RCTC) version should be one of the following: 2024-04-05,1.2.3.0,3.x.x",
+                              "code": "RRVS33",
+                              "display": "Expected eRSD (RCTC) Version Detail",
+                              "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
