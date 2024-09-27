@@ -160,7 +160,9 @@ exports[`ECR Metadata should match snapshot 1`] = `
             </tbody>
           </table>
           <div>
-            <hr />
+            <div
+              class="section__line_gray"
+            />
             <table
               class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W ersd-table fixed-table border-top border-left border-right border-bottom"
               data-testid="table"
@@ -209,7 +211,9 @@ exports[`ECR Metadata should match snapshot 1`] = `
                 </tr>
               </tbody>
             </table>
-            <hr />
+            <div
+              class="section__line_gray"
+            />
           </div>
           <div
             class="padding-bottom-1"

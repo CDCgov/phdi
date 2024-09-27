@@ -74,8 +74,6 @@ export const evaluateEcrMetadata = (
   const eRSDwarnings = evaluate(fhirBundle, mappings.eRSDwarnings);
   let eRSDtext: ERSDWarning[] = [];
 
-  console.log(eRSDwarnings);
-
   for (const warning of eRSDwarnings) {
     if (warning.code == "RRVS34") {
       eRSDtext.push({
