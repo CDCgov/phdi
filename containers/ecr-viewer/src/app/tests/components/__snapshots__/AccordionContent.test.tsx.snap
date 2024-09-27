@@ -1487,6 +1487,25 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="section__line_gray"
                     />
                   </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        eRSD Warnings
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
