@@ -187,15 +187,6 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="section__line_gray"
             />
           </div>
-          <div
-            class="padding-bottom-1"
-          />
-          <h4
-            class="usa-summary-box__heading padding-y-105"
-            id="ecr-sender-details"
-          >
-            eCR Sender Details
-          </h4>
           <div>
             <div
               class="grid-row"
@@ -222,29 +213,12 @@ exports[`ECR Metadata should match snapshot 1`] = `
               <div
                 class="data-title padding-right-1"
               >
-                Sender Software
-              </div>
-              <div
-                class="grid-col maxw7 text-pre-line"
-              />
-            </div>
-            <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
-            >
-              <div
-                class="data-title padding-right-1"
-              >
-                Sender Facility Name
+                eICR Release Version
               </div>
               <div
                 class="grid-col maxw7 text-pre-line"
               >
-                PRM- Palmdale Regional Medical Center
+                R1.1 (2016-12-01)
               </div>
             </div>
             <div
@@ -258,14 +232,12 @@ exports[`ECR Metadata should match snapshot 1`] = `
               <div
                 class="data-title padding-right-1"
               >
-                Facility Address
+                EHR Software Name
               </div>
               <div
                 class="grid-col maxw7 text-pre-line"
               >
-                38600 Medical Center Drive
-Palmdale, CA
-93551, USA
+                Epic - Version 10.1
               </div>
             </div>
             <div
@@ -279,31 +251,12 @@ Palmdale, CA
               <div
                 class="data-title padding-right-1"
               >
-                Facility Contact
+                EHR Manufacturer Model Name
               </div>
               <div
                 class="grid-col maxw7 text-pre-line"
               >
-                (661)382-5000
-              </div>
-            </div>
-            <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
-            >
-              <div
-                class="data-title padding-right-1"
-              >
-                Facility ID
-              </div>
-              <div
-                class="grid-col maxw7 text-pre-line"
-              >
-                2.16.840.1.113883.4.6
+                Epic - Version 10.1
               </div>
             </div>
             <div

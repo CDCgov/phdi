@@ -15,7 +15,6 @@ import React from "react";
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
   eicrDetails: DisplayDataProps[];
-  eCRSenderDetails: DisplayDataProps[];
   eCRCustodianDetails: DisplayDataProps[];
 }
 
@@ -67,14 +66,12 @@ const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
  * @param props - Props containing eCR metadata.
  * @param props.rrDetails - The reportable conditions details.
  * @param props.eicrDetails - The eICR details.
- * @param props.eCRSenderDetails - The eCR sender details.
  * @param props.eCRCustodianDetails - The eCR custodian details.
  * @returns The JSX element representing the eCR metadata.
  */
 const EcrMetadata = ({
   rrDetails,
   eicrDetails,
-  eCRSenderDetails,
   eCRCustodianDetails,
 }: EcrMetadataProps) => {
   return (
@@ -121,11 +118,6 @@ const EcrMetadata = ({
         <div className={"padding-bottom-1"} />
         <AccordionH4 id={"eicr-details"}>eICR Details</AccordionH4>
         {eicrDetails.map((item, index) => {
-          return <DataDisplay item={item} key={index} />;
-        })}
-        <div className={"padding-bottom-1"} />
-        <AccordionH4 id={"ecr-sender-details"}>eCR Sender Details</AccordionH4>
-        {eCRSenderDetails.map((item, index) => {
           return <DataDisplay item={item} key={index} />;
         })}
         <div className={"padding-bottom-1"} />

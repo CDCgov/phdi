@@ -20,6 +20,7 @@ import {
   getSavedQueryByName,
   mapQueryRowsToValueSetItems,
 } from "../database-service";
+import SiteAlert from "./designSystem/SiteAlert";
 
 /**
  * Parent component for the query page. Based on the mode, it will display the search
@@ -63,70 +64,74 @@ const Query: React.FC = () => {
   }, [queryType]);
 
   return (
-    <div>
-      {mode === "search" && (
-        <Suspense fallback="...Loading">
-          <SearchForm
-            useCase={useCase}
-            queryValueSets={queryValuesets}
-            setUseCase={setUseCase}
-            setMode={setMode}
-            setLoading={setLoading}
-            setUseCaseQueryResponse={setUseCaseQueryResponse}
-            setOriginalRequest={setOriginalRequest}
-            setQueryType={setQueryType}
-          />
-        </Suspense>
-      )}
+    <>
+      <SiteAlert page={mode} />
+      <div className="main-container">
+        {mode === "search" && (
+          <Suspense fallback="...Loading">
+            <SearchForm
+              useCase={useCase}
+              queryValueSets={queryValuesets}
+              setUseCase={setUseCase}
+              setMode={setMode}
+              setLoading={setLoading}
+              setUseCaseQueryResponse={setUseCaseQueryResponse}
+              setOriginalRequest={setOriginalRequest}
+              setQueryType={setQueryType}
+            />
+          </Suspense>
+        )}
 
-      {/* Switch the mode to view to show the results of the query */}
-      {mode === "results" && (
-        <>
-          {useCaseQueryResponse && (
-            <ResultsView
+        {/* Switch the mode to view to show the results of the query */}
+        {mode === "results" && (
+          <>
+            {useCaseQueryResponse && (
+              <ResultsView
+                useCaseQueryResponse={useCaseQueryResponse}
+                goBack={() => {
+                  setMode("search");
+                }}
+                queryName={queryType}
+              />
+            )}
+          </>
+        )}
+
+        {/* Show the multiple patients view if there are multiple patients */}
+        {mode === "multiple-patients" && originalRequest && (
+          <>
+            <MultiplePatientSearchResults
+              patients={useCaseQueryResponse?.Patient ?? []}
+              originalRequest={originalRequest}
+              queryValueSets={queryValuesets}
+              setLoading={setLoading}
+              goBack={() => setMode("search")}
+            />
+          </>
+        )}
+        {/* Show the no patients found view if there are no patients */}
+        {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
+
+        {/* Use LoadingView component for loading state */}
+        <LoadingView loading={loading} />
+
+        {/* Show the customize query view to select and change what is returned in results */}
+        {mode === "customize-queries" && (
+          <>
+            <CustomizeQuery
               useCaseQueryResponse={useCaseQueryResponse}
+              queryType={queryType}
+              queryValuesets={queryValuesets}
+              setQueryValuesets={setQueryValuesets}
               goBack={() => {
                 setMode("search");
               }}
             />
-          )}
-        </>
-      )}
-
-      {/* Show the multiple patients view if there are multiple patients */}
-      {mode === "multiple-patients" && originalRequest && (
-        <>
-          <MultiplePatientSearchResults
-            patients={useCaseQueryResponse?.Patient ?? []}
-            originalRequest={originalRequest}
-            queryValueSets={queryValuesets}
-            setLoading={setLoading}
-            goBack={() => setMode("search")}
-          />
-        </>
-      )}
-      {/* Show the no patients found view if there are no patients */}
-      {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
-
-      {/* Use LoadingView component for loading state */}
-      <LoadingView loading={loading} />
-
-      {/* Show the customize query view to select and change what is returned in results */}
-      {mode === "customize-queries" && (
-        <>
-          <CustomizeQuery
-            useCaseQueryResponse={useCaseQueryResponse}
-            queryType={queryType}
-            queryValuesets={queryValuesets}
-            setQueryValuesets={setQueryValuesets}
-            goBack={() => {
-              setMode("search");
-            }}
-          />
-        </>
-      )}
-      <ToastContainer icon={false} />
-    </div>
+          </>
+        )}
+        <ToastContainer icon={false} />
+      </div>
+    </>
   );
 };
 

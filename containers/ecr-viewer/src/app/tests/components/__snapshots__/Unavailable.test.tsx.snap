@@ -188,6 +188,38 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title padding-right-1"
                 >
+                  Encounter type
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Facility Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
                   Facility Address
                 </div>
                 <div
@@ -431,7 +463,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title padding-right-1"
                 >
-                  Sender Software
+                  EHR Software Name
                 </div>
                 <div
                   class="grid-col maxw7 text-pre-line text-italic text-base"
