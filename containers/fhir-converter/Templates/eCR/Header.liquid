@@ -23,6 +23,12 @@
     {% include 'Resource/LocationHealthCareFacility' location: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility ID: locationId -%}
     {% assign fullLocationId = locationId | prepend: 'Location/' -%}
     {% include 'Reference/Encounter/Location_Location' ID: encounterId, REF: fullLocationId, LOC: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility -%}
+    {% if msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility.serviceProviderOrganization -%}
+      {% assign serviceProviderId = msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility.serviceProviderOrganization | to_json_string | generate_uuid -%}
+      {% include 'Resource/Organization' organization: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility.serviceProviderOrganization ID: serviceProviderId -%}
+      {% assign fullServiceProviderId = serviceProviderId | prepend: 'Organization/' -%}
+      {% include 'Reference/Encounter/ServiceProvider' ID: encounterId, REF: fullServiceProviderId -%}
+    {% endif -%}
   {% endif -%}
 {% endif -%}
 

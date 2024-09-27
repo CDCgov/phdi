@@ -39,6 +39,12 @@ describe("UnavailableInfo", () => {
     ];
     const encounterUnavailableData = [
       {
+        title: "Encounter type",
+        value: "",
+      },
+    ];
+    const facilityUnavailableData = [
+      {
         title: "Facility Address",
         value: "",
       },
@@ -96,6 +102,7 @@ describe("UnavailableInfo", () => {
         demographicsUnavailableData={demographicsUnavailability}
         socialUnavailableData={socialUnavailability}
         encounterUnavailableData={encounterUnavailableData}
+        facilityUnavailableData={facilityUnavailableData}
         providerUnavailableData={providerUnavailableData}
         symptomsProblemsUnavailableData={[
           ...reasonForVisitUnavailableData,

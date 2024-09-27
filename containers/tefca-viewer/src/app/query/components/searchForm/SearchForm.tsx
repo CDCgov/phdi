@@ -4,7 +4,6 @@ import {
   Label,
   TextInput,
   Select,
-  Alert,
   Button,
 } from "@trussworks/react-uswds";
 import {
@@ -142,59 +141,73 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   return (
     <>
-      <Alert type="info" headingLevel="h4" slim className="custom-alert">
-        This site is for demo purposes only. Please do not enter PII on this
-        website.
-      </Alert>
-      <form className="patient-search-form" onSubmit={HandleSubmit}>
-        <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
+      <form className="content-container-smaller-width" onSubmit={HandleSubmit}>
+        <h1 className="font-sans-2xl text-bold margin-bottom-105">
+          Search for a Patient
+        </h1>
+        <h2 className="font-sans-lg text-normal margin-top-0 margin-bottom-105">
+          Enter patient information below to search for a patient. We will query
+          the connected network to find matching records.{" "}
+        </h2>
         {
-          <div className="usa-summary-box demo-query-filler ">
-            <Label className="no-margin-top-important" htmlFor="query">
-              <b>Select a sample query and patient to populate the form.</b>
+          <div className={`usa-summary-box ${styles.demoQueryFiller}`}>
+            <Label
+              className="no-margin-top-important maxw-full font-sans text-normal"
+              htmlFor="query"
+            >
+              The demo site uses synthetic data to provide examples of possible
+              queries that you can make with the TEFCA Viewer. Select a query
+              use case, a sample patient, and then click “fill fields” below.
             </Label>
-            <Label htmlFor="query">Query</Label>
-            <div className="display-flex flex-align-start query-page-wrapper">
-              <select
-                id="query"
-                name="query"
-                className="usa-select margin-top-1"
-                defaultValue={""}
-                value={useCase}
-                onChange={(event) => {
-                  handleDemoQueryChange(event.target.value);
-                  setUseCase(event.target.value as USE_CASES);
-                }}
-              >
-                <option value="" disabled>
-                  {" "}
-                  -- Select an Option --{" "}
-                </option>
-                {demoQueryOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+            <div className={`${styles.demoQueryDropdownContainer}`}>
+              <div>
+                <Label htmlFor="query">Query</Label>
+                <div className="display-flex flex-align-start query-page-wrapper">
+                  <select
+                    id="query"
+                    name="query"
+                    className="usa-select margin-top-1"
+                    defaultValue={""}
+                    value={useCase}
+                    onChange={(event) => {
+                      handleDemoQueryChange(event.target.value);
+                      setUseCase(event.target.value as USE_CASES);
+                    }}
+                  >
+                    <option value="" disabled>
+                      {" "}
+                      -- Select an Option --{" "}
+                    </option>
+                    {demoQueryOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="patient">Patient</Label>
+                <div className="display-flex flex-align-start query-page-wrapper">
+                  <select
+                    id="patient"
+                    name="patient"
+                    className="usa-select margin-top-1"
+                    value={patientOption}
+                    onChange={(event) => {
+                      setPatientOption(event.target.value);
+                    }}
+                  >
+                    {patientOptions[useCase]?.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
-            <Label htmlFor="patient">Patient</Label>
-            <div className="display-flex flex-align-start query-page-wrapper">
-              <select
-                id="patient"
-                name="patient"
-                className="usa-select margin-top-1"
-                value={patientOption}
-                onChange={(event) => {
-                  setPatientOption(event.target.value);
-                }}
-              >
-                {patientOptions[useCase]?.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+
             <div className={`${styles.searchCallToActionContainer}`}>
               <Button
                 className={`"usa-button" ${styles.searchCallToActionButton}`}
@@ -224,7 +237,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
             </div>
           </div>
         }
-        <Fieldset>
+        <Fieldset className={`${styles.searchFormContainer}`}>
           {showAdvanced && (
             <div>
               <Label htmlFor="fhir_server">
