@@ -21,21 +21,47 @@ describe("Evaluate Ecr Metadata", () => {
 
     expect(actual.eicrDetails.availableData).toEqual([
       {
-        title: "eICR Identifier",
+        title: "eICR ID",
         toolTip:
           "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
         value: "1.2.840.114350.1.13.478.3.7.8.688883.230886",
       },
       { title: "Date/Time eCR Created", value: "07/28/2022 9:01 AM -05:00" },
       { title: "eICR Release Version", value: "R1.1 (2016-12-01)" },
+      { title: "EHR Manufacturer Model Name", value: "Epic - Version 10.1" },
       {
         title: "EHR Software Name",
         toolTip: "EHR system used by the sending provider.",
         value: "Epic - Version 10.1",
       },
-      { title: "EHR Manufacturer Model Name", value: "Epic - Version 10.1" },
     ]);
     expect(actual.eicrDetails.unavailableData).toBeEmpty();
+  });
+  it("should have eicr Custodian Details", () => {
+    const actual = evaluateEcrMetadata(
+      BundleWithEcrMetadata as unknown as Bundle,
+      mappings,
+    );
+
+    expect(actual.ecrCustodianDetails.availableData).toEqual([
+      {
+        title: "Custodian ID",
+        value: "1104202761",
+      },
+      {
+        title: "Custodian Name",
+        value: "Vanderbilt University Medical Center",
+      },
+      {
+        title: "Custodian Address",
+        value: "3401 West End Ave\nNASHVILLE, TN\n37203, USA",
+      },
+      {
+        title: "Custodian Contact",
+        value: "Work 615-322-5000",
+      },
+    ]);
+    expect(actual.ecrCustodianDetails.unavailableData).toBeEmpty();
   });
   it("should have rrDetails", () => {
     const actual = evaluateEcrMetadata(
