@@ -37,32 +37,16 @@ describe("ECR Metadata", () => {
         title: "eICR Identifier",
         value: "1dd10047-2207-4eac-a993-0f706c88be5d",
       },
-    ];
-    const ecrSenderDetails: DisplayDataProps[] = [
       {
         title: "Date/Time eCR Created",
         value: "2022-05-14T12:56:38Z",
       },
+      { title: "eICR Release Version", value: "R1.1 (2016-12-01)" },
       {
-        title: "Sender Software",
-        value: "",
+        title: "EHR Software Name",
+        value: "Epic - Version 10.1",
       },
-      {
-        title: "Sender Facility Name",
-        value: "PRM- Palmdale Regional Medical Center",
-      },
-      {
-        title: "Facility Address",
-        value: "38600 Medical Center Drive\nPalmdale, CA\n93551, USA",
-      },
-      {
-        title: "Facility Contact",
-        value: "(661)382-5000",
-      },
-      {
-        title: "Facility ID",
-        value: "2.16.840.1.113883.4.6",
-      },
+      { title: "EHR Manufacturer Model Name", value: "Epic - Version 10.1" },
     ];
 
     const eRSDwarnings: ERSDWarning[] = [
@@ -80,7 +64,6 @@ describe("ECR Metadata", () => {
     container = render(
       <EcrMetadata
         eicrDetails={eicrDetails}
-        eCRSenderDetails={ecrSenderDetails}
         rrDetails={rrConditionsList}
         eRSDwarnings={eRSDwarnings}
       />,

@@ -37,6 +37,10 @@
           {
             "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
             "valueString": "2"
+          },
+          {
+            "url": "https://www.hl7.org/implement/standards/product_brief.cfm?product_id=436",
+            "valueString": "2016-12-01"
           }
         ],
         "status": "final",
@@ -461,6 +465,48 @@
       "request": {
         "method": "PUT",
         "url": "Composition/1.2.840.114350.1.13.478.3.7.8.688883.230886"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a57ef88d-1c60-d952-e7ca-5e9e16c7ef05",
+      "resource": {
+        "resourceType": "Device",
+        "id": "a57ef88d-1c60-d952-e7ca-5e9e16c7ef05",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.1",
+            "value": "10.1"
+          }
+        ],
+        "manufacturer": "Epic - Version 10.1",
+        "version": [
+          {
+            "value": "Epic - Version 10.1"
+          }
+        ],
+        "property": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/device-category",
+                  "code": "software",
+                  "display": "software"
+                }
+              ]
+            }
+          }
+        ],
+        "owner": {
+          "reference": "Organization/d319a926-0eb3-5847-3b21-db8b778b4f07"
+        },
+        "meta": {
+          "source": "ecr"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/a57ef88d-1c60-d952-e7ca-5e9e16c7ef05"
       }
     },
     {
