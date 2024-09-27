@@ -65,29 +65,10 @@ def convert_files():
                                                 fhir_file,
                                                 indent=4,
                                             )
-                                    if "message_parser_values" in response:
-                                        # metadata.append(
-                                        #     response["message_parser_values"][
-                                        #         "parsed_values"
-                                        #     ]
-                                        # )
-                                        
-                                        payload = {
-                                            "message_type": "ecr",
-                                            "data_type": "ecr",
-                                            "config_file_name": "seed-ecr-viewer-config.json",
-                                            "message": eicr_file.read(),
-                                            "rr_data": rr_file.read(),
-                                        }
 
-                                        print(f"{URL}/process-message")
-                                        response = requests.post(
-                                            f"{URL}/process-message", json=payload
-                                        )
-
-                                        print(
-                                            f"Converted {folder} in {subfolder} successfully."
-                                        )
+                                print(
+                                    f"Converted {folder} in {subfolder} successfully."
+                                )
                             # Handle the case where the response fails
                             else:
                                 print(f"Failed to convert {folder} in {subfolder}.")

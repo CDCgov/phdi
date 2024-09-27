@@ -26,17 +26,7 @@
       "endpoint": "/stamp-condition-extensions"
     },
     {
-<<<<<<< HEAD
       "name": "metadata_values",
-=======
-      "name:": "save_bundle",
-      "service": "save_bundle",
-      "url": "${ECR_VIEWER_URL}",
-      "endpoint": "/api/save-fhir-data"
-    },
-    {
-      "name": "message_parser_values",
->>>>>>> 288dfb4e (wip)
       "service": "message_parser",
       "endpoint": "/parse_message",
       "params": {
@@ -50,9 +40,6 @@
       "service": "save_bundle",
       "url": "${ECR_VIEWER_URL}",
       "endpoint": "/api/save-fhir-data",
-      "params": {
-        "saveSource": "postgres"
-      },
       "previous_response_to_param_mapping": {
         "metadata_values": "metadata",
         "stamped_ecr": "fhirBundle"
@@ -60,7 +47,7 @@
     }
   ],
   "outputs": [
-    "message_parser_values",
+    "metadata_values",
     "stamped_ecr"
   ],
   "default-response": false

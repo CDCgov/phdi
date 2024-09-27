@@ -42,6 +42,6 @@ def build_save_fhir_data_body(
         }
 
         if workflow_params is not None and workflow_params.get("metadata") is not None:
-            request["metadata"] = workflow_params.get("metadata")
+            request["metadata"] = workflow_params["metadata"].json()["parsed_values"]
 
         return request
