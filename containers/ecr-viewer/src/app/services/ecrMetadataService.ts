@@ -15,6 +15,13 @@ export interface ReportableConditions {
   };
 }
 
+export interface ERSDWarning {
+  warning: string;
+  versionUsed: string;
+  expectedVersion: string;
+  suggestedSolution: string;
+}
+
 /**
  * Evaluates eCR metadata from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing eCR metadata.
@@ -73,6 +80,33 @@ export const evaluateEcrMetadata = (
     }
   };
 
+  const fhirERSDWarnings = evaluate(fhirBundle, mappings.eRSDwarnings);
+  let eRSDTextList: ERSDWarning[] = [];
+
+  for (const warning of fhirERSDWarnings) {
+    if (warning.code === "RRVS34") {
+      eRSDTextList.push({
+        warning:
+          "Sending organization is using an malformed eRSD (RCTC) version",
+        versionUsed: "2020-06-23",
+        expectedVersion:
+          "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
+        suggestedSolution:
+          "The trigger code version your organization is using could not be determined. The trigger codes may be out date. Please have your EHR administrators update the version format for complete eCR functioning.",
+      });
+    } else if (warning.code === "RRVS29") {
+      eRSDTextList.push({
+        warning:
+          "Sending organization is using an outdated eRSD (RCTC) version",
+        versionUsed: "2020-06-23",
+        expectedVersion:
+          "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
+        suggestedSolution:
+          "The trigger code version your organization is using is out-of-date. Please have your EHR administration install the current version for complete eCR functioning.",
+      });
+    }
+  }
+
   const eicrDetails: DisplayDataProps[] = [
     {
       title: "eICR ID",
@@ -130,5 +164,6 @@ export const evaluateEcrMetadata = (
     eicrDetails: evaluateData(eicrDetails),
     ecrCustodianDetails: evaluateData(ecrCustodianDetails),
     rrDetails: reportableConditionsList,
+    eRSDWarnings: eRSDTextList,
   };
 };
