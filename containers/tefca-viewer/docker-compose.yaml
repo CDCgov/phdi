@@ -1,38 +1,20 @@
 services:
   # PostgreSQL DB for custom query and value set storage
   db:
-    build:
-      context: ../../
-      dockerfile: ./containers/tefca-viewer/Dockerfile.postgres
-    # image: postgres:alpine
+    image: "postgres:alpine"
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pw
       - POSTGRES_DB=tefca_db
-    volumes:
-      - ./setup-env.sh:/docker-entrypoint-initdb.d/setup-env.sh
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 2s
       timeout: 5s
       retries: 20
-    # entrypoint:
-    #   ["chmod +x /docker-entrypoint-initdb.d/setup-env.sh"]
 
-  # Flyway migrations and DB version control
-  flyway:
-    image: flyway/flyway:10.16-alpine
-    command: -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate -X
-    volumes:
-      - ./flyway/sql:/flyway/sql
-      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
-    depends_on:
-      db:
-        condition: service_started
-
-  # Next.js app
+  # Next.js app with Flyway
   tefca-viewer:
     platform: linux/amd64
     build:
@@ -43,8 +25,18 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgres://postgres:pw@db:5432/tefca_db
+    # volumes:
+    #   - ./flyway/sql:/flywayDC/sql
+    #   - ./flyway/conf/flyway.conf:/flywayDC/conf/flyway.conf
     depends_on:
       db:
         condition: service_healthy
-      flyway:
-        condition: service_completed_successfully
+    # command: >
+    #   sh -c "
+    #   flyway -configFiles=/flywayHERE/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate &&
+    #   node containers/tefca-viewer/server.js"
+    # command: >
+    #   sh -c "./flywayHERE/flyway --help"
+    # command: ls ./flywayHERE
+    entrypoint: ["flyway", "--help"]
+    # entrypoint: ["sh", "-c", "flyway -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate && node containers/tefca-viewer/server.js"]
