@@ -2,7 +2,6 @@ FROM python:3.11-slim
 
 # Set the working directory in the container
 WORKDIR /code
-ENV PYTHONUNBUFFERED=1
 
 # Copy the dependencies file
 COPY ./requirements.txt /code/requirements.txt

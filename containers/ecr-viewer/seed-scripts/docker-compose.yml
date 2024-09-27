@@ -66,39 +66,6 @@ services:
     networks:
       - orchestration
 
-  # db:
-  #   image: "postgres:alpine"
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - ../sql/:/docker-entrypoint-initdb.d/
-  #     - ./sql/:/docker-entrypoint-initdb.d/
-  #     - ./sql/.pgpass/:/usr/local/lib/.pgpass
-  #   environment:
-  #     - POSTGRES_USER=postgres
-  #     - PGUSER=postgres
-  #     - POSTGRES_PASSWORD=pw
-  #     - POSTGRES_DB=ecr_viewer_db
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready"]
-  #     interval: 2s
-  #     timeout: 5s
-  #     retries: 20
-
-  # Next.js app
-  # ecr-viewer:
-  #   build:
-  #     context: ../../../
-  #     dockerfile: ./containers/ecr-viewer/Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/ecr_viewer_db}
-  #     - APP_ENV=${APP_ENV:-prod}
-  #   networks:
-  #     - orchestration
-  #     - ecr-viewer
-
   convert-data:
     build: .
     depends_on:
