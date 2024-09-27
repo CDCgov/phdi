@@ -654,17 +654,5 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       IConvertible convert = input;
       return convert.ToDouble(null).ToString("0.###");
     }
-
-    /// <summary>
-    /// Formats a string to remove extra whitespace.
-    /// </summary>
-    /// <param name="input">The input string to process.</param>
-    /// <returns>A string with extra whitespace removed.</returns>
-    public static string TrimWhiteSpace(string input)
-    {
-      string format = Regex.Replace(input, @"\s+", " ");
-      return format.Trim();
-    }
-
   }
 }

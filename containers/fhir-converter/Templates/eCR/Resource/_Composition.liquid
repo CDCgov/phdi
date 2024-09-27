@@ -259,7 +259,7 @@
                                                                 {% for er in ers -%}
                                                                     {
                                                                         "id": "{{ er.observation.id.root }}",
-                                                                        "value": "{{ er.observation.value._ | trim_white_space }}",
+                                                                        "value": "{{- er.observation.value._ -}}",
                                                                         {% include 'DataType/Coding' Coding: er.observation.code -%},
                                                                     },
                                                                 {% endfor -%}
