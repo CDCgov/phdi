@@ -80,12 +80,12 @@ export const evaluateEcrMetadata = (
     }
   };
 
-  const eRSDwarnings = evaluate(fhirBundle, mappings.eRSDwarnings);
-  let eRSDtext: ERSDWarning[] = [];
+  const fhirERSDWarnings = evaluate(fhirBundle, mappings.eRSDwarnings);
+  let eRSDTextList: ERSDWarning[] = [];
 
-  for (const warning of eRSDwarnings) {
-    if (warning.code == "RRVS34") {
-      eRSDtext.push({
+  for (const warning of fhirERSDWarnings) {
+    if (warning.code === "RRVS34") {
+      eRSDTextList.push({
         warning:
           "Sending organization is using an malformed eRSD (RCTC) version",
         versionUsed: "2020-06-23",
@@ -94,8 +94,8 @@ export const evaluateEcrMetadata = (
         suggestedSolution:
           "The trigger code version your organization is using could not be determined. The trigger codes may be out date. Please have your EHR administrators update the version format for complete eCR functioning.",
       });
-    } else if (warning.code == "RRVS29") {
-      eRSDtext.push({
+    } else if (warning.code === "RRVS29") {
+      eRSDTextList.push({
         warning:
           "Sending organization is using an outdated eRSD (RCTC) version",
         versionUsed: "2020-06-23",
@@ -164,6 +164,6 @@ export const evaluateEcrMetadata = (
     eicrDetails: evaluateData(eicrDetails),
     ecrCustodianDetails: evaluateData(ecrCustodianDetails),
     rrDetails: reportableConditionsList,
-    eRSDwarnings: eRSDtext,
+    eRSDWarnings: eRSDTextList,
   };
 };

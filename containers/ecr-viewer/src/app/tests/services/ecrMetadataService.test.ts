@@ -90,7 +90,7 @@ describe("Evaluate Ecr Metadata", () => {
       mappings,
     );
 
-    expect(actual.eRSDwarnings).toEqual([
+    expect(actual.eRSDWarnings).toEqual([
       {
         warning:
           "Sending organization is using an outdated eRSD (RCTC) version",

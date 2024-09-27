@@ -49,7 +49,7 @@ describe("ECR Metadata", () => {
       { title: "EHR Manufacturer Model Name", value: "Epic - Version 10.1" },
     ];
 
-    const eRSDwarnings: ERSDWarning[] = [
+    const eRSDWarnings: ERSDWarning[] = [
       {
         warning:
           "Sending organization is using an malformed eRSD (RCTC) version",
@@ -84,7 +84,7 @@ describe("ECR Metadata", () => {
       <EcrMetadata
         eicrDetails={eicrDetails}
         rrDetails={rrConditionsList}
-        eRSDwarnings={eRSDwarnings}
+        eRSDWarnings={eRSDWarnings}
         eCRCustodianDetails={ecrCustodianDetails}
       />,
     ).container;
