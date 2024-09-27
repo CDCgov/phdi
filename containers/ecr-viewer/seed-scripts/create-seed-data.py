@@ -6,6 +6,7 @@ import requests
 URL = "http://orchestration-service:8080"
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 
+
 def convert_files():
     """
     Convert eICR and RR into FHIR bundles using the FHIR converter.
@@ -82,5 +83,6 @@ def convert_files():
                 # If the subfolder is not a directory, print a message
                 else:
                     print(f"{subfolder_path} is not a valid directory.")
-    
+
+
 convert_files()

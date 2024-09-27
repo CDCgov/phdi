@@ -1,5 +1,5 @@
 services:
-   # PostgreSQL database
+  # PostgreSQL database
   db:
     image: "postgres:alpine"
     ports:

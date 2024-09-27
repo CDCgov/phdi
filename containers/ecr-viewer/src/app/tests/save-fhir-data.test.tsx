@@ -148,7 +148,7 @@ describe("POST Save FHIR Data API Route", () => {
             },
           },
         ],
-      }
+      },
     };
 
     const request = new NextRequest(
@@ -187,7 +187,7 @@ describe("POST Save FHIR Data API Route", () => {
     expect(responseJson.message).toBe(
       "Success. Saved FHIR Bundle to S3: 12345",
     );
-  })
+  });
 
   it("throws an error when saveSource is invalid", async () => {
     const request = new NextRequest(
@@ -201,9 +201,7 @@ describe("POST Save FHIR Data API Route", () => {
     const response = await POST(request);
     const responseJson = await response.json();
     expect(response.status).toBe(500);
-    expect(responseJson.message).toBe(
-      "Invalid source",
-    );
+    expect(responseJson.message).toBe("Invalid source");
   });
 });
 

@@ -98,8 +98,6 @@ describe("GET API Route", () => {
     const response = await GET(request);
     expect(response.status).toBe(500);
     const jsonResponse = await response.json();
-    expect(jsonResponse.message).toBe(
-      "Invalid source",
-    );
+    expect(jsonResponse.message).toBe("Invalid source");
   });
 });
