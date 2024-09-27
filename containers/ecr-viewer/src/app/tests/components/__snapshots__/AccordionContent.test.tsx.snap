@@ -1271,7 +1271,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                             tabindex="0"
                             title=""
                           >
-                            eICR Identifier
+                            eICR ID
                           </div>
                           <span
                             aria-hidden="true"
@@ -1283,63 +1283,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                             Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.
                           </span>
                         </span>
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title padding-right-1"
-                      >
-                        Document Author
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title padding-right-1"
-                      >
-                        Author Address
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title padding-right-1"
-                      >
-                        Author Contact
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -1377,6 +1320,44 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       <div
                         class="data-title padding-right-1"
                       >
+                        eICR Release Version
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        EHR Manufacturer Model Name
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
                         <span
                           class="usa-tooltip"
                           data-testid="tooltipWrapper"
@@ -1388,7 +1369,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                             tabindex="0"
                             title=""
                           >
-                            Sender Software
+                            EHR Software Name
                           </div>
                           <span
                             aria-hidden="true"
@@ -1418,7 +1399,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       <div
                         class="data-title padding-right-1"
                       >
-                        Sender Facility Name
+                        eRSD Warnings
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -1437,7 +1418,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       <div
                         class="data-title padding-right-1"
                       >
-                        Facility Address
+                        Custodian ID
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -1456,7 +1437,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       <div
                         class="data-title padding-right-1"
                       >
-                        Facility Contact
+                        Custodian Name
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -1475,7 +1456,26 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       <div
                         class="data-title padding-right-1"
                       >
-                        Facility ID
+                        Custodian Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Custodian Contact
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
