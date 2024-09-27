@@ -75,7 +75,7 @@ export const evaluateEcrMetadata = (
 
   const eicrDetails: DisplayDataProps[] = [
     {
-      title: "eICR Identifier",
+      title: "eICR ID",
       toolTip:
         "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
       value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
@@ -91,13 +91,13 @@ export const evaluateEcrMetadata = (
       value: eicrReleaseVersion(fhirBundle, mappings),
     },
     {
+      title: "EHR Manufacturer Model Name",
+      value: evaluate(fhirBundle, mappings.ehrManufacturerModel)[0],
+    },
+    {
       title: "EHR Software Name",
       toolTip: "EHR system used by the sending provider.",
       value: evaluate(fhirBundle, mappings.ehrSoftware)[0],
-    },
-    {
-      title: "EHR Manufacturer Model Name",
-      value: evaluate(fhirBundle, mappings.ehrManufacturerModel)[0],
     },
   ];
 

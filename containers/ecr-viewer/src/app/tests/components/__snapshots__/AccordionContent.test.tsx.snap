@@ -1271,7 +1271,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                             tabindex="0"
                             title=""
                           >
-                            eICR Identifier
+                            eICR ID
                           </div>
                           <span
                             aria-hidden="true"
@@ -1339,6 +1339,25 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       <div
                         class="data-title padding-right-1"
                       >
+                        EHR Manufacturer Model Name
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
                         <span
                           class="usa-tooltip"
                           data-testid="tooltipWrapper"
@@ -1362,25 +1381,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                             EHR system used by the sending provider.
                           </span>
                         </span>
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title padding-right-1"
-                      >
-                        EHR Manufacturer Model Name
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
