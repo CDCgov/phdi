@@ -1,16 +1,7 @@
-import {
-  formatAddress,
-  formatContactPoint,
-  formatDateTime,
-} from "@/app/services/formatService";
+import { formatDateTime } from "@/app/services/formatService";
 import { PathMappings, evaluateData } from "@/app/view-data/utils/utils";
-import { Bundle, Organization } from "fhir/r4";
+import { Bundle } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
-import {
-  evaluateFacilityAddress,
-  evaluateReference,
-  evaluateFacilityId,
-} from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 
 export interface ReportableConditions {
@@ -57,12 +48,18 @@ export const evaluateEcrMetadata = (
         );
     }
   }
-  const custodianRef = evaluate(fhirBundle, mappings.eicrCustodianRef)[0] ?? "";
-  const custodian = evaluateReference(
-    fhirBundle,
-    mappings,
-    custodianRef,
-  ) as Organization;
+
+  const eicrReleaseVersion = (fhirBundle: any, mappings: any) => {
+    const releaseVersion = evaluate(fhirBundle, mappings.eicrReleaseVersion)[0];
+    console.log(releaseVersion);
+    if (releaseVersion === "2016-12-01") {
+      return "R1.1 (2016-12-01)";
+    } else if (releaseVersion === "2021-01-01") {
+      return "R3.1 (2021-01-01)";
+    } else {
+      return releaseVersion;
+    }
+  };
 
   const eicrDetails: DisplayDataProps[] = [
     {
@@ -72,56 +69,27 @@ export const evaluateEcrMetadata = (
       value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
     },
     {
-      title: "Document Author",
-      value: custodian?.name,
-    },
-    {
-      title: "Author Address",
-      value: formatAddress(
-        custodian?.address?.[0].line ?? [],
-        custodian?.address?.[0].city ?? "",
-        custodian?.address?.[0].state ?? "",
-        custodian?.address?.[0].postalCode ?? "",
-        custodian?.address?.[0].country ?? "",
-      ),
-    },
-    {
-      title: "Author Contact",
-      value: formatContactPoint(custodian?.telecom).join("\n"),
-    },
-  ];
-  const ecrSenderDetails: DisplayDataProps[] = [
-    {
       title: "Date/Time eCR Created",
       value: formatDateTime(
         evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0],
       ),
     },
     {
-      title: "Sender Software",
+      title: "eICR Release Version",
+      value: eicrReleaseVersion(fhirBundle, mappings),
+    },
+    {
+      title: "EHR Software Name",
       toolTip: "EHR system used by the sending provider.",
-      value: evaluate(fhirBundle, mappings.senderSoftware)[0],
+      value: evaluate(fhirBundle, mappings.ehrSoftware)[0],
     },
     {
-      title: "Sender Facility Name",
-      value: evaluate(fhirBundle, mappings.senderFacilityName)[0],
-    },
-    {
-      title: "Facility Address",
-      value: evaluateFacilityAddress(fhirBundle, mappings),
-    },
-    {
-      title: "Facility Contact",
-      value: evaluate(fhirBundle, mappings.facilityContact)[0],
-    },
-    {
-      title: "Facility ID",
-      value: evaluateFacilityId(fhirBundle, mappings),
+      title: "EHR Manufacturer Model Name",
+      value: evaluate(fhirBundle, mappings.ehrManufacturerModel)[0],
     },
   ];
   return {
     eicrDetails: evaluateData(eicrDetails),
-    ecrSenderDetails: evaluateData(ecrSenderDetails),
     rrDetails: reportableConditionsList,
   };
 };
