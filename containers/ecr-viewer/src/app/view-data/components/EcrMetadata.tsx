@@ -19,6 +19,7 @@ interface EcrMetadataProps {
   rrDetails: ReportableConditions;
   eicrDetails: DisplayDataProps[];
   eRSDwarnings: ERSDWarning[];
+  eCRCustodianDetails: DisplayDataProps[];
 }
 
 interface ReportableConditionsList {
@@ -70,12 +71,14 @@ const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
  * @param props.rrDetails - The reportable conditions details.
  * @param props.eicrDetails - The eICR details.
  * @param props.eRSDwarnings - The eRSD warnings.
+ * @param props.eCRCustodianDetails - The eCR custodian details.
  * @returns The JSX element representing the eCR metadata.
  */
 const EcrMetadata = ({
   rrDetails,
   eicrDetails,
   eRSDwarnings,
+  eCRCustodianDetails,
 }: EcrMetadataProps) => {
   return (
     <AccordionSection>
@@ -160,6 +163,13 @@ const EcrMetadata = ({
         <div className={"padding-bottom-1"} />
         <AccordionH4 id={"eicr-details"}>eICR Details</AccordionH4>
         {eicrDetails.map((item, index) => {
+          return <DataDisplay item={item} key={index} />;
+        })}
+        <div className={"padding-bottom-1"} />
+        <AccordionH4 id={"eicr-custodian-details"}>
+          eICR Custodian Details
+        </AccordionH4>
+        {eCRCustodianDetails.map((item, index) => {
           return <DataDisplay item={item} key={index} />;
         })}
       </AccordionDiv>

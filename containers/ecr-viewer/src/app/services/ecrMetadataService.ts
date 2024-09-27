@@ -1,8 +1,13 @@
-import { formatDateTime } from "@/app/services/formatService";
+import {
+  formatAddress,
+  formatContactPoint,
+  formatDateTime,
+} from "@/app/services/formatService";
 import { PathMappings, evaluateData } from "@/app/view-data/utils/utils";
-import { Bundle } from "fhir/r4";
+import { Bundle, Organization } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
 import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
+import { evaluateReference } from "@/app/services/evaluateFhirDataService";
 
 export interface ReportableConditions {
   [condition: string]: {
@@ -56,6 +61,13 @@ export const evaluateEcrMetadata = (
     }
   }
 
+  const custodianRef = evaluate(fhirBundle, mappings.eicrCustodianRef)[0] ?? "";
+  const custodian = evaluateReference(
+    fhirBundle,
+    mappings,
+    custodianRef,
+  ) as Organization;
+
   const eicrReleaseVersion = (fhirBundle: any, mappings: any) => {
     const releaseVersion = evaluate(fhirBundle, mappings.eicrReleaseVersion)[0];
     console.log(releaseVersion);
@@ -97,7 +109,7 @@ export const evaluateEcrMetadata = (
 
   const eicrDetails: DisplayDataProps[] = [
     {
-      title: "eICR Identifier",
+      title: "eICR ID",
       toolTip:
         "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
       value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
@@ -113,17 +125,44 @@ export const evaluateEcrMetadata = (
       value: eicrReleaseVersion(fhirBundle, mappings),
     },
     {
+      title: "EHR Manufacturer Model Name",
+      value: evaluate(fhirBundle, mappings.ehrManufacturerModel)[0],
+    },
+    {
       title: "EHR Software Name",
       toolTip: "EHR system used by the sending provider.",
       value: evaluate(fhirBundle, mappings.ehrSoftware)[0],
     },
+  ];
+
+  const ecrCustodianDetails: DisplayDataProps[] = [
     {
-      title: "EHR Manufacturer Model Name",
-      value: evaluate(fhirBundle, mappings.ehrManufacturerModel)[0],
+      title: "Custodian ID",
+      value: custodian?.identifier?.[0]?.value,
+    },
+    {
+      title: "Custodian Name",
+      value: custodian?.name,
+    },
+    {
+      title: "Custodian Address",
+      value: formatAddress(
+        custodian?.address?.[0].line ?? [],
+        custodian?.address?.[0].city ?? "",
+        custodian?.address?.[0].state ?? "",
+        custodian?.address?.[0].postalCode ?? "",
+        custodian?.address?.[0].country ?? "",
+      ),
+    },
+    {
+      title: "Custodian Contact",
+      value: formatContactPoint(custodian?.telecom).join("\n"),
     },
   ];
+
   return {
     eicrDetails: evaluateData(eicrDetails),
+    ecrCustodianDetails: evaluateData(ecrCustodianDetails),
     rrDetails: reportableConditionsList,
     eRSDwarnings: eRSDtext,
   };

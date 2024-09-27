@@ -66,6 +66,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
       clinicalData.treatmentData.unavailableData,
       clinicalData.clinicalNotes.unavailableData,
       ...ecrMetadata.eicrDetails.unavailableData,
+      ...ecrMetadata.ecrCustodianDetails.unavailableData,
       ecrMetadata.eRSDwarnings,
     ];
     return unavailableDataArrays.some(
@@ -162,9 +163,13 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
         <>
           {Object.keys(ecrMetadata.rrDetails).length > 0 ||
           ecrMetadata.eRSDwarnings.length > 0 ||
-          ecrMetadata.eicrDetails.availableData.length > 0 ? (
+          ecrMetadata.eicrDetails.availableData.length > 0 ||
+          ecrMetadata.ecrCustodianDetails.availableData.length > 0 ? (
             <EcrMetadata
               eicrDetails={ecrMetadata.eicrDetails.availableData}
+              eCRCustodianDetails={
+                ecrMetadata.ecrCustodianDetails.availableData
+              }
               rrDetails={ecrMetadata.rrDetails}
               eRSDwarnings={ecrMetadata.eRSDwarnings}
             />
@@ -204,6 +209,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
                 ...(ecrMetadata.eRSDwarnings.length === 0
                   ? [{ title: "eRSD Warnings", value: "" }]
                   : []),
+                ...ecrMetadata.ecrCustodianDetails.unavailableData,
               ]}
             />
           ) : (

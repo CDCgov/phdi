@@ -96,6 +96,10 @@ describe("UnavailableInfo", () => {
         title: "EHR Software Name",
         value: "",
       },
+      {
+        title: "Custodian Contact",
+        value: "",
+      },
     ];
     container = render(
       <UnavailableInfo
