@@ -108,7 +108,7 @@ services:
       - seed-postgres
       - seed-s3
       - seed-azure
-  
+
   # PostgreSQL database
   db:
     image: "postgres:alpine"
@@ -158,4 +158,3 @@ services:
     profiles:
       - seed-s3
       - local-dev-s3
-
