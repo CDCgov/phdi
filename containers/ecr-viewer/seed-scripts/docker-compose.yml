@@ -7,6 +7,7 @@ services:
       - fhir-converter-service
       - ingestion-service
       - message-parser-service
+      - ecr-viewer
     ports:
       - "8080:8080"
     logging:
@@ -18,17 +19,20 @@ services:
       interval: 10s
       timeout: 20s
       retries: 5
-    networks:
-      - ecr-viewer
-      - orchestration
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   fhir-converter-service:
     build:
       context: ../../fhir-converter/
     ports:
       - "8082:8080"
-    networks:
-      - orchestration
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   ingestion-service:
     platform: linux/amd64
@@ -41,8 +45,10 @@ services:
     environment:
       SMARTY_AUTH_ID: ${SMARTY_AUTH_ID}
       SMARTY_AUTH_TOKEN: ${SMARTY_AUTH_TOKEN}
-    networks:
-      - orchestration
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   message-parser-service:
     platform: linux/amd64
@@ -52,8 +58,10 @@ services:
       - "8085:8080"
     logging:
       driver: "json-file"
-    networks:
-      - orchestration
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   trigger-code-reference-service:
     platform: linux/amd64
@@ -63,8 +71,10 @@ services:
       - "8086:8080"
     logging:
       driver: "json-file"
-    networks:
-      - orchestration
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   convert-data:
     build: .
@@ -78,13 +88,74 @@ services:
     volumes:
       - ./sql:/code/sql
       - ./baseECR:/code/baseECR
-    networks:
-      - orchestration
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
-networks:
+  # Next.js app
   ecr-viewer:
-    name: "ecr_viewer_network"
-    external: true
-  orchestration:
-    name: "orchestration_network"
-    external: false
+    build:
+      context: ../../../
+      dockerfile: ./containers/ecr-viewer/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - APP_ENV=${APP_ENV:-dev}
+    env_file:
+      - ../.env.local
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
+  
+  # PostgreSQL database
+  db:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../sql/:/docker-entrypoint-initdb.d/
+      - ./sql/:/docker-entrypoint-initdb.d/
+      - ./sql/.pgpass/:/usr/local/lib/.pgpass
+    environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=ecr_viewer_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
+      - local-dev-postgres
+      - local-dev-s3
+      - local-dev-azure
+
+  # Azure Blob Storage emulator
+  azure-storage:
+    image: mcr.microsoft.com/azure-storage/azurite
+    hostname: azurite
+    restart: always
+    command: "azurite --blobHost 0.0.0.0 --blobPort 10000 -l data"
+    ports:
+      - "10000:10000"
+    profiles:
+      - seed-azure
+      - local-dev-azure
+
+  # AWS S3 Storage emulator
+  aws-storage:
+    image: gresau/localstack-persist:3
+    ports:
+      - "4566:4566"
+    volumes:
+      - "./volume:/persisted-data"
+    profiles:
+      - seed-s3
+      - local-dev-s3
+
