@@ -41,7 +41,10 @@ def build_save_fhir_data_body(
             "fhirBundle": fhirBundle,
         }
 
-        if workflow_params is not None and workflow_params.get("metadata") is not None:
-            request["metadata"] = workflow_params["metadata"].json()["parsed_values"]
+        if workflow_params is not None:
+            if workflow_params.get("metadata") is not None:
+                request["metadata"] = workflow_params["metadata"].json()["parsed_values"]
+            if workflow_params.get("saveSource") is not None:
+                request["saveSource"] = workflow_params["saveSource"]
 
         return request
