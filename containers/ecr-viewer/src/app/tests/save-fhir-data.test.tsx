@@ -54,7 +54,6 @@ describe("POST Save FHIR Data API Route", () => {
   });
 
   it("sends data to S3 and returns a success response", async () => {
-    process.env.SOURCE = "s3";
     const request = new NextRequest(
       "http://localhost:3000/api/save-fhir-data",
       {
@@ -94,7 +93,6 @@ describe("POST Save FHIR Data API Route", () => {
   });
 
   it("throws an error when bucket is not found", async () => {
-    process.env.SOURCE = "s3";
     const request = new NextRequest(
       "http://localhost:3000/api/save-fhir-data",
       {
@@ -134,6 +132,77 @@ describe("POST Save FHIR Data API Route", () => {
       "Failed to insert data to S3. HTTP Status Code: 403",
     );
   });
+
+  it("uses SOURCE environment variable if saveSource parameter is not provided", async () => {
+    process.env.SOURCE = "s3";
+    const reqBody = {
+      fhirBundle: {
+        resourceType: "Bundle",
+        type: "batch",
+        entry: [
+          {
+            fullUrl: "urn:uuid:12345",
+            resource: {
+              resourceType: "Composition",
+              id: "12345",
+            },
+          },
+        ],
+      },
+    };
+
+    const request = new NextRequest(
+      "http://localhost:3000/api/save-fhir-data",
+      {
+        method: "POST",
+        body: JSON.stringify(reqBody),
+      },
+    );
+
+    const output: PutObjectCommandOutput = {
+      $metadata: {
+        httpStatusCode: 200,
+        requestId: "biz",
+        extendedRequestId: "bar",
+        cfId: undefined,
+        attempts: 1,
+        totalRetryDelay: 0,
+      },
+      ETag: "foo",
+      ServerSideEncryption: "AES256",
+    };
+
+    s3Mock
+      .on(PutObjectCommand, {
+        Bucket: process.env.ECR_BUCKET_NAME,
+        Key: "12345.json",
+        Body: JSON.stringify(reqBody.fhirBundle),
+        ContentType: "application/json",
+      })
+      .resolves(output);
+
+    const response = await POST(request);
+    const responseJson = await response.json();
+    expect(response.status).toBe(200);
+    expect(responseJson.message).toBe(
+      "Success. Saved FHIR Bundle to S3: 12345",
+    );
+  });
+
+  it("throws an error when saveSource is invalid", async () => {
+    const request = new NextRequest(
+      "http://localhost:3000/api/save-fhir-data",
+      {
+        method: "POST",
+        body: JSON.stringify(fakeData("bad-source")),
+      },
+    );
+
+    const response = await POST(request);
+    const responseJson = await response.json();
+    expect(response.status).toBe(500);
+    expect(responseJson.message).toBe("Invalid source");
+  });
 });
 
 describe("POST Save FHIR Data API Route - Azure", () => {
@@ -150,6 +219,7 @@ describe("POST Save FHIR Data API Route - Azure", () => {
     mockBlockBlobClient.upload.mockResolvedValue({
       _response: { status: 201 },
     });
+
     const request = new NextRequest(
       "http://localhost:3000/api/save-fhir-data",
       {
