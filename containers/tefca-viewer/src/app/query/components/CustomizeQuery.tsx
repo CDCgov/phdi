@@ -59,11 +59,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
     (group) => group.items,
   ).length;
 
-  // Check if there are items in the current active tab
-  const hasItemsInTabs = Object.values(valueSetOptions[activeTab]).some(
-    (group) => group.items.length > 0,
-  );
-
   // Keeps track of which side nav tab to display to users
   const handleTabChange = (tab: ValueSetType) => {
     setActiveTab(tab);
@@ -181,7 +176,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         activeTab={activeTab}
         handleTabChange={handleTabChange}
         handleSelectAllForTab={handleSelectAllForTab}
-        hasItemsInTab={hasItemsInTabs}
+        valueSetOptions={valueSetOptions}
       />
       {Object.entries(valueSetOptions[activeTab]).map(([groupIndex, group]) => {
         return (
