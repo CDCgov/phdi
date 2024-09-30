@@ -26,7 +26,7 @@ const CustomizeQueryNav: React.FC<CustomizeQueryNavProps> = ({
 }) => {
   return (
     <>
-      <nav className={`${styles.usaNav} ${styles.customizeQueryNav}`}>
+      <nav className={`${styles.customizeQueryNav}`}>
         <ul className="usa-sidenav">
           <li className={`usa-sidenav_item`}>
             <a

@@ -204,7 +204,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
               />
             }
             id={group.author + ":" + group.system}
-            expanded
             headingLevel="h3"
             accordionClassName={`customize-accordion ${styles.customizeQueryAccordion}`}
             containerClassName={styles.resultsContainer}
