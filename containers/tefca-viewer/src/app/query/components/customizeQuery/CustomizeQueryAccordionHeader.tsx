@@ -11,7 +11,6 @@ type CustomizeQueryAccordionProps = {
 /**
  * Rendering component for customize query header
  * @param param0 - props for rendering
- * @param param0.selectedCount - stateful tally of the number of selected valuesets
  * @param param0.handleSelectAllChange
  * Listner function to include all valuesets when checkbox is selected
  * @param param0.groupIndex - index corresponding to group

@@ -8,11 +8,12 @@ type CustomizeQueryBulkSelectProps = {
 };
 /**
  *
- * @param root0
- * @param root0.allItemsDeselected
- * @param root0.allItemsSelected
- * @param root0.handleBulkSelectForTab
- * @param root0.activeTab
+ * @param root0 - params
+ * @param root0.allItemsDeselected - boolean used for the deselect toggle
+ * @param root0.allItemsSelected - boolean used for the select toggle
+ * @param root0.handleBulkSelectForTab - handler function for the link toggles
+ * @param root0.activeTab - which tab is currently selected
+ * @returns bulk select link selection
  */
 const CustomizeQueryBulkSelect: React.FC<CustomizeQueryBulkSelectProps> = ({
   allItemsDeselected,
