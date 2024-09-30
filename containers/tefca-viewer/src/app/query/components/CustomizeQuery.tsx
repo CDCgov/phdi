@@ -184,13 +184,10 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         hasItemsInTab={hasItemsInTabs}
       />
       {Object.entries(valueSetOptions[activeTab]).map(([groupIndex, group]) => {
-        const selectedCount = group.items.filter((item) => item.include).length;
-
         return (
           <Accordion
             title={
               <CustomizeQueryAccordionHeader
-                selectedCount={selectedCount}
                 handleSelectAllChange={handleSelectAllChange}
                 groupIndex={groupIndex}
                 group={group}
