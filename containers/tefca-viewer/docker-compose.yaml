@@ -16,7 +16,7 @@ services:
     volumes:
       - ./generate-certificates.sh:/docker-entrypoint-initdb.d/generate-certificates.sh
     command: >
-      /bin/sh -c "apk add --no-cache openssl && 
+      /bin/sh -c "apk add --no-cache openssl su-exec && 
       chmod +x /docker-entrypoint-initdb.d/generate-certificates.sh && 
       su-exec postgres /docker-entrypoint-initdb.d/generate-certificates.sh"
 
