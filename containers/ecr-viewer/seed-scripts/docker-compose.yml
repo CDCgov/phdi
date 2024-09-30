@@ -102,8 +102,18 @@ services:
       - "3000:3000"
     environment:
       - APP_ENV=${APP_ENV:-dev}
-    env_file:
-      - ../.env.local
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - ECR_BUCKET_NAME=${ECR_BUCKET_NAME:-ecr-viewer-files}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-123}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-xyz}
+      - AZURE_CONTAINER_NAME=${AZURE_CONTAINER_NAME:-ecr-viewer-files}
+      - SOURCE=${SOURCE:-postgres}
+      - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED:-1}
+      - NEXT_PUBLIC_NON_INTEGRATED_VIEWER=${NEXT_PUBLIC_NON_INTEGRATED_VIEWER:-false}
+      - NEXT_PUBLIC_BASEPATH=${NEXT_PUBLIC_BASEPATH:-/ecr-viewer}
+      - DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
+      - AWS_CUSTOM_ENDPOINT="http://aws-storage:4566"
+      - AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azure-storage:10000/devstoreaccount1;"
     profiles:
       - seed-postgres
       - seed-s3
