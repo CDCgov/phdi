@@ -14,26 +14,28 @@ const CustomizeQueryBulkSelect: React.FC<CustomizeQueryBulkSelectProps> = ({
 }) => {
   return (
     <div className="display-flex">
-      <button
-        className={`usa-button usa-button--unstyled ${styles.bulkSelectLink} `}
-        disabled={allItemsSelected}
-        onClick={(e) => {
-          e.preventDefault();
-          handleBulkSelectForTab(true);
-        }}
-      >
-        Select all {activeTab}
-      </button>
-      <button
-        className={`usa-button usa-button--unstyled ${styles.bulkSelectLink} `}
-        disabled={allItemsDeselected}
-        onClick={(e) => {
-          e.preventDefault();
-          handleBulkSelectForTab(false);
-        }}
-      >
-        Deselect all {activeTab}
-      </button>
+      {!allItemsSelected && (
+        <button
+          className={`usa-button usa-button--unstyled ${styles.bulkSelectLink} `}
+          onClick={(e) => {
+            e.preventDefault();
+            handleBulkSelectForTab(true);
+          }}
+        >
+          Select all {activeTab}
+        </button>
+      )}
+      {!allItemsDeselected && (
+        <button
+          className={`usa-button usa-button--unstyled ${styles.bulkSelectLink} `}
+          onClick={(e) => {
+            e.preventDefault();
+            handleBulkSelectForTab(false);
+          }}
+        >
+          Deselect all {activeTab}
+        </button>
+      )}
     </div>
   );
 };
