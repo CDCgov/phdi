@@ -30,6 +30,14 @@
                 "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
                 "valueString" : "{{ composition.versionNumber.value }}"
             },
+            {% for template in msg.ClinicalDocument.templateId %}
+                {% if template.root == "2.16.840.1.113883.10.20.15.2" %}
+                    {
+                        "url": "https://www.hl7.org/implement/standards/product_brief.cfm?product_id=436",
+                        "valueString": "{{ template.extension }}"
+                    },
+                {% endif %}
+            {% endfor %}
         ],
         "status":"final",
         "type":
@@ -236,12 +244,38 @@
                                     {% assign rrentries = composition.section.entry | to_array -%}
                                     {% for rrentry in rrentries -%}
                                         {% if rrentry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.29" -%}
-                                            {% include 'DataType/Coding' Coding: rrentry.act.code -%}
+                                            {% if rrentry.act.code.code == "RRVS20" %}
+                                                {% assign subrrentrys = rrentry.act.entryRelationship | to_array -%}
+                                                {% for subrrentry in subrrentrys %}
+                                                    {% if subrrentry.typeCode != "SPRT" %}
+                                                        "entries": [
+                                                            {
+                                                            "eRSDwarnings": [
+                                                                {
+                                                                    "id": "{{ subrrentry.observation.id.root }}",
+                                                                    {% include 'DataType/Coding' Coding: subrrentry.observation.value -%}
+                                                                },
+                                                                {% assign ers = subrrentry.observation.entryRelationship | to_array -%}
+                                                                {% for er in ers -%}
+                                                                    {
+                                                                        "id": "{{ er.observation.id.root }}",
+                                                                        "value": "{{- er.observation.value._ -}}",
+                                                                        {% include 'DataType/Coding' Coding: er.observation.code -%},
+                                                                    },
+                                                                {% endfor -%}
+                                                                ],
+                                                            },
+                                                        ],
+                                                    {% endif -%}
+                                                {% endfor %}
+                                            {% else %}
+                                                {% include 'DataType/Coding' Coding: rrentry.act.code -%}
+                                            {% endif -%}
                                         {% endif -%}
                                     {% endfor -%}
                                 },
                             ],
-                        }
+                        },
                     },
                 ],
                 "code": {

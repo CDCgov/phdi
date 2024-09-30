@@ -93,7 +93,11 @@ describe("UnavailableInfo", () => {
     ];
     const ecrMetadata = [
       {
-        title: "Sender Software",
+        title: "EHR Software Name",
+        value: "",
+      },
+      {
+        title: "Custodian Contact",
         value: "",
       },
     ];
