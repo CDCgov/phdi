@@ -19,7 +19,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies (bash, curl for Flyway installation)
-RUN apk add --no-cache bash curl
+RUN apk add --no-cache bash curl 
 
 # Install Flyway
 RUN curl -L https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/10.16.0/flyway-commandline-10.16.0-linux-x64.tar.gz \
@@ -27,8 +27,8 @@ RUN curl -L https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/10.16
     mv flyway-10.16.0 /flyway && \
     chmod +x /flyway/flyway
 
-# Add Flyway to PATH
-ENV PATH="/flyway:$PATH"
+# # Add Flyway to PATH
+# ENV PATH="/flyway:$PATH"
 
 # First install the dependencies
 COPY .gitignore .gitignore
@@ -48,14 +48,17 @@ RUN npx turbo build --filter=tefca-viewer...
 FROM base AS runner
 WORKDIR /app
 
+# Add bash to enable running Flyway
+RUN apk add --no-cache bash openjdk11
+# Set JAVA_HOME environment variable
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+# ENV PATH=$JAVA_HOME/bin:$PATH
+# ENV INSTALLDIR=/blah/blah/blah
+
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
-
-
-# Add bash to enable running Flyway
-RUN apk add --no-cache bash
 
 # Set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
@@ -78,5 +81,7 @@ ENV TURBO_TELEMETRY_DISABLED=1
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PATH="/flyway:$PATH"
 
-# CMD ["node", "containers/tefca-viewer/server.js"]
-CMD ["sh", "-c", "flyway -v && node containers/tefca-viewer/server.js"]
+CMD ["node", "containers/tefca-viewer/server.js"]
+# CMD ["sh", "-c", "flyway -v && node containers/tefca-viewer/server.js"]
+# ENTRYPOINT ["sh", "-c", "JAVA_HOME=/usr/lib/jvm/java-11-openjdk PATH=$JAVA_HOME/bin:$PATH /flyway/flyway -v"]
+# CMD ["java", "-cp", "/flyway/lib/*", "org.flywaydb.core.Flyway", "migrate"]

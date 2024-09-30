@@ -25,9 +25,10 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgres://postgres:pw@db:5432/tefca_db
-    # volumes:
-    #   - ./flyway/sql:/flywayDC/sql
-    #   - ./flyway/conf/flyway.conf:/flywayDC/conf/flyway.conf
+      - INSTALLDIR=/blah
+    volumes:
+      - ./flyway/sql:/flyway/sql
+      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
     depends_on:
       db:
         condition: service_healthy
