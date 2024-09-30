@@ -11,13 +11,9 @@ import {
 } from "@/app/view-data/utils/utils";
 import { Bundle, Organization, Reference } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
-import {
-  evaluateFacilityAddress,
-  evaluateFacilityId,
-  evaluatePractitionerRoleReference,
-  evaluateReference,
-} from "./evaluateFhirDataService";
+import { evaluatePractitionerRoleReference } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
+import { evaluateReference } from "@/app/services/evaluateFhirDataService";
 
 export interface ReportableConditions {
   [condition: string]: {
@@ -27,9 +23,17 @@ export interface ReportableConditions {
 
 interface EcrMetadata {
   eicrDetails: CompleteData;
-  ecrSenderDetails: CompleteData;
+  ecrCustodianDetails: CompleteData;
   rrDetails: ReportableConditions;
   eicrAuthorDetails: CompleteData;
+  eRSDWarnings: ERSDWarning[];
+}
+
+export interface ERSDWarning {
+  warning: string;
+  versionUsed: string;
+  expectedVersion: string;
+  suggestedSolution: string;
 }
 
 /**
@@ -70,6 +74,7 @@ export const evaluateEcrMetadata = (
         );
     }
   }
+
   const custodianRef = evaluate(fhirBundle, mappings.eicrCustodianRef)[0] ?? "";
   const custodian = evaluateReference(
     fhirBundle,
@@ -77,19 +82,84 @@ export const evaluateEcrMetadata = (
     custodianRef,
   ) as Organization;
 
+  const eicrReleaseVersion = (fhirBundle: any, mappings: any) => {
+    const releaseVersion = evaluate(fhirBundle, mappings.eicrReleaseVersion)[0];
+    console.log(releaseVersion);
+    if (releaseVersion === "2016-12-01") {
+      return "R1.1 (2016-12-01)";
+    } else if (releaseVersion === "2021-01-01") {
+      return "R3.1 (2021-01-01)";
+    } else {
+      return releaseVersion;
+    }
+  };
+
+  const fhirERSDWarnings = evaluate(fhirBundle, mappings.eRSDwarnings);
+  let eRSDTextList: ERSDWarning[] = [];
+
+  for (const warning of fhirERSDWarnings) {
+    if (warning.code === "RRVS34") {
+      eRSDTextList.push({
+        warning:
+          "Sending organization is using an malformed eRSD (RCTC) version",
+        versionUsed: "2020-06-23",
+        expectedVersion:
+          "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
+        suggestedSolution:
+          "The trigger code version your organization is using could not be determined. The trigger codes may be out date. Please have your EHR administrators update the version format for complete eCR functioning.",
+      });
+    } else if (warning.code === "RRVS29") {
+      eRSDTextList.push({
+        warning:
+          "Sending organization is using an outdated eRSD (RCTC) version",
+        versionUsed: "2020-06-23",
+        expectedVersion:
+          "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
+        suggestedSolution:
+          "The trigger code version your organization is using is out-of-date. Please have your EHR administration install the current version for complete eCR functioning.",
+      });
+    }
+  }
+
   const eicrDetails: DisplayDataProps[] = [
     {
-      title: "eICR Identifier",
+      title: "eICR ID",
       toolTip:
         "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
       value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
     },
     {
-      title: "Document Author",
+      title: "Date/Time eCR Created",
+      value: formatDateTime(
+        evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0],
+      ),
+    },
+    {
+      title: "eICR Release Version",
+      value: eicrReleaseVersion(fhirBundle, mappings),
+    },
+    {
+      title: "EHR Manufacturer Model Name",
+      value: evaluate(fhirBundle, mappings.ehrManufacturerModel)[0],
+    },
+    {
+      title: "EHR Software Name",
+      toolTip: "EHR system used by the sending provider.",
+      value: evaluate(fhirBundle, mappings.ehrSoftware)[0],
+    },
+  ];
+
+  const ecrCustodianDetails: DisplayDataProps[] = [
+    {
+      title: "Custodian ID",
+      value: custodian?.identifier?.[0]?.value,
+    },
+    {
+      title: "Custodian Name",
       value: custodian?.name,
     },
     {
-      title: "Author Address",
+      title: "Custodian Address",
       value: formatAddress(
         custodian?.address?.[0].line ?? [],
         custodian?.address?.[0].city ?? "",
@@ -99,37 +169,8 @@ export const evaluateEcrMetadata = (
       ),
     },
     {
-      title: "Author Contact",
+      title: "Custodian Contact",
       value: formatContactPoint(custodian?.telecom).join("\n"),
-    },
-  ];
-  const ecrSenderDetails: DisplayDataProps[] = [
-    {
-      title: "Date/Time eCR Created",
-      value: formatDateTime(
-        evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0],
-      ),
-    },
-    {
-      title: "Sender Software",
-      toolTip: "EHR system used by the sending provider.",
-      value: evaluate(fhirBundle, mappings.senderSoftware)[0],
-    },
-    {
-      title: "Sender Facility Name",
-      value: evaluate(fhirBundle, mappings.senderFacilityName)[0],
-    },
-    {
-      title: "Facility Address",
-      value: evaluateFacilityAddress(fhirBundle, mappings),
-    },
-    {
-      title: "Facility Contact",
-      value: evaluate(fhirBundle, mappings.facilityContact)[0],
-    },
-    {
-      title: "Facility ID",
-      value: evaluateFacilityId(fhirBundle, mappings),
     },
   ];
 
@@ -137,8 +178,9 @@ export const evaluateEcrMetadata = (
 
   return {
     eicrDetails: evaluateData(eicrDetails),
-    ecrSenderDetails: evaluateData(ecrSenderDetails),
+    ecrCustodianDetails: evaluateData(ecrCustodianDetails),
     rrDetails: reportableConditionsList,
+    eRSDWarnings: eRSDTextList,
     eicrAuthorDetails: evaluateData(eicrAuthorDetails),
   };
 };

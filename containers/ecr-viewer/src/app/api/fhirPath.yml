@@ -35,10 +35,13 @@ patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').ex
 
 #eCR Metadata
 eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
+eicrReleaseVersion: "Bundle.entry.resource.where(resourceType='Composition').extension.where(url='https://www.hl7.org/implement/standards/product_brief.cfm?product_id=436').valueString"
 eicrCustodianRef: "Bundle.entry.resource.where(resourceType= 'Composition').custodian.reference"
 dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
-senderSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(property[0].type.coding.code='software').type.coding.display"
+ehrSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(property[0].type.coding.code='software').version.value"
+ehrManufacturerModel: "Bundle.entry.resource.where(resourceType = 'Device').where(property[0].type.coding.code='software').manufacturer"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
+eRSDwarnings: "Bundle.entry.resource.where(resourceType= 'Composition').section.where(title = 'Reportability Response Information Section').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension').valueCodeableConcept.coding.entries.eRSDwarnings"
 compositionAuthorRefs: "Bundle.entry.resource.where(resourceType = 'Composition').author"
 
 # Encounter Info
@@ -49,6 +52,7 @@ encounterType: "Bundle.entry.resource.where(resourceType='Encounter')[0].class.d
 encounterID: "Bundle.entry.resource.where(resourceType='Encounter')[0].identifier"
 facilityCity: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.city"
 facilityContact: "Bundle.entry.resource.where(resourceType = 'Location')[0].telecom.where(system = 'phone')[0].value"
+facilityContactAddress: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].serviceProvider"
 facilityCountry: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.country"
 facilityLocation: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.reference"
 facilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
@@ -95,7 +99,7 @@ plannedProcedureName: "detail.code.coding[0].display"
 plannedProcedureOrderedDate: "extension.where(url = 'dibbs.orderedDate').valueString"
 plannedProcedureScheduledDate: "detail.scheduledString"
 
-# Adminstered Medications
+# Administered Medications
 administeredMedications: "Bundle.entry.resource.section.where(code.coding[0].code = '29549-3').text"
 adminMedicationsRefs: "Bundle.entry.resource.section.where(code.coding[0].code = '29549-3').entry.reference"
 
