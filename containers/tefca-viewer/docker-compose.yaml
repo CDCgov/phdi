@@ -35,7 +35,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgres://postgres:pw@db:5432/tefca_db
+      - DATABASE_URL=postgresql://postgres:pw@db:5432/tefca_db?sslmode=disable
     depends_on:
       db:
         condition: service_healthy
