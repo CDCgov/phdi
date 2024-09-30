@@ -20,6 +20,7 @@ type CustomizeQueryNavProps = {
  * @param param0.handleSelectAllForTab - Listener function to grab all the
  * returned labs when the select all button is hit
  * @param param0.hasItemsInTab - Boolean indicating if there are items in the current tab
+ * @param param0.valueSetOptions
  * @returns Nav component for the customize query page
  */
 const CustomizeQueryNav: React.FC<CustomizeQueryNavProps> = ({

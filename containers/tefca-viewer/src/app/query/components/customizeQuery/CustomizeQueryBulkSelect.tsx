@@ -6,6 +6,14 @@ type CustomizeQueryBulkSelectProps = {
   handleBulkSelectForTab: (checked: boolean) => void;
   activeTab: string;
 };
+/**
+ *
+ * @param root0
+ * @param root0.allItemsDeselected
+ * @param root0.allItemsSelected
+ * @param root0.handleBulkSelectForTab
+ * @param root0.activeTab
+ */
 const CustomizeQueryBulkSelect: React.FC<CustomizeQueryBulkSelectProps> = ({
   allItemsDeselected,
   allItemsSelected,
