@@ -38,5 +38,5 @@ services:
     # command: >
     #   sh -c "./flywayHERE/flyway --help"
     # command: ls ./flywayHERE
-    entrypoint: ["flyway", "--help"]
+    # entrypoint: ["flyway", "--help"]
     # entrypoint: ["sh", "-c", "flyway -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate && node containers/tefca-viewer/server.js"]
