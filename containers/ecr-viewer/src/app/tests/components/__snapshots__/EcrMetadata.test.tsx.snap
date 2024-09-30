@@ -324,6 +324,131 @@ exports[`ECR Metadata should match snapshot 1`] = `
           />
           <h4
             class="usa-summary-box__heading padding-y-105"
+            id="eicr-author-details-for-practitioner"
+          >
+            eICR Author Details for Practitioner
+          </h4>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Author Name
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                Dr. Stella Zinman
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Author Address
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                1 Main st
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Author Contact
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                (661)382-5000
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Author Facility Name
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                PRM- Palmdale Regional Medical Center
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Author Facility Address
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                38600 Medical Center Drive
+Palmdale, CA
+93551, USA
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Author Facility Contact
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                (661)382-5000
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div
+            class="padding-bottom-1"
+          />
+          <h4
+            class="usa-summary-box__heading padding-y-105"
             id="eicr-custodian-details"
           >
             eICR Custodian Details
