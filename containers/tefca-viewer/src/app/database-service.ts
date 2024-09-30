@@ -14,8 +14,6 @@ select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author 
 `;
 
 // Load environment variables from tefca.env and establish a Pool configuration
-console.log("Database Configuration:");
-console.log("Connection String:", process.env.DATABASE_URL);
 dotenv.config({ path: "tefca.env" });
 const dbConfig: PoolConfig = {
   connectionString: process.env.DATABASE_URL,
@@ -25,7 +23,6 @@ const dbConfig: PoolConfig = {
   connectionTimeoutMillis: 2000, // Wait this long before timing out when connecting new client
 };
 const dbClient = new Pool(dbConfig);
-console.log("DB Config Object:", dbConfig);
 
 /**
  * Executes a search for a CustomQuery against the query-loaded Postgres
