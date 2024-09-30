@@ -17,7 +17,9 @@ select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author 
 dotenv.config({ path: "tefca.env" });
 const dbConfig: PoolConfig = {
   connectionString: process.env.DATABASE_URL,
-  ssl: false, // Disable SSL explicitly
+  ssl: {
+    rejectUnauthorized: false, // Disable SSL certificate validation
+  },
   max: 10, // Maximum # of connections in the pool
   idleTimeoutMillis: 30000, // A client must sit idle this long before being released
   connectionTimeoutMillis: 2000, // Wait this long before timing out when connecting new client
