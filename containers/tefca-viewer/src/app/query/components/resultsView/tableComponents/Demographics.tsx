@@ -10,7 +10,7 @@ import {
   formatContact,
   formatIdentifier,
   formatDate,
-} from "../../format-service";
+} from "../../../../format-service";
 
 /**
  * Displays the demographic information of a patient.
