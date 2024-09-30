@@ -89,4 +89,15 @@ describe("GET API Route", () => {
     expect(jsonResponse.fhirBundle).toBeDefined();
     expect(jsonResponse.fhirBundle).toEqual(mockData);
   });
+
+  it("Throws an error when an invalid source is provided", async () => {
+    const fakeId = "test-id";
+    process.env.SOURCE = "bad-source";
+    const request = new NextRequest(`http://localhost?id=${fakeId}`);
+
+    const response = await GET(request);
+    expect(response.status).toBe(500);
+    const jsonResponse = await response.json();
+    expect(jsonResponse.message).toBe("Invalid source");
+  });
 });
