@@ -1,11 +1,15 @@
 import { ValueSetType } from "@/app/constants";
 import styles from "./customizeQuery.module.css";
+import CustomizeQueryBulkSelect from "./CustomizeQueryBulkSelect";
+import { GroupedValueSet } from "./customizeQueryUtils";
 
 type CustomizeQueryNavProps = {
-  activeTab: string;
+  activeTab: ValueSetType;
   handleTabChange: (tabName: ValueSetType) => void;
   handleSelectAllForTab: (checked: boolean) => void;
-  hasItemsInTab: boolean;
+  valueSetOptions: {
+    [key in ValueSetType]: { [vsNameAuthorSystem: string]: GroupedValueSet };
+  };
 };
 
 /**
@@ -15,15 +19,26 @@ type CustomizeQueryNavProps = {
  * @param param0.activeTab - currently active tab
  * @param param0.handleSelectAllForTab - Listener function to grab all the
  * returned labs when the select all button is hit
- * @param param0.hasItemsInTab - Boolean indicating if there are items in the current tab
+ * @param param0.valueSetOptions - the selected ValueSet items
  * @returns Nav component for the customize query page
  */
 const CustomizeQueryNav: React.FC<CustomizeQueryNavProps> = ({
   handleTabChange,
   activeTab,
   handleSelectAllForTab,
-  hasItemsInTab,
+  valueSetOptions,
 }) => {
+  const hasSelectableItems = Object.values(valueSetOptions[activeTab]).some(
+    (group) => group.items.length > 0,
+  );
+  const allItemsDeselected = Object.values(valueSetOptions[activeTab])
+    .flatMap((groupedValSets) => groupedValSets.items.flatMap((i) => i.include))
+    .every((p) => !p);
+
+  const allItemsSelected = Object.values(valueSetOptions[activeTab])
+    .flatMap((groupedValSets) => groupedValSets.items.flatMap((i) => i.include))
+    .every((p) => p);
+
   return (
     <>
       <nav className={`${styles.customizeQueryNav}`}>
@@ -66,18 +81,13 @@ const CustomizeQueryNav: React.FC<CustomizeQueryNavProps> = ({
 
       <ul className="usa-nav__primary usa-accordion"></ul>
       <hr className="custom-hr"></hr>
-      {hasItemsInTab ? (
-        <a
-          href="#"
-          type="button"
-          className="include-all-link"
-          onClick={(e) => {
-            e.preventDefault();
-            handleSelectAllForTab(true);
-          }}
-        >
-          Include all {activeTab}
-        </a>
+      {hasSelectableItems ? (
+        <CustomizeQueryBulkSelect
+          allItemsDeselected={allItemsDeselected}
+          allItemsSelected={allItemsSelected}
+          handleBulkSelectForTab={handleSelectAllForTab}
+          activeTab={activeTab}
+        />
       ) : (
         <div className="font-sans-sm text-light padding-y-3">
           No {activeTab} available for this query.
