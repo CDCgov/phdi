@@ -96,7 +96,7 @@ else
 fi
 
 # Build and run docker compose
-docker compose -f ./seed-scripts/docker-compose.yml --profile design-review --env-file .env.local up -d
+docker compose -f ./seed-scripts/docker-compose.yml --profile design-review --env-file .env.local up -d --build
 
 # Wait for eCR Viewer to be available
 URL="http://localhost:3000/ecr-viewer"
