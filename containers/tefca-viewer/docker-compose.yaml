@@ -17,12 +17,12 @@ services:
       - ./pgdata:/var/lib/postgresql/data
       - ./generate-certificates.sh:/docker-entrypoint-initdb.d/generate-certificates.sh
     command: >
-      /bin/sh -c "chown -R postgres:postgres /var/lib/postgresql/data &&
-      chmod 700 /var/lib/postgresql/data && 
+      /bin/sh -c "
       apk add --no-cache openssl su-exec && 
       chmod +x /docker-entrypoint-initdb.d/generate-certificates.sh && 
-      su-exec postgres /docker-entrypoint-initdb.d/generate-certificates.sh &&
-      postgres -c ssl=on -c ssl_cert_file=/var/lib/postgresql/server.crt -c ssl_key_file=/var/lib/postgresql/server.key"
+      chown -R postgres:postgres /var/lib/postgresql/data && 
+      chmod 700 /var/lib/postgresql/data && 
+      su-exec postgres /docker-entrypoint-initdb.d/generate-certificates.sh"
 
   # Flyway migrations and DB version control
   flyway:
