@@ -18,13 +18,12 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-
 ENV FLYWAY_VERSION=9.16.1
 
 # Add bash to enable running Flyway
 RUN apk add --no-cache bash curl
 
-# Install Flyway and remove JRE directory
+# Install Flyway and remove JRE directory to force flyway to use the openjdk11 version in the runner
 RUN curl -L https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}-linux-x64.tar.gz -o flyway.tar.gz \
     && tar -zxvf flyway.tar.gz \
     && mv flyway-${FLYWAY_VERSION} /flyway \
@@ -53,8 +52,10 @@ WORKDIR /app
 
 RUN apk add --no-cache bash openjdk11
 
+# Copy Flyway from the installer stage
 COPY --from=installer /flyway /flyway
 RUN chmod +x /flyway/flyway
+# Create symlink to run Flyway from anywhere in the container
 RUN ln -s /flyway/flyway /usr/local/bin/flyway
 
 # Don't run production as root
@@ -80,9 +81,9 @@ COPY --from=installer --chown=nextjs:nodejs /app/containers/tefca-viewer/public 
 ENV TURBO_TELEMETRY_DISABLED=1
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Set JAVA_HOME to the OpenJDK version installed by apk
+# Set JAVA_HOME to the OpenJDK version installed by apk for Flyway
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm
-# Add the OpenJDK to the PATH so the java command is available
+# Add the OpenJDK to the PATH so the java command is available for Flways
 ENV PATH=$JAVA_HOME/bin:$PATH
 
 CMD ["node", "containers/tefca-viewer/server.js"]
