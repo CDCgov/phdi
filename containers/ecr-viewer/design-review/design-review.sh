@@ -90,13 +90,13 @@ if [ "$CONVERT_SEED_DATA" = true ]; then
   echo "Running seed data FHIR conversion..."
 
   docker compose -f ./seed-scripts/docker-compose.yml --profile design-review down -v
-  . ./.env.local && docker compose -f ./seed-scripts/docker-compose.yml --profile seed-$(node ./check-source-env.mjs) up --abort-on-container-exit
+  docker compose -f ./seed-scripts/docker-compose.yml --profile seed-$(node ./check-source-env.mjs) --env-file .env.local up --abort-on-container-exit
 else
   echo "Skipping seed data FHIR conversion..."
 fi
 
 # Build and run docker compose
-docker compose -f ./seed-scripts/docker-compose.yml --profile design-review up -d
+docker compose -f ./seed-scripts/docker-compose.yml --profile design-review --env-file .env.local up -d
 
 # Wait for eCR Viewer to be available
 URL="http://localhost:3000/ecr-viewer"
