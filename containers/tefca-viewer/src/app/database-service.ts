@@ -14,7 +14,9 @@ select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author 
 `;
 
 // Load environment variables from tefca.env and establish a Pool configuration
-dotenv.config({ path: "tefca.env" });
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: "tefca.env" });
+}
 const dbConfig: PoolConfig = {
   connectionString: process.env.DATABASE_URL,
   ssl: {

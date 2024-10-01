@@ -14,12 +14,13 @@ services:
       timeout: 5s
       retries: 20
     volumes:
-      - ./pgdata:/var/lib/postgresql/data # Ensure the data directory is mounted properly
+      - ./pgdata:/var/lib/postgresql/data
       - ./generate-certificates.sh:/docker-entrypoint-initdb.d/generate-certificates.sh
     command: >
       /bin/sh -c "apk add --no-cache openssl su-exec && 
       chmod +x /docker-entrypoint-initdb.d/generate-certificates.sh && 
-      su-exec postgres /docker-entrypoint-initdb.d/generate-certificates.sh"
+      su-exec postgres /docker-entrypoint-initdb.d/generate-certificates.sh && 
+      postgres -c ssl=on -c ssl_cert_file=/var/lib/postgresql/server.crt -c ssl_key_file=/var/lib/postgresql/server.key"
 
   # Flyway migrations and DB version control
   flyway:
@@ -30,4 +31,4 @@ services:
       - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
