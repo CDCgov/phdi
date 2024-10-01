@@ -25,19 +25,12 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgres://postgres:pw@db:5432/tefca_db
-      - INSTALLDIR=/blah
-    volumes:
-      - ./flyway/sql:/flyway/sql
-      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
     depends_on:
       db:
         condition: service_healthy
-    # command: >
-    #   sh -c "
-    #   flyway -configFiles=/flywayHERE/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate &&
-    #   node containers/tefca-viewer/server.js"
-    # command: >
-    #   sh -c "./flywayHERE/flyway --help"
-    # command: ls ./flywayHERE
-    # entrypoint: ["flyway", "--help"]
-    # entrypoint: ["sh", "-c", "flyway -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate && node containers/tefca-viewer/server.js"]
+    entrypoint:
+      [
+        "sh",
+        "-c",
+        "flyway -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate && node containers/tefca-viewer/server.js",
+      ]

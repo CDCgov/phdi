@@ -68,7 +68,8 @@ ENV HOSTNAME "0.0.0.0"
 # Copy necessary app files
 COPY --from=installer /app/containers/tefca-viewer/next.config.js .
 COPY --from=installer /app/containers/tefca-viewer/package.json .
-
+COPY --from=installer /app/containers/tefca-viewer/flyway/conf/flyway.conf /flyway/conf/flyway.conf
+COPY --from=installer /app/containers/tefca-viewer/flyway/sql /flyway/sql
 
 # Automatically leverage output traces to reduce image size
 COPY --from=installer --chown=nextjs:nodejs /app/containers/tefca-viewer/.next/standalone ./
