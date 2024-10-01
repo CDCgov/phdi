@@ -1,3 +1,4 @@
+pgdata/
 node_modules
 .next/
 *.local
