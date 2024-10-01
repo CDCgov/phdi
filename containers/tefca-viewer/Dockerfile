@@ -19,17 +19,19 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 
-# Install dependencies (bash, curl for Flyway installation)
-# RUN apk add --no-cache bash curl 
+ENV FLYWAY_VERSION=9.16.1
 
-# # Install Flyway and remove JRE directory
-# RUN curl -L https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/10.16.0/flyway-commandline-10.16.0-linux-x64.tar.gz -o flyway.tar.gz \
-#     && tar -zxvf flyway.tar.gz \
-#     && mv flyway-10.16.0 /flyway \
-#     && ln -s /flyway/flyway /usr/local/bin/flyway \
-#     && rm flyway.tar.gz \
-#     && rm -rf /flyway/jre \
-#     && chmod +x /flyway/flyway
+# Add bash to enable running Flyway
+RUN apk add --no-cache bash curl
+
+# Install Flyway and remove JRE directory
+RUN curl -L https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}-linux-x64.tar.gz -o flyway.tar.gz \
+    && tar -zxvf flyway.tar.gz \
+    && mv flyway-${FLYWAY_VERSION} /flyway \
+    && ln -s /flyway/flyway /usr/local/bin/flyway \
+    && rm flyway.tar.gz \
+    && rm -rf /flyway/jre \
+    && chmod +x /flyway/flyway
 
 # First install the dependencies
 COPY .gitignore .gitignore
@@ -48,19 +50,12 @@ RUN npx turbo build --filter=tefca-viewer...
 # Final stage for running the app
 FROM base AS runner
 WORKDIR /app
-ENV FLYWAY_VERSION=9.16.1
 
-# Add bash to enable running Flyway
-RUN apk add --no-cache bash openjdk11 curl
+RUN apk add --no-cache bash openjdk11
 
-# Install Flyway and remove JRE directory
-RUN curl -L https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}-linux-x64.tar.gz -o flyway.tar.gz \
-    && tar -zxvf flyway.tar.gz \
-    && mv flyway-${FLYWAY_VERSION} /flyway \
-    && ln -s /flyway/flyway /usr/local/bin/flyway \
-    && rm flyway.tar.gz \
-    && rm -rf /flyway/jre \
-    && chmod +x /flyway/flyway
+COPY --from=installer /flyway /flyway
+RUN chmod +x /flyway/flyway
+RUN ln -s /flyway/flyway /usr/local/bin/flyway
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
@@ -74,8 +69,6 @@ ENV HOSTNAME "0.0.0.0"
 COPY --from=installer /app/containers/tefca-viewer/next.config.js .
 COPY --from=installer /app/containers/tefca-viewer/package.json .
 
-# # Copy Flyway from the installer stage
-# COPY --from=installer /flyway /flyway
 
 # Automatically leverage output traces to reduce image size
 COPY --from=installer --chown=nextjs:nodejs /app/containers/tefca-viewer/.next/standalone ./
