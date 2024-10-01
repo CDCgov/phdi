@@ -284,13 +284,14 @@ td {
 }
 
 .back-button-wrapper {
-  margin-top:1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom:1.5rem;
   display: flex;
   .usa-icon{
     color: #71767A;
     margin-right: .5rem;
   }
-  .usa-button {
+  .usa-link {
     text-decoration-line: underline;
     align-items: center;
   }
@@ -300,7 +301,6 @@ td {
   display: flex;
   gap: $ecr-viewer-gap;
   overflow: visible;
-  margin-top: 1.5rem;
 }
 
 .nav-wrapper {
