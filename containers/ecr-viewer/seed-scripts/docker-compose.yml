@@ -129,7 +129,6 @@ services:
       - ../sql/:/docker-entrypoint-initdb.d/
       - ./sql/:/docker-entrypoint-initdb.d/
       - ./sql/.pgpass/:/usr/local/lib/.pgpass
-      - db:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - PGUSER=postgres
@@ -171,5 +170,3 @@ services:
     profiles:
       - seed-s3
       - local-dev-s3
-volumes:
-  db:
