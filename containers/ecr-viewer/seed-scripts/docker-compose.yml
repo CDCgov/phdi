@@ -118,6 +118,7 @@ services:
       - seed-postgres
       - seed-s3
       - seed-azure
+      - design-review
 
   # PostgreSQL database
   db:
@@ -145,6 +146,7 @@ services:
       - local-dev-postgres
       - local-dev-s3
       - local-dev-azure
+      - design-review
 
   # Azure Blob Storage emulator
   azure-storage:
