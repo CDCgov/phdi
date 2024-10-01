@@ -111,3 +111,4 @@ open http://localhost:3000/ecr-viewer
 # Prompt to end review session
 read -p "Press enter to end review"
 docker compose -f ./seed-scripts/docker-compose.yml --profile design-review down
+docker compose -f ./seed-scripts/docker-compose.yml --profile seed-$(node ./check-source-env.mjs) down
