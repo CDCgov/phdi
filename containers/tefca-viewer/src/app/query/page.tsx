@@ -4,7 +4,6 @@ import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import ResultsView from "./components/ResultsView";
 import PatientSearchResults from "./components/PatientSearchResults";
 import SearchForm from "./components/searchForm/SearchForm";
-import NoPatientsFound from "./components/patientSearchResults/NoPatientsFound";
 import {
   Mode,
   QueryTypeToQueryName,

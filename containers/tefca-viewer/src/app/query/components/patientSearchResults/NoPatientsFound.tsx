@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 
 /**
  * Displays a message when no patients are found.
- * @param root0 - NoPatientsFound props.
- * @param root0.setMode - The function to set the mode.
  * @returns - The NoPatientsFound component.
  */
 const NoPatientsFound: React.FC = () => {

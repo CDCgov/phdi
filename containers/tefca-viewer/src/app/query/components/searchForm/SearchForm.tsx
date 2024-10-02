@@ -25,8 +25,7 @@ import {
 import { fhirServers } from "../../../fhir-servers";
 import styles from "./searchForm.module.css";
 
-import { FormatPhoneAsDigits, formatName } from "@/app/format-service";
-import { HumanName, Patient } from "fhir/r4";
+import { FormatPhoneAsDigits } from "@/app/format-service";
 
 interface SearchFormProps {
   useCase: USE_CASES;
