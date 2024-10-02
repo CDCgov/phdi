@@ -39,6 +39,12 @@ describe("UnavailableInfo", () => {
     ];
     const encounterUnavailableData = [
       {
+        title: "Encounter type",
+        value: "",
+      },
+    ];
+    const facilityUnavailableData = [
+      {
         title: "Facility Address",
         value: "",
       },
@@ -87,7 +93,11 @@ describe("UnavailableInfo", () => {
     ];
     const ecrMetadata = [
       {
-        title: "Sender Software",
+        title: "EHR Software Name",
+        value: "",
+      },
+      {
+        title: "Custodian Contact",
         value: "",
       },
     ];
@@ -96,6 +106,7 @@ describe("UnavailableInfo", () => {
         demographicsUnavailableData={demographicsUnavailability}
         socialUnavailableData={socialUnavailability}
         encounterUnavailableData={encounterUnavailableData}
+        facilityUnavailableData={facilityUnavailableData}
         providerUnavailableData={providerUnavailableData}
         symptomsProblemsUnavailableData={[
           ...reasonForVisitUnavailableData,

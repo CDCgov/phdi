@@ -3,6 +3,9 @@
   justify-content: flex-start;
   gap: 2rem;
   padding-top: 2rem;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 100%;
 }
 
 .customizeQueryNav ul {
@@ -69,22 +72,16 @@
   align-items: center;
   cursor: pointer;
   background-color: #fff;
-  border: 1px solid #a9aeb1;
+  border: 1px solid #a9aeb1 !important;
   border-radius: 0.25rem;
   margin: 0.5rem;
+  padding: 0 !important;
 }
 
 .customizeQueryCheckbox svg {
   width: 100%;
   height: 100%;
   border-radius: inherit;
-}
-
-.caret {
-  cursor: pointer;
-  align-items: center;
-  display: flex;
-  margin: -3px;
 }
 
 .accordionHeader {
@@ -122,10 +119,6 @@
   outline: none;
 }
 
-.customizeQueryAccordion__body {
-  border: 1px solid #71767a;
-}
-
 .resultsContainer {
   padding-bottom: 1.25rem;
 }
@@ -135,6 +128,7 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+  border: 1px solid #71767a;
 
   --column-spacing: 3.75rem 6.25rem 1fr;
   --column-gap: 3.75rem;
@@ -158,6 +152,7 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
+  border: none !important;
 }
 
 .customizeQueryGridRow {
@@ -178,34 +173,8 @@
   border-bottom: none;
 }
 
-.usaNav {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 16px;
-  width: 100%;
-}
-
-.hideCheckboxLabel {
-  background-color: transparent;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-
-  & > label {
-    margin-top: 0;
-    width: 24px;
-    height: 24px;
-
-    &::before {
-      margin-left: 0;
-      width: 24px;
-      height: 24px;
-      background-size: 14px auto !important;
-    }
-
-    & > .hide-me {
-      display: none;
-    }
-  }
+.bulkSelectLink {
+  padding: 1.25rem 0;
+  text-decoration: underline;
+  padding-right: 1rem;
 }

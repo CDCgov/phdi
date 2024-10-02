@@ -50,6 +50,7 @@ const Query: React.FC = () => {
             <ResultsView
               useCaseQueryResponse={useCaseQueryResponse}
               goBack={() => setMode("search")}
+              queryName={useCase}
             />
           )}
         </>
