@@ -86,4 +86,4 @@ ENV JAVA_HOME=/usr/lib/jvm/default-jvm
 # Add the OpenJDK to the PATH so the java command is available for Flways
 ENV PATH=$JAVA_HOME/bin:$PATH
 
-CMD ["node", "containers/tefca-viewer/server.js"]
+CMD ["sh", "-c","flyway -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate && node containers/tefca-viewer/server.js"]

@@ -28,9 +28,3 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    entrypoint:
-      [
-        "sh",
-        "-c",
-        "flyway -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate && node containers/tefca-viewer/server.js",
-      ]
