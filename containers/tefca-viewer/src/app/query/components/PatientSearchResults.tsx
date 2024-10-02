@@ -10,6 +10,7 @@ import { ValueSetItem } from "@/app/constants";
 import Backlink from "./backLink/Backlink";
 import PatientSearchResultsTable from "./patientSearchResults/PatientSearchResultsTable";
 import ResultsView from "./ResultsView";
+import NoPatientsFound from "./NoPatientsFound";
 
 /**
  * The props for the PatientSearchResults component.
@@ -93,16 +94,22 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
   return (
     <>
       <div className="multiple-patient-search-results">
-        <h1 className="font-sans-2xl text-bold">Select a patient</h1>
-        <p className="font-sans-lg text-light">
-          The following records match your search. Select a patient to continue.
-        </p>
-        <PatientSearchResultsTable
-          patients={patients}
-          setPatientForQueryResponse={setPatientForQueryResponse}
-        />
-        <h3>Not seeing what you are looking for?</h3>
-        <Backlink onClick={goBack} label="Return to patient search " />
+        <Backlink onClick={goBack} label={"Return to patient search"} />
+        {patients.length === 0 && <NoPatientsFound />}
+        {patients.length > 0 && (
+          <>
+            <PatientSearchResultsTable
+              patients={patients}
+              setPatientForQueryResponse={setPatientForQueryResponse}
+            />
+
+            <h3>Not seeing what you're looking for?</h3>
+          </>
+        )}
+
+        <a className="usa-link" onClick={goBack}>
+          Return to patient search
+        </a>
       </div>
     </>
   );

@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { Mode } from "../../constants";
-
-interface NoPatientsFoundProps {
-  setMode: (mode: Mode) => void;
-}
+import Backlink from "./backLink/Backlink";
 
 /**
  * Displays a message when no patients are found.
@@ -11,19 +8,16 @@ interface NoPatientsFoundProps {
  * @param root0.setMode - The function to set the mode.
  * @returns - The NoPatientsFound component.
  */
-const NoPatientsFound: React.FC<NoPatientsFoundProps> = ({ setMode }) => {
+const NoPatientsFound: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
     <div className="no-patients-found">
-      <h1 className="font-sans-2xl text-bold">No Patients Found</h1>
+      <h1 className="font-sans-2xl text-bold">No Records Found</h1>
       <p className="font-sans-lg text-light">
-        There are no patient records that match your search criteria.
+        No records were found for your search
       </p>
-      <a href="#" onClick={() => setMode("search")}>
-        Search for a new patient
-      </a>
     </div>
   );
 };

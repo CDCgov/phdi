@@ -63,7 +63,6 @@ const Query: React.FC = () => {
     };
   }, [queryType]);
 
-  console.log(mode);
   return (
     <>
       <SiteAlert page={mode} />
@@ -110,8 +109,6 @@ const Query: React.FC = () => {
             />
           </>
         )}
-        {/* Show the no patients found view if there are no patients */}
-        {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
 
         {/* Use LoadingView component for loading state */}
         <LoadingView loading={loading} />
