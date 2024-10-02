@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Mode } from "../../constants";
-import Backlink from "./backLink/Backlink";
+import { Mode } from "../../../constants";
+import Backlink from "../backLink/Backlink";
 
 /**
  * Displays a message when no patients are found.

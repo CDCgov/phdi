@@ -10,7 +10,7 @@ import { ValueSetItem } from "@/app/constants";
 import Backlink from "./backLink/Backlink";
 import PatientSearchResultsTable from "./patientSearchResults/PatientSearchResultsTable";
 import ResultsView from "./ResultsView";
-import NoPatientsFound from "./NoPatientsFound";
+import NoPatientsFound from "./patientSearchResults/NoPatientsFound";
 
 /**
  * The props for the PatientSearchResults component.
