@@ -88,15 +88,15 @@ echo "NEXT_PUBLIC_NON_INTEGRATED_VIEWER=$IS_NON_INTEGRATED" >> .env.local
 # Run FHIR conversion on seed data
 if [ "$CONVERT_SEED_DATA" = true ]; then
   echo "Running seed data FHIR conversion..."
-  
-  docker compose -f ./seed-scripts/docker-compose.yml up --abort-on-container-exit
-  docker compose down -v
+
+  docker compose -f ./seed-scripts/docker-compose.yml --profile design-review down -v
+  docker compose -f ./seed-scripts/docker-compose.yml --profile seed-postgres --env-file .env.local up --abort-on-container-exit
 else
   echo "Skipping seed data FHIR conversion..."
 fi
 
 # Build and run docker compose
-docker compose --env-file .env.local up -d ecr-viewer db --build
+docker compose -f ./seed-scripts/docker-compose.yml --profile design-review --env-file .env.local up -d --build
 
 # Wait for eCR Viewer to be available
 URL="http://localhost:3000/ecr-viewer"
@@ -110,4 +110,5 @@ open http://localhost:3000/ecr-viewer
 
 # Prompt to end review session
 read -p "Press enter to end review"
-docker compose down -v
+docker compose -f ./seed-scripts/docker-compose.yml --profile design-review down
+docker compose -f ./seed-scripts/docker-compose.yml --profile seed-postgres down
