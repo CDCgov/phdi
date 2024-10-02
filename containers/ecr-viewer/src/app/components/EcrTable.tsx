@@ -68,22 +68,69 @@ const EcrTable = async ({
  */
 const renderListEcrTableData = (listFhirData: EcrDisplay[]) => {
   return listFhirData.map((item, index) => {
-    return (
-      <tr key={`table-row-${index}`}>
-        <td>
-          <a href={`${basePath}/view-data?id=${item.ecrId}`}>
-            {item.patient_first_name} {item.patient_last_name}
-          </a>
-          <br />
-          {"DOB: " + item.patient_date_of_birth || ""}
-        </td>
-        <td>{item.date_created}</td>
-        <td>{item.patient_report_date}</td>
-        <td>{item.reportable_condition}</td>
-        <td>{item.rule_summary}</td>
-      </tr>
-    );
+    return formatRow(item, index);
   });
+};
+
+const formatRow = (item: EcrDisplay, index: number) => {
+  let patient_first_name =
+    item.patient_first_name.charAt(0).toUpperCase() +
+    item.patient_first_name.slice(1).toLowerCase();
+  let patient_last_name =
+    item.patient_last_name.charAt(0).toUpperCase() +
+    item.patient_last_name.slice(1).toLowerCase();
+  let createDateObj = new Date(item.date_created);
+  let createDateDate = formatDate(createDateObj);
+  let createDateTime = formatTime(createDateObj);
+  let patientReportDateObj = new Date(item.patient_report_date);
+  let patientReportDate = formatDate(patientReportDateObj);
+  let patientReportTime = formatTime(patientReportDateObj);
+  let formatReportableCondition = item.reportable_condition.replace(
+    /,/g,
+    "<br /><br />",
+  );
+  let formatRuleSummary = item.rule_summary.replace(/,/g, "<br /><br />");
+
+  return (
+    <tr key={`table-row-${index}`}>
+      <td>
+        <a href={`${basePath}/view-data?id=${item.ecrId}`}>
+          {patient_first_name} {patient_last_name}
+        </a>
+        <br />
+        <div>{"DOB: " + item.patient_date_of_birth || ""}</div>
+      </td>
+      <td>
+        {createDateDate}
+        <br />
+        {createDateTime}
+      </td>
+      <td>
+        {patientReportDate}
+        <br />
+        {patientReportTime}
+      </td>
+      <td dangerouslySetInnerHTML={{ __html: formatReportableCondition }}></td>
+      <td dangerouslySetInnerHTML={{ __html: formatRuleSummary }}></td>
+    </tr>
+  );
+};
+
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("en-US");
+};
+
+const formatTime = (date: Date) => {
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${hours}:${minutesStr} ${ampm}`;
 };
 
 export default EcrTable;
