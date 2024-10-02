@@ -12,7 +12,7 @@
  *
  */
 async function globalSetup() {
-  const url = "http://localhost:3000/tefca-viewer";
+  const url = "http://localhost:3000/";
 
   const response = await fetch(url);
   while (response.status !== 200) {
