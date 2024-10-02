@@ -9,7 +9,6 @@ import {
 import { Mode, ValueSetItem } from "@/app/constants";
 import Backlink from "./backLink/Backlink";
 import PatientSearchResultsTable from "./patientSearchResults/PatientSearchResultsTable";
-import ResultsView from "./ResultsView";
 import NoPatientsFound from "./patientSearchResults/NoPatientsFound";
 
 /**
@@ -34,6 +33,9 @@ export interface PatientSearchResultsProps {
  * in the query.
  * @param root0.setLoading - The function to set the loading state.
  * @param root0.goBack - The function to go back to the previous page.
+ * @param root0.setUseCaseQueryResponse - State update function to pass the
+ * data needed for the results view back up to the parent component
+ * @param root0.setMode - Redirect function to handle results view routing
  * @returns - The PatientSearchResults component.
  */
 const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
