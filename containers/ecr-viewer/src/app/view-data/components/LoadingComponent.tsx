@@ -112,6 +112,7 @@ const SideNavLoadingSkeleton = ({
 
   return (
     <div className="nav-wrapper">
+      <BackButton />
       <nav
         className={classNames("sticky-nav", {
           "top-0": !isNonIntegratedViewer,
@@ -254,7 +255,6 @@ export const EcrLoadingSkeleton = () => {
         <div className={"width-main padding-main"}>
           <div className="content-wrapper">
             <div>
-              <BackButton />
               <SideNavLoadingSkeleton
                 isNonIntegratedViewer={_isNonIntegratedViewer ? true : false}
               />
