@@ -8,6 +8,15 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pw
       - POSTGRES_DB=tefca_db
+    volumes:
+      - ./certs:/var/lib/postgresql/certs
+      - ./create-certs.sh:/usr/local/bin/create-certs.sh
+    entrypoint:
+      [
+        "/bin/bash",
+        "-c",
+        "/usr/local/bin/create-certs.sh && postgres -c ssl=on -c ssl_cert_file=/var/lib/postgresql/certs/server.crt -c ssl_key_file=/var/lib/postgresql/certs/server.key",
+      ]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 2s
@@ -35,7 +44,9 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgres://postgres:pw@db:5432/tefca_db
+      - DATABASE_URL=postgresql://postgres:pw@db:5432/tefca_db?sslmode=require
+    volumes:
+      - ./certs:/var/lib/postgresql/certs
     depends_on:
       db:
         condition: service_healthy

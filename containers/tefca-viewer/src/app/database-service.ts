@@ -1,6 +1,6 @@
 "use server";
 import { Pool, PoolConfig, QueryResultRow } from "pg";
-// import dotenv from "dotenv";
+import dotenv from "dotenv";
 import { ValueSetItem, valueSetTypeToClincalServiceTypeMap } from "./constants";
 
 const getQuerybyNameSQL = `
@@ -13,14 +13,26 @@ select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author 
   where q.query_name = $1;
 `;
 
-// Load environment variables from tefca.env and establish a Pool configuration
-// dotenv.config({ path: "tefca.env" });
+// Load environment variables from tefca.env if not in production
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: "tefca.env" });
+}
+
+// Set up the database configuration based on the environment
 const dbConfig: PoolConfig = {
   connectionString: process.env.DATABASE_URL,
   max: 10, // Maximum # of connections in the pool
   idleTimeoutMillis: 30000, // A client must sit idle this long before being released
-  connectionTimeoutMillis: 2000, // Wait this long before timing out when connecting new client
+  connectionTimeoutMillis: 2000, // Wait this long before timing out when connecting a new client
+  // Add SSL options in production
+  ...(process.env.NODE_ENV === "production" && {
+    ssl: {
+      rejectUnauthorized: false, // Disable SSL certificate validation
+    },
+  }),
 };
+
+// Create the database client using the configured pool
 const dbClient = new Pool(dbConfig);
 
 /**
