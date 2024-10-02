@@ -284,7 +284,7 @@ test.describe("Test the user journey of a 'tester'", () => {
       page.getByRole("button", { name: "New patient search" }),
     ).toBeVisible();
 
-    await page.getByRole("link", { name: "Return to search results" }).click();
+    await page.getByRole("button", { name: "New patient search" }).click();
     await expect(
       page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();

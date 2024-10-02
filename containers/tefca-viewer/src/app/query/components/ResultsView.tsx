@@ -16,7 +16,6 @@ import ObservationTable from "./resultsView/tableComponents/ObservationTable";
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
   goBack: () => void;
-  goBackToMultiplePatients?: () => void;
   queryName: string;
 };
 
@@ -31,15 +30,12 @@ export type ResultsViewAccordionItem = {
  * @param props - The props for the QueryView component.
  * @param props.useCaseQueryResponse - The response from the query service.
  * @param props.goBack - The function to go back to the previous page.
- * @param props.goBackToMultiplePatients - The function to go back to the
- * multiple patients selection page.
  * @param props.queryName - The name of the saved query to display to the user
  * @returns The QueryView component.
  */
 const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
   goBack,
-  goBackToMultiplePatients,
   queryName,
 }) => {
   useEffect(() => {
@@ -61,11 +57,6 @@ const ResultsView: React.FC<ResultsViewProps> = ({
     <>
       <div className="results-banner">
         <div className={`${styles.resultsBannerContent}`}>
-          <Backlink
-            onClick={goBackToMultiplePatients ?? goBack}
-            label="Return to search results"
-          />
-
           <button
             className="usa-button usa-button--outline margin-left-auto"
             onClick={() => goBack()}
