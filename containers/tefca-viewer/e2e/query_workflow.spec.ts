@@ -109,9 +109,11 @@ test.describe("querying with the TryTEFCA viewer", () => {
 
     // Better luck next time, user!
     await expect(
-      page.getByRole("heading", { name: "No Patients Found" }),
+      page.getByRole("heading", { name: "No Records Found" }),
     ).toBeVisible();
-    await expect(page.getByText("There are no patient records")).toBeVisible();
+    await expect(
+      page.getByText("No records were found for your search"),
+    ).toBeVisible();
     await page.getByRole("link", { name: "Search for a new patient" }).click();
     await expect(
       page.getByRole("heading", { name: "Search for a Patient", exact: true }),
@@ -260,7 +262,7 @@ test.describe("Test the user journey of a 'tester'", () => {
     await page.getByRole("button", { name: "Search for patient" }).click();
     // Make sure all the elements for the multiple patients view appear
     await expect(
-      page.getByRole("heading", { name: "Multiple Records Found" }),
+      page.getByRole("heading", { name: "Select a patient" }),
     ).toBeVisible();
     // Check that there is a Table element with the correct headers
     await expect(page.locator("thead").locator("tr")).toHaveText(
@@ -283,7 +285,7 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     await page.getByRole("link", { name: "Return to search results" }).click();
     await expect(
-      page.getByRole("heading", { name: "Multiple Records Found" }),
+      page.getByRole("heading", { name: "Select a patient" }),
     ).toBeVisible();
   });
 });
