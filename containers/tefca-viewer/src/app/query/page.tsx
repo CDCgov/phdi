@@ -105,6 +105,8 @@ const Query: React.FC = () => {
               queryValueSets={queryValuesets}
               setLoading={setLoading}
               goBack={() => setMode("search")}
+              setMode={setMode}
+              setUseCaseQueryResponse={setUseCaseQueryResponse}
             />
           </>
         )}

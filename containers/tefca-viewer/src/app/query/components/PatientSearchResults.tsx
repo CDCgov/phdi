@@ -6,7 +6,7 @@ import {
   UseCaseQuery,
   UseCaseQueryRequest,
 } from "../../query-service";
-import { ValueSetItem } from "@/app/constants";
+import { Mode, ValueSetItem } from "@/app/constants";
 import Backlink from "./backLink/Backlink";
 import PatientSearchResultsTable from "./patientSearchResults/PatientSearchResultsTable";
 import ResultsView from "./ResultsView";
@@ -21,6 +21,8 @@ export interface PatientSearchResultsProps {
   queryValueSets: ValueSetItem[];
   setLoading: (loading: boolean) => void;
   goBack: () => void;
+  setMode: (mode: Mode) => void;
+  setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
 }
 
 /**
@@ -40,14 +42,12 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
   queryValueSets,
   setLoading,
   goBack,
+  setUseCaseQueryResponse,
+  setMode,
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  // Determines whether to show the results of a single patient (ResultsView) or
-  // go back to the multiple patients view (below)
-  const [singleUseCaseQueryResponse, setSingleUseCaseQueryResponse] =
-    useState<UseCaseQueryResponse>();
   const [patientForQuery, setPatientForQueryResponse] = useState<Patient>();
 
   useEffect(() => {
@@ -63,8 +63,8 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
             Patient: [patientForQuery],
           },
         );
-        setSingleUseCaseQueryResponse(queryResponse);
-
+        setUseCaseQueryResponse(queryResponse);
+        setMode("results");
         setLoading(false);
       }
     };
@@ -77,20 +77,6 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
     };
   }, [patientForQuery]);
 
-  if (singleUseCaseQueryResponse) {
-    // If a single patient is selected, show the button for returning to the search results
-    // & take user back to the search results by setting the singleUseCaseQueryResponse to undefined
-    return (
-      <ResultsView
-        useCaseQueryResponse={singleUseCaseQueryResponse}
-        goBack={goBack}
-        goBackToMultiplePatients={() =>
-          setSingleUseCaseQueryResponse(undefined)
-        }
-        queryName={originalRequest.use_case}
-      />
-    );
-  }
   return (
     <>
       <div className="multiple-patient-search-results">
