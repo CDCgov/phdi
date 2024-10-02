@@ -263,7 +263,7 @@ test.describe("Test the user journey of a 'tester'", () => {
     await page.getByRole("button", { name: "Search for patient" }).click();
     // Make sure all the elements for the multiple patients view appear
     await expect(
-      page.getByRole("heading", { level: 1, name: "Select a patient" }),
+      page.getByRole("heading", { name: "Select a patient" }),
     ).toBeVisible();
     // Check that there is a Table element with the correct headers
     await expect(page.locator("thead").locator("tr")).toHaveText(
@@ -286,7 +286,7 @@ test.describe("Test the user journey of a 'tester'", () => {
 
     await page.getByRole("link", { name: "Return to search results" }).click();
     await expect(
-      page.getByRole("heading", { level: 1, name: "Select a patient" }),
+      page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
   });
 });
