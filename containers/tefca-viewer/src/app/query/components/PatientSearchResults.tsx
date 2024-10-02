@@ -81,7 +81,7 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
 
   return (
     <>
-      <Backlink onClick={goBack} label={"Return to Enter patient info"} />
+      <Backlink onClick={goBack} label={RETURN_TO_STEP_ONE_LABEL} />
       {patients.length === 0 && (
         <>
           <NoPatientsFound />
@@ -111,3 +111,4 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
 };
 
 export default PatientSearchResults;
+export const RETURN_TO_STEP_ONE_LABEL = "Return to Enter patient info";

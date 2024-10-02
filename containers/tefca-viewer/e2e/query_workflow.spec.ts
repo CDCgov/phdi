@@ -1,5 +1,6 @@
 // @ts-check
 
+import { RETURN_TO_STEP_ONE_LABEL } from "@/app/query/components/PatientSearchResults";
 import { test, expect } from "@playwright/test";
 
 test.describe("querying with the TryTEFCA viewer", () => {
@@ -114,7 +115,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(
       page.getByText("No records were found for your search"),
     ).toBeVisible();
-    await page.getByRole("link", { name: "Search for a new patient" }).click();
+    await page.getByRole("link", { name: RETURN_TO_STEP_ONE_LABEL }).click();
     await expect(
       page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
