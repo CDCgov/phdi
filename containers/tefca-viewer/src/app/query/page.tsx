@@ -2,7 +2,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import ResultsView from "./components/ResultsView";
-import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
+import PatientSearchResults from "./components/PatientSearchResults";
 import SearchForm from "./components/searchForm/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
 import {
@@ -63,6 +63,7 @@ const Query: React.FC = () => {
     };
   }, [queryType]);
 
+  console.log(mode);
   return (
     <>
       <SiteAlert page={mode} />
@@ -100,7 +101,7 @@ const Query: React.FC = () => {
         {/* Show the multiple patients view if there are multiple patients */}
         {mode === "multiple-patients" && originalRequest && (
           <>
-            <MultiplePatientSearchResults
+            <PatientSearchResults
               patients={useCaseQueryResponse?.Patient ?? []}
               originalRequest={originalRequest}
               queryValueSets={queryValuesets}

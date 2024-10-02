@@ -128,9 +128,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setUseCaseQueryResponse(queryResponse);
     if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
       setMode("no-patients");
-    } else if (queryResponse.Patient.length === 1) {
-      setMode("results");
-    } else {
+    }
+    // else if (queryResponse.Patient.length === 1) {
+    //   setMode("results");
+    // }
+    else {
       setMode("multiple-patients");
     }
     setLoading(false);

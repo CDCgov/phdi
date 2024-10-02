@@ -218,22 +218,6 @@ body {
   padding: 1em;
 }
 
-.multiple-patient-search-results {
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-content: center;
-  margin: 0 auto;
-  max-width: 1000px;
-
-  .usa-table--borderless {
-    tr {
-      &:hover td {
-        background: rgba(217, 232, 246, 0.5);
-      }
-    }
-  }
-}
-
 .no-patients-found {
   display: grid;
   grid-template-columns: 1fr;
@@ -584,16 +568,6 @@ html {
   .striped-row:nth-child(even) th {
     background-color: #f0f0f0;
   }
-}
-
-.include-all-link {
-  display: block;
-  padding: 1.25rem 0;
-  text-decoration: underline;
-}
-
-.include-all-link:visited {
-  color: #005ea2;
 }
 
 .button-container {
