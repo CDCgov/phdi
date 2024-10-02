@@ -56,7 +56,7 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
     let isSubscribed = true;
 
     const fetchQuery = async () => {
-      if (patientForQuery) {
+      if (patientForQuery && isSubscribed) {
         setLoading(true);
         const queryResponse = await UseCaseQuery(
           originalRequest,
