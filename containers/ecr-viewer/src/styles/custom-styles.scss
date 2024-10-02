@@ -284,8 +284,6 @@ td {
 }
 
 .back-button-wrapper {
-  margin-top: 1.5rem;
-  margin-bottom:1.5rem;
   display: flex;
   .usa-icon{
     color: #71767A;
@@ -297,6 +295,10 @@ td {
   }
 }
 
+.back-button {
+  margin-bottom:1.5rem;
+}
+
 .content-wrapper {
   display: flex;
   gap: $ecr-viewer-gap;
@@ -304,6 +306,8 @@ td {
 }
 
 .nav-wrapper {
+  margin-top: 1.5rem;
+  padding-top: .63rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
