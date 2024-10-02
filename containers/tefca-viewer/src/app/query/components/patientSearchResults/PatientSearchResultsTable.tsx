@@ -27,45 +27,40 @@ const PatientSearchResultsTable: React.FC<PatientSeacrchResultsTableProps> = ({
 }) => {
   return (
     <>
-      <div className="multiple-patient-search-results">
-        <h1 className="font-sans-2xl text-bold margin-top-205">
-          Select a patient
-        </h1>
-        <p className="font-sans-lg text-light">
-          The following records match your search. Select a patient to continue.
-        </p>
-        <Table className="margin-top-5">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>DOB</th>
-              <th>Contact</th>
-              <th>Address</th>
-              <th>MRN</th>
-              <th>Actions</th>
+      <h1 className="font-sans-2xl text-bold margin-top-205">
+        Select a patient
+      </h1>
+      <p className="font-sans-lg text-light">
+        The following records match your search. Select a patient to continue.
+      </p>
+      <Table className="margin-top-5">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>DOB</th>
+            <th>Contact</th>
+            <th>Address</th>
+            <th>MRN</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {patients.map((patient) => (
+            <tr key={patient.id}>
+              <td>{formatName(patient.name ?? [])}</td>
+              <td>{patient.birthDate ?? ""}</td>
+              <td>{formatContact(patient.telecom ?? [])}</td>
+              <td>{formatAddress(patient.address ?? [])}</td>
+              <td>{formatMRN(patient.identifier ?? [])}</td>
+              <td>
+                <a href="#" onClick={() => setPatientForQueryResponse(patient)}>
+                  View Record
+                </a>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {patients.map((patient) => (
-              <tr key={patient.id}>
-                <td>{formatName(patient.name ?? [])}</td>
-                <td>{patient.birthDate ?? ""}</td>
-                <td>{formatContact(patient.telecom ?? [])}</td>
-                <td>{formatAddress(patient.address ?? [])}</td>
-                <td>{formatMRN(patient.identifier ?? [])}</td>
-                <td>
-                  <a
-                    href="#"
-                    onClick={() => setPatientForQueryResponse(patient)}
-                  >
-                    View Record
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
+          ))}
+        </tbody>
+      </Table>
     </>
   );
 };
