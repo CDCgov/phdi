@@ -35,6 +35,15 @@ RUN npx turbo build --filter=tefca-viewer...
 FROM base AS runner
 WORKDIR /app
 
+# Install OpenSSL for SSL support
+RUN apk add --no-cache openssl bash
+
+# Copy and set permissions for create-certs.sh
+COPY ./containers/tefca-viewer/create-certs.sh /usr/local/bin/create-certs.sh
+RUN chmod +x /usr/local/bin/create-certs.sh
+RUN /bin/sh /usr/local/bin/create-certs.sh
+
+
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
