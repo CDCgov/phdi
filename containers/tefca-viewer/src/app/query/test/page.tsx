@@ -57,7 +57,7 @@ const Query: React.FC = () => {
       )}
 
       {/* Show the multiple patients view if there are multiple patients */}
-      {mode === "multiple-patients" && originalRequest && (
+      {mode === "patient-results" && originalRequest && (
         <>
           <PatientSearchResults
             patients={useCaseQueryResponse?.Patient ?? []}
@@ -68,8 +68,6 @@ const Query: React.FC = () => {
           />
         </>
       )}
-      {/* Show the no patients found view if there are no patients */}
-      {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
       {loading && (
         <div className="overlay">
           <div className="spinner"></div>

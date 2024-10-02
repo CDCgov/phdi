@@ -97,8 +97,8 @@ const Query: React.FC = () => {
           </>
         )}
 
-        {/* Show the multiple patients view if there are multiple patients */}
-        {mode === "multiple-patients" && originalRequest && (
+        {/* Show the patients results view if there are multiple patients */}
+        {mode === "patient-results" && originalRequest && (
           <>
             <PatientSearchResults
               patients={useCaseQueryResponse?.Patient ?? []}

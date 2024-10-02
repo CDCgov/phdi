@@ -25,7 +25,8 @@ import {
 import { fhirServers } from "../../../fhir-servers";
 import styles from "./searchForm.module.css";
 
-import { FormatPhoneAsDigits } from "@/app/format-service";
+import { FormatPhoneAsDigits, formatName } from "@/app/format-service";
+import { HumanName, Patient } from "fhir/r4";
 
 interface SearchFormProps {
   useCase: USE_CASES;
@@ -126,14 +127,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest, queryValueSets);
     setUseCaseQueryResponse(queryResponse);
-    if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
-      setMode("no-patients");
-    }
-    // else if (queryResponse.Patient.length === 1) {
-    //   setMode("results");
-    // }
-    else {
-      setMode("multiple-patients");
+
+    if (queryResponse.Patient && queryResponse.Patient.length === 1) {
+      setMode("results");
+    } else {
+      setMode("patient-results");
     }
     setLoading(false);
   }
