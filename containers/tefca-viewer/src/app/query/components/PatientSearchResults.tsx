@@ -94,8 +94,15 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
   return (
     <>
       <div className="multiple-patient-search-results">
-        <Backlink onClick={goBack} label={"Return to patient search"} />
-        {patients.length === 0 && <NoPatientsFound />}
+        <Backlink onClick={goBack} label={"Return to Enter patient info"} />
+        {patients.length === 0 && (
+          <>
+            <NoPatientsFound />
+            <a href="#" className="usa-link" onClick={goBack}>
+              Revise your patient search
+            </a>
+          </>
+        )}
         {patients.length > 0 && (
           <>
             <PatientSearchResultsTable
@@ -103,13 +110,15 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
               setPatientForQueryResponse={setPatientForQueryResponse}
             />
 
-            <h3>Not seeing what you're looking for?</h3>
+            <h3 className="margin-top-5 margin-bottom-1">
+              Not seeing what you're looking for?
+            </h3>
+
+            <a href="#" className="usa-link" onClick={goBack}>
+              Return to patient search
+            </a>
           </>
         )}
-
-        <a className="usa-link" onClick={goBack}>
-          Return to patient search
-        </a>
       </div>
     </>
   );

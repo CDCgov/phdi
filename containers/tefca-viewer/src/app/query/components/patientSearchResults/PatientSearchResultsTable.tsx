@@ -20,11 +20,13 @@ const PatientSearchResultsTable: React.FC<PatientSeacrchResultsTableProps> = ({
   return (
     <>
       <div className="multiple-patient-search-results">
-        <h1 className="font-sans-2xl text-bold">Select a patient</h1>
+        <h1 className="font-sans-2xl text-bold margin-top-205">
+          Select a patient
+        </h1>
         <p className="font-sans-lg text-light">
           The following records match your search. Select a patient to continue.
         </p>
-        <Table>
+        <Table className="margin-top-5">
           <thead>
             <tr>
               <th>Name</th>

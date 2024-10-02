@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import { Mode } from "../../../constants";
-import Backlink from "../backLink/Backlink";
 
 /**
  * Displays a message when no patients are found.
@@ -14,8 +12,10 @@ const NoPatientsFound: React.FC = () => {
   }, []);
   return (
     <div className="no-patients-found">
-      <h1 className="font-sans-2xl text-bold">No Records Found</h1>
-      <p className="font-sans-lg text-light">
+      <h1 className="font-sans-2xl text-bold margin-top-205">
+        No Records Found
+      </h1>
+      <p className="font-sans-lg text-light margin-top-0 margin-bottom-205">
         No records were found for your search
       </p>
     </div>
