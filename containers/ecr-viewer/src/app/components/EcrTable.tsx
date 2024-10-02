@@ -72,6 +72,12 @@ const renderListEcrTableData = (listFhirData: EcrDisplay[]) => {
   });
 };
 
+/**
+ * Formats a single row of the eCR table.
+ * @param item - The eCR data to be formatted.
+ * @param index - The index of the eCR data in the list.
+ * @returns A JSX table row element representing the eCR data.
+ */
 const formatRow = (item: EcrDisplay, index: number) => {
   let patient_first_name =
     item.patient_first_name.charAt(0).toUpperCase() +
@@ -116,10 +122,20 @@ const formatRow = (item: EcrDisplay, index: number) => {
   );
 };
 
+/**
+ * Formats a date object to a string in the format MM/DD/YYYY.
+ * @param date - The date object to be formatted.
+ * @returns A string in the format MM/DD/YYYY.
+ */
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US");
 };
 
+/**
+ * Formats a date object to a string in the format HH:MM AM/PM.
+ * @param date - The date object to be formatted.
+ * @returns A string in the format HH:MM AM/PM.
+ */
 const formatTime = (date: Date) => {
   let hours = date.getHours();
   const minutes = date.getMinutes();
