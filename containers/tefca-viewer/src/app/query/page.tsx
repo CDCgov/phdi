@@ -2,9 +2,8 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import ResultsView from "./components/ResultsView";
-import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
+import PatientSearchResults from "./components/PatientSearchResults";
 import SearchForm from "./components/searchForm/SearchForm";
-import NoPatientsFound from "./components/NoPatientsFound";
 import {
   Mode,
   QueryTypeToQueryName,
@@ -97,20 +96,20 @@ const Query: React.FC = () => {
           </>
         )}
 
-        {/* Show the multiple patients view if there are multiple patients */}
-        {mode === "multiple-patients" && originalRequest && (
+        {/* Show the patients results view if there are multiple patients */}
+        {mode === "patient-results" && originalRequest && (
           <>
-            <MultiplePatientSearchResults
+            <PatientSearchResults
               patients={useCaseQueryResponse?.Patient ?? []}
               originalRequest={originalRequest}
               queryValueSets={queryValuesets}
               setLoading={setLoading}
               goBack={() => setMode("search")}
+              setMode={setMode}
+              setUseCaseQueryResponse={setUseCaseQueryResponse}
             />
           </>
         )}
-        {/* Show the no patients found view if there are no patients */}
-        {mode === "no-patients" && <NoPatientsFound setMode={setMode} />}
 
         {/* Use LoadingView component for loading state */}
         <LoadingView loading={loading} />
