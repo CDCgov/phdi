@@ -15,6 +15,18 @@ type ModalProps = {
   modalRef: RefObject<ModalRef>;
   // expand this to support more interesting button use cases when needed
 };
+
+/**
+ * Modal wrapper around the Truss modal
+ * @param param0 - props
+ * @param param0.id - ID for labeling / referencing the various subcomponents in
+ * the modal
+ * @param param0.heading - Modal heading
+ * @param param0.description - Modal body
+ * @param param0.modalRef - ref object to connect the toggle button with the
+ * actual modal.
+ * @returns A modal component
+ */
 export const Modal: React.FC<ModalProps> = ({
   id,
   heading,
@@ -48,6 +60,14 @@ type ModalButtonProps = {
   title: string;
   className?: string;
 };
+/**
+ * Modal button trigger the opening of a modal
+ * @param param0 params
+ * @param param0.modalRef - Ref object to connect button to the parent modal instance
+ * @param param0.title - What text to display on the button
+ * @param param0.className - optional styling classes
+ * @returns A modal button that should open the modal
+ */
 export const ModalButton: React.FC<ModalButtonProps> = ({
   modalRef,
   title,
