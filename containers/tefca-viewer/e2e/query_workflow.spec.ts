@@ -1,5 +1,6 @@
 // @ts-check
 
+import { RETURN_TO_STEP_ONE_LABEL } from "@/app/query/components/PatientSearchResults";
 import { test, expect } from "@playwright/test";
 
 test.describe("querying with the TryTEFCA viewer", () => {
@@ -109,10 +110,12 @@ test.describe("querying with the TryTEFCA viewer", () => {
 
     // Better luck next time, user!
     await expect(
-      page.getByRole("heading", { name: "No Patients Found" }),
+      page.getByRole("heading", { name: "No Records Found" }),
     ).toBeVisible();
-    await expect(page.getByText("There are no patient records")).toBeVisible();
-    await page.getByRole("link", { name: "Search for a new patient" }).click();
+    await expect(
+      page.getByText("No records were found for your search"),
+    ).toBeVisible();
+    await page.getByRole("link", { name: RETURN_TO_STEP_ONE_LABEL }).click();
     await expect(
       page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
@@ -260,7 +263,7 @@ test.describe("Test the user journey of a 'tester'", () => {
     await page.getByRole("button", { name: "Search for patient" }).click();
     // Make sure all the elements for the multiple patients view appear
     await expect(
-      page.getByRole("heading", { name: "Multiple Records Found" }),
+      page.getByRole("heading", { name: "Select a patient" }),
     ).toBeVisible();
     // Check that there is a Table element with the correct headers
     await expect(page.locator("thead").locator("tr")).toHaveText(
@@ -270,8 +273,8 @@ test.describe("Test the user journey of a 'tester'", () => {
     // Check that there are multiple rows in the table
     await expect(page.locator("tbody").locator("tr")).toHaveCount(10);
 
-    // Click on the first patient's "View Record" button
-    await page.locator(':nth-match(:text("View Record"), 1)').click();
+    // Click on the first patient's "Select patient" button
+    await page.locator(':nth-match(:text("Select patient"), 1)').click();
 
     // Make sure we have a results page with a single patient & appropriate back buttons
     await expect(
@@ -281,9 +284,9 @@ test.describe("Test the user journey of a 'tester'", () => {
       page.getByRole("button", { name: "New patient search" }),
     ).toBeVisible();
 
-    await page.getByRole("link", { name: "Return to search results" }).click();
+    await page.getByRole("button", { name: "New patient search" }).click();
     await expect(
-      page.getByRole("heading", { name: "Multiple Records Found" }),
+      page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
   });
 });
