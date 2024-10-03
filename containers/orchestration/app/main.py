@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-import traceback
 from pathlib import Path
 from typing import Annotated
 
