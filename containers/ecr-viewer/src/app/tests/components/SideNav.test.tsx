@@ -3,7 +3,7 @@ import SideNav, {
   sortHeadings,
   countObjects,
 } from "@/app/view-data/components/SideNav";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 describe("SectionConfig", () => {
@@ -54,7 +54,10 @@ describe("SectionConfig", () => {
 
   it("should have no accessibility violations", async () => {
     const { container } = render(<SideNav />);
-    const results = await axe(container);
+    let results;
+    await act(async () => {
+      results = await axe(container);
+    });
     expect(results).toHaveNoViolations();
   });
 
