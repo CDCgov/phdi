@@ -23,11 +23,13 @@ const CustomizeQueryAccordionBody: React.FC<
   CustomizeQueryAccordionBodyProps
 > = ({ group, toggleInclude, groupIndex }) => {
   return (
-    <Table className={`${styles.customizeQueryGridContainer}`}>
-      <thead className={`${styles.customizeQueryGridHeader} margin-top-10`}>
-        <th className={`${styles.accordionTableHeader}`}>Include</th>
-        <th className={`${styles.accordionTableHeader}`}>Code</th>
-        <th className={`${styles.accordionTableHeader}`}>Display</th>
+    <Table className={`${styles.customizeQueryGridContainer}`} striped>
+      <thead className={` margin-top-10`}>
+        <tr className={styles.customizeQueryGridHeader}>
+          <th className={`${styles.accordionTableHeader}`}>Include</th>
+          <th className={`${styles.accordionTableHeader}`}>Code</th>
+          <th className={`${styles.accordionTableHeader}`}>Display</th>
+        </tr>
       </thead>
       <tbody className="display-flex flex-column">
         {group.items.map((item, index) => (
@@ -48,8 +50,12 @@ const CustomizeQueryAccordionBody: React.FC<
                 />
               )}
             </td>
-            <div>{item.code}</div>
-            <div>{item.display}</div>
+            <td className={styles.noBorderNoBackgroundNoPadding}>
+              {item.code}
+            </td>
+            <td className={styles.noBorderNoBackgroundNoPadding}>
+              {item.display}
+            </td>
           </tr>
         ))}
       </tbody>
