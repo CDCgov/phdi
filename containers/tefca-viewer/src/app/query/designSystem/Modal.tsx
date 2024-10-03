@@ -26,10 +26,6 @@ export const Modal: React.FC<ModalProps> = ({
       ref={modalRef}
       id={`${id}-modal`}
       aria-labelledby={`${id}-modal-heading`}
-      aria-describedby={`${id}-modal-description`}
-      placeholder={undefined}
-      onPointerEnterCapture={undefined}
-      onPointerLeaveCapture={undefined}
     >
       <ModalHeading id={`${id}-modal-heading`}>{heading}</ModalHeading>
       <div className="usa-prose">
