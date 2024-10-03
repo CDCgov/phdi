@@ -23,6 +23,7 @@ async function globalSetup() {
   }
 
   console.log(`Connected to ${url} successfully`);
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 }
 
 export default globalSetup;
