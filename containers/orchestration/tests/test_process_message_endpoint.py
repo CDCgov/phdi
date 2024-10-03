@@ -125,6 +125,7 @@ def test_process_message_success(patched_post_request):
     actual_response = client.post("/process-message", json=request)
     assert actual_response.status_code == 200
 
+
 @mock.patch("app.main.call_apis", side_effect=Exception("Fake Exception"))
 def test_process_message_orchestration_error(patched_call_apis):
     message = open(Path(__file__).parent / "assets" / "hl7_with_msh_3_set.hl7").read()

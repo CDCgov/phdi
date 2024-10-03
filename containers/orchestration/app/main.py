@@ -319,7 +319,9 @@ async def apply_workflow_to_message(
         }
         wf_span.add_event("sending params to `call_apis`")
         try:
-            response, responses = await call_apis(config=processing_config, input=api_input)
+            response, responses = await call_apis(
+                config=processing_config, input=api_input
+            )
         except HTTPException as error:
             # These exceptions are purposefully created in call_apis to surface service errors
             raise error
@@ -336,7 +338,7 @@ async def apply_workflow_to_message(
                 media_type="application/json",
                 status_code=500,
             )
-            
+
         wf_span.add_event(
             "`call_apis` responded with computed result",
             attributes={"return_code": response.status_code},
