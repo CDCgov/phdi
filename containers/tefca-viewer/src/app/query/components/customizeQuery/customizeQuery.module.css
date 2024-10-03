@@ -172,3 +172,9 @@
 .customizeQueryGridRow:last-child {
   border-bottom: none;
 }
+
+.bulkSelectLink {
+  padding: 1.25rem 0;
+  text-decoration: underline;
+  padding-right: 1rem;
+}
