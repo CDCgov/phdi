@@ -8,6 +8,7 @@ from dibbs.base_service import BaseService
 from fastapi import Body
 from fastapi import File
 from fastapi import Form
+from fastapi import HTTPException
 from fastapi import Response
 from fastapi import status
 from fastapi import UploadFile
@@ -317,7 +318,27 @@ async def apply_workflow_to_message(
             "rr_data": rr_content,
         }
         wf_span.add_event("sending params to `call_apis`")
-        response, responses = await call_apis(config=processing_config, input=api_input)
+        try:
+            response, responses = await call_apis(
+                config=processing_config, input=api_input
+            )
+        except HTTPException as error:
+            # These exceptions are purposefully created in call_apis to surface service errors
+            raise error
+        except Exception as error:
+            # Handle internal exceptions
+            wf_span.record_exception(error)
+            return Response(
+                content=json.dumps(
+                    {
+                        "message": f"Orchestration service error: {error.__str__()}",
+                        "processed_values": {},
+                    }
+                ),
+                media_type="application/json",
+                status_code=500,
+            )
+
         wf_span.add_event(
             "`call_apis` responded with computed result",
             attributes={"return_code": response.status_code},
