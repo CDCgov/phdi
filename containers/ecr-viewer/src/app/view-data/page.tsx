@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
 import { PathMappings } from "./utils/utils";
 import SideNav from "./components/SideNav";
-import { Grid, GridContainer, Icon, Button } from "@trussworks/react-uswds";
+import { Grid, GridContainer } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "@/app/view-data/components/ExpandCollapseButtons";
 import EcrSummary from "./components/EcrSummary";
 import {
@@ -92,26 +92,14 @@ const ECRViewerPage: React.FC = () => {
         )}
         <div className="main-container">
           <div className={"width-main padding-main"}>
-            <div className="back-button-wrapper">
-              {isNonIntegratedViewer ? (
-                <Button
-                  unstyled={true}
-                  type="button"
-                  className={"display-flex"}
-                  onClick={() => window.history.back()}
-                >
-                  <Icon.ArrowBack size={3} />
-                  Back to eCR Library
-                </Button>
-              ) : (
-                ""
-              )}
-            </div>
             <div className="content-wrapper">
               <SideNav />
               <div className={"ecr-viewer-container"}>
                 <div className="margin-bottom-3">
-                  <h2 className="margin-bottom-05" id="ecr-summary">
+                  <h2
+                    className="margin-bottom-05 margin-top-3"
+                    id="ecr-summary"
+                  >
                     eCR Summary
                   </h2>
                   <div className="text-base-darker line-height-sans-5">
