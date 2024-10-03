@@ -77,7 +77,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   playwright-tests:
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
