@@ -487,3 +487,8 @@ hr.custom-hr {
 .tableRowWithHover:hover td {
   background-color: $background-hover-color;
 }
+
+.tableRowWithHover_clickable,
+.tableRowWithHover_clickable td {
+  cursor: pointer;
+}
