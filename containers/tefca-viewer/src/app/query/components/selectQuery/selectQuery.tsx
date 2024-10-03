@@ -1,0 +1,149 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import { Button, Select } from "@trussworks/react-uswds";
+import { demoQueryOptions, FHIR_SERVERS, Mode } from "../../../constants";
+import Backlink from "../backLink/Backlink";
+import { fhirServers } from "../../../fhir-servers";
+import styles from "./selectQuery.module.css";
+
+interface SelectQueryProps {
+  setQueryType: (queryType: string) => void;
+  setHCO: (hco: string) => void;
+  setMode: (mode: Mode) => void;
+  onSubmit: () => void; // Callback when the user submits the query
+  goBack: () => void;
+}
+
+/**
+ *
+ * @param root0 - SelectQueryProps
+ * @param root0.setQueryType - Callback to update the query type
+ * @param root0.setHCO - Callback to update selected Health Care Organization (HCO)
+ * @param root0.setMode - Callback to switch mode
+ * @param root0.onSubmit - Callback for submit action
+ * @param root0.goBack - back button
+ * @returns - The selectQuery component.
+ */
+const SelectQuery: React.FC<SelectQueryProps> = ({
+  setQueryType,
+  setHCO,
+  setMode,
+  onSubmit,
+  goBack,
+}) => {
+  const [selectedQuery, setSelectedQuery] = useState<string>("");
+  const [selectedHCO, setSelectedHCO] = useState<string>(""); // Keep this as string for HCO selection
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
+  // When query changes, update the parent component state
+  useEffect(() => {
+    setQueryType(selectedQuery);
+  }, [selectedQuery, setQueryType]);
+
+  const handleQueryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedQuery(event.target.value);
+  };
+
+  const handleHCOChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedHCO(event.target.value);
+    setHCO(event.target.value as FHIR_SERVERS); // Update parent component state
+  };
+
+  const handleClick = () => {
+    setMode("customize-queries");
+  };
+
+  const handleSubmit = () => {
+    if (selectedQuery) {
+      onSubmit();
+    } else {
+      alert("Please select a query.");
+    }
+  };
+
+  return (
+    <div className="select-query-container">
+      <Backlink onClick={goBack} label={RETURN_TO_STEP_ONE_LABEL} />
+      <h1 className={`${styles.selectQueryHeaderText}`}>
+        Step 2: Select a query
+      </h1>
+      <div className={`${styles.selectQueryExplanationText}`}>
+        Once we have located the best match for a patient, we will request all
+        data related to your selected query. By only showing relevant data for
+        your query, we decrease the burden on our systems and protect patient
+        privacy. If you would like to customize the query response, click on the
+        “customize query” button.
+      </div>{" "}
+      <div className="usa-form-group">
+        <h3>Query</h3>
+        {/* Select a query drop down */}
+        <Select
+          id="querySelect"
+          name="query"
+          value={selectedQuery}
+          onChange={handleQueryChange}
+          required
+          style={{ width: "320px", height: "40px" }}
+        >
+          <option value="" disabled>
+            -- Select a Query --
+          </option>
+          {demoQueryOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
+        {/* Customize query button */}
+        <Button
+          type="button"
+          className={`usa-button--outline bg-white`}
+          onClick={handleClick}
+        >
+          Customize query
+        </Button>
+      </div>
+      {showAdvanced && (
+        <div>
+          <h3>Health Care Organization (HCO)</h3>
+          <div className="grid-row grid-gap">
+            <div className="usa-combo-box">
+              <Select
+                id="fhir_server"
+                name="fhir_server"
+                value={selectedHCO} // Use selectedHCO for the selected value
+                onChange={handleHCOChange}
+                required
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Select HCO
+                </option>
+                {Object.keys(fhirServers).map((fhirServer: string) => (
+                  <option key={fhirServer} value={fhirServer}>
+                    {fhirServer}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Toggle advanced options */}
+      <Button
+        className={`usa-button--unstyled margin-left-auto ${styles.searchCallToActionButton}`}
+        type="button"
+        onClick={() => setShowAdvanced(!showAdvanced)}
+      >
+        Advanced
+      </Button>
+      {/* Submit Button */}
+      <Button type="button" onClick={handleSubmit}>
+        Submit
+      </Button>
+    </div>
+  );
+};
+
+export default SelectQuery;
+export const RETURN_TO_STEP_ONE_LABEL = "Return to Select patient";

@@ -5,6 +5,7 @@ import ResultsView from "./components/ResultsView";
 import MultiplePatientSearchResults from "./components/MultiplePatientSearchResults";
 import SearchForm from "./components/searchForm/SearchForm";
 import NoPatientsFound from "./components/NoPatientsFound";
+import SelectQuery from "./components/selectQuery/selectQuery";
 import {
   Mode,
   QueryTypeToQueryName,
@@ -68,18 +69,36 @@ const Query: React.FC = () => {
       <SiteAlert page={mode} />
       <div className="main-container">
         {mode === "search" && (
-          <Suspense fallback="...Loading">
-            <SearchForm
-              useCase={useCase}
-              queryValueSets={queryValuesets}
-              setUseCase={setUseCase}
-              setMode={setMode}
-              setLoading={setLoading}
-              setUseCaseQueryResponse={setUseCaseQueryResponse}
-              setOriginalRequest={setOriginalRequest}
-              setQueryType={setQueryType}
-            />
-          </Suspense>
+          <>
+            <Suspense fallback="...Loading">
+              <SearchForm
+                useCase={useCase}
+                queryValueSets={queryValuesets}
+                setUseCase={setUseCase}
+                setMode={setMode}
+                setLoading={setLoading}
+                setUseCaseQueryResponse={setUseCaseQueryResponse}
+                setOriginalRequest={setOriginalRequest}
+                setQueryType={setQueryType}
+              />
+            </Suspense>
+
+            {/* Button to trigger SelectQuery mode */}
+            <button type="button" onClick={() => setMode("select-query")}>
+              Go to Select Query
+            </button>
+          </>
+        )}
+
+        {/* Render SelectQuery component when the mode is "select-query" */}
+        {mode === "select-query" && (
+          <SelectQuery
+            setQueryType={setQueryType}
+            setHCO={() => {}}
+            setMode={setMode}
+            goBack={() => setMode("search")}
+            onSubmit={() => setMode("search")}
+          />
         )}
 
         {/* Switch the mode to view to show the results of the query */}

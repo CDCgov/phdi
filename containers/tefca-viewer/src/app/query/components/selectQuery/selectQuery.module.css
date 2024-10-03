@@ -1,0 +1,20 @@
+.searchCallToActionButton {
+  height: 2.5rem;
+}
+
+.selectQueryHeaderText {
+  color: "#111111";
+  font-size: 40px;
+  font-weight: 700px;
+  word-wrap: "break-word";
+}
+
+.selectQueryExplanationText {
+  padding-top: 12px;
+  font-size: 22px;
+  font-weight: 400px;
+  line-height: 33px;
+  word-wrap: "break-word";
+  width: 825px;
+  height: 132px;
+}
