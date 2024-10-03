@@ -187,7 +187,6 @@ exports[`UnavailableInfo should match snapshot 1`] = `
               >
                 <div
                   class="data-title padding-right-1"
-<<<<<<< HEAD
                 >
                   Encounter type
                 </div>
@@ -220,8 +219,6 @@ exports[`UnavailableInfo should match snapshot 1`] = `
               >
                 <div
                   class="data-title padding-right-1"
-=======
->>>>>>> origin/update-comp-template
                 >
                   Facility Address
                 </div>
