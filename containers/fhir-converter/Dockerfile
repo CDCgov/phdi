@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 as build
 
 # Download FHIR-Converter
-RUN git clone https://github.com/nickbristow/FHIR-Converter.git --branch main --single-branch /build/FHIR-Converter
+RUN git clone https://github.com/skylight-hq/FHIR-Converter.git --branch main --single-branch /build/FHIR-Converter
 COPY /CustomFhir/CustomFilters.cs /build/FHIR-Converter/src/Microsoft.Health.Fhir.Liquid.Converter/Filters/
 
 WORKDIR /build/FHIR-Converter
