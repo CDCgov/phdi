@@ -126,6 +126,24 @@ def test_process_message_success(patched_post_request):
     assert actual_response.status_code == 200
 
 
+@mock.patch("app.main.call_apis", side_effect=Exception("Fake Exception"))
+def test_process_message_orchestration_error(patched_call_apis):
+    message = open(Path(__file__).parent / "assets" / "hl7_with_msh_3_set.hl7").read()
+    request = {
+        "message_type": "elr",
+        "data_type": "hl7",
+        "config_file_name": "sample-orchestration-config.json",
+        "message": message,
+    }
+
+    actual_response = client.post("/process-message", json=request)
+    assert actual_response.status_code == 500
+    assert actual_response.json() == {
+        "message": "Orchestration service error: Fake Exception",
+        "processed_values": {},
+    }
+
+
 @mock.patch("app.services.post_request")
 def test_process_message_fhir_data(patched_post_request):
     request = {
