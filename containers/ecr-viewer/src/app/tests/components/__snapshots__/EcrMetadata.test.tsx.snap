@@ -269,7 +269,28 @@ exports[`ECR Metadata should match snapshot 1`] = `
               <div
                 class="data-title padding-right-1"
               >
+<<<<<<< HEAD
                 eICR Release Version
+=======
+                Sender Software
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              />
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Sender Facility Name
+>>>>>>> origin/update-comp-template
               </div>
               <div
                 class="grid-col maxw7 text-pre-line"

@@ -6,12 +6,12 @@ import React, { useEffect } from "react";
 import ResultsViewTable from "./resultsView/ResultsViewTable";
 import Backlink from "./backLink/Backlink";
 import styles from "../page.module.css";
-import ConditionsTable from "./resultsView/tableComponents/ConditionsTable";
-import Demographics from "./resultsView/tableComponents/Demographics";
-import DiagnosticReportTable from "./resultsView/tableComponents/DiagnosticReportTable";
-import EncounterTable from "./resultsView/tableComponents/EncounterTable";
-import MedicationRequestTable from "./resultsView/tableComponents/MedicationRequestTable";
-import ObservationTable from "./resultsView/tableComponents/ObservationTable";
+import ConditionsTable from "./ConditionsTable";
+import Demographics from "./Demographics";
+import DiagnosticReportTable from "./DiagnosticReportTable";
+import EncounterTable from "./EncounterTable";
+import MedicationRequestTable from "./MedicationRequestTable";
+import ObservationTable from "./ObservationTable";
 
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
