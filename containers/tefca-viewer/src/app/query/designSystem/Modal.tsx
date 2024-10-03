@@ -26,6 +26,7 @@ export const Modal: React.FC<ModalProps> = ({
       ref={modalRef}
       id={`${id}-modal`}
       aria-labelledby={`${id}-modal-heading`}
+      aria-describedby={`${id}-modal-description`}
     >
       <ModalHeading id={`${id}-modal-heading`}>{heading}</ModalHeading>
       <div className="usa-prose">
