@@ -14,7 +14,7 @@ type BacklinkProps = {
  */
 const Backlink: React.FC<BacklinkProps> = ({ onClick, label }) => {
   return (
-    <a href="#" onClick={onClick} className="back-link">
+    <a href="#" onClick={onClick} className="back-link unchaged-color-on-visit">
       <Icon.ArrowBack /> {label}
     </a>
   );
