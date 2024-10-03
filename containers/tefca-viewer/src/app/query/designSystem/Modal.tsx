@@ -6,7 +6,7 @@ import {
   ModalToggleButton,
   ModalRef,
 } from "@trussworks/react-uswds";
-import { RefObject, useRef } from "react";
+import { RefObject } from "react";
 
 type ModalProps = {
   heading: string;
@@ -15,14 +15,12 @@ type ModalProps = {
   modalRef: RefObject<ModalRef>;
   // expand this to support more interesting button use cases when needed
 };
-
 export const Modal: React.FC<ModalProps> = ({
   id,
   heading,
   description,
   modalRef,
 }) => {
-  console.log(heading, description);
   return (
     <TrussModal
       ref={modalRef}
