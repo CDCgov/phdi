@@ -4,7 +4,6 @@ import ResultsViewSideNav, {
 } from "./resultsView/ResultsViewSideNav";
 import React, { useEffect } from "react";
 import ResultsViewTable from "./resultsView/ResultsViewTable";
-import Backlink from "./backLink/Backlink";
 import styles from "../page.module.css";
 import ConditionsTable from "./resultsView/tableComponents/ConditionsTable";
 import Demographics from "./resultsView/tableComponents/Demographics";
