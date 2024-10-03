@@ -72,7 +72,7 @@ export default defineConfig({
   webServer: {
     command: "docker compose build && docker compose up",
     port: 3000,
-    timeout: 300 * 1000,
+    timeout: 600 * 1000,
     reuseExistingServer: !process.env.CI,
   },
 
