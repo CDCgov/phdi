@@ -11,10 +11,21 @@
 
 .selectQueryExplanationText {
   padding-top: 12px;
-  font-size: 22px;
+  font-size: 22;
   font-weight: 400px;
   line-height: 33px;
   word-wrap: "break-word";
   width: 825px;
   height: 132px;
+}
+
+.queryRow {
+  display: flex;
+  align-items: center;
+  padding-bottom: 24px;
+}
+
+.customizeButton {
+  margin-left: 20px;
+  margin-top: 8px;
 }

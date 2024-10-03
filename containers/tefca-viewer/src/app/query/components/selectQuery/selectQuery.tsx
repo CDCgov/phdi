@@ -65,43 +65,45 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
     <div className="select-query-container">
       <Backlink onClick={goBack} label={RETURN_TO_STEP_ONE_LABEL} />
       <h1 className={`${styles.selectQueryHeaderText}`}>
-        Step 2: Select a query
+        Step 3: Select a query
       </h1>
       <div className={`${styles.selectQueryExplanationText}`}>
         Once we have located the best match for a patient, we will request all
         data related to your selected query. By only showing relevant data for
         your query, we decrease the burden on our systems and protect patient
         privacy. If you would like to customize the query response, click on the
-        “customize query” button.
-      </div>{" "}
+        "customize query" button.
+      </div>
       <div className="usa-form-group">
-        <h3>Query</h3>
-        {/* Select a query drop down */}
-        <Select
-          id="querySelect"
-          name="query"
-          value={selectedQuery}
-          onChange={handleQueryChange}
-          required
-          style={{ width: "320px", height: "40px" }}
-        >
-          <option value="" disabled>
-            -- Select a Query --
-          </option>
-          {demoQueryOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
+        <div className={styles.queryRow}>
+          {/* Select a query drop down */}
+          <Select
+            id="querySelect"
+            name="query"
+            value={selectedQuery}
+            onChange={handleQueryChange}
+            required
+            style={{ width: "320px", height: "40px" }}
+          >
+            <option value="" disabled>
+              -- Select a Query --
             </option>
-          ))}
-        </Select>
-        {/* Customize query button */}
-        <Button
-          type="button"
-          className={`usa-button--outline bg-white`}
-          onClick={handleClick}
-        >
-          Customize query
-        </Button>
+            {demoQueryOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Select>
+
+          {/* Customize query button */}
+          <Button
+            type="button"
+            className={`usa-button--outline bg-white ${styles.customizeButton}`}
+            onClick={handleClick}
+          >
+            Customize query
+          </Button>
+        </div>
       </div>
       {showAdvanced && (
         <div>
@@ -130,17 +132,21 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
         </div>
       )}
       {/* Toggle advanced options */}
-      <Button
-        className={`usa-button--unstyled margin-left-auto ${styles.searchCallToActionButton}`}
-        type="button"
-        onClick={() => setShowAdvanced(!showAdvanced)}
-      >
-        Advanced
-      </Button>
-      {/* Submit Button */}
-      <Button type="button" onClick={handleSubmit}>
-        Submit
-      </Button>
+      <div>
+        <Button
+          className={`usa-button--unstyled margin-left-auto ${styles.searchCallToActionButton}`}
+          type="button"
+          onClick={() => setShowAdvanced(!showAdvanced)}
+        >
+          Advanced
+        </Button>
+      </div>
+      <div>
+        {/* Submit Button */}
+        <Button type="button" onClick={handleSubmit}>
+          Submit
+        </Button>
+      </div>
     </div>
   );
 };

@@ -97,7 +97,7 @@ const Query: React.FC = () => {
             setHCO={() => {}}
             setMode={setMode}
             goBack={() => setMode("search")}
-            onSubmit={() => setMode("search")}
+            onSubmit={() => setMode("results")}
           />
         )}
 
