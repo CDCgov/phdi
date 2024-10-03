@@ -788,7 +788,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                     >
                       <div
                         class="data-title padding-right-1"
-<<<<<<< HEAD
                       >
                         Facility Contact Address
                       </div>
@@ -808,8 +807,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                     >
                       <div
                         class="data-title padding-right-1"
-=======
->>>>>>> origin/update-comp-template
                       >
                         Facility Contact
                       </div>
@@ -1303,66 +1300,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                     >
                       <div
                         class="data-title padding-right-1"
-<<<<<<< HEAD
-=======
-                      >
-                        Document Author
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title padding-right-1"
-                      >
-                        Author Address
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title padding-right-1"
-                      >
-                        Author Contact
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title padding-right-1"
->>>>>>> origin/update-comp-template
                       >
                         Date/Time eCR Created
                       </div>
@@ -1382,7 +1319,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                     >
                       <div
                         class="data-title padding-right-1"
-<<<<<<< HEAD
                       >
                         eICR Release Version
                       </div>
@@ -1421,8 +1357,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                     >
                       <div
                         class="data-title padding-right-1"
-=======
->>>>>>> origin/update-comp-template
                       >
                         <span
                           class="usa-tooltip"

@@ -27,7 +27,6 @@ exports[`Encounter should match snapshot 1`] = `
               >
                 <div
                   class="data-title padding-right-1"
-<<<<<<< HEAD
                 >
                   Encounter Type
                 </div>
@@ -78,8 +77,6 @@ exports[`Encounter should match snapshot 1`] = `
               >
                 <div
                   class="data-title padding-right-1"
-=======
->>>>>>> origin/update-comp-template
                 >
                   Facility ID
                 </div>
