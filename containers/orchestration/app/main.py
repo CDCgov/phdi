@@ -319,7 +319,6 @@ async def apply_workflow_to_message(
             "rr_data": rr_content,
         }
         wf_span.add_event("sending params to `call_apis`")
-        # response, responses = await call_apis(config=processing_config, input=api_input)
         try:
             response, responses = await call_apis(config=processing_config, input=api_input)
         except HTTPException as error:
