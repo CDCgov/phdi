@@ -34,6 +34,7 @@ const ResultsViewTable: React.FC<ResultsViewTable> = ({ accordionItems }) => {
                 }
                 expanded={true}
                 id={titleId}
+                key={titleId}
                 headingLevel={"h3"}
                 accordionClassName={styles.accordionWrapper}
                 containerClassName={styles.accordionContainer}
