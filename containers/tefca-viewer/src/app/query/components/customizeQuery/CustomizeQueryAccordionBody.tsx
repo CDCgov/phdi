@@ -23,7 +23,7 @@ const CustomizeQueryAccordionBody: React.FC<
   CustomizeQueryAccordionBodyProps
 > = ({ group, toggleInclude, groupIndex }) => {
   return (
-    <Table className={`${styles.customizeQueryGridContainer}`} striped>
+    <Table className={`${styles.customizeQueryGridContainer}`}>
       <thead className={` margin-top-10`}>
         <tr className={styles.customizeQueryGridHeader}>
           <th className={`${styles.accordionTableHeader}`}>Include</th>
