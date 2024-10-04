@@ -91,7 +91,7 @@ jobs:
         run: npm install
       - name: Test Docker Compose
         working-directory: ./containers/${{env.CONTAINER}}
-        run: docker-compose build --no-cache && docker-compose up
+        run: docker compose build --no-cache && docker compose up
       - name: Install Playwright Browsers
         working-directory: ./containers/${{env.CONTAINER}}
         run: npx playwright install --with-deps
