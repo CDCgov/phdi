@@ -69,12 +69,12 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "docker compose build --no-cache && docker compose up",
-    port: 3000,
-    timeout: 400 * 1000,
-    reuseExistingServer: !process.env.CI,
-  },
+  // webServer: {
+  //   command: "docker compose build --no-cache && docker compose up",
+  //   port: 3000,
+  //   timeout: 400 * 1000,
+  //   reuseExistingServer: !process.env.CI,
+  // },
 
   /* Hook to ensure Docker is shut down after tests or on error */
   globalTeardown: "./playwright-teardown",

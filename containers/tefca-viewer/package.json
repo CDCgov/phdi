@@ -16,6 +16,7 @@
     "test:unit": "jest --testPathPattern=tests/unit",
     "test:unit:watch": "jest --watch",
     "test:integration": "jest --testPathPattern=tests/integration",
+    "test:playwright": "docker compose build --no-cache && docker compose up -d && npx playwright test && docker compose down",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
