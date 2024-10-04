@@ -97,4 +97,4 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         working-directory: ./containers/${{env.CONTAINER}}
-        run: compose build --no-cache && docker compose up -d && npx playwright test --reporter=list
+        run: docker compose build --no-cache && docker compose up -d && npx playwright test --reporter=list
