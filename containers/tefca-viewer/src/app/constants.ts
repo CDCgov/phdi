@@ -300,9 +300,6 @@ export const stateOptions = [
 export type Mode =
   | "search"
   | "results"
-  | "multiple-patients"
-  | "no-patients"
-  | "multiple-patients-results"
   | "customize-queries"
   | "select-query"
   | "patient-results"
