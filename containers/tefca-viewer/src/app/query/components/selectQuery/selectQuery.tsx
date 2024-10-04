@@ -5,7 +5,6 @@ import { demoQueryOptions, FHIR_SERVERS, Mode } from "../../../constants";
 import Backlink from "../backLink/Backlink";
 import { fhirServers } from "../../../fhir-servers";
 import styles from "./selectQuery.module.css";
-import "../../styles/layout.scss";
 
 interface SelectQueryProps {
   setQueryType: (queryType: string) => void;
@@ -82,62 +81,58 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
         privacy. If you would like to customize the query response, click on the
         "customize query" button.
       </div>
-      <h3 className="padding-bottom-3">Query</h3>
-      <div className="usa-form-group margin-top-0">
-        <div className={styles.queryRow}>
-          {/* Select a query drop down */}
-          <Select
-            id="querySelect"
-            name="query"
-            value={selectedQuery}
-            onChange={handleQueryChange}
-            required
-          >
-            <option value="" disabled>
-              Select query
+      <h3 className="margin-bottom-3">Query</h3>
+      <div className={styles.queryRow}>
+        {/* Select a query drop down */}
+        <Select
+          id="querySelect"
+          name="query"
+          value={selectedQuery}
+          onChange={handleQueryChange}
+          className={`${styles.queryDropDown}`}
+          required
+        >
+          <option value="" disabled>
+            Select query
+          </option>
+          {demoQueryOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
             </option>
-            {demoQueryOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </Select>
-          {/* Customize query button */}
-          <Button
-            type="button"
-            className={`usa-button--outline bg-white ${styles.customizeButton}`}
-            onClick={handleClick}
-          >
-            Customize query
-          </Button>
-        </div>
+          ))}
+        </Select>
+        {/* Customize query button */}
+        <Button
+          type="button"
+          className={`usa-button--outline bg-white ${styles.customizeButton}`}
+          onClick={handleClick}
+        >
+          Customize query
+        </Button>
       </div>
 
       {/* Show Advanced options only when `showAdvanced` is true */}
       {showAdvanced && (
         <div>
-          <h3>Health Care Organization (HCO)</h3>
-          <div className="grid-row grid-gap">
-            <div className="usa-combo-box">
-              <Select
-                id="fhir_server"
-                name="fhir_server"
-                value={selectedHCO} // Use selectedHCO for the selected value
-                onChange={handleHCOChange}
-                required
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  Select HCO
-                </option>
-                {Object.keys(fhirServers).map((fhirServer: string) => (
-                  <option key={fhirServer} value={fhirServer}>
-                    {fhirServer}
-                  </option>
-                ))}
-              </Select>
-            </div>
-          </div>
+          <h3 className="margin-bottom-3">Health Care Organization (HCO)</h3>
+          <Select
+            id="fhir_server"
+            name="fhir_server"
+            value={selectedHCO} // Use selectedHCO for the selected value
+            onChange={handleHCOChange}
+            required
+            defaultValue=""
+            className={`${styles.queryDropDown}`}
+          >
+            <option value="" disabled>
+              Select HCO
+            </option>
+            {Object.keys(fhirServers).map((fhirServer: string) => (
+              <option key={fhirServer} value={fhirServer}>
+                {fhirServer}
+              </option>
+            ))}
+          </Select>
         </div>
       )}
 
