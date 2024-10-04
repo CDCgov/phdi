@@ -95,6 +95,12 @@ jobs:
       - name: Install Playwright Browsers
         working-directory: ./containers/${{env.CONTAINER}}
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
+      - name: Build Query Connector
         working-directory: ./containers/${{env.CONTAINER}}
-        run: docker compose build --no-cache && docker compose up -d && npx playwright test --reporter=list
+        run: docker compose build --no-cache
+      - name: Run Query Connector
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: docker compose up -d
+      - name: Playwright Tests
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: npx playwright test --reporter=list
