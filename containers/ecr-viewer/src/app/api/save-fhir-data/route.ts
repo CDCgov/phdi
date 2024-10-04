@@ -14,7 +14,6 @@ export async function POST(request: NextRequest) {
 
   try {
     requestBody = await request.json();
-    console.log(requestBody);
     fhirBundle = requestBody.fhirBundle;
     saveSource = requestBody.saveSource;
     ecrId = requestBody.fhirBundle.entry[0].resource.id;
