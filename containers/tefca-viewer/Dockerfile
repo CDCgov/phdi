@@ -18,7 +18,7 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-ENV FLYWAY_VERSION=9.16.1
+ENV FLYWAY_VERSION=10.19.0
 
 # Add bash to enable running Flyway
 RUN apk add --no-cache bash curl
@@ -50,7 +50,7 @@ RUN npx turbo build --filter=tefca-viewer...
 FROM base AS runner
 WORKDIR /app
 
-RUN apk add --no-cache bash openjdk11
+RUN apk add --no-cache bash openjdk17-jre
 
 # Copy Flyway from the installer stage
 COPY --from=installer /flyway /flyway
