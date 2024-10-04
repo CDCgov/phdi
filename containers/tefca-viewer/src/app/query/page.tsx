@@ -82,7 +82,7 @@ const Query: React.FC = () => {
               />
             </Suspense>
 
-            {/* Button to trigger SelectQuery mode */}
+            {/* Button to trigger SelectQuery mode  --TODO REMOVE BEFORE MERGING PR*/}
             <button type="button" onClick={() => setMode("select-query")}>
               Go to Select Query
             </button>
@@ -95,7 +95,7 @@ const Query: React.FC = () => {
             setQueryType={setQueryType}
             setHCO={() => {}}
             setMode={setMode}
-            goBack={() => setMode("search")}
+            goBack={() => setMode("patient-results")}
             onSubmit={() => setMode("results")}
           />
         )}
