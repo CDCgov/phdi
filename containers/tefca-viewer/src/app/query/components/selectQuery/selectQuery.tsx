@@ -5,6 +5,7 @@ import { demoQueryOptions, FHIR_SERVERS, Mode } from "../../../constants";
 import Backlink from "../backLink/Backlink";
 import { fhirServers } from "../../../fhir-servers";
 import styles from "./selectQuery.module.css";
+import "../../styles/layout.scss";
 
 interface SelectQueryProps {
   setQueryType: (queryType: string) => void;
@@ -64,7 +65,7 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
   };
 
   return (
-    <div className="select-query-container">
+    <form className="content-container-smaller-width">
       {/* Back button */}
       <div className="text-bold">
         <Backlink onClick={goBack} label={RETURN_TO_STEP_ONE_LABEL} />
@@ -81,8 +82,8 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
         privacy. If you would like to customize the query response, click on the
         "customize query" button.
       </div>
-      <h3>Query</h3>
-      <div className="usa-form-group">
+      <h3 className="padding-bottom-3">Query</h3>
+      <div className="usa-form-group margin-top-0">
         <div className={styles.queryRow}>
           {/* Select a query drop down */}
           <Select
@@ -91,7 +92,6 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
             value={selectedQuery}
             onChange={handleQueryChange}
             required
-            style={{ width: "320px", height: "40px" }}
           >
             <option value="" disabled>
               Select query
@@ -165,7 +165,7 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
           Submit
         </Button>
       </div>
-    </div>
+    </form>
   );
 };
 
