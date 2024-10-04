@@ -49,10 +49,12 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
     setHCO(event.target.value as FHIR_SERVERS); // Update parent component state
   };
 
+  // Link to go to customize-queries page
   const handleClick = () => {
     setMode("customize-queries");
   };
 
+  // Submit and go to results; if no custom query selected, add alert
   const handleSubmit = () => {
     if (selectedQuery) {
       onSubmit();
@@ -63,17 +65,23 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
 
   return (
     <div className="select-query-container">
-      <Backlink onClick={goBack} label={RETURN_TO_STEP_ONE_LABEL} />
+      {/* Back button */}
+      <div className="text-bold">
+        <Backlink onClick={goBack} label={RETURN_TO_STEP_ONE_LABEL} />
+      </div>
       <h1 className={`${styles.selectQueryHeaderText}`}>
         Step 3: Select a query
       </h1>
-      <div className={`${styles.selectQueryExplanationText}`}>
+      <div
+        className={`font-sans-md text-light ${styles.selectQueryExplanationText}`}
+      >
         Once we have located the best match for a patient, we will request all
         data related to your selected query. By only showing relevant data for
         your query, we decrease the burden on our systems and protect patient
         privacy. If you would like to customize the query response, click on the
         "customize query" button.
       </div>
+      <h3>Query</h3>
       <div className="usa-form-group">
         <div className={styles.queryRow}>
           {/* Select a query drop down */}
@@ -86,7 +94,7 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
             style={{ width: "320px", height: "40px" }}
           >
             <option value="" disabled>
-              -- Select a Query --
+              Select query
             </option>
             {demoQueryOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -94,7 +102,6 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
               </option>
             ))}
           </Select>
-
           {/* Customize query button */}
           <Button
             type="button"
@@ -105,6 +112,8 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
           </Button>
         </div>
       </div>
+
+      {/* Show Advanced options only when `showAdvanced` is true */}
       {showAdvanced && (
         <div>
           <h3>Health Care Organization (HCO)</h3>
@@ -131,19 +140,28 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
           </div>
         </div>
       )}
-      {/* Toggle advanced options */}
-      <div>
+
+      {/* Only show the "Advanced" button if `showAdvanced` is false */}
+      {!showAdvanced && (
+        <div>
+          <Button
+            className={`usa-button--unstyled margin-left-auto ${styles.searchCallToActionButton}`}
+            type="button"
+            onClick={() => setShowAdvanced(true)}
+          >
+            Advanced...
+          </Button>
+        </div>
+      )}
+
+      {/* Submit Button */}
+      <div className="padding-top-6">
         <Button
-          className={`usa-button--unstyled margin-left-auto ${styles.searchCallToActionButton}`}
           type="button"
-          onClick={() => setShowAdvanced(!showAdvanced)}
+          disabled={!selectedQuery}
+          className={selectedQuery ? "usa-button" : "usa-button disabled"}
+          onClick={handleSubmit}
         >
-          Advanced
-        </Button>
-      </div>
-      <div>
-        {/* Submit Button */}
-        <Button type="button" onClick={handleSubmit}>
           Submit
         </Button>
       </div>
