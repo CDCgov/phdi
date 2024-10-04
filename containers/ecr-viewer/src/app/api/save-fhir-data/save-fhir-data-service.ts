@@ -8,6 +8,8 @@ import {
 } from "@aws-sdk/client-s3";
 import { Bundle } from "fhir/r4";
 import { S3_SOURCE, AZURE_SOURCE, POSTGRES_SOURCE } from "@/app/api/utils";
+import sql from "mssql";
+import { randomUUID } from "crypto";
 
 const s3Client =
   process.env.APP_ENV === "dev"
@@ -48,7 +50,13 @@ export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
   } catch (error: any) {
     console.error("Error inserting data to database:", error);
     return NextResponse.json(
-      { message: "Failed to insert data to database. " + error.message },
+      {
+        message:
+          "Failed to insert data to database. " +
+          error.message +
+          " url: " +
+          db_url,
+      },
       { status: 500 },
     );
   }
@@ -145,6 +153,81 @@ export const saveToAzure = async (fhirBundle: Bundle, ecrId: string) => {
   }
 };
 
+interface Lab {
+  uuid: string | undefined;
+  test_type: string | undefined;
+  test_type_code: string | undefined;
+  test_type_system: string | undefined;
+  test_result_qualitative: string | undefined;
+  test_result_quantitative: number | undefined;
+  test_result_units: string | undefined;
+  test_result_code: string | undefined;
+  test_result_code_display: string | undefined;
+  test_result_code_system: string | undefined;
+  test_result_interp_system: string | undefined;
+  test_result_ref_range_low: string | undefined;
+  test_result_ref_range_low_units: string | undefined;
+  test_result_ref_range_high: string | undefined;
+  test_result_ref_range_high_units: string | undefined;
+  specimen_type: string | undefined;
+  performing_lab: string | undefined;
+  specimen_collection_date: Date | undefined;
+}
+
+interface RR {
+  condition: string;
+  rule_summaries: string;
+}
+
+interface BundleExtendedMetadata {
+  patient_id: string;
+  person_id: string;
+  gender: string | undefined;
+  race: string | undefined;
+  ethnicity: string | undefined;
+  street_address1: string | undefined;
+  street_address2: string | undefined;
+  state: string | undefined;
+  zip: string | undefined;
+  latitude: number | undefined;
+  longitude: number | undefined;
+  rr_id: string | undefined;
+  processing_status: string | undefined;
+  eicr_set_id: string | undefined;
+  eicr_id: string;
+  eicr_version_number: string;
+  replaced_eicr_id: string | undefined;
+  replaced_eicr_version: string | undefined;
+  authoring_datetime: Date | undefined;
+  provider_id: string | undefined;
+  facility_id_number: string | undefined;
+  facility_name: string | undefined;
+  facility_type: string | undefined;
+  encounter_type: string | undefined;
+  encounter_start_date: Date | undefined;
+  encounter_end_date: Date | undefined;
+  reason_for_visit: string | undefined;
+  active_problems: string[] | undefined;
+  labs: Lab[] | undefined;
+  birth_sex: string | undefined;
+  gender_identity: string | undefined;
+  homelessness_status: string | undefined;
+  disabilities: string | undefined;
+  tribal_affiliation: string | undefined;
+  tribal_enrollment_status: string | undefined;
+  current_job_title: string | undefined;
+  current_job_industry: string | undefined;
+  usual_occupation: string | undefined;
+  usual_industry: string | undefined;
+  preferred_language: string | undefined;
+  pregnancy_status: string | undefined;
+  ecr_id: string;
+  last_name: string | undefined;
+  first_name: string | undefined;
+  birth_date: Date | undefined;
+  rr: RR[] | undefined;
+  report_date: Date | undefined;
+}
 interface BundleMetadata {
   last_name: string;
   first_name: string;
@@ -186,15 +269,263 @@ export const saveFhirData = async (
 };
 
 /**
+ * @async
+ * @function saveMetadataToSqlServer
+ * @param metadata - The FHIR bundle metadata to be saved.
+ * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
+ * @returns A `NextResponse` object with a JSON payload indicating the success message. The response content type is set to `application/json`.
+ */
+export const saveMetadataToSqlServer = async (
+  metadata: BundleExtendedMetadata,
+  ecrId: string,
+) => {
+  let pool = await sql.connect({
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    server: process.env.DB_SERVER || "localhost",
+    options: {
+      trustServerCertificate: true,
+    },
+  });
+
+  console.log(metadata);
+
+  const transaction = new sql.Transaction(pool);
+
+  if (process.env.DATABASE_SCHEMA == "extended") {
+    try {
+      await transaction.begin();
+      await pool
+        .request()
+        .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
+        .input("eicr_set_id", sql.VarChar(255), metadata.eicr_set_id)
+        .input(
+          "fhir_reference_link",
+          sql.VarChar(255),
+          "I DON'T KNOW WHAT THIS IS SUPPOSED TO BE",
+        )
+        .input("last_name", sql.VarChar(255), metadata.last_name)
+        .input("first_name", sql.VarChar(255), metadata.last_name)
+        .input("birth_date", sql.Date, metadata.birth_date)
+        .input("gender", sql.VarChar(50), metadata.gender)
+        .input("birth_sex", sql.VarChar(50), metadata.birth_sex)
+        .input("gender_identity", sql.VarChar(50), metadata.gender_identity)
+        .input("race", sql.VarChar(255), metadata.race)
+        .input("ethnicity", sql.VarChar(255), metadata.ethnicity)
+        .input("street_address1", sql.VarChar(255), metadata.street_address1)
+        .input("street_address2", sql.VarChar(255), metadata.street_address2)
+        .input("state", sql.VarChar(50), metadata.state)
+        .input("zip_code", sql.VarChar(50), metadata.zip)
+        .input("latitude", sql.Float, metadata.latitude)
+        .input("longitude", sql.Float, metadata.longitude)
+        .input(
+          "homelessness_status",
+          sql.VarChar(255),
+          metadata.homelessness_status,
+        )
+        .input("disabilities", sql.VarChar(255), metadata.disabilities)
+        .input(
+          "tribal_affiliation",
+          sql.VarChar(255),
+          metadata.tribal_affiliation,
+        )
+        .input(
+          "tribal_enrollment_status",
+          sql.VarChar(255),
+          metadata.tribal_enrollment_status,
+        )
+        .input(
+          "current_job_title",
+          sql.VarChar(255),
+          metadata.current_job_title,
+        )
+        .input(
+          "current_job_industry",
+          sql.VarChar(255),
+          metadata.current_job_industry,
+        )
+        .input("usual_occupation", sql.VarChar(255), metadata.usual_occupation)
+        .input("usual_industry", sql.VarChar(255), metadata.usual_industry)
+        .input(
+          "preferred_language",
+          sql.VarChar(255),
+          metadata.preferred_language,
+        )
+        .input("pregnancy_status", sql.VarChar(255), metadata.pregnancy_status)
+        .input("rr_id", sql.VarChar(255), metadata.rr_id)
+        .input(
+          "processing_status",
+          sql.VarChar(255),
+          metadata.processing_status,
+        )
+        .input(
+          "eicr_version_number",
+          sql.VarChar(50),
+          metadata.eicr_version_number,
+        )
+        .input("authoring_date", sql.Date, metadata.authoring_datetime)
+        .input("authoring_time", sql.Time(7), metadata.authoring_datetime)
+        .input("authoring_provider", sql.VarChar(255), metadata.provider_id)
+        .input("provider_id", sql.VarChar(255), metadata.provider_id)
+        .input("facility_id", sql.VarChar(255), metadata.facility_id_number)
+        .input("facility_name", sql.VarChar(255), metadata.facility_name)
+        .input("encounter_type", sql.VarChar(255), metadata.encounter_type)
+        .input("encounter_start_date", sql.Date, metadata.encounter_start_date)
+        .input(
+          "encounter_start_time",
+          sql.Time(7),
+          metadata.encounter_start_date,
+        )
+        .input("encounter_end_date", sql.Date, metadata.encounter_end_date)
+        .input("encounter_end_time", sql.Time(7), metadata.encounter_end_date)
+        .input(
+          "reason_for_visit",
+          sql.VarChar(sql.MAX),
+          metadata.reason_for_visit,
+        )
+        .input(
+          "active_problems",
+          sql.VarChar(sql.MAX),
+          metadata.active_problems,
+        )
+        .query(
+          "INSERT INTO dbo.ECR_DATA VALUES (@eICR_ID, @eicr_set_id, @fhir_reference_link, @last_name, @first_name, @birth_date, @gender, @birth_sex, @gender_identity, @race, @ethnicity, @street_address1, @street_address2, @state, @zip_code, @latitude, @longitude, @homelessness_status, @disabilities, @tribal_affiliation, @tribal_enrollment_status, @current_job_title, @current_job_industry, @usual_occupation, @usual_industry, @preferred_language, @pregnancy_status, @rr_id, @processing_status, @eicr_version_number, @authoring_date, @authoring_time, @authoring_provider, @provider_id, @facility_id, @facility_name, @encounter_type, @encounter_start_date, @encounter_start_time, @encounter_end_date, @encounter_end_time, @reason_for_visit, @active_problems)",
+        );
+
+      if (metadata.labs) {
+        for (const lab of metadata.labs) {
+          await pool
+            .request()
+            .input("UUID", sql.VarChar(200), lab.uuid)
+            .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
+            .input("test_type", sql.VarChar(200), lab.test_type)
+            .input("test_type_code", sql.VarChar(50), lab.test_type_code)
+            .input("test_type_system", sql.VarChar(50), lab.test_type_system)
+            .input(
+              "test_result_qualitative",
+              sql.VarChar(255),
+              lab.test_result_qualitative,
+            )
+            .input(
+              "test_result_quantitative",
+              sql.Float,
+              lab.test_result_quantitative,
+            )
+            .input("test_result_units", sql.VarChar(50), lab.test_result_units)
+            .input("test_result_code", sql.VarChar(50), lab.test_result_code)
+            .input(
+              "test_result_code_display",
+              sql.VarChar(255),
+              lab.test_result_code_display,
+            )
+            .input(
+              "test_result_code_system",
+              sql.VarChar(50),
+              lab.test_result_code_system,
+            )
+            .input(
+              "test_result_interpretation",
+              sql.VarChar(255),
+              "I DON'T KNOW WHAT THIS IS SUPPOSED TO BE",
+            )
+            .input(
+              "test_result_interpretation_code",
+              sql.VarChar(50),
+              "I DON'T KNOW WHAT THIS IS SUPPOSED TO BE",
+            )
+            .input(
+              "test_result_interpretation_system",
+              sql.VarChar(255),
+              lab.test_result_interp_system,
+            )
+            .input(
+              "test_result_ref_range_low_value",
+              sql.Float,
+              lab.test_result_ref_range_low,
+            )
+            .input(
+              "test_result_ref_range_low_units",
+              sql.VarChar(50),
+              lab.test_result_ref_range_low_units,
+            )
+            .input(
+              "test_result_ref_range_high_value",
+              sql.Float,
+              lab.test_result_ref_range_high,
+            )
+            .input(
+              "test_result_ref_range_high_units",
+              sql.VarChar(50),
+              lab.test_result_ref_range_high_units,
+            )
+            .input("specimen_type", sql.VarChar(255), lab.specimen_type)
+            .input(
+              "specimen_collection_date",
+              sql.Date,
+              lab.specimen_collection_date,
+            )
+            .input("performing_lab", sql.VarChar(255), lab.performing_lab)
+            .query(
+              "INSERT INTO dbo.ecr_labs VALUES (@UUID, @eICR_ID, @test_type, @test_type_code, @test_type_system, @test_result_qualitative, @test_result_quantitative, @test_result_units, @test_result_code, @test_result_code_display, @test_result_code_system, @test_result_interpretation, @test_result_interpretation_code, @test_result_interpretation_system, @test_result_ref_range_low_value, @test_result_ref_range_low_units, @test_result_ref_range_high_value, @test_result_ref_range_high_units, @specimen_type, @specimen_collection_date, @performing_lab)",
+            );
+        }
+      }
+
+      if (metadata.rr) {
+        for (const rule of metadata.rr) {
+          const rr_conditions_uuid = randomUUID();
+          await pool
+            .request()
+            .input("UUID", sql.VarChar(200), rr_conditions_uuid)
+            .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
+            .input("condition", sql.VarChar(sql.MAX), rule.condition)
+            .query(
+              "INSERT INTO dbo.ecr_rr_conditions VALUES (@UUID, @eICR_ID, @condition)",
+            );
+
+          await pool
+            .request()
+            .input("UUID", sql.VarChar(200), randomUUID())
+            .input("ECR_RR_CONDITIONS_ID", sql.VarChar(200), rr_conditions_uuid)
+            .input("rule_summary", sql.VarChar(sql.MAX), rule.rule_summaries)
+            .query(
+              "INSERT INTO dbo.ecr_rr_rule_summaries VALUES (@UUID, @ECR_RR_CONDITIONS_ID, @rule_summary)",
+            );
+        }
+      }
+
+      return NextResponse.json(
+        { message: "Success. Saved metadata to database: " + ecrId },
+        { status: 200 },
+      );
+    } catch (error: any) {
+      console.error("Error inserting metadata to database:", error);
+      return NextResponse.json(
+        { message: "Failed to insert metadata to database. " + error.message },
+        { status: 500 },
+      );
+    }
+  } else {
+    return NextResponse.json(
+      {
+        message:
+          "Only the extended metadata schema is implemented for SQL Server.",
+      },
+      { status: 501 },
+    );
+  }
+};
+
+/**
  * Saves a FHIR bundle metadata to a postgres database.
  * @async
- * @function saveToMetadataPostgres
+ * @function saveMetadataToPostgres
  * @param metadata - The FHIR bundle metadata to be saved.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns A promise that resolves when the FHIR bundle metadata is successfully saved to postgres.
  * @throws {Error} Throws an error if the FHIR bundle metadata cannot be saved to postgress.
  */
-export const saveToMetadataPostgres = async (
+export const saveMetadataToPostgres = async (
   metadata: BundleMetadata,
   ecrId: string,
 ) => {
@@ -206,12 +537,13 @@ export const saveToMetadataPostgres = async (
 
   let addMetadata = undefined;
   if (process.env.DATABASE_SCHEMA == "extended") {
-    const keys = Object.keys(metadata);
-    const columnNames = keys.join(",");
-    const values = Object.values(metadata);
-    const placeholders = keys.map((_, index) => `$${index + 1}`).join(", ");
-    const text = `INSERT INTO fhir_metadata (${columnNames}) VALUES (${placeholders})`;
-    addMetadata = new PQ({ text, values });
+    return NextResponse.json(
+      {
+        message:
+          "Only the default metadata schema is implemented for Postgres.",
+      },
+      { status: 501 },
+    );
   } else {
     addMetadata = new PQ({
       text: "INSERT INTO fhir_metadata (ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING ecr_id",
@@ -258,13 +590,29 @@ export const saveWithMetadata = async (
   fhirBundle: Bundle,
   ecrId: string,
   saveSource: string,
-  metadata: BundleMetadata,
+  metadata: BundleMetadata | BundleExtendedMetadata,
 ) => {
   let fhirDataResult;
   let metadataResult;
+  const metadataSaveLocation = process.env.METADATA_DATABASE_TYPE;
   try {
     fhirDataResult = await saveFhirData(fhirBundle, ecrId, saveSource);
-    metadataResult = await saveToMetadataPostgres(metadata, ecrId);
+
+    if (metadataSaveLocation == "postgres") {
+      metadataResult = await saveMetadataToPostgres(
+        metadata as BundleMetadata,
+        ecrId,
+      );
+    } else if (metadataSaveLocation == "sqlserver") {
+      metadataResult = await saveMetadataToSqlServer(
+        metadata as BundleExtendedMetadata,
+        ecrId,
+      );
+    } else {
+      metadataResult = NextResponse.json({
+        message: "Unknown metadataSaveLocation: " + metadataSaveLocation,
+      });
+    }
   } catch (error: any) {
     return NextResponse.json(
       { message: "Failed to save FHIR data with metadata. " + error.message },
@@ -276,13 +624,13 @@ export const saveWithMetadata = async (
   let responseStatus = 200;
   if (fhirDataResult.status !== 200) {
     responseMessage += "Failed to save FHIR data.\n";
-    responseStatus = 500;
+    responseStatus = fhirDataResult.status;
   } else {
     responseMessage += "Saved FHIR data.\n";
   }
   if (metadataResult.status !== 200) {
     responseMessage += "Failed to save metadata.";
-    responseStatus = 500;
+    responseStatus = metadataResult.status;
   } else {
     responseMessage += "Saved metadata.";
   }
