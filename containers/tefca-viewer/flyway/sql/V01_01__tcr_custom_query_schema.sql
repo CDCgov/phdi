@@ -1,4 +1,3 @@
-BEGIN;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS conditions (
@@ -107,5 +106,3 @@ CREATE INDEX IF NOT EXISTS query_to_valueset_valueset_id_index ON query_to_value
 CREATE INDEX IF NOT EXISTS query_included_concepts_id_index ON query_included_concepts (id);
 CREATE INDEX IF NOT EXISTS query_included_concepts_query_by_valueset_id_index ON query_included_concepts (query_by_valueset_id);
 CREATE INDEX IF NOT EXISTS query_included_concepts_concept_id_index ON query_included_concepts (concept_id);
-
-COMMIT;
