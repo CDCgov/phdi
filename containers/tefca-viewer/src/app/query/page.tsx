@@ -4,6 +4,7 @@ import { UseCaseQueryResponse, UseCaseQueryRequest } from "../query-service";
 import ResultsView from "./components/ResultsView";
 import PatientSearchResults from "./components/PatientSearchResults";
 import SearchForm from "./components/searchForm/SearchForm";
+import SelectQuery from "./components/selectQuery/selectQuery";
 import {
   Mode,
   QueryTypeToQueryName,
@@ -67,18 +68,31 @@ const Query: React.FC = () => {
       <SiteAlert page={mode} />
       <div className="main-container">
         {mode === "search" && (
-          <Suspense fallback="...Loading">
-            <SearchForm
-              useCase={useCase}
-              queryValueSets={queryValuesets}
-              setUseCase={setUseCase}
-              setMode={setMode}
-              setLoading={setLoading}
-              setUseCaseQueryResponse={setUseCaseQueryResponse}
-              setOriginalRequest={setOriginalRequest}
-              setQueryType={setQueryType}
-            />
-          </Suspense>
+          <>
+            <Suspense fallback="...Loading">
+              <SearchForm
+                useCase={useCase}
+                queryValueSets={queryValuesets}
+                setUseCase={setUseCase}
+                setMode={setMode}
+                setLoading={setLoading}
+                setUseCaseQueryResponse={setUseCaseQueryResponse}
+                setOriginalRequest={setOriginalRequest}
+                setQueryType={setQueryType}
+              />
+            </Suspense>
+          </>
+        )}
+
+        {/* Render SelectQuery component when the mode is "select-query" */}
+        {mode === "select-query" && (
+          <SelectQuery
+            setQueryType={setQueryType}
+            setHCO={() => {}}
+            setMode={setMode}
+            goBack={() => setMode("patient-results")}
+            onSubmit={() => setMode("results")}
+          />
         )}
 
         {/* Switch the mode to view to show the results of the query */}
