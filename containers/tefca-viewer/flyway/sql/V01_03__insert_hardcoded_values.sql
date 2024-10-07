@@ -1,5 +1,3 @@
-BEGIN;
-
 INSERT INTO conditions VALUES('1','DIBBs Local Code System','Newborn Screening','20240909');
 INSERT INTO conditions VALUES('2','DIBBs Local Code System','Cancer (Leukemia)','20240909');
 INSERT INTO conditions VALUES('3','DIBBs Local Code System','Social Determinants of Health','20240909'); -- has no valuesets
@@ -157,7 +155,3 @@ INSERT INTO valueset_to_concept VALUES('45314','14_20240923','1_1255068005');
 INSERT INTO valueset_to_concept VALUES('45315','14_20240923','1_9484.100004300');
 INSERT INTO valueset_to_concept VALUES('45316','15_20240923','1_363346000');
 INSERT INTO valueset_to_concept VALUES('45317','2_20240909','1_418689008');
-
-
-
-COMMIT;
