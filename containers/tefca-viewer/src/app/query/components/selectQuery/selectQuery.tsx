@@ -75,11 +75,10 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
       <div
         className={`font-sans-md text-light ${styles.selectQueryExplanationText}`}
       >
-        Once we have located the best match for a patient, we will request all
-        data related to your selected query. By only showing relevant data for
-        your query, we decrease the burden on our systems and protect patient
-        privacy. If you would like to customize the query response, click on the
-        "customize query" button.
+        We will request all data related to your selected patient and query. By
+        only showing relevant data for your query, we decrease the burden on our
+        systems and protect patient privacy. If you would like to customize the
+        query response, click on the "customize query" button.
       </div>
       <h3 className="margin-bottom-3">Query</h3>
       <div className={styles.queryRow}>
