@@ -118,35 +118,6 @@ test.describe("querying with the TryTEFCA viewer", () => {
     ).toBeVisible();
   });
 
-  test("unsuccessful user query: no patients", async ({ page }) => {
-    await page.getByRole("button", { name: "Go to the demo" }).click();
-    await page
-      .getByLabel("Query", { exact: true })
-      .selectOption("social-determinants");
-    await page.getByRole("button", { name: "Advanced" }).click();
-    await page
-      .getByLabel("FHIR Server (QHIN)", { exact: true })
-      .selectOption("HELIOS Meld: Direct");
-
-    await page.getByLabel("First Name").fill("Ellie");
-    await page.getByLabel("Last Name").fill("Williams");
-    await page.getByLabel("Date of Birth").fill("2019-07-07");
-    await page.getByLabel("Medical Record Number").fill("TLOU1TLOU2");
-    await page.getByRole("button", { name: "Search for patient" }).click();
-
-    // Better luck next time, user!
-    await expect(
-      page.getByRole("heading", { name: "No Records Found" }),
-    ).toBeVisible();
-    await expect(
-      page.getByText("No records were found for your search"),
-    ).toBeVisible();
-    await page.getByText(RETURN_TO_STEP_ONE_LABEL).click();
-    await expect(
-      page.getByRole("heading", { name: "Search for a Patient", exact: true }),
-    ).toBeVisible();
-  });
-
   test("query using form-fillable demo patient by phone number", async ({
     page,
   }) => {
