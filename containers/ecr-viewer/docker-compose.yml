@@ -17,6 +17,27 @@ services:
       interval: 2s
       timeout: 5s
       retries: 20
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password1!
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./sql:/var/opt/mssql/scripts
+      - ./sql-scripts:/usr/config
+    entrypoint: /usr/config/entrypoint.sh
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Password1! -Q 'IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'ECR_DATA') SELECT 1 ELSE SELECT 0' -C | grep -q 1",
+        ]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+  # Next.js app
   ecr-viewer:
     build:
       context: ../../
@@ -26,6 +47,7 @@ services:
     environment:
       - DATABASE_URL=${DATABASE_URL:-postgres://postgres:pw@db:5432/ecr_viewer_db}
       - APP_ENV=${APP_ENV:-prod}
+
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: "jaeger"
