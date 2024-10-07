@@ -13,7 +13,7 @@
     "docker-compose-with-logs": "docker compose up postgres -d && docker compose logs",
     "docker-compose-azure": "docker compose -f docker-compose.yml -f compose.storage.yml up db azure-storage -d && docker compose logs",
     "docker-compose-aws": "docker compose -f docker-compose.yml -f compose.storage.yml up aws-storage db -d && docker compose logs",
-    "docker-compose-sqlserver": "docker compose up sqlserver postgres -d && docker compose logs",
+    "docker-compose-sqlserver": "docker compose up sqlserver -d && docker compose logs",
     "setup-local-env": "./setup-env.sh",
     "build": "next build",
     "start": "next start",
