@@ -2,7 +2,6 @@ import {
   HeadingLevel,
   Accordion as TrussAccordion,
 } from "@trussworks/react-uswds";
-import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 
 export type AccordionProps = {
   title: string | React.ReactNode;
@@ -41,7 +40,7 @@ const Accordion: React.FC<AccordionProps> = ({
   containerClassName,
   accordionClassName,
 }) => {
-  const accordionItem: AccordionItemProps[] = [
+  const accordionItem = [
     { title, content, id, expanded, headingLevel, handleToggle },
   ];
   return (
