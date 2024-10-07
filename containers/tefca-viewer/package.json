@@ -38,7 +38,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-toastify": "^10.0.5",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "uswds": "^2.14.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",
