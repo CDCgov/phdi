@@ -40,9 +40,6 @@
       "service": "save_bundle",
       "url": "${ECR_VIEWER_URL}",
       "endpoint": "/api/save-fhir-data",
-      "params": {
-        "saveSource": "postgres"
-      },
       "previous_response_to_param_mapping": {
         "metadata_values": "metadata",
         "stamped_ecr": "fhirBundle"
