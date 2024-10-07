@@ -374,7 +374,7 @@ export const evaluateFacilityData = (
   }
   const facilityContactAddress = referenceString
     ? evaluateReference(fhirBundle, mappings, referenceString)?.address?.[0]
-    : "";
+    : undefined;
 
   const facilityData = [
     {
