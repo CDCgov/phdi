@@ -46,7 +46,11 @@ const PatientSearchResultsTable: React.FC<PatientSeacrchResultsTableProps> = ({
         </thead>
         <tbody>
           {patients.map((patient) => (
-            <tr key={patient.id} className="tableRowWithHover">
+            <tr
+              key={patient.id}
+              className="tableRowWithHover tableRowWithHover_clickable"
+              onClick={() => setPatientForQueryResponse(patient)}
+            >
               <td>{formatName(patient.name ?? [])}</td>
               <td>{patient.birthDate ?? ""}</td>
               <td>{formatContact(patient.telecom ?? [])}</td>
