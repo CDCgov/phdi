@@ -115,7 +115,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(
       page.getByText("No records were found for your search"),
     ).toBeVisible();
-    await page.getByRole("link", { name: RETURN_TO_STEP_ONE_LABEL }).click();
+    await page.getByText(RETURN_TO_STEP_ONE_LABEL).click();
     await expect(
       page.getByRole("heading", { name: "Search for a Patient", exact: true }),
     ).toBeVisible();
