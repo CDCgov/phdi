@@ -77,7 +77,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   playwright-tests:
-    timeout-minutes: 60
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -89,9 +89,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./containers/${{env.CONTAINER}}
         run: npm ci
-      # - name: Test Docker Compose
-      #   working-directory: ./containers/${{env.CONTAINER}}
-      #   run: docker compose build --no-cache && docker compose up
       - name: Install Playwright Browsers
         working-directory: ./containers/${{env.CONTAINER}}
         run: npx playwright install --with-deps
