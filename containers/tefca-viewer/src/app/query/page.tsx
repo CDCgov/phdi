@@ -81,11 +81,6 @@ const Query: React.FC = () => {
                 setQueryType={setQueryType}
               />
             </Suspense>
-
-            {/* Button to trigger SelectQuery mode  --TODO REMOVE BEFORE MERGING PR*/}
-            <button type="button" onClick={() => setMode("select-query")}>
-              Go to Select Query
-            </button>
           </>
         )}
 
