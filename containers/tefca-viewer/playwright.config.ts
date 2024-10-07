@@ -78,4 +78,6 @@ export default defineConfig({
 
   /* Hook to ensure Docker is shut down after tests or on error */
   globalTeardown: "./playwright-teardown",
+  /* Hook to ensure DB is started & migrations have run before tests start*/
+  globalSetup: "./playwright-setup",
 });
