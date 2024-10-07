@@ -302,8 +302,7 @@ export type Mode =
   | "results"
   | "customize-queries"
   | "select-query"
-  | "patient-results"
-  | "customize-queries";
+  | "patient-results";
 
 /*Type to specify the expected components for each item in a value set that will be 
 displayed in the CustomizeQuery component*/
