@@ -135,7 +135,7 @@ def build_ingestion_phone_request(
         },
     ):
         # Since only one param, just add it explicitly
-        if workflow_params is None:
+        if not workflow_params:
             workflow_params = {"overwrite": "true"}
 
         return {

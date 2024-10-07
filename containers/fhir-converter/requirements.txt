@@ -30,7 +30,7 @@ six==1.16.0
 sniffio==1.2.0
 starlette==0.36.3
 syrupy==4.6.1
-testcontainers[compose]==3.7.1
+testcontainers[compose]==4.8.1
 tomli==2.0.1
 typing_extensions>=4.8.0
 ujson==5.4.0

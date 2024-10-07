@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "local-dev": "npm run $(node ./check-source-env.mjs)",
+    "local-dev": "docker compose -f ./seed-scripts/docker-compose.yml --profile local-dev-$(node ./check-source-env.mjs) up -d && npm run dev"
     "local-dev-postgres": "npm run docker-compose-with-logs && npm run dev",
     "local-dev-azure": "npm run docker-compose-azure && npm run dev",
     "local-dev-s3": "npm run docker-compose-aws && npm run dev",
@@ -20,7 +20,7 @@
     "lint": "next lint",
     "test": "TZ=America/New_York jest",
     "test:watch": "TZ=America/New_York jest --watch",
-    "convert-seed-data": "docker compose -f ./seed-scripts/docker-compose.yml up --abort-on-container-exit",
+    "convert-seed-data": ". ./.env.local && docker compose -f ./seed-scripts/docker-compose.yml --profile seed-$(node ./check-source-env.mjs) up --abort-on-container-exit",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:run-local": "NODE_ENV=dev cypress run",

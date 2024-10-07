@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/dotnet/sdk:3.1 as build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 as build
 
 # Download FHIR-Converter
-RUN git clone https://github.com/microsoft/FHIR-Converter.git --branch v5.0.4 --single-branch /build/FHIR-Converter
+RUN git clone https://github.com/skylight-hq/FHIR-Converter.git --branch main --single-branch /build/FHIR-Converter
 COPY /CustomFhir/CustomFilters.cs /build/FHIR-Converter/src/Microsoft.Health.Fhir.Liquid.Converter/Filters/
 
 WORKDIR /build/FHIR-Converter
@@ -17,7 +17,7 @@ RUN mkdir bin && \
 # Build Microsoft FHIR Converter
 RUN dotnet build -c Release -o output
 
-FROM mcr.microsoft.com/dotnet/runtime:3.1 as runtime
+FROM mcr.microsoft.com/dotnet/runtime:6.0 as runtime
 
 # Copy FHIR-Converter binary from build stage
 COPY --from=build /build/FHIR-Converter/output /build/FHIR-Converter/output
@@ -26,7 +26,7 @@ COPY --from=build /build/FHIR-Converter/data/Templates /build/FHIR-Converter/dat
 ENV PYTHONUNBUFFERED=1
 
 # Install python via pyenv
-RUN apt-get update && apt-get install -y curl git build-essential libreadline-gplv2-dev  libncursesw5-dev  libssl-dev  libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
+RUN apt-get update && apt-get install -y curl git build-essential libreadline-dev libncursesw5-dev  libssl-dev  libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
 RUN curl https://pyenv.run | bash
 RUN export PYENV_ROOT="$HOME/.pyenv"
 RUN export PATH="$PYENV_ROOT/bin:$PATH"

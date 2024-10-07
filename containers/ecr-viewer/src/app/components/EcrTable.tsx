@@ -20,7 +20,6 @@ const EcrTable = async ({
 }) => {
   const renderPage = async (pageNumber: number) => {
     const startIndex = (pageNumber - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
     const pageData = await listEcrData(startIndex, itemsPerPage);
     return renderListEcrTableData(pageData);
   };

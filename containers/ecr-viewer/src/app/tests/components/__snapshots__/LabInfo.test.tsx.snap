@@ -27,7 +27,7 @@ exports[`LabInfo should match snapshot test 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Lab Performing Name
                 </div>
@@ -46,7 +46,7 @@ exports[`LabInfo should match snapshot test 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Lab Address
                 </div>
@@ -67,7 +67,7 @@ Burbank, CA
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Number of Results
                 </div>
@@ -246,7 +246,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Analysis Time
                     </div>
@@ -265,7 +265,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Collection Time
                     </div>
@@ -284,7 +284,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Received Time
                     </div>
@@ -303,7 +303,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Specimen (Source)
                     </div>
@@ -322,7 +322,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Anatomical Location/Laterality
                     </div>
@@ -341,7 +341,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Collection Method/Volume
                     </div>
@@ -364,7 +364,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Resulting Agency Comment
                     </div>
@@ -387,7 +387,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Authorizing Provider
                     </div>
@@ -406,7 +406,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Result Type
                     </div>
@@ -425,7 +425,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Narrative
                     </div>
@@ -576,7 +576,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Analysis Time
                     </div>
@@ -595,7 +595,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Collection Time
                     </div>
@@ -614,7 +614,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Received Time
                     </div>
@@ -633,7 +633,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Specimen (Source)
                     </div>
@@ -652,7 +652,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Anatomical Location/Laterality
                     </div>
@@ -671,7 +671,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Collection Method/Volume
                     </div>
@@ -694,7 +694,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Resulting Agency Comment
                     </div>
@@ -717,7 +717,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Authorizing Provider
                     </div>
@@ -736,7 +736,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Result Type
                     </div>
@@ -755,7 +755,7 @@ Burbank, CA
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Narrative
                     </div>
@@ -793,7 +793,7 @@ Burbank, CA
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Lab Performing Name
                 </div>
@@ -812,7 +812,7 @@ Burbank, CA
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Lab Address
                 </div>
@@ -834,7 +834,7 @@ NASHVILLE, TN
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Number of Results
                 </div>
@@ -1101,7 +1101,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Analysis Time
                     </div>
@@ -1124,7 +1124,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Collection Time
                     </div>
@@ -1143,7 +1143,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Received Time
                     </div>
@@ -1162,7 +1162,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Specimen (Source)
                     </div>
@@ -1181,7 +1181,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Anatomical Location/Laterality
                     </div>
@@ -1204,7 +1204,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Collection Method/Volume
                     </div>
@@ -1223,7 +1223,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Resulting Agency Comment
                     </div>
@@ -1242,7 +1242,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Authorizing Provider
                     </div>
@@ -1261,7 +1261,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Result Type
                     </div>
@@ -1280,7 +1280,7 @@ NASHVILLE, TN
                     class="grid-row"
                   >
                     <div
-                      class="data-title"
+                      class="data-title padding-right-1"
                     >
                       Narrative
                     </div>

@@ -62,5 +62,8 @@ ENV OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://otel-collector:4318/v1/metrics
 ENV OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
 # Contrary to orchestration, this must be 4318
 ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://otel-collector:4318/v1/traces
+EXPOSE 3000
 
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 CMD ["node", "containers/ecr-viewer/server.js"]

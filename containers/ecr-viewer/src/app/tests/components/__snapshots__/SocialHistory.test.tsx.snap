@@ -25,7 +25,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Occupation
               </div>
@@ -44,7 +44,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Tobacco Use
               </div>
@@ -63,7 +63,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Homeless Status
               </div>
@@ -82,7 +82,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Occupation
               </div>
@@ -101,7 +101,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Sexual Orientation
               </div>
