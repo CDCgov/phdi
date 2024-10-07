@@ -37,6 +37,10 @@
           {
             "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
             "valueString": "2"
+          },
+          {
+            "url": "https://www.hl7.org/implement/standards/product_brief.cfm?product_id=436",
+            "valueString": "2016-12-01"
           }
         ],
         "status": "final",
@@ -358,9 +362,32 @@
                 "valueCodeableConcept": {
                   "coding": [
                     {
-                      "code": "RRVS19",
-                      "display": "eICR processed",
-                      "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                      "entries": [
+                        {
+                          "eRSDwarnings": [
+                            {
+                              "id": "e39d6ae2-8c6e-4638-9b33-412996586f42",
+                              "code": "RRVS29",
+                              "display": "The eICR was processed with the warning of: outdated eRSD (RCTC) version.",
+                              "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                            },
+                            {
+                              "id": "80f7b4ff-4d96-46ef-ae8f-af1f9c1f206c",
+                              "value": "2022-11-01",
+                              "code": "RRVS31",
+                              "display": "Outdated eRSD (RCTC) Version Detail",
+                              "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                            },
+                            {
+                              "id": "80f7b4ff-4d96-46ef-ae8f-af1f9c1f206c",
+                              "value": "The expected eRSD (RCTC) version should be one of the following: 2024-04-05,1.2.3.0,3.x.x",
+                              "code": "RRVS33",
+                              "display": "Expected eRSD (RCTC) Version Detail",
+                              "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -438,6 +465,48 @@
       "request": {
         "method": "PUT",
         "url": "Composition/1.2.840.114350.1.13.478.3.7.8.688883.230886"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a57ef88d-1c60-d952-e7ca-5e9e16c7ef05",
+      "resource": {
+        "resourceType": "Device",
+        "id": "a57ef88d-1c60-d952-e7ca-5e9e16c7ef05",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.1",
+            "value": "10.1"
+          }
+        ],
+        "manufacturer": "Epic - Version 10.1",
+        "version": [
+          {
+            "value": "Epic - Version 10.1"
+          }
+        ],
+        "property": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/device-category",
+                  "code": "software",
+                  "display": "software"
+                }
+              ]
+            }
+          }
+        ],
+        "owner": {
+          "reference": "Organization/d319a926-0eb3-5847-3b21-db8b778b4f07"
+        },
+        "meta": {
+          "source": "ecr"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/a57ef88d-1c60-d952-e7ca-5e9e16c7ef05"
       }
     },
     {

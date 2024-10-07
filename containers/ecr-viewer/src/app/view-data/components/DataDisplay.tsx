@@ -35,7 +35,7 @@ export const DataDisplay: React.FC<{
   return (
     <div>
       <div className="grid-row">
-        <div className="data-title">
+        <div className="data-title padding-right-1">
           <ToolTipElement content={item.title} toolTip={item.toolTip} />
         </div>
         <div

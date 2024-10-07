@@ -5,7 +5,10 @@ import {
 } from "../component-utils";
 import { Table } from "@trussworks/react-uswds";
 import { ToolTipElement } from "@/app/view-data/components/ToolTipElement";
-import { ReportableConditions } from "../../services/ecrMetadataService";
+import {
+  ERSDWarning,
+  ReportableConditions,
+} from "../../services/ecrMetadataService";
 import {
   DataDisplay,
   DisplayDataProps,
@@ -15,7 +18,8 @@ import React from "react";
 interface EcrMetadataProps {
   rrDetails: ReportableConditions;
   eicrDetails: DisplayDataProps[];
-  eCRSenderDetails: DisplayDataProps[];
+  eRSDWarnings: ERSDWarning[];
+  eCRCustodianDetails: DisplayDataProps[];
 }
 
 interface ReportableConditionsList {
@@ -66,13 +70,15 @@ const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
  * @param props - Props containing eCR metadata.
  * @param props.rrDetails - The reportable conditions details.
  * @param props.eicrDetails - The eICR details.
- * @param props.eCRSenderDetails - The eCR sender details.
+ * @param props.eRSDWarnings - The eRSD warnings.
+ * @param props.eCRCustodianDetails - The eCR custodian details.
  * @returns The JSX element representing the eCR metadata.
  */
 const EcrMetadata = ({
   rrDetails,
   eicrDetails,
-  eCRSenderDetails,
+  eRSDWarnings,
+  eCRCustodianDetails,
 }: EcrMetadataProps) => {
   return (
     <AccordionSection>
@@ -115,14 +121,55 @@ const EcrMetadata = ({
           </thead>
           <tbody>{convertDictionaryToRows(rrDetails)}</tbody>
         </Table>
+        {eRSDWarnings?.length > 0 ? (
+          <div>
+            <div className="section__line_gray"></div>
+            <Table
+              bordered={false}
+              className="ersd-table fixed-table border-top border-left border-right border-bottom"
+              caption="eRSD Warnings"
+              fixed={true}
+              fullWidth
+            >
+              <thead>
+                <tr>
+                  <th>Warning</th>
+                  <th>Version in Use</th>
+                  <th>Expected Version</th>
+                  <th>Suggested Solution</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(eRSDWarnings) &&
+                  eRSDWarnings.map((warningItem, index) => (
+                    <tr key={index}>
+                      <td className="padding-105">{warningItem.warning}</td>
+                      <td className="padding-105">{warningItem.versionUsed}</td>
+                      <td className="padding-105">
+                        {warningItem.expectedVersion}
+                      </td>
+                      <td className="padding-105">
+                        {warningItem.suggestedSolution}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+            <div className="section__line_gray"></div>
+          </div>
+        ) : (
+          ""
+        )}
         <div className={"padding-bottom-1"} />
         <AccordionH4 id={"eicr-details"}>eICR Details</AccordionH4>
         {eicrDetails.map((item, index) => {
           return <DataDisplay item={item} key={index} />;
         })}
         <div className={"padding-bottom-1"} />
-        <AccordionH4 id={"ecr-sender-details"}>eCR Sender Details</AccordionH4>
-        {eCRSenderDetails.map((item, index) => {
+        <AccordionH4 id={"eicr-custodian-details"}>
+          eICR Custodian Details
+        </AccordionH4>
+        {eCRCustodianDetails.map((item, index) => {
           return <DataDisplay item={item} key={index} />;
         })}
       </AccordionDiv>

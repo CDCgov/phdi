@@ -7,6 +7,16 @@ describe("Encounter", () => {
   beforeAll(() => {
     const encounterData = [
       {
+        title: "Encounter Type",
+        value: "Ambulatory",
+      },
+      {
+        title: "Encounter ID",
+        value: "123456789",
+      },
+    ];
+    const facilityData = [
+      {
         title: "Facility ID",
         value: "2.16.840.1.113883.4.6",
       },
@@ -32,6 +42,7 @@ describe("Encounter", () => {
     container = render(
       <EncounterDetails
         encounterData={encounterData}
+        facilityData={facilityData}
         providerData={providerData}
       />,
     ).container;

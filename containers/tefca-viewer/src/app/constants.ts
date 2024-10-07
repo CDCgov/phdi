@@ -300,9 +300,7 @@ export const stateOptions = [
 export type Mode =
   | "search"
   | "results"
-  | "multiple-patients"
-  | "no-patients"
-  | "multiple-patients-results"
+  | "patient-results"
   | "customize-queries";
 
 /*Type to specify the expected components for each item in a value set that will be 

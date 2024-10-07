@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { SideNav as UswdsSideNav } from "@trussworks/react-uswds";
 import { formatString } from "@/app/services/formatService";
 import classNames from "classnames";
+import { BackButton } from "./BackButton";
 
 export class SectionConfig {
   title: string;
@@ -217,13 +218,14 @@ const SideNav: React.FC = () => {
   let sideNavItems = buildSideNav(sectionConfigs);
 
   return (
-    <div className="nav-wrapper padding-top-1-25">
+    <div className="nav-wrapper">
       <nav
         className={classNames("sticky-nav", {
           "top-0": !isNonIntegratedViewer,
           "top-550": isNonIntegratedViewer,
         })}
       >
+        <BackButton />
         <UswdsSideNav items={sideNavItems} />
       </nav>
     </div>

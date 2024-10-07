@@ -1,17 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Button, Icon } from "@trussworks/react-uswds";
+import { Button } from "@trussworks/react-uswds";
 import { ValueSetType, ValueSetItem } from "../../constants";
 import { UseCaseQueryResponse } from "@/app/query-service";
 import LoadingView from "./LoadingView";
-import { showRedirectConfirmation } from "./RedirectionToast";
+import { showRedirectConfirmation } from "../designSystem/redirectToast/RedirectToast";
 import styles from "./customizeQuery/customizeQuery.module.css";
 import CustomizeQueryAccordionHeader from "./customizeQuery/CustomizeQueryAccordionHeader";
 import CustomizeQueryAccordionBody from "./customizeQuery/CustomizeQueryAccordionBody";
-import Accordion from "./Accordion";
+import Accordion from "../designSystem/Accordion";
 import CustomizeQueryNav from "./customizeQuery/CustomizeQueryNav";
 import { mapValueSetItemsToValueSetTypes } from "./customizeQuery/customizeQueryUtils";
+import Backlink from "./backLink/Backlink";
 
 interface CustomizeQueryProps {
   useCaseQueryResponse: UseCaseQueryResponse;
@@ -57,11 +58,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const countMedications = Object.values(valueSetOptions.medications).flatMap(
     (group) => group.items,
   ).length;
-
-  // Check if there are items in the current active tab
-  const hasItemsInTabs = Object.values(valueSetOptions[activeTab]).some(
-    (group) => group.items.length > 0,
-  );
 
   // Keeps track of which side nav tab to display to users
   const handleTabChange = (tab: ValueSetType) => {
@@ -160,11 +156,9 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   }, [valueSetOptions, activeTab]);
 
   return (
-    <div className="main-container">
+    <div>
       <div className="padding-top-3">
-        <a href="#" onClick={() => goBack()} className="back-link">
-          <Icon.ArrowBack /> Return to patient search
-        </a>
+        <Backlink onClick={goBack} label="Return to patient search" />
       </div>
       <LoadingView loading={!useCaseQueryResponse} />
       <h1 className="font-sans-2xl text-bold margin-top-205">
@@ -182,16 +176,16 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         activeTab={activeTab}
         handleTabChange={handleTabChange}
         handleSelectAllForTab={handleSelectAllForTab}
-        hasItemsInTab={hasItemsInTabs}
+        valueSetOptions={valueSetOptions}
       />
       {Object.entries(valueSetOptions[activeTab]).map(([groupIndex, group]) => {
-        const selectedCount = group.items.filter((item) => item.include).length;
-
+        const id = group.author + ":" + group.system + ":" + group.valueSetName;
         return (
           <Accordion
+            key={id}
+            id={id}
             title={
               <CustomizeQueryAccordionHeader
-                selectedCount={selectedCount}
                 handleSelectAllChange={handleSelectAllChange}
                 groupIndex={groupIndex}
                 group={group}
@@ -204,8 +198,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                 groupIndex={groupIndex}
               />
             }
-            id={group.author + ":" + group.system}
-            expanded
             headingLevel="h3"
             accordionClassName={`customize-accordion ${styles.customizeQueryAccordion}`}
             containerClassName={styles.resultsContainer}

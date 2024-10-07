@@ -7,39 +7,11 @@ describe("Evaluate Ecr Metadata", () => {
   const mappings = loadYamlConfig();
   it("should have no available data where there is no data", () => {
     const actual = evaluateEcrMetadata(undefined as any, mappings);
-    expect(actual.ecrSenderDetails.availableData).toBeEmpty();
-    expect(actual.ecrSenderDetails.unavailableData).not.toBeEmpty();
 
     expect(actual.eicrDetails.availableData).toBeEmpty();
     expect(actual.eicrDetails.unavailableData).not.toBeEmpty();
 
     expect(actual.rrDetails.availableData).toBeUndefined();
-  });
-  it("should have ecrSenderDetails", () => {
-    const actual = evaluateEcrMetadata(
-      BundleWithEcrMetadata as unknown as Bundle,
-      mappings,
-    );
-
-    expect(actual.ecrSenderDetails.availableData).toEqual([
-      { title: "Date/Time eCR Created", value: "07/28/2022 9:01 AM -05:00" },
-      {
-        title: "Sender Facility Name",
-        value: "Vanderbilt University Adult Hospital",
-      },
-      {
-        title: "Facility Address",
-        value: "1211 Medical Center Dr\nNashville, TN\n37232",
-      },
-      { title: "Facility Contact", value: "+1-615-322-5000" },
-      { title: "Facility ID", value: "7162024" },
-    ]);
-    expect(actual.ecrSenderDetails.unavailableData).toEqual([
-      {
-        title: "Sender Software",
-        toolTip: "EHR system used by the sending provider.",
-      },
-    ]);
   });
   it("should have eicrDetails", () => {
     const actual = evaluateEcrMetadata(
@@ -49,25 +21,47 @@ describe("Evaluate Ecr Metadata", () => {
 
     expect(actual.eicrDetails.availableData).toEqual([
       {
-        title: "eICR Identifier",
+        title: "eICR ID",
         toolTip:
           "Unique document ID for the eICR that originates from the medical record. Different from the Document ID that NBS creates for all incoming records.",
         value: "1.2.840.114350.1.13.478.3.7.8.688883.230886",
       },
+      { title: "Date/Time eCR Created", value: "07/28/2022 9:01 AM -05:00" },
+      { title: "eICR Release Version", value: "R1.1 (2016-12-01)" },
+      { title: "EHR Manufacturer Model Name", value: "Epic - Version 10.1" },
       {
-        title: "Document Author",
-        value: "Vanderbilt University Medical Center",
-      },
-      {
-        title: "Author Address",
-        value: "3401 West End Ave\nNASHVILLE, TN\n37203, USA",
-      },
-      {
-        title: "Author Contact",
-        value: "Work 615-322-5000",
+        title: "EHR Software Name",
+        toolTip: "EHR system used by the sending provider.",
+        value: "Epic - Version 10.1",
       },
     ]);
     expect(actual.eicrDetails.unavailableData).toBeEmpty();
+  });
+  it("should have eicr Custodian Details", () => {
+    const actual = evaluateEcrMetadata(
+      BundleWithEcrMetadata as unknown as Bundle,
+      mappings,
+    );
+
+    expect(actual.ecrCustodianDetails.availableData).toEqual([
+      {
+        title: "Custodian ID",
+        value: "1104202761",
+      },
+      {
+        title: "Custodian Name",
+        value: "Vanderbilt University Medical Center",
+      },
+      {
+        title: "Custodian Address",
+        value: "3401 West End Ave\nNASHVILLE, TN\n37203, USA",
+      },
+      {
+        title: "Custodian Contact",
+        value: "Work 615-322-5000",
+      },
+    ]);
+    expect(actual.ecrCustodianDetails.unavailableData).toBeEmpty();
   });
   it("should have rrDetails", () => {
     const actual = evaluateEcrMetadata(
@@ -89,5 +83,23 @@ describe("Evaluate Ecr Metadata", () => {
           new Set(["California Department of Public Health"]),
       },
     });
+  });
+  it("should have eRSDwarnings", () => {
+    const actual = evaluateEcrMetadata(
+      BundleWithEcrMetadata as unknown as Bundle,
+      mappings,
+    );
+
+    expect(actual.eRSDWarnings).toEqual([
+      {
+        warning:
+          "Sending organization is using an outdated eRSD (RCTC) version",
+        versionUsed: "2020-06-23",
+        expectedVersion:
+          "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
+        suggestedSolution:
+          "The trigger code version your organization is using is out-of-date. Please have your EHR administration install the current version for complete eCR functioning.",
+      },
+    ]);
   });
 });

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveFhirData, saveWithMetadata } from "./save-fhir-data-service";
+import { S3_SOURCE, AZURE_SOURCE, POSTGRES_SOURCE } from "@/app/api/utils";
 
 /**
  * Handles POST requests and saves the FHIR Bundle to the database.
@@ -36,13 +37,13 @@ export async function POST(request: NextRequest) {
   }
 
   if (!saveSource) {
-    return NextResponse.json(
-      {
-        message:
-          'Save location is undefined. Please provide a valid value for \'saveSource\' ("postgres", "s3", or "azure").',
-      },
-      { status: 400 },
-    );
+    saveSource = process.env.SOURCE;
+  }
+
+  if (
+    [S3_SOURCE, AZURE_SOURCE, POSTGRES_SOURCE].includes(saveSource) == false
+  ) {
+    return NextResponse.json({ message: "Invalid source" }, { status: 500 });
   }
 
   if (requestBody.metadata) {

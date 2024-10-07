@@ -222,7 +222,7 @@ def _combine_response_bundles(
         if "name" in obj and obj["name"] in processing_config["outputs"]
     ]
     for step in config:
-        resp.append({step["name"]: responses[step["service"]].json()})
+        resp.append({step["name"]: responses[step["name"]].json()})
 
     if ("default-response" in processing_config) and (
         not processing_config["default-response"]

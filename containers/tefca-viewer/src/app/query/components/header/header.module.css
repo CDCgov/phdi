@@ -1,0 +1,8 @@
+.dataUsagePolicyButton {
+  cursor: pointer;
+  background: none !important;
+  border: none !important;
+  color: white !important;
+  padding: 0px !important;
+  font: inherit !important;
+}

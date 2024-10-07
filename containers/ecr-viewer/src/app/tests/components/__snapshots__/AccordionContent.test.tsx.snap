@@ -48,7 +48,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                   class="grid-row"
                 >
                   <div
-                    class="data-title"
+                    class="data-title padding-right-1"
                   >
                     Patient Name
                   </div>
@@ -67,7 +67,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                   class="grid-row"
                 >
                   <div
-                    class="data-title"
+                    class="data-title padding-right-1"
                   >
                     Vital Status
                   </div>
@@ -86,7 +86,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                   class="grid-row"
                 >
                   <div
-                    class="data-title"
+                    class="data-title padding-right-1"
                   >
                     Contact
                   </div>
@@ -251,7 +251,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         DOB
                       </div>
@@ -270,7 +270,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Current Age
                       </div>
@@ -289,7 +289,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Sex
                       </div>
@@ -308,7 +308,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Race
                       </div>
@@ -327,7 +327,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Ethnicity
                       </div>
@@ -346,7 +346,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Tribal Affiliation
                       </div>
@@ -365,7 +365,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Preferred Language
                       </div>
@@ -384,7 +384,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Patient Address
                       </div>
@@ -403,7 +403,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         County
                       </div>
@@ -422,7 +422,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Emergency Contact
                       </div>
@@ -441,7 +441,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         <span
                           class="usa-tooltip"
@@ -495,7 +495,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Occupation
                       </div>
@@ -514,7 +514,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Tobacco Use
                       </div>
@@ -533,7 +533,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Travel History
                       </div>
@@ -552,7 +552,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Homeless Status
                       </div>
@@ -571,7 +571,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Pregnancy Status
                       </div>
@@ -590,7 +590,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Alcohol Use
                       </div>
@@ -609,7 +609,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Sexual Orientation
                       </div>
@@ -628,7 +628,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Gender Identity
                       </div>
@@ -647,7 +647,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Occupation
                       </div>
@@ -679,7 +679,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Encounter Date/Time
                       </div>
@@ -698,7 +698,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Encounter Type
                       </div>
@@ -717,7 +717,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Encounter ID
                       </div>
@@ -731,12 +731,25 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="section__line_gray"
                     />
                   </div>
+                </div>
+              </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  Facility Details
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
                   <div>
                     <div
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Facility Name
                       </div>
@@ -755,7 +768,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Facility Address
                       </div>
@@ -774,7 +787,26 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
+                      >
+                        Facility Contact Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
                       >
                         Facility Contact
                       </div>
@@ -793,7 +825,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Facility Type
                       </div>
@@ -812,7 +844,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Facility ID
                       </div>
@@ -844,7 +876,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Miscellaneous Notes
                       </div>
@@ -876,7 +908,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Provider Name
                       </div>
@@ -895,9 +927,85 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
+                      >
+                        Provider Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
                       >
                         Provider Contact
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Provider Facility Name
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Provider Facility Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Provider ID
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -927,7 +1035,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Reason for Visit
                       </div>
@@ -946,7 +1054,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Problems List
                       </div>
@@ -978,7 +1086,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Vital Signs
                       </div>
@@ -1010,7 +1118,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Immunization History
                       </div>
@@ -1042,7 +1150,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Procedures
                       </div>
@@ -1061,7 +1169,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Planned Procedures
                       </div>
@@ -1080,7 +1188,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Plan of Treatment
                       </div>
@@ -1099,7 +1207,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Administered Medications
                       </div>
@@ -1118,7 +1226,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Care Team
                       </div>
@@ -1150,7 +1258,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         <span
                           class="usa-tooltip"
@@ -1163,7 +1271,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                             tabindex="0"
                             title=""
                           >
-                            eICR Identifier
+                            eICR ID
                           </div>
                           <span
                             aria-hidden="true"
@@ -1191,64 +1299,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
-                      >
-                        Document Author
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title"
-                      >
-                        Author Address
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title"
-                      >
-                        Author Contact
-                      </div>
-                      <div
-                        class="grid-col maxw7 text-pre-line text-italic text-base"
-                      >
-                        No data
-                      </div>
-                    </div>
-                    <div
-                      class="section__line_gray"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      class="grid-row"
-                    >
-                      <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
                         Date/Time eCR Created
                       </div>
@@ -1267,7 +1318,45 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
+                      >
+                        eICR Release Version
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        EHR Manufacturer Model Name
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
                       >
                         <span
                           class="usa-tooltip"
@@ -1280,7 +1369,7 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                             tabindex="0"
                             title=""
                           >
-                            Sender Software
+                            EHR Software Name
                           </div>
                           <span
                             aria-hidden="true"
@@ -1308,9 +1397,9 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
-                        Sender Facility Name
+                        eRSD Warnings
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -1327,9 +1416,9 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
-                        Facility Address
+                        Custodian ID
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -1346,9 +1435,9 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
-                        Facility Contact
+                        Custodian Name
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -1365,9 +1454,28 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                       class="grid-row"
                     >
                       <div
-                        class="data-title"
+                        class="data-title padding-right-1"
                       >
-                        Facility ID
+                        Custodian Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Custodian Contact
                       </div>
                       <div
                         class="grid-col maxw7 text-pre-line text-italic text-base"

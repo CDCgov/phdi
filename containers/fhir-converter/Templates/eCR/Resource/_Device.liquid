@@ -10,15 +10,6 @@
             { {% include 'DataType/Identifier' Identifier: id -%} },
             {% endfor -%}
         ],
-        "type":
-        {
-            "coding":
-            [
-                {
-                    "display":"{{ author.assignedAuthoringDevice.manufacturerModelName._ }}",
-                },
-            ],
-        },
         "manufacturer":"{{ author.assignedAuthoringDevice.manufacturerModelName._ }}",
         "version":
         [

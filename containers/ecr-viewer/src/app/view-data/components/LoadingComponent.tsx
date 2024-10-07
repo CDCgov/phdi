@@ -1,10 +1,8 @@
 "use client";
 import {
   Accordion,
-  Button,
   Grid,
   GridContainer,
-  Icon,
   SideNav,
 } from "@trussworks/react-uswds";
 import { ExpandCollapseButtons } from "./ExpandCollapseButtons";
@@ -16,6 +14,7 @@ import {
 import Header from "@/app/Header";
 import classNames from "classnames";
 import PatientBanner from "./PatientBanner";
+import { BackButton } from "./BackButton";
 
 /**
  * Renders the loading blobs in gray or in blue
@@ -112,7 +111,8 @@ const SideNavLoadingSkeleton = ({
   ];
 
   return (
-    <div className="nav-wrapper padding-top-1-25">
+    <div className="nav-wrapper">
+      <BackButton />
       <nav
         className={classNames("sticky-nav", {
           "top-0": !isNonIntegratedViewer,
@@ -215,8 +215,8 @@ const AccordionLoadingSkeleton = () => {
       content: (
         <>
           {renderEcrDocumentFiller("RR Details", 1)}
-          {renderEcrDocumentFiller("eICR Details", 1)}
-          {renderEcrDocumentFiller("eCR Sender Details", 6)}
+          {renderEcrDocumentFiller("eICR Details", 5)}
+          {renderEcrDocumentFiller("eICR Custodian Details", 4)}
         </>
       ),
       headingLevel: "h3",
@@ -253,29 +253,15 @@ export const EcrLoadingSkeleton = () => {
       )}
       <div className="main-container">
         <div className={"width-main padding-main"}>
-          <div className="back-button-wrapper">
-            {_isNonIntegratedViewer ? (
-              <Button
-                unstyled={true}
-                type="button"
-                className={"display-flex"}
-                onClick={() => window.history.back()}
-              >
-                <Icon.ArrowBack size={3} />
-                Back to eCR Library
-              </Button>
-            ) : (
-              ""
-            )}
-          </div>
           <div className="content-wrapper">
-            <SideNavLoadingSkeleton
-              isNonIntegratedViewer={_isNonIntegratedViewer ? true : false}
-            />
-            {/* <SideNav /> */}
+            <div>
+              <SideNavLoadingSkeleton
+                isNonIntegratedViewer={_isNonIntegratedViewer ? true : false}
+              />
+            </div>
             <div className={"ecr-viewer-container"}>
               <div className="margin-bottom-3">
-                <h2 className="margin-bottom-05" id="ecr-summary">
+                <h2 className="margin-bottom-05 margin-top-3" id="ecr-summary">
                   eCR Summary
                 </h2>
                 <div className="text-base-darker line-height-sans-5">

@@ -23,7 +23,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             class="grid-row"
           >
             <div
-              class="data-title"
+              class="data-title padding-right-1"
             >
               Patient Name
             </div>
@@ -42,7 +42,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             class="grid-row"
           >
             <div
-              class="data-title"
+              class="data-title padding-right-1"
             >
               DOB
             </div>
@@ -61,7 +61,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             class="grid-row"
           >
             <div
-              class="data-title"
+              class="data-title padding-right-1"
             >
               Patient Address
             </div>
@@ -82,7 +82,7 @@ EDWARDS, CA
             class="grid-row"
           >
             <div
-              class="data-title"
+              class="data-title padding-right-1"
             >
               Patient Contact
             </div>
@@ -116,7 +116,7 @@ MELLY.C.A.16@GMAIL.COM
             class="grid-row"
           >
             <div
-              class="data-title"
+              class="data-title padding-right-1"
             >
               Facility Name
             </div>
@@ -135,7 +135,7 @@ MELLY.C.A.16@GMAIL.COM
             class="grid-row"
           >
             <div
-              class="data-title"
+              class="data-title padding-right-1"
             >
               Facility Address
             </div>
@@ -156,7 +156,7 @@ Palmdale, CA
             class="grid-row"
           >
             <div
-              class="data-title"
+              class="data-title padding-right-1"
             >
               Facility Contact
             </div>
@@ -175,7 +175,7 @@ Palmdale, CA
             class="grid-row"
           >
             <div
-              class="data-title"
+              class="data-title padding-right-1"
             >
               Encounter Date/Time
             </div>
@@ -195,7 +195,7 @@ End: 05/13/2022 9:57 AM UTC
             class="grid-row"
           >
             <div
-              class="data-title"
+              class="data-title padding-right-1"
             >
               Encounter Type
             </div>
@@ -260,7 +260,7 @@ End: 05/13/2022 9:57 AM UTC
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   RCKMS Rule Summary
                 </div>

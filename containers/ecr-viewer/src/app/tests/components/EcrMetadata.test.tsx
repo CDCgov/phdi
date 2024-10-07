@@ -3,7 +3,10 @@ import { axe } from "jest-axe";
 import EcrMetadata from "../../view-data/components/EcrMetadata";
 import React from "react";
 import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
-import { ReportableConditions } from "@/app/services/ecrMetadataService";
+import {
+  ERSDWarning,
+  ReportableConditions,
+} from "@/app/services/ecrMetadataService";
 
 describe("ECR Metadata", () => {
   let container: HTMLElement;
@@ -34,39 +37,55 @@ describe("ECR Metadata", () => {
         title: "eICR Identifier",
         value: "1dd10047-2207-4eac-a993-0f706c88be5d",
       },
-    ];
-    const ecrSenderDetails: DisplayDataProps[] = [
       {
         title: "Date/Time eCR Created",
         value: "2022-05-14T12:56:38Z",
       },
+      { title: "eICR Release Version", value: "R1.1 (2016-12-01)" },
       {
-        title: "Sender Software",
-        value: "",
+        title: "EHR Software Name",
+        value: "Epic - Version 10.1",
+      },
+      { title: "EHR Manufacturer Model Name", value: "Epic - Version 10.1" },
+    ];
+
+    const eRSDWarnings: ERSDWarning[] = [
+      {
+        warning:
+          "Sending organization is using an malformed eRSD (RCTC) version",
+        versionUsed: "2020-06-23",
+        expectedVersion:
+          "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
+        suggestedSolution:
+          "The trigger code version your organization is using could not be determined. The trigger codes may be out date. Please have your EHR administrators update the version format for complete eCR functioning.",
+      },
+    ];
+
+    const ecrCustodianDetails: DisplayDataProps[] = [
+      {
+        title: "Custodian ID",
+        value: "1104202761",
       },
       {
-        title: "Sender Facility Name",
-        value: "PRM- Palmdale Regional Medical Center",
+        title: "Custodian Name",
+        value: "Vanderbilt University Medical Center",
       },
       {
-        title: "Facility Address",
-        value: "38600 Medical Center Drive\nPalmdale, CA\n93551, USA",
+        title: "Custodian Address",
+        value: "3401 West End Ave\nNashville, TN\n37203, USA",
       },
       {
-        title: "Facility Contact",
-        value: "(661)382-5000",
-      },
-      {
-        title: "Facility ID",
-        value: "2.16.840.1.113883.4.6",
+        title: "Custodian Contact",
+        value: "Work 1-615-322-5000",
       },
     ];
 
     container = render(
       <EcrMetadata
         eicrDetails={eicrDetails}
-        eCRSenderDetails={ecrSenderDetails}
         rrDetails={rrConditionsList}
+        eRSDWarnings={eRSDWarnings}
+        eCRCustodianDetails={ecrCustodianDetails}
       />,
     ).container;
   });
