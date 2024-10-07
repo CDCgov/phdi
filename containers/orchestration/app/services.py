@@ -184,7 +184,8 @@ async def call_apis(
             service = step["service"]
             endpoint = step["endpoint"]
             endpoint_name = endpoint.split("/")[-1]
-            params = step.get("params", None)
+            params = step.get("params", {})
+
             previous_response_to_param_mapping = step.get(
                 "previous_response_to_param_mapping", None
             )
@@ -249,10 +250,8 @@ async def call_apis(
                 call_span.record_exception(
                     HTTPException, attributes={"status_code": 400}
                 )
-                error_detail = (
-                    f"Service {service} completed, but orchestration cannot continue "
-                )
-                +f"{service_response.msg_content}"
+                error_detail = f"Service {service} completed, but orchestration cannot continue: {service_response.msg_content}"
+
                 call_span.set_status(StatusCode(2), error_detail)
                 raise HTTPException(
                     status_code=400,

@@ -159,6 +159,62 @@ exports[`ECR Metadata should match snapshot 1`] = `
               </tr>
             </tbody>
           </table>
+          <div>
+            <div
+              class="section__line_gray"
+            />
+            <table
+              class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W ersd-table fixed-table border-top border-left border-right border-bottom"
+              data-testid="table"
+            >
+              <caption>
+                eRSD Warnings
+              </caption>
+              <thead>
+                <tr>
+                  <th>
+                    Warning
+                  </th>
+                  <th>
+                    Version in Use
+                  </th>
+                  <th>
+                    Expected Version
+                  </th>
+                  <th>
+                    Suggested Solution
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    class="padding-105"
+                  >
+                    Sending organization is using an malformed eRSD (RCTC) version
+                  </td>
+                  <td
+                    class="padding-105"
+                  >
+                    2020-06-23
+                  </td>
+                  <td
+                    class="padding-105"
+                  >
+                    Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.
+                  </td>
+                  <td
+                    class="padding-105"
+                  >
+                    The trigger code version your organization is using could not be determined. The trigger codes may be out date. Please have your EHR administrators update the version format for complete eCR functioning.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div
+              class="section__line_gray"
+            />
+          </div>
           <div
             class="padding-bottom-1"
           />
@@ -173,7 +229,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 eICR Identifier
               </div>
@@ -187,21 +243,12 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="section__line_gray"
             />
           </div>
-          <div
-            class="padding-bottom-1"
-          />
-          <h4
-            class="usa-summary-box__heading padding-y-105"
-            id="ecr-sender-details"
-          >
-            eCR Sender Details
-          </h4>
           <div>
             <div
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Date/Time eCR Created
               </div>
@@ -220,31 +267,14 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
-                Sender Software
-              </div>
-              <div
-                class="grid-col maxw7 text-pre-line"
-              />
-            </div>
-            <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
-            >
-              <div
-                class="data-title"
-              >
-                Sender Facility Name
+                eICR Release Version
               </div>
               <div
                 class="grid-col maxw7 text-pre-line"
               >
-                PRM- Palmdale Regional Medical Center
+                R1.1 (2016-12-01)
               </div>
             </div>
             <div
@@ -256,16 +286,14 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
-                Facility Address
+                EHR Software Name
               </div>
               <div
                 class="grid-col maxw7 text-pre-line"
               >
-                38600 Medical Center Drive
-Palmdale, CA
-93551, USA
+                Epic - Version 10.1
               </div>
             </div>
             <div
@@ -277,14 +305,42 @@ Palmdale, CA
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
-                Facility Contact
+                EHR Manufacturer Model Name
               </div>
               <div
                 class="grid-col maxw7 text-pre-line"
               >
-                (661)382-5000
+                Epic - Version 10.1
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div
+            class="padding-bottom-1"
+          />
+          <h4
+            class="usa-summary-box__heading padding-y-105"
+            id="eicr-custodian-details"
+          >
+            eICR Custodian Details
+          </h4>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Custodian ID
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                1104202761
               </div>
             </div>
             <div
@@ -296,14 +352,54 @@ Palmdale, CA
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
-                Facility ID
+                Custodian Name
               </div>
               <div
                 class="grid-col maxw7 text-pre-line"
               >
-                2.16.840.1.113883.4.6
+                Vanderbilt University Medical Center
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Custodian Address
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                3401 West End Ave
+Nashville, TN
+37203, USA
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title padding-right-1"
+              >
+                Custodian Contact
+              </div>
+              <div
+                class="grid-col maxw7 text-pre-line"
+              >
+                Work 1-615-322-5000
               </div>
             </div>
             <div

@@ -25,7 +25,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for non table no
               class="grid-row"
             >
               <div
-                class="data-title"
+                class="data-title padding-right-1"
               >
                 Miscellaneous Notes
               </div>

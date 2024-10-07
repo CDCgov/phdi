@@ -7,6 +7,7 @@ services:
       - fhir-converter-service
       - ingestion-service
       - message-parser-service
+      - ecr-viewer
     ports:
       - "8080:8080"
     logging:
@@ -18,12 +19,20 @@ services:
       interval: 10s
       timeout: 20s
       retries: 5
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   fhir-converter-service:
     build:
       context: ../../fhir-converter/
     ports:
       - "8082:8080"
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   ingestion-service:
     platform: linux/amd64
@@ -36,6 +45,10 @@ services:
     environment:
       SMARTY_AUTH_ID: ${SMARTY_AUTH_ID}
       SMARTY_AUTH_TOKEN: ${SMARTY_AUTH_TOKEN}
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   message-parser-service:
     platform: linux/amd64
@@ -45,6 +58,10 @@ services:
       - "8085:8080"
     logging:
       driver: "json-file"
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   trigger-code-reference-service:
     platform: linux/amd64
@@ -54,6 +71,10 @@ services:
       - "8086:8080"
     logging:
       driver: "json-file"
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
 
   convert-data:
     build: .
@@ -67,3 +88,88 @@ services:
     volumes:
       - ./sql:/code/sql
       - ./baseECR:/code/baseECR
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
+
+  # Next.js app
+  ecr-viewer:
+    build:
+      context: ../../../
+      dockerfile: ./containers/ecr-viewer/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - APP_ENV=${APP_ENV:-test}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - ECR_BUCKET_NAME=${ECR_BUCKET_NAME:-ecr-viewer-files}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-123}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-xyz}
+      - AZURE_CONTAINER_NAME=${AZURE_CONTAINER_NAME:-ecr-viewer-files}
+      - SOURCE=${SOURCE:-postgres}
+      - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED:-1}
+      - NEXT_PUBLIC_NON_INTEGRATED_VIEWER=${NEXT_PUBLIC_NON_INTEGRATED_VIEWER:-false}
+      - NEXT_PUBLIC_BASEPATH=${NEXT_PUBLIC_BASEPATH:-/ecr-viewer}
+      - DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
+      - AWS_CUSTOM_ENDPOINT="http://aws-storage:4566"
+      - AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azure-storage:10000/devstoreaccount1;"
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
+      - design-review
+
+  # PostgreSQL database
+  db:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../sql/:/docker-entrypoint-initdb.d/
+      - ./sql/:/docker-entrypoint-initdb.d/
+      - ./sql/.pgpass/:/usr/local/lib/.pgpass
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=ecr_viewer_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+    profiles:
+      - seed-postgres
+      - seed-s3
+      - seed-azure
+      - local-dev-postgres
+      - local-dev-s3
+      - local-dev-azure
+      - design-review
+
+  # Azure Blob Storage emulator
+  azure-storage:
+    image: mcr.microsoft.com/azure-storage/azurite
+    hostname: azurite
+    restart: always
+    command: "azurite --blobHost 0.0.0.0 --blobPort 10000 -l data"
+    ports:
+      - "10000:10000"
+    profiles:
+      - seed-azure
+      - local-dev-azure
+
+  # AWS S3 Storage emulator
+  aws-storage:
+    image: gresau/localstack-persist:3
+    ports:
+      - "4566:4566"
+    volumes:
+      - "./volume:/persisted-data"
+    profiles:
+      - seed-s3
+      - local-dev-s3
+volumes:
+  db:

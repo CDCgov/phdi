@@ -23,13 +23,31 @@
     {% include 'Resource/LocationHealthCareFacility' location: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility ID: locationId -%}
     {% assign fullLocationId = locationId | prepend: 'Location/' -%}
     {% include 'Reference/Encounter/Location_Location' ID: encounterId, REF: fullLocationId, LOC: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility -%}
+    {% if msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility.serviceProviderOrganization -%}
+      {% assign serviceProviderId = msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility.serviceProviderOrganization | to_json_string | generate_uuid -%}
+      {% include 'Resource/Organization' organization: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility.serviceProviderOrganization ID: serviceProviderId -%}
+      {% assign fullServiceProviderId = serviceProviderId | prepend: 'Organization/' -%}
+      {% include 'Reference/Encounter/ServiceProvider' ID: encounterId, REF: fullServiceProviderId -%}
+    {% endif -%}
   {% endif -%}
 {% endif -%}
 
 {% if msg.ClinicalDocument.componentOf.encompassingEncounter.responsibleParty.assignedEntity -%}
   {% include 'Resource/PractitionerResponsibleParty' practitioner: msg.ClinicalDocument.componentOf.encompassingEncounter.responsibleParty.assignedEntity ID: practitionerId -%}
   {% assign fullPractitionerId = practitionerId | prepend: 'Practitioner/' -%}
-  {% include 'Reference/Encounter/Participant_ResponsibleProvider' ID: encounterId, REF: fullPractitionerId -%}
+  {% assign practitionerRoleId =  msg.ClinicalDocument.componentOf.encompassingEncounter.responsibleParty.assignedEntity | to_json_string | generate_uuid %}
+  {% assign fullPractitionerRoleId = practitionerRoleId | prepend: 'PractitionerRole/' %}
+  {% include 'Reference/PractitionerRole/Practitioner', REF: fullPractitionerId, ID: practitionerRoleId -%}
+
+  {% include 'Reference/Encounter/Participant_ResponsibleProvider' ID: encounterId, REF: fullPractitionerRoleId -%}
+  {% if msg.ClinicalDocument.componentOf.encompassingEncounter.responsibleParty.assignedEntity.representedOrganization %}
+    {% evaluate organizationId using 'Utils/GenerateId' obj: msg.ClinicalDocument.componentOf.encompassingEncounter.responsibleParty.assignedEntity.representedOrganization -%}
+    {% assign fullOrganizationId = organizationId | prepend: 'Organization/' -%}
+    {% include 'Resource/Organization', organization: msg.ClinicalDocument.componentOf.encompassingEncounter.responsibleParty.assignedEntity.representedOrganization ID: organizationId -%}
+    {% assign practitionerRoleId =  msg.ClinicalDocument.componentOf.encompassingEncounter.responsibleParty.assignedEntity | to_json_string | generate_uuid %}
+    {% include 'Reference/PractitionerRole/Practitioner', REF: fullPractitionerId, ID: practitionerRoleId -%}
+    {% include 'Reference/PractitionerRole/Organization', REF: fullOrganizationId, ID: practitionerRoleId -%}
+  {% endif %}
 {% endif -%}
 
 {% if msg.ClinicalDocument.section.code.code and msg.ClinicalDocument.section.code.code == "88085-6" -%}
