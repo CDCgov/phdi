@@ -84,7 +84,6 @@ export const evaluateEcrMetadata = (
 
   const eicrReleaseVersion = (fhirBundle: any, mappings: any) => {
     const releaseVersion = evaluate(fhirBundle, mappings.eicrReleaseVersion)[0];
-    console.log(releaseVersion);
     if (releaseVersion === "2016-12-01") {
       return "R1.1 (2016-12-01)";
     } else if (releaseVersion === "2021-01-01") {
