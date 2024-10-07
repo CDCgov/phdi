@@ -1,5 +1,6 @@
 import { Table } from "@trussworks/react-uswds";
 import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
+import { toSentenceCase } from "@/app/services/formatService";
 
 const basePath =
   process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_BASEPATH : "";
@@ -79,12 +80,8 @@ const renderListEcrTableData = (listFhirData: EcrDisplay[]) => {
  * @returns A JSX table row element representing the eCR data.
  */
 const formatRow = (item: EcrDisplay, index: number) => {
-  let patient_first_name =
-    item.patient_first_name.charAt(0).toUpperCase() +
-    item.patient_first_name.slice(1).toLowerCase();
-  let patient_last_name =
-    item.patient_last_name.charAt(0).toUpperCase() +
-    item.patient_last_name.slice(1).toLowerCase();
+  let patient_first_name = toSentenceCase(item.patient_first_name);
+  let patient_last_name = toSentenceCase(item.patient_last_name);
   let createDateObj = new Date(item.date_created);
   let createDateDate = formatDate(createDateObj);
   let createDateTime = formatTime(createDateObj);
