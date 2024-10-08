@@ -1262,7 +1262,6 @@
         "url": "Account/10f8bd6b-1c50-4c98-aab2-62ae25376952"
       }
     },
-
     {
       "fullUrl": "Procedure/8b9a9a37-4d83-4400-b32f-48f681fc2f88",
       "resource": {
@@ -8783,7 +8782,6 @@
         "url": "DiagnosticReport/3a6390e2-7405-44bf-b968-16224c12cac0"
       }
     },
-
     {
       "fullUrl": "MedicationRequest/49725a38-06d2-4a40-9e67-f9845dd544ab",
       "resource": {
