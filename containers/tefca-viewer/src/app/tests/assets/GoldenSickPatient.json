@@ -269,6 +269,116 @@
       }
     },
     {
+      "fullUrl": "Condition/c7ae0606-d0df-4ffd-a535-91697eabf9d5",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "c7ae0606-d0df-4ffd-a535-91697eabf9d5",
+        "meta": {
+          "versionId": "2",
+          "lastUpdated": "2024-04-11T22:15:00.000+00:00",
+          "source": "#Umx1H5WaIl3nutB8"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                "code": "encounter-diagnosis",
+                "display": "Encounter Diagnosis"
+              }
+            ],
+            "text": "Encounter Diagnosis"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://id.who.int/icd/release/10/2019",
+              "code": "A74.9",
+              "display": "Chlamydial infection, unspecified"
+            }
+          ],
+          "text": "Chlamydial infection, unspecified"
+        },
+        "subject": {
+          "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af",
+          "type": "Patient"
+        }
+      },
+      "search": {
+        "mode": "match"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/c7ae0606-d0df-4ffd-a535-91697eabf9d5"
+      }
+    },
+    {
+      "fullUrl": "Account/147bd32e-d3ee-45eb-8301-905b6f14b027",
+      "resource": {
+        "resourceType": "Account",
+        "id": "147bd32e-d3ee-45eb-8301-905b6f14b027 ",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2022-01-06T14:02:45.000+00:00",
+          "source": "#2a0706a058188286"
+        },
+        "identifier": [
+          {
+            "system": "http://iol.health.com/Account",
+            "value": "d96030446269cb1e0a862d"
+          }
+        ],
+        "status": "active",
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "PBILLACCT",
+              "display": "Patient Billing Acount"
+            }
+          ]
+        },
+        "subject": [
+          {
+            "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af",
+            "type": "Patient"
+          }
+        ],
+        "servicePeriod": {
+          "start": "2019-05-02",
+          "end": "2019-05-02"
+        },
+        "coverage": [
+          {
+            "priority": 6
+          }
+        ],
+        "owner": {
+          "reference": "Organization/cc8a572b-0ae5-4497-97cf-bab563cbb131",
+          "type": "Organization"
+        },
+        "guarantor": [
+          {
+            "party": {
+              "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af",
+              "type": "Patient"
+            },
+            "period": {
+              "end": "2019-05-07"
+            }
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Account/147bd32e-d3ee-45eb-8301-905b6f14b027"
+      }
+    },
+    {
       "fullUrl": "Account/6443687a-442e-4737-a247-c08c7bb3179c",
       "resource": {
         "resourceType": "Account",
@@ -422,6 +532,227 @@
       "request": {
         "method": "PUT",
         "url": "Encounter/42eede74-6328-44e4-8dcf-fd9f4057b464"
+      }
+    },
+
+    {
+      "fullUrl": "Encounter/42eede74-6328-44e4-8dcf-fd9f4057b464",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "42eede74-6328-44e4-8dcf-fd9f4057b464",
+        "meta": {
+          "versionId": "14",
+          "lastUpdated": "2024-04-11T22:06:33.000+00:00",
+          "source": "#tiG9A1ye7499UPBA"
+        },
+        "identifier": [
+          {
+            "system": "http://better.health.insurance.com/Encounter",
+            "value": "42eede74-6328-44e4-8dcf-fd9f4057b464"
+          }
+        ],
+        "status": "in-progress",
+        "class": {
+          "system": "https://hl7.org/fhir/R4/codesystem-service-type.html",
+          "code": "441",
+          "display": "Sexually Transmitted"
+        },
+        "subject": {
+          "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af",
+          "type": "Patient"
+        },
+        "participant": [
+          {
+            "period": {
+              "start": "2020-03-02",
+              "end": "2020-03-03"
+            },
+            "individual": {
+              "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933",
+              "type": "Practitioner"
+            }
+          }
+        ],
+        "period": {
+          "start": "2024-03-11",
+          "end": "2024-04-11"
+        },
+        "reasonCode": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "2339001",
+                "display": "Sexual overexposure"
+              }
+            ],
+            "text": "Sexual overexposure"
+          }
+        ],
+        "reasonReference": [
+          {
+            "reference": "Condition/c7ae0606-d0df-4ffd-a535-91697eabf9d5",
+            "type": "Condition"
+          }
+        ],
+        "diagnosis": [
+          {
+            "condition": {
+              "reference": "Condition/c7ae0606-d0df-4ffd-a535-91697eabf9d5",
+              "type": "Condition"
+            }
+          }
+        ],
+        "account": [
+          {
+            "reference": "Account/6443687a-442e-4737-a247-c08c7bb3179c",
+            "type": "Account"
+          },
+          {
+            "reference": "Account/147bd32e-d3ee-45eb-8301-905b6f14b027",
+            "type": "Account"
+          }
+        ],
+        "partOf": {
+          "reference": "Encounter/42eede74-6328-44e4-8dcf-fd9f4057b464"
+        }
+      },
+      "search": {
+        "mode": "match"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter/42eede74-6328-44e4-8dcf-fd9f4057b464"
+      }
+    },
+    {
+      "fullUrl": "Observation/0a33326b-fbf2-4a59-a785-ad9ba5c40ce0",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0a33326b-fbf2-4a59-a785-ad9ba5c40ce0",
+        "meta": {
+          "versionId": "2",
+          "lastUpdated": "2024-07-15T17:57:43.000+00:00",
+          "source": "#A6Uw6xCU5HhRv1hw"
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">This is a simple narrative with only plain text</div>"
+        },
+        "extension": [
+          {
+            "url": "http://mihin.org/extension/copyright",
+            "valueString": "Copyright 2014-2023 Michigan Health Information Network Shared Services. Licensed under the Apache License, Version 2.0 (the 'License'); you may not use this file except in compliance with the License. You may obtain a copy of the License at  http://www.apache.org/licenses/LICENSE-2.0.  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
+          }
+        ],
+        "identifier": [
+          {
+            "use": "official",
+            "system": "http://www.bmc.nl/zorgportal/identifiers/observations",
+            "value": "6327"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "LP70657-9",
+              "display": "RPR"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af",
+          "display": "Hyper A Unlucky"
+        },
+        "issued": "2023-12-15T14:09:35-05:00",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0a33326b-fbf2-4a59-a785-ad9ba5c40ce0"
+      }
+    },
+    {
+      "fullUrl": "Observation/606c78ab-b778-4ad2-8db2-b2e205f15c41",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "606c78ab-b778-4ad2-8db2-b2e205f15c41",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2024-05-15T14:43:43.000+00:00",
+          "source": "#cmpZS8Dn4KIrSyb1"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "24111-7",
+              "display": "Neisseria gonorrhoeae DNA [Presence] in Specimen by NAA with probe detection"
+            }
+          ],
+          "text": "Neisseria gonorrhoeae DNA [Presence] in Specimen by NAA with probe detection"
+        },
+        "subject": {
+          "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
+        },
+        "effectiveDateTime": "2000-01-04",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260373001",
+              "display": "Detected"
+            }
+          ],
+          "text": "Detected"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "Detected",
+                "code": "DET",
+                "display": "Detected"
+              }
+            ],
+            "text": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/606c78ab-b778-4ad2-8db2-b2e205f15c41"
       }
     },
     {
@@ -800,52 +1131,6 @@
     },
 
     {
-      "fullUrl": "Condition/c7ae0606-d0df-4ffd-a535-91697eabf9d5",
-      "resource": {
-        "resourceType": "Condition",
-        "id": "c7ae0606-d0df-4ffd-a535-91697eabf9d5",
-        "meta": {
-          "versionId": "2",
-          "lastUpdated": "2024-04-11T22:15:00.000+00:00",
-          "source": "#Umx1H5WaIl3nutB8"
-        },
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
-                "code": "encounter-diagnosis",
-                "display": "Encounter Diagnosis"
-              }
-            ],
-            "text": "Encounter Diagnosis"
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://id.who.int/icd/release/10/2019",
-              "code": "A74.9",
-              "display": "Chlamydial infection, unspecified"
-            }
-          ],
-          "text": "Chlamydial infection, unspecified"
-        },
-        "subject": {
-          "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af",
-          "type": "Patient"
-        }
-      },
-      "search": {
-        "mode": "match"
-      },
-      "request": {
-        "method": "PUT",
-        "url": "Condition/c7ae0606-d0df-4ffd-a535-91697eabf9d5"
-      }
-    },
-
-    {
       "fullUrl": "Account/54375c99-189d-4e4d-90c5-36cc4278a36c",
       "resource": {
         "resourceType": "Account",
@@ -977,71 +1262,7 @@
         "url": "Account/10f8bd6b-1c50-4c98-aab2-62ae25376952"
       }
     },
-    {
-      "fullUrl": "Account/147bd32e-d3ee-45eb-8301-905b6f14b027",
-      "resource": {
-        "resourceType": "Account",
-        "id": "147bd32e-d3ee-45eb-8301-905b6f14b027 ",
-        "meta": {
-          "versionId": "1",
-          "lastUpdated": "2022-01-06T14:02:45.000+00:00",
-          "source": "#2a0706a058188286"
-        },
-        "identifier": [
-          {
-            "system": "http://iol.health.com/Account",
-            "value": "d96030446269cb1e0a862d"
-          }
-        ],
-        "status": "active",
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-              "code": "PBILLACCT",
-              "display": "Patient Billing Acount"
-            }
-          ]
-        },
-        "subject": [
-          {
-            "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af",
-            "type": "Patient"
-          }
-        ],
-        "servicePeriod": {
-          "start": "2019-05-02",
-          "end": "2019-05-02"
-        },
-        "coverage": [
-          {
-            "priority": 6
-          }
-        ],
-        "owner": {
-          "reference": "Organization/cc8a572b-0ae5-4497-97cf-bab563cbb131",
-          "type": "Organization"
-        },
-        "guarantor": [
-          {
-            "party": {
-              "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af",
-              "type": "Patient"
-            },
-            "period": {
-              "end": "2019-05-07"
-            }
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      },
-      "request": {
-        "method": "PUT",
-        "url": "Account/147bd32e-d3ee-45eb-8301-905b6f14b027"
-      }
-    },
+
     {
       "fullUrl": "Procedure/8b9a9a37-4d83-4400-b32f-48f681fc2f88",
       "resource": {
@@ -8562,68 +8783,7 @@
         "url": "DiagnosticReport/3a6390e2-7405-44bf-b968-16224c12cac0"
       }
     },
-    {
-      "fullUrl": "Observation/0a33326b-fbf2-4a59-a785-ad9ba5c40ce0",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "0a33326b-fbf2-4a59-a785-ad9ba5c40ce0",
-        "meta": {
-          "versionId": "2",
-          "lastUpdated": "2024-07-15T17:57:43.000+00:00",
-          "source": "#A6Uw6xCU5HhRv1hw"
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">This is a simple narrative with only plain text</div>"
-        },
-        "extension": [
-          {
-            "url": "http://mihin.org/extension/copyright",
-            "valueString": "Copyright 2014-2023 Michigan Health Information Network Shared Services. Licensed under the Apache License, Version 2.0 (the 'License'); you may not use this file except in compliance with the License. You may obtain a copy of the License at  http://www.apache.org/licenses/LICENSE-2.0.  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
-          }
-        ],
-        "identifier": [
-          {
-            "use": "official",
-            "system": "http://www.bmc.nl/zorgportal/identifiers/observations",
-            "value": "6327"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "LP70657-9",
-              "display": "RPR"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af",
-          "display": "Hyper A Unlucky"
-        },
-        "issued": "2023-12-15T14:09:35-05:00",
-        "interpretation": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-                "code": "A",
-                "display": "Abnormal"
-              }
-            ]
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      },
-      "request": {
-        "method": "PUT",
-        "url": "Observation/0a33326b-fbf2-4a59-a785-ad9ba5c40ce0"
-      }
-    },
+
     {
       "fullUrl": "MedicationRequest/49725a38-06d2-4a40-9e67-f9845dd544ab",
       "resource": {
@@ -10038,74 +10198,6 @@
       "request": {
         "method": "PUT",
         "url": "DiagnosticReport/8dd016a4-5189-44b4-bdb5-786eadb9851a"
-      }
-    },
-    {
-      "fullUrl": "Observation/606c78ab-b778-4ad2-8db2-b2e205f15c41",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "606c78ab-b778-4ad2-8db2-b2e205f15c41",
-        "meta": {
-          "versionId": "1",
-          "lastUpdated": "2024-05-15T14:43:43.000+00:00",
-          "source": "#cmpZS8Dn4KIrSyb1"
-        },
-        "status": "final",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "laboratory",
-                "display": "Laboratory"
-              }
-            ],
-            "text": "Laboratory"
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "24111-7",
-              "display": "Neisseria gonorrhoeae DNA [Presence] in Specimen by NAA with probe detection"
-            }
-          ],
-          "text": "Neisseria gonorrhoeae DNA [Presence] in Specimen by NAA with probe detection"
-        },
-        "subject": {
-          "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
-        },
-        "effectiveDateTime": "2000-01-04",
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "260373001",
-              "display": "Detected"
-            }
-          ],
-          "text": "Detected"
-        },
-        "interpretation": [
-          {
-            "coding": [
-              {
-                "system": "Detected",
-                "code": "DET",
-                "display": "Detected"
-              }
-            ],
-            "text": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      },
-      "request": {
-        "method": "PUT",
-        "url": "Observation/606c78ab-b778-4ad2-8db2-b2e205f15c41"
       }
     },
     {
