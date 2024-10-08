@@ -95,9 +95,15 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
       {ecrMetadataUnavailableData?.length > 0 &&
         renderSection("eCR Metadata", ecrMetadataUnavailableData)}
       {eicrAuthorDetails?.map(
-        (authorDetails) =>
-          authorDetails?.length > 0 &&
-          renderSection("eICR Author Details for Practitioner", authorDetails),
+        (authorDetails, index) =>
+          authorDetails?.length > 0 && (
+            <React.Fragment key={index}>
+              {renderSection(
+                "eICR Author Details for Practitioner",
+                authorDetails,
+              )}
+            </React.Fragment>
+          ),
       )}
     </AccordionSection>
   );
