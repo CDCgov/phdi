@@ -1,5 +1,0 @@
-FROM flyway/flyway:10.16-alpine
-
-COPY ./containers/tefca-viewer/flyway /flyway
-
-

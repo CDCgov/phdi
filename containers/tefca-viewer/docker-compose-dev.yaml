@@ -8,6 +8,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pw
       - POSTGRES_DB=tefca_db
+      # Note: you must have a local .env file with the DATABASE_URL set to the following:
+      # DATABASE_URL=postgresql://postgres:pw@localhost:5432/tefca_db
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 2s

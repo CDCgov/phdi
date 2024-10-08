@@ -13,8 +13,7 @@ select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author 
   where q.query_name = $1;
 `;
 
-// Load environment variables from tefca.env and establish a Pool configuration
-// dotenv.config({ path: "tefca.env" });
+// Load environment variables from .env and establish a Pool configuration
 const dbConfig: PoolConfig = {
   connectionString: process.env.DATABASE_URL,
   max: 10, // Maximum # of connections in the pool

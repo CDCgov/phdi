@@ -398,8 +398,8 @@ export const evaluateFacilityData = (
     referenceString = facilityContactAddressRef[0].reference;
   }
   const facilityContactAddress = referenceString
-    ? evaluateReference(fhirBundle, mappings, referenceString).address[0]
-    : "";
+    ? evaluateReference(fhirBundle, mappings, referenceString)?.address?.[0]
+    : undefined;
 
   const facilityData = [
     {
@@ -419,11 +419,11 @@ export const evaluateFacilityData = (
     {
       title: "Facility Contact Address",
       value: formatAddress(
-        facilityContactAddress.line,
-        facilityContactAddress.city,
-        facilityContactAddress.state,
-        facilityContactAddress.postalCode,
-        facilityContactAddress.country,
+        facilityContactAddress?.line,
+        facilityContactAddress?.city,
+        facilityContactAddress?.state,
+        facilityContactAddress?.postalCode,
+        facilityContactAddress?.country,
       ),
     },
     {

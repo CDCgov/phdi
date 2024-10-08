@@ -39,6 +39,7 @@ export default function LandingPage() {
               src="/tefca-viewer/tefca-graphic.svg"
               width={250}
               height={300}
+              priority
             />
           </div>
         </div>

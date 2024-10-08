@@ -179,8 +179,11 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
         valueSetOptions={valueSetOptions}
       />
       {Object.entries(valueSetOptions[activeTab]).map(([groupIndex, group]) => {
+        const id = group.author + ":" + group.system + ":" + group.valueSetName;
         return (
           <Accordion
+            key={id}
+            id={id}
             title={
               <CustomizeQueryAccordionHeader
                 handleSelectAllChange={handleSelectAllChange}
@@ -195,7 +198,6 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
                 groupIndex={groupIndex}
               />
             }
-            id={group.author + ":" + group.system}
             headingLevel="h3"
             accordionClassName={`customize-accordion ${styles.customizeQueryAccordion}`}
             containerClassName={styles.resultsContainer}
