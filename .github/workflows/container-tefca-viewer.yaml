@@ -77,7 +77,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   playwright-tests:
-    timeout-minutes: 15
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -100,8 +100,8 @@ jobs:
         run: docker compose up -d
       - name: Poll until Query Connector is ready
         run: |
-          for i in {1..30}; do
-            curl -s http://localhost:3000/tefca-viewer && break
+          until curl -s http://localhost:3000/tefca-viewer; do
+            echo "Waiting for Query Connector to be ready before running Playwright..."
             sleep 5
           done
       - name: Playwright Tests
