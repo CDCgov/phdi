@@ -97,33 +97,6 @@ export const evaluateEncounterId = (
 };
 
 /**
- * Evaluates facility address from the FHIR bundle and formats it into structured data for display.
- * @param fhirBundle - The FHIR bundle containing patient contact info.
- * @param mappings - The object containing the fhir paths.
- * @returns The formatted facility address
- */
-export const evaluateFacilityAddress = (
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-) => {
-  const locationReference =
-    evaluate(fhirBundle, mappings.facilityLocation)?.[0] ?? "";
-  const locationResource = evaluateReference(
-    fhirBundle,
-    mappings,
-    locationReference,
-  );
-
-  const streetAddresses = locationResource?.address?.line;
-  const city = locationResource?.address?.city;
-  const state = locationResource?.address?.state;
-  const zipCode = locationResource?.address?.postalCode;
-  const country = locationResource?.address?.country;
-
-  return formatAddress(streetAddresses, city, state, zipCode, country);
-};
-
-/**
  * Evaluates patient contact info from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing patient contact info.
  * @param mappings - The object containing the fhir paths.
