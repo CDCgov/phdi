@@ -20,7 +20,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
       page.getByRole("heading", { name: "How does it work?" }),
     ).toBeVisible();
 
-    // Check that interactable elements are present (TEFCA header and Get Started)
+    // Check that interactable elements are present (header and Get Started)
     await expect(
       page.getByRole("link", { name: "TEFCA Viewer" }),
     ).toBeVisible();
