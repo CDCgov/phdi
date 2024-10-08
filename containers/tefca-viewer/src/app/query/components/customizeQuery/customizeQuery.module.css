@@ -64,6 +64,12 @@
   border: none;
 }
 
+.noBorderNoBackgroundNoPadding {
+  border: none !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
 .customizeQueryCheckbox {
   width: 2.25rem;
   height: 2.25rem;
@@ -142,6 +148,10 @@
   width: 100%;
   grid-template-columns: var(--column-spacing);
   gap: var(--column-gap);
+}
+
+.customizeQueryGridHeader th {
+  padding: 0 !important;
 }
 
 .accordionTableHeader {

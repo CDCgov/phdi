@@ -45,6 +45,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
             className="usa-icon bg-base-lightest"
             size={4}
             color="#565C65"
+            aria-label="Checkmark icon indicating addition"
           />
         )}
         {selectedCount > 0 && selectedCount < group.items.length && (
@@ -52,6 +53,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
             className="usa-icon bg-base-lightest"
             size={4}
             color="#565C65"
+            aria-label="Minus icon indicating removal"
           />
         )}
       </div>
