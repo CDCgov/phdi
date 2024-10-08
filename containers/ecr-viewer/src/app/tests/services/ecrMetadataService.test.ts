@@ -1,6 +1,8 @@
 import { evaluateEcrMetadata } from "@/app/services/ecrMetadataService";
 import { Bundle } from "fhir/r4";
 import BundleWithEcrMetadata from "../assets/BundleEcrMetadata.json";
+import BundleMultipleAuthors from "../assets/BundleMultipleAuthor.json";
+import BundleLab from "../assets/BundleLab.json";
 import { loadYamlConfig } from "@/app/api/utils";
 
 describe("Evaluate Ecr Metadata", () => {
@@ -99,6 +101,137 @@ describe("Evaluate Ecr Metadata", () => {
           "Sending organization should be using one of the following: 2023-10-06, 1.2.2.0, 3.x.x.x.",
         suggestedSolution:
           "The trigger code version your organization is using is out-of-date. Please have your EHR administration install the current version for complete eCR functioning.",
+      },
+    ]);
+  });
+  it("should have one author", () => {
+    const actual = evaluateEcrMetadata(
+      BundleWithEcrMetadata as unknown as Bundle,
+      mappings,
+    );
+    expect(actual.eicrAuthorDetails).toHaveLength(1);
+    expect(actual.eicrAuthorDetails[0].availableData).toEqual([
+      {
+        title: "Author Name",
+        value: "Lab Interface",
+      },
+      {
+        title: "Author Facility Name",
+        value: "Vanderbilt University Medical Center",
+      },
+      {
+        title: "Author Facility Address",
+        value: ["3401 West End Ave\nNASHVILLE, TN\n37203, USA"],
+      },
+      {
+        title: "Author Facility Contact",
+        value: "Work 615-322-5000",
+      },
+    ]);
+    expect(actual.eicrAuthorDetails[0].unavailableData).toEqual([
+      {
+        title: "Author Address",
+        value: undefined,
+      },
+      {
+        title: "Author Contact",
+        value: "",
+      },
+    ]);
+  });
+  it("should have two authors", () => {
+    const actual = evaluateEcrMetadata(
+      BundleMultipleAuthors as unknown as Bundle,
+      mappings,
+    );
+    expect(actual.eicrAuthorDetails).toHaveLength(2);
+    expect(actual.eicrAuthorDetails[0].availableData).toEqual([
+      {
+        title: "Author Name",
+        value: "Lab Interface",
+      },
+      {
+        title: "Author Facility Name",
+        value: "Vanderbilt University Medical Center",
+      },
+      {
+        title: "Author Facility Address",
+        value: ["3401 West End Ave\nNASHVILLE, TN\n37203, USA"],
+      },
+      {
+        title: "Author Facility Contact",
+        value: "Work 615-322-5000",
+      },
+    ]);
+    expect(actual.eicrAuthorDetails[0].unavailableData).toEqual([
+      {
+        title: "Author Address",
+        value: undefined,
+      },
+      {
+        title: "Author Contact",
+        value: "",
+      },
+    ]);
+    expect(actual.eicrAuthorDetails[1].availableData).toEqual([
+      {
+        title: "Author Name",
+        value: "Harley Quinn",
+      },
+      {
+        title: "Author Address",
+        value: ["3401 West End Ave\nNASHVILLE, TN\n37203, USA"],
+      },
+      {
+        title: "Author Contact",
+        value: "Work 615-322-5000",
+      },
+      {
+        title: "Author Facility Name",
+        value: "Vanderbilt University Medical Center",
+      },
+      {
+        title: "Author Facility Address",
+        value: ["3401 West End Ave\nNASHVILLE, TN\n37203, USA"],
+      },
+      {
+        title: "Author Facility Contact",
+        value: "Work 615-322-5000",
+      },
+    ]);
+    expect(actual.eicrAuthorDetails[1].unavailableData).toBeEmpty();
+  });
+  it("should have zero authors", () => {
+    const actual = evaluateEcrMetadata(
+      BundleLab as unknown as Bundle,
+      mappings,
+    );
+    expect(actual.eicrAuthorDetails).toHaveLength(1);
+    expect(actual.eicrAuthorDetails[0].availableData).toBeEmpty();
+    expect(actual.eicrAuthorDetails[0].unavailableData).toEqual([
+      {
+        title: "Author Name",
+        value: null,
+      },
+      {
+        title: "Author Address",
+        value: null,
+      },
+      {
+        title: "Author Contact",
+        value: null,
+      },
+      {
+        title: "Author Facility Name",
+        value: null,
+      },
+      {
+        title: "Author Facility Address",
+        value: null,
+      },
+      {
+        title: "Author Facility Contact",
+        value: null,
       },
     ]);
   });

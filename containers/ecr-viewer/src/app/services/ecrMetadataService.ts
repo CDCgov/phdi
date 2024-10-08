@@ -25,7 +25,7 @@ interface EcrMetadata {
   eicrDetails: CompleteData;
   ecrCustodianDetails: CompleteData;
   rrDetails: ReportableConditions;
-  eicrAuthorDetails: CompleteData;
+  eicrAuthorDetails: CompleteData[];
   eRSDWarnings: ERSDWarning[];
 }
 
@@ -180,72 +180,109 @@ export const evaluateEcrMetadata = (
     ecrCustodianDetails: evaluateData(ecrCustodianDetails),
     rrDetails: reportableConditionsList,
     eRSDWarnings: eRSDTextList,
-    eicrAuthorDetails: evaluateData(eicrAuthorDetails),
+    eicrAuthorDetails: eicrAuthorDetails.map((details) =>
+      evaluateData(details),
+    ),
   };
 };
 
 const evaluateEcrAuthorDetails = (
   fhirBundle: Bundle,
   mappings: PathMappings,
-): DisplayDataProps[] => {
+): DisplayDataProps[][] => {
   const authorRefs: Reference[] = evaluate(
     fhirBundle,
     mappings["compositionAuthorRefs"],
   );
-  const practitionerRoleRef = authorRefs.find((ref) =>
-    ref.reference?.includes("PractitionerRole/"),
-  )?.reference;
-  const { practitioner, organization } = evaluatePractitionerRoleReference(
-    fhirBundle,
-    mappings,
-    practitionerRoleRef ?? "",
-  );
 
-  return [
-    {
-      title: "Author Name",
-      value: formatName(
-        practitioner?.name?.[0].given,
-        practitioner?.name?.[0].family,
-        practitioner?.name?.[0].prefix,
-        practitioner?.name?.[0].suffix,
-      ),
-    },
-    {
-      title: "Author Address",
-      value: practitioner?.address?.map((address) =>
-        formatAddress(
-          address.line ?? [],
-          address.city ?? "",
-          address.state ?? "",
-          address.postalCode ?? "",
-          address.country ?? "",
-        ),
-      ),
-    },
-    {
-      title: "Author Contact",
-      value: formatContactPoint(practitioner?.telecom).join("\n"),
-    },
-    {
-      title: "Author Facility Name",
-      value: organization?.name,
-    },
-    {
-      title: "Author Facility Address",
-      value: organization?.address?.map((address) =>
-        formatAddress(
-          address.line ?? [],
-          address.city ?? "",
-          address.state ?? "",
-          address.postalCode ?? "",
-          address.country ?? "",
-        ),
-      ),
-    },
-    {
-      title: "Author Facility Contact",
-      value: formatContactPoint(organization?.telecom).join("\n"),
-    },
-  ];
+  const authorDetails: DisplayDataProps[][] = [];
+  authorRefs.forEach((ref) => {
+    if (ref.reference?.includes("PractitionerRole/")) {
+      const practitionerRoleRef = ref?.reference;
+      const { practitioner, organization } = evaluatePractitionerRoleReference(
+        fhirBundle,
+        mappings,
+        practitionerRoleRef ?? "",
+      );
+
+      authorDetails.push([
+        {
+          title: "Author Name",
+          value: formatName(
+            practitioner?.name?.[0].given,
+            practitioner?.name?.[0].family,
+            practitioner?.name?.[0].prefix,
+            practitioner?.name?.[0].suffix,
+          ),
+        },
+        {
+          title: "Author Address",
+          value: practitioner?.address?.map((address) =>
+            formatAddress(
+              address.line ?? [],
+              address.city ?? "",
+              address.state ?? "",
+              address.postalCode ?? "",
+              address.country ?? "",
+            ),
+          ),
+        },
+        {
+          title: "Author Contact",
+          value: formatContactPoint(practitioner?.telecom).join("\n"),
+        },
+        {
+          title: "Author Facility Name",
+          value: organization?.name,
+        },
+        {
+          title: "Author Facility Address",
+          value: organization?.address?.map((address) =>
+            formatAddress(
+              address.line ?? [],
+              address.city ?? "",
+              address.state ?? "",
+              address.postalCode ?? "",
+              address.country ?? "",
+            ),
+          ),
+        },
+        {
+          title: "Author Facility Contact",
+          value: formatContactPoint(organization?.telecom).join("\n"),
+        },
+      ]);
+    }
+  });
+
+  if (authorDetails.length === 0) {
+    authorDetails.push([
+      {
+        title: "Author Name",
+        value: null,
+      },
+      {
+        title: "Author Address",
+        value: null,
+      },
+      {
+        title: "Author Contact",
+        value: null,
+      },
+      {
+        title: "Author Facility Name",
+        value: null,
+      },
+      {
+        title: "Author Facility Address",
+        value: null,
+      },
+      {
+        title: "Author Facility Contact",
+        value: null,
+      },
+    ]);
+  }
+
+  return authorDetails;
 };
