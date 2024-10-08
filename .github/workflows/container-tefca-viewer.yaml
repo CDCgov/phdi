@@ -97,7 +97,7 @@ jobs:
         run: docker compose build --no-cache
       - name: Run Query Connector
         working-directory: ./containers/${{env.CONTAINER}}
-        run: docker compose up -d
+        run: docker compose up
       - name: Playwright Tests
         working-directory: ./containers/${{env.CONTAINER}}
         run: npx playwright test e2e --reporter=list --config playwright.config.ts
