@@ -29,13 +29,13 @@ import { FormatPhoneAsDigits } from "@/app/format-service";
 
 interface SearchFormProps {
   useCase: USE_CASES;
-  queryValueSets: ValueSetItem[];
   setUseCase: (useCase: USE_CASES) => void;
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
-  setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
+  setPatientDiscoveryQueryResponse: (
+    UseCaseQueryResponse: UseCaseQueryResponse,
+  ) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
-  setQueryType: (queryType: string) => void;
 }
 
 /**
@@ -52,13 +52,11 @@ interface SearchFormProps {
  */
 const SearchForm: React.FC<SearchFormProps> = ({
   useCase,
-  queryValueSets,
   setUseCase,
   setOriginalRequest,
-  setUseCaseQueryResponse,
+  setPatientDiscoveryQueryResponse: setUseCaseQueryResponse,
   setMode,
   setLoading,
-  setQueryType,
 }) => {
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
@@ -89,21 +87,13 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption, setUseCase, setQueryType],
+    [patientOption, setUseCase],
   );
 
   // Change the selectedDemoOption in the dropdown and update the
   // query type (which governs the DB fetch) accordingly
   const handleDemoQueryChange = (selectedDemoOption: string) => {
     setPatientOption(patientOptions[selectedDemoOption][0].value);
-    setQueryType(
-      demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
-        "",
-    );
-  };
-
-  const handleClick = () => {
-    setMode("customize-queries");
   };
 
   async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -124,14 +114,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
       phone: FormatPhoneAsDigits(phone),
     };
     setOriginalRequest(originalRequest);
-    const queryResponse = await UseCaseQuery(originalRequest, queryValueSets);
+    const queryResponse = await UseCaseQuery(originalRequest, []);
     setUseCaseQueryResponse(queryResponse);
 
-    if (queryResponse.Patient && queryResponse.Patient.length === 1) {
-      setMode("results");
-    } else {
-      setMode("patient-results");
-    }
+    setMode("patient-results");
     setLoading(false);
   }
   useEffect(() => {
@@ -215,13 +201,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 }}
               >
                 Fill fields
-              </Button>
-              <Button
-                type="button"
-                className={`usa-button--outline bg-white ${styles.searchCallToActionButton}`}
-                onClick={() => handleClick()}
-              >
-                Customize query
               </Button>
               <Button
                 className={`usa-button--unstyled margin-left-auto ${styles.searchCallToActionButton}`}

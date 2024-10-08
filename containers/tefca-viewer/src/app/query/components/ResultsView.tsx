@@ -15,7 +15,7 @@ import ObservationTable from "./resultsView/tableComponents/ObservationTable";
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
   goBack: () => void;
-  queryName: string;
+  queryName?: string;
 };
 
 export type ResultsViewAccordionItem = {
@@ -35,7 +35,7 @@ export type ResultsViewAccordionItem = {
 const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
   goBack,
-  queryName,
+  queryName = "some name",
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);

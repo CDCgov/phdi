@@ -16,12 +16,9 @@ import NoPatientsFound from "./patientSearchResults/NoPatientsFound";
  */
 export interface PatientSearchResultsProps {
   patients: Patient[];
-  originalRequest: UseCaseQueryRequest;
-  queryValueSets: ValueSetItem[];
-  setLoading: (loading: boolean) => void;
   goBack: () => void;
   setMode: (mode: Mode) => void;
-  setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
+  setPatientForQueryResponse: (patient: Patient) => void;
 }
 
 /**
@@ -40,44 +37,18 @@ export interface PatientSearchResultsProps {
  */
 const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
   patients,
-  originalRequest,
-  queryValueSets,
-  setLoading,
   goBack,
-  setUseCaseQueryResponse,
+  setPatientForQueryResponse,
   setMode,
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const [patientForQuery, setPatientForQueryResponse] = useState<Patient>();
 
-  useEffect(() => {
-    let isSubscribed = true;
-
-    const fetchQuery = async () => {
-      if (patientForQuery && isSubscribed) {
-        setLoading(true);
-        const queryResponse = await UseCaseQuery(
-          originalRequest,
-          queryValueSets,
-          {
-            Patient: [patientForQuery],
-          },
-        );
-        setUseCaseQueryResponse(queryResponse);
-        setMode("results");
-        setLoading(false);
-      }
-    };
-
-    fetchQuery().catch(console.error);
-
-    // Destructor hook to prevent future state updates
-    return () => {
-      isSubscribed = false;
-    };
-  }, [patientForQuery]);
+  function handlePatientSelect(patient: Patient) {
+    setPatientForQueryResponse(patient);
+    setMode("select-query");
+  }
 
   return (
     <>
@@ -94,7 +65,7 @@ const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
         <>
           <PatientSearchResultsTable
             patients={patients}
-            setPatientForQueryResponse={setPatientForQueryResponse}
+            handlePatientSelect={handlePatientSelect}
           />
 
           <h3 className="margin-top-5 margin-bottom-1">
