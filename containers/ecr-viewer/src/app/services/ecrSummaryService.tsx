@@ -9,7 +9,6 @@ import {
   evaluatePatientName,
   evaluatePatientContactInfo,
   evaluatePatientAddress,
-  evaluateFacilityAddress,
 } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 import { returnProblemsTable } from "@/app/view-data/components/common";
@@ -63,6 +62,10 @@ export const evaluateEcrSummaryPatientDetails = (
         formatDate(evaluate(fhirBundle, fhirPathMappings.patientDOB)[0]) || "",
     },
     {
+      title: "Sex",
+      value: evaluate(fhirBundle, fhirPathMappings.patientGender)[0],
+    },
+    {
       title: "Patient Address",
       value: evaluatePatientAddress(fhirBundle, fhirPathMappings),
     },
@@ -85,24 +88,20 @@ export const evaluateEcrSummaryEncounterDetails = (
 ) => {
   return evaluateData([
     {
-      title: "Facility Name",
-      value: evaluate(fhirBundle, fhirPathMappings.facilityName),
-    },
-    {
-      title: "Facility Address",
-      value: evaluateFacilityAddress(fhirBundle, fhirPathMappings),
-    },
-    {
-      title: "Facility Contact",
-      value: evaluate(fhirBundle, fhirPathMappings.facilityContact),
-    },
-    {
       title: "Encounter Date/Time",
       value: evaluateEncounterDate(fhirBundle, fhirPathMappings),
     },
     {
       title: "Encounter Type",
       value: evaluate(fhirBundle, fhirPathMappings.encounterType),
+    },
+    {
+      title: "Facility Name",
+      value: evaluate(fhirBundle, fhirPathMappings.facilityName),
+    },
+    {
+      title: "Facility Contact",
+      value: evaluate(fhirBundle, fhirPathMappings.facilityContact),
     },
   ]);
 };
