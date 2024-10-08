@@ -16,7 +16,7 @@ describe("EcrSummary", () => {
     },
     {
       title: "Sex",
-      value: "male"
+      value: "male",
     },
     {
       title: "Patient Address",
