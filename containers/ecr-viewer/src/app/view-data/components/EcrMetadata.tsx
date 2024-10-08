@@ -20,7 +20,7 @@ interface EcrMetadataProps {
   eicrDetails: DisplayDataProps[];
   eRSDWarnings: ERSDWarning[];
   eCRCustodianDetails: DisplayDataProps[];
-  eicrAuthorDetails: DisplayDataProps[];
+  eicrAuthorDetails: DisplayDataProps[][];
 }
 
 interface ReportableConditionsList {
@@ -169,13 +169,21 @@ const EcrMetadata = ({
           return <DataDisplay item={item} key={index} />;
         })}
         <div className={"padding-bottom-1"} />
-        <AccordionH4 id={"eicr-author-details-for-practitioner"}>
-          eICR Author Details for Practitioner
-        </AccordionH4>
-        {eicrAuthorDetails.map((item, index) => {
-          return <DataDisplay item={item} key={index} />;
+        {eicrAuthorDetails?.map((authorDetailsDisplayProps, index) => {
+          if (authorDetailsDisplayProps?.length > 0) {
+            return (
+              <React.Fragment key={index}>
+                <AccordionH4 id={"eicr-author-details-for-practitioner"}>
+                  eICR Author Details for Practitioner
+                </AccordionH4>
+                {authorDetailsDisplayProps.map((item, index) => {
+                  return <DataDisplay item={item} key={index} />;
+                })}
+                <div className={"padding-bottom-1"} />
+              </React.Fragment>
+            );
+          }
         })}
-        <div className={"padding-bottom-1"} />
         <AccordionH4 id={"eicr-custodian-details"}>
           eICR Custodian Details
         </AccordionH4>
