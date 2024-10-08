@@ -27,7 +27,9 @@
         "birthDate":"{{ patientRole.patient.birthTime.value | add_hyphens_date }}",
         {% assign deceasedValue = patientRole.patient['sdtc:deceasedInd'].value %}
         {% if deceasedValue %}
-            "deceasedBoolean": {% if deceasedValue == "true" %} true {% else %} false {% endif %},
+            "deceasedBoolean": {% if deceasedValue == "true" %} true {% endif %},
+        {% else %}
+            "deceasedBoolean": false,
         {% endif %}
         {% assign deceasedDateValue = patientRole.patient['sdtc:deceasedTime'].value %}
         {% if deceasedDateValue %}
