@@ -23,7 +23,10 @@ export const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
     init: {} as RequestInit,
   },
   "JMC Meld: eHealthExchange": configureEHX("JMCHelios"),
-  "Public HAPI: eHealthExchange": configureEHX("PublicHAPI"),
+  "Public HAPI: eHealthExchange": {
+    hostname: "https://hapi.fhir.org/baseR4/",
+    init: {} as RequestInit,
+  },
   "OpenEpic: eHealthExchange": configureEHX("OpenEpic"),
   "CernerHelios: eHealthExchange": configureEHX("CernerHelios"),
   "OPHDST Meld: Direct": {
