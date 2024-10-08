@@ -297,12 +297,7 @@ export const stateOptions = [
 ];
 
 /* Mode that pages can be in; determines what is displayed to the user */
-export type Mode =
-  | "search"
-  | "results"
-  | "customize-queries"
-  | "select-query"
-  | "patient-results";
+export type Mode = "search" | "results" | "select-query" | "patient-results";
 
 /*Type to specify the expected components for each item in a value set that will be 
 displayed in the CustomizeQuery component*/
