@@ -8,3 +8,4 @@ if [ ! -f .env.local ]; then
 else
     echo ".env.local already exists"
 fi
+
