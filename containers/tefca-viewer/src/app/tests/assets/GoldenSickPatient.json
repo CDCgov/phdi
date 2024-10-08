@@ -11770,7 +11770,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueQuantity": {
@@ -11886,7 +11886,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueCodeableConcept": {
@@ -12431,7 +12431,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueQuantity": {
@@ -12541,7 +12541,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueQuantity": {
@@ -12635,7 +12635,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueQuantity": {
@@ -12823,7 +12823,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueQuantity": {
@@ -12967,7 +12967,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueDateTime": "2023-09-23"
@@ -13059,7 +13059,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueCodeableConcept": {
@@ -13161,7 +13161,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueCodeableConcept": {
@@ -13263,7 +13263,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueDateTime": "2023-09-01T10:18:00-05:00"
@@ -13355,7 +13355,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueCodeableConcept": {
@@ -13457,7 +13457,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "component": [
@@ -13589,7 +13589,7 @@
                 "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
               }
             ],
-            "reference": "Practitioner/683925"
+            "reference": "Practitioner/8085737b-28ec-4b23-8604-83fd20076933"
           }
         ],
         "valueCodeableConcept": {
