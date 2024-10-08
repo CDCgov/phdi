@@ -66,6 +66,13 @@
                 }
               },
               {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2106-3",
+                  "display": "White"
+                }
+              },
+              {
                 "url": "text",
                 "valueString": "Hispanic or Latino"
               }
