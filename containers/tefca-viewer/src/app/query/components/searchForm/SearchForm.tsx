@@ -166,7 +166,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     id="query"
                     name="query"
                     className="usa-select margin-top-1"
-                    defaultValue={""}
                     value={useCase}
                     onChange={(event) => {
                       handleDemoQueryChange(event.target.value);
@@ -248,14 +247,15 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     id="fhir_server"
                     name="fhir_server"
                     value={fhirServer}
+                    defaultValue={""}
                     onChange={(event) => {
                       setFhirServer(event.target.value as FHIR_SERVERS);
                     }}
                     required
-                    defaultValue=""
                   >
                     <option value="" disabled>
-                      Select FHIR Server
+                      {" "}
+                      -- Select an Option --{" "}
                     </option>
                     {Object.keys(fhirServers).map((fhirServer: string) => (
                       <option key={fhirServer} value={fhirServer}>
@@ -388,7 +388,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   Select a state
                 </option>
                 {stateOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.label} value={option.value}>
                     {option.label}
                   </option>
                 ))}
