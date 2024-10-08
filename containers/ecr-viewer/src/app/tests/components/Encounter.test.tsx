@@ -17,16 +17,26 @@ describe("Encounter", () => {
     ];
     const facilityData = [
       {
-        title: "Facility ID",
-        value: "2.16.840.1.113883.4.6",
-      },
-      {
         title: "Facility Name",
         value: "PRM- Palmdale Regional Medical Center",
       },
       {
+        title: "Facility Address",
+        value:
+          "5001 North Mount Washington Circle Drive\nNorth Canton, MA 02740",
+      },
+      {
+        title: "Facility Contact Address",
+        value:
+          "5001 North Mount Washington Circle Drive\nNorth Canton, MA 02740",
+      },
+      {
         title: "Facility Type",
         value: "Healthcare Provider",
+      },
+      {
+        title: "Facility ID",
+        value: "2.16.840.1.113883.4.6",
       },
     ];
     const providerData = [
