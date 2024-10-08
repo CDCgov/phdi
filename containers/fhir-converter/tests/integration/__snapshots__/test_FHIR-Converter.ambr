@@ -981,18 +981,15 @@
                 'extension': list([
                   dict({
                     'url': str,
-                    'valueIdentifier': dict({
-                      'type': dict({
-                        'coding': list([
-                          dict({
-                            'code': '88085-6',
-                            'display': 'Reportability response report Document Public health',
-                            'system': 'http://loinc.org',
-                          }),
-                        ]),
-                      }),
-                      'use': 'official',
-                      'value': '4efa0e5c-c34c-429f-b5de-f1a13aef4a28',
+                    'valueCodeableConcept': dict({
+                      'coding': list([
+                        dict({
+                          'code': '88085-6',
+                          'display': 'Reportability response report Document Public health',
+                          'system': 'http://loinc.org',
+                        }),
+                      ]),
+                      'text': 'official',
                     }),
                   }),
                   dict({

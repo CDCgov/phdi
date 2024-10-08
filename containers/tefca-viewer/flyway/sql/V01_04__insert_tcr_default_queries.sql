@@ -1,4 +1,3 @@
-BEGIN;
 -- Select data from the TCR that will be used to create default queries
 WITH tcr_data AS (
     SELECT
@@ -57,6 +56,3 @@ select
 from qic_data
 join valueset_to_concept vtc 
 on qic_data.valueset_id = vtc.valueset_id;
-
-COMMIT;
-

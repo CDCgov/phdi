@@ -28,7 +28,9 @@ export const DataDisplay: React.FC<{
   return (
     <div>
       <div className="grid-row">
-        <div className="data-title">{item.title}</div>
+        <div className="data-title" id={item.title}>
+          {item.title}
+        </div>
         <div
           className={classNames("grid-col-auto maxw7 text-pre-line", className)}
         >
