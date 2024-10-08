@@ -253,6 +253,10 @@ export const evaluateDemographicsData = (
         ? "Deceased"
         : "Alive",
     },
+    {
+      title: "Date of Death",
+      value: evaluate(fhirBundle, mappings.patientDOD)[0],
+    },
     { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
     {
       title: "Race",
