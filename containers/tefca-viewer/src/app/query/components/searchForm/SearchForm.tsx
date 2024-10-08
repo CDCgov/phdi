@@ -23,7 +23,7 @@ import {
   UseCaseQueryRequest,
 } from "../../../query-service";
 import { fhirServers } from "../../../fhir-servers";
-import styles "./searchForm.module.css"
+import styles from "./searchForm.module.css";
 import { FormatPhoneAsDigits } from "../../../format-service";
 
 interface SearchFormProps {
